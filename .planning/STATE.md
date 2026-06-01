@@ -1,3 +1,17 @@
+---
+gsd_state_version: 1.0
+milestone: v1.0
+milestone_name: milestone
+status: unknown
+last_updated: "2026-06-01T13:17:08.515Z"
+progress:
+  total_phases: 6
+  completed_phases: 4
+  total_plans: 8
+  completed_plans: 8
+  percent: 67
+---
+
 # Project State
 
 ## Project Reference
@@ -22,6 +36,7 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 ## Active Work
 
 Phase 2.2 completed on 2026-04-30 and replaced the shallow German-only soil lookup with a richer bilingual semantic contract.
+
 - Pipeline outcome: `data-pipeline/python/soil_semantics.py` now centralizes normalization, translation, special-area handling, and compact profile summaries sourced from the BUEK250 SQLite schema
 - Fixture outcome: all five committed `data/geojson/buek250-*.geojson` files and the matching runtime copies in `app/public/data/geojson/` now expose semantic fields such as `feature_kind`, `soil_label_*`, `soil_group_*`, and provenance-aware summaries
 - Frontend outcome: the soil map now styles and labels features from the semantic contract first, with Living-Lab-specific legend entries and semantic tooltips
