@@ -135,7 +135,9 @@
 
 ### Phase 3.1: Data Source Research & User Validation (INSERTED)
 
-**Status:** Inserted - not planned yet (2026-05-20)
+**Status:** Planned (2026-06-01)
+
+**Plans:** 3 plans (one per wave)
 
 **Goal:** Create an iterative discovery loop between AI support and end-users to identify relevant geodata and statistical services, summarize what each source can contribute, and convert the selected opportunities into concrete follow-on integration work.
 **Requirements:** TBD
@@ -144,13 +146,13 @@
 **Implementation plan:**
 
 **Wave 1**
-- `03.1-01` - Define the research workflow and capture the candidate-source inventory format, including what metadata each portal or service summary must contain
+- [ ] `03.1-01-PLAN.md` - Define the 21-column review-catalogue format; scaffold export_source_catalogue.py + source_catalogue.csv + the source_catalogue xlsx review tab with seed rows
 
 **Wave 2** *(blocked on Wave 1 completion)*
-- `03.1-02` - Research and summarize the available geodata portals, statistical services, and related datasets with AI-assisted synthesis that stays traceable back to the original sources
+- [ ] `03.1-02-PLAN.md` - AI-assisted, citation-backed source research filling the catalogue; targeted IACS/InVeKoS discovery for Brandenburg, Hesse, Lower Saxony; verified facts kept separate from advisory (AI) columns
 
 **Wave 3** *(blocked on Wave 2 completion)*
-- `03.1-03` - Present the synthesized source options to end-users, capture inclusion decisions and priorities, and translate the approved items into integration-ready requirements or backlog entries
+- [ ] `03.1-03-PLAN.md` - Human review (include/defer/reject + priority + rationale); regenerate the committed CSV mirror; convert approved sources into 999.x backlog items with integration sketches; restructure docs/data-sources.md
 
 **Cross-cutting constraints:**
 - The research loop must stay human-in-the-loop: AI can accelerate discovery and summarization, but end-users decide what is relevant enough to include
