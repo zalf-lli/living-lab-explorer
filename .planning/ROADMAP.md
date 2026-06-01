@@ -9,6 +9,7 @@
 | 2.1 | Soil Map Tab Integration (INSERTED) | Wire the new BUEK GeoJSON outputs into the app so each LL can render the soil layer inside the soil map tab | TBD | yes |
 | 2.2 | Soil Semantics & Translation (INSERTED) | Replace the raw German-only BUEK lookup fields with a clean bilingual soil contract derived from the SQLite database structure | TBD | yes |
 | 3 | Chart Data Contract | Define and plumb the per-source chart summary interface so future chart implementations have a clear, stable target | CHARTS-01, CHARTS-02 | no |
+| 3.1 | Data Source Research & User Validation (INSERTED) | Research candidate geodata and statistical portals with AI-assisted summaries, review them with end-users, and turn the selected data opportunities into an integration-ready backlog | TBD | no |
 
 ---
 
@@ -129,6 +130,38 @@
 1. The chart JSON schema is documented (shape, field names, types, bilingual label convention) in a location a future implementer can find without reading source code
 2. A `sources.yaml` entry with a `chart:` stanza passes `sync.py` without errors; `sync.py` logs a `[chart]` line and copies the output file if it exists, or logs `[chart] skipped - not yet built` if it doesn't
 3. The crop-types layer (existing) can be given a `chart:` stanza as a dry-run validation without writing any chart computation code
+
+---
+
+### Phase 3.1: Data Source Research & User Validation (INSERTED)
+
+**Status:** Inserted - not planned yet (2026-05-20)
+
+**Goal:** Create an iterative discovery loop between AI support and end-users to identify relevant geodata and statistical services, summarize what each source can contribute, and convert the selected opportunities into concrete follow-on integration work.
+**Requirements:** TBD
+**UI hint**: no
+
+**Implementation plan:**
+
+**Wave 1**
+- `03.1-01` - Define the research workflow and capture the candidate-source inventory format, including what metadata each portal or service summary must contain
+
+**Wave 2** *(blocked on Wave 1 completion)*
+- `03.1-02` - Research and summarize the available geodata portals, statistical services, and related datasets with AI-assisted synthesis that stays traceable back to the original sources
+
+**Wave 3** *(blocked on Wave 2 completion)*
+- `03.1-03` - Present the synthesized source options to end-users, capture inclusion decisions and priorities, and translate the approved items into integration-ready requirements or backlog entries
+
+**Cross-cutting constraints:**
+- The research loop must stay human-in-the-loop: AI can accelerate discovery and summarization, but end-users decide what is relevant enough to include
+- Each candidate source summary must make scope, spatial or temporal coverage, access method, licensing or reuse constraints, update cadence, and likely integration complexity explicit
+- Research outputs must separate verified source facts from AI interpretation so later implementation work can trust the evidence chain
+- The outcome of this phase is not data ingestion itself; it is a curated and decision-backed shortlist that de-risks subsequent integration phases
+
+**Success criteria:**
+1. There is a documented inventory of candidate geodata and statistical services or portals, each summarized in a consistent, end-user-readable format
+2. End-users can review those summaries and clearly indicate which sources should be included, deferred, or rejected
+3. The approved sources are converted into concrete follow-on integration inputs, such as prioritized requirements, backlog items, or future roadmap phases with enough detail to implement
 
 ---
 

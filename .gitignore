@@ -13,6 +13,7 @@ data/_cache/
 data/croptypes_2024.tif
 data/boart1000_ob_v20
 data/pmtiles/*.tmp
+data/buek250_mgm_utm_v60*
 
 # React app (Vite)
 app/node_modules/
