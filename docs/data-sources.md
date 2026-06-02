@@ -12,3 +12,5 @@ ount and have an API token which I would need to store safely as part of the rou
 - JKI database of small farm structures: https://www.julius-kuehn.de/en/small-structures
 
 - Digital Field Block Cadastre: https://geoportal.brandenburg.de/detailansichtdienst/render?url=https://geoportal.brandenburg.de/gs-json/xml?fileid=9e95f21f-4ecf-4682-9a44-e5f7609f6fa0 THis is for Brandenburg would also need to find for Hesse
+
+Hesse landscape elements: https://inspire-geo.ibykus.net/geoserver/lawi/wfs?service=WFS&version=2.0.0&request=GetFeature&typeName=lawi:Landschaftselemente_2024&outputFormat=SHAPE-ZIP
