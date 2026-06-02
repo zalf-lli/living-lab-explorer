@@ -1,28 +1,35 @@
 {
   "version": "1.0",
-  "timestamp": "2026-06-02T08:35:00.000Z",
+  "timestamp": "2026-06-02T08:55:00.000Z",
   "source": "codex",
-  "partial": false,
+  "partial": true,
   "phase": "03.1",
   "phase_name": "data-source-research-user-validation-inserted",
   "phase_dir": ".planning/phases/03.1-data-source-research-user-validation-inserted",
-  "plan": "03.1-01",
-  "task": "Wave 1 complete",
-  "total_tasks": 2,
-  "status": "completed",
+  "plan": "03.1-03",
+  "task": "Wave 3 human review checkpoint",
+  "total_tasks": 3,
+  "status": "human-verify-checkpoint",
   "completed_tasks": [
-    "Created offline source catalogue CSV generator",
-    "Generated data/source_catalogue.csv",
-    "Created source_catalogue workbook tab"
+    "03.1-01 Wave 1 catalogue scaffold committed",
+    "03.1-02 Wave 2 evidence-chained source research completed",
+    "Re-synced variables_catalogue.xlsx source_catalogue tab"
   ],
   "remaining_tasks": [
-    "03.1-02 Wave 2 research and xlsx re-sync",
-    "03.1-03 Wave 3 human review checkpoint"
+    "Human reviewer fills decision, priority, and rationale in data/variables_catalogue.xlsx",
+    "Regenerate data/source_catalogue.csv from reviewed xlsx",
+    "Create 999.x backlog items for decision=include rows",
+    "Restructure docs/data-sources.md"
   ],
   "blockers": [],
-  "human_actions_pending": [],
-  "decisions": [],
+  "human_actions_pending": [
+    "Open data/variables_catalogue.xlsx, select source_catalogue, fill decision/priority/rationale for every candidate row, save and close the workbook."
+  ],
+  "decisions": [
+    "Wave 2 defaults accepted: Thuenen uses Zenodo 15055561 fallback if Nextcloud is unreachable.",
+    "Wave 2 defaults accepted: JKI small structures remains as a [needs-verification] row."
+  ],
   "uncommitted_files": [],
-  "next_action": "Proceed to Wave 2 using approved checkpoint defaults: Thuenen Zenodo fallback if Nextcloud probing fails; keep JKI as a needs-verification row.",
-  "context_notes": "Wave 1 acceptance checks passed; export_source_catalogue.py is stdlib-only and does not touch variables_catalogue.xlsx."
+  "next_action": "Resume Wave 3 Task 2 after the reviewed workbook is saved and closed.",
+  "context_notes": "Wave 2 checks passed. Do not run export_source_catalogue.py after human review because it blanks candidate decision columns."
 }
