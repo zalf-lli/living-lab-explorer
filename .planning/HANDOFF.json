@@ -1,21 +1,28 @@
 {
   "version": "1.0",
-  "timestamp": "2026-05-29T15:14:44.782Z",
-  "source": "auto-postool",
-  "partial": true,
-  "phase": null,
-  "phase_name": null,
-  "phase_dir": null,
-  "plan": null,
-  "task": null,
-  "total_tasks": null,
-  "status": "auto-checkpoint",
-  "completed_tasks": [],
-  "remaining_tasks": [],
+  "timestamp": "2026-06-02T08:35:00.000Z",
+  "source": "codex",
+  "partial": false,
+  "phase": "03.1",
+  "phase_name": "data-source-research-user-validation-inserted",
+  "phase_dir": ".planning/phases/03.1-data-source-research-user-validation-inserted",
+  "plan": "03.1-01",
+  "task": "Wave 1 complete",
+  "total_tasks": 2,
+  "status": "completed",
+  "completed_tasks": [
+    "Created offline source catalogue CSV generator",
+    "Generated data/source_catalogue.csv",
+    "Created source_catalogue workbook tab"
+  ],
+  "remaining_tasks": [
+    "03.1-02 Wave 2 research and xlsx re-sync",
+    "03.1-03 Wave 3 human review checkpoint"
+  ],
   "blockers": [],
   "human_actions_pending": [],
   "decisions": [],
   "uncommitted_files": [],
-  "next_action": null,
-  "context_notes": ""
+  "next_action": "Proceed to Wave 2 using approved checkpoint defaults: Thuenen Zenodo fallback if Nextcloud probing fails; keep JKI as a needs-verification row.",
+  "context_notes": "Wave 1 acceptance checks passed; export_source_catalogue.py is stdlib-only and does not touch variables_catalogue.xlsx."
 }

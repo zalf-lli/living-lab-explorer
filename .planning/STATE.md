@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-06-01T14:26:25.589Z"
+last_updated: "2026-06-02T08:35:00.000Z"
 progress:
   total_phases: 6
   completed_phases: 4
@@ -20,7 +20,7 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 
 **Core value:** A researcher or stakeholder can open the app and immediately see accurate, up-to-date geodata and statistics for any of the five Living Labs without any server infrastructure.
 
-**Current focus:** Phase 3.1 - Data Source Research & User Validation (next to plan)
+**Current focus:** Phase 03.1 - data-source-research-user-validation-inserted
 
 ## Status
 
@@ -34,6 +34,8 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 | 3.1 | Data Source Research & User Validation | Inserted - ready to plan |
 
 ## Active Work
+
+Phase 03.1 Wave 1 completed on 2026-06-02. The source review catalogue format is scaffolded in `data/source_catalogue.csv` and `data/variables_catalogue.xlsx` (`source_catalogue` tab), with the offline generator at `data-pipeline/python/export_source_catalogue.py`.
 
 Phase 2.2 completed on 2026-04-30 and replaced the shallow German-only soil lookup with a richer bilingual semantic contract.
 
@@ -60,3 +62,4 @@ Phase 2.2 completed on 2026-04-30 and replaced the shallow German-only soil look
 - 2026-04-30: Inserted Phase 2.2 "Soil Semantics & Translation" between Phase 2.1 and Phase 3 to normalize and translate SQLite-derived soil metadata before broader UI use
 - 2026-04-30: Completed Phase 2.2 after introducing the semantic soil contract, rebuilding the BUEK fixtures, and migrating the frontend soil experience onto semantic fields
 - 2026-05-20: Inserted Phase 3.1 "Data Source Research & User Validation" after Phase 3 to research candidate geodata and statistical portals, summarize their available data with AI assistance, and let end-users decide what should move forward into integration
+- 2026-06-02: Completed Phase 03.1 Wave 1 after creating the source catalogue generator, CSV mirror, and workbook review tab
