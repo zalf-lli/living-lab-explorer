@@ -82,16 +82,31 @@ assert set(NUTS3_TO_AGS) == set(ALL_NUTS3), "NUTS3_TO_AGS must cover every code 
 GENESIS_BASE = "https://genesis.destatis.de/genesisWS/rest/2020"
 # D-15: separate regional-statistics platform, only used as a fallback host for curated
 # indicators that do not resolve on GENESIS-Online at all (see _resolve_curated_kpis()).
-REGIONALSTATISTIK_BASE = "https://www.regionalstatistik.de/genesisWS/rest/2020"
+# NOTE: unlike genesis.destatis.de (which accepts the mixed-case "genesisWS" path segment),
+# regionalstatistik.de's routing is case-sensitive and only accepts the all-lowercase
+# "genesisws" segment -- confirmed empirically 2026-07-24 (Plan 04-06, Task 2): "genesisWS"/
+# "GenesisWS"/"GENESISWS" all 404, only "genesisws" returns 200.
+REGIONALSTATISTIK_BASE = "https://www.regionalstatistik.de/genesisws/rest/2020"
 
 
-def _headers() -> dict:
+def _headers(base: str = GENESIS_BASE) -> dict:
     # Verified empirically against the live GENESIS-Online API on 2026-07-24: sending the
     # real account username (DESTATIS_USERNAME) as "username" with the API token
     # (DESTATIS_API_TOKEN) as "password" is REJECTED ("Bitte pruefen und korrigieren Sie
     # Ihren Nutzernamen oder Ihren Token bzw. das Passwort."). Per 04-RESEARCH.md Pattern 1,
     # the API token must instead be sent as the "username" header value with an empty
     # "password" -- confirmed working (helloworld/logincheck returned a success message).
+    if base == REGIONALSTATISTIK_BASE:
+        # D-15: Regionalstatistik.de (run by the state statistical offices, not Destatis
+        # itself) does not offer an API-token registration flow the way GENESIS-Online does --
+        # a human who registers there receives a real username + real password (classic HTTP
+        # auth), not a token. Sending the GENESIS token-as-username scheme to this host would
+        # be a credential-shape mismatch (T-04-11), so this branch is kept explicitly separate.
+        return {
+            "Content-Type": "application/x-www-form-urlencoded",
+            "username": os.environ.get("REGIONALSTATISTIK_USERNAME", ""),
+            "password": os.environ.get("REGIONALSTATISTIK_PASSWORD", ""),
+        }
     return {
         "Content-Type": "application/x-www-form-urlencoded",
         "username": PASSWORD,
@@ -103,7 +118,7 @@ def _post(endpoint: str, params: dict, retries: int = 3, base: str = GENESIS_BAS
     url = f"{base}/{endpoint}"
     for attempt in range(retries):
         try:
-            r = requests.post(url, headers=_headers(), data=params, timeout=90)
+            r = requests.post(url, headers=_headers(base=base), data=params, timeout=90)
             r.raise_for_status()
             return r
         except requests.RequestException as exc:
@@ -115,8 +130,9 @@ def _post(endpoint: str, params: dict, retries: int = 3, base: str = GENESIS_BAS
     raise RuntimeError("unreachable")
 
 
-def check_auth() -> None:
-    r = requests.post(f"{GENESIS_BASE}/helloworld/logincheck", headers=_headers(), data={"language": "de"}, timeout=90)
+def check_auth(base: str = GENESIS_BASE) -> None:
+    host_label = "GENESIS" if base == GENESIS_BASE else "Regionalstatistik.de"
+    r = requests.post(f"{base}/helloworld/logincheck", headers=_headers(base=base), data={"language": "de"}, timeout=90)
     r.raise_for_status()
     body = r.json()
     status = body.get("Status", "")
@@ -127,12 +143,12 @@ def check_auth() -> None:
     # shapes defensively since other endpoints in this file may still return the nested form.
     if isinstance(status, dict):
         if status.get("Code") not in (0, None):
-            raise SystemExit(f"[error] GENESIS auth check failed: {status}")
-        print(f"[ok] GENESIS auth verified ({status.get('Content', '')[:60]}...)")
+            raise SystemExit(f"[error] {host_label} auth check failed: {status}")
+        print(f"[ok] {host_label} auth verified ({status.get('Content', '')[:60]}...)")
         return
     if "erfolgreich" not in str(status):
-        raise SystemExit(f"[error] GENESIS auth check failed: {status}")
-    print(f"[ok] GENESIS auth verified ({str(status)[:60]}...)")
+        raise SystemExit(f"[error] {host_label} auth check failed: {status}")
+    print(f"[ok] {host_label} auth verified ({str(status)[:60]}...)")
 
 
 def _parse_cube_csv(raw_csv: str) -> list[dict]:
@@ -330,8 +346,10 @@ def _ensure_regionalstatistik_env_example() -> None:
         return
     addition = (
         "\n# Optional: only needed if a curated table lives on Regionalstatistik.de, not GENESIS-Online (see D-15)\n"
+        "# Note: unlike Destatis GENESIS-Online, Regionalstatistik.de uses classic username+password\n"
+        "# auth, not a token.\n"
         "REGIONALSTATISTIK_USERNAME=\n"
-        "REGIONALSTATISTIK_API_TOKEN=\n"
+        "REGIONALSTATISTIK_PASSWORD=\n"
     )
     example_path.write_text(text + addition, encoding="utf-8")
 
@@ -353,7 +371,7 @@ def _resolve_curated_kpis() -> list[dict]:
         verified[table_id] = _verify_table(table_id)
 
     reg_username = os.environ.get("REGIONALSTATISTIK_USERNAME", "")
-    reg_token = os.environ.get("REGIONALSTATISTIK_API_TOKEN", "")
+    reg_password = os.environ.get("REGIONALSTATISTIK_PASSWORD", "")
 
     for entry in kpis:
         table_id = entry["genesis_table"]
@@ -393,25 +411,32 @@ def _resolve_curated_kpis() -> list[dict]:
         # silently drop the slot.
         print(f"[WARN] {old_key} has no working candidate on genesis.destatis.de -- may require Regionalstatistik.de registration (D-15)")
         _ensure_regionalstatistik_env_example()
-        if reg_username and reg_token:
+        if reg_username and reg_password:
             if _verify_table(old_table, base=REGIONALSTATISTIK_BASE):
                 print(f"[WARN] {old_key} resolved via Regionalstatistik.de for table {old_table} -- fetch path for this host is a follow-up, not yet wired into fetch_all()")
+                entry["genesis_base"] = REGIONALSTATISTIK_BASE
             else:
                 print(f"[WARN] {old_key} did not resolve on Regionalstatistik.de either -- leaving {old_table} as an unresolved open follow-up")
                 entry["genesis_table"] = None
         else:
-            print(f"[WARN] {old_key} -- REGIONALSTATISTIK_USERNAME/REGIONALSTATISTIK_API_TOKEN not set in .env; open follow-up, D-15 not completed for this indicator")
+            print(f"[WARN] {old_key} -- REGIONALSTATISTIK_USERNAME/REGIONALSTATISTIK_PASSWORD not set in .env; open follow-up, D-15 not completed for this indicator")
             entry["genesis_table"] = None
 
     return kpis
 
 
-def fetch_all(force: bool = False) -> dict[str, list[dict]]:
+def fetch_all(force: bool = False, base_overrides: dict[str, str] | None = None) -> dict[str, list[dict]]:
+    # `base_overrides` maps a genesis_table id to REGIONALSTATISTIK_BASE for any curated slot
+    # that _resolve_curated_kpis() determined only resolves at Kreis level on Regionalstatistik.de
+    # (D-15) -- every other table id still fetches from GENESIS_BASE as before.
+    base_overrides = base_overrides or {}
     results: dict[str, list[dict]] = {}
     for table_id, key, desc in TABLES:
-        print(f"\n[{key}] {desc}")
+        base = base_overrides.get(table_id, GENESIS_BASE)
+        host_note = " [Regionalstatistik.de]" if base == REGIONALSTATISTIK_BASE else ""
+        print(f"\n[{key}] {desc}{host_note}")
         try:
-            rows = fetch_table_csv(table=table_id, force=force)
+            rows = fetch_table_csv(table=table_id, force=force, base=base)
             results[key] = rows
             print(f"  -> {len(rows)} rows")
         except Exception as exc:
@@ -758,10 +783,21 @@ def main(force: bool = False) -> None:
 
     check_auth()
 
+    # D-15: verify Regionalstatistik.de auth live (loudly, before any fallback attempt) whenever
+    # its credentials are present in .env, so a bad username/password surfaces as a clear auth
+    # error instead of silently producing all-null Regionalstatistik.de fallback results.
+    if os.environ.get("REGIONALSTATISTIK_USERNAME") and os.environ.get("REGIONALSTATISTIK_PASSWORD"):
+        check_auth(base=REGIONALSTATISTIK_BASE)
+
     print("\n[verify] resolving D-09 curated KPI tables against the live API ...")
     resolved_kpis = _resolve_curated_kpis()
 
-    raw = fetch_all(force=force)
+    base_overrides = {
+        entry["genesis_table"]: REGIONALSTATISTIK_BASE
+        for entry in resolved_kpis
+        if entry.get("genesis_base") == REGIONALSTATISTIK_BASE and entry.get("genesis_table")
+    }
+    raw = fetch_all(force=force, base_overrides=base_overrides)
 
     print("\n[build] assembling per-NUTS3 records ...")
     nuts3 = build_nuts3_records(raw)
