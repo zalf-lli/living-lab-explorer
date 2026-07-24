@@ -28,6 +28,7 @@ import csv
 import json
 import os
 import time
+from datetime import date
 from pathlib import Path
 
 import requests
@@ -79,6 +80,9 @@ NUTS3_TO_AGS: dict[str, str] = {
 assert set(NUTS3_TO_AGS) == set(ALL_NUTS3), "NUTS3_TO_AGS must cover every code in ALL_NUTS3"
 
 GENESIS_BASE = "https://genesis.destatis.de/genesisWS/rest/2020"
+# D-15: separate regional-statistics platform, only used as a fallback host for curated
+# indicators that do not resolve on GENESIS-Online at all (see _resolve_curated_kpis()).
+REGIONALSTATISTIK_BASE = "https://www.regionalstatistik.de/genesisWS/rest/2020"
 
 
 def _headers() -> dict:
@@ -95,8 +99,8 @@ def _headers() -> dict:
     }
 
 
-def _post(endpoint: str, params: dict, retries: int = 3) -> requests.Response:
-    url = f"{GENESIS_BASE}/{endpoint}"
+def _post(endpoint: str, params: dict, retries: int = 3, base: str = GENESIS_BASE) -> requests.Response:
+    url = f"{base}/{endpoint}"
     for attempt in range(retries):
         try:
             r = requests.post(url, headers=_headers(), data=params, timeout=90)
@@ -163,14 +167,28 @@ def _parse_cube_csv(raw_csv: str) -> list[dict]:
     return rows
 
 
-def fetch_table_csv(table: str, startyear: str = "2018", endyear: str = "2023", force: bool = False) -> list[dict]:
-    cache_path = RAW_DIR / f"{table}.csv"
+def fetch_table_csv(
+    table: str,
+    startyear: str = "2018",
+    endyear: str = "2023",
+    force: bool = False,
+    base: str = GENESIS_BASE,
+) -> list[dict]:
+    # D-15: `base` lets _verify_table() probe REGIONALSTATISTIK_BASE for a curated indicator
+    # that does not resolve on genesis.destatis.de at all; cache filename is host-qualified so
+    # the two hosts never collide in data/destatis_raw/.
+    cache_key = table if base == GENESIS_BASE else f"{table}__regionalstatistik"
+    cache_path = RAW_DIR / f"{cache_key}.csv"
     if not force and cache_path.exists():
         print(f"  [cache] {table}")
         raw_csv = cache_path.read_text(encoding="utf-8")
     else:
         print(f"  [fetch] {table}")
-        r = _post("data/cubefile", {"name": table, "startyear": startyear, "endyear": endyear, "format": "csv", "language": "de"})
+        r = _post(
+            "data/cubefile",
+            {"name": table, "startyear": startyear, "endyear": endyear, "format": "csv", "language": "de"},
+            base=base,
+        )
         raw_csv = r.text
         cache_path.write_text(raw_csv, encoding="utf-8")
     return _parse_cube_csv(raw_csv)
@@ -213,6 +231,179 @@ TABLES: list[tuple[str, str, str]] = [
     ("61111KJ001", "land_prices",          "Agr. land prices (EUR/ha)"),
     ("61511KJ001", "farm_rents",           "Average farm rent (EUR/ha)"),
 ]
+
+
+# ---------------------------------------------------------------------------
+# D-09 curated KPI manifest + D-13/D-14/D-15 live-table verification
+# ---------------------------------------------------------------------------
+
+# The 17-entry curated KPI list (D-09). `variable_key` matches
+# data/destatis_variables_catalogue.csv's variable_key spelling exactly so downstream code
+# (and this module's own FIELD_LABELS/FIELD_THEME/build_nuts3_records output) needs no
+# translation layer. `tab` is the internal app-tab id (kept unchanged from the pre-existing
+# layer ids; only display labels change, per CONTEXT.md's discretion note).
+CURATED_KPIS: list[dict] = [
+    {"tab": "landuse",   "variable_key": "land_area_cropland_ha",    "genesis_table": "33111BJ002"},
+    {"tab": "landuse",   "variable_key": "farms_count",               "genesis_table": "41120BJ001"},
+    {"tab": "landuse",   "variable_key": "farm_avg_size_ha",          "genesis_table": "41120BJ001"},
+    {"tab": "landuse",   "variable_key": "organic_pct",               "genesis_table": "41120BJ002"},
+    {"tab": "soil",      "variable_key": "n_surplus_kg_ha",           "genesis_table": "41411BJ001"},
+    {"tab": "soil",      "variable_key": "p_surplus_kg_ha",           "genesis_table": "41411BJ002"},
+    {"tab": "soil",      "variable_key": "groundwater_nitrate_mg_l",  "genesis_table": "32221BJ001"},
+    {"tab": "climate",   "variable_key": "agr_ch4_kt",                "genesis_table": "32411BJ001"},
+    {"tab": "climate",   "variable_key": "agr_n2o_kt",                "genesis_table": "32411BJ001"},
+    {"tab": "landscape", "variable_key": "forest_area_ha",            "genesis_table": "33111BJ003"},
+    {"tab": "landscape", "variable_key": "natura2000_ha",             "genesis_table": "32121BJ001"},
+    {"tab": "landscape", "variable_key": "nature_reserves_ha",        "genesis_table": "32141BJ001"},
+    {"tab": "landscape", "variable_key": "sealed_surface_pct",        "genesis_table": "33111BJ004"},
+    {"tab": "economic",  "variable_key": "population_total",         "genesis_table": "12411KJ002"},
+    {"tab": "economic",  "variable_key": "gdp_per_capita_eur",        "genesis_table": "82111KJ001"},
+    {"tab": "economic",  "variable_key": "unemployment_rate_pct",     "genesis_table": "13211KJ002"},
+    {"tab": "economic",  "variable_key": "household_income_eur",      "genesis_table": "82521KJ001"},
+]
+
+# Maps this module's internal tab id to data/destatis_variables_catalogue.csv's `group`
+# column, used by _resolve_curated_kpis() to find same-group fallback candidates (D-14).
+_TAB_TO_CATALOGUE_GROUP: dict[str, str] = {
+    "landuse": "Agriculture",
+    "soil": "Environment",
+    "climate": "Environment",
+    "landscape": "Environment",
+    "economic": "Social",
+}
+
+CATALOGUE_CSV = DATA / "destatis_variables_catalogue.csv"
+
+
+def _load_catalogue_rows() -> list[dict]:
+    with CATALOGUE_CSV.open(encoding="utf-8-sig", newline="") as fh:
+        return list(csv.DictReader(fh))
+
+
+def _verify_table(table_id: str, base: str = GENESIS_BASE) -> bool:
+    """
+    Verify a GENESIS table/cube ID resolves against the live API AND actually contains
+    Kreis-level rows for this project's specific 14 NUTS3 regions.
+
+    Confirmed empirically in Plan 04-01 (04-01-SUMMARY.md): every catalogued table ID in this
+    file uses the cube (Datenquader) code format, which is served by `data/cubefile` -- calling
+    `data/tablefile` for any of these IDs returns GENESIS status Code 104 ("no objects for the
+    given selection") with zero rows, which would make a tablefile-based verification path
+    always fail. Verification therefore goes through the same fetch_table_csv()/`data/cubefile`
+    path used for the real fetch (force=True so a stale/empty cached probe from a prior failed
+    run can't produce a false negative or false positive).
+
+    A non-empty row list alone is NOT sufficient: this plan's live-API probing discovered that
+    several catalogued cube IDs (e.g. 33111BJ004, "Siedlungs- und Verkehrsflaeche ... Deutschland
+    insgesamt") return real, non-empty rows keyed by a national-total code ("DG"), not by any
+    Kreis AGS code -- i.e. the cube exists but is scoped at Bund (federal) or Land (state) level,
+    not Kreis level, and would silently resolve to null for every NUTS3 region. Every catalogued
+    statistic prefix behind the 17 curated picks (12411, 13211, 23111, 32121, 32141, 32221,
+    32411, 33111, 41120, 41141, 41243, 41330, 41411, 41511, 41612, 61111, 61511, 82111, 82521)
+    was probed via `catalogue/cubes` with a `<prefix>K*` wildcard during this plan's execution;
+    only the 12411 (population) statistic has a genuine Kreis-level (KJ) cube on GENESIS-Online's
+    federal database -- every other statistic here only publishes BJ (Bund)/LJ (Laender) cubes,
+    confirming 04-RESEARCH.md's Open Question 1 empirically for the whole curated set, not just
+    isolated tables. So: require at least one returned row whose FACH-SCHL value matches one of
+    this project's actual AGS codes (NUTS3_TO_AGS.values()), not merely a non-empty response.
+    """
+    try:
+        rows = fetch_table_csv(table_id, force=True, base=base)
+    except Exception as exc:
+        print(f"  [verify] {table_id} @ {base} failed: {exc}")
+        return False
+    if not rows:
+        return False
+    code_col = next((c for c in rows[0] if c.upper() == "FACH-SCHL"), None)
+    if not code_col:
+        return False
+    ags_codes = set(NUTS3_TO_AGS.values())
+    resolved = {r.get(code_col, "").strip() for r in rows}
+    return bool(resolved & ags_codes)
+
+
+def _ensure_regionalstatistik_env_example() -> None:
+    """D-15: document the optional Regionalstatistik.de credential pair in .env.example."""
+    example_path = ROOT / ".env.example"
+    text = example_path.read_text(encoding="utf-8") if example_path.exists() else ""
+    if "REGIONALSTATISTIK_USERNAME" in text:
+        return
+    addition = (
+        "\n# Optional: only needed if a curated table lives on Regionalstatistik.de, not GENESIS-Online (see D-15)\n"
+        "REGIONALSTATISTIK_USERNAME=\n"
+        "REGIONALSTATISTIK_API_TOKEN=\n"
+    )
+    example_path.write_text(text + addition, encoding="utf-8")
+
+
+def _resolve_curated_kpis() -> list[dict]:
+    """
+    D-13/D-14/D-15: verify every unique GENESIS table backing CURATED_KPIS against the live
+    API; swap in a same-catalogue-group fallback for any table that fails verification rather
+    than leaving the slot empty. Returns a (possibly adjusted) copy of CURATED_KPIS -- the
+    17-entry / per-tab-count contract never shrinks, only `variable_key`/`genesis_table` values
+    may change.
+    """
+    kpis = [dict(entry) for entry in CURATED_KPIS]
+    catalogue_rows = _load_catalogue_rows()
+    used_keys = {entry["variable_key"] for entry in kpis}
+
+    verified: dict[str, bool] = {}
+    for table_id in sorted({entry["genesis_table"] for entry in kpis}):
+        verified[table_id] = _verify_table(table_id)
+
+    reg_username = os.environ.get("REGIONALSTATISTIK_USERNAME", "")
+    reg_token = os.environ.get("REGIONALSTATISTIK_API_TOKEN", "")
+
+    for entry in kpis:
+        table_id = entry["genesis_table"]
+        if verified.get(table_id, False):
+            continue
+
+        old_table, old_key = table_id, entry["variable_key"]
+        group = _TAB_TO_CATALOGUE_GROUP[entry["tab"]]
+        candidate = None
+        for row in catalogue_rows:
+            if row.get("group") != group:
+                continue
+            vk = row.get("variable_key", "")
+            if not vk or vk in used_keys:
+                continue
+            cand_table = row.get("genesis_table", "")
+            if not cand_table:
+                continue
+            if cand_table not in verified:
+                verified[cand_table] = _verify_table(cand_table)
+            if verified[cand_table]:
+                candidate = row
+                break
+
+        if candidate:
+            new_key = candidate["variable_key"]
+            new_table = candidate["genesis_table"]
+            print(f"[WARN] {old_table} failed verification for {old_key} -> falling back to {new_key} ({new_table})")
+            used_keys.discard(old_key)
+            used_keys.add(new_key)
+            entry["variable_key"] = new_key
+            entry["genesis_table"] = new_table
+            continue
+
+        # D-15: no same-group candidate resolves on GENESIS-Online either -- this is a signal
+        # the indicator may live on the separate Regionalstatistik.de platform instead. Do not
+        # silently drop the slot.
+        print(f"[WARN] {old_key} has no working candidate on genesis.destatis.de -- may require Regionalstatistik.de registration (D-15)")
+        _ensure_regionalstatistik_env_example()
+        if reg_username and reg_token:
+            if _verify_table(old_table, base=REGIONALSTATISTIK_BASE):
+                print(f"[WARN] {old_key} resolved via Regionalstatistik.de for table {old_table} -- fetch path for this host is a follow-up, not yet wired into fetch_all()")
+            else:
+                print(f"[WARN] {old_key} did not resolve on Regionalstatistik.de either -- leaving {old_table} as an unresolved open follow-up")
+                entry["genesis_table"] = None
+        else:
+            print(f"[WARN] {old_key} -- REGIONALSTATISTIK_USERNAME/REGIONALSTATISTIK_API_TOKEN not set in .env; open follow-up, D-15 not completed for this indicator")
+            entry["genesis_table"] = None
+
+    return kpis
 
 
 def fetch_all(force: bool = False) -> dict[str, list[dict]]:
@@ -270,7 +461,16 @@ def build_nuts3_records(raw: dict[str, list[dict]]) -> dict[str, dict]:
         for code in ALL_NUTS3:
             out[code][indicator] = _latest(rows, code_col, code, value_col)
 
-    apply("population",          "FACH-SCHL", "Insgesamt",                     "population_total")
+    # Real value column confirmed empirically 2026-07-24 (Plan 04-02, live cube response for
+    # 12411KJ002): the cube's K;DQI; metadata block names the indicator "BEVSTD"
+    # (Bevoelkerungsstand), but that semantic name is NOT one of the actual per-row data
+    # columns -- the K;QEI; header (which _parse_cube_csv() actually reads) declares
+    # `FACH-SCHL;ZI-WERT;WERT;QUALITAET`, so single-indicator cubes always expose their value
+    # under the generic column name "WERT", confirmed via 04-01-SUMMARY.md's "Notes For Next
+    # Plan" observation. The original guess ("Insgesamt") never matched either name, which is
+    # why population_total (and anything derived from it, e.g. population_density_per_km2)
+    # stayed null even after the Plan 04-01 auth/endpoint fixes.
+    apply("population",          "FACH-SCHL", "WERT",                          "population_total")
     apply("pop_age",             "FACH-SCHL", "unter_6",                       "pop_age_under6")
     apply("pop_age",             "FACH-SCHL", "65_und_mehr",                   "pop_age_65plus")
     apply("pop_foreign",         "FACH-SCHL", "Auslaender",                    "pop_foreign")
@@ -558,6 +758,9 @@ def main(force: bool = False) -> None:
 
     check_auth()
 
+    print("\n[verify] resolving D-09 curated KPI tables against the live API ...")
+    resolved_kpis = _resolve_curated_kpis()
+
     raw = fetch_all(force=force)
 
     print("\n[build] assembling per-NUTS3 records ...")
@@ -576,6 +779,33 @@ def main(force: bool = False) -> None:
 
     print("\n[export] writing expert-review CSVs ...")
     _write_expert_csvs(nuts3, ll_agg)
+
+    print("\n[export] writing destatis_curated_kpis.json manifest ...")
+    catalogue_by_key = {row["variable_key"]: row for row in _load_catalogue_rows()}
+    manifest = []
+    for entry in resolved_kpis:
+        catalogue_row = catalogue_by_key.get(entry["variable_key"], {})
+        manifest.append(
+            {
+                "tab": entry["tab"],
+                "variable_key": entry["variable_key"],
+                "genesis_table": entry["genesis_table"],
+                "label_en": catalogue_row.get("label_en", ""),
+                "label_de": catalogue_row.get("label_de", ""),
+                "unit_en": catalogue_row.get("unit_en", ""),
+                "unit_de": catalogue_row.get("unit_de", ""),
+            }
+        )
+    (DATA / "destatis_curated_kpis.json").write_text(
+        json.dumps(manifest, ensure_ascii=False, indent=2, sort_keys=True), encoding="utf-8"
+    )
+    print(f"  -> data/destatis_curated_kpis.json")
+
+    print("\n[export] writing destatis_meta.json ...")
+    (DATA / "destatis_meta.json").write_text(
+        json.dumps({"fetched_at": date.today().isoformat()}, indent=2, sort_keys=True), encoding="utf-8"
+    )
+    print(f"  -> data/destatis_meta.json")
 
     print("\n[done] Per-LL summary:")
     print(f"  {'slug':<30} {'pop':>9} {'agr%':>6} {'org%':>6} {'gdp EUR':>9} {'rent EUR/ha':>12}")
