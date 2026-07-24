@@ -1,11 +1,10 @@
 ﻿"""
 Fetch statistics for the Living Lab NUTS3 regions from Destatis GENESIS-Online.
 
-API notes (as of 2025-07):
-  - All requests are POST (GET was removed July 2025)
-  - Base URL: https://www-genesis.destatis.de/genesisWS/rest/2020/
-  - New URL from 28 May 2026: https://genesis.destatis.de/genesisWS/rest/2020/
-  - Auth: username + password (API token) as POST body params
+API notes (as of 2026-07):
+  - All requests are POST (GET was permanently removed 30 June 2025)
+  - Base URL: https://genesis.destatis.de/genesisWS/rest/2020/ (current, active host)
+  - Auth: username + password (API token) sent as HTTP headers, not POST body params
   - Table data endpoint: /data/tablefile  (returns CSV)
 
 Outputs:
@@ -54,15 +53,28 @@ LL_NUTS3: dict[str, list[str]] = {
 }
 ALL_NUTS3: list[str] = sorted({c for codes in LL_NUTS3.values() for c in codes})
 
-GENESIS_BASE = "https://www-genesis.destatis.de/genesisWS/rest/2020"
+GENESIS_BASE = "https://genesis.destatis.de/genesisWS/rest/2020"
+
+
+def _headers() -> dict:
+    # Verified empirically against the live GENESIS-Online API on 2026-07-24: sending the
+    # real account username (DESTATIS_USERNAME) as "username" with the API token
+    # (DESTATIS_API_TOKEN) as "password" is REJECTED ("Bitte pruefen und korrigieren Sie
+    # Ihren Nutzernamen oder Ihren Token bzw. das Passwort."). Per 04-RESEARCH.md Pattern 1,
+    # the API token must instead be sent as the "username" header value with an empty
+    # "password" -- confirmed working (helloworld/logincheck returned a success message).
+    return {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "username": PASSWORD,
+        "password": "",
+    }
 
 
 def _post(endpoint: str, params: dict, retries: int = 3) -> requests.Response:
     url = f"{GENESIS_BASE}/{endpoint}"
-    body = {"username": USERNAME, "password": PASSWORD, **params}
     for attempt in range(retries):
         try:
-            r = requests.post(url, data=body, timeout=90)
+            r = requests.post(url, headers=_headers(), data=params, timeout=90)
             r.raise_for_status()
             return r
         except requests.RequestException as exc:
@@ -72,6 +84,26 @@ def _post(endpoint: str, params: dict, retries: int = 3) -> requests.Response:
             print(f"  [retry {attempt+1}/{retries-1} in {wait}s] {exc}")
             time.sleep(wait)
     raise RuntimeError("unreachable")
+
+
+def check_auth() -> None:
+    r = requests.post(f"{GENESIS_BASE}/helloworld/logincheck", headers=_headers(), data={"language": "de"}, timeout=90)
+    r.raise_for_status()
+    body = r.json()
+    status = body.get("Status", "")
+    # Verified empirically 2026-07-24: helloworld/logincheck returns a flat string Status
+    # (e.g. '{"Status": "Sie wurden erfolgreich an- und abgemeldet! ...", "Username": "..."}'),
+    # NOT the nested {"Code": ..., "Content": ..., "Type": ...} object documented for other
+    # GENESIS endpoints (e.g. data/tablefile's code-104 "no objects" response). Handle both
+    # shapes defensively since other endpoints in this file may still return the nested form.
+    if isinstance(status, dict):
+        if status.get("Code") not in (0, None):
+            raise SystemExit(f"[error] GENESIS auth check failed: {status}")
+        print(f"[ok] GENESIS auth verified ({status.get('Content', '')[:60]}...)")
+        return
+    if "erfolgreich" not in str(status):
+        raise SystemExit(f"[error] GENESIS auth check failed: {status}")
+    print(f"[ok] GENESIS auth verified ({str(status)[:60]}...)")
 
 
 def fetch_table_csv(table: str, startyear: str = "2018", endyear: str = "2023", force: bool = False) -> list[dict]:
@@ -457,6 +489,8 @@ def main(force: bool = False) -> None:
     print("fetch_destatis.py -- GENESIS-Online data fetch")
     print(f"User: {USERNAME}  |  NUTS3 codes: {len(ALL_NUTS3)}")
     print("=" * 60)
+
+    check_auth()
 
     raw = fetch_all(force=force)
 
