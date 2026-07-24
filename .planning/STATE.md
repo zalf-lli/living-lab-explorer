@@ -32,31 +32,30 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 | 2.2 | Soil Semantics & Translation | Complete (2026-04-30) |
 | 3 | Chart Data Contract | Ready to plan |
 | 3.1 | Data Source Research & User Validation | Inserted - ready to plan |
-| 4 | Destatis Statistics Integration | Blocked on Regionalstatistik.de credentials (2026-07-24) — see Active Work |
+| 4 | Destatis Statistics Integration | Waves 1-2+6 complete; Waves 3-5 awaiting user decision (2026-07-24) — see Active Work |
 
 ## Active Work
 
-**Phase 4 is blocked on a human-action checkpoint as of 2026-07-24 (Plan 04-06).** Waves 1-2 are
-merged to `data-pipeline-development` and committed (04-01, 04-02 both have SUMMARY.md + passing
-tests). Wave 2 (`04-02`) discovered — via exhaustive live GENESIS-Online API probing, not a code
-bug — that **16 of the 17 D-09 curated KPI fields cannot be sourced from GENESIS-Online at Kreis
-level at all**; only `population_total` resolves to real data there. Full detail:
-`.planning/phases/04-destatis-statistics-integration-source-process-and-app-integ/04-02-SUMMARY.md`.
+**Phase 4: Waves 1, 2, and 6 are complete and merged to `data-pipeline-development`** (04-01,
+04-02, 04-06 all have SUMMARY.md + passing tests). Waves 3-5 (kpiByTab wiring into
+ll_metadata.json, tab/i18n restructure, StatPanel UI component) remain deferred pending a decision
+below.
 
-The user obtained Regionalstatistik.de credentials and a gap-closure plan (`04-06`) was created and
-executed to wire up the D-15 fallback. It fixed two real bugs (base-aware auth header shape for
-Regionalstatistik.de's classic username+password scheme instead of the wrongly-assumed token
-scheme; a case-sensitive URL bug — the API only accepts lowercase `genesisws`, not `genesisWS`) —
-both merged and committed. But live auth against Regionalstatistik.de with the credentials
-currently in `.env` still fails with a generic invalid-credentials error. Per plan design, the
-executor stopped rather than guessing further. Full detail:
-`.planning/phases/04-destatis-statistics-integration-source-process-and-app-integ/04-06-SUMMARY.md`.
+**The core data-availability finding stands even after obtaining Regionalstatistik.de credentials.**
+Wave 2 (`04-02`) discovered via exhaustive live GENESIS-Online API probing that 16 of the 17 D-09
+curated KPI fields cannot be sourced from GENESIS-Online at Kreis level; only `population_total`
+resolves there. The user then obtained Regionalstatistik.de credentials and gap-closure plan
+`04-06` activated the D-15 fallback (fixed a wrongly-assumed token-auth scheme, a case-sensitive
+URL bug, and an intermittent stale-login-response bug — all real, now-fixed bugs) and genuinely
+retried all 15 null slots against Regionalstatistik.de with working credentials. **Empirical
+result: 0 of 15 additional slots resolve there either** — these statistics are published only at
+Bund/Länder granularity on both platforms' public APIs, not a code or credentials problem. Full
+detail: `.planning/phases/04-destatis-statistics-integration-source-process-and-app-integ/04-06-SUMMARY.md`.
 
-**To resume Phase 4:**
-1. Confirm the Regionalstatistik.de account works via browser login at https://www.regionalstatistik.de/ (some government portals require email confirmation or a forced first-login password change before API auth activates).
-2. Double check `REGIONALSTATISTIK_USERNAME`/`REGIONALSTATISTIK_PASSWORD` in `.env` for typos/swapped values.
-3. Once fixed, re-run `cd data-pipeline && python python/fetch_destatis.py --force` to retry all 15 null slots automatically (no further code changes needed) — or run `/gsd:execute-phase 4` to resume the remaining plan/waves.
-4. Waves 3-5 (kpiByTab wiring into ll_metadata.json, tab/i18n restructure, StatPanel UI component) remain deferred until this resolves, or until the user explicitly accepts population-only data quality for an initial ship.
+**Decision needed before continuing to Waves 3-5:**
+1. **Accept population-only real data** and proceed with `/gsd:execute-phase 4` — Waves 3-5 build kpiByTab/StatPanel UI now; 16 of 17 KPI slots render null/pending in the UI.
+2. **Search for alternate Regionalstatistik.de table codes** for the 15 unresolved indicators (Regionalstatistik.de sometimes publishes the same statistic under different table codes than GENESIS-Online; 04-06 only retried the same codes, per its scope) — would need a new plan, not yet created.
+3. **Re-scope the curated KPI list** (D-09) to only genuinely-available indicators rather than shipping mostly-null fields — would require revisiting CONTEXT.md decisions.
 
 Phase 03.1 Wave 2 completed on 2026-06-02. The source review catalogue is now populated with citation-backed fact columns, advisory `(AI)` assessment columns, and an updated `source_catalogue` xlsx tab ready for human review.
 
