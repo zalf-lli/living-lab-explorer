@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-07-24T09:36:59.128Z"
+last_updated: "2026-07-24T09:41:23.854Z"
 progress:
   total_phases: 7
   completed_phases: 4
@@ -20,7 +20,7 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 
 **Core value:** A researcher or stakeholder can open the app and immediately see accurate, up-to-date geodata and statistics for any of the five Living Labs without any server infrastructure.
 
-**Current focus:** Phase 03.1 - data-source-research-user-validation-inserted
+**Current focus:** Phase 04 — destatis-statistics-integration-source-process-and-app-integ
 
 ## Status
 
