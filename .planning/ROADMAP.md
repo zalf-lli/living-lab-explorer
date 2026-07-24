@@ -10,6 +10,7 @@
 | 2.2 | Soil Semantics & Translation (INSERTED) | Replace the raw German-only BUEK lookup fields with a clean bilingual soil contract derived from the SQLite database structure | TBD | yes |
 | 3 | Chart Data Contract | Define and plumb the per-source chart summary interface so future chart implementations have a clear, stable target | CHARTS-01, CHARTS-02 | no |
 | 3.1 | Data Source Research & User Validation (INSERTED) | Research candidate geodata and statistical portals with AI-assisted summaries, review them with end-users, and turn the selected data opportunities into an integration-ready backlog | TBD | no |
+| 4 | Destatis Statistics Integration | Fetch socioeconomic and agricultural statistics for the LL regions from the Destatis GENESIS-Online API, process them per NUTS3/LL, and surface them in the app | TBD | yes |
 
 ---
 
@@ -180,6 +181,30 @@
 | PIPELINE-03 | 2     | BUEK Vector Pipeline |
 | CHARTS-01   | 3     | Chart Data Contract |
 | CHARTS-02   | 3     | Chart Data Contract |
+
+### Phase 4: Destatis Statistics Integration
+
+**Goal:** Source socioeconomic and agricultural statistics for the 5 Living Lab regions from the Destatis GENESIS-Online RESTful API, process/aggregate them per NUTS3 and per LL, and integrate the selected indicators into the app.
+**Requirements**: TBD
+**Depends on:** Phase 3 (Phase 3.1 still open, but Destatis inclusion is confirmed regardless of its outcome)
+**Plans:** 0 plans
+
+**Context (resumes paused work):**
+- Prior work exists and was paused: `data-pipeline/python/fetch_destatis.py` (fetch + aggregation + expert-review CSV export), `data/destatis_variables.csv` (per-indicator values for expert selection), `data/destatis_variables_catalogue.csv` (candidate variable catalogue with EN/DE labels and GENESIS table IDs)
+- Previous API calls failed. Destatis support (email, 2026-07) diagnosed the request structure. Required fixes:
+  - POST requests with `Content-Type: application/x-www-form-urlencoded` set in the HTTP header
+  - Access credentials (username/token) passed in the HTTP header — **not** in the request body as `fetch_destatis.py` currently does
+  - All other parameters in the request body
+- Reference docs: https://www-genesis.destatis.de/datenbank/online#modal=web-service-api , introduction PDF: https://www-genesis.destatis.de/datenbank/online/docs/GENESIS-Webservices_Introduction.pdf , official code snippets: https://github.com/StatistischesBundesamt/GENESIS-Online
+- Note: base URL changes to `https://genesis.destatis.de/genesisWS/rest/2020/` from 28 May 2026 (already past — verify which host is live)
+
+**Scope:**
+1. Fix `fetch_destatis.py` auth/request structure per the support email; verify each GENESIS table ID in the catalogue actually exists and resolves at Kreis (NUTS3) level
+2. Process raw responses into per-NUTS3 records and per-LL aggregates (`data/destatis_nuts3.json`, `data/destatis_ll.json`) plus expert-review CSVs
+3. Wire selected indicators through `sync.py` into the app (respecting the file-on-disk pipeline–app contract) and render them in the LL views
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 4 to break down)
 
 ---
 
