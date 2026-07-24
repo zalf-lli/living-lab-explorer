@@ -1,10 +1,11 @@
 ---
 phase: 4
 slug: destatis-statistics-integration-source-process-and-app-integ
-status: draft
+status: approved
 shadcn_initialized: false
 preset: none
 created: 2026-07-24
+reviewed_at: 2026-07-24
 ---
 
 # Phase 4 — UI Design Contract
