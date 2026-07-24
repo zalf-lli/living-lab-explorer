@@ -1,12 +1,13 @@
 ﻿"""
 Fetch statistics for the Living Lab NUTS3 regions from Destatis GENESIS-Online.
 
-API notes (as of 2025-07):
-  - All requests are POST (GET was removed July 2025)
-  - Base URL: https://www-genesis.destatis.de/genesisWS/rest/2020/
-  - New URL from 28 May 2026: https://genesis.destatis.de/genesisWS/rest/2020/
-  - Auth: username + password (API token) as POST body params
-  - Table data endpoint: /data/tablefile  (returns CSV)
+API notes (as of 2026-07):
+  - All requests are POST (GET was permanently removed 30 June 2025)
+  - Base URL: https://genesis.destatis.de/genesisWS/rest/2020/ (current, active host)
+  - Auth: username + password (API token) sent as HTTP headers, not POST body params
+  - Table data endpoint: /data/cubefile  (returns block-structured cube CSV; every table ID
+    in TABLES uses the letter-suffixed "cube" code format, e.g. 12411KJ002 -- confirmed
+    empirically 2026-07-24, see _parse_cube_csv() and NUTS3_TO_AGS)
 
 Outputs:
   data/destatis_raw/             raw CSV responses (cached, one file per table)
@@ -24,7 +25,6 @@ Requirements:
 from __future__ import annotations
 
 import csv
-import io
 import json
 import os
 import time
@@ -54,15 +54,52 @@ LL_NUTS3: dict[str, list[str]] = {
 }
 ALL_NUTS3: list[str] = sorted({c for codes in LL_NUTS3.values() for c in codes})
 
-GENESIS_BASE = "https://www-genesis.destatis.de/genesisWS/rest/2020"
+# Verified empirically against the live GENESIS-Online API on 2026-07-24 (Task 2, 04-01-PLAN.md):
+# GENESIS regional filtering/response rows use 5-digit numeric AGS (Amtlicher
+# Gemeindeschluessel) Kreis codes, NOT the NUTS3 alpha codes above. Confirmed by fetching
+# table 12411KJ002 (population) via data/cubefile and cross-checking catalogue/values for
+# the "KREISE" classifying variable against each NUTS3 code's NAME_LATN in
+# data/nuts3_ll.geojson.
+NUTS3_TO_AGS: dict[str, str] = {
+    "DE409": "12064",  # Maerkisch-Oderland, Landkreis
+    "DE40A": "12065",  # Oberhavel, Landkreis
+    "DE40B": "12066",  # Oberspreewald-Lausitz, Landkreis
+    "DE40C": "12067",  # Oder-Spree, Landkreis
+    "DE406": "12061",  # Dahme-Spreewald, Landkreis
+    "DE408": "12063",  # Havelland, Landkreis
+    "DE734": "06633",  # Kassel, Landkreis
+    "DE737": "06636",  # Werra-Meissner-Kreis
+    "DE721": "06531",  # Giessen, Landkreis
+    "DE722": "06532",  # Lahn-Dill-Kreis
+    "DE723": "06533",  # Limburg-Weilburg, Landkreis
+    "DE724": "06534",  # Marburg-Biedenkopf, Landkreis
+    "DE725": "06535",  # Vogelsbergkreis
+    "DE71D": "06439",  # Rheingau-Taunus-Kreis
+}
+assert set(NUTS3_TO_AGS) == set(ALL_NUTS3), "NUTS3_TO_AGS must cover every code in ALL_NUTS3"
+
+GENESIS_BASE = "https://genesis.destatis.de/genesisWS/rest/2020"
+
+
+def _headers() -> dict:
+    # Verified empirically against the live GENESIS-Online API on 2026-07-24: sending the
+    # real account username (DESTATIS_USERNAME) as "username" with the API token
+    # (DESTATIS_API_TOKEN) as "password" is REJECTED ("Bitte pruefen und korrigieren Sie
+    # Ihren Nutzernamen oder Ihren Token bzw. das Passwort."). Per 04-RESEARCH.md Pattern 1,
+    # the API token must instead be sent as the "username" header value with an empty
+    # "password" -- confirmed working (helloworld/logincheck returned a success message).
+    return {
+        "Content-Type": "application/x-www-form-urlencoded",
+        "username": PASSWORD,
+        "password": "",
+    }
 
 
 def _post(endpoint: str, params: dict, retries: int = 3) -> requests.Response:
     url = f"{GENESIS_BASE}/{endpoint}"
-    body = {"username": USERNAME, "password": PASSWORD, **params}
     for attempt in range(retries):
         try:
-            r = requests.post(url, data=body, timeout=90)
+            r = requests.post(url, headers=_headers(), data=params, timeout=90)
             r.raise_for_status()
             return r
         except requests.RequestException as exc:
@@ -74,6 +111,58 @@ def _post(endpoint: str, params: dict, retries: int = 3) -> requests.Response:
     raise RuntimeError("unreachable")
 
 
+def check_auth() -> None:
+    r = requests.post(f"{GENESIS_BASE}/helloworld/logincheck", headers=_headers(), data={"language": "de"}, timeout=90)
+    r.raise_for_status()
+    body = r.json()
+    status = body.get("Status", "")
+    # Verified empirically 2026-07-24: helloworld/logincheck returns a flat string Status
+    # (e.g. '{"Status": "Sie wurden erfolgreich an- und abgemeldet! ...", "Username": "..."}'),
+    # NOT the nested {"Code": ..., "Content": ..., "Type": ...} object documented for other
+    # GENESIS endpoints (e.g. data/tablefile's code-104 "no objects" response). Handle both
+    # shapes defensively since other endpoints in this file may still return the nested form.
+    if isinstance(status, dict):
+        if status.get("Code") not in (0, None):
+            raise SystemExit(f"[error] GENESIS auth check failed: {status}")
+        print(f"[ok] GENESIS auth verified ({status.get('Content', '')[:60]}...)")
+        return
+    if "erfolgreich" not in str(status):
+        raise SystemExit(f"[error] GENESIS auth check failed: {status}")
+    print(f"[ok] GENESIS auth verified ({str(status)[:60]}...)")
+
+
+def _parse_cube_csv(raw_csv: str) -> list[dict]:
+    """
+    Parse a GENESIS `data/cubefile` `format=csv` response.
+
+    Verified empirically 2026-07-24 (Task 2, 04-01-PLAN.md) against a live response for table
+    12411KJ002: every table ID in `TABLES` uses the letter-suffixed "cube" (Datenquader) code
+    format (e.g. `12411KJ002`, `33111BJ001`), which `data/cubefile` serves -- NOT the
+    dash-suffixed "table" (Tabelle) format (e.g. `12411-0002`) that `data/tablefile` expects.
+    Calling `data/tablefile` for a cube code returns GENESIS status Code 104 ("no objects for
+    the given selection") with zero rows, which is why every fetch was silently returning
+    empty data even after the Task 1 auth fix.
+
+    The cube CSV is block-structured, not a single wide header-row CSV: every line is prefixed
+    "K;" (a metadata key block) or "D;" (data belonging to the preceding "K;" block). The
+    regional-key/value/quality column names for the actual observations are declared on the
+    "K;QEI;..." header line (observed as `FACH-SCHL;ZI-WERT;WERT;QUALITAET` for this
+    single-indicator cube) and every following "D;..." line with a matching field count is one
+    data row. Column names are read from that header line rather than hardcoded, since
+    multi-indicator cubes may declare additional WERT/QUALITAET-style columns not seen here.
+    """
+    columns: list[str] | None = None
+    rows: list[dict] = []
+    for line in raw_csv.splitlines():
+        if line.startswith("K;QEI;"):
+            columns = line.split(";")[2:]
+        elif line.startswith("D;") and columns:
+            values = line.split(";")[1:]
+            if len(values) == len(columns):
+                rows.append(dict(zip(columns, values)))
+    return rows
+
+
 def fetch_table_csv(table: str, startyear: str = "2018", endyear: str = "2023", force: bool = False) -> list[dict]:
     cache_path = RAW_DIR / f"{table}.csv"
     if not force and cache_path.exists():
@@ -81,13 +170,10 @@ def fetch_table_csv(table: str, startyear: str = "2018", endyear: str = "2023", 
         raw_csv = cache_path.read_text(encoding="utf-8")
     else:
         print(f"  [fetch] {table}")
-        r = _post("data/tablefile", {"name": table, "startyear": startyear, "endyear": endyear, "format": "csv", "language": "de"})
+        r = _post("data/cubefile", {"name": table, "startyear": startyear, "endyear": endyear, "format": "csv", "language": "de"})
         raw_csv = r.text
         cache_path.write_text(raw_csv, encoding="utf-8")
-    lines = raw_csv.splitlines()
-    header_idx = next((i for i, ln in enumerate(lines) if ln.startswith('"') and ";" in ln), 0)
-    reader = csv.DictReader(io.StringIO("\n".join(lines[header_idx:])), delimiter=";")
-    return list(reader)
+    return _parse_cube_csv(raw_csv)
 
 
 TABLES: list[tuple[str, str, str]] = [
@@ -156,10 +242,17 @@ def _num(val: str | None) -> float | None:
 
 
 def _latest(rows: list[dict], code_col: str, code: str, value_col: str) -> float | None:
-    matches = [r for r in rows if r.get(code_col, "").strip() == code]
+    # `code` is always a NUTS3 alpha code (e.g. "DE409"); GENESIS cube responses key rows by
+    # 5-digit AGS code instead (confirmed empirically 2026-07-24, Task 2, 04-01-PLAN.md), so
+    # translate before matching. Falls back to the raw code for any non-cube response shape.
+    ags_code = NUTS3_TO_AGS.get(code, code)
+    matches = [r for r in rows if r.get(code_col, "").strip() == ags_code]
     if not matches:
         return None
-    year_col = next((c for c in (matches[0] or {}) if "jahr" in c.lower()), None)
+    year_col = next(
+        (c for c in (matches[0] or {}) if any(t in c.lower() for t in ("jahr", "zi-wert", "stag"))),
+        None,
+    )
     if year_col:
         matches = sorted(matches, key=lambda r: r.get(year_col, "0"), reverse=True)
     for row in matches:
@@ -177,67 +270,67 @@ def build_nuts3_records(raw: dict[str, list[dict]]) -> dict[str, dict]:
         for code in ALL_NUTS3:
             out[code][indicator] = _latest(rows, code_col, code, value_col)
 
-    apply("population",          "Kreiskennziffer", "Insgesamt",                     "population_total")
-    apply("pop_age",             "Kreiskennziffer", "unter_6",                       "pop_age_under6")
-    apply("pop_age",             "Kreiskennziffer", "65_und_mehr",                   "pop_age_65plus")
-    apply("pop_foreign",         "Kreiskennziffer", "Auslaender",                    "pop_foreign")
-    apply("pop_naturalmovement", "Kreiskennziffer", "Geburten",                      "births")
-    apply("pop_naturalmovement", "Kreiskennziffer", "Gestorbene",                    "deaths")
-    apply("pop_migration",       "Kreiskennziffer", "Zuzuege",                       "migration_in")
-    apply("pop_migration",       "Kreiskennziffer", "Fortzuege",                     "migration_out")
-    apply("commuters",           "Kreiskennziffer", "Einpendler",                    "commuters_in")
-    apply("commuters",           "Kreiskennziffer", "Auspendler",                    "commuters_out")
-    apply("gdp_percapita",       "Kreiskennziffer", "BIP_je_EW",                     "gdp_per_capita_eur")
-    apply("gva_sectors",         "Kreiskennziffer", "Land_Forstwirtschaft_Fischerei","gva_agriculture_pct")
-    apply("household_income",    "Kreiskennziffer", "Verfuegbares_Einkommen",        "household_income_eur")
-    apply("unemployment",        "Kreiskennziffer", "Arbeitslosenquote",             "unemployment_rate_pct")
-    apply("unemployment_youth",  "Kreiskennziffer", "Arbeitslosenquote",             "unemployment_youth_pct")
-    apply("land_use_total",      "Kreiskennziffer", "Gesamtflaeche",                 "area_total_ha")
-    apply("land_use_total",      "Kreiskennziffer", "Landwirtschaftsflaeche",        "area_agriculture_ha")
-    apply("land_use_total",      "Kreiskennziffer", "Waldflaeche",                   "area_forest_ha")
-    apply("land_use_total",      "Kreiskennziffer", "Wasserflaeche",                 "area_water_ha")
-    apply("land_use_detail",     "Kreiskennziffer", "Ackerland",                     "area_cropland_ha")
-    apply("land_use_detail",     "Kreiskennziffer", "Dauergruenland",                "area_grassland_ha")
-    apply("land_use_detail",     "Kreiskennziffer", "Rebland",                       "area_vineyard_ha")
-    apply("land_use_detail",     "Kreiskennziffer", "Obstanlagen",                   "area_orchard_ha")
-    apply("settlement_transport","Kreiskennziffer", "Siedlung_Verkehr",              "area_settlement_transport_ha")
-    apply("farms_area",          "Kreiskennziffer", "Betriebe",                      "farms_count")
-    apply("farms_area",          "Kreiskennziffer", "LF",                            "farms_uaa_ha")
-    apply("farms_area",          "Kreiskennziffer", "Durchschnittliche_LF",          "farms_avg_size_ha")
-    apply("farms_organic",       "Kreiskennziffer", "Oeko_Betriebe",                 "farms_organic_count")
-    apply("farms_organic",       "Kreiskennziffer", "Oeko_LF",                       "farms_organic_ha")
-    apply("farms_tenancy",       "Kreiskennziffer", "Eigentumsflaeche",              "uaa_owned_ha")
-    apply("farms_tenancy",       "Kreiskennziffer", "Pachtflaeche",                  "uaa_rented_ha")
-    apply("farm_labour",         "Kreiskennziffer", "AK_insgesamt",                  "farm_labour_fte")
-    apply("farms_size_classes",  "Kreiskennziffer", "unter_5_ha",                    "farms_lt5ha")
-    apply("farms_size_classes",  "Kreiskennziffer", "100_ha_und_mehr",               "farms_gt100ha")
-    apply("crop_area",           "Kreiskennziffer", "Getreide",                      "crop_cereals_ha")
-    apply("crop_area",           "Kreiskennziffer", "Oelfruchte",                    "crop_oilseed_ha")
-    apply("crop_area",           "Kreiskennziffer", "Leguminosen",                   "crop_legumes_ha")
-    apply("crop_area",           "Kreiskennziffer", "Hackfruchte",                   "crop_root_ha")
-    apply("crop_area",           "Kreiskennziffer", "Feldgras",                      "crop_fodder_grass_ha")
-    apply("crop_area",           "Kreiskennziffer", "Gemuese",                       "crop_vegetables_ha")
-    apply("livestock_total",     "Kreiskennziffer", "GVE_insgesamt",                 "livestock_gve_total")
-    apply("livestock_cattle",    "Kreiskennziffer", "Rinder_insgesamt",              "livestock_cattle_head")
-    apply("livestock_cattle",    "Kreiskennziffer", "Milchkuehe",                    "livestock_dairy_cows")
-    apply("livestock_pigs",      "Kreiskennziffer", "Schweine_insgesamt",            "livestock_pigs_head")
-    apply("livestock_poultry",   "Kreiskennziffer", "Gefluegel_insgesamt",           "livestock_poultry_head")
-    apply("fertiliser_n",        "Kreiskennziffer", "N_Saldo_ha",                    "fertiliser_n_surplus_kg_ha")
-    apply("fertiliser_p",        "Kreiskennziffer", "P_Saldo_ha",                    "fertiliser_p_surplus_kg_ha")
-    apply("pesticide_sales",     "Kreiskennziffer", "Wirkstoffmenge_ha",             "pesticide_kg_ha")
-    apply("irrigation",          "Kreiskennziffer", "Bewaesserungsflaeche",          "irrigation_area_ha")
-    apply("irrigation",          "Kreiskennziffer", "Wasserverbrauch",               "irrigation_water_m3")
-    apply("forest_area",         "Kreiskennziffer", "Waldflaeche_gesamt",            "forest_total_ha")
-    apply("forest_area",         "Kreiskennziffer", "Staatswald",                    "forest_public_ha")
-    apply("forest_area",         "Kreiskennziffer", "Privatwald",                    "forest_private_ha")
-    apply("natura2000",          "Kreiskennziffer", "Natura2000_Flaeche",            "natura2000_ha")
-    apply("protected_areas",     "Kreiskennziffer", "Naturschutzgebiet",             "nature_reserve_ha")
-    apply("protected_areas",     "Kreiskennziffer", "Landschaftsschutzgebiet",       "landscape_protection_ha")
-    apply("emissions_agr",       "Kreiskennziffer", "CH4_Landwirtschaft",            "emissions_ch4_kt")
-    apply("emissions_agr",       "Kreiskennziffer", "N2O_Landwirtschaft",            "emissions_n2o_kt")
-    apply("water_quality",       "Kreiskennziffer", "Nitrat_Grundwasser",            "water_nitrate_mg_l")
-    apply("land_prices",         "Kreiskennziffer", "Kaufwert_ha",                   "land_price_eur_ha")
-    apply("farm_rents",          "Kreiskennziffer", "Pachtentgelt_ha",               "farm_rent_eur_ha")
+    apply("population",          "FACH-SCHL", "Insgesamt",                     "population_total")
+    apply("pop_age",             "FACH-SCHL", "unter_6",                       "pop_age_under6")
+    apply("pop_age",             "FACH-SCHL", "65_und_mehr",                   "pop_age_65plus")
+    apply("pop_foreign",         "FACH-SCHL", "Auslaender",                    "pop_foreign")
+    apply("pop_naturalmovement", "FACH-SCHL", "Geburten",                      "births")
+    apply("pop_naturalmovement", "FACH-SCHL", "Gestorbene",                    "deaths")
+    apply("pop_migration",       "FACH-SCHL", "Zuzuege",                       "migration_in")
+    apply("pop_migration",       "FACH-SCHL", "Fortzuege",                     "migration_out")
+    apply("commuters",           "FACH-SCHL", "Einpendler",                    "commuters_in")
+    apply("commuters",           "FACH-SCHL", "Auspendler",                    "commuters_out")
+    apply("gdp_percapita",       "FACH-SCHL", "BIP_je_EW",                     "gdp_per_capita_eur")
+    apply("gva_sectors",         "FACH-SCHL", "Land_Forstwirtschaft_Fischerei","gva_agriculture_pct")
+    apply("household_income",    "FACH-SCHL", "Verfuegbares_Einkommen",        "household_income_eur")
+    apply("unemployment",        "FACH-SCHL", "Arbeitslosenquote",             "unemployment_rate_pct")
+    apply("unemployment_youth",  "FACH-SCHL", "Arbeitslosenquote",             "unemployment_youth_pct")
+    apply("land_use_total",      "FACH-SCHL", "Gesamtflaeche",                 "area_total_ha")
+    apply("land_use_total",      "FACH-SCHL", "Landwirtschaftsflaeche",        "area_agriculture_ha")
+    apply("land_use_total",      "FACH-SCHL", "Waldflaeche",                   "area_forest_ha")
+    apply("land_use_total",      "FACH-SCHL", "Wasserflaeche",                 "area_water_ha")
+    apply("land_use_detail",     "FACH-SCHL", "Ackerland",                     "area_cropland_ha")
+    apply("land_use_detail",     "FACH-SCHL", "Dauergruenland",                "area_grassland_ha")
+    apply("land_use_detail",     "FACH-SCHL", "Rebland",                       "area_vineyard_ha")
+    apply("land_use_detail",     "FACH-SCHL", "Obstanlagen",                   "area_orchard_ha")
+    apply("settlement_transport","FACH-SCHL", "Siedlung_Verkehr",              "area_settlement_transport_ha")
+    apply("farms_area",          "FACH-SCHL", "Betriebe",                      "farms_count")
+    apply("farms_area",          "FACH-SCHL", "LF",                            "farms_uaa_ha")
+    apply("farms_area",          "FACH-SCHL", "Durchschnittliche_LF",          "farms_avg_size_ha")
+    apply("farms_organic",       "FACH-SCHL", "Oeko_Betriebe",                 "farms_organic_count")
+    apply("farms_organic",       "FACH-SCHL", "Oeko_LF",                       "farms_organic_ha")
+    apply("farms_tenancy",       "FACH-SCHL", "Eigentumsflaeche",              "uaa_owned_ha")
+    apply("farms_tenancy",       "FACH-SCHL", "Pachtflaeche",                  "uaa_rented_ha")
+    apply("farm_labour",         "FACH-SCHL", "AK_insgesamt",                  "farm_labour_fte")
+    apply("farms_size_classes",  "FACH-SCHL", "unter_5_ha",                    "farms_lt5ha")
+    apply("farms_size_classes",  "FACH-SCHL", "100_ha_und_mehr",               "farms_gt100ha")
+    apply("crop_area",           "FACH-SCHL", "Getreide",                      "crop_cereals_ha")
+    apply("crop_area",           "FACH-SCHL", "Oelfruchte",                    "crop_oilseed_ha")
+    apply("crop_area",           "FACH-SCHL", "Leguminosen",                   "crop_legumes_ha")
+    apply("crop_area",           "FACH-SCHL", "Hackfruchte",                   "crop_root_ha")
+    apply("crop_area",           "FACH-SCHL", "Feldgras",                      "crop_fodder_grass_ha")
+    apply("crop_area",           "FACH-SCHL", "Gemuese",                       "crop_vegetables_ha")
+    apply("livestock_total",     "FACH-SCHL", "GVE_insgesamt",                 "livestock_gve_total")
+    apply("livestock_cattle",    "FACH-SCHL", "Rinder_insgesamt",              "livestock_cattle_head")
+    apply("livestock_cattle",    "FACH-SCHL", "Milchkuehe",                    "livestock_dairy_cows")
+    apply("livestock_pigs",      "FACH-SCHL", "Schweine_insgesamt",            "livestock_pigs_head")
+    apply("livestock_poultry",   "FACH-SCHL", "Gefluegel_insgesamt",           "livestock_poultry_head")
+    apply("fertiliser_n",        "FACH-SCHL", "N_Saldo_ha",                    "fertiliser_n_surplus_kg_ha")
+    apply("fertiliser_p",        "FACH-SCHL", "P_Saldo_ha",                    "fertiliser_p_surplus_kg_ha")
+    apply("pesticide_sales",     "FACH-SCHL", "Wirkstoffmenge_ha",             "pesticide_kg_ha")
+    apply("irrigation",          "FACH-SCHL", "Bewaesserungsflaeche",          "irrigation_area_ha")
+    apply("irrigation",          "FACH-SCHL", "Wasserverbrauch",               "irrigation_water_m3")
+    apply("forest_area",         "FACH-SCHL", "Waldflaeche_gesamt",            "forest_total_ha")
+    apply("forest_area",         "FACH-SCHL", "Staatswald",                    "forest_public_ha")
+    apply("forest_area",         "FACH-SCHL", "Privatwald",                    "forest_private_ha")
+    apply("natura2000",          "FACH-SCHL", "Natura2000_Flaeche",            "natura2000_ha")
+    apply("protected_areas",     "FACH-SCHL", "Naturschutzgebiet",             "nature_reserve_ha")
+    apply("protected_areas",     "FACH-SCHL", "Landschaftsschutzgebiet",       "landscape_protection_ha")
+    apply("emissions_agr",       "FACH-SCHL", "CH4_Landwirtschaft",            "emissions_ch4_kt")
+    apply("emissions_agr",       "FACH-SCHL", "N2O_Landwirtschaft",            "emissions_n2o_kt")
+    apply("water_quality",       "FACH-SCHL", "Nitrat_Grundwasser",            "water_nitrate_mg_l")
+    apply("land_prices",         "FACH-SCHL", "Kaufwert_ha",                   "land_price_eur_ha")
+    apply("farm_rents",          "FACH-SCHL", "Pachtentgelt_ha",               "farm_rent_eur_ha")
 
     for rec in out.values():
         total = rec.get("area_total_ha")
@@ -457,6 +550,8 @@ def main(force: bool = False) -> None:
     print("fetch_destatis.py -- GENESIS-Online data fetch")
     print(f"User: {USERNAME}  |  NUTS3 codes: {len(ALL_NUTS3)}")
     print("=" * 60)
+
+    check_auth()
 
     raw = fetch_all(force=force)
 
