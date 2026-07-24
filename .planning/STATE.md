@@ -32,30 +32,37 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 | 2.2 | Soil Semantics & Translation | Complete (2026-04-30) |
 | 3 | Chart Data Contract | Ready to plan |
 | 3.1 | Data Source Research & User Validation | Inserted - ready to plan |
-| 4 | Destatis Statistics Integration | Waves 1-2+6 complete; Waves 3-5 awaiting user decision (2026-07-24) — see Active Work |
+| 4 | Destatis Statistics Integration | Waves 1-2+6-7 complete; 10/17 KPIs real; Waves 3-5 ready (2026-07-24) — see Active Work |
 
 ## Active Work
 
-**Phase 4: Waves 1, 2, and 6 are complete and merged to `data-pipeline-development`** (04-01,
-04-02, 04-06 all have SUMMARY.md + passing tests). Waves 3-5 (kpiByTab wiring into
-ll_metadata.json, tab/i18n restructure, StatPanel UI component) remain deferred pending a decision
-below.
+**Phase 4: Waves 1, 2, 6, and 7 are complete and merged to `data-pipeline-development`** (04-01,
+04-02, 04-06, 04-07 all have SUMMARY.md + passing tests, 7/7). Waves 3-5 (kpiByTab wiring into
+ll_metadata.json, tab/i18n restructure, StatPanel UI component) are now ready to execute.
 
-**The core data-availability finding stands even after obtaining Regionalstatistik.de credentials.**
-Wave 2 (`04-02`) discovered via exhaustive live GENESIS-Online API probing that 16 of the 17 D-09
-curated KPI fields cannot be sourced from GENESIS-Online at Kreis level; only `population_total`
-resolves there. The user then obtained Regionalstatistik.de credentials and gap-closure plan
-`04-06` activated the D-15 fallback (fixed a wrongly-assumed token-auth scheme, a case-sensitive
-URL bug, and an intermittent stale-login-response bug — all real, now-fixed bugs) and genuinely
-retried all 15 null slots against Regionalstatistik.de with working credentials. **Empirical
-result: 0 of 15 additional slots resolve there either** — these statistics are published only at
-Bund/Länder granularity on both platforms' public APIs, not a code or credentials problem. Full
-detail: `.planning/phases/04-destatis-statistics-integration-source-process-and-app-integ/04-06-SUMMARY.md`.
+**Data availability final state (2026-07-24, after 04-07's Regionalstatistik.de table discovery):**
+The 04-06 "0/15" result was a code-format mismatch, not a data gap — Regionalstatistik.de
+publishes Kreis-level statistics as dash-coded tables (`data/tablefile`, format=ffcsv), not
+GENESIS-Online-style cube codes. Searching with the correct format resolved 9 more slots.
+**10 of 17 curated KPIs now carry real, live-fetched Kreis-level values** (all committed):
+- landuse 4/4: land_area_cropland_ha, farms_count, farm_avg_size_ha, organic_pct
+- landscape 2/4: forest_area_ha, sealed_surface_pct
+- economic 4/4: population_total, unemployment_rate_pct, household_income_eur, gdp_per_capita_eur
+  (gdp restored to its original D-09 slot, replacing the 04-02 population-density substitute)
 
-**Decision needed before continuing to Waves 3-5:**
-1. **Accept population-only real data** and proceed with `/gsd:execute-phase 4` — Waves 3-5 build kpiByTab/StatPanel UI now; 16 of 17 KPI slots render null/pending in the UI.
-2. **Search for alternate Regionalstatistik.de table codes** for the 15 unresolved indicators (Regionalstatistik.de sometimes publishes the same statistic under different table codes than GENESIS-Online; 04-06 only retried the same codes, per its scope) — would need a new plan, not yet created.
-3. **Re-scope the curated KPI list** (D-09) to only genuinely-available indicators rather than shipping mostly-null fields — would require revisiting CONTEXT.md decisions.
+**7 slots remain genuinely null** — confirmed unavailable at Kreis level on BOTH Destatis
+platforms after exhaustive prefix + keyword search: n_surplus_kg_ha, p_surplus_kg_ha,
+groundwater_nitrate_mg_l (nutrient/nitrate data are non-Destatis products), agr_ch4_kt,
+agr_n2o_kt (GHG emissions are Länder-level only), natura2000_ha, nature_reserves_ha
+(nature-conservation area stats are non-Destatis products). Nearest-miss candidates are
+documented in 04-07-SUMMARY.md for human review. Filling these would require non-Destatis
+sources (e.g. UBA, BfN, LAWA) — out of Phase 4's Destatis scope; candidates for a future phase
+or the Phase 3.1 source-catalogue process.
+
+**Next step:** run `/gsd:execute-phase 4` to execute Waves 3-5 (04-03 kpiByTab wiring, 04-04
+tab/i18n restructure, 04-05 StatPanel UI — 04-05 has a human-verify checkpoint). The UI will show
+real values for 10/17 KPIs; the 7 null slots need a UI decision (hide vs. "data not available"
+state) which the UI-SPEC/plans already contemplate.
 
 Phase 03.1 Wave 2 completed on 2026-06-02. The source review catalogue is now populated with citation-backed fact columns, advisory `(AI)` assessment columns, and an updated `source_catalogue` xlsx tab ready for human review.
 
