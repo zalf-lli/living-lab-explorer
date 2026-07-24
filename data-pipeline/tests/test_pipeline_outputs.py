@@ -119,9 +119,21 @@ def test_destatis_curated_kpis_manifest_matches_contract() -> None:
 
     assert len(data) == 17, f"Expected 17 curated KPI entries, got {len(data)}"
 
-    expected_keys = {"tab", "variable_key", "genesis_table", "label_en", "label_de", "unit_en", "unit_de"}
+    expected_keys = {
+        "tab",
+        "variable_key",
+        "genesis_table",
+        "source_host",
+        "label_en",
+        "label_de",
+        "unit_en",
+        "unit_de",
+    }
     for entry in data:
         assert set(entry.keys()) == expected_keys, entry
+        # source_host must be one of the known hosts for a resolved slot, or None for an
+        # honestly-unresolved slot (D-15) -- never fabricated or omitted (Plan 04-07).
+        assert entry["source_host"] in ("genesis", "regionalstatistik", None), entry
 
     tab_counts: dict[str, int] = {}
     for entry in data:
@@ -134,3 +146,29 @@ def test_destatis_curated_kpis_manifest_matches_contract() -> None:
         "landscape": 4,
         "economic": 4,
     }
+
+
+def test_destatis_resolved_slots_have_real_values() -> None:
+    """
+    Plan 04-07: every curated slot the manifest marks as resolved (non-null genesis_table /
+    source_host) must carry at least one non-null value across the 14 Kreise in
+    destatis_nuts3.json -- a "resolved" slot with no real data anywhere would silently violate
+    D-15's "never fabricate, never silently drop" contract.
+    """
+    manifest_path = repo_root() / "data" / "destatis_curated_kpis.json"
+    nuts3_path = repo_root() / "data" / "destatis_nuts3.json"
+
+    with manifest_path.open("r", encoding="utf-8") as handle:
+        manifest = json.load(handle)
+    with nuts3_path.open("r", encoding="utf-8") as handle:
+        nuts3 = json.load(handle)
+
+    for entry in manifest:
+        if entry["source_host"] is None:
+            continue
+        variable_key = entry["variable_key"]
+        values = [rec.get(variable_key) for rec in nuts3.values()]
+        assert any(v is not None for v in values), (
+            f"Manifest marks {variable_key!r} resolved (source_host={entry['source_host']!r}) "
+            "but destatis_nuts3.json has no non-null values for it across any Kreis"
+        )
