@@ -130,25 +130,45 @@ def _post(endpoint: str, params: dict, retries: int = 3, base: str = GENESIS_BAS
     raise RuntimeError("unreachable")
 
 
-def check_auth(base: str = GENESIS_BASE) -> None:
+def check_auth(base: str = GENESIS_BASE, retries: int = 3) -> None:
     host_label = "GENESIS" if base == GENESIS_BASE else "Regionalstatistik.de"
-    r = requests.post(f"{base}/helloworld/logincheck", headers=_headers(base=base), data={"language": "de"}, timeout=90)
-    r.raise_for_status()
-    body = r.json()
-    status = body.get("Status", "")
-    # Verified empirically 2026-07-24: helloworld/logincheck returns a flat string Status
-    # (e.g. '{"Status": "Sie wurden erfolgreich an- und abgemeldet! ...", "Username": "..."}'),
-    # NOT the nested {"Code": ..., "Content": ..., "Type": ...} object documented for other
-    # GENESIS endpoints (e.g. data/tablefile's code-104 "no objects" response). Handle both
-    # shapes defensively since other endpoints in this file may still return the nested form.
-    if isinstance(status, dict):
-        if status.get("Code") not in (0, None):
-            raise SystemExit(f"[error] {host_label} auth check failed: {status}")
-        print(f"[ok] {host_label} auth verified ({status.get('Content', '')[:60]}...)")
-        return
-    if "erfolgreich" not in str(status):
-        raise SystemExit(f"[error] {host_label} auth check failed: {status}")
-    print(f"[ok] {host_label} auth verified ({str(status)[:60]}...)")
+    last_error: str = ""
+    for attempt in range(retries):
+        r = requests.post(f"{base}/helloworld/logincheck", headers=_headers(base=base), data={"language": "de"}, timeout=90)
+        r.raise_for_status()
+        body = r.json()
+        status = body.get("Status", "")
+        # Verified empirically 2026-07-24: helloworld/logincheck returns a flat string Status
+        # (e.g. '{"Status": "Sie wurden erfolgreich an- und abgemeldet! ...", "Username": "..."}'),
+        # NOT the nested {"Code": ..., "Content": ..., "Type": ...} object documented for other
+        # GENESIS endpoints (e.g. data/tablefile's code-104 "no objects" response). Handle both
+        # shapes defensively since other endpoints in this file may still return the nested form.
+        if isinstance(status, dict):
+            if status.get("Code") not in (0, None):
+                last_error = str(status)
+            else:
+                print(f"[ok] {host_label} auth verified ({status.get('Content', '')[:60]}...)")
+                return
+        elif "erfolgreich" in str(status):
+            print(f"[ok] {host_label} auth verified ({str(status)[:60]}...)")
+            return
+        else:
+            last_error = str(status)
+
+        # Empirically observed 2026-07-24 (Plan 04-06 resumption): Regionalstatistik.de's
+        # helloworld/logincheck intermittently returns a stale "Bei der Erstanmeldung ist die
+        # Eingabe eines neuen Passwortes erforderlich" (first-login password-change-required)
+        # response even for an account whose password was already changed and confirmed working
+        # moments earlier -- retrying the identical request against the same credentials a few
+        # seconds later succeeds (observed: fails twice, then succeeds on the 3rd attempt),
+        # consistent with backend replica/session state lag rather than a genuine credential
+        # problem. Retry with backoff before treating this as a hard auth failure.
+        if attempt < retries - 1:
+            wait = 2 ** attempt
+            print(f"  [retry {attempt+1}/{retries-1} in {wait}s] {host_label} auth check returned: {last_error}")
+            time.sleep(wait)
+
+    raise SystemExit(f"[error] {host_label} auth check failed after {retries} attempts: {last_error}")
 
 
 def _parse_cube_csv(raw_csv: str) -> list[dict]:
