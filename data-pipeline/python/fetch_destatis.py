@@ -82,7 +82,11 @@ assert set(NUTS3_TO_AGS) == set(ALL_NUTS3), "NUTS3_TO_AGS must cover every code 
 GENESIS_BASE = "https://genesis.destatis.de/genesisWS/rest/2020"
 # D-15: separate regional-statistics platform, only used as a fallback host for curated
 # indicators that do not resolve on GENESIS-Online at all (see _resolve_curated_kpis()).
-REGIONALSTATISTIK_BASE = "https://www.regionalstatistik.de/genesisWS/rest/2020"
+# NOTE: unlike genesis.destatis.de (which accepts the mixed-case "genesisWS" path segment),
+# regionalstatistik.de's routing is case-sensitive and only accepts the all-lowercase
+# "genesisws" segment -- confirmed empirically 2026-07-24 (Plan 04-06, Task 2): "genesisWS"/
+# "GenesisWS"/"GENESISWS" all 404, only "genesisws" returns 200.
+REGIONALSTATISTIK_BASE = "https://www.regionalstatistik.de/genesisws/rest/2020"
 
 
 def _headers(base: str = GENESIS_BASE) -> dict:
