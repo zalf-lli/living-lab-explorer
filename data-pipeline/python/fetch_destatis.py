@@ -289,14 +289,14 @@ def build_nuts3_records(raw: dict[str, list[dict]]) -> dict[str, dict]:
     apply("land_use_total",      "FACH-SCHL", "Landwirtschaftsflaeche",        "area_agriculture_ha")
     apply("land_use_total",      "FACH-SCHL", "Waldflaeche",                   "area_forest_ha")
     apply("land_use_total",      "FACH-SCHL", "Wasserflaeche",                 "area_water_ha")
-    apply("land_use_detail",     "FACH-SCHL", "Ackerland",                     "area_cropland_ha")
+    apply("land_use_detail",     "FACH-SCHL", "Ackerland",                     "land_area_cropland_ha")
     apply("land_use_detail",     "FACH-SCHL", "Dauergruenland",                "area_grassland_ha")
     apply("land_use_detail",     "FACH-SCHL", "Rebland",                       "area_vineyard_ha")
     apply("land_use_detail",     "FACH-SCHL", "Obstanlagen",                   "area_orchard_ha")
     apply("settlement_transport","FACH-SCHL", "Siedlung_Verkehr",              "area_settlement_transport_ha")
     apply("farms_area",          "FACH-SCHL", "Betriebe",                      "farms_count")
     apply("farms_area",          "FACH-SCHL", "LF",                            "farms_uaa_ha")
-    apply("farms_area",          "FACH-SCHL", "Durchschnittliche_LF",          "farms_avg_size_ha")
+    apply("farms_area",          "FACH-SCHL", "Durchschnittliche_LF",          "farm_avg_size_ha")
     apply("farms_organic",       "FACH-SCHL", "Oeko_Betriebe",                 "farms_organic_count")
     apply("farms_organic",       "FACH-SCHL", "Oeko_LF",                       "farms_organic_ha")
     apply("farms_tenancy",       "FACH-SCHL", "Eigentumsflaeche",              "uaa_owned_ha")
@@ -315,20 +315,20 @@ def build_nuts3_records(raw: dict[str, list[dict]]) -> dict[str, dict]:
     apply("livestock_cattle",    "FACH-SCHL", "Milchkuehe",                    "livestock_dairy_cows")
     apply("livestock_pigs",      "FACH-SCHL", "Schweine_insgesamt",            "livestock_pigs_head")
     apply("livestock_poultry",   "FACH-SCHL", "Gefluegel_insgesamt",           "livestock_poultry_head")
-    apply("fertiliser_n",        "FACH-SCHL", "N_Saldo_ha",                    "fertiliser_n_surplus_kg_ha")
-    apply("fertiliser_p",        "FACH-SCHL", "P_Saldo_ha",                    "fertiliser_p_surplus_kg_ha")
+    apply("fertiliser_n",        "FACH-SCHL", "N_Saldo_ha",                    "n_surplus_kg_ha")
+    apply("fertiliser_p",        "FACH-SCHL", "P_Saldo_ha",                    "p_surplus_kg_ha")
     apply("pesticide_sales",     "FACH-SCHL", "Wirkstoffmenge_ha",             "pesticide_kg_ha")
     apply("irrigation",          "FACH-SCHL", "Bewaesserungsflaeche",          "irrigation_area_ha")
     apply("irrigation",          "FACH-SCHL", "Wasserverbrauch",               "irrigation_water_m3")
-    apply("forest_area",         "FACH-SCHL", "Waldflaeche_gesamt",            "forest_total_ha")
+    apply("forest_area",         "FACH-SCHL", "Waldflaeche_gesamt",            "forest_area_ha")
     apply("forest_area",         "FACH-SCHL", "Staatswald",                    "forest_public_ha")
     apply("forest_area",         "FACH-SCHL", "Privatwald",                    "forest_private_ha")
     apply("natura2000",          "FACH-SCHL", "Natura2000_Flaeche",            "natura2000_ha")
-    apply("protected_areas",     "FACH-SCHL", "Naturschutzgebiet",             "nature_reserve_ha")
+    apply("protected_areas",     "FACH-SCHL", "Naturschutzgebiet",             "nature_reserves_ha")
     apply("protected_areas",     "FACH-SCHL", "Landschaftsschutzgebiet",       "landscape_protection_ha")
-    apply("emissions_agr",       "FACH-SCHL", "CH4_Landwirtschaft",            "emissions_ch4_kt")
-    apply("emissions_agr",       "FACH-SCHL", "N2O_Landwirtschaft",            "emissions_n2o_kt")
-    apply("water_quality",       "FACH-SCHL", "Nitrat_Grundwasser",            "water_nitrate_mg_l")
+    apply("emissions_agr",       "FACH-SCHL", "CH4_Landwirtschaft",            "agr_ch4_kt")
+    apply("emissions_agr",       "FACH-SCHL", "N2O_Landwirtschaft",            "agr_n2o_kt")
+    apply("water_quality",       "FACH-SCHL", "Nitrat_Grundwasser",            "groundwater_nitrate_mg_l")
     apply("land_prices",         "FACH-SCHL", "Kaufwert_ha",                   "land_price_eur_ha")
     apply("farm_rents",          "FACH-SCHL", "Pachtentgelt_ha",               "farm_rent_eur_ha")
 
@@ -350,13 +350,15 @@ def build_nuts3_records(raw: dict[str, list[dict]]) -> dict[str, dict]:
         gve = rec.get("livestock_gve_total")
         if gve and uaa:
             rec["livestock_gve_per_ha"] = round(gve / uaa, 2)
+        if rec.get("area_total_ha") and rec.get("area_settlement_transport_ha") is not None:
+            rec["sealed_surface_pct"] = round(rec["area_settlement_transport_ha"] / rec["area_total_ha"] * 100, 1)
 
     return out
 
 
 _SUM = {
     "area_total_ha", "area_agriculture_ha", "area_forest_ha", "area_water_ha",
-    "area_cropland_ha", "area_grassland_ha", "area_vineyard_ha", "area_orchard_ha",
+    "land_area_cropland_ha", "area_grassland_ha", "area_vineyard_ha", "area_orchard_ha",
     "area_settlement_transport_ha",
     "population_total", "births", "deaths", "migration_in", "migration_out",
     "commuters_in", "commuters_out",
@@ -367,16 +369,16 @@ _SUM = {
     "livestock_gve_total", "livestock_cattle_head", "livestock_dairy_cows",
     "livestock_pigs_head", "livestock_poultry_head",
     "irrigation_area_ha",
-    "forest_total_ha", "forest_public_ha", "forest_private_ha",
-    "natura2000_ha", "nature_reserve_ha", "landscape_protection_ha",
-    "emissions_ch4_kt", "emissions_n2o_kt",
+    "forest_area_ha", "forest_public_ha", "forest_private_ha",
+    "natura2000_ha", "nature_reserves_ha", "landscape_protection_ha",
+    "agr_ch4_kt", "agr_n2o_kt",
 }
 _MEAN = {
     "gdp_per_capita_eur", "household_income_eur",
     "unemployment_rate_pct", "unemployment_youth_pct",
-    "fertiliser_n_surplus_kg_ha", "fertiliser_p_surplus_kg_ha", "pesticide_kg_ha",
-    "water_nitrate_mg_l", "land_price_eur_ha", "farm_rent_eur_ha",
-    "farms_avg_size_ha", "irrigation_water_m3",
+    "n_surplus_kg_ha", "p_surplus_kg_ha", "pesticide_kg_ha",
+    "groundwater_nitrate_mg_l", "land_price_eur_ha", "farm_rent_eur_ha",
+    "farm_avg_size_ha", "irrigation_water_m3",
 }
 
 
@@ -402,6 +404,8 @@ def aggregate_ll(nuts3_records: dict[str, dict]) -> dict[str, dict]:
             agg["population_density_per_km2"] = round(agg["population_total"] / (agg["area_total_ha"] / 100), 1)
         if agg.get("livestock_gve_total") and agg.get("farms_uaa_ha"):
             agg["livestock_gve_per_ha"] = round(agg["livestock_gve_total"] / agg["farms_uaa_ha"], 2)
+        if agg.get("area_total_ha") and agg.get("area_settlement_transport_ha") is not None:
+            agg["sealed_surface_pct"] = round(agg["area_settlement_transport_ha"] / agg["area_total_ha"] * 100, 1)
         out[slug] = agg
     return out
 
@@ -431,7 +435,7 @@ FIELD_LABELS: dict[str, str] = {
     "area_agriculture_ha":          "Agricultural area (ha)",
     "area_forest_ha":               "Forest area (ha)",
     "area_water_ha":                "Water area (ha)",
-    "area_cropland_ha":             "Cropland (ha)",
+    "land_area_cropland_ha":             "Cropland (ha)",
     "area_grassland_ha":            "Permanent grassland (ha)",
     "area_vineyard_ha":             "Vineyard area (ha)",
     "area_orchard_ha":              "Orchard area (ha)",
@@ -439,7 +443,7 @@ FIELD_LABELS: dict[str, str] = {
     "agriculture_pct":              "Agriculture share of total area (%)",
     "farms_count":                  "Number of farms",
     "farms_uaa_ha":                 "Utilised agricultural area - UAA (ha)",
-    "farms_avg_size_ha":            "Average farm size (ha)",
+    "farm_avg_size_ha":            "Average farm size (ha)",
     "farms_organic_count":          "Organic farms (count)",
     "farms_organic_ha":             "Organic farming area (ha)",
     "organic_pct":                  "Organic share of UAA (%)",
@@ -461,33 +465,34 @@ FIELD_LABELS: dict[str, str] = {
     "livestock_dairy_cows":         "Dairy cows",
     "livestock_pigs_head":          "Pigs headcount",
     "livestock_poultry_head":       "Poultry headcount",
-    "fertiliser_n_surplus_kg_ha":   "N surplus (kg per ha UAA)",
-    "fertiliser_p_surplus_kg_ha":   "P surplus (kg per ha UAA)",
+    "n_surplus_kg_ha":   "N surplus (kg per ha UAA)",
+    "p_surplus_kg_ha":   "P surplus (kg per ha UAA)",
     "pesticide_kg_ha":              "Pesticide active substance (kg per ha)",
     "irrigation_area_ha":           "Irrigated area (ha)",
     "irrigation_water_m3":          "Irrigation water use (m3)",
-    "forest_total_ha":              "Forest area - detail (ha)",
+    "forest_area_ha":              "Forest area - detail (ha)",
     "forest_public_ha":             "Public forest (ha)",
     "forest_private_ha":            "Private forest (ha)",
     "natura2000_ha":                "Natura 2000 area (ha)",
-    "nature_reserve_ha":            "Nature reserves (ha)",
+    "nature_reserves_ha":            "Nature reserves (ha)",
     "landscape_protection_ha":      "Landscape protection zones (ha)",
-    "emissions_ch4_kt":             "Agricultural CH4 emissions (kt CO2eq)",
-    "emissions_n2o_kt":             "Agricultural N2O emissions (kt CO2eq)",
-    "water_nitrate_mg_l":           "Groundwater nitrate concentration (mg/l)",
+    "agr_ch4_kt":             "Agricultural CH4 emissions (kt CO2eq)",
+    "agr_n2o_kt":             "Agricultural N2O emissions (kt CO2eq)",
+    "groundwater_nitrate_mg_l":           "Groundwater nitrate concentration (mg/l)",
     "land_price_eur_ha":            "Agricultural land price (EUR/ha)",
     "farm_rent_eur_ha":             "Average farm rent (EUR/ha)",
+    "sealed_surface_pct":           "Sealed/impervious surface (% of total area)",
 }
 
 FIELD_THEME: dict[str, str] = {
     **{k: "Demography"           for k in ["population_total","pop_age_under6","pop_age_65plus","pop_foreign","births","deaths","migration_in","migration_out","commuters_in","commuters_out","population_density_per_km2"]},
     **{k: "Economy"              for k in ["gdp_per_capita_eur","gva_agriculture_pct","household_income_eur","unemployment_rate_pct","unemployment_youth_pct"]},
-    **{k: "Land use"             for k in ["area_total_ha","area_agriculture_ha","area_forest_ha","area_water_ha","area_cropland_ha","area_grassland_ha","area_vineyard_ha","area_orchard_ha","area_settlement_transport_ha","agriculture_pct"]},
-    **{k: "Farms"                for k in ["farms_count","farms_uaa_ha","farms_avg_size_ha","farms_organic_count","farms_organic_ha","organic_pct","uaa_owned_ha","uaa_rented_ha","tenancy_rented_pct","farm_labour_fte","farms_lt5ha","farms_gt100ha"]},
+    **{k: "Land use"             for k in ["area_total_ha","area_agriculture_ha","area_forest_ha","area_water_ha","land_area_cropland_ha","area_grassland_ha","area_vineyard_ha","area_orchard_ha","area_settlement_transport_ha","agriculture_pct","sealed_surface_pct"]},
+    **{k: "Farms"                for k in ["farms_count","farms_uaa_ha","farm_avg_size_ha","farms_organic_count","farms_organic_ha","organic_pct","uaa_owned_ha","uaa_rented_ha","tenancy_rented_pct","farm_labour_fte","farms_lt5ha","farms_gt100ha"]},
     **{k: "Crops"                for k in ["crop_cereals_ha","crop_oilseed_ha","crop_legumes_ha","crop_root_ha","crop_fodder_grass_ha","crop_vegetables_ha"]},
     **{k: "Livestock"            for k in ["livestock_gve_total","livestock_gve_per_ha","livestock_cattle_head","livestock_dairy_cows","livestock_pigs_head","livestock_poultry_head"]},
-    **{k: "Inputs & pressure"    for k in ["fertiliser_n_surplus_kg_ha","fertiliser_p_surplus_kg_ha","pesticide_kg_ha","irrigation_area_ha","irrigation_water_m3"]},
-    **{k: "Nature & environment" for k in ["forest_total_ha","forest_public_ha","forest_private_ha","natura2000_ha","nature_reserve_ha","landscape_protection_ha","emissions_ch4_kt","emissions_n2o_kt","water_nitrate_mg_l"]},
+    **{k: "Inputs & pressure"    for k in ["n_surplus_kg_ha","p_surplus_kg_ha","pesticide_kg_ha","irrigation_area_ha","irrigation_water_m3"]},
+    **{k: "Nature & environment" for k in ["forest_area_ha","forest_public_ha","forest_private_ha","natura2000_ha","nature_reserves_ha","landscape_protection_ha","agr_ch4_kt","agr_n2o_kt","groundwater_nitrate_mg_l"]},
     **{k: "Land market"          for k in ["land_price_eur_ha","farm_rent_eur_ha"]},
 }
 
