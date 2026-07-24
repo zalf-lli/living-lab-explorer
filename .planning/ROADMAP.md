@@ -185,9 +185,9 @@
 ### Phase 4: Destatis Statistics Integration
 
 **Goal:** Source socioeconomic and agricultural statistics for the 5 Living Lab regions from the Destatis GENESIS-Online RESTful API, process/aggregate them per NUTS3 and per LL, and integrate the selected indicators into the app.
-**Requirements**: TBD
+**Requirements**: TBD (no ROADMAP REQ-IDs assigned; plans reference CONTEXT.md decisions D-01..D-15 and ROADMAP scope items P4-SCOPE-1..3 instead)
 **Depends on:** Phase 3 (Phase 3.1 still open, but Destatis inclusion is confirmed regardless of its outcome)
-**Plans:** 0 plans
+**Plans:** 5 plans
 
 **Context (resumes paused work):**
 - Prior work exists and was paused: `data-pipeline/python/fetch_destatis.py` (fetch + aggregation + expert-review CSV export), `data/destatis_variables.csv` (per-indicator values for expert selection), `data/destatis_variables_catalogue.csv` (candidate variable catalogue with EN/DE labels and GENESIS table IDs)
@@ -203,8 +203,32 @@
 2. Process raw responses into per-NUTS3 records and per-LL aggregates (`data/destatis_nuts3.json`, `data/destatis_ll.json`) plus expert-review CSVs
 3. Wire selected indicators through `sync.py` into the app (respecting the file-on-disk pipeline–app contract) and render them in the LL views
 
-Plans:
-- [ ] TBD (run /gsd-plan-phase 4 to break down)
+**Implementation plan:**
+
+**Wave 1**
+- [ ] `04-01-PLAN.md` — Fix GENESIS-Online auth (headers not body, corrected host), add pre-flight check_auth(), empirically confirm the regional-key column/code format
+
+**Wave 2** *(blocked on Wave 1 completion)*
+- [ ] `04-02-PLAN.md` — Align curated field names with the variable catalogue, verify the 17 curated picks' GENESIS tables live with D-14 fallback, run the live fetch, add pytest coverage
+
+**Wave 3** *(blocked on Wave 2 completion)*
+- [ ] `04-03-PLAN.md` — Extend generate_metadata.py with a kpiByTab computed field; one-time direct strip of ll_content.json's legacy placeholder blocks (D-11); regenerate and verify ll_metadata.json
+
+**Wave 4** *(blocked on Wave 3 completion)*
+- [ ] `04-04-PLAN.md` — Rename/add tabs and flip availability (D-01..D-04, D-06..D-08) in layers.js; add 17 kpi.* labels + statPanel.* i18n copy
+
+**Wave 5** *(blocked on Wave 4 completion)*
+- [ ] `04-05-PLAN.md` — Build StatPanel component; wire into LLDetail (both layouts); retire KPIStrip (D-05); human-verify checkpoint across all tabs and both languages
+
+**Cross-cutting constraints:**
+- `data/ll_content.json` is edited directly by the executor once (D-11), never written by a pipeline script
+- Destatis credentials stay in HTTP headers only, never in the POST body or in printed logs
+- `_deep_merge`'s authored-wins policy is unchanged (D-12); Pitfall 3 is resolved by removing the conflicting authored fields instead
+
+**Success criteria:**
+1. `fetch_destatis.py` successfully authenticates against the live GENESIS-Online API and produces real (non-null) per-NUTS3/per-LL data for the 17 curated indicators
+2. `app/public/data/ll_metadata.json` carries a `kpiByTab` field per LL with real values, units, and GENESIS table provenance, grouped into Agriculture/Soil/Climate/Landscape/Socio-economic
+3. The LL detail page renders a StatPanel per tab (replacing the retired KPIStrip) with locale-aware formatting, an empty-state em-dash, and a working source-attribution link, verified across all 5 tabs and both languages
 
 ---
 
