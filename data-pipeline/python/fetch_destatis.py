@@ -25,9 +25,11 @@ Requirements:
 from __future__ import annotations
 
 import csv
+import io
 import json
 import os
 import time
+import zipfile
 from datetime import date
 from pathlib import Path
 
@@ -358,6 +360,302 @@ def _verify_table(table_id: str, base: str = GENESIS_BASE) -> bool:
     return bool(resolved & ags_codes)
 
 
+# ---------------------------------------------------------------------------
+# Regionalstatistik.de long-format (ffcsv) table fetch + parsing (Plan 04-07 gap closure)
+# ---------------------------------------------------------------------------
+#
+# Confirmed empirically 2026-07-24 (Plan 04-07, Task 1): every catalogued table ID in TABLES/
+# CURATED_KPIS uses GENESIS-Online's letter-suffixed "cube" (Datenquader) code format, served
+# by data/cubefile (see fetch_table_csv() above) -- but Regionalstatistik.de (whose purpose is
+# regional statistics) does NOT publish most of the same statistics under those cube codes at
+# all (04-06 retried the same codes there and got 0/15 resolutions). It instead publishes
+# dash-suffixed "Tabelle" codes (e.g. "41141-01-01-4", trailing "-4" = Kreis-level regional
+# depth), served by data/tablefile in a completely different response shape: a long/tidy format
+# (one row per statistic x region x year x classifying-attribute x value-variable), delivered as
+# a ZIP archive containing one semicolon-delimited CSV when format=ffcsv is requested (verified
+# empirically -- the raw response starts with the "PK" zip signature, not raw CSV text).
+REGIONALSTATISTIK_STARTYEAR = "2010"
+
+
+def _parse_regionalstatistik_ffcsv(content: bytes) -> list[dict]:
+    """
+    Parse a Regionalstatistik.de `data/tablefile` `format=ffcsv` response.
+
+    Confirmed empirically 2026-07-24: the response body is a ZIP archive (starts with the "PK"
+    signature) containing exactly one member, a semicolon-delimited "flat file" CSV with a
+    long/tidy layout: `1_variable_attribute_code` carries the 5-digit AGS regional key (same
+    NUTS3_TO_AGS crosswalk as the GENESIS-Online cube side), an optional `2_variable_attribute_code`
+    carries a classifying dimension (e.g. crop type, age group -- blank means the "Insgesamt"
+    total row), and `value_variable_code` distinguishes which indicator a row's `value` column
+    holds when a table reports more than one (e.g. farm count vs. UAA vs. organic UAA all in one
+    table). Falls back to treating the response as already-decoded CSV text if it is not a ZIP,
+    in case a future/different host configuration serves ffcsv unzipped.
+    """
+    if content[:2] == b"PK":
+        zf = zipfile.ZipFile(io.BytesIO(content))
+        text = zf.read(zf.namelist()[0]).decode("utf-8-sig", errors="replace")
+    else:
+        text = content.decode("utf-8-sig", errors="replace")
+    return list(csv.DictReader(text.splitlines(), delimiter=";"))
+
+
+def fetch_regionalstatistik_table(table: str, force: bool = False) -> list[dict]:
+    """
+    Fetch a Regionalstatistik.de dash-coded statistic table via `data/tablefile` (format=ffcsv),
+    restricted to this project's 14 AGS codes. Cached under
+    data/destatis_raw/<table>__regionalstatistik.csv, mirroring fetch_table_csv()'s host-qualified
+    cache-key convention so GENESIS cube codes and Regionalstatistik.de table codes never collide.
+    """
+    cache_path = RAW_DIR / f"{table}__regionalstatistik.csv"
+    if not force and cache_path.exists():
+        print(f"  [cache] {table} (Regionalstatistik.de)")
+        cached_text = cache_path.read_text(encoding="utf-8")
+        return list(csv.DictReader(cached_text.splitlines(), delimiter=";"))
+
+    print(f"  [fetch] {table} (Regionalstatistik.de)")
+    ags_codes = ",".join(sorted(set(NUTS3_TO_AGS.values())))
+    r = _post(
+        "data/tablefile",
+        {
+            "name": table,
+            "area": "all",
+            "format": "ffcsv",
+            "language": "de",
+            "regionalvariable": "KREISE",
+            "regionalkey": ags_codes,
+            "startyear": REGIONALSTATISTIK_STARTYEAR,
+            "endyear": str(date.today().year),
+        },
+        base=REGIONALSTATISTIK_BASE,
+    )
+    rows = _parse_regionalstatistik_ffcsv(r.content)
+    # Re-serialize the parsed rows (not the raw ZIP bytes) so the cache file is a plain,
+    # diffable, human-readable CSV -- consistent with every other data/destatis_raw/*.csv
+    # cache file in this pipeline.
+    buf = io.StringIO()
+    if rows:
+        writer = csv.DictWriter(buf, fieldnames=list(rows[0].keys()), delimiter=";")
+        writer.writeheader()
+        writer.writerows(rows)
+    cache_path.write_text(buf.getvalue(), encoding="utf-8")
+    return rows
+
+
+def _verify_regionalstatistik_table(table: str) -> bool:
+    """
+    Verify a Regionalstatistik.de table code resolves against the live API AND actually contains
+    Kreis-level rows for this project's specific 14 NUTS3 regions -- the ffcsv-format analogue of
+    _verify_table() above (that function's FACH-SCHL-column logic doesn't apply here since the
+    long-format response keys regions under `1_variable_attribute_code` instead).
+    """
+    try:
+        rows = fetch_regionalstatistik_table(table, force=True)
+    except Exception as exc:
+        print(f"  [verify] {table} @ Regionalstatistik.de failed: {exc}")
+        return False
+    if not rows:
+        return False
+    ags_codes = set(NUTS3_TO_AGS.values())
+    resolved = {r.get("1_variable_attribute_code", "").strip() for r in rows}
+    return bool(resolved & ags_codes)
+
+
+def _latest_regionalstatistik(
+    rows: list[dict], code: str, value_variable_code: str, attr_code: str = ""
+) -> float | None:
+    """
+    Extract the latest value for NUTS3 `code` from a Regionalstatistik.de ffcsv row list, matching
+    on the AGS-translated regional key, the indicator's `value_variable_code`, and (if the table
+    carries a classifying dimension, e.g. crop type) `2_variable_attribute_code` -- blank
+    `attr_code` matches the "Insgesamt" (total) row, which is also what tables with no classifying
+    dimension at all report (the column is simply absent, defaulting to "").
+    """
+    ags_code = NUTS3_TO_AGS.get(code, code)
+    matches = [
+        r
+        for r in rows
+        if r.get("1_variable_attribute_code", "").strip() == ags_code
+        and r.get("value_variable_code", "").strip() == value_variable_code
+        and r.get("2_variable_attribute_code", "").strip() == attr_code
+    ]
+    if not matches:
+        return None
+    matches = sorted(matches, key=lambda r: r.get("time", ""), reverse=True)
+    for row in matches:
+        v = _num(row.get("value"))
+        if v is not None:
+            return v
+    return None
+
+
+# variable_key -> {table code, value_variable_code, classifying attr_code, unit_factor}.
+# Live-verified 2026-07-24 (Plan 04-07, Task 1) against Regionalstatistik.de's catalogue/tables
+# (selection=<prefix>*) and find/find keyword search for every one of the 15 previously-null
+# curated slots plus the gdp_per_capita_eur D-14 substitute. Includes both directly-curated
+# fields and supporting intermediate fields (farms_uaa_ha, farms_organic_ha, area_total_ha,
+# area_settlement_ha, area_transport_ha) that REGIONALSTATISTIK_DERIVED below combines --
+# reusing the EXISTING build_nuts3_records()/aggregate_ll() _SUM/_MEAN and per-record derived-
+# field formulas (farm_avg_size_ha, organic_pct, sealed_surface_pct, and as a side effect
+# agriculture_pct/population_density_per_km2) rather than duplicating that logic here.
+REGIONALSTATISTIK_TABLES: dict[str, dict] = {
+    "land_area_cropland_ha": {
+        "table": "41141-01-01-4",
+        "value_variable_code": "FLC004",
+        "attr_code": "BNZAT-21",
+        "unit_factor": 1.0,
+    },
+    "farms_count": {
+        "table": "41141-04-02-4",
+        "value_variable_code": "BTR010",
+        "attr_code": "",
+        "unit_factor": 1.0,
+    },
+    "farms_uaa_ha": {
+        "table": "41141-04-02-4",
+        "value_variable_code": "FLC017",
+        "attr_code": "",
+        "unit_factor": 1.0,
+    },
+    "farms_organic_ha": {
+        "table": "41141-04-02-4",
+        "value_variable_code": "FLC047",
+        "attr_code": "",
+        "unit_factor": 1.0,
+    },
+    "forest_area_ha": {
+        "table": "33111-01-02-4",
+        "value_variable_code": "FLC005A",
+        "attr_code": "ADVN09-32",
+        "unit_factor": 1.0,
+    },
+    "area_total_ha": {
+        "table": "33111-01-02-4",
+        "value_variable_code": "FLC005A",
+        "attr_code": "",
+        "unit_factor": 1.0,
+    },
+    "area_settlement_ha": {
+        "table": "33111-01-02-4",
+        "value_variable_code": "FLC005A",
+        "attr_code": "ADVN09-1",
+        "unit_factor": 1.0,
+    },
+    "area_transport_ha": {
+        "table": "33111-01-02-4",
+        "value_variable_code": "FLC005A",
+        "attr_code": "ADVN09-2",
+        "unit_factor": 1.0,
+    },
+    "unemployment_rate_pct": {
+        "table": "13211-02-05-4",
+        "value_variable_code": "ERWP10",
+        "attr_code": "",
+        "unit_factor": 1.0,
+    },
+    "household_income_eur": {
+        "table": "82000-07-01-4",
+        "value_variable_code": "EKM014",
+        "attr_code": "",
+        "unit_factor": 1.0,
+    },
+    "gdp_per_capita_eur": {
+        "table": "82000-01-01-4",
+        "value_variable_code": "BIP804",
+        "attr_code": "",
+        "unit_factor": 1.0,
+    },
+}
+
+# Curated fields that are computed from more than one REGIONALSTATISTIK_TABLES read rather than
+# a single table cell -- documented explicitly per this plan's own instruction ("record
+# derivations explicitly rather than hunting for a pre-computed table") instead of a generic
+# formula-string engine, since there are only three and each is a simple ratio/sum.
+REGIONALSTATISTIK_DERIVED: dict[str, tuple[str, ...]] = {
+    "farm_avg_size_ha": ("farms_uaa_ha", "farms_count"),
+    "organic_pct": ("farms_organic_ha", "farms_uaa_ha"),
+    "sealed_surface_pct": ("area_settlement_ha", "area_transport_ha", "area_total_ha"),
+}
+
+
+def apply_regionalstatistik_indicators(
+    nuts3_out: dict[str, dict], regstat_raw: dict[str, list[dict]]
+) -> None:
+    """
+    D-15 gap closure (Plan 04-07): fill curated-KPI fields that GENESIS-Online only publishes at
+    Bund/Land level using Regionalstatistik.de's dash-coded tables instead. Only overwrites a
+    field that is still None after build_nuts3_records()'s GENESIS-only pass, so a genuine future
+    GENESIS Kreis-level cube would still take precedence (defensive, not expected to ever trigger
+    given 04-02/04-06's exhaustive empirical findings).
+    """
+
+    def regstat_value(code: str, spec_key: str) -> float | None:
+        spec = REGIONALSTATISTIK_TABLES[spec_key]
+        rows = regstat_raw.get(spec["table"], [])
+        v = _latest_regionalstatistik(rows, code, spec["value_variable_code"], spec.get("attr_code", ""))
+        return v * spec.get("unit_factor", 1.0) if v is not None else None
+
+    # Fields that map 1:1 onto an existing build_nuts3_records() output field name.
+    direct_output_fields = {
+        "land_area_cropland_ha",
+        "farms_count",
+        "farms_uaa_ha",
+        "farms_organic_ha",
+        "forest_area_ha",
+        "area_total_ha",
+        "unemployment_rate_pct",
+        "household_income_eur",
+        "gdp_per_capita_eur",
+    }
+
+    for code in ALL_NUTS3:
+        rec = nuts3_out[code]
+        for field in direct_output_fields:
+            if rec.get(field) is None:
+                rec[field] = regstat_value(code, field)
+
+        # farm_avg_size_ha = total UAA / total farm count (mirrors the existing per-record
+        # derived-field convention just above in build_nuts3_records()).
+        if rec.get("farm_avg_size_ha") is None and rec.get("farms_uaa_ha") and rec.get("farms_count"):
+            rec["farm_avg_size_ha"] = round(rec["farms_uaa_ha"] / rec["farms_count"], 1)
+
+        # organic_pct: reuses build_nuts3_records()'s existing farms_organic_ha/farms_uaa_ha
+        # formula automatically once both inputs are non-null (no duplicate logic needed here).
+        if rec.get("organic_pct") is None and rec.get("farms_uaa_ha") and rec.get("farms_organic_ha") is not None:
+            rec["organic_pct"] = round(rec["farms_organic_ha"] / rec["farms_uaa_ha"] * 100, 1)
+
+        # sealed_surface_pct: area_settlement_transport_ha is an EXISTING _SUM-tracked field
+        # (used by both the per-record and aggregate_ll() sealed_surface_pct formulas); filling
+        # it here lets those existing formulas fire unchanged, at both Kreis and LL level.
+        if rec.get("area_settlement_transport_ha") is None:
+            settlement = regstat_value(code, "area_settlement_ha")
+            transport = regstat_value(code, "area_transport_ha")
+            if settlement is not None and transport is not None:
+                rec["area_settlement_transport_ha"] = settlement + transport
+        if (
+            rec.get("sealed_surface_pct") is None
+            and rec.get("area_total_ha")
+            and rec.get("area_settlement_transport_ha") is not None
+        ):
+            rec["sealed_surface_pct"] = round(
+                rec["area_settlement_transport_ha"] / rec["area_total_ha"] * 100, 1
+            )
+
+
+def fetch_all_regionalstatistik(force: bool = False) -> dict[str, list[dict]]:
+    """Fetch every unique Regionalstatistik.de table code referenced by REGIONALSTATISTIK_TABLES."""
+    tables_needed = sorted({spec["table"] for spec in REGIONALSTATISTIK_TABLES.values()})
+    raw: dict[str, list[dict]] = {}
+    for table in tables_needed:
+        try:
+            rows = fetch_regionalstatistik_table(table, force=force)
+            raw[table] = rows
+            print(f"  -> {table}: {len(rows)} rows")
+        except Exception as exc:
+            print(f"  [WARN] Regionalstatistik.de table {table} failed: {exc}")
+            raw[table] = []
+    return raw
+
+
 def _ensure_regionalstatistik_env_example() -> None:
     """D-15: document the optional Regionalstatistik.de credential pair in .env.example."""
     example_path = ROOT / ".env.example"
@@ -392,13 +690,46 @@ def _resolve_curated_kpis() -> list[dict]:
 
     reg_username = os.environ.get("REGIONALSTATISTIK_USERNAME", "")
     reg_password = os.environ.get("REGIONALSTATISTIK_PASSWORD", "")
+    regstat_verified: dict[str, bool] = {}
+
+    def _regstat_tables_for(variable_key: str) -> tuple[str, ...] | None:
+        if variable_key in REGIONALSTATISTIK_TABLES:
+            return (REGIONALSTATISTIK_TABLES[variable_key]["table"],)
+        if variable_key in REGIONALSTATISTIK_DERIVED:
+            return tuple(
+                sorted({REGIONALSTATISTIK_TABLES[k]["table"] for k in REGIONALSTATISTIK_DERIVED[variable_key]})
+            )
+        return None
 
     for entry in kpis:
         table_id = entry["genesis_table"]
         if verified.get(table_id, False):
+            entry["source_host"] = "genesis"
             continue
 
         old_table, old_key = table_id, entry["variable_key"]
+
+        # Plan 04-07 gap closure: prefer resolving THIS SAME indicator via Regionalstatistik.de's
+        # dash-coded tables (REGIONALSTATISTIK_TABLES/REGIONALSTATISTIK_DERIVED, live-verified in
+        # Task 1) over swapping to a different same-group GENESIS candidate (D-14) -- it is the
+        # identical real-world quantity, just published on a different platform, not a
+        # substitution, so it takes priority over D-14's group fallback.
+        if reg_username and reg_password:
+            regstat_tables = _regstat_tables_for(old_key)
+            if regstat_tables is not None:
+                for t in regstat_tables:
+                    if t not in regstat_verified:
+                        regstat_verified[t] = _verify_regionalstatistik_table(t)
+                if all(regstat_verified[t] for t in regstat_tables):
+                    print(f"[ok] {old_key} resolved via Regionalstatistik.de ({', '.join(regstat_tables)})")
+                    entry["genesis_table"] = ", ".join(regstat_tables)
+                    entry["source_host"] = "regionalstatistik"
+                    continue
+                print(
+                    f"[WARN] {old_key}'s Regionalstatistik.de table(s) {regstat_tables} did not "
+                    "all verify at Kreis level -- falling back to D-14/D-15"
+                )
+
         group = _TAB_TO_CATALOGUE_GROUP[entry["tab"]]
         candidate = None
         for row in catalogue_rows:
@@ -424,6 +755,7 @@ def _resolve_curated_kpis() -> list[dict]:
             used_keys.add(new_key)
             entry["variable_key"] = new_key
             entry["genesis_table"] = new_table
+            entry["source_host"] = "genesis"
             continue
 
         # D-15: no same-group candidate resolves on GENESIS-Online either -- this is a signal
@@ -435,12 +767,15 @@ def _resolve_curated_kpis() -> list[dict]:
             if _verify_table(old_table, base=REGIONALSTATISTIK_BASE):
                 print(f"[WARN] {old_key} resolved via Regionalstatistik.de for table {old_table} -- fetch path for this host is a follow-up, not yet wired into fetch_all()")
                 entry["genesis_base"] = REGIONALSTATISTIK_BASE
+                entry["source_host"] = "regionalstatistik"
             else:
                 print(f"[WARN] {old_key} did not resolve on Regionalstatistik.de either -- leaving {old_table} as an unresolved open follow-up")
                 entry["genesis_table"] = None
+                entry["source_host"] = None
         else:
             print(f"[WARN] {old_key} -- REGIONALSTATISTIK_USERNAME/REGIONALSTATISTIK_PASSWORD not set in .env; open follow-up, D-15 not completed for this indicator")
             entry["genesis_table"] = None
+            entry["source_host"] = None
 
     return kpis
 
@@ -819,8 +1154,16 @@ def main(force: bool = False) -> None:
     }
     raw = fetch_all(force=force, base_overrides=base_overrides)
 
+    regstat_raw: dict[str, list[dict]] = {}
+    if os.environ.get("REGIONALSTATISTIK_USERNAME") and os.environ.get("REGIONALSTATISTIK_PASSWORD"):
+        print("\n[fetch] Regionalstatistik.de curated-gap tables (Plan 04-07) ...")
+        regstat_raw = fetch_all_regionalstatistik(force=force)
+    else:
+        print("\n[skip] REGIONALSTATISTIK_USERNAME/REGIONALSTATISTIK_PASSWORD not set -- gap-closure fields stay null")
+
     print("\n[build] assembling per-NUTS3 records ...")
     nuts3 = build_nuts3_records(raw)
+    apply_regionalstatistik_indicators(nuts3, regstat_raw)
     (DATA / "destatis_nuts3.json").write_text(
         json.dumps(nuts3, ensure_ascii=False, indent=2, sort_keys=True), encoding="utf-8"
     )
@@ -846,6 +1189,7 @@ def main(force: bool = False) -> None:
                 "tab": entry["tab"],
                 "variable_key": entry["variable_key"],
                 "genesis_table": entry["genesis_table"],
+                "source_host": entry.get("source_host"),
                 "label_en": catalogue_row.get("label_en", ""),
                 "label_de": catalogue_row.get("label_de", ""),
                 "unit_en": catalogue_row.get("unit_en", ""),
