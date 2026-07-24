@@ -181,3 +181,12 @@ and threat register (T-04-01 through T-04-04). No credentials are printed or emb
 - Result code 104 is confirmed (via this plan's own accidental encounter with it) to mean
   "wrong endpoint / no matching selection", matching 04-RESEARCH.md Pitfall 5 exactly — not
   an auth failure.
+
+## Self-Check: PASSED
+
+- FOUND: `data-pipeline/python/fetch_destatis.py`
+- FOUND: `.planning/phases/04-destatis-statistics-integration-source-process-and-app-integ/04-01-SUMMARY.md`
+- FOUND: `data/destatis_raw/12411KJ002.csv`
+- FOUND commit: `522d498` (feat(04-01): fix Destatis GENESIS auth headers, base host, and pre-flight check)
+- FOUND commit: `b7f687b` (fix(04-01): empirically confirm regional-key format and fix cube endpoint/parsing)
+- FOUND commit: `630e696` (docs(04-01): add plan summary)
