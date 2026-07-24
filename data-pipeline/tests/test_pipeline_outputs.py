@@ -1,9 +1,17 @@
 from __future__ import annotations
 
+import json
+
 import geopandas as gpd
 import yaml
 
 from conftest import LL_SLUGS, repo_root
+
+# Must match fetch_destatis.py's ALL_NUTS3 / LL_NUTS3.
+DESTATIS_ALL_NUTS3 = [
+    "DE409", "DE40A", "DE40B", "DE40C", "DE406", "DE408", "DE734", "DE737",
+    "DE721", "DE722", "DE723", "DE724", "DE725", "DE71D",
+]
 
 
 def load_sources() -> dict:
@@ -80,3 +88,49 @@ def test_buek250_geojson_fixtures_exist_and_match_contract() -> None:
         )
         assert gdf.loc[gdf["feature_kind"] != "soil_unit", "feature_kind"].isin(["water_area", "special_area"]).all()
         assert gdf.geometry.notna().all(), f"Fixture has null geometries: {path.name}"
+
+
+def test_destatis_nuts3_fixture_exists_and_matches_codes() -> None:
+    path = repo_root() / "data" / "destatis_nuts3.json"
+    assert path.exists(), f"Missing Destatis NUTS3 fixture: {path}"
+
+    with path.open("r", encoding="utf-8") as handle:
+        data = json.load(handle)
+
+    assert set(data.keys()) == set(DESTATIS_ALL_NUTS3)
+
+
+def test_destatis_ll_fixture_exists_and_matches_slugs() -> None:
+    path = repo_root() / "data" / "destatis_ll.json"
+    assert path.exists(), f"Missing Destatis LL fixture: {path}"
+
+    with path.open("r", encoding="utf-8") as handle:
+        data = json.load(handle)
+
+    assert set(data.keys()) == set(LL_SLUGS)
+
+
+def test_destatis_curated_kpis_manifest_matches_contract() -> None:
+    path = repo_root() / "data" / "destatis_curated_kpis.json"
+    assert path.exists(), f"Missing Destatis curated KPI manifest: {path}"
+
+    with path.open("r", encoding="utf-8") as handle:
+        data = json.load(handle)
+
+    assert len(data) == 17, f"Expected 17 curated KPI entries, got {len(data)}"
+
+    expected_keys = {"tab", "variable_key", "genesis_table", "label_en", "label_de", "unit_en", "unit_de"}
+    for entry in data:
+        assert set(entry.keys()) == expected_keys, entry
+
+    tab_counts: dict[str, int] = {}
+    for entry in data:
+        tab_counts[entry["tab"]] = tab_counts.get(entry["tab"], 0) + 1
+
+    assert tab_counts == {
+        "landuse": 4,
+        "soil": 3,
+        "climate": 2,
+        "landscape": 4,
+        "economic": 4,
+    }

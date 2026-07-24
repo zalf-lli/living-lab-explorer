@@ -1,0 +1,155 @@
+[
+  {
+    "genesis_table": null,
+    "label_de": "Ackerland",
+    "label_en": "Cropland area",
+    "tab": "landuse",
+    "unit_de": "ha",
+    "unit_en": "ha",
+    "variable_key": "land_area_cropland_ha"
+  },
+  {
+    "genesis_table": null,
+    "label_de": "Anzahl Betriebe",
+    "label_en": "Number of farms",
+    "tab": "landuse",
+    "unit_de": "Anzahl",
+    "unit_en": "count",
+    "variable_key": "farms_count"
+  },
+  {
+    "genesis_table": null,
+    "label_de": "Durchschnittliche Betriebsgroesse",
+    "label_en": "Average farm size",
+    "tab": "landuse",
+    "unit_de": "ha",
+    "unit_en": "ha",
+    "variable_key": "farm_avg_size_ha"
+  },
+  {
+    "genesis_table": null,
+    "label_de": "Anteil oekologischer Landbau",
+    "label_en": "Share of organic farming",
+    "tab": "landuse",
+    "unit_de": "%",
+    "unit_en": "%",
+    "variable_key": "organic_pct"
+  },
+  {
+    "genesis_table": null,
+    "label_de": "Stickstoffueberschuss",
+    "label_en": "Nitrogen surplus",
+    "tab": "soil",
+    "unit_de": "kg N/ha LF",
+    "unit_en": "kg N/ha UAA",
+    "variable_key": "n_surplus_kg_ha"
+  },
+  {
+    "genesis_table": null,
+    "label_de": "Phosphorueberschuss",
+    "label_en": "Phosphorus surplus",
+    "tab": "soil",
+    "unit_de": "kg P/ha LF",
+    "unit_en": "kg P/ha UAA",
+    "variable_key": "p_surplus_kg_ha"
+  },
+  {
+    "genesis_table": null,
+    "label_de": "Nitrat im Grundwasser",
+    "label_en": "Nitrate in groundwater",
+    "tab": "soil",
+    "unit_de": "mg NO3/l",
+    "unit_en": "mg NO3/l",
+    "variable_key": "groundwater_nitrate_mg_l"
+  },
+  {
+    "genesis_table": null,
+    "label_de": "CH4-Emissionen Landwirtschaft",
+    "label_en": "Agricultural CH4 emissions",
+    "tab": "climate",
+    "unit_de": "kt CO2aeq",
+    "unit_en": "kt CO2eq",
+    "variable_key": "agr_ch4_kt"
+  },
+  {
+    "genesis_table": null,
+    "label_de": "N2O-Emissionen Landwirtschaft",
+    "label_en": "Agricultural N2O emissions",
+    "tab": "climate",
+    "unit_de": "kt CO2aeq",
+    "unit_en": "kt CO2eq",
+    "variable_key": "agr_n2o_kt"
+  },
+  {
+    "genesis_table": null,
+    "label_de": "Waldflaeche",
+    "label_en": "Forest area",
+    "tab": "landscape",
+    "unit_de": "ha",
+    "unit_en": "ha",
+    "variable_key": "forest_area_ha"
+  },
+  {
+    "genesis_table": null,
+    "label_de": "Natura-2000-Flaeche",
+    "label_en": "Natura 2000 area",
+    "tab": "landscape",
+    "unit_de": "ha",
+    "unit_en": "ha",
+    "variable_key": "natura2000_ha"
+  },
+  {
+    "genesis_table": null,
+    "label_de": "Naturschutzgebietsflaeche",
+    "label_en": "Nature reserves area",
+    "tab": "landscape",
+    "unit_de": "ha",
+    "unit_en": "ha",
+    "variable_key": "nature_reserves_ha"
+  },
+  {
+    "genesis_table": null,
+    "label_de": "Anteil versiegelter Flaeche",
+    "label_en": "Share of sealed surface",
+    "tab": "landscape",
+    "unit_de": "%",
+    "unit_en": "%",
+    "variable_key": "sealed_surface_pct"
+  },
+  {
+    "genesis_table": "12411KJ002",
+    "label_de": "Bevoelkerung insgesamt",
+    "label_en": "Total population",
+    "tab": "economic",
+    "unit_de": "Personen",
+    "unit_en": "persons",
+    "variable_key": "population_total"
+  },
+  {
+    "genesis_table": "12411KJ002",
+    "label_de": "Bevoelkerungsdichte",
+    "label_en": "Population density",
+    "tab": "economic",
+    "unit_de": "Einw./km2",
+    "unit_en": "persons/km2",
+    "variable_key": "population_density_per_km2"
+  },
+  {
+    "genesis_table": null,
+    "label_de": "Arbeitslosenquote",
+    "label_en": "Unemployment rate",
+    "tab": "economic",
+    "unit_de": "%",
+    "unit_en": "%",
+    "variable_key": "unemployment_rate_pct"
+  },
+  {
+    "genesis_table": null,
+    "label_de": "Verfuegbares Einkommen je Einwohner",
+    "label_en": "Disposable household income per capita",
+    "tab": "economic",
+    "unit_de": "EUR",
+    "unit_en": "EUR",
+    "variable_key": "household_income_eur"
+  }
+]
