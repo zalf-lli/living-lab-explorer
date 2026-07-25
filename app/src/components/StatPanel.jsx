@@ -3,7 +3,7 @@ import { C } from '../theme.js'
 
 // Per-tab KPI tile grid: shows StatPanel's Destatis-sourced fields for the active tab,
 // with locale-aware number formatting, an empty-state em-dash for unverified fields, a
-// pending-review footnote, and a GENESIS source-attribution line. Supersedes KPIStrip.
+// pending-review footnote, and a GENESIS source-attribution line.
 export function StatPanel({ tab, ll }) {
   const { t, i18n } = useTranslation()
   const fields = ll.kpiByTab?.[tab] ?? []

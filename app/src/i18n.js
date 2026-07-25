@@ -40,10 +40,6 @@ const resources = {
         listTitle: 'Living Labs',
       },
       kpi: {
-        totalArea: 'Total area',
-        activeFarms: 'Active farms',
-        avgTemp: 'Avg. temp.',
-        dominantSoil: 'Dominant soil',
         land_area_cropland_ha: 'Cropland area',
         farms_count: 'Number of farms',
         farm_avg_size_ha: 'Average farm size',
@@ -229,10 +225,6 @@ const resources = {
         listTitle: 'Reallabore',
       },
       kpi: {
-        totalArea: 'Gesamtflaeche',
-        activeFarms: 'Aktive Betriebe',
-        avgTemp: 'Durchschn. Temp.',
-        dominantSoil: 'Dominanter Boden',
         land_area_cropland_ha: 'Ackerland',
         farms_count: 'Anzahl Betriebe',
         farm_avg_size_ha: 'Durchschnittliche Betriebsgroesse',
