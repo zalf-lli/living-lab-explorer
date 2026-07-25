@@ -254,9 +254,18 @@ not `FLC017` as an initial hypothesis assumed**
     Duengemittel/Duengung/Naehrstoff keyword searches -- nutrient-balance statistics appear to
     only be published at Bund/Land level by Destatis's public infrastructure.
   - `groundwater_nitrate_mg_l`: `32221-01-03-4`/`32221-02-01-4`/`32221-03-01-4`
-    ("Wassergewinnung und -bezug"/"Wassereinsatz und ungenutztes Wasser"/"Abwasserverbleib") are
-    Kreis-level but measure water abstraction/usage volumes, not nitrate concentration -- a
-    different real-world quantity, rejected.
+    ("Wassergewinnung und -bezug"/"Wassereinsatz und ungenutztes Wasser"/"Abwasserverbleib") were
+    identified here by catalogue-title inference only and never fetched. Quick-task `260725-e1x`
+    attempted a live-verification follow-up but was fully credential-blocked in that execution
+    environment (no `REGIONALSTATISTIK_USERNAME`/`PASSWORD` present) -- every catalogue/metadata/
+    data call failed at the live API's auth gate before any table content could be inspected. The
+    rejection therefore still rests on this plan's original catalogue-title inference (water
+    abstraction/usage/wastewater-disposal volumes, not nitrate concentration -- a different
+    real-world quantity), now explicitly recorded as unconfirmed-by-live-data rather than silently
+    assumed confirmed. See
+    `.planning/quick/260725-e1x-investigate-the-near-miss-regionalstatis/260725-e1x-DECISION.md`
+    (verdict: REJECT-ALL-THREE) and its `260725-e1x-PROBE.json`/`260725-e1x-FINDINGS.md` for the
+    full attempted-verification evidence trail.
   - `agr_ch4_kt`/`agr_n2o_kt`: `86431-Z-03` ("Treibhausgasemissionen der Landwirtschaft nach Art
     der Gase") exists and is the right quantity, but its `catalogue/tables` listing explicitly
     states "regionale Tiefe: Bundeslaender" (Land level, not Kreis) -- confirms the same

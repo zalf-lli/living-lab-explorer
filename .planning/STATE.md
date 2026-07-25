@@ -57,7 +57,13 @@ agr_n2o_kt (GHG emissions are Länder-level only), natura2000_ha, nature_reserve
 (nature-conservation area stats are non-Destatis products). Nearest-miss candidates are
 documented in 04-07-SUMMARY.md for human review. Filling these would require non-Destatis
 sources (e.g. UBA, BfN, LAWA) — out of Phase 4's Destatis scope; candidates for a future phase
-or the Phase 3.1 source-catalogue process.
+or the Phase 3.1 source-catalogue process. **Quick-task 260725-e1x (2026-07-25) attempted a
+live-verification follow-up on the three near-miss `groundwater_nitrate_mg_l` water tables
+(`32221-01-03-4`/`32221-02-01-4`/`32221-03-01-4`) but was fully credential-blocked in that
+execution environment; verdict REJECT-ALL-THREE recorded in
+`.planning/quick/260725-e1x-investigate-the-near-miss-regionalstatis/260725-e1x-DECISION.md`,
+still resting on 04-07's catalogue-title inference (volumes, not nitrate concentration), now
+explicitly flagged as unconfirmed-by-live-data. Still 7 null slots — no change to the count.**
 
 **Next step:** run `/gsd:execute-phase 4` to execute Waves 3-5 (04-03 kpiByTab wiring, 04-04
 tab/i18n restructure, 04-05 StatPanel UI — 04-05 has a human-verify checkpoint). The UI will show
