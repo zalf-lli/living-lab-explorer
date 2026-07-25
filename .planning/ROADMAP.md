@@ -10,7 +10,7 @@
 | 2.2 | Soil Semantics & Translation (INSERTED) | Replace the raw German-only BUEK lookup fields with a clean bilingual soil contract derived from the SQLite database structure | TBD | yes |
 | 3 | Chart Data Contract | Define and plumb the per-source chart summary interface so future chart implementations have a clear, stable target | CHARTS-01, CHARTS-02 | no |
 | 3.1 | Data Source Research & User Validation (INSERTED) | Research candidate geodata and statistical portals with AI-assisted summaries, review them with end-users, and turn the selected data opportunities into an integration-ready backlog | TBD | no |
-| 4 | Destatis Statistics Integration | 5/7 | In Progress|  |
+| 4 | Destatis Statistics Integration | 6/7 | In Progress|  |
 
 ---
 
@@ -187,7 +187,7 @@
 **Goal:** Source socioeconomic and agricultural statistics for the 5 Living Lab regions from the Destatis GENESIS-Online RESTful API, process/aggregate them per NUTS3 and per LL, and integrate the selected indicators into the app.
 **Requirements**: TBD (no ROADMAP REQ-IDs assigned; plans reference CONTEXT.md decisions D-01..D-15 and ROADMAP scope items P4-SCOPE-1..3 instead)
 **Depends on:** Phase 3 (Phase 3.1 still open, but Destatis inclusion is confirmed regardless of its outcome)
-**Plans:** 5/7 plans executed
+**Plans:** 6/7 plans executed
 
 **Context (resumes paused work):**
 - Prior work exists and was paused: `data-pipeline/python/fetch_destatis.py` (fetch + aggregation + expert-review CSV export), `data/destatis_variables.csv` (per-indicator values for expert selection), `data/destatis_variables_catalogue.csv` (candidate variable catalogue with EN/DE labels and GENESIS table IDs)
