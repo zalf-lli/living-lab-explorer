@@ -32,7 +32,7 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 | 2.2 | Soil Semantics & Translation | Complete (2026-04-30) |
 | 3 | Chart Data Contract | Ready to plan |
 | 3.1 | Data Source Research & User Validation | Inserted - ready to plan |
-| 4 | Destatis Statistics Integration | Waves 1-2+6-7 complete; 10/17 KPIs real; Waves 3-5 ready (2026-07-24) — see Active Work |
+| 4 | Destatis Statistics Integration | Waves 1-2+6-7 complete; 11/17 KPIs real; Waves 3-5 ready (2026-07-25) — see Active Work |
 
 ## Active Work
 
@@ -44,30 +44,36 @@ ll_metadata.json, tab/i18n restructure, StatPanel UI component) are now ready to
 The 04-06 "0/15" result was a code-format mismatch, not a data gap — Regionalstatistik.de
 publishes Kreis-level statistics as dash-coded tables (`data/tablefile`, format=ffcsv), not
 GENESIS-Online-style cube codes. Searching with the correct format resolved 9 more slots.
-**10 of 17 curated KPIs now carry real, live-fetched Kreis-level values** (all committed):
+**11 of 17 curated KPIs now carry real, live-fetched Kreis-level values** (all committed):
 - landuse 4/4: land_area_cropland_ha, farms_count, farm_avg_size_ha, organic_pct
+- soil 1/3: groundwater_abstraction_1000m3 (D-14 repurpose of the null groundwater_nitrate_mg_l
+  slot, quick-task 260725-e1x, 2026-07-25 — see below)
 - landscape 2/4: forest_area_ha, sealed_surface_pct
 - economic 4/4: population_total, unemployment_rate_pct, household_income_eur, gdp_per_capita_eur
   (gdp restored to its original D-09 slot, replacing the 04-02 population-density substitute)
 
-**7 slots remain genuinely null** — confirmed unavailable at Kreis level on BOTH Destatis
-platforms after exhaustive prefix + keyword search: n_surplus_kg_ha, p_surplus_kg_ha,
-groundwater_nitrate_mg_l (nutrient/nitrate data are non-Destatis products), agr_ch4_kt,
+**6 slots remain genuinely null** — confirmed unavailable at Kreis level on BOTH Destatis
+platforms after exhaustive prefix + keyword search: n_surplus_kg_ha, p_surplus_kg_ha, agr_ch4_kt,
 agr_n2o_kt (GHG emissions are Länder-level only), natura2000_ha, nature_reserves_ha
 (nature-conservation area stats are non-Destatis products). Nearest-miss candidates are
 documented in 04-07-SUMMARY.md for human review. Filling these would require non-Destatis
 sources (e.g. UBA, BfN, LAWA) — out of Phase 4's Destatis scope; candidates for a future phase
-or the Phase 3.1 source-catalogue process. **Quick-task 260725-e1x (2026-07-25) attempted a
-live-verification follow-up on the three near-miss `groundwater_nitrate_mg_l` water tables
-(`32221-01-03-4`/`32221-02-01-4`/`32221-03-01-4`) but was fully credential-blocked in that
-execution environment; verdict REJECT-ALL-THREE recorded in
-`.planning/quick/260725-e1x-investigate-the-near-miss-regionalstatis/260725-e1x-DECISION.md`,
-still resting on 04-07's catalogue-title inference (volumes, not nitrate concentration), now
-explicitly flagged as unconfirmed-by-live-data. Still 7 null slots — no change to the count.**
+or the Phase 3.1 source-catalogue process. **Quick-task 260725-e1x (2026-07-25) live-verified the
+three near-miss water tables (`32221-01-03-4`/`32221-02-01-4`/`32221-03-01-4`) that 04-07 had
+only identified by catalogue title. All three confirmed as pure volume statistics (`1000 cbm`) --
+`groundwater_nitrate_mg_l` (a concentration, `mg NO3/l`) can never be filled from any of them,
+now a live-verified fact. However, `32221-01-03-4` carries an explicit live-verified
+groundwater-specific abstraction-volume breakdown for all 14 project Kreise, so the Soil-tab slot
+was repurposed (D-14 same-catalogue-group substitution) from `groundwater_nitrate_mg_l` to
+`groundwater_abstraction_1000m3`, which now resolves via Regionalstatistik.de. Verdict
+`REPURPOSE:groundwater_abstraction_1000m3` recorded in
+`.planning/quick/260725-e1x-investigate-the-near-miss-regionalstatis/260725-e1x-DECISION.md`.
+Null-slot count decreased from 7 to 6; the 17-entry manifest and locked per-tab counts
+(`{landuse:4, soil:3, climate:2, landscape:4, economic:4}`) are unchanged.**
 
 **Next step:** run `/gsd:execute-phase 4` to execute Waves 3-5 (04-03 kpiByTab wiring, 04-04
 tab/i18n restructure, 04-05 StatPanel UI — 04-05 has a human-verify checkpoint). The UI will show
-real values for 10/17 KPIs; the 7 null slots need a UI decision (hide vs. "data not available"
+real values for 11/17 KPIs; the 6 null slots need a UI decision (hide vs. "data not available"
 state) which the UI-SPEC/plans already contemplate.
 
 Phase 03.1 Wave 2 completed on 2026-06-02. The source review catalogue is now populated with citation-backed fact columns, advisory `(AI)` assessment columns, and an updated `source_catalogue` xlsx tab ready for human review.

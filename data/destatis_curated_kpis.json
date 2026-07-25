@@ -60,14 +60,14 @@
     "variable_key": "p_surplus_kg_ha"
   },
   {
-    "genesis_table": null,
-    "label_de": "Nitrat im Grundwasser",
-    "label_en": "Nitrate in groundwater",
-    "source_host": null,
+    "genesis_table": "32221-01-03-4",
+    "label_de": "Grundwasserentnahme (nichtoeffentliche Versorgung)",
+    "label_en": "Groundwater abstraction (non-public supply)",
+    "source_host": "regionalstatistik",
     "tab": "soil",
-    "unit_de": "mg NO3/l",
-    "unit_en": "mg NO3/l",
-    "variable_key": "groundwater_nitrate_mg_l"
+    "unit_de": "1000 cbm",
+    "unit_en": "1000 m3",
+    "variable_key": "groundwater_abstraction_1000m3"
   },
   {
     "genesis_table": null,

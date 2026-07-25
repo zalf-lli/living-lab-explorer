@@ -287,7 +287,7 @@ CURATED_KPIS: list[dict] = [
     {"tab": "landuse",   "variable_key": "organic_pct",               "genesis_table": "41120BJ002"},
     {"tab": "soil",      "variable_key": "n_surplus_kg_ha",           "genesis_table": "41411BJ001"},
     {"tab": "soil",      "variable_key": "p_surplus_kg_ha",           "genesis_table": "41411BJ002"},
-    {"tab": "soil",      "variable_key": "groundwater_nitrate_mg_l",  "genesis_table": "32221BJ001"},
+    {"tab": "soil",      "variable_key": "groundwater_abstraction_1000m3", "genesis_table": "32221-01-03-4"},
     {"tab": "climate",   "variable_key": "agr_ch4_kt",                "genesis_table": "32411BJ001"},
     {"tab": "climate",   "variable_key": "agr_n2o_kt",                "genesis_table": "32411BJ001"},
     {"tab": "landscape", "variable_key": "forest_area_ha",            "genesis_table": "33111BJ003"},
@@ -564,6 +564,19 @@ REGIONALSTATISTIK_TABLES: dict[str, dict] = {
         "attr_code": "",
         "unit_factor": 1.0,
     },
+    # Quick-task 260725-e1x, Task 2: live-verified REPURPOSE of the perpetually-null
+    # groundwater_nitrate_mg_l Soil-tab slot (D-14 same-catalogue-group substitution -- a
+    # concentration can never be filled by a volume, so the ORIGINAL variable_key stays
+    # unfillable forever; this is a genuinely different Environment-group indicator instead).
+    # 32221-01-03-4's "Wasserart" (water-type) classifying dimension carries an explicit
+    # Grundwasser (groundwater) category (code WASSERGRUND) live-verified for all 14 project
+    # Kreise across 5 survey years (2010-2022) -- see 260725-e1x-PROBE.json/DECISION.md.
+    "groundwater_abstraction_1000m3": {
+        "table": "32221-01-03-4",
+        "value_variable_code": "WAS001",
+        "attr_code": "WASSERGRUND",
+        "unit_factor": 1.0,
+    },
 }
 
 # Curated fields that are computed from more than one REGIONALSTATISTIK_TABLES read rather than
@@ -605,6 +618,7 @@ def apply_regionalstatistik_indicators(
         "unemployment_rate_pct",
         "household_income_eur",
         "gdp_per_capita_eur",
+        "groundwater_abstraction_1000m3",
     }
 
     for code in ALL_NUTS3:
@@ -952,6 +966,7 @@ _SUM = {
     "forest_area_ha", "forest_public_ha", "forest_private_ha",
     "natura2000_ha", "nature_reserves_ha", "landscape_protection_ha",
     "agr_ch4_kt", "agr_n2o_kt",
+    "groundwater_abstraction_1000m3",
 }
 _MEAN = {
     "gdp_per_capita_eur", "household_income_eur",
@@ -1059,6 +1074,7 @@ FIELD_LABELS: dict[str, str] = {
     "agr_ch4_kt":             "Agricultural CH4 emissions (kt CO2eq)",
     "agr_n2o_kt":             "Agricultural N2O emissions (kt CO2eq)",
     "groundwater_nitrate_mg_l":           "Groundwater nitrate concentration (mg/l)",
+    "groundwater_abstraction_1000m3":     "Groundwater abstraction, non-public supply (1000 m3)",
     "land_price_eur_ha":            "Agricultural land price (EUR/ha)",
     "farm_rent_eur_ha":             "Average farm rent (EUR/ha)",
     "sealed_surface_pct":           "Sealed/impervious surface (% of total area)",
@@ -1072,7 +1088,7 @@ FIELD_THEME: dict[str, str] = {
     **{k: "Crops"                for k in ["crop_cereals_ha","crop_oilseed_ha","crop_legumes_ha","crop_root_ha","crop_fodder_grass_ha","crop_vegetables_ha"]},
     **{k: "Livestock"            for k in ["livestock_gve_total","livestock_gve_per_ha","livestock_cattle_head","livestock_dairy_cows","livestock_pigs_head","livestock_poultry_head"]},
     **{k: "Inputs & pressure"    for k in ["n_surplus_kg_ha","p_surplus_kg_ha","pesticide_kg_ha","irrigation_area_ha","irrigation_water_m3"]},
-    **{k: "Nature & environment" for k in ["forest_area_ha","forest_public_ha","forest_private_ha","natura2000_ha","nature_reserves_ha","landscape_protection_ha","agr_ch4_kt","agr_n2o_kt","groundwater_nitrate_mg_l"]},
+    **{k: "Nature & environment" for k in ["forest_area_ha","forest_public_ha","forest_private_ha","natura2000_ha","nature_reserves_ha","landscape_protection_ha","agr_ch4_kt","agr_n2o_kt","groundwater_nitrate_mg_l","groundwater_abstraction_1000m3"]},
     **{k: "Land market"          for k in ["land_price_eur_ha","farm_rent_eur_ha"]},
 }
 

@@ -243,29 +243,33 @@ not `FLC017` as an initial hypothesis assumed**
 
 ## Known Stubs
 
-- `data/destatis_curated_kpis.json`: 7 of 17 entries still have `genesis_table: null` /
-  `source_host: null` (`n_surplus_kg_ha`, `p_surplus_kg_ha`, `groundwater_nitrate_mg_l`,
-  `agr_ch4_kt`, `agr_n2o_kt`, `natura2000_ha`, `nature_reserves_ha`; see nearest-miss detail
-  below). This is a live-verified empirical fact (exhaustive catalogue +
-  keyword search across both GENESIS-Online and Regionalstatistik.de), not an artifact of a
-  blocked run. Nearest-miss candidates, all rejected per the plan's same-real-world-quantity
-  rule:
+- `data/destatis_curated_kpis.json`: 6 of 17 entries still have `genesis_table: null` /
+  `source_host: null` (`n_surplus_kg_ha`, `p_surplus_kg_ha`, `agr_ch4_kt`, `agr_n2o_kt`,
+  `natura2000_ha`, `nature_reserves_ha`; see nearest-miss detail below). This is a live-verified
+  empirical fact (exhaustive catalogue + keyword search across both GENESIS-Online and
+  Regionalstatistik.de), not an artifact of a blocked run. Nearest-miss candidates, all rejected
+  per the plan's same-real-world-quantity rule:
   - `n_surplus_kg_ha`/`p_surplus_kg_ha`: no table found under any of Stickstoff/Naehrstoffbilanz/
     Duengemittel/Duengung/Naehrstoff keyword searches -- nutrient-balance statistics appear to
     only be published at Bund/Land level by Destatis's public infrastructure.
-  - `groundwater_nitrate_mg_l`: `32221-01-03-4`/`32221-02-01-4`/`32221-03-01-4`
-    ("Wassergewinnung und -bezug"/"Wassereinsatz und ungenutztes Wasser"/"Abwasserverbleib") were
-    identified here by catalogue-title inference only and never fetched. Quick-task `260725-e1x`
-    attempted a live-verification follow-up but was fully credential-blocked in that execution
-    environment (no `REGIONALSTATISTIK_USERNAME`/`PASSWORD` present) -- every catalogue/metadata/
-    data call failed at the live API's auth gate before any table content could be inspected. The
-    rejection therefore still rests on this plan's original catalogue-title inference (water
-    abstraction/usage/wastewater-disposal volumes, not nitrate concentration -- a different
-    real-world quantity), now explicitly recorded as unconfirmed-by-live-data rather than silently
-    assumed confirmed. See
+  - **UPDATE (quick-task `260725-e1x`):** the Soil tab's third slot, originally
+    `groundwater_nitrate_mg_l`, was live-verified against the three near-miss `32221-01-03-4`/
+    `32221-02-01-4`/`32221-03-01-4` ("Wassergewinnung und -bezug"/"Wassereinsatz und ungenutztes
+    Wasser"/"Abwasserverbleib") tables this plan had only identified by catalogue title. All
+    three live-confirmed as pure volume statistics (`1000 cbm`) -- `groundwater_nitrate_mg_l`
+    (a concentration, `mg NO3/l`) can never be filled from them, confirming this plan's original
+    catalogue-title-based rejection as live-verified fact. However, `32221-01-03-4` was found to
+    carry an explicit Grundwasser (groundwater) abstraction-volume breakdown, live-verified for
+    all 14 project Kreise across 5 survey years -- a genuinely different but Living-Lab-relevant
+    Environment-group indicator. Per D-14's same-catalogue-group substitution mechanism, the Soil
+    slot's `variable_key` was changed from `groundwater_nitrate_mg_l` to
+    `groundwater_abstraction_1000m3`, which now resolves via Regionalstatistik.de with real
+    values for all 14 Kreise. `groundwater_nitrate_mg_l` itself remains permanently unfillable
+    from any Destatis-family source. See
     `.planning/quick/260725-e1x-investigate-the-near-miss-regionalstatis/260725-e1x-DECISION.md`
-    (verdict: REJECT-ALL-THREE) and its `260725-e1x-PROBE.json`/`260725-e1x-FINDINGS.md` for the
-    full attempted-verification evidence trail.
+    (verdict: `REPURPOSE:groundwater_abstraction_1000m3`) and its
+    `260725-e1x-PROBE.json`/`260725-e1x-FINDINGS.md` for the full live-verification evidence
+    trail and 5-gate rubric.
   - `agr_ch4_kt`/`agr_n2o_kt`: `86431-Z-03` ("Treibhausgasemissionen der Landwirtschaft nach Art
     der Gase") exists and is the right quantity, but its `catalogue/tables` listing explicitly
     states "regionale Tiefe: Bundeslaender" (Land level, not Kreis) -- confirms the same

@@ -47,6 +47,7 @@ Environment,landscape_protection_ha,32141BJ001,Landscape protection area,Landsch
 Environment,agr_ch4_kt,32411BJ001,Agricultural CH4 emissions,CH4-Emissionen Landwirtschaft,kt CO2eq,kt CO2aeq,Methane from livestock and manure management,,,
 Environment,agr_n2o_kt,32411BJ001,Agricultural N2O emissions,N2O-Emissionen Landwirtschaft,kt CO2eq,kt CO2aeq,Nitrous oxide from soils and fertiliser application,,,
 Environment,groundwater_nitrate_mg_l,32221BJ001,Nitrate in groundwater,Nitrat im Grundwasser,mg NO3/l,mg NO3/l,Average nitrate concentration at monitoring stations,,,
+Environment,groundwater_abstraction_1000m3,32221-01-03-4,Groundwater abstraction (non-public supply),Grundwasserentnahme (nichtoeffentliche Versorgung),1000 m3,1000 cbm,"Volume of groundwater abstracted by non-public (self-supplying industrial/agricultural/private) users; live-verified 260725-e1x repurpose of the null groundwater_nitrate_mg_l slot per D-14",,,
 Environment,settlement_area_ha,33111BJ004,Settlement and transport area,Siedlungs- und Verkehrsflaeche,ha,ha,Built-up land including roads and railways,,,
 Environment,sealed_surface_pct,33111BJ004,Share of sealed surface,Anteil versiegelter Flaeche,%,%,Sealed/impervious surface as % of total area,,,
 Social,population_total,12411KJ002,Total population,Bevoelkerung insgesamt,persons,Personen,Resident population at year-end,,,
