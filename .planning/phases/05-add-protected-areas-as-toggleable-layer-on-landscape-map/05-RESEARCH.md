@@ -119,7 +119,7 @@ auto-creates the tab), and render with `renderer={L.canvas()}`.
 | Asset copy to `app/public/` | `sync.py` (`sync_vector_geojson`) | — | Already globs `output.geojson_pattern` for every `kind: vector` layer — no change needed |
 | Source/licence attribution metadata | `sync.py` (`generate_layer_sources`) → `layer_sources.js` | `MapInfoControl` | Codegen path already exists; keyed by `app_layer` |
 | Lazy fetch + cache | Browser (`useGeoJSON` hook) | — | Module-level `cache`/`inflight` Maps already implement D-07 |
-| Layer toggle + tab UI | Browser (`LayerTabs` ← `LAYERS`) | `LLDetail` | `LayerTabs` maps over `LAYERS`; a new entry is sufficient |
+| Layer toggle UI | Browser (`ProtectedAreasToggle` in `LLMap`) | `layers.js` `OVERLAYS` | **Corrected during planning 2026-07-25:** research originally proposed appending to `LAYERS`, but `LayerTabs` is *exclusive* (`active === l.id`), so a protected-areas tab hides land-use and makes D-06 ("renders on top of land-use") unimplementable. The layer is registered in a separate `OVERLAYS` array and toggled by an independent in-map control; `LayerTabs.jsx` and `LLDetail.jsx` stay untouched. See 05-02-PLAN.md Task 1. |
 | Polygon rendering + tooltips + legend | Browser (`LLMap`, `MapLegend`) | — | Leaflet Canvas renderer required at this vertex count |
 
 ---
@@ -592,8 +592,10 @@ the `build.script` alongside the id.
 
 ### 5.2 App-side changes
 
-**`app/src/data/layers.js`** — add one entry (this alone creates the tab, because `LayerTabs`
-maps over `LAYERS`):
+**`app/src/data/layers.js`** — add one entry. **Corrected during planning:** the entry goes into a new
+`OVERLAYS` array, *not* `LAYERS`, so it never becomes an exclusive tab (see the Architectural
+Responsibility Map above and 05-02-PLAN.md Task 1). `LAYER_INDEX` becomes the union of both arrays so
+`resolveLayerAsset`, `MapLegend` and `MapInfoControl` keep resolving it:
 ```js
 {
   id: 'protected-areas',
@@ -999,40 +1001,57 @@ If the planner introduces a new package (e.g. `owslib` for WFS — **not recomme
 
 ---
 
-## Open Questions
+## Open Questions (RESOLVED)
 
-1. **Does D-08 forbid coordinate rounding, or only vertex removal?**
+*All five questions were answered during Phase 5 planning on 2026-07-25. Nothing in this section
+remains open; each answer is carried into a specific plan task.*
+
+1. **Does D-08 forbid coordinate rounding, or only vertex removal?** **(RESOLVED: rounding is
+   coordinate adjustment, not vertex removal, and is compatible with D-08 per the user.)**
    - What we know: `set_precision(1e-6)` keeps all 1,248 features and every vertex; it only truncates
      ordinates to ~11 cm. It cuts committed size from 80.8 MB to 47.2 MB. `build_vector.py` already
-     applies a 100× coarser `set_precision(0.0001)` to BUEK250.
-   - What's unclear: whether the user considers this "downsampling".
-   - Recommendation: **ask before planning.** Default to `1e-6` if no answer; it is visually lossless
-     at every zoom level Leaflet supports.
+     applies a 100x coarser `set_precision(0.0001)` to BUEK250.
+   - Resolution: rounding does not violate D-08, because D-08 forbids *simplification and
+     downsampling* (removing geometry), and rounding removes neither vertices nor features.
+   - Because the committed size varies by 39 MB across the admissible options, the *choice of
+     precision* is nevertheless a developer decision rather than a planner one. It is presented as a
+     blocking `checkpoint:decision` at the START of 05-01-PLAN.md (Task 0), before any fetch runs, so
+     the outcome is never baked into git history unreviewed. The chosen value is recorded in
+     `sources.yaml` as `wfs.coordinate_precision` (`null` = raw).
 
 2. **Should the six other BfN designations be structured for, even if not shipped?**
-   - What we know: `Nationalparke`, `Naturparke`, `Biosphaerenreservate`, `Nationale_Naturmonumente`,
-     `Landschaftsschutzgebiete` (+ BR zoning) live on the same endpoint with the same query form,
-     and `Landschaftsschutzgebiete` in particular would add large area coverage.
-   - What's unclear: D-01/D-02 name only SCI, SPA, NSG.
-   - Recommendation: build `DESIGNATIONS` as a dict driven from `sources.yaml.wfs.typenames` so
-     adding one later is a YAML edit, but ship only the three in scope.
+   **(RESOLVED: yes — structured for, not shipped.)**
+   - `Nationalparke`, `Naturparke`, `Biosphaerenreservate`, `Nationale_Naturmonumente` and
+     `Landschaftsschutzgebiete` live on the same endpoint with the same query form.
+   - Resolution: only the three designations named by D-01/D-02 ship. `DESIGNATIONS` is keyed off
+     `sources.yaml` `wfs.typenames`, so adding a fourth later is a YAML edit plus one dict entry.
+     Implemented in 05-01-PLAN.md Task 2.
 
-3. **Where does the protected-areas tab go in the tab order?**
-   - What we know: `LayerTabs` renders `LAYERS` in array order — currently
-     landuse, climate, soil, economic. Appending puts it last, after two `available: false` placeholders.
-   - What's unclear: intended position. UI-SPEC §2.5 says "alongside soil/climate/economic".
-   - Recommendation: insert after `soil` (both are vector overlays); flag as a Claude's-discretion call.
+3. **Where does the protected-areas tab go in the tab order?** **(RESOLVED: there is no tab.)**
+   - Resolution: superseded. `LayerTabs` is exclusive, so a protected-areas tab would hide land-use
+     and make D-06 unimplementable. The layer ships as an independent overlay registered in a new
+     `OVERLAYS` array with an in-map toggle; `LayerTabs.jsx` is untouched. Confirmed with the
+     developer via the `checkpoint:decision` in 05-02-PLAN.md Task 1. See the Architectural
+     Responsibility Map above.
 
 4. **Is the pipeline expected to be re-runnable in CI, or developer-machine only?**
-   - What we know: D-04 makes the build network-dependent; BfN has a flaky WAF.
-   - What's unclear: whether a CI job will ever run `fetch_protected_areas.py`.
-   - Recommendation: keep outputs committed (as BUEK250 is) so the app builds offline; the fetch
-     script is a manual refresh tool, matching `fetch_nuts.py`'s "run once after editing" model.
+   **(RESOLVED: developer machine only; outputs stay committed.)**
+   - Resolution: `fetch_protected_areas.py` is a manual refresh tool matching the `fetch_nuts.py`
+     "run once after editing" model. Outputs are committed (as BUEK250 is) so the app builds offline
+     and CI never depends on BfN availability. No CI job invokes it.
 
-5. **Should `data/_cache/` hold the raw GML between runs?**
-   - `data/_cache/` is already gitignored and used by `fetch_nuts.py`. Caching ~70 MB of GML would
-     make re-runs instant during development.
-   - Recommendation: yes, with a `--no-cache` flag. Low cost, high dev ergonomics.
+5. **Should `data/_cache/` hold the raw GML between runs?** **(RESOLVED: yes, with a `--refresh`
+   bypass flag.)**
+   - Resolution: raw GML is cached under `data/_cache/protected-areas/` (already gitignored) and
+     re-used unless `--refresh` is passed. Implemented in 05-01-PLAN.md Task 2. The flag is named
+     `--refresh` rather than the originally suggested `--no-cache` so the default path is the cheap
+     one and refreshing is the explicit act.
+
+**Related assumption-log entries also resolved:** A1 (see question 1), A2 (`L.canvas()` accepted as
+a rasterisation-backend change that leaves geometry untouched, so D-08 holds), A4 (the 2019 Natura
+2000 vintage is acceptable for a contextual overlay, and the vintage plus the BfN "not suitable for
+planning purposes" constraint are surfaced in the legend note), A8 (no `PROTECTED-0x` IDs are
+authored; D-01..D-08 are the traceability anchor, recorded in the ROADMAP Phase 5 entry).
 
 ---
 

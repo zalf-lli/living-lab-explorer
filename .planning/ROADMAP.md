@@ -238,8 +238,8 @@
 **Plans:** 4 plans
 
 Plans:
-- [ ] 05-01-PLAN.md - BfN WFS fetch script, sources.yaml registration, five per-LL GeoJSON outputs (wave 1)
-- [ ] 05-02-PLAN.md - Overlay registration in layers.js, bilingual i18n keys, UI-SPEC corrections (wave 1)
+- [ ] 05-01-PLAN.md - BfN WFS fetch script, sources.yaml registration, five per-LL GeoJSON outputs (wave 1, blocking decision: coordinate precision)
+- [ ] 05-02-PLAN.md - Overlay registration in layers.js, bilingual i18n keys, UI-SPEC corrections (wave 1, blocking decision: overlay vs tab)
 - [ ] 05-03-PLAN.md - LLMap overlay toggle, lazy fetch, Canvas rendering, tooltips, legend, attribution (wave 2)
 - [ ] 05-04-PLAN.md - D-01..D-08 evidence record and bilingual human verification (wave 3)
 
