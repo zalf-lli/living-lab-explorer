@@ -780,9 +780,16 @@ becomes unusable.
 **Why:** Leaflet's default renderer creates one SVG `<path>` element per feature; the browser
 layout/paint cost scales with total vertex count. Measured worst case: **311,616 vertices in 355
 features** in one LL.
-**Avoid:** `renderer={L.canvas({ padding: 0.5 })}` on the `<GeoJSON>`, or `preferCanvas` on
-`<MapContainer>`. This changes only the rasterisation backend — geometry is unmodified, so **D-08
-is fully preserved.** Tooltips and `onEachFeature` continue to work with Canvas.
+**Avoid:** render with an `L.canvas({ padding: 0.5 })` renderer instead of the default SVG one.
+This changes only the rasterisation backend — geometry is unmodified, so **D-08 is fully
+preserved.** Tooltips and `onEachFeature` continue to work with Canvas.
+**Corrected during planning 2026-07-25:** the original wording here recommended passing
+`renderer={...}` to react-leaflet's `<GeoJSON>`, or setting `preferCanvas` on `<MapContainer>`.
+Both are superseded. Use the imperative `ProtectedAreasLayer` form in the Code Examples section:
+a `useMap()` + `useEffect` that creates a dedicated `protectedAreasPane` at `zIndex 450`, binds
+`L.canvas({ padding: 0.5, pane: 'protectedAreasPane' })` to it, and adds an `L.geoJSON` layer.
+React-leaflet may reorder sibling children on mount/unmount, which would let the white LL mask
+bury the overlay; a dedicated pane makes D-06 structural. See 05-03-PLAN.md Task 2.
 Trade-off: Canvas paths have no CSS `:hover`, so the UI-SPEC §2.3 hover emphasis must be implemented
 via `layer.on('mouseover', () => layer.setStyle(...))` rather than CSS.
 [CITED: leafletjs.com/reference.html#path-renderer — `preferCanvas` default `false`, "whether Paths should be rendered on a Canvas renderer"]
@@ -796,8 +803,11 @@ no vertices are removed, no features lost (verified: 1,248/1,248 kept at both 1e
 the total from 40.4 MB to 23.6 MB. Project precedent exists: `build_vector.py` applies
 `set_precision(0.0001)` (~11 m) to BUEK250.
 **Recommendation:** Apply `set_precision(1e-6)` and record it in `sources.yaml` as
-`coordinate_precision: 0.000001`. **This is an [ASSUMED] interpretation of D-08 and should be
-confirmed with the user** before the planner locks it — the strict reading of D-08 is "write raw".
+`coordinate_precision: 0.000001`. **Resolved during planning 2026-07-25:** rounding is coordinate
+adjustment rather than vertex removal, so every option is D-08-compliant, but the committed size
+varies by 39 MB across them — so the choice is escalated to a blocking `checkpoint:decision` at
+05-01-PLAN.md Task 0, before any fetch runs. The selected literal is written to
+`sources.yaml` as `wfs.coordinate_precision` (`null` = raw, the strict reading of D-08).
 
 ### Pitfall 14: Data vintage is stale and legally caveated
 **What goes wrong:** Users treat 2019 Natura 2000 boundaries as current, or use the map for planning.
