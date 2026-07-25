@@ -24,7 +24,6 @@ function fetchMetadata() {
 
 function buildLL(raw, lang) {
   const content = raw[lang] || raw.en || {}
-  const kpi = raw.kpi || {}
   return {
     slug: raw.slug,
     num: raw.num || '',
@@ -34,17 +33,14 @@ function buildLL(raw, lang) {
     colorDark: raw.colorDark || raw.color || '#5e781b',
     outlineColor: raw.outlineColor || '#eb5b25',
     icon: raw.icon || raw.slug,
-    area: kpi.area ?? 0,
-    farms: kpi.farms ?? 0,
-    tempRange: kpi.tempRange ?? '',
-    precip: kpi.precip ?? '',
-    soil: kpi.soil ?? '',
     name: content.name,
     tagline: content.tagline,
     nuts3: raw.nuts3,
     contact: raw.contact,
     mock: raw.mock,
     content,
+    kpiByTab: raw.kpiByTab ?? {},
+    destatisRetrievedAt: raw.destatisRetrievedAt ?? null,
   }
 }
 
