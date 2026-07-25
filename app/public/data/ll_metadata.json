@@ -52,6 +52,7 @@
         {
           "genesisTable": null,
           "key": "agr_ch4_kt",
+          "sourceHost": null,
           "unit": {
             "de": "kt CO2aeq",
             "en": "kt CO2eq"
@@ -61,6 +62,7 @@
         {
           "genesisTable": null,
           "key": "agr_n2o_kt",
+          "sourceHost": null,
           "unit": {
             "de": "kt CO2aeq",
             "en": "kt CO2eq"
@@ -72,6 +74,7 @@
         {
           "genesisTable": "12411KJ002",
           "key": "population_total",
+          "sourceHost": "genesis",
           "unit": {
             "de": "Personen",
             "en": "persons"
@@ -81,6 +84,7 @@
         {
           "genesisTable": "82000-01-01-4",
           "key": "gdp_per_capita_eur",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "EUR",
             "en": "EUR"
@@ -90,6 +94,7 @@
         {
           "genesisTable": "13211-02-05-4",
           "key": "unemployment_rate_pct",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "%",
             "en": "%"
@@ -99,6 +104,7 @@
         {
           "genesisTable": "82000-07-01-4",
           "key": "household_income_eur",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "EUR",
             "en": "EUR"
@@ -110,6 +116,7 @@
         {
           "genesisTable": "33111-01-02-4",
           "key": "forest_area_ha",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "ha",
             "en": "ha"
@@ -119,6 +126,7 @@
         {
           "genesisTable": null,
           "key": "natura2000_ha",
+          "sourceHost": null,
           "unit": {
             "de": "ha",
             "en": "ha"
@@ -128,6 +136,7 @@
         {
           "genesisTable": null,
           "key": "nature_reserves_ha",
+          "sourceHost": null,
           "unit": {
             "de": "ha",
             "en": "ha"
@@ -137,6 +146,7 @@
         {
           "genesisTable": "33111-01-02-4",
           "key": "sealed_surface_pct",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "%",
             "en": "%"
@@ -148,6 +158,7 @@
         {
           "genesisTable": "41141-01-01-4",
           "key": "land_area_cropland_ha",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "ha",
             "en": "ha"
@@ -157,6 +168,7 @@
         {
           "genesisTable": "41141-04-02-4",
           "key": "farms_count",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "Anzahl",
             "en": "count"
@@ -166,6 +178,7 @@
         {
           "genesisTable": "41141-04-02-4",
           "key": "farm_avg_size_ha",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "ha",
             "en": "ha"
@@ -175,6 +188,7 @@
         {
           "genesisTable": "41141-04-02-4",
           "key": "organic_pct",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "%",
             "en": "%"
@@ -186,6 +200,7 @@
         {
           "genesisTable": null,
           "key": "n_surplus_kg_ha",
+          "sourceHost": null,
           "unit": {
             "de": "kg N/ha LF",
             "en": "kg N/ha UAA"
@@ -195,6 +210,7 @@
         {
           "genesisTable": null,
           "key": "p_surplus_kg_ha",
+          "sourceHost": null,
           "unit": {
             "de": "kg P/ha LF",
             "en": "kg P/ha UAA"
@@ -204,6 +220,7 @@
         {
           "genesisTable": "32221-01-03-4",
           "key": "groundwater_abstraction_1000m3",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "1000 cbm",
             "en": "1000 m3"
@@ -281,6 +298,7 @@
         {
           "genesisTable": null,
           "key": "agr_ch4_kt",
+          "sourceHost": null,
           "unit": {
             "de": "kt CO2aeq",
             "en": "kt CO2eq"
@@ -290,6 +308,7 @@
         {
           "genesisTable": null,
           "key": "agr_n2o_kt",
+          "sourceHost": null,
           "unit": {
             "de": "kt CO2aeq",
             "en": "kt CO2eq"
@@ -301,6 +320,7 @@
         {
           "genesisTable": "12411KJ002",
           "key": "population_total",
+          "sourceHost": "genesis",
           "unit": {
             "de": "Personen",
             "en": "persons"
@@ -310,6 +330,7 @@
         {
           "genesisTable": "82000-01-01-4",
           "key": "gdp_per_capita_eur",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "EUR",
             "en": "EUR"
@@ -319,6 +340,7 @@
         {
           "genesisTable": "13211-02-05-4",
           "key": "unemployment_rate_pct",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "%",
             "en": "%"
@@ -328,6 +350,7 @@
         {
           "genesisTable": "82000-07-01-4",
           "key": "household_income_eur",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "EUR",
             "en": "EUR"
@@ -339,6 +362,7 @@
         {
           "genesisTable": "33111-01-02-4",
           "key": "forest_area_ha",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "ha",
             "en": "ha"
@@ -348,6 +372,7 @@
         {
           "genesisTable": null,
           "key": "natura2000_ha",
+          "sourceHost": null,
           "unit": {
             "de": "ha",
             "en": "ha"
@@ -357,6 +382,7 @@
         {
           "genesisTable": null,
           "key": "nature_reserves_ha",
+          "sourceHost": null,
           "unit": {
             "de": "ha",
             "en": "ha"
@@ -366,6 +392,7 @@
         {
           "genesisTable": "33111-01-02-4",
           "key": "sealed_surface_pct",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "%",
             "en": "%"
@@ -377,6 +404,7 @@
         {
           "genesisTable": "41141-01-01-4",
           "key": "land_area_cropland_ha",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "ha",
             "en": "ha"
@@ -386,6 +414,7 @@
         {
           "genesisTable": "41141-04-02-4",
           "key": "farms_count",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "Anzahl",
             "en": "count"
@@ -395,6 +424,7 @@
         {
           "genesisTable": "41141-04-02-4",
           "key": "farm_avg_size_ha",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "ha",
             "en": "ha"
@@ -404,6 +434,7 @@
         {
           "genesisTable": "41141-04-02-4",
           "key": "organic_pct",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "%",
             "en": "%"
@@ -415,6 +446,7 @@
         {
           "genesisTable": null,
           "key": "n_surplus_kg_ha",
+          "sourceHost": null,
           "unit": {
             "de": "kg N/ha LF",
             "en": "kg N/ha UAA"
@@ -424,6 +456,7 @@
         {
           "genesisTable": null,
           "key": "p_surplus_kg_ha",
+          "sourceHost": null,
           "unit": {
             "de": "kg P/ha LF",
             "en": "kg P/ha UAA"
@@ -433,6 +466,7 @@
         {
           "genesisTable": "32221-01-03-4",
           "key": "groundwater_abstraction_1000m3",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "1000 cbm",
             "en": "1000 m3"
@@ -508,6 +542,7 @@
         {
           "genesisTable": null,
           "key": "agr_ch4_kt",
+          "sourceHost": null,
           "unit": {
             "de": "kt CO2aeq",
             "en": "kt CO2eq"
@@ -517,6 +552,7 @@
         {
           "genesisTable": null,
           "key": "agr_n2o_kt",
+          "sourceHost": null,
           "unit": {
             "de": "kt CO2aeq",
             "en": "kt CO2eq"
@@ -528,6 +564,7 @@
         {
           "genesisTable": "12411KJ002",
           "key": "population_total",
+          "sourceHost": "genesis",
           "unit": {
             "de": "Personen",
             "en": "persons"
@@ -537,6 +574,7 @@
         {
           "genesisTable": "82000-01-01-4",
           "key": "gdp_per_capita_eur",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "EUR",
             "en": "EUR"
@@ -546,6 +584,7 @@
         {
           "genesisTable": "13211-02-05-4",
           "key": "unemployment_rate_pct",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "%",
             "en": "%"
@@ -555,6 +594,7 @@
         {
           "genesisTable": "82000-07-01-4",
           "key": "household_income_eur",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "EUR",
             "en": "EUR"
@@ -566,6 +606,7 @@
         {
           "genesisTable": "33111-01-02-4",
           "key": "forest_area_ha",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "ha",
             "en": "ha"
@@ -575,6 +616,7 @@
         {
           "genesisTable": null,
           "key": "natura2000_ha",
+          "sourceHost": null,
           "unit": {
             "de": "ha",
             "en": "ha"
@@ -584,6 +626,7 @@
         {
           "genesisTable": null,
           "key": "nature_reserves_ha",
+          "sourceHost": null,
           "unit": {
             "de": "ha",
             "en": "ha"
@@ -593,6 +636,7 @@
         {
           "genesisTable": "33111-01-02-4",
           "key": "sealed_surface_pct",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "%",
             "en": "%"
@@ -604,6 +648,7 @@
         {
           "genesisTable": "41141-01-01-4",
           "key": "land_area_cropland_ha",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "ha",
             "en": "ha"
@@ -613,6 +658,7 @@
         {
           "genesisTable": "41141-04-02-4",
           "key": "farms_count",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "Anzahl",
             "en": "count"
@@ -622,6 +668,7 @@
         {
           "genesisTable": "41141-04-02-4",
           "key": "farm_avg_size_ha",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "ha",
             "en": "ha"
@@ -631,6 +678,7 @@
         {
           "genesisTable": "41141-04-02-4",
           "key": "organic_pct",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "%",
             "en": "%"
@@ -642,6 +690,7 @@
         {
           "genesisTable": null,
           "key": "n_surplus_kg_ha",
+          "sourceHost": null,
           "unit": {
             "de": "kg N/ha LF",
             "en": "kg N/ha UAA"
@@ -651,6 +700,7 @@
         {
           "genesisTable": null,
           "key": "p_surplus_kg_ha",
+          "sourceHost": null,
           "unit": {
             "de": "kg P/ha LF",
             "en": "kg P/ha UAA"
@@ -660,6 +710,7 @@
         {
           "genesisTable": "32221-01-03-4",
           "key": "groundwater_abstraction_1000m3",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "1000 cbm",
             "en": "1000 m3"
@@ -738,6 +789,7 @@
         {
           "genesisTable": null,
           "key": "agr_ch4_kt",
+          "sourceHost": null,
           "unit": {
             "de": "kt CO2aeq",
             "en": "kt CO2eq"
@@ -747,6 +799,7 @@
         {
           "genesisTable": null,
           "key": "agr_n2o_kt",
+          "sourceHost": null,
           "unit": {
             "de": "kt CO2aeq",
             "en": "kt CO2eq"
@@ -758,6 +811,7 @@
         {
           "genesisTable": "12411KJ002",
           "key": "population_total",
+          "sourceHost": "genesis",
           "unit": {
             "de": "Personen",
             "en": "persons"
@@ -767,6 +821,7 @@
         {
           "genesisTable": "82000-01-01-4",
           "key": "gdp_per_capita_eur",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "EUR",
             "en": "EUR"
@@ -776,6 +831,7 @@
         {
           "genesisTable": "13211-02-05-4",
           "key": "unemployment_rate_pct",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "%",
             "en": "%"
@@ -785,6 +841,7 @@
         {
           "genesisTable": "82000-07-01-4",
           "key": "household_income_eur",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "EUR",
             "en": "EUR"
@@ -796,6 +853,7 @@
         {
           "genesisTable": "33111-01-02-4",
           "key": "forest_area_ha",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "ha",
             "en": "ha"
@@ -805,6 +863,7 @@
         {
           "genesisTable": null,
           "key": "natura2000_ha",
+          "sourceHost": null,
           "unit": {
             "de": "ha",
             "en": "ha"
@@ -814,6 +873,7 @@
         {
           "genesisTable": null,
           "key": "nature_reserves_ha",
+          "sourceHost": null,
           "unit": {
             "de": "ha",
             "en": "ha"
@@ -823,6 +883,7 @@
         {
           "genesisTable": "33111-01-02-4",
           "key": "sealed_surface_pct",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "%",
             "en": "%"
@@ -834,6 +895,7 @@
         {
           "genesisTable": "41141-01-01-4",
           "key": "land_area_cropland_ha",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "ha",
             "en": "ha"
@@ -843,6 +905,7 @@
         {
           "genesisTable": "41141-04-02-4",
           "key": "farms_count",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "Anzahl",
             "en": "count"
@@ -852,6 +915,7 @@
         {
           "genesisTable": "41141-04-02-4",
           "key": "farm_avg_size_ha",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "ha",
             "en": "ha"
@@ -861,6 +925,7 @@
         {
           "genesisTable": "41141-04-02-4",
           "key": "organic_pct",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "%",
             "en": "%"
@@ -872,6 +937,7 @@
         {
           "genesisTable": null,
           "key": "n_surplus_kg_ha",
+          "sourceHost": null,
           "unit": {
             "de": "kg N/ha LF",
             "en": "kg N/ha UAA"
@@ -881,6 +947,7 @@
         {
           "genesisTable": null,
           "key": "p_surplus_kg_ha",
+          "sourceHost": null,
           "unit": {
             "de": "kg P/ha LF",
             "en": "kg P/ha UAA"
@@ -890,6 +957,7 @@
         {
           "genesisTable": "32221-01-03-4",
           "key": "groundwater_abstraction_1000m3",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "1000 cbm",
             "en": "1000 m3"
@@ -965,6 +1033,7 @@
         {
           "genesisTable": null,
           "key": "agr_ch4_kt",
+          "sourceHost": null,
           "unit": {
             "de": "kt CO2aeq",
             "en": "kt CO2eq"
@@ -974,6 +1043,7 @@
         {
           "genesisTable": null,
           "key": "agr_n2o_kt",
+          "sourceHost": null,
           "unit": {
             "de": "kt CO2aeq",
             "en": "kt CO2eq"
@@ -985,6 +1055,7 @@
         {
           "genesisTable": "12411KJ002",
           "key": "population_total",
+          "sourceHost": "genesis",
           "unit": {
             "de": "Personen",
             "en": "persons"
@@ -994,6 +1065,7 @@
         {
           "genesisTable": "82000-01-01-4",
           "key": "gdp_per_capita_eur",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "EUR",
             "en": "EUR"
@@ -1003,6 +1075,7 @@
         {
           "genesisTable": "13211-02-05-4",
           "key": "unemployment_rate_pct",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "%",
             "en": "%"
@@ -1012,6 +1085,7 @@
         {
           "genesisTable": "82000-07-01-4",
           "key": "household_income_eur",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "EUR",
             "en": "EUR"
@@ -1023,6 +1097,7 @@
         {
           "genesisTable": "33111-01-02-4",
           "key": "forest_area_ha",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "ha",
             "en": "ha"
@@ -1032,6 +1107,7 @@
         {
           "genesisTable": null,
           "key": "natura2000_ha",
+          "sourceHost": null,
           "unit": {
             "de": "ha",
             "en": "ha"
@@ -1041,6 +1117,7 @@
         {
           "genesisTable": null,
           "key": "nature_reserves_ha",
+          "sourceHost": null,
           "unit": {
             "de": "ha",
             "en": "ha"
@@ -1050,6 +1127,7 @@
         {
           "genesisTable": "33111-01-02-4",
           "key": "sealed_surface_pct",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "%",
             "en": "%"
@@ -1061,6 +1139,7 @@
         {
           "genesisTable": "41141-01-01-4",
           "key": "land_area_cropland_ha",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "ha",
             "en": "ha"
@@ -1070,6 +1149,7 @@
         {
           "genesisTable": "41141-04-02-4",
           "key": "farms_count",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "Anzahl",
             "en": "count"
@@ -1079,6 +1159,7 @@
         {
           "genesisTable": "41141-04-02-4",
           "key": "farm_avg_size_ha",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "ha",
             "en": "ha"
@@ -1088,6 +1169,7 @@
         {
           "genesisTable": "41141-04-02-4",
           "key": "organic_pct",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "%",
             "en": "%"
@@ -1099,6 +1181,7 @@
         {
           "genesisTable": null,
           "key": "n_surplus_kg_ha",
+          "sourceHost": null,
           "unit": {
             "de": "kg N/ha LF",
             "en": "kg N/ha UAA"
@@ -1108,6 +1191,7 @@
         {
           "genesisTable": null,
           "key": "p_surplus_kg_ha",
+          "sourceHost": null,
           "unit": {
             "de": "kg P/ha LF",
             "en": "kg P/ha UAA"
@@ -1117,6 +1201,7 @@
         {
           "genesisTable": "32221-01-03-4",
           "key": "groundwater_abstraction_1000m3",
+          "sourceHost": "regionalstatistik",
           "unit": {
             "de": "1000 cbm",
             "en": "1000 m3"

@@ -33,7 +33,16 @@ export function StatPanel({ tab, ll }) {
   const lang = i18n.language?.startsWith('de') ? 'de' : 'en'
   const locale = i18n.language === 'de' ? 'de-DE' : 'en-US'
   const hasPendingReview = fields.some((field) => field.value == null)
-  const uniqueTables = [...new Set(fields.map((field) => field.genesisTable).filter(Boolean))]
+  const uniqueSources = [
+    ...new Map(
+      fields
+        .filter((field) => field.genesisTable)
+        .map((field) => [
+          `${field.sourceHost}::${field.genesisTable}`,
+          { tableId: field.genesisTable, sourceHost: field.sourceHost },
+        ]),
+    ).values(),
+  ]
 
   return (
     <div>
@@ -111,19 +120,26 @@ export function StatPanel({ tab, ll }) {
 
       {sourcesOpen ? (
         <div style={{ marginTop: 8 }}>
-          {uniqueTables.map((tableId) => (
-            <div key={tableId} style={{ fontSize: 11, fontWeight: 700, color: C.muted }}>
-              {t('statPanel.source', { tableId, date: ll.destatisRetrievedAt || '—' })}{' '}
-              <a
-                href={`https://www-genesis.destatis.de/genesis//online?operation=table&code=${tableId}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                style={{ color: C.orange, fontWeight: 700, textDecoration: 'none' }}
-              >
-                {t('statPanel.viewSource')}
-              </a>
-            </div>
-          ))}
+          {uniqueSources.map(({ tableId, sourceHost }) => {
+            const isRegionalstatistik = sourceHost === 'regionalstatistik'
+            const sourceKey = isRegionalstatistik ? 'statPanel.sourceRegionalstatistik' : 'statPanel.source'
+            const href = isRegionalstatistik
+              ? `https://www.regionalstatistik.de/genesis/online?operation=table&code=${tableId}`
+              : `https://www-genesis.destatis.de/genesis//online?operation=table&code=${tableId}`
+            return (
+              <div key={`${sourceHost}::${tableId}`} style={{ fontSize: 11, fontWeight: 700, color: C.muted }}>
+                {t(sourceKey, { tableId, date: ll.destatisRetrievedAt || '—' })}{' '}
+                <a
+                  href={href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  style={{ color: C.orange, fontWeight: 700, textDecoration: 'none' }}
+                >
+                  {t('statPanel.viewSource')}
+                </a>
+              </div>
+            )
+          })}
         </div>
       ) : null}
     </div>

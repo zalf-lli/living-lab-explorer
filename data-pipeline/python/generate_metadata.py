@@ -43,6 +43,7 @@ def _build_kpi_by_tab(slug: str, destatis_ll: dict, curated_kpis: list) -> dict:
                 "value": destatis_ll.get(slug, {}).get(entry["variable_key"]),
                 "unit": {"en": entry["unit_en"], "de": entry["unit_de"]},
                 "genesisTable": entry["genesis_table"],
+                "sourceHost": entry.get("source_host"),
             }
         )
     return by_tab
