@@ -1,0 +1,47 @@
+[
+  {
+    "classifying_categories": [],
+    "has_groundwater_category": null,
+    "kreis_codes_covered": 0,
+    "measures_quantity": "UNKNOWN -- credential-blocked; 04-07's catalogue-title inference was \"volume of water abstracted, in 1000 m3\" for the Wassergewinnung table, but that inference was never live-verified and is NOT confirmed by this probe",
+    "regional_depth": null,
+    "sample_value": null,
+    "status": "fetch-failed: Regionalstatistik.de auth blocked -- Ein Fehler ist aufgetreten. (Bitte geben Sie Ihren Nutzernamen ein.) [HTTP 404 from catalogue/tables and metadata/table; check_auth(base=REGIONALSTATISTIK_BASE) also failed with the identical error]",
+    "table": "32221-01-03-4",
+    "time_range": null,
+    "title_de": "Wassergewinnung und -bezug (catalogue-title inference carried over from 04-07-SUMMARY.md -- NOT live-verified by this probe; see FINDINGS.md)",
+    "valid": null,
+    "value_variables": [],
+    "years_present": []
+  },
+  {
+    "classifying_categories": [],
+    "has_groundwater_category": null,
+    "kreis_codes_covered": 0,
+    "measures_quantity": "UNKNOWN -- credential-blocked; not verified by this probe",
+    "regional_depth": null,
+    "sample_value": null,
+    "status": "fetch-failed: Regionalstatistik.de auth blocked -- Ein Fehler ist aufgetreten. (Bitte geben Sie Ihren Nutzernamen ein.) [HTTP 404 from catalogue/tables and metadata/table; check_auth(base=REGIONALSTATISTIK_BASE) also failed with the identical error]",
+    "table": "32221-02-01-4",
+    "time_range": null,
+    "title_de": "Wassereinsatz und ungenutztes Wasser (catalogue-title inference carried over from 04-07-SUMMARY.md -- NOT live-verified by this probe; see FINDINGS.md)",
+    "valid": null,
+    "value_variables": [],
+    "years_present": []
+  },
+  {
+    "classifying_categories": [],
+    "has_groundwater_category": null,
+    "kreis_codes_covered": 0,
+    "measures_quantity": "UNKNOWN -- credential-blocked; not verified by this probe",
+    "regional_depth": null,
+    "sample_value": null,
+    "status": "fetch-failed: Regionalstatistik.de auth blocked -- Ein Fehler ist aufgetreten. (Bitte geben Sie Ihren Nutzernamen ein.) [HTTP 404 from catalogue/tables and metadata/table; check_auth(base=REGIONALSTATISTIK_BASE) also failed with the identical error]",
+    "table": "32221-03-01-4",
+    "time_range": null,
+    "title_de": "Abwasserverbleib (catalogue-title inference carried over from 04-07-SUMMARY.md -- NOT live-verified by this probe; see FINDINGS.md)",
+    "valid": null,
+    "value_variables": [],
+    "years_present": []
+  }
+]
