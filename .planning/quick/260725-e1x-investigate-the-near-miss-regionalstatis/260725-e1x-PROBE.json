@@ -1,47 +1,207 @@
 [
   {
-    "classifying_categories": [],
-    "has_groundwater_category": null,
-    "kreis_codes_covered": 0,
-    "measures_quantity": "UNKNOWN -- credential-blocked; 04-07's catalogue-title inference was \"volume of water abstracted, in 1000 m3\" for the Wassergewinnung table, but that inference was never live-verified and is NOT confirmed by this probe",
-    "regional_depth": null,
-    "sample_value": null,
-    "status": "fetch-failed: Regionalstatistik.de auth blocked -- Ein Fehler ist aufgetreten. (Bitte geben Sie Ihren Nutzernamen ein.) [HTTP 404 from catalogue/tables and metadata/table; check_auth(base=REGIONALSTATISTIK_BASE) also failed with the identical error]",
+    "classifying_categories": [
+      {
+        "code": "WASAT1001",
+        "label": "Uferfiltrat"
+      },
+      {
+        "code": "WASAT1002",
+        "label": "angereichertes Grundwasser"
+      },
+      {
+        "code": "WASAT1003",
+        "label": "See- und Talsperrenwasser"
+      },
+      {
+        "code": "WASAT1004",
+        "label": "Flusswasser"
+      },
+      {
+        "code": "WASAT1005",
+        "label": "Meer- und Brackwasser"
+      },
+      {
+        "code": "WASAT1006",
+        "label": "andere Wasserarten"
+      },
+      {
+        "code": "WASSERGRUND",
+        "label": "Grundwasser"
+      },
+      {
+        "code": "WASSERQUELL",
+        "label": "Quellwasser"
+      },
+      {
+        "code": "WASBZ102",
+        "label": "Fremdbezug von Wasser"
+      }
+    ],
+    "has_groundwater_category": true,
+    "kreis_codes_covered": 14,
+    "measures_quantity": "Volume of water abstracted/procured, in 1000 m3, broken down by water source (Wasserart) -- includes an explicit Grundwasser (groundwater) category (code WASSERGRUND) distinct from surface water, bank filtrate, spring water, etc. This is a live-verified fact, not inference.",
+    "regional_depth": "Kreise und krfr. Städte (Kreis-level, incl. kreisfreie Städte) -- confirmed via catalogue/tables and metadata/table",
+    "regional_depth_source": "live catalogue/tables + metadata/table response",
+    "sample_value": {
+      "ags": "12064",
+      "classifying_attr_code": "WASSERGRUND",
+      "nuts3": "DE409",
+      "unit": "1000 cbm",
+      "value": 12927.0,
+      "value_variable_code": "WAS001",
+      "year": "2022"
+    },
+    "statistic_head": "32221 = \"Erhebung der nichtöffentlichen Wasserversorgung und Abwasserentsorgung\" (survey of NON-PUBLIC/self-supply water use -- industrial, agricultural, private self-suppliers -- NOT municipal drinking-water statistics; live-verified via metadata/table's Structure.Head)",
+    "status": "kreis-verified",
     "table": "32221-01-03-4",
-    "time_range": null,
-    "title_de": "Wassergewinnung und -bezug (catalogue-title inference carried over from 04-07-SUMMARY.md -- NOT live-verified by this probe; see FINDINGS.md)",
-    "valid": null,
-    "value_variables": [],
-    "years_present": []
+    "time_range": {
+      "From": "2007",
+      "To": "2022"
+    },
+    "title_de": "Wassergewinnung und -bezug - 31.12. / Jahressumme - regionale Tiefe: Kreise und krfr. Städte",
+    "valid": false,
+    "value_variables": [
+      {
+        "code": "WAS001",
+        "label": "Wasseraufkommen",
+        "unit": "1000 cbm"
+      },
+      {
+        "code": "BETR01",
+        "label": "Betriebe",
+        "unit": "Anzahl"
+      }
+    ],
+    "years_present": [
+      "2010",
+      "2013",
+      "2016",
+      "2019",
+      "2022"
+    ]
   },
   {
-    "classifying_categories": [],
-    "has_groundwater_category": null,
-    "kreis_codes_covered": 0,
-    "measures_quantity": "UNKNOWN -- credential-blocked; not verified by this probe",
-    "regional_depth": null,
-    "sample_value": null,
-    "status": "fetch-failed: Regionalstatistik.de auth blocked -- Ein Fehler ist aufgetreten. (Bitte geben Sie Ihren Nutzernamen ein.) [HTTP 404 from catalogue/tables and metadata/table; check_auth(base=REGIONALSTATISTIK_BASE) also failed with the identical error]",
+    "classifying_categories": [
+      {
+        "code": "WASVB2001",
+        "label": "im Betrieb eingesetztes Frischwasser"
+      },
+      {
+        "code": "WASVB3001",
+        "label": "zur Kühlung von Produktions- u. Stromerzeugungsanlagen"
+      },
+      {
+        "code": "WASVB3003",
+        "label": "für Produktions-, gewerbliche und sonstige Zwecke"
+      },
+      {
+        "code": "WASVB3004",
+        "label": "für Belegschaftszwecke"
+      }
+    ],
+    "has_groundwater_category": false,
+    "kreis_codes_covered": 14,
+    "measures_quantity": "Volume of water used within an operation (fresh water applied), in 1000 m3, broken down by purpose of use (cooling of production/power-generation plants, production/commercial/other purposes, workforce/staff purposes). No water-source dimension at all -- cannot distinguish groundwater-sourced water from any other source. Live-verified fact.",
+    "regional_depth": "Kreise und krfr. Städte (Kreis-level) -- confirmed live",
+    "regional_depth_source": "live catalogue/tables + metadata/table response",
+    "sample_value": {
+      "ags": "12064",
+      "classifying_attr_code": "WASVB2001",
+      "nuts3": "DE409",
+      "unit": "1000 cbm",
+      "value": 1457.0,
+      "value_variable_code": "WAS001",
+      "year": "2022"
+    },
+    "statistic_head": "32221 = \"Erhebung der nichtöffentlichen Wasserversorgung und Abwasserentsorgung\" (same non-public-supply statistic as 32221-01-03-4)",
+    "status": "kreis-verified",
     "table": "32221-02-01-4",
-    "time_range": null,
-    "title_de": "Wassereinsatz und ungenutztes Wasser (catalogue-title inference carried over from 04-07-SUMMARY.md -- NOT live-verified by this probe; see FINDINGS.md)",
-    "valid": null,
-    "value_variables": [],
-    "years_present": []
+    "time_range": {
+      "From": "2007",
+      "To": "2022"
+    },
+    "title_de": "Wassereinsatz und ungenutztes Wasser - Jahressumme - regionale Tiefe: Kreise und krfr. Städte",
+    "valid": false,
+    "value_variables": [
+      {
+        "code": "WAS001",
+        "label": "Wasseraufkommen",
+        "unit": "1000 cbm"
+      },
+      {
+        "code": "WASNW2",
+        "label": "genutztes Wasser",
+        "unit": "1000 cbm"
+      }
+    ],
+    "years_present": [
+      "2010",
+      "2013",
+      "2016",
+      "2019",
+      "2022"
+    ]
   },
   {
-    "classifying_categories": [],
-    "has_groundwater_category": null,
-    "kreis_codes_covered": 0,
-    "measures_quantity": "UNKNOWN -- credential-blocked; not verified by this probe",
-    "regional_depth": null,
-    "sample_value": null,
-    "status": "fetch-failed: Regionalstatistik.de auth blocked -- Ein Fehler ist aufgetreten. (Bitte geben Sie Ihren Nutzernamen ein.) [HTTP 404 from catalogue/tables and metadata/table; check_auth(base=REGIONALSTATISTIK_BASE) also failed with the identical error]",
+    "classifying_categories": [
+      {
+        "code": "",
+        "label": "Insgesamt"
+      },
+      {
+        "code": "WASVB4001",
+        "label": "öffentl. Kanalisation / Abwasserbehandlungsanlage"
+      },
+      {
+        "code": "WASVB4002",
+        "label": "betriebseigene Abwasserbehandlungsanlagen"
+      },
+      {
+        "code": "WASVB4003",
+        "label": "andere Betriebe"
+      },
+      {
+        "code": "WASVB4004",
+        "label": "Direkteinl. i.e. Oberflächengewässer/Untergrund"
+      }
+    ],
+    "has_groundwater_category": false,
+    "kreis_codes_covered": 14,
+    "measures_quantity": "Volume of wastewater, in 1000 m3, broken down by disposal destination (public sewer/treatment plant, own treatment plant, other establishments, direct discharge to surface water/underground). A discharge-destination volume, with no water-quality or concentration dimension whatsoever. Live-verified fact.",
+    "regional_depth": "Kreise und krfr. Städte (Kreis-level) -- confirmed live",
+    "regional_depth_source": "live catalogue/tables + metadata/table response",
+    "sample_value": {
+      "ags": "12064",
+      "classifying_attr_code": "",
+      "nuts3": "DE409",
+      "unit": "1000 cbm",
+      "value": 685.0,
+      "value_variable_code": "WASNW3",
+      "year": "2022"
+    },
+    "statistic_head": "32221 = \"Erhebung der nichtöffentlichen Wasserversorgung und Abwasserentsorgung\" (same non-public-supply statistic as the other two tables)",
+    "status": "kreis-verified",
     "table": "32221-03-01-4",
-    "time_range": null,
-    "title_de": "Abwasserverbleib (catalogue-title inference carried over from 04-07-SUMMARY.md -- NOT live-verified by this probe; see FINDINGS.md)",
-    "valid": null,
-    "value_variables": [],
-    "years_present": []
+    "time_range": {
+      "From": "2007",
+      "To": "2022"
+    },
+    "title_de": "Abwasserverbleib - Jahressumme - regionale Tiefe: Kreise und krfr. Städte",
+    "valid": false,
+    "value_variables": [
+      {
+        "code": "WASNW3",
+        "label": "Abwasser",
+        "unit": "1000 cbm"
+      }
+    ],
+    "years_present": [
+      "2010",
+      "2013",
+      "2016",
+      "2019",
+      "2022"
+    ]
   }
 ]
