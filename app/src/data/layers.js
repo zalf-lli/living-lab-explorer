@@ -15,7 +15,7 @@ export const LAYERS = [
     legend: LANDUSE_LEGEND,
     available: true,
   },
-  { id: 'climate', type: 'placeholder', pmtilesUrl: null, legend: null, available: false },
+  { id: 'climate', type: 'placeholder', pmtilesUrl: null, legend: null, available: true },
   {
     id: 'soil',
     type: 'vector',
@@ -25,7 +25,8 @@ export const LAYERS = [
     legendNoteKey: 'legend.soil.note',
     available: true,
   },
-  { id: 'economic', type: 'placeholder', pmtilesUrl: null, legend: null, available: false },
+  { id: 'economic', type: 'placeholder', pmtilesUrl: null, legend: null, available: true },
+  { id: 'landscape', type: 'placeholder', pmtilesUrl: null, legend: null, available: true },
 ]
 
 export const LAYER_INDEX = new Map(LAYERS.map((layer) => [layer.id, layer]))
