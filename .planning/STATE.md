@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-07-24T09:41:23.854Z"
+last_updated: "2026-07-25T13:09:57.904Z"
 progress:
-  total_phases: 7
+  total_phases: 9
   completed_phases: 4
-  total_plans: 16
-  completed_plans: 10
-  percent: 57
+  total_plans: 22
+  completed_plans: 14
+  percent: 44
 ---
 
 # Project State
@@ -45,9 +45,11 @@ The 04-06 "0/15" result was a code-format mismatch, not a data gap — Regionals
 publishes Kreis-level statistics as dash-coded tables (`data/tablefile`, format=ffcsv), not
 GENESIS-Online-style cube codes. Searching with the correct format resolved 9 more slots.
 **11 of 17 curated KPIs now carry real, live-fetched Kreis-level values** (all committed):
+
 - landuse 4/4: land_area_cropland_ha, farms_count, farm_avg_size_ha, organic_pct
 - soil 1/3: groundwater_abstraction_1000m3 (D-14 repurpose of the null groundwater_nitrate_mg_l
   slot, quick-task 260725-e1x, 2026-07-25 — see below)
+
 - landscape 2/4: forest_area_ha, sealed_surface_pct
 - economic 4/4: population_total, unemployment_rate_pct, household_income_eur, gdp_per_capita_eur
   (gdp restored to its original D-09 slot, replacing the 04-02 population-density substitute)
