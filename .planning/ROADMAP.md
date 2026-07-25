@@ -245,13 +245,22 @@ Plans:
 
 ### Phase 05.1: Calculate coverage KPIs for landscape tab using protected areas maps (INSERTED)
 
-**Goal:** [Urgent work - to be planned]
-**Requirements**: TBD
-**Depends on:** Phase 5
-**Plans:** 0 plans
+**Goal:** Fill the two pre-declared but permanently-null landscape KPI slots (`natura2000_ha`, `nature_reserves_ha`) with real per-Living-Lab coverage figures computed from Phase 5's protected-areas geometry, clipped to each LL boundary and dissolved per designation.
+**Requirements**: D-01, D-02, D-03, D-04, D-05 (Phase 05.1 has no REQUIREMENTS.md IDs; the locked planning decisions are the spec)
+**Depends on:** Phase 5 (HARD blocker - consumes `data/geojson/protected-areas-{slug}.geojson`, which does not exist until Phase 5 executes)
+**Plans:** 3 plans
+
+**Locked decisions:**
+- D-01: Fill only the two existing `_ha` slots. No percentage KPI, no new curated-KPI entry.
+- D-02: Add `bfn_wfs` as a new `source_host` enum value in the curated KPI manifest.
+- D-03: Computed values live in a new `data/protected_area_kpis.json`, merged into `kpiByTab` at `generate_metadata.py` build time - never patched into `destatis_ll.json`, which `aggregate_ll()` destructively regenerates.
+- D-04: Phase 5 must execute first and produce all five per-LL protected-areas GeoJSON files.
+- D-05: Two existing test contracts must be deliberately updated in the same commit as the manifest change.
 
 Plans:
-- [ ] TBD (run /gsd-plan-phase 05.1 to break down)
+- [ ] 05.1-01-PLAN.md - Coverage computation script (dissolve -> clip -> EPSG:25832 area) and `data/protected_area_kpis.json` (wave 1)
+- [ ] 05.1-02-PLAN.md - `bfn_wfs` source_host, test-contract repairs, `generate_metadata.py` merge, regenerated metadata, 2 new regression tests (wave 2)
+- [ ] 05.1-03-PLAN.md - D-01..D-05 evidence record and blocking bilingual Landscape-tab verification (wave 3)
 
 ### Phase 6: Add land cover map. I want to add a new map to the landscape tab (currently named land use but will be re-named in phase 4). It should use the ESRI sentinel 2 land cover data via the API service. The existing crop type map should be moved to the new 'agriculture' tab
 
