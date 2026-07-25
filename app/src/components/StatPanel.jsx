@@ -1,12 +1,32 @@
+import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { C } from '../theme.js'
 
 // Per-tab KPI tile grid: shows StatPanel's Destatis-sourced fields for the active tab,
 // with locale-aware number formatting, an empty-state em-dash for unverified fields, a
-// pending-review footnote, and a GENESIS source-attribution line.
+// pending-review footnote, and a collapsible GENESIS source-attribution disclosure.
 export function StatPanel({ tab, ll }) {
   const { t, i18n } = useTranslation()
+  const [sourcesOpen, setSourcesOpen] = useState(false)
+  const sourcesRef = useRef(null)
   const fields = ll.kpiByTab?.[tab] ?? []
+
+  useEffect(() => {
+    if (!sourcesOpen) return undefined
+    const onKey = (e) => {
+      if (e.key === 'Escape') setSourcesOpen(false)
+    }
+    const onPointer = (e) => {
+      if (!sourcesRef.current) return
+      if (!sourcesRef.current.contains(e.target)) setSourcesOpen(false)
+    }
+    document.addEventListener('keydown', onKey)
+    document.addEventListener('mousedown', onPointer)
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.removeEventListener('mousedown', onPointer)
+    }
+  }, [sourcesOpen])
 
   if (fields.length === 0) return null
 
@@ -17,6 +37,29 @@ export function StatPanel({ tab, ll }) {
 
   return (
     <div>
+      <div ref={sourcesRef} style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: 4 }}>
+        <button
+          type="button"
+          aria-expanded={sourcesOpen}
+          aria-label={t('statPanel.sourcesToggle')}
+          title={t('statPanel.sourcesToggle')}
+          onClick={() => setSourcesOpen((open) => !open)}
+          style={{
+            fontFamily: 'inherit',
+            fontSize: 11,
+            fontWeight: 700,
+            color: sourcesOpen ? C.orange : C.muted,
+            background: 'transparent',
+            border: `1px solid ${C.mutedLight}`,
+            borderRadius: 999,
+            padding: '2px 10px',
+            cursor: 'pointer',
+          }}
+        >
+          {t('statPanel.sourcesToggle')}
+        </button>
+      </div>
+
       <div
         style={{
           display: 'grid',
@@ -66,21 +109,23 @@ export function StatPanel({ tab, ll }) {
         </div>
       ) : null}
 
-      <div style={{ marginTop: 8 }}>
-        {uniqueTables.map((tableId) => (
-          <div key={tableId} style={{ fontSize: 11, fontWeight: 700, color: C.muted }}>
-            {t('statPanel.source', { tableId, date: ll.destatisRetrievedAt || '—' })}{' '}
-            <a
-              href={`https://www-genesis.destatis.de/genesis//online?operation=table&code=${tableId}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              style={{ color: C.orange, fontWeight: 700, textDecoration: 'none' }}
-            >
-              {t('statPanel.viewSource')}
-            </a>
-          </div>
-        ))}
-      </div>
+      {sourcesOpen ? (
+        <div style={{ marginTop: 8 }}>
+          {uniqueTables.map((tableId) => (
+            <div key={tableId} style={{ fontSize: 11, fontWeight: 700, color: C.muted }}>
+              {t('statPanel.source', { tableId, date: ll.destatisRetrievedAt || '—' })}{' '}
+              <a
+                href={`https://www-genesis.destatis.de/genesis//online?operation=table&code=${tableId}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={{ color: C.orange, fontWeight: 700, textDecoration: 'none' }}
+              >
+                {t('statPanel.viewSource')}
+              </a>
+            </div>
+          ))}
+        </div>
+      ) : null}
     </div>
   )
 }
