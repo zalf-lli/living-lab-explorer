@@ -8,9 +8,18 @@ ROOT = Path(__file__).resolve().parent.parent.parent
 DATA = ROOT / "data"
 CONTENT_FILE = DATA / "ll_content.json"
 METADATA_FILE = DATA / "ll_metadata.json"
+DESTATIS_LL_FILE = DATA / "destatis_ll.json"
+CURATED_KPIS_FILE = DATA / "destatis_curated_kpis.json"
+DESTATIS_META_FILE = DATA / "destatis_meta.json"
 
 
 def load_ll_content(path: Path = CONTENT_FILE) -> dict[str, dict]:
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def _load_json_or_empty(path: Path) -> dict | list:
+    if not path.exists():
+        return {}
     return json.loads(path.read_text(encoding="utf-8"))
 
 
@@ -23,26 +32,56 @@ def _deep_merge(computed: object, authored: object) -> object:
     return deepcopy(authored)
 
 
-def _build_computed_record(slug: str, authored: dict) -> dict:
+def _build_kpi_by_tab(slug: str, destatis_ll: dict, curated_kpis: list) -> dict:
+    """Build the kpiByTab field for a single LL's computed metadata record."""
+    by_tab: dict[str, list] = {}
+    for entry in curated_kpis:
+        tab = entry["tab"]
+        by_tab.setdefault(tab, []).append(
+            {
+                "key": entry["variable_key"],
+                "value": destatis_ll.get(slug, {}).get(entry["variable_key"]),
+                "unit": {"en": entry["unit_en"], "de": entry["unit_de"]},
+                "genesisTable": entry["genesis_table"],
+            }
+        )
+    return by_tab
+
+
+def _build_computed_record(
+    slug: str,
+    authored: dict,
+    destatis_ll: dict,
+    curated_kpis: list,
+    destatis_meta: dict,
+) -> dict:
     return {
         "slug": slug,
         "contact": authored.get("contact", ""),
         "nuts3": authored.get("nuts3", []),
         "mock": authored.get("mock", False),
+        "kpiByTab": _build_kpi_by_tab(slug, destatis_ll, curated_kpis),
+        "destatisRetrievedAt": destatis_meta.get("fetched_at"),
     }
 
 
 def build_metadata(ll_content: dict[str, dict] | None = None) -> dict[str, dict]:
     content = load_ll_content() if ll_content is None else ll_content
+    destatis_ll = _load_json_or_empty(DESTATIS_LL_FILE)
+    curated_kpis = _load_json_or_empty(CURATED_KPIS_FILE) or []
+    destatis_meta = _load_json_or_empty(DESTATIS_META_FILE)
     metadata: dict[str, dict] = {}
     for slug, authored in content.items():
-        metadata[slug] = _deep_merge(_build_computed_record(slug, authored), authored)
+        computed = _build_computed_record(slug, authored, destatis_ll, curated_kpis, destatis_meta)
+        metadata[slug] = _deep_merge(computed, authored)
     return metadata
 
 
 def write_metadata(output_path: Path = METADATA_FILE, ll_content: dict[str, dict] | None = None) -> dict[str, dict]:
     metadata = build_metadata(ll_content)
-    output_path.write_text(json.dumps(metadata, ensure_ascii=False, indent=2), encoding="utf-8")
+    output_path.write_text(
+        json.dumps(metadata, ensure_ascii=False, indent=2, sort_keys=True), encoding="utf-8"
+    )
     return metadata
 
 
