@@ -148,6 +148,55 @@ def test_destatis_curated_kpis_manifest_matches_contract() -> None:
     }
 
 
+def test_ll_metadata_kpi_by_tab_contract() -> None:
+    """
+    Plan 04-03: app/public/data/ll_metadata.json must carry a kpiByTab field per Living Lab,
+    built from real Destatis data, matching the locked per-tab field counts (D-09), and never
+    leaking the legacy "-" placeholder sentinel that used to live in ll_content.json's
+    kpi/production/socio blocks (Pitfall 3 / D-10 / D-11).
+    """
+    path = repo_root() / "app" / "public" / "data" / "ll_metadata.json"
+    assert path.exists(), f"Missing ll_metadata.json fixture: {path}"
+
+    with path.open("r", encoding="utf-8") as handle:
+        data = json.load(handle)
+
+    assert data, "ll_metadata.json is empty"
+
+    expected_tab_counts = {
+        "landuse": 4,
+        "soil": 3,
+        "climate": 2,
+        "landscape": 4,
+        "economic": 4,
+    }
+
+    def _assert_no_placeholder(value: object) -> None:
+        if isinstance(value, dict):
+            for v in value.values():
+                _assert_no_placeholder(v)
+        elif isinstance(value, list):
+            for v in value:
+                _assert_no_placeholder(v)
+        else:
+            assert value != "-", "Found leaked '-' placeholder value inside kpiByTab"
+
+    for slug, record in data.items():
+        assert "kpiByTab" in record, f"Missing kpiByTab for {slug}"
+        kpi_by_tab = record["kpiByTab"]
+        assert set(kpi_by_tab) <= set(expected_tab_counts), f"Unexpected tab keys for {slug}: {set(kpi_by_tab)}"
+        for tab, expected_count in expected_tab_counts.items():
+            assert len(kpi_by_tab.get(tab, [])) == expected_count, (
+                f"{slug}: expected {expected_count} fields for tab {tab!r}, got {len(kpi_by_tab.get(tab, []))}"
+            )
+        _assert_no_placeholder(kpi_by_tab)
+
+        assert "destatisRetrievedAt" in record, f"Missing destatisRetrievedAt for {slug}"
+        assert isinstance(record["destatisRetrievedAt"], str) and record["destatisRetrievedAt"], (
+            f"destatisRetrievedAt for {slug} must be a non-empty string"
+        )
+
+
 def test_destatis_resolved_slots_have_real_values() -> None:
     """
     Plan 04-07: every curated slot the manifest marks as resolved (non-null genesis_table /

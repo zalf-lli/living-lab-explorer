@@ -11,13 +11,6 @@
     "colorDark": "#5e781b",
     "outlineColor": "#eb5b25",
     "icon": "east-brandenburg",
-    "kpi": {
-      "area": 2410,
-      "farms": 312,
-      "tempRange": "9.8 deg C avg",
-      "precip": "540 mm/yr",
-      "soil": "Sandy loam"
-    },
     "en": {
       "name": "East Brandenburg",
       "tagline": "Multifunctional and diverse arable farming systems",
@@ -34,26 +27,7 @@
         "geography": "Mock placeholder describing geographic characteristics.",
         "challenges": ["Mock challenge 1", "Mock challenge 2"]
       },
-      "delineation": "Mock placeholder explaining why these NUTS3 regions were chosen.",
-      "production": {
-        "land_area": "-",
-        "agriculture_pct": "-",
-        "forests_pct": "-",
-        "grassland_pct": "-",
-        "protected_pct": "-",
-        "organic_pct": "-",
-        "main_crops": "-",
-        "main_livestock": "-",
-        "average_farm_size": "-",
-        "average_rent_rate": "-"
-      },
-      "socio": {
-        "population": "-",
-        "population_density": "-",
-        "nearest_city": "-",
-        "gdp_per_capita": "-",
-        "household_income": "-"
-      }
+      "delineation": "Mock placeholder explaining why these NUTS3 regions were chosen."
     },
     "de": {
       "name": "Ost-Brandenburg",
@@ -71,26 +45,7 @@
         "geography": "Mock-Platzhalter zur Beschreibung der geografischen Eigenschaften.",
         "challenges": ["Mock Herausforderung 1", "Mock Herausforderung 2"]
       },
-      "delineation": "Mock-Platzhalter zur Begruendung der Auswahl der NUTS3-Regionen.",
-      "production": {
-        "land_area": "-",
-        "agriculture_pct": "-",
-        "forests_pct": "-",
-        "grassland_pct": "-",
-        "protected_pct": "-",
-        "organic_pct": "-",
-        "main_crops": "-",
-        "main_livestock": "-",
-        "average_farm_size": "-",
-        "average_rent_rate": "-"
-      },
-      "socio": {
-        "population": "-",
-        "population_density": "-",
-        "nearest_city": "-",
-        "gdp_per_capita": "-",
-        "household_income": "-"
-      }
+      "delineation": "Mock-Platzhalter zur Begruendung der Auswahl der NUTS3-Regionen."
     }
   },
   "havellandisches-luch": {
@@ -105,13 +60,6 @@
     "colorDark": "#005754",
     "outlineColor": "#00b3ad",
     "icon": "havellandisches-luch",
-    "kpi": {
-      "area": 810,
-      "farms": 89,
-      "tempRange": "9.5 deg C avg",
-      "precip": "570 mm/yr",
-      "soil": "Peat / gley"
-    },
     "en": {
       "name": "Havelländisches Luch",
       "tagline": "Climate protection and grassland use in fenland regions",
@@ -128,26 +76,7 @@
         "geography": "Mock placeholder describing geographic characteristics.",
         "challenges": ["Mock challenge 1", "Mock challenge 2"]
       },
-      "delineation": "Mock placeholder explaining why these NUTS3 regions were chosen.",
-      "production": {
-        "land_area": "-",
-        "agriculture_pct": "-",
-        "forests_pct": "-",
-        "grassland_pct": "-",
-        "protected_pct": "-",
-        "organic_pct": "-",
-        "main_crops": "-",
-        "main_livestock": "-",
-        "average_farm_size": "-",
-        "average_rent_rate": "-"
-      },
-      "socio": {
-        "population": "-",
-        "population_density": "-",
-        "nearest_city": "-",
-        "gdp_per_capita": "-",
-        "household_income": "-"
-      }
+      "delineation": "Mock placeholder explaining why these NUTS3 regions were chosen."
     },
     "de": {
       "name": "Havelländisches Luch",
@@ -165,26 +94,7 @@
         "geography": "Mock-Platzhalter zur Beschreibung der geografischen Eigenschaften.",
         "challenges": ["Mock Herausforderung 1", "Mock Herausforderung 2"]
       },
-      "delineation": "Mock-Platzhalter zur Begruendung der Auswahl der NUTS3-Regionen.",
-      "production": {
-        "land_area": "-",
-        "agriculture_pct": "-",
-        "forests_pct": "-",
-        "grassland_pct": "-",
-        "protected_pct": "-",
-        "organic_pct": "-",
-        "main_crops": "-",
-        "main_livestock": "-",
-        "average_farm_size": "-",
-        "average_rent_rate": "-"
-      },
-      "socio": {
-        "population": "-",
-        "population_density": "-",
-        "nearest_city": "-",
-        "gdp_per_capita": "-",
-        "household_income": "-"
-      }
+      "delineation": "Mock-Platzhalter zur Begruendung der Auswahl der NUTS3-Regionen."
     }
   },
   "north-hessian-loess": {
@@ -199,13 +109,6 @@
     "colorDark": "#00413f",
     "outlineColor": "#359269",
     "icon": "north-hessian-loess",
-    "kpi": {
-      "area": 1140,
-      "farms": 204,
-      "tempRange": "9.1 deg C avg",
-      "precip": "680 mm/yr",
-      "soil": "Loess / luvisol"
-    },
     "en": {
       "name": "North Hessian Loess Plain",
       "tagline": "Intensified organic farming",
@@ -222,26 +125,7 @@
         "geography": "Mock placeholder describing geographic characteristics.",
         "challenges": ["Mock challenge 1", "Mock challenge 2"]
       },
-      "delineation": "Mock placeholder explaining why these NUTS3 regions were chosen.",
-      "production": {
-        "land_area": "-",
-        "agriculture_pct": "-",
-        "forests_pct": "-",
-        "grassland_pct": "-",
-        "protected_pct": "-",
-        "organic_pct": "-",
-        "main_crops": "-",
-        "main_livestock": "-",
-        "average_farm_size": "-",
-        "average_rent_rate": "-"
-      },
-      "socio": {
-        "population": "-",
-        "population_density": "-",
-        "nearest_city": "-",
-        "gdp_per_capita": "-",
-        "household_income": "-"
-      }
+      "delineation": "Mock placeholder explaining why these NUTS3 regions were chosen."
     },
     "de": {
       "name": "Nordhessische Lössplatte",
@@ -259,26 +143,7 @@
         "geography": "Mock-Platzhalter zur Beschreibung der geografischen Eigenschaften.",
         "challenges": ["Mock Herausforderung 1", "Mock Herausforderung 2"]
       },
-      "delineation": "Mock-Platzhalter zur Begruendung der Auswahl der NUTS3-Regionen.",
-      "production": {
-        "land_area": "-",
-        "agriculture_pct": "-",
-        "forests_pct": "-",
-        "grassland_pct": "-",
-        "protected_pct": "-",
-        "organic_pct": "-",
-        "main_crops": "-",
-        "main_livestock": "-",
-        "average_farm_size": "-",
-        "average_rent_rate": "-"
-      },
-      "socio": {
-        "population": "-",
-        "population_density": "-",
-        "nearest_city": "-",
-        "gdp_per_capita": "-",
-        "household_income": "-"
-      }
+      "delineation": "Mock-Platzhalter zur Begruendung der Auswahl der NUTS3-Regionen."
     }
   },
   "hessian-low-mountain": {
@@ -293,13 +158,6 @@
     "colorDark": "#276d4e",
     "outlineColor": "#9bc72d",
     "icon": "hessian-low-mountain",
-    "kpi": {
-      "area": 960,
-      "farms": 178,
-      "tempRange": "8.0 deg C avg",
-      "precip": "750 mm/yr",
-      "soil": "Brown earth"
-    },
     "en": {
       "name": "Hessian Low Mountain Range",
       "tagline": "Integrated plant-animal agricultural systems",
@@ -319,26 +177,7 @@
           "Marginal locations, some of which are unsuitable for cultivation"
         ]
       },
-      "delineation": "Based on the Giessen administrative district, with planned expansion to include all areas in Hesse with the characteristics mentioned. Covers sub-areas rather than a single contiguous region.",
-      "production": {
-        "land_area": "-",
-        "agriculture_pct": "-",
-        "forests_pct": "-",
-        "grassland_pct": "-",
-        "protected_pct": "-",
-        "organic_pct": "-",
-        "main_crops": "-",
-        "main_livestock": "-",
-        "average_farm_size": "-",
-        "average_rent_rate": "-"
-      },
-      "socio": {
-        "population": "-",
-        "population_density": "-",
-        "nearest_city": "-",
-        "gdp_per_capita": "-",
-        "household_income": "-"
-      }
+      "delineation": "Based on the Giessen administrative district, with planned expansion to include all areas in Hesse with the characteristics mentioned. Covers sub-areas rather than a single contiguous region."
     },
     "de": {
       "name": "Hessisches Mittelgebirge",
@@ -359,26 +198,7 @@
           "Marginale Standorte, teilweise nicht ackerbaulich nutzbar"
         ]
       },
-      "delineation": "Ausgehend vom Regierungsbezirk Giessen, mit geplanter Erweiterung auf alle hessischen Gebiete mit den genannten Eigenschaften. Umfasst Teilflaechen statt einer einzigen zusammenhaengenden Region.",
-      "production": {
-        "land_area": "-",
-        "agriculture_pct": "-",
-        "forests_pct": "-",
-        "grassland_pct": "-",
-        "protected_pct": "-",
-        "organic_pct": "-",
-        "main_crops": "-",
-        "main_livestock": "-",
-        "average_farm_size": "-",
-        "average_rent_rate": "-"
-      },
-      "socio": {
-        "population": "-",
-        "population_density": "-",
-        "nearest_city": "-",
-        "gdp_per_capita": "-",
-        "household_income": "-"
-      }
+      "delineation": "Ausgehend vom Regierungsbezirk Giessen, mit geplanter Erweiterung auf alle hessischen Gebiete mit den genannten Eigenschaften. Umfasst Teilflaechen statt einer einzigen zusammenhaengenden Region."
     }
   },
   "rheingau": {
@@ -393,13 +213,6 @@
     "colorDark": "#225e43",
     "outlineColor": "#dc4b14",
     "icon": "rheingau",
-    "kpi": {
-      "area": 450,
-      "farms": 143,
-      "tempRange": "11.2 deg C avg",
-      "precip": "550 mm/yr",
-      "soil": "Slate / shallow loam"
-    },
     "en": {
       "name": "Rheingau",
       "tagline": "Multifunctional and climate-resilient viticulture systems",
@@ -416,26 +229,7 @@
         "geography": "Mock placeholder describing geographic characteristics.",
         "challenges": ["Mock challenge 1", "Mock challenge 2"]
       },
-      "delineation": "Mock placeholder explaining why these NUTS3 regions were chosen.",
-      "production": {
-        "land_area": "-",
-        "agriculture_pct": "-",
-        "forests_pct": "-",
-        "grassland_pct": "-",
-        "protected_pct": "-",
-        "organic_pct": "-",
-        "main_crops": "-",
-        "main_livestock": "-",
-        "average_farm_size": "-",
-        "average_rent_rate": "-"
-      },
-      "socio": {
-        "population": "-",
-        "population_density": "-",
-        "nearest_city": "-",
-        "gdp_per_capita": "-",
-        "household_income": "-"
-      }
+      "delineation": "Mock placeholder explaining why these NUTS3 regions were chosen."
     },
     "de": {
       "name": "Rheingau",
@@ -453,26 +247,7 @@
         "geography": "Mock-Platzhalter zur Beschreibung der geografischen Eigenschaften.",
         "challenges": ["Mock Herausforderung 1", "Mock Herausforderung 2"]
       },
-      "delineation": "Mock-Platzhalter zur Begruendung der Auswahl der NUTS3-Regionen.",
-      "production": {
-        "land_area": "-",
-        "agriculture_pct": "-",
-        "forests_pct": "-",
-        "grassland_pct": "-",
-        "protected_pct": "-",
-        "organic_pct": "-",
-        "main_crops": "-",
-        "main_livestock": "-",
-        "average_farm_size": "-",
-        "average_rent_rate": "-"
-      },
-      "socio": {
-        "population": "-",
-        "population_density": "-",
-        "nearest_city": "-",
-        "gdp_per_capita": "-",
-        "household_income": "-"
-      }
+      "delineation": "Mock-Platzhalter zur Begruendung der Auswahl der NUTS3-Regionen."
     }
   }
 }
