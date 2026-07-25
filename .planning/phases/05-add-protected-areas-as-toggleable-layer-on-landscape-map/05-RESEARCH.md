@@ -65,7 +65,7 @@ REQUIREMENTS.md or proceed with the CONTEXT decision IDs (D-01…D-08) as the tr
 | D-02 | German Nature Reserves | `Naturschutzgebiete` typename on the *same* BfN service, verified §1 |
 | D-03 | Full unclipped polygons intersecting the LL | Padded-bbox fetch + `geometry.intersects(ll_geom)` boolean filter (no `gpd.clip`), verified §3 |
 | D-04 | Live WFS at pipeline runtime | GetFeature proven for all 3 layers × 5 LLs, 33 s total, §3 |
-| D-05/D-06/D-07 | Independent toggle, top stacking, lazy load | Existing `LAYERS`/`LayerTabs`/`useGeoJSON` infrastructure covers all three, §6 |
+| D-05/D-06/D-07 | Independent toggle, top stacking, lazy load | **Corrected during planning:** `LayerTabs` is *exclusive*, so it cannot express D-05/D-06. Delivered by a new `OVERLAYS` registry + an in-map toggle + an imperative `ProtectedAreasLayer` (`useMap()` + `useEffect`) in a dedicated pane; `useGeoJSON` covers D-07 unchanged. See 05-02-PLAN.md Task 1 |
 | D-08 | No simplification | Feasible but **312 k vertices max per LL** — requires Canvas renderer, §5 Pitfall 12 |
 </phase_requirements>
 
@@ -104,8 +104,11 @@ GETs the three BfN feature types per LL using a lat/lon-ordered `urn:` BBOX padd
 `intersects(ll_geom)` (no clipping, per D-03), normalises the three divergent schemas onto the
 UI-SPEC property contract, and writes `data/geojson/protected-areas-{slug}.geojson`. Register the
 layer in `sources.yaml` with `kind: vector` + `app_layer: protected-areas` so **`sync.py` needs zero
-code changes**. On the app side, add one entry to `LAYERS` in `app/src/data/layers.js` (this
-auto-creates the tab), and render with `renderer={L.canvas()}`.
+code changes**. On the app side, add one entry to a new `OVERLAYS` array in `app/src/data/layers.js` (**corrected
+during planning:** NOT `LAYERS`, which would create an exclusive tab and make D-06 unimplementable),
+and render it with an imperative `ProtectedAreasLayer` component using `useMap()` + `useEffect`,
+in a dedicated pane at `zIndex 450` with an `L.canvas({ padding: 0.5, pane: 'protectedAreasPane' })`
+renderer.
 
 ---
 
@@ -628,24 +631,24 @@ UI-SPEC snippets:
    `layer === 'soil'` / `layer === 'protected-areas'`. Line 575 likewise passes
    `note={t('legend.soil.note')}` unconditionally.
 
-3. **Use the Canvas renderer** (see Pitfall 12):
-   ```jsx
-   <GeoJSON
-     key={`protected-areas-${ll.slug}`}
-     data={protectedAreasFeatureCollection}
-     style={getProtectedAreasStyle}
-     renderer={CANVAS_RENDERER}          // const CANVAS_RENDERER = L.canvas({ padding: 0.5 })
-     onEachFeature={...}
-   />
-   ```
+3. **Use the Canvas renderer** (see Pitfall 12). **Corrected during planning:** do *not* use
+   react-leaflet's `<GeoJSON>` for this layer. React-leaflet may reorder sibling children when
+   layers mount and unmount, which would let the white LL mask bury the overlay. Build it
+   imperatively instead, mirroring the existing `RasterPmtilesLayer`: inside a `useMap()` +
+   `useEffect`, call `map.createPane('protectedAreasPane')` and set its `zIndex` to 450, create
+   `L.canvas({ padding: 0.5, pane: 'protectedAreasPane' })`, then `L.geoJSON(collection, { pane,
+   renderer, style: getProtectedAreasStyle, onEachFeature })` and `addTo(map)`, returning
+   `map.removeLayer(layer)` as cleanup. See 05-03-PLAN.md Task 2.
 
 **`app/src/components/MapLegend.jsx`** — no change needed. It already accepts an `entries` array of
 `{ value, en, de, color }` and renders `entry[lang] || entry.en`, plus a `note`.
 
 **`app/src/i18n.js`** — add the keys from UI-SPEC §5, with the LAWA correction from §1.3 above.
 
-**`app/src/components/LayerTabs.jsx`** — no change. It maps over `LAYERS`.
-Note the tab will appear **after** `economic` unless the `LAYERS` array order is adjusted.
+**`app/src/components/LayerTabs.jsx`** — no change, and **no new tab**. It maps over `LAYERS`,
+which stays tab-only. **Corrected during planning:** the overlay toggle renders as an in-map control
+at the top-right of the map (`ProtectedAreasToggle` in `LLMap`), independent of whichever tab is
+active, so there is no tab-order question to answer.
 
 ### 5.3 Repository size impact
 
@@ -884,24 +887,38 @@ DESIGNATIONS = {
 }
 ```
 
-### Canvas renderer in react-leaflet 5
+### Canvas renderer in a dedicated pane (imperative — supersedes the react-leaflet form)
+
+**Corrected during planning 2026-07-25.** The original draft of this section used react-leaflet's
+`<GeoJSON>` with a shared module-level renderer. Two defects: a module-level renderer instance is
+shared across every mounted map (`LLDetail` renders `LLMap` from two layout branches), and child
+order in JSX does not reliably determine Leaflet stacking. The shipped form is imperative and
+pane-based:
 
 ```jsx
-// module scope — one shared renderer instance
-const CANVAS_RENDERER = L.canvas({ padding: 0.5 })
-
-<GeoJSON
-  key={`protected-areas-${ll.slug}`}
-  data={protectedAreasFeatureCollection}   // NOTE: state.data[0], the hook returns an array
-  style={getProtectedAreasStyle}
-  renderer={CANVAS_RENDERER}
-  onEachFeature={(feature, featureLayer) => {
-    bindProtectedAreasTooltip(feature, featureLayer, t, lang)
-    // Canvas has no CSS :hover — wire emphasis explicitly (UI-SPEC 2.3)
-    featureLayer.on('mouseover', () => featureLayer.setStyle({ fillOpacity: 0.75, weight: 1.6 }))
-    featureLayer.on('mouseout',  () => featureLayer.setStyle(getProtectedAreasStyle(feature)))
-  }}
-/>
+function ProtectedAreasLayer({ collection, slugKey, t, lang }) {
+  const map = useMap()
+  useEffect(() => {
+    if (!map.getPane('protectedAreasPane')) {
+      map.createPane('protectedAreasPane').style.zIndex = 450   // > overlayPane (400) > tilePane (200)
+    }
+    const renderer = L.canvas({ padding: 0.5, pane: 'protectedAreasPane' })
+    const layer = L.geoJSON(collection, {
+      pane: 'protectedAreasPane',
+      renderer,
+      style: getProtectedAreasStyle,
+      onEachFeature: (feature, featureLayer) => {
+        bindProtectedAreasTooltip(feature, featureLayer, t, lang)
+        // Canvas has no CSS :hover — wire emphasis explicitly (UI-SPEC 2.3)
+        featureLayer.on('mouseover', () => featureLayer.setStyle(PROTECTED_AREAS_HOVER_STYLE))
+        featureLayer.on('mouseout', () => featureLayer.setStyle(getProtectedAreasStyle(feature)))
+      },
+    }).addTo(map)
+    return () => { map.removeLayer(layer) }
+  }, [collection, slugKey, map, t, lang])
+  return null
+}
+// caller passes protectedAreasState.data[0] — the hook returns an array
 ```
 
 ---
