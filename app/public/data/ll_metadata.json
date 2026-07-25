@@ -1,327 +1,675 @@
 {
   "east-brandenburg": {
-    "slug": "east-brandenburg",
+    "color": "#9bc72d",
+    "colorDark": "#5e781b",
     "contact": "lab1@zalf.de",
+    "de": {
+      "delineation": "Mock-Platzhalter zur Begruendung der Auswahl der NUTS3-Regionen.",
+      "description": {
+        "challenges": [
+          "Mock Herausforderung 1",
+          "Mock Herausforderung 2"
+        ],
+        "climate": "Mock-Platzhalter zur Beschreibung des Klimas.",
+        "geography": "Mock-Platzhalter zur Beschreibung der geografischen Eigenschaften.",
+        "soil": "Mock-Platzhalter zur Beschreibung der Bodenverhaeltnisse."
+      },
+      "name": "Ost-Brandenburg",
+      "soil_climate": {
+        "altitude": "Mock - auszufuellen",
+        "main_soil_types": "Mock - variiert je nach Standort",
+        "rainfall": "550-800 mm/Jahr (Mock)",
+        "temperature": "8,5-10,0 deg C (Mock)",
+        "topography": "Mock Topographie"
+      },
+      "tagline": "Multifunktionale und vielfältige Ackerbausysteme"
+    },
+    "destatisRetrievedAt": "2026-07-25",
+    "en": {
+      "delineation": "Mock placeholder explaining why these NUTS3 regions were chosen.",
+      "description": {
+        "challenges": [
+          "Mock challenge 1",
+          "Mock challenge 2"
+        ],
+        "climate": "Mock placeholder describing prevailing climate patterns.",
+        "geography": "Mock placeholder describing geographic characteristics.",
+        "soil": "Mock placeholder describing soil conditions for this Living Lab."
+      },
+      "name": "East Brandenburg",
+      "soil_climate": {
+        "altitude": "Mock - to be filled",
+        "main_soil_types": "Mock - varies by location",
+        "rainfall": "550-800 mm/year (mock)",
+        "temperature": "8.5-10.0 deg C (mock)",
+        "topography": "Mock topography"
+      },
+      "tagline": "Multifunctional and diverse arable farming systems"
+    },
+    "icon": "east-brandenburg",
+    "kpiByTab": {
+      "climate": [
+        {
+          "genesisTable": null,
+          "key": "agr_ch4_kt",
+          "unit": {
+            "de": "kt CO2aeq",
+            "en": "kt CO2eq"
+          },
+          "value": null
+        },
+        {
+          "genesisTable": null,
+          "key": "agr_n2o_kt",
+          "unit": {
+            "de": "kt CO2aeq",
+            "en": "kt CO2eq"
+          },
+          "value": null
+        }
+      ],
+      "economic": [
+        {
+          "genesisTable": "12411KJ002",
+          "key": "population_total",
+          "unit": {
+            "de": "Personen",
+            "en": "persons"
+          },
+          "value": 704008.0
+        },
+        {
+          "genesisTable": "82000-01-01-4",
+          "key": "gdp_per_capita_eur",
+          "unit": {
+            "de": "EUR",
+            "en": "EUR"
+          },
+          "value": 33837.25
+        },
+        {
+          "genesisTable": "13211-02-05-4",
+          "key": "unemployment_rate_pct",
+          "unit": {
+            "de": "%",
+            "en": "%"
+          },
+          "value": 6.25
+        },
+        {
+          "genesisTable": "82000-07-01-4",
+          "key": "household_income_eur",
+          "unit": {
+            "de": "EUR",
+            "en": "EUR"
+          },
+          "value": 26526.75
+        }
+      ],
+      "landscape": [
+        {
+          "genesisTable": "33111-01-02-4",
+          "key": "forest_area_ha",
+          "unit": {
+            "de": "ha",
+            "en": "ha"
+          },
+          "value": 278900.0
+        },
+        {
+          "genesisTable": null,
+          "key": "natura2000_ha",
+          "unit": {
+            "de": "ha",
+            "en": "ha"
+          },
+          "value": null
+        },
+        {
+          "genesisTable": null,
+          "key": "nature_reserves_ha",
+          "unit": {
+            "de": "ha",
+            "en": "ha"
+          },
+          "value": null
+        },
+        {
+          "genesisTable": "33111-01-02-4",
+          "key": "sealed_surface_pct",
+          "unit": {
+            "de": "%",
+            "en": "%"
+          },
+          "value": 11.4
+        }
+      ],
+      "landuse": [
+        {
+          "genesisTable": "41141-01-01-4",
+          "key": "land_area_cropland_ha",
+          "unit": {
+            "de": "ha",
+            "en": "ha"
+          },
+          "value": 252996.0
+        },
+        {
+          "genesisTable": "41141-04-02-4",
+          "key": "farms_count",
+          "unit": {
+            "de": "Anzahl",
+            "en": "count"
+          },
+          "value": 1374.0
+        },
+        {
+          "genesisTable": "41141-04-02-4",
+          "key": "farm_avg_size_ha",
+          "unit": {
+            "de": "ha",
+            "en": "ha"
+          },
+          "value": 220.7
+        },
+        {
+          "genesisTable": "41141-04-02-4",
+          "key": "organic_pct",
+          "unit": {
+            "de": "%",
+            "en": "%"
+          },
+          "value": 12.4
+        }
+      ],
+      "soil": [
+        {
+          "genesisTable": null,
+          "key": "n_surplus_kg_ha",
+          "unit": {
+            "de": "kg N/ha LF",
+            "en": "kg N/ha UAA"
+          },
+          "value": null
+        },
+        {
+          "genesisTable": null,
+          "key": "p_surplus_kg_ha",
+          "unit": {
+            "de": "kg P/ha LF",
+            "en": "kg P/ha UAA"
+          },
+          "value": null
+        },
+        {
+          "genesisTable": "32221-01-03-4",
+          "key": "groundwater_abstraction_1000m3",
+          "unit": {
+            "de": "1000 cbm",
+            "en": "1000 m3"
+          },
+          "value": 20656.0
+        }
+      ]
+    },
+    "mock": true,
+    "num": "01",
     "nuts3": [
       "DE409",
       "DE40A",
       "DE40B",
       "DE40C"
     ],
-    "mock": true,
-    "num": "01",
     "order": 1,
-    "region": {
-      "en": "Brandenburg",
-      "de": "Brandenburg"
-    },
-    "color": "#9bc72d",
-    "colorDark": "#5e781b",
     "outlineColor": "#eb5b25",
-    "icon": "east-brandenburg",
-    "kpi": {
-      "area": 2410,
-      "farms": 312,
-      "tempRange": "9.8 deg C avg",
-      "precip": "540 mm/yr",
-      "soil": "Sandy loam"
+    "region": {
+      "de": "Brandenburg",
+      "en": "Brandenburg"
     },
-    "en": {
-      "name": "East Brandenburg",
-      "tagline": "Multifunctional and diverse arable farming systems",
-      "soil_climate": {
-        "main_soil_types": "Mock - varies by location",
-        "topography": "Mock topography",
-        "altitude": "Mock - to be filled",
-        "rainfall": "550-800 mm/year (mock)",
-        "temperature": "8.5-10.0 deg C (mock)"
-      },
-      "description": {
-        "soil": "Mock placeholder describing soil conditions for this Living Lab.",
-        "climate": "Mock placeholder describing prevailing climate patterns.",
-        "geography": "Mock placeholder describing geographic characteristics.",
-        "challenges": [
-          "Mock challenge 1",
-          "Mock challenge 2"
-        ]
-      },
-      "delineation": "Mock placeholder explaining why these NUTS3 regions were chosen.",
-      "production": {
-        "land_area": "-",
-        "agriculture_pct": "-",
-        "forests_pct": "-",
-        "grassland_pct": "-",
-        "protected_pct": "-",
-        "organic_pct": "-",
-        "main_crops": "-",
-        "main_livestock": "-",
-        "average_farm_size": "-",
-        "average_rent_rate": "-"
-      },
-      "socio": {
-        "population": "-",
-        "population_density": "-",
-        "nearest_city": "-",
-        "gdp_per_capita": "-",
-        "household_income": "-"
-      }
-    },
+    "slug": "east-brandenburg"
+  },
+  "havellandisches-luch": {
+    "color": "#00b3ad",
+    "colorDark": "#005754",
+    "contact": "lab2@zalf.de",
     "de": {
-      "name": "Ost-Brandenburg",
-      "tagline": "Multifunktionale und vielfältige Ackerbausysteme",
-      "soil_climate": {
-        "main_soil_types": "Mock - variiert je nach Standort",
-        "topography": "Mock Topographie",
-        "altitude": "Mock - auszufuellen",
-        "rainfall": "550-800 mm/Jahr (Mock)",
-        "temperature": "8,5-10,0 deg C (Mock)"
-      },
+      "delineation": "Mock-Platzhalter zur Begruendung der Auswahl der NUTS3-Regionen.",
       "description": {
-        "soil": "Mock-Platzhalter zur Beschreibung der Bodenverhaeltnisse.",
-        "climate": "Mock-Platzhalter zur Beschreibung des Klimas.",
-        "geography": "Mock-Platzhalter zur Beschreibung der geografischen Eigenschaften.",
         "challenges": [
           "Mock Herausforderung 1",
           "Mock Herausforderung 2"
-        ]
+        ],
+        "climate": "Mock-Platzhalter zur Beschreibung des Klimas.",
+        "geography": "Mock-Platzhalter zur Beschreibung der geografischen Eigenschaften.",
+        "soil": "Mock-Platzhalter zur Beschreibung der Bodenverhaeltnisse."
       },
-      "delineation": "Mock-Platzhalter zur Begruendung der Auswahl der NUTS3-Regionen.",
-      "production": {
-        "land_area": "-",
-        "agriculture_pct": "-",
-        "forests_pct": "-",
-        "grassland_pct": "-",
-        "protected_pct": "-",
-        "organic_pct": "-",
-        "main_crops": "-",
-        "main_livestock": "-",
-        "average_farm_size": "-",
-        "average_rent_rate": "-"
+      "name": "Havelländisches Luch",
+      "soil_climate": {
+        "altitude": "Mock - auszufuellen",
+        "main_soil_types": "Mock - variiert je nach Standort",
+        "rainfall": "550-800 mm/Jahr (Mock)",
+        "temperature": "8,5-10,0 deg C (Mock)",
+        "topography": "Mock Topographie"
       },
-      "socio": {
-        "population": "-",
-        "population_density": "-",
-        "nearest_city": "-",
-        "gdp_per_capita": "-",
-        "household_income": "-"
-      }
-    }
-  },
-  "havellandisches-luch": {
-    "slug": "havellandisches-luch",
-    "contact": "lab2@zalf.de",
+      "tagline": "Klimaschutz und Grünlandnutzung in Niedermoorregionen"
+    },
+    "destatisRetrievedAt": "2026-07-25",
+    "en": {
+      "delineation": "Mock placeholder explaining why these NUTS3 regions were chosen.",
+      "description": {
+        "challenges": [
+          "Mock challenge 1",
+          "Mock challenge 2"
+        ],
+        "climate": "Mock placeholder describing prevailing climate patterns.",
+        "geography": "Mock placeholder describing geographic characteristics.",
+        "soil": "Mock placeholder describing soil conditions for this Living Lab."
+      },
+      "name": "Havelländisches Luch",
+      "soil_climate": {
+        "altitude": "Mock - to be filled",
+        "main_soil_types": "Mock - varies by location",
+        "rainfall": "550-800 mm/year (mock)",
+        "temperature": "8.5-10.0 deg C (mock)",
+        "topography": "Mock topography"
+      },
+      "tagline": "Climate protection and grassland use in fenland regions"
+    },
+    "icon": "havellandisches-luch",
+    "kpiByTab": {
+      "climate": [
+        {
+          "genesisTable": null,
+          "key": "agr_ch4_kt",
+          "unit": {
+            "de": "kt CO2aeq",
+            "en": "kt CO2eq"
+          },
+          "value": null
+        },
+        {
+          "genesisTable": null,
+          "key": "agr_n2o_kt",
+          "unit": {
+            "de": "kt CO2aeq",
+            "en": "kt CO2eq"
+          },
+          "value": null
+        }
+      ],
+      "economic": [
+        {
+          "genesisTable": "12411KJ002",
+          "key": "population_total",
+          "unit": {
+            "de": "Personen",
+            "en": "persons"
+          },
+          "value": 347383.0
+        },
+        {
+          "genesisTable": "82000-01-01-4",
+          "key": "gdp_per_capita_eur",
+          "unit": {
+            "de": "EUR",
+            "en": "EUR"
+          },
+          "value": 36548.5
+        },
+        {
+          "genesisTable": "13211-02-05-4",
+          "key": "unemployment_rate_pct",
+          "unit": {
+            "de": "%",
+            "en": "%"
+          },
+          "value": 5.35
+        },
+        {
+          "genesisTable": "82000-07-01-4",
+          "key": "household_income_eur",
+          "unit": {
+            "de": "EUR",
+            "en": "EUR"
+          },
+          "value": 26849.0
+        }
+      ],
+      "landscape": [
+        {
+          "genesisTable": "33111-01-02-4",
+          "key": "forest_area_ha",
+          "unit": {
+            "de": "ha",
+            "en": "ha"
+          },
+          "value": 146778.0
+        },
+        {
+          "genesisTable": null,
+          "key": "natura2000_ha",
+          "unit": {
+            "de": "ha",
+            "en": "ha"
+          },
+          "value": null
+        },
+        {
+          "genesisTable": null,
+          "key": "nature_reserves_ha",
+          "unit": {
+            "de": "ha",
+            "en": "ha"
+          },
+          "value": null
+        },
+        {
+          "genesisTable": "33111-01-02-4",
+          "key": "sealed_surface_pct",
+          "unit": {
+            "de": "%",
+            "en": "%"
+          },
+          "value": 10.9
+        }
+      ],
+      "landuse": [
+        {
+          "genesisTable": "41141-01-01-4",
+          "key": "land_area_cropland_ha",
+          "unit": {
+            "de": "ha",
+            "en": "ha"
+          },
+          "value": 108058.0
+        },
+        {
+          "genesisTable": "41141-04-02-4",
+          "key": "farms_count",
+          "unit": {
+            "de": "Anzahl",
+            "en": "count"
+          },
+          "value": 696.0
+        },
+        {
+          "genesisTable": "41141-04-02-4",
+          "key": "farm_avg_size_ha",
+          "unit": {
+            "de": "ha",
+            "en": "ha"
+          },
+          "value": 230.75
+        },
+        {
+          "genesisTable": "41141-04-02-4",
+          "key": "organic_pct",
+          "unit": {
+            "de": "%",
+            "en": "%"
+          },
+          "value": 22.6
+        }
+      ],
+      "soil": [
+        {
+          "genesisTable": null,
+          "key": "n_surplus_kg_ha",
+          "unit": {
+            "de": "kg N/ha LF",
+            "en": "kg N/ha UAA"
+          },
+          "value": null
+        },
+        {
+          "genesisTable": null,
+          "key": "p_surplus_kg_ha",
+          "unit": {
+            "de": "kg P/ha LF",
+            "en": "kg P/ha UAA"
+          },
+          "value": null
+        },
+        {
+          "genesisTable": "32221-01-03-4",
+          "key": "groundwater_abstraction_1000m3",
+          "unit": {
+            "de": "1000 cbm",
+            "en": "1000 m3"
+          },
+          "value": 4893.0
+        }
+      ]
+    },
+    "mock": true,
+    "num": "02",
     "nuts3": [
       "DE406",
       "DE408"
     ],
-    "mock": true,
-    "num": "02",
     "order": 2,
-    "region": {
-      "en": "Brandenburg",
-      "de": "Brandenburg"
-    },
-    "color": "#00b3ad",
-    "colorDark": "#005754",
     "outlineColor": "#00b3ad",
-    "icon": "havellandisches-luch",
-    "kpi": {
-      "area": 810,
-      "farms": 89,
-      "tempRange": "9.5 deg C avg",
-      "precip": "570 mm/yr",
-      "soil": "Peat / gley"
-    },
-    "en": {
-      "name": "Havelländisches Luch",
-      "tagline": "Climate protection and grassland use in fenland regions",
-      "soil_climate": {
-        "main_soil_types": "Mock - varies by location",
-        "topography": "Mock topography",
-        "altitude": "Mock - to be filled",
-        "rainfall": "550-800 mm/year (mock)",
-        "temperature": "8.5-10.0 deg C (mock)"
-      },
-      "description": {
-        "soil": "Mock placeholder describing soil conditions for this Living Lab.",
-        "climate": "Mock placeholder describing prevailing climate patterns.",
-        "geography": "Mock placeholder describing geographic characteristics.",
-        "challenges": [
-          "Mock challenge 1",
-          "Mock challenge 2"
-        ]
-      },
-      "delineation": "Mock placeholder explaining why these NUTS3 regions were chosen.",
-      "production": {
-        "land_area": "-",
-        "agriculture_pct": "-",
-        "forests_pct": "-",
-        "grassland_pct": "-",
-        "protected_pct": "-",
-        "organic_pct": "-",
-        "main_crops": "-",
-        "main_livestock": "-",
-        "average_farm_size": "-",
-        "average_rent_rate": "-"
-      },
-      "socio": {
-        "population": "-",
-        "population_density": "-",
-        "nearest_city": "-",
-        "gdp_per_capita": "-",
-        "household_income": "-"
-      }
-    },
-    "de": {
-      "name": "Havelländisches Luch",
-      "tagline": "Klimaschutz und Grünlandnutzung in Niedermoorregionen",
-      "soil_climate": {
-        "main_soil_types": "Mock - variiert je nach Standort",
-        "topography": "Mock Topographie",
-        "altitude": "Mock - auszufuellen",
-        "rainfall": "550-800 mm/Jahr (Mock)",
-        "temperature": "8,5-10,0 deg C (Mock)"
-      },
-      "description": {
-        "soil": "Mock-Platzhalter zur Beschreibung der Bodenverhaeltnisse.",
-        "climate": "Mock-Platzhalter zur Beschreibung des Klimas.",
-        "geography": "Mock-Platzhalter zur Beschreibung der geografischen Eigenschaften.",
-        "challenges": [
-          "Mock Herausforderung 1",
-          "Mock Herausforderung 2"
-        ]
-      },
-      "delineation": "Mock-Platzhalter zur Begruendung der Auswahl der NUTS3-Regionen.",
-      "production": {
-        "land_area": "-",
-        "agriculture_pct": "-",
-        "forests_pct": "-",
-        "grassland_pct": "-",
-        "protected_pct": "-",
-        "organic_pct": "-",
-        "main_crops": "-",
-        "main_livestock": "-",
-        "average_farm_size": "-",
-        "average_rent_rate": "-"
-      },
-      "socio": {
-        "population": "-",
-        "population_density": "-",
-        "nearest_city": "-",
-        "gdp_per_capita": "-",
-        "household_income": "-"
-      }
-    }
-  },
-  "north-hessian-loess": {
-    "slug": "north-hessian-loess",
-    "contact": "lab3@zalf.de",
-    "nuts3": [
-      "DE734",
-      "DE737"
-    ],
-    "mock": true,
-    "num": "03",
-    "order": 3,
     "region": {
-      "en": "Hesse",
-      "de": "Hessen"
+      "de": "Brandenburg",
+      "en": "Brandenburg"
     },
-    "color": "#008581",
-    "colorDark": "#00413f",
-    "outlineColor": "#359269",
-    "icon": "north-hessian-loess",
-    "kpi": {
-      "area": 1140,
-      "farms": 204,
-      "tempRange": "9.1 deg C avg",
-      "precip": "680 mm/yr",
-      "soil": "Loess / luvisol"
-    },
-    "en": {
-      "name": "North Hessian Loess Plain",
-      "tagline": "Intensified organic farming",
-      "soil_climate": {
-        "main_soil_types": "Mock - varies by location",
-        "topography": "Mock topography",
-        "altitude": "Mock - to be filled",
-        "rainfall": "550-800 mm/year (mock)",
-        "temperature": "8.5-10.0 deg C (mock)"
-      },
-      "description": {
-        "soil": "Mock placeholder describing soil conditions for this Living Lab.",
-        "climate": "Mock placeholder describing prevailing climate patterns.",
-        "geography": "Mock placeholder describing geographic characteristics.",
-        "challenges": [
-          "Mock challenge 1",
-          "Mock challenge 2"
-        ]
-      },
-      "delineation": "Mock placeholder explaining why these NUTS3 regions were chosen.",
-      "production": {
-        "land_area": "-",
-        "agriculture_pct": "-",
-        "forests_pct": "-",
-        "grassland_pct": "-",
-        "protected_pct": "-",
-        "organic_pct": "-",
-        "main_crops": "-",
-        "main_livestock": "-",
-        "average_farm_size": "-",
-        "average_rent_rate": "-"
-      },
-      "socio": {
-        "population": "-",
-        "population_density": "-",
-        "nearest_city": "-",
-        "gdp_per_capita": "-",
-        "household_income": "-"
-      }
-    },
-    "de": {
-      "name": "Nordhessische Lössplatte",
-      "tagline": "Intensivierter ökologischer Landbau",
-      "soil_climate": {
-        "main_soil_types": "Mock - variiert je nach Standort",
-        "topography": "Mock Topographie",
-        "altitude": "Mock - auszufuellen",
-        "rainfall": "550-800 mm/Jahr (Mock)",
-        "temperature": "8,5-10,0 deg C (Mock)"
-      },
-      "description": {
-        "soil": "Mock-Platzhalter zur Beschreibung der Bodenverhaeltnisse.",
-        "climate": "Mock-Platzhalter zur Beschreibung des Klimas.",
-        "geography": "Mock-Platzhalter zur Beschreibung der geografischen Eigenschaften.",
-        "challenges": [
-          "Mock Herausforderung 1",
-          "Mock Herausforderung 2"
-        ]
-      },
-      "delineation": "Mock-Platzhalter zur Begruendung der Auswahl der NUTS3-Regionen.",
-      "production": {
-        "land_area": "-",
-        "agriculture_pct": "-",
-        "forests_pct": "-",
-        "grassland_pct": "-",
-        "protected_pct": "-",
-        "organic_pct": "-",
-        "main_crops": "-",
-        "main_livestock": "-",
-        "average_farm_size": "-",
-        "average_rent_rate": "-"
-      },
-      "socio": {
-        "population": "-",
-        "population_density": "-",
-        "nearest_city": "-",
-        "gdp_per_capita": "-",
-        "household_income": "-"
-      }
-    }
+    "slug": "havellandisches-luch"
   },
   "hessian-low-mountain": {
-    "slug": "hessian-low-mountain",
+    "color": "#5ec597",
+    "colorDark": "#276d4e",
     "contact": "barbara.sprenger@zalf.de",
+    "de": {
+      "delineation": "Ausgehend vom Regierungsbezirk Giessen, mit geplanter Erweiterung auf alle hessischen Gebiete mit den genannten Eigenschaften. Umfasst Teilflaechen statt einer einzigen zusammenhaengenden Region.",
+      "description": {
+        "challenges": [
+          "Bodenerosion bei Starkregen",
+          "Marginale Standorte, teilweise nicht ackerbaulich nutzbar"
+        ],
+        "climate": "Exponiert zur Hauptwindrichtung mit Steigungsregen und niedrigeren Temperaturen als in den Ebenen.",
+        "geography": "Mittelgebirgsregion in 400-1000 m Hoehe mit hoher Reliefenergie. Umfasst die Bodenklimaraeume 1010 (Hessisches Mittelgebirge/Sauerland/Bergisches Land) und 1014 (Rhein-Main-Tiefebene/Wittlicher Senke).",
+        "soil": "Bodentypen sind sehr variabel: podsolige Braunerden mit geringer Basensaettigung, Buntsandstein, Braunerden mit hoher bis mittlerer Basensaettigung, Pseudogley, Parabraunerden aus Loess mit hoher Basensaettigung sowie Rendzina auf kalkhaltigen Standorten."
+      },
+      "name": "Hessisches Mittelgebirge",
+      "soil_climate": {
+        "altitude": "400-1000 m",
+        "main_soil_types": "Braunerde",
+        "rainfall": "600->1000 mm/Jahr",
+        "temperature": "7,4-10,1 deg C",
+        "topography": "Mittelgebirge"
+      },
+      "tagline": "Integrierte Pflanze-Tier-Agrarsysteme"
+    },
+    "destatisRetrievedAt": "2026-07-25",
+    "en": {
+      "delineation": "Based on the Giessen administrative district, with planned expansion to include all areas in Hesse with the characteristics mentioned. Covers sub-areas rather than a single contiguous region.",
+      "description": {
+        "challenges": [
+          "Soil erosion during heavy rainfall",
+          "Marginal locations, some of which are unsuitable for cultivation"
+        ],
+        "climate": "Exposed to prevailing wind direction with slope rainfall and lower temperatures compared to the plains.",
+        "geography": "Low mountain regions at 400-1000 m altitude with high relief energy. Covers soil climate areas 1010 (Hesse low mountain range/Sauerland/Bergisches Land) and 1014 (Rhine-Main lowlands/Wittlicher Senke).",
+        "soil": "Soil types are highly variable, including podzolic brown soils with low base saturation, red sandstone, brown soils with high to medium base saturation, pseudogley, parabraun soils from loess with high base saturation, and rendzina on calcareous sites (locally limited)."
+      },
+      "name": "Hessian Low Mountain Range",
+      "soil_climate": {
+        "altitude": "400-1000 m",
+        "main_soil_types": "Brown earth",
+        "rainfall": "600->1000 mm/year",
+        "temperature": "7.4-10.1 deg C",
+        "topography": "Low mountain"
+      },
+      "tagline": "Integrated plant-animal agricultural systems"
+    },
+    "icon": "hessian-low-mountain",
+    "kpiByTab": {
+      "climate": [
+        {
+          "genesisTable": null,
+          "key": "agr_ch4_kt",
+          "unit": {
+            "de": "kt CO2aeq",
+            "en": "kt CO2eq"
+          },
+          "value": null
+        },
+        {
+          "genesisTable": null,
+          "key": "agr_n2o_kt",
+          "unit": {
+            "de": "kt CO2aeq",
+            "en": "kt CO2eq"
+          },
+          "value": null
+        }
+      ],
+      "economic": [
+        {
+          "genesisTable": "12411KJ002",
+          "key": "population_total",
+          "unit": {
+            "de": "Personen",
+            "en": "persons"
+          },
+          "value": 1041453.0
+        },
+        {
+          "genesisTable": "82000-01-01-4",
+          "key": "gdp_per_capita_eur",
+          "unit": {
+            "de": "EUR",
+            "en": "EUR"
+          },
+          "value": 40568.0
+        },
+        {
+          "genesisTable": "13211-02-05-4",
+          "key": "unemployment_rate_pct",
+          "unit": {
+            "de": "%",
+            "en": "%"
+          },
+          "value": 5.34
+        },
+        {
+          "genesisTable": "82000-07-01-4",
+          "key": "household_income_eur",
+          "unit": {
+            "de": "EUR",
+            "en": "EUR"
+          },
+          "value": 26575.6
+        }
+      ],
+      "landscape": [
+        {
+          "genesisTable": "33111-01-02-4",
+          "key": "forest_area_ha",
+          "unit": {
+            "de": "ha",
+            "en": "ha"
+          },
+          "value": 214513.0
+        },
+        {
+          "genesisTable": null,
+          "key": "natura2000_ha",
+          "unit": {
+            "de": "ha",
+            "en": "ha"
+          },
+          "value": null
+        },
+        {
+          "genesisTable": null,
+          "key": "nature_reserves_ha",
+          "unit": {
+            "de": "ha",
+            "en": "ha"
+          },
+          "value": null
+        },
+        {
+          "genesisTable": "33111-01-02-4",
+          "key": "sealed_surface_pct",
+          "unit": {
+            "de": "%",
+            "en": "%"
+          },
+          "value": 15.0
+        }
+      ],
+      "landuse": [
+        {
+          "genesisTable": "41141-01-01-4",
+          "key": "land_area_cropland_ha",
+          "unit": {
+            "de": "ha",
+            "en": "ha"
+          },
+          "value": 113215.0
+        },
+        {
+          "genesisTable": "41141-04-02-4",
+          "key": "farms_count",
+          "unit": {
+            "de": "Anzahl",
+            "en": "count"
+          },
+          "value": 3832.0
+        },
+        {
+          "genesisTable": "41141-04-02-4",
+          "key": "farm_avg_size_ha",
+          "unit": {
+            "de": "ha",
+            "en": "ha"
+          },
+          "value": 54.32
+        },
+        {
+          "genesisTable": "41141-04-02-4",
+          "key": "organic_pct",
+          "unit": {
+            "de": "%",
+            "en": "%"
+          },
+          "value": 23.1
+        }
+      ],
+      "soil": [
+        {
+          "genesisTable": null,
+          "key": "n_surplus_kg_ha",
+          "unit": {
+            "de": "kg N/ha LF",
+            "en": "kg N/ha UAA"
+          },
+          "value": null
+        },
+        {
+          "genesisTable": null,
+          "key": "p_surplus_kg_ha",
+          "unit": {
+            "de": "kg P/ha LF",
+            "en": "kg P/ha UAA"
+          },
+          "value": null
+        },
+        {
+          "genesisTable": "32221-01-03-4",
+          "key": "groundwater_abstraction_1000m3",
+          "unit": {
+            "de": "1000 cbm",
+            "en": "1000 m3"
+          },
+          "value": 2244.0
+        }
+      ]
+    },
+    "mock": false,
+    "num": "04",
     "nuts3": [
       "DE721",
       "DE722",
@@ -329,208 +677,465 @@
       "DE724",
       "DE725"
     ],
-    "mock": false,
-    "num": "04",
     "order": 4,
-    "region": {
-      "en": "Hesse",
-      "de": "Hessen"
-    },
-    "color": "#5ec597",
-    "colorDark": "#276d4e",
     "outlineColor": "#9bc72d",
-    "icon": "hessian-low-mountain",
-    "kpi": {
-      "area": 960,
-      "farms": 178,
-      "tempRange": "8.0 deg C avg",
-      "precip": "750 mm/yr",
-      "soil": "Brown earth"
-    },
-    "en": {
-      "name": "Hessian Low Mountain Range",
-      "tagline": "Integrated plant-animal agricultural systems",
-      "soil_climate": {
-        "main_soil_types": "Brown earth",
-        "topography": "Low mountain",
-        "altitude": "400-1000 m",
-        "rainfall": "600->1000 mm/year",
-        "temperature": "7.4-10.1 deg C"
-      },
-      "description": {
-        "soil": "Soil types are highly variable, including podzolic brown soils with low base saturation, red sandstone, brown soils with high to medium base saturation, pseudogley, parabraun soils from loess with high base saturation, and rendzina on calcareous sites (locally limited).",
-        "climate": "Exposed to prevailing wind direction with slope rainfall and lower temperatures compared to the plains.",
-        "geography": "Low mountain regions at 400-1000 m altitude with high relief energy. Covers soil climate areas 1010 (Hesse low mountain range/Sauerland/Bergisches Land) and 1014 (Rhine-Main lowlands/Wittlicher Senke).",
-        "challenges": [
-          "Soil erosion during heavy rainfall",
-          "Marginal locations, some of which are unsuitable for cultivation"
-        ]
-      },
-      "delineation": "Based on the Giessen administrative district, with planned expansion to include all areas in Hesse with the characteristics mentioned. Covers sub-areas rather than a single contiguous region.",
-      "production": {
-        "land_area": "-",
-        "agriculture_pct": "-",
-        "forests_pct": "-",
-        "grassland_pct": "-",
-        "protected_pct": "-",
-        "organic_pct": "-",
-        "main_crops": "-",
-        "main_livestock": "-",
-        "average_farm_size": "-",
-        "average_rent_rate": "-"
-      },
-      "socio": {
-        "population": "-",
-        "population_density": "-",
-        "nearest_city": "-",
-        "gdp_per_capita": "-",
-        "household_income": "-"
-      }
-    },
-    "de": {
-      "name": "Hessisches Mittelgebirge",
-      "tagline": "Integrierte Pflanze-Tier-Agrarsysteme",
-      "soil_climate": {
-        "main_soil_types": "Braunerde",
-        "topography": "Mittelgebirge",
-        "altitude": "400-1000 m",
-        "rainfall": "600->1000 mm/Jahr",
-        "temperature": "7,4-10,1 deg C"
-      },
-      "description": {
-        "soil": "Bodentypen sind sehr variabel: podsolige Braunerden mit geringer Basensaettigung, Buntsandstein, Braunerden mit hoher bis mittlerer Basensaettigung, Pseudogley, Parabraunerden aus Loess mit hoher Basensaettigung sowie Rendzina auf kalkhaltigen Standorten.",
-        "climate": "Exponiert zur Hauptwindrichtung mit Steigungsregen und niedrigeren Temperaturen als in den Ebenen.",
-        "geography": "Mittelgebirgsregion in 400-1000 m Hoehe mit hoher Reliefenergie. Umfasst die Bodenklimaraeume 1010 (Hessisches Mittelgebirge/Sauerland/Bergisches Land) und 1014 (Rhein-Main-Tiefebene/Wittlicher Senke).",
-        "challenges": [
-          "Bodenerosion bei Starkregen",
-          "Marginale Standorte, teilweise nicht ackerbaulich nutzbar"
-        ]
-      },
-      "delineation": "Ausgehend vom Regierungsbezirk Giessen, mit geplanter Erweiterung auf alle hessischen Gebiete mit den genannten Eigenschaften. Umfasst Teilflaechen statt einer einzigen zusammenhaengenden Region.",
-      "production": {
-        "land_area": "-",
-        "agriculture_pct": "-",
-        "forests_pct": "-",
-        "grassland_pct": "-",
-        "protected_pct": "-",
-        "organic_pct": "-",
-        "main_crops": "-",
-        "main_livestock": "-",
-        "average_farm_size": "-",
-        "average_rent_rate": "-"
-      },
-      "socio": {
-        "population": "-",
-        "population_density": "-",
-        "nearest_city": "-",
-        "gdp_per_capita": "-",
-        "household_income": "-"
-      }
-    }
-  },
-  "rheingau": {
-    "slug": "rheingau",
-    "contact": "lab5@zalf.de",
-    "nuts3": [
-      "DE71D"
-    ],
-    "mock": true,
-    "num": "05",
-    "order": 5,
     "region": {
-      "en": "Hesse",
-      "de": "Hessen"
+      "de": "Hessen",
+      "en": "Hesse"
     },
-    "color": "#359269",
-    "colorDark": "#225e43",
-    "outlineColor": "#dc4b14",
-    "icon": "rheingau",
-    "kpi": {
-      "area": 450,
-      "farms": 143,
-      "tempRange": "11.2 deg C avg",
-      "precip": "550 mm/yr",
-      "soil": "Slate / shallow loam"
-    },
-    "en": {
-      "name": "Rheingau",
-      "tagline": "Multifunctional and climate-resilient viticulture systems",
-      "soil_climate": {
-        "main_soil_types": "Mock - varies by location",
-        "topography": "Mock topography",
-        "altitude": "Mock - to be filled",
-        "rainfall": "550-800 mm/year (mock)",
-        "temperature": "8.5-10.0 deg C (mock)"
-      },
-      "description": {
-        "soil": "Mock placeholder describing soil conditions for this Living Lab.",
-        "climate": "Mock placeholder describing prevailing climate patterns.",
-        "geography": "Mock placeholder describing geographic characteristics.",
-        "challenges": [
-          "Mock challenge 1",
-          "Mock challenge 2"
-        ]
-      },
-      "delineation": "Mock placeholder explaining why these NUTS3 regions were chosen.",
-      "production": {
-        "land_area": "-",
-        "agriculture_pct": "-",
-        "forests_pct": "-",
-        "grassland_pct": "-",
-        "protected_pct": "-",
-        "organic_pct": "-",
-        "main_crops": "-",
-        "main_livestock": "-",
-        "average_farm_size": "-",
-        "average_rent_rate": "-"
-      },
-      "socio": {
-        "population": "-",
-        "population_density": "-",
-        "nearest_city": "-",
-        "gdp_per_capita": "-",
-        "household_income": "-"
-      }
-    },
+    "slug": "hessian-low-mountain"
+  },
+  "north-hessian-loess": {
+    "color": "#008581",
+    "colorDark": "#00413f",
+    "contact": "lab3@zalf.de",
     "de": {
-      "name": "Rheingau",
-      "tagline": "Multifunktionale und klimaresiliente Weinbausysteme",
-      "soil_climate": {
-        "main_soil_types": "Mock - variiert je nach Standort",
-        "topography": "Mock Topographie",
-        "altitude": "Mock - auszufuellen",
-        "rainfall": "550-800 mm/Jahr (Mock)",
-        "temperature": "8,5-10,0 deg C (Mock)"
-      },
+      "delineation": "Mock-Platzhalter zur Begruendung der Auswahl der NUTS3-Regionen.",
       "description": {
-        "soil": "Mock-Platzhalter zur Beschreibung der Bodenverhaeltnisse.",
-        "climate": "Mock-Platzhalter zur Beschreibung des Klimas.",
-        "geography": "Mock-Platzhalter zur Beschreibung der geografischen Eigenschaften.",
         "challenges": [
           "Mock Herausforderung 1",
           "Mock Herausforderung 2"
-        ]
+        ],
+        "climate": "Mock-Platzhalter zur Beschreibung des Klimas.",
+        "geography": "Mock-Platzhalter zur Beschreibung der geografischen Eigenschaften.",
+        "soil": "Mock-Platzhalter zur Beschreibung der Bodenverhaeltnisse."
       },
+      "name": "Nordhessische Lössplatte",
+      "soil_climate": {
+        "altitude": "Mock - auszufuellen",
+        "main_soil_types": "Mock - variiert je nach Standort",
+        "rainfall": "550-800 mm/Jahr (Mock)",
+        "temperature": "8,5-10,0 deg C (Mock)",
+        "topography": "Mock Topographie"
+      },
+      "tagline": "Intensivierter ökologischer Landbau"
+    },
+    "destatisRetrievedAt": "2026-07-25",
+    "en": {
+      "delineation": "Mock placeholder explaining why these NUTS3 regions were chosen.",
+      "description": {
+        "challenges": [
+          "Mock challenge 1",
+          "Mock challenge 2"
+        ],
+        "climate": "Mock placeholder describing prevailing climate patterns.",
+        "geography": "Mock placeholder describing geographic characteristics.",
+        "soil": "Mock placeholder describing soil conditions for this Living Lab."
+      },
+      "name": "North Hessian Loess Plain",
+      "soil_climate": {
+        "altitude": "Mock - to be filled",
+        "main_soil_types": "Mock - varies by location",
+        "rainfall": "550-800 mm/year (mock)",
+        "temperature": "8.5-10.0 deg C (mock)",
+        "topography": "Mock topography"
+      },
+      "tagline": "Intensified organic farming"
+    },
+    "icon": "north-hessian-loess",
+    "kpiByTab": {
+      "climate": [
+        {
+          "genesisTable": null,
+          "key": "agr_ch4_kt",
+          "unit": {
+            "de": "kt CO2aeq",
+            "en": "kt CO2eq"
+          },
+          "value": null
+        },
+        {
+          "genesisTable": null,
+          "key": "agr_n2o_kt",
+          "unit": {
+            "de": "kt CO2aeq",
+            "en": "kt CO2eq"
+          },
+          "value": null
+        }
+      ],
+      "economic": [
+        {
+          "genesisTable": "12411KJ002",
+          "key": "population_total",
+          "unit": {
+            "de": "Personen",
+            "en": "persons"
+          },
+          "value": 328797.0
+        },
+        {
+          "genesisTable": "82000-01-01-4",
+          "key": "gdp_per_capita_eur",
+          "unit": {
+            "de": "EUR",
+            "en": "EUR"
+          },
+          "value": 36173.0
+        },
+        {
+          "genesisTable": "13211-02-05-4",
+          "key": "unemployment_rate_pct",
+          "unit": {
+            "de": "%",
+            "en": "%"
+          },
+          "value": 5.05
+        },
+        {
+          "genesisTable": "82000-07-01-4",
+          "key": "household_income_eur",
+          "unit": {
+            "de": "EUR",
+            "en": "EUR"
+          },
+          "value": 26456.0
+        }
+      ],
+      "landscape": [
+        {
+          "genesisTable": "33111-01-02-4",
+          "key": "forest_area_ha",
+          "unit": {
+            "de": "ha",
+            "en": "ha"
+          },
+          "value": 94673.0
+        },
+        {
+          "genesisTable": null,
+          "key": "natura2000_ha",
+          "unit": {
+            "de": "ha",
+            "en": "ha"
+          },
+          "value": null
+        },
+        {
+          "genesisTable": null,
+          "key": "nature_reserves_ha",
+          "unit": {
+            "de": "ha",
+            "en": "ha"
+          },
+          "value": null
+        },
+        {
+          "genesisTable": "33111-01-02-4",
+          "key": "sealed_surface_pct",
+          "unit": {
+            "de": "%",
+            "en": "%"
+          },
+          "value": 13.3
+        }
+      ],
+      "landuse": [
+        {
+          "genesisTable": "41141-01-01-4",
+          "key": "land_area_cropland_ha",
+          "unit": {
+            "de": "ha",
+            "en": "ha"
+          },
+          "value": 62680.0
+        },
+        {
+          "genesisTable": "41141-04-02-4",
+          "key": "farms_count",
+          "unit": {
+            "de": "Anzahl",
+            "en": "count"
+          },
+          "value": 1493.0
+        },
+        {
+          "genesisTable": "41141-04-02-4",
+          "key": "farm_avg_size_ha",
+          "unit": {
+            "de": "ha",
+            "en": "ha"
+          },
+          "value": 59.4
+        },
+        {
+          "genesisTable": "41141-04-02-4",
+          "key": "organic_pct",
+          "unit": {
+            "de": "%",
+            "en": "%"
+          },
+          "value": 12.7
+        }
+      ],
+      "soil": [
+        {
+          "genesisTable": null,
+          "key": "n_surplus_kg_ha",
+          "unit": {
+            "de": "kg N/ha LF",
+            "en": "kg N/ha UAA"
+          },
+          "value": null
+        },
+        {
+          "genesisTable": null,
+          "key": "p_surplus_kg_ha",
+          "unit": {
+            "de": "kg P/ha LF",
+            "en": "kg P/ha UAA"
+          },
+          "value": null
+        },
+        {
+          "genesisTable": "32221-01-03-4",
+          "key": "groundwater_abstraction_1000m3",
+          "unit": {
+            "de": "1000 cbm",
+            "en": "1000 m3"
+          },
+          "value": 4023.0
+        }
+      ]
+    },
+    "mock": true,
+    "num": "03",
+    "nuts3": [
+      "DE734",
+      "DE737"
+    ],
+    "order": 3,
+    "outlineColor": "#359269",
+    "region": {
+      "de": "Hessen",
+      "en": "Hesse"
+    },
+    "slug": "north-hessian-loess"
+  },
+  "rheingau": {
+    "color": "#359269",
+    "colorDark": "#225e43",
+    "contact": "lab5@zalf.de",
+    "de": {
       "delineation": "Mock-Platzhalter zur Begruendung der Auswahl der NUTS3-Regionen.",
-      "production": {
-        "land_area": "-",
-        "agriculture_pct": "-",
-        "forests_pct": "-",
-        "grassland_pct": "-",
-        "protected_pct": "-",
-        "organic_pct": "-",
-        "main_crops": "-",
-        "main_livestock": "-",
-        "average_farm_size": "-",
-        "average_rent_rate": "-"
+      "description": {
+        "challenges": [
+          "Mock Herausforderung 1",
+          "Mock Herausforderung 2"
+        ],
+        "climate": "Mock-Platzhalter zur Beschreibung des Klimas.",
+        "geography": "Mock-Platzhalter zur Beschreibung der geografischen Eigenschaften.",
+        "soil": "Mock-Platzhalter zur Beschreibung der Bodenverhaeltnisse."
       },
-      "socio": {
-        "population": "-",
-        "population_density": "-",
-        "nearest_city": "-",
-        "gdp_per_capita": "-",
-        "household_income": "-"
-      }
-    }
+      "name": "Rheingau",
+      "soil_climate": {
+        "altitude": "Mock - auszufuellen",
+        "main_soil_types": "Mock - variiert je nach Standort",
+        "rainfall": "550-800 mm/Jahr (Mock)",
+        "temperature": "8,5-10,0 deg C (Mock)",
+        "topography": "Mock Topographie"
+      },
+      "tagline": "Multifunktionale und klimaresiliente Weinbausysteme"
+    },
+    "destatisRetrievedAt": "2026-07-25",
+    "en": {
+      "delineation": "Mock placeholder explaining why these NUTS3 regions were chosen.",
+      "description": {
+        "challenges": [
+          "Mock challenge 1",
+          "Mock challenge 2"
+        ],
+        "climate": "Mock placeholder describing prevailing climate patterns.",
+        "geography": "Mock placeholder describing geographic characteristics.",
+        "soil": "Mock placeholder describing soil conditions for this Living Lab."
+      },
+      "name": "Rheingau",
+      "soil_climate": {
+        "altitude": "Mock - to be filled",
+        "main_soil_types": "Mock - varies by location",
+        "rainfall": "550-800 mm/year (mock)",
+        "temperature": "8.5-10.0 deg C (mock)",
+        "topography": "Mock topography"
+      },
+      "tagline": "Multifunctional and climate-resilient viticulture systems"
+    },
+    "icon": "rheingau",
+    "kpiByTab": {
+      "climate": [
+        {
+          "genesisTable": null,
+          "key": "agr_ch4_kt",
+          "unit": {
+            "de": "kt CO2aeq",
+            "en": "kt CO2eq"
+          },
+          "value": null
+        },
+        {
+          "genesisTable": null,
+          "key": "agr_n2o_kt",
+          "unit": {
+            "de": "kt CO2aeq",
+            "en": "kt CO2eq"
+          },
+          "value": null
+        }
+      ],
+      "economic": [
+        {
+          "genesisTable": "12411KJ002",
+          "key": "population_total",
+          "unit": {
+            "de": "Personen",
+            "en": "persons"
+          },
+          "value": 186050.0
+        },
+        {
+          "genesisTable": "82000-01-01-4",
+          "key": "gdp_per_capita_eur",
+          "unit": {
+            "de": "EUR",
+            "en": "EUR"
+          },
+          "value": 28672.0
+        },
+        {
+          "genesisTable": "13211-02-05-4",
+          "key": "unemployment_rate_pct",
+          "unit": {
+            "de": "%",
+            "en": "%"
+          },
+          "value": 5.1
+        },
+        {
+          "genesisTable": "82000-07-01-4",
+          "key": "household_income_eur",
+          "unit": {
+            "de": "EUR",
+            "en": "EUR"
+          },
+          "value": 31202.0
+        }
+      ],
+      "landscape": [
+        {
+          "genesisTable": "33111-01-02-4",
+          "key": "forest_area_ha",
+          "unit": {
+            "de": "ha",
+            "en": "ha"
+          },
+          "value": 43842.0
+        },
+        {
+          "genesisTable": null,
+          "key": "natura2000_ha",
+          "unit": {
+            "de": "ha",
+            "en": "ha"
+          },
+          "value": null
+        },
+        {
+          "genesisTable": null,
+          "key": "nature_reserves_ha",
+          "unit": {
+            "de": "ha",
+            "en": "ha"
+          },
+          "value": null
+        },
+        {
+          "genesisTable": "33111-01-02-4",
+          "key": "sealed_surface_pct",
+          "unit": {
+            "de": "%",
+            "en": "%"
+          },
+          "value": 13.6
+        }
+      ],
+      "landuse": [
+        {
+          "genesisTable": "41141-01-01-4",
+          "key": "land_area_cropland_ha",
+          "unit": {
+            "de": "ha",
+            "en": "ha"
+          },
+          "value": 11272.0
+        },
+        {
+          "genesisTable": "41141-04-02-4",
+          "key": "farms_count",
+          "unit": {
+            "de": "Anzahl",
+            "en": "count"
+          },
+          "value": 601.0
+        },
+        {
+          "genesisTable": "41141-04-02-4",
+          "key": "farm_avg_size_ha",
+          "unit": {
+            "de": "ha",
+            "en": "ha"
+          },
+          "value": 33.5
+        },
+        {
+          "genesisTable": "41141-04-02-4",
+          "key": "organic_pct",
+          "unit": {
+            "de": "%",
+            "en": "%"
+          },
+          "value": 10.9
+        }
+      ],
+      "soil": [
+        {
+          "genesisTable": null,
+          "key": "n_surplus_kg_ha",
+          "unit": {
+            "de": "kg N/ha LF",
+            "en": "kg N/ha UAA"
+          },
+          "value": null
+        },
+        {
+          "genesisTable": null,
+          "key": "p_surplus_kg_ha",
+          "unit": {
+            "de": "kg P/ha LF",
+            "en": "kg P/ha UAA"
+          },
+          "value": null
+        },
+        {
+          "genesisTable": "32221-01-03-4",
+          "key": "groundwater_abstraction_1000m3",
+          "unit": {
+            "de": "1000 cbm",
+            "en": "1000 m3"
+          },
+          "value": 74.0
+        }
+      ]
+    },
+    "mock": true,
+    "num": "05",
+    "nuts3": [
+      "DE71D"
+    ],
+    "order": 5,
+    "outlineColor": "#dc4b14",
+    "region": {
+      "de": "Hessen",
+      "en": "Hesse"
+    },
+    "slug": "rheingau"
   }
 }
