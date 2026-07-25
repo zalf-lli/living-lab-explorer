@@ -230,6 +230,29 @@
 2. `app/public/data/ll_metadata.json` carries a `kpiByTab` field per LL with real values, units, and GENESIS table provenance, grouped into Agriculture/Soil/Climate/Landscape/Socio-economic
 3. The LL detail page renders a StatPanel per tab (replacing the retired KPIStrip) with locale-aware formatting, an empty-state em-dash, and a working source-attribution link, verified across all 5 tabs and both languages
 
+### Phase 5: Add protected areas as toggleable layer on landscape map
+
+**Goal:** Living Lab visitors can switch on an independent protected-areas overlay that draws every Natura 2000 SCI/SPA site and German Naturschutzgebiet intersecting the region, at full geometric fidelity, on top of whichever thematic layer is active.
+**Requirements**: D-01, D-02, D-03, D-04, D-05, D-06, D-07, D-08 (Phase 5 has no REQUIREMENTS.md IDs; the 05-CONTEXT.md decisions are the spec)
+**Depends on:** Phase 4
+**Plans:** 4 plans
+
+Plans:
+- [ ] 05-01-PLAN.md - BfN WFS fetch script, sources.yaml registration, five per-LL GeoJSON outputs (wave 1)
+- [ ] 05-02-PLAN.md - Overlay registration in layers.js, bilingual i18n keys, UI-SPEC corrections (wave 1)
+- [ ] 05-03-PLAN.md - LLMap overlay toggle, lazy fetch, Canvas rendering, tooltips, legend, attribution (wave 2)
+- [ ] 05-04-PLAN.md - D-01..D-08 evidence record and bilingual human verification (wave 3)
+
+### Phase 6: Add land cover map. I want to add a new map to the landscape tab (currently named land use but will be re-named in phase 4). It should use the ESRI sentinel 2 land cover data via the API service. The existing crop type map should be moved to the new 'agriculture' tab
+
+**Goal:** [To be planned]
+**Requirements**: TBD
+**Depends on:** Phase 5
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 6 to break down)
+
 ---
 
 *Created: 2026-04-29*
