@@ -10,7 +10,7 @@
 | 2.2 | Soil Semantics & Translation (INSERTED) | Replace the raw German-only BUEK lookup fields with a clean bilingual soil contract derived from the SQLite database structure | TBD | yes |
 | 3 | Chart Data Contract | Define and plumb the per-source chart summary interface so future chart implementations have a clear, stable target | CHARTS-01, CHARTS-02 | no |
 | 3.1 | Data Source Research & User Validation (INSERTED) | Research candidate geodata and statistical portals with AI-assisted summaries, review them with end-users, and turn the selected data opportunities into an integration-ready backlog | TBD | no |
-| 4 | Destatis Statistics Integration | 6/7 | In Progress|  |
+| 4 | Destatis Statistics Integration | 7/7 | Complete   | 2026-07-25 |
 
 ---
 
@@ -187,7 +187,7 @@
 **Goal:** Source socioeconomic and agricultural statistics for the 5 Living Lab regions from the Destatis GENESIS-Online RESTful API, process/aggregate them per NUTS3 and per LL, and integrate the selected indicators into the app.
 **Requirements**: TBD (no ROADMAP REQ-IDs assigned; plans reference CONTEXT.md decisions D-01..D-15 and ROADMAP scope items P4-SCOPE-1..3 instead)
 **Depends on:** Phase 3 (Phase 3.1 still open, but Destatis inclusion is confirmed regardless of its outcome)
-**Plans:** 6/7 plans executed
+**Plans:** 7/7 plans complete
 
 **Context (resumes paused work):**
 - Prior work exists and was paused: `data-pipeline/python/fetch_destatis.py` (fetch + aggregation + expert-review CSV export), `data/destatis_variables.csv` (per-indicator values for expert selection), `data/destatis_variables_catalogue.csv` (candidate variable catalogue with EN/DE labels and GENESIS table IDs)
@@ -242,6 +242,16 @@ Plans:
 - [ ] 05-02-PLAN.md - Overlay registration in layers.js, bilingual i18n keys, UI-SPEC corrections (wave 1, blocking decision: overlay vs tab)
 - [ ] 05-03-PLAN.md - LLMap overlay toggle, lazy fetch, Canvas rendering, tooltips, legend, attribution (wave 2)
 - [ ] 05-04-PLAN.md - D-01..D-08 evidence record and bilingual human verification (wave 3)
+
+### Phase 05.1: Calculate coverage KPIs for landscape tab using protected areas maps (INSERTED)
+
+**Goal:** [Urgent work - to be planned]
+**Requirements**: TBD
+**Depends on:** Phase 5
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 05.1 to break down)
 
 ### Phase 6: Add land cover map. I want to add a new map to the landscape tab (currently named land use but will be re-named in phase 4). It should use the ESRI sentinel 2 land cover data via the API service. The existing crop type map should be moved to the new 'agriculture' tab
 

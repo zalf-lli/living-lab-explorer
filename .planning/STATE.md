@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-07-25T15:47:32.123Z"
+last_updated: "2026-07-25T18:05:14.671Z"
 progress:
-  total_phases: 9
+  total_phases: 10
   completed_phases: 4
-  total_plans: 26
-  completed_plans: 14
-  percent: 48
+  total_plans: 22
+  completed_plans: 16
+  percent: 40
 ---
 
 # Project State
@@ -118,3 +118,9 @@ Phase 2.2 completed on 2026-04-30 and replaced the shallow German-only soil look
 - 2026-06-02: Completed Phase 03.1 Wave 1 after creating the source catalogue generator, CSV mirror, and workbook review tab
 - 2026-06-02: Completed Phase 03.1 Wave 2 after populating the source catalogue with evidence-chained facts and advisory assessments
 - 2026-07-24: Phase 4 added: "Destatis Statistics Integration" — source LL statistics via the GENESIS-Online API (resuming paused fetch_destatis.py work), process per NUTS3/LL, and integrate into the app; added while Phase 3.1 is still open because Destatis inclusion is confirmed regardless of the 3.1 review outcome. API auth must move to HTTP headers per Destatis support email (2026-07)
+
+## Accumulated Context
+
+### Roadmap Evolution
+
+- Phase 05.1 inserted after Phase 5: Calculate coverage KPIs for landscape tab using protected areas maps (URGENT)
