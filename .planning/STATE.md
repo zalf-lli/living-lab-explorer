@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-last_updated: "2026-07-25T13:09:57.904Z"
+last_updated: "2026-07-25T15:47:32.123Z"
 progress:
   total_phases: 9
   completed_phases: 4
-  total_plans: 22
+  total_plans: 26
   completed_plans: 14
-  percent: 44
+  percent: 48
 ---
 
 # Project State
@@ -33,6 +33,7 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 | 3 | Chart Data Contract | Ready to plan |
 | 3.1 | Data Source Research & User Validation | Inserted - ready to plan |
 | 4 | Destatis Statistics Integration | Waves 1-2+6-7 complete; 11/17 KPIs real; Waves 3-5 ready (2026-07-25) — see Active Work |
+| 5 | Protected areas as toggleable layer | Planned (2026-07-25) — 4 plans, 3 waves, 2 checkpoints, verified ✓ |
 
 ## Active Work
 
