@@ -87,6 +87,12 @@ Phase 2.2 completed on 2026-04-30 and replaced the shallow German-only soil look
 - Frontend outcome: the soil map now styles and labels features from the semantic contract first, with Living-Lab-specific legend entries and semantic tooltips
 - Next suggested step: run `$gsd-plan-phase 3.1` to define the iterative AI-plus-end-user research loop for selecting geodata and statistical sources before subsequent integrations
 
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 260725-e1x | Investigate near-miss Regionalstatistik.de water tables (32221-01-03-4/02-01-4/03-01-4) as replacements for the null groundwater_nitrate_mg_l KPI slot | 2026-07-25 | ab920f8 | [260725-e1x-investigate-the-near-miss-regionalstatis](./quick/260725-e1x-investigate-the-near-miss-regionalstatis/) |
+
 ## Open Questions (from research)
 
 - Chart data embedded in `ll_metadata.json` OR separate per-LL files in `app/public/data/charts/`? (decide before Phase 3)
