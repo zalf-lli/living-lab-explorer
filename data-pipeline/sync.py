@@ -45,6 +45,62 @@ def generate_landuse_legend() -> None:
     print(f"[sync] generated {target.relative_to(repo_root())}")
 
 
+def generate_land_cover_legend() -> None:
+    """Codegen LAND_COVER_LEGEND from the io-lulc-landcover legend in sources.yaml.
+
+    Two filters are applied so the generated legend can never drift from what the
+    raster actually contains:
+    - value 0 ("no data") is always dropped; build_colormap() already maps nodata to
+      transparent from src.nodata, so a "no data" swatch is pure UI noise (the same
+      bug CONCERNS.md records against the crop-types legend).
+    - when the class histogram (built by build_land_cover.py) is available, any class
+      with zero pixels across every Living Lab is dropped too, so classes like
+      Snow/Ice or Clouds do not occupy dead legend rows.
+    """
+    layer = get_layer("io-lulc-landcover")
+    histogram_path = resolve(layer["output"]["class_histogram"])
+
+    histogram_totals: dict[int, int] | None = None
+    if histogram_path.exists():
+        histograms = json.loads(histogram_path.read_text(encoding="utf-8"))
+        histogram_totals = {}
+        for per_slug in histograms.values():
+            for value_str, count in per_slug.items():
+                value = int(value_str)
+                histogram_totals[value] = histogram_totals.get(value, 0) + count
+    else:
+        print(
+            "[warn] land cover class histogram missing "
+            f"({histogram_path.relative_to(repo_root())}); legend not filtered by observed classes"
+        )
+
+    legend = []
+    for entry in layer["legend"]:
+        value = int(entry["value"])
+        if value == 0:
+            continue
+        if histogram_totals is not None and histogram_totals.get(value, 0) == 0:
+            continue
+        legend.append(
+            {
+                "value": value,
+                "en": entry["label"]["en"],
+                "de": entry["label"]["de"],
+                "color": entry["color"],
+            }
+        )
+
+    target = resolve("app/src/data/land_cover_legend.js")
+    body = (
+        "// Generated from data-pipeline/sources/sources.yaml (io-lulc-landcover).\n"
+        "// Do not edit by hand; run `python data-pipeline/sync.py` after changing sources.yaml.\n"
+        f"export const LAND_COVER_LEGEND = {json.dumps(legend, indent=2, ensure_ascii=False)}\n"
+    )
+    target.parent.mkdir(parents=True, exist_ok=True)
+    target.write_text(body, encoding="utf-8")
+    print(f"[sync] generated {target.relative_to(repo_root())}")
+
+
 def generate_layer_sources() -> None:
     """Emit per-layer provenance metadata for the in-app info control."""
     sources = load_sources()
@@ -98,6 +154,23 @@ def sync_pmtiles() -> None:
         sync_file(source, resolve(sync_target))
 
 
+def sync_pmtiles_per_ll() -> None:
+    sources = load_sources()
+    root = repo_root()
+    for layer in sources["layers"]:
+        output = layer.get("output", {})
+        pattern = output.get("pmtiles_pattern")
+        if not pattern:
+            continue
+        matches = sorted(root.glob(pattern.replace("{slug}", "*")))
+        if not matches:
+            print(f"[skip] no pmtiles matched {pattern}")
+            continue
+        for source in matches:
+            rel_path = source.relative_to(root)
+            sync_file(source, resolve(Path("app/public") / rel_path))
+
+
 def sync_vector_geojson() -> None:
     sources = load_sources()
     root = repo_root()
@@ -124,8 +197,10 @@ def sync_to_app() -> None:
         source = resolve(rel_path)
         sync_file(source, resolve(f"app/public/{rel_path}"))
     sync_pmtiles()
+    sync_pmtiles_per_ll()
     sync_vector_geojson()
     generate_landuse_legend()
+    generate_land_cover_legend()
     generate_layer_sources()
 
 
