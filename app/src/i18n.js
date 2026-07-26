@@ -66,7 +66,7 @@ const resources = {
         viewSource: 'View source',
         sourcesToggle: 'Sources',
         errorTitle: 'Statistics are temporarily unavailable.',
-        errorBody: 'Reload the page — if this keeps happening, the data source may be temporarily unreachable.',
+        errorBody: 'Reload the page - if this keeps happening, the data source may be temporarily unreachable.',
       },
       layers: {
         landuse: 'Agriculture',
@@ -74,6 +74,7 @@ const resources = {
         soil: 'Soil',
         economic: 'Socio-economic',
         landscape: 'Landscape',
+        protectedAreas: 'Protected Areas',
       },
       legend: {
         landuse: {
@@ -101,6 +102,10 @@ const resources = {
           grassland: 'Medium',
           settlement: 'Built-up',
           water: 'N/A',
+        },
+        protectedAreas: {
+          note: 'Conservation sites intersecting this Living Lab region. Full polygon boundaries are shown, so sites extend beyond the region outline and designations may overlap. Source: BfN (FFH and bird sanctuaries 2019, nature reserves 2023) - not suitable for planning purposes.',
+          empty: 'No protected areas intersect this Living Lab region.',
         },
       },
       charts: {
@@ -159,6 +164,8 @@ const resources = {
         loadError: 'Failed to load map data. Check the browser console.',
         soilLoading: 'Loading soil polygons for this Living Lab...',
         soilLoadError: 'Soil data could not be loaded for this Living Lab.',
+        protectedAreasLoading: 'Loading protected areas for this Living Lab...',
+        protectedAreasError: 'Protected areas data could not be loaded for this Living Lab.',
         placeholder: 'Interactive map (Leaflet + PMTiles) lands in Phase 3',
         layerComingSoon: 'Layer coming soon',
         dataUnavailable: 'Data for this tab is not available yet.',
@@ -179,6 +186,13 @@ const resources = {
           secondaryType: 'Secondary soil type',
           parentMaterial: 'Parent material',
           profile: 'Profile',
+        },
+        protectedAreasTooltip: {
+          designation: 'Designation',
+          area: 'Area',
+          areaUnit: 'ha',
+          established: 'Established',
+          authority: 'Authority',
         },
       },
       llDetail: {
@@ -246,21 +260,22 @@ const resources = {
         household_income_eur: 'Verfuegbares Einkommen je Einwohner',
       },
       statPanel: {
-        pendingReviewTitle: 'In Prüfung',
-        pendingReviewBody: 'Einige Indikatoren für dieses Living Lab befinden sich noch in der fachlichen Prüfung.',
+        pendingReviewTitle: 'In Pruefung',
+        pendingReviewBody: 'Einige Indikatoren fuer dieses Living Lab befinden sich noch in der fachlichen Pruefung.',
         source: 'Quelle: Destatis GENESIS-Online, Tabelle {{tableId}}, abgerufen am {{date}}',
         sourceRegionalstatistik: 'Quelle: Regionalstatistik.de, Tabelle {{tableId}}, abgerufen am {{date}}',
         viewSource: 'Quelle ansehen',
         sourcesToggle: 'Quellen',
-        errorTitle: 'Statistiken sind vorübergehend nicht verfügbar.',
-        errorBody: 'Seite neu laden — falls das Problem bestehen bleibt, ist die Datenquelle möglicherweise vorübergehend nicht erreichbar.',
+        errorTitle: 'Statistiken sind voruebergehend nicht verfuegbar.',
+        errorBody: 'Seite neu laden - falls das Problem bestehen bleibt, ist die Datenquelle moeglicherweise voruebergehend nicht erreichbar.',
       },
       layers: {
         landuse: 'Landwirtschaft',
         climate: 'Klima',
         soil: 'Boden',
-        economic: 'Sozioökonomie',
+        economic: 'Soziooekonomie',
         landscape: 'Landschaft',
+        protectedAreas: 'Schutzgebiete',
       },
       legend: {
         landuse: {
@@ -288,6 +303,10 @@ const resources = {
           grassland: 'Mittel',
           settlement: 'Bebaut',
           water: 'k. A.',
+        },
+        protectedAreas: {
+          note: 'Schutzgebiete, die diese Reallabor-Region schneiden. Es werden vollstaendige Polygongrenzen gezeigt, daher reichen Gebiete ueber den Regionsumriss hinaus und Ueberlagerungen sind moeglich. Quelle: BfN (FFH und Vogelschutz 2019, Naturschutzgebiete 2023) - nicht fuer Planungszwecke geeignet.',
+          empty: 'Keine Schutzgebiete schneiden diese Reallabor-Region.',
         },
       },
       charts: {
@@ -346,6 +365,8 @@ const resources = {
         loadError: 'Kartendaten konnten nicht geladen werden. Bitte Browser-Konsole pruefen.',
         soilLoading: 'Bodenpolygone fuer dieses Living Lab werden geladen...',
         soilLoadError: 'Die Bodendaten fuer dieses Living Lab konnten nicht geladen werden.',
+        protectedAreasLoading: 'Schutzgebiete fuer dieses Living Lab werden geladen...',
+        protectedAreasError: 'Die Schutzgebietsdaten fuer dieses Living Lab konnten nicht geladen werden.',
         placeholder: 'Interaktive Karte (Leaflet + PMTiles) folgt in Phase 3',
         layerComingSoon: 'Ebene folgt in Kuerze',
         dataUnavailable: 'Daten fuer diese Ebene sind noch nicht verfuegbar.',
@@ -366,6 +387,13 @@ const resources = {
           secondaryType: 'Sekundaerer Bodentyp',
           parentMaterial: 'Ausgangsmaterial',
           profile: 'Profil',
+        },
+        protectedAreasTooltip: {
+          designation: 'Schutzgebietstyp',
+          area: 'Flaeche',
+          areaUnit: 'ha',
+          established: 'Eingerichtet',
+          authority: 'Behoerde',
         },
       },
       llDetail: {
