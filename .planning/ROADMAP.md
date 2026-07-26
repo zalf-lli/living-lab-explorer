@@ -264,13 +264,37 @@ Plans:
 
 ### Phase 6: Add land cover map. I want to add a new map to the landscape tab (currently named land use but will be re-named in phase 4). It should use the ESRI sentinel 2 land cover data via the API service. The existing crop type map should be moved to the new 'agriculture' tab
 
-**Goal:** [To be planned]
-**Requirements**: TBD
+**Goal:** Living Lab visitors land on a Landscape tab showing 10 m Sentinel-2-derived land cover for
+their region, while crop types move to a distinct Agriculture tab - five exclusive tabs, five per-LL
+land cover rasters built offline from CC BY 4.0 source data, no API key at runtime.
+**Requirements**: D-01 .. D-24 (Phase 6 has no REQUIREMENTS.md IDs; the 06-CONTEXT.md decisions are the spec)
 **Depends on:** Phase 5
-**Plans:** 0 plans
+**Plans:** 5 plans, 4 waves, 1 blocking checkpoint
+
+**Planning decisions (resolved during breakdown):**
+- The internal `landuse` -> `agriculture` rename is **in scope**, not deferred. `LAYERS[].id`,
+  `kpiByTab` keys and `sources.yaml`'s `app_layer` are string-matched, so renaming only the app side
+  would silently empty the Agriculture tab's four Destatis KPIs. The dataset id `landuse-croptypes`
+  and the committed `.pmtiles` filenames deliberately keep their names.
+- `LAND_COVER_LEGEND` is **codegen'd** from `sources.yaml` into `app/src/data/land_cover_legend.js`
+  and imported by `layers.js`, rather than hand-written there. D-12's structure is delivered exactly;
+  hand-authoring was rejected because `build_colormap()` bakes the same hex codes into the PNG pixels.
+- No `legend.landCover.*` i18n keys are added. `MapLegend.jsx` reads `entry[lang]` off the generated
+  legend array; such keys would be dead code. Class labels live in the `sources.yaml` legend.
+- Per-LL processing (D-14) is treated as **mandatory**, not preferred: the combined build peaks near
+  11.6 GB on a 16.6 GB machine, per-LL near 2.2 GB.
 
 Plans:
-- [ ] TBD (run /gsd-plan-phase 6 to break down)
+- [ ] 06-01-PLAN.md - Register io-lulc-landcover in sources.yaml, gitignore the source COGs, declare
+      mercantile, make build_pmtiles.py clip per slug, add build_land_cover.py with class-value guards (wave 1)
+- [ ] 06-02-PLAN.md - sync.py per-LL PMTiles publishing and legend codegen; run the build; pin source
+      SHA-256; commit five per-LL rasters and the class histogram (wave 2)
+- [ ] 06-03-PLAN.md - Frontend: pmtilesUrlPattern resolution, slug threading into RasterPmtilesLayer,
+      agriculture/landscape LAYERS entries, i18n renames, Landscape as the default tab (wave 3)
+- [ ] 06-04-PLAN.md - Pipeline-side landuse -> agriculture join-key rename, metadata regeneration,
+      test-contract updates and new regression assertions (wave 3)
+- [ ] 06-05-PLAN.md - Full automated gate, cross-file join-key consistency checks, blocking bilingual
+      human verification, D-01..D-24 evidence record (wave 4)
 
 ## Backlog
 
