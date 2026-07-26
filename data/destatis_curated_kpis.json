@@ -1,0 +1,172 @@
+[
+  {
+    "genesis_table": "41141-01-01-4",
+    "label_de": "Ackerland",
+    "label_en": "Cropland area",
+    "source_host": "regionalstatistik",
+    "tab": "landuse",
+    "unit_de": "ha",
+    "unit_en": "ha",
+    "variable_key": "land_area_cropland_ha"
+  },
+  {
+    "genesis_table": "41141-04-02-4",
+    "label_de": "Anzahl Betriebe",
+    "label_en": "Number of farms",
+    "source_host": "regionalstatistik",
+    "tab": "landuse",
+    "unit_de": "Anzahl",
+    "unit_en": "count",
+    "variable_key": "farms_count"
+  },
+  {
+    "genesis_table": "41141-04-02-4",
+    "label_de": "Durchschnittliche Betriebsgroesse",
+    "label_en": "Average farm size",
+    "source_host": "regionalstatistik",
+    "tab": "landuse",
+    "unit_de": "ha",
+    "unit_en": "ha",
+    "variable_key": "farm_avg_size_ha"
+  },
+  {
+    "genesis_table": "41141-04-02-4",
+    "label_de": "Anteil oekologischer Landbau",
+    "label_en": "Share of organic farming",
+    "source_host": "regionalstatistik",
+    "tab": "landuse",
+    "unit_de": "%",
+    "unit_en": "%",
+    "variable_key": "organic_pct"
+  },
+  {
+    "genesis_table": null,
+    "label_de": "Stickstoffueberschuss",
+    "label_en": "Nitrogen surplus",
+    "source_host": null,
+    "tab": "soil",
+    "unit_de": "kg N/ha LF",
+    "unit_en": "kg N/ha UAA",
+    "variable_key": "n_surplus_kg_ha"
+  },
+  {
+    "genesis_table": null,
+    "label_de": "Phosphorueberschuss",
+    "label_en": "Phosphorus surplus",
+    "source_host": null,
+    "tab": "soil",
+    "unit_de": "kg P/ha LF",
+    "unit_en": "kg P/ha UAA",
+    "variable_key": "p_surplus_kg_ha"
+  },
+  {
+    "genesis_table": "32221-01-03-4",
+    "label_de": "Grundwasserentnahme (nichtoeffentliche Versorgung)",
+    "label_en": "Groundwater abstraction (non-public supply)",
+    "source_host": "regionalstatistik",
+    "tab": "soil",
+    "unit_de": "1000 cbm",
+    "unit_en": "1000 m3",
+    "variable_key": "groundwater_abstraction_1000m3"
+  },
+  {
+    "genesis_table": null,
+    "label_de": "CH4-Emissionen Landwirtschaft",
+    "label_en": "Agricultural CH4 emissions",
+    "source_host": null,
+    "tab": "climate",
+    "unit_de": "kt CO2aeq",
+    "unit_en": "kt CO2eq",
+    "variable_key": "agr_ch4_kt"
+  },
+  {
+    "genesis_table": null,
+    "label_de": "N2O-Emissionen Landwirtschaft",
+    "label_en": "Agricultural N2O emissions",
+    "source_host": null,
+    "tab": "climate",
+    "unit_de": "kt CO2aeq",
+    "unit_en": "kt CO2eq",
+    "variable_key": "agr_n2o_kt"
+  },
+  {
+    "genesis_table": "33111-01-02-4",
+    "label_de": "Waldflaeche",
+    "label_en": "Forest area",
+    "source_host": "regionalstatistik",
+    "tab": "landscape",
+    "unit_de": "ha",
+    "unit_en": "ha",
+    "variable_key": "forest_area_ha"
+  },
+  {
+    "genesis_table": null,
+    "label_de": "Natura-2000-Flaeche",
+    "label_en": "Natura 2000 area",
+    "source_host": "bfn_wfs",
+    "tab": "landscape",
+    "unit_de": "ha",
+    "unit_en": "ha",
+    "variable_key": "natura2000_ha"
+  },
+  {
+    "genesis_table": null,
+    "label_de": "Naturschutzgebietsflaeche",
+    "label_en": "Nature reserves area",
+    "source_host": "bfn_wfs",
+    "tab": "landscape",
+    "unit_de": "ha",
+    "unit_en": "ha",
+    "variable_key": "nature_reserves_ha"
+  },
+  {
+    "genesis_table": "33111-01-02-4",
+    "label_de": "Anteil versiegelter Flaeche",
+    "label_en": "Share of sealed surface",
+    "source_host": "regionalstatistik",
+    "tab": "landscape",
+    "unit_de": "%",
+    "unit_en": "%",
+    "variable_key": "sealed_surface_pct"
+  },
+  {
+    "genesis_table": "12411KJ002",
+    "label_de": "Bevoelkerung insgesamt",
+    "label_en": "Total population",
+    "source_host": "genesis",
+    "tab": "economic",
+    "unit_de": "Personen",
+    "unit_en": "persons",
+    "variable_key": "population_total"
+  },
+  {
+    "genesis_table": "82000-01-01-4",
+    "label_de": "Bruttoinlandsprodukt je Einwohner",
+    "label_en": "GDP per capita",
+    "source_host": "regionalstatistik",
+    "tab": "economic",
+    "unit_de": "EUR",
+    "unit_en": "EUR",
+    "variable_key": "gdp_per_capita_eur"
+  },
+  {
+    "genesis_table": "13211-02-05-4",
+    "label_de": "Arbeitslosenquote",
+    "label_en": "Unemployment rate",
+    "source_host": "regionalstatistik",
+    "tab": "economic",
+    "unit_de": "%",
+    "unit_en": "%",
+    "variable_key": "unemployment_rate_pct"
+  },
+  {
+    "genesis_table": "82000-07-01-4",
+    "label_de": "Verfuegbares Einkommen je Einwohner",
+    "label_en": "Disposable household income per capita",
+    "source_host": "regionalstatistik",
+    "tab": "economic",
+    "unit_de": "EUR",
+    "unit_en": "EUR",
+    "variable_key": "household_income_eur"
+  }
+]
