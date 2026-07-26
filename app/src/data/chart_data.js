@@ -3,7 +3,7 @@
 // so the UI port stays faithful.
 
 export const CHART_DATA = {
-  landuse: {
+  agriculture: {
     bars: [
       { key: 'arableLand', v: 58, c: '#c2e077' },
       { key: 'forest', v: 22, c: '#276d4e' },
