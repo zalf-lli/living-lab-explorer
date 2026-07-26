@@ -160,9 +160,10 @@ R-based sources are supported symmetrically - see `R/fetch_example.R` once it la
 
 ## Building tile layers
 
-Thematic map layers are described in [`sources/sources.yaml`](./sources/sources.yaml). The current real layer is:
+Thematic map layers are described in [`sources/sources.yaml`](./sources/sources.yaml). The current real layers are:
 
 - `landuse-croptypes`: the DLR 2024 crop-types raster for Germany, clipped to the Living Lab area and converted into PMTiles
+- `io-lulc-landcover`: the Esri / Impact Observatory / Microsoft 10 m Annual Land Use Land Cover (9-class) raster, 2024 edition, CC BY 4.0. Unlike `landuse-croptypes` this layer is built **per Living Lab** (`data/pmtiles/land-cover-{slug}.pmtiles`, one file per LL) rather than as a single national output, because clipping to the union of all five LLs before tiling would peak near 11.6 GB of RAM during the build.
 
 ### Install the PMTiles command-line tool
 
@@ -220,11 +221,40 @@ Expected result:
 
 - `../data/pmtiles/landuse-croptypes.pmtiles`
 
+### Build the land cover PMTiles layer (per Living Lab)
+
+From `data-pipeline/`, with the environment active:
+
+```powershell
+python python\build_land_cover.py
+```
+
+What the script does, once per Living Lab:
+
+1. Downloads (on first run) or reuses the local source tile at `../data/io_lulc_{32U,33U}_2024.tif` from the anonymous AWS Open Data bucket (~146 MB / ~144 MB, ~290 MB total)
+2. Validates the source raster (`count==1`, `dtype==uint8`, `nodata==0`) before any tiling work
+3. Clips to the Living Lab boundary and computes a per-class pixel histogram, asserting observed values are a legend-covered subset of the valid ESRI v3 taxonomy (`1,2,4,5,7,8,9,10,11` — values 3 and 6 were retired and must never appear)
+4. Reprojects to Web Mercator (`EPSG:3857`), applies the categorical legend colors from `sources.yaml`, builds temporary MBTiles, and converts to `land-cover-{slug}.pmtiles`
+
+Useful flags:
+
+- `--list` — print the slug-to-source-tile assignment and exit, without building anything
+- `--slug <slug> [<slug> ...]` — build only the named Living Lab(s) instead of all five. Useful for iterating: `rheingau` is the smallest LL (~63 tiles, ~2 MB output) and validates the whole chain in minutes, whereas a full run of all five LLs takes much longer and peaks near 2.2 GB of RAM per LL (kept low specifically by processing one LL at a time instead of a combined mosaic)
+
+Expected result:
+
+- `../data/pmtiles/land-cover-{slug}.pmtiles` for each of the five Living Labs
+- `../data/land_cover_class_histogram.json`, the per-Living-Lab class pixel histogram — this is build evidence, not a runtime asset, and also drives which classes `sync.py` includes in the generated legend (see below)
+
+The source COGs (`data/io_lulc_32U_2024.tif`, `data/io_lulc_33U_2024.tif`) are gitignored build inputs, downloaded on demand from the anonymous AWS bucket and never committed.
+
 ### Then sync the outputs into the app
 
 ```powershell
 python sync.py
 ```
+
+This also regenerates `app/src/data/land_cover_legend.js` (`LAND_COVER_LEGEND`) from `sources.yaml`'s `io-lulc-landcover` legend, filtered against `data/land_cover_class_histogram.json` so classes with zero pixels across every Living Lab (e.g. Snow/Ice) never occupy a dead legend row. **Do not hand-edit `land_cover_legend.js`** — like `landuse_legend.js`, it carries a "Do not edit by hand" header and is fully derived from `sources.yaml` plus the class histogram.
 
 ## BUEK250 soil semantics contract
 

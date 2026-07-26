@@ -20,6 +20,24 @@ export const LAYER_SOURCES = [
     "citation": "Asam et al. 2022"
   },
   {
+    "id": "io-lulc-landcover",
+    "appLayer": "landscape",
+    "title": {
+      "en": "Land cover (Esri/Impact Observatory, 2024)",
+      "de": "Landbedeckung (Esri/Impact Observatory, 2024)"
+    },
+    "description": {
+      "en": "Annual 10 m land use / land cover classification for 2024, derived from Sentinel-2 with deep learning.",
+      "de": "Jaehrliche 10-m-Landbedeckungsklassifikation 2024, abgeleitet aus Sentinel-2 mit Deep Learning."
+    },
+    "provider": "Impact Observatory / Esri / Microsoft",
+    "dataset": "10m Annual Land Use Land Cover (9-class), 2024",
+    "url": "https://registry.opendata.aws/io-lulc/",
+    "license": "CC-BY-4.0",
+    "attribution": "Esri, Impact Observatory, Microsoft - 10m Annual Land Use Land Cover, CC BY 4.0",
+    "citation": "Karra, Kontgis, et al. Global land use/land cover with Sentinel-2 and deep learning. IGARSS 2021."
+  },
+  {
     "id": "buek250",
     "appLayer": "soil",
     "title": {
