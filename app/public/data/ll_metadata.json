@@ -48,6 +48,48 @@
     },
     "icon": "east-brandenburg",
     "kpiByTab": {
+      "agriculture": [
+        {
+          "genesisTable": "41141-01-01-4",
+          "key": "land_area_cropland_ha",
+          "sourceHost": "regionalstatistik",
+          "unit": {
+            "de": "ha",
+            "en": "ha"
+          },
+          "value": 252996.0
+        },
+        {
+          "genesisTable": "41141-04-02-4",
+          "key": "farms_count",
+          "sourceHost": "regionalstatistik",
+          "unit": {
+            "de": "Anzahl",
+            "en": "count"
+          },
+          "value": 1374.0
+        },
+        {
+          "genesisTable": "41141-04-02-4",
+          "key": "farm_avg_size_ha",
+          "sourceHost": "regionalstatistik",
+          "unit": {
+            "de": "ha",
+            "en": "ha"
+          },
+          "value": 220.7
+        },
+        {
+          "genesisTable": "41141-04-02-4",
+          "key": "organic_pct",
+          "sourceHost": "regionalstatistik",
+          "unit": {
+            "de": "%",
+            "en": "%"
+          },
+          "value": 12.4
+        }
+      ],
       "climate": [
         {
           "genesisTable": null,
@@ -154,48 +196,6 @@
           "value": 11.4
         }
       ],
-      "landuse": [
-        {
-          "genesisTable": "41141-01-01-4",
-          "key": "land_area_cropland_ha",
-          "sourceHost": "regionalstatistik",
-          "unit": {
-            "de": "ha",
-            "en": "ha"
-          },
-          "value": 252996.0
-        },
-        {
-          "genesisTable": "41141-04-02-4",
-          "key": "farms_count",
-          "sourceHost": "regionalstatistik",
-          "unit": {
-            "de": "Anzahl",
-            "en": "count"
-          },
-          "value": 1374.0
-        },
-        {
-          "genesisTable": "41141-04-02-4",
-          "key": "farm_avg_size_ha",
-          "sourceHost": "regionalstatistik",
-          "unit": {
-            "de": "ha",
-            "en": "ha"
-          },
-          "value": 220.7
-        },
-        {
-          "genesisTable": "41141-04-02-4",
-          "key": "organic_pct",
-          "sourceHost": "regionalstatistik",
-          "unit": {
-            "de": "%",
-            "en": "%"
-          },
-          "value": 12.4
-        }
-      ],
       "soil": [
         {
           "genesisTable": null,
@@ -294,6 +294,48 @@
     },
     "icon": "havellandisches-luch",
     "kpiByTab": {
+      "agriculture": [
+        {
+          "genesisTable": "41141-01-01-4",
+          "key": "land_area_cropland_ha",
+          "sourceHost": "regionalstatistik",
+          "unit": {
+            "de": "ha",
+            "en": "ha"
+          },
+          "value": 108058.0
+        },
+        {
+          "genesisTable": "41141-04-02-4",
+          "key": "farms_count",
+          "sourceHost": "regionalstatistik",
+          "unit": {
+            "de": "Anzahl",
+            "en": "count"
+          },
+          "value": 696.0
+        },
+        {
+          "genesisTable": "41141-04-02-4",
+          "key": "farm_avg_size_ha",
+          "sourceHost": "regionalstatistik",
+          "unit": {
+            "de": "ha",
+            "en": "ha"
+          },
+          "value": 230.75
+        },
+        {
+          "genesisTable": "41141-04-02-4",
+          "key": "organic_pct",
+          "sourceHost": "regionalstatistik",
+          "unit": {
+            "de": "%",
+            "en": "%"
+          },
+          "value": 22.6
+        }
+      ],
       "climate": [
         {
           "genesisTable": null,
@@ -400,48 +442,6 @@
           "value": 10.9
         }
       ],
-      "landuse": [
-        {
-          "genesisTable": "41141-01-01-4",
-          "key": "land_area_cropland_ha",
-          "sourceHost": "regionalstatistik",
-          "unit": {
-            "de": "ha",
-            "en": "ha"
-          },
-          "value": 108058.0
-        },
-        {
-          "genesisTable": "41141-04-02-4",
-          "key": "farms_count",
-          "sourceHost": "regionalstatistik",
-          "unit": {
-            "de": "Anzahl",
-            "en": "count"
-          },
-          "value": 696.0
-        },
-        {
-          "genesisTable": "41141-04-02-4",
-          "key": "farm_avg_size_ha",
-          "sourceHost": "regionalstatistik",
-          "unit": {
-            "de": "ha",
-            "en": "ha"
-          },
-          "value": 230.75
-        },
-        {
-          "genesisTable": "41141-04-02-4",
-          "key": "organic_pct",
-          "sourceHost": "regionalstatistik",
-          "unit": {
-            "de": "%",
-            "en": "%"
-          },
-          "value": 22.6
-        }
-      ],
       "soil": [
         {
           "genesisTable": null,
@@ -538,6 +538,48 @@
     },
     "icon": "hessian-low-mountain",
     "kpiByTab": {
+      "agriculture": [
+        {
+          "genesisTable": "41141-01-01-4",
+          "key": "land_area_cropland_ha",
+          "sourceHost": "regionalstatistik",
+          "unit": {
+            "de": "ha",
+            "en": "ha"
+          },
+          "value": 113215.0
+        },
+        {
+          "genesisTable": "41141-04-02-4",
+          "key": "farms_count",
+          "sourceHost": "regionalstatistik",
+          "unit": {
+            "de": "Anzahl",
+            "en": "count"
+          },
+          "value": 3832.0
+        },
+        {
+          "genesisTable": "41141-04-02-4",
+          "key": "farm_avg_size_ha",
+          "sourceHost": "regionalstatistik",
+          "unit": {
+            "de": "ha",
+            "en": "ha"
+          },
+          "value": 54.32
+        },
+        {
+          "genesisTable": "41141-04-02-4",
+          "key": "organic_pct",
+          "sourceHost": "regionalstatistik",
+          "unit": {
+            "de": "%",
+            "en": "%"
+          },
+          "value": 23.1
+        }
+      ],
       "climate": [
         {
           "genesisTable": null,
@@ -644,48 +686,6 @@
           "value": 15.0
         }
       ],
-      "landuse": [
-        {
-          "genesisTable": "41141-01-01-4",
-          "key": "land_area_cropland_ha",
-          "sourceHost": "regionalstatistik",
-          "unit": {
-            "de": "ha",
-            "en": "ha"
-          },
-          "value": 113215.0
-        },
-        {
-          "genesisTable": "41141-04-02-4",
-          "key": "farms_count",
-          "sourceHost": "regionalstatistik",
-          "unit": {
-            "de": "Anzahl",
-            "en": "count"
-          },
-          "value": 3832.0
-        },
-        {
-          "genesisTable": "41141-04-02-4",
-          "key": "farm_avg_size_ha",
-          "sourceHost": "regionalstatistik",
-          "unit": {
-            "de": "ha",
-            "en": "ha"
-          },
-          "value": 54.32
-        },
-        {
-          "genesisTable": "41141-04-02-4",
-          "key": "organic_pct",
-          "sourceHost": "regionalstatistik",
-          "unit": {
-            "de": "%",
-            "en": "%"
-          },
-          "value": 23.1
-        }
-      ],
       "soil": [
         {
           "genesisTable": null,
@@ -785,6 +785,48 @@
     },
     "icon": "north-hessian-loess",
     "kpiByTab": {
+      "agriculture": [
+        {
+          "genesisTable": "41141-01-01-4",
+          "key": "land_area_cropland_ha",
+          "sourceHost": "regionalstatistik",
+          "unit": {
+            "de": "ha",
+            "en": "ha"
+          },
+          "value": 62680.0
+        },
+        {
+          "genesisTable": "41141-04-02-4",
+          "key": "farms_count",
+          "sourceHost": "regionalstatistik",
+          "unit": {
+            "de": "Anzahl",
+            "en": "count"
+          },
+          "value": 1493.0
+        },
+        {
+          "genesisTable": "41141-04-02-4",
+          "key": "farm_avg_size_ha",
+          "sourceHost": "regionalstatistik",
+          "unit": {
+            "de": "ha",
+            "en": "ha"
+          },
+          "value": 59.4
+        },
+        {
+          "genesisTable": "41141-04-02-4",
+          "key": "organic_pct",
+          "sourceHost": "regionalstatistik",
+          "unit": {
+            "de": "%",
+            "en": "%"
+          },
+          "value": 12.7
+        }
+      ],
       "climate": [
         {
           "genesisTable": null,
@@ -891,48 +933,6 @@
           "value": 13.3
         }
       ],
-      "landuse": [
-        {
-          "genesisTable": "41141-01-01-4",
-          "key": "land_area_cropland_ha",
-          "sourceHost": "regionalstatistik",
-          "unit": {
-            "de": "ha",
-            "en": "ha"
-          },
-          "value": 62680.0
-        },
-        {
-          "genesisTable": "41141-04-02-4",
-          "key": "farms_count",
-          "sourceHost": "regionalstatistik",
-          "unit": {
-            "de": "Anzahl",
-            "en": "count"
-          },
-          "value": 1493.0
-        },
-        {
-          "genesisTable": "41141-04-02-4",
-          "key": "farm_avg_size_ha",
-          "sourceHost": "regionalstatistik",
-          "unit": {
-            "de": "ha",
-            "en": "ha"
-          },
-          "value": 59.4
-        },
-        {
-          "genesisTable": "41141-04-02-4",
-          "key": "organic_pct",
-          "sourceHost": "regionalstatistik",
-          "unit": {
-            "de": "%",
-            "en": "%"
-          },
-          "value": 12.7
-        }
-      ],
       "soil": [
         {
           "genesisTable": null,
@@ -1029,6 +1029,48 @@
     },
     "icon": "rheingau",
     "kpiByTab": {
+      "agriculture": [
+        {
+          "genesisTable": "41141-01-01-4",
+          "key": "land_area_cropland_ha",
+          "sourceHost": "regionalstatistik",
+          "unit": {
+            "de": "ha",
+            "en": "ha"
+          },
+          "value": 11272.0
+        },
+        {
+          "genesisTable": "41141-04-02-4",
+          "key": "farms_count",
+          "sourceHost": "regionalstatistik",
+          "unit": {
+            "de": "Anzahl",
+            "en": "count"
+          },
+          "value": 601.0
+        },
+        {
+          "genesisTable": "41141-04-02-4",
+          "key": "farm_avg_size_ha",
+          "sourceHost": "regionalstatistik",
+          "unit": {
+            "de": "ha",
+            "en": "ha"
+          },
+          "value": 33.5
+        },
+        {
+          "genesisTable": "41141-04-02-4",
+          "key": "organic_pct",
+          "sourceHost": "regionalstatistik",
+          "unit": {
+            "de": "%",
+            "en": "%"
+          },
+          "value": 10.9
+        }
+      ],
       "climate": [
         {
           "genesisTable": null,
@@ -1133,48 +1175,6 @@
             "en": "%"
           },
           "value": 13.6
-        }
-      ],
-      "landuse": [
-        {
-          "genesisTable": "41141-01-01-4",
-          "key": "land_area_cropland_ha",
-          "sourceHost": "regionalstatistik",
-          "unit": {
-            "de": "ha",
-            "en": "ha"
-          },
-          "value": 11272.0
-        },
-        {
-          "genesisTable": "41141-04-02-4",
-          "key": "farms_count",
-          "sourceHost": "regionalstatistik",
-          "unit": {
-            "de": "Anzahl",
-            "en": "count"
-          },
-          "value": 601.0
-        },
-        {
-          "genesisTable": "41141-04-02-4",
-          "key": "farm_avg_size_ha",
-          "sourceHost": "regionalstatistik",
-          "unit": {
-            "de": "ha",
-            "en": "ha"
-          },
-          "value": 33.5
-        },
-        {
-          "genesisTable": "41141-04-02-4",
-          "key": "organic_pct",
-          "sourceHost": "regionalstatistik",
-          "unit": {
-            "de": "%",
-            "en": "%"
-          },
-          "value": 10.9
         }
       ],
       "soil": [

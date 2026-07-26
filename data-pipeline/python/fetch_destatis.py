@@ -278,32 +278,35 @@ TABLES: list[tuple[str, str, str]] = [
 # The 17-entry curated KPI list (D-09). `variable_key` matches
 # data/destatis_variables_catalogue.csv's variable_key spelling exactly so downstream code
 # (and this module's own FIELD_LABELS/FIELD_THEME/build_nuts3_records output) needs no
-# translation layer. `tab` is the internal app-tab id (kept unchanged from the pre-existing
-# layer ids; only display labels change, per CONTEXT.md's discretion note).
+# translation layer. `tab` must match `LAYERS[].id` in `app/src/data/layers.js` -- it is the
+# join key consumed by generate_metadata.py::_build_kpi_by_tab into `kpiByTab`. Renaming a tab
+# id requires renaming it in the app's `LAYERS[].id` at the same time (Phase 06 D-01: the
+# crop-types layer's app tab was renamed from `landuse` to `agriculture` in lockstep with
+# `app_layer: agriculture` in sources.yaml).
 CURATED_KPIS: list[dict] = [
-    {"tab": "landuse",   "variable_key": "land_area_cropland_ha",    "genesis_table": "33111BJ002"},
-    {"tab": "landuse",   "variable_key": "farms_count",               "genesis_table": "41120BJ001"},
-    {"tab": "landuse",   "variable_key": "farm_avg_size_ha",          "genesis_table": "41120BJ001"},
-    {"tab": "landuse",   "variable_key": "organic_pct",               "genesis_table": "41120BJ002"},
-    {"tab": "soil",      "variable_key": "n_surplus_kg_ha",           "genesis_table": "41411BJ001"},
-    {"tab": "soil",      "variable_key": "p_surplus_kg_ha",           "genesis_table": "41411BJ002"},
-    {"tab": "soil",      "variable_key": "groundwater_abstraction_1000m3", "genesis_table": "32221-01-03-4"},
-    {"tab": "climate",   "variable_key": "agr_ch4_kt",                "genesis_table": "32411BJ001"},
-    {"tab": "climate",   "variable_key": "agr_n2o_kt",                "genesis_table": "32411BJ001"},
-    {"tab": "landscape", "variable_key": "forest_area_ha",            "genesis_table": "33111BJ003"},
-    {"tab": "landscape", "variable_key": "natura2000_ha",             "genesis_table": "32121BJ001"},
-    {"tab": "landscape", "variable_key": "nature_reserves_ha",        "genesis_table": "32141BJ001"},
-    {"tab": "landscape", "variable_key": "sealed_surface_pct",        "genesis_table": "33111BJ004"},
-    {"tab": "economic",  "variable_key": "population_total",         "genesis_table": "12411KJ002"},
-    {"tab": "economic",  "variable_key": "gdp_per_capita_eur",        "genesis_table": "82111KJ001"},
-    {"tab": "economic",  "variable_key": "unemployment_rate_pct",     "genesis_table": "13211KJ002"},
-    {"tab": "economic",  "variable_key": "household_income_eur",      "genesis_table": "82521KJ001"},
+    {"tab": "agriculture", "variable_key": "land_area_cropland_ha",          "genesis_table": "33111BJ002"},
+    {"tab": "agriculture", "variable_key": "farms_count",                    "genesis_table": "41120BJ001"},
+    {"tab": "agriculture", "variable_key": "farm_avg_size_ha",               "genesis_table": "41120BJ001"},
+    {"tab": "agriculture", "variable_key": "organic_pct",                    "genesis_table": "41120BJ002"},
+    {"tab": "soil",        "variable_key": "n_surplus_kg_ha",                "genesis_table": "41411BJ001"},
+    {"tab": "soil",        "variable_key": "p_surplus_kg_ha",                "genesis_table": "41411BJ002"},
+    {"tab": "soil",        "variable_key": "groundwater_abstraction_1000m3", "genesis_table": "32221-01-03-4"},
+    {"tab": "climate",     "variable_key": "agr_ch4_kt",                     "genesis_table": "32411BJ001"},
+    {"tab": "climate",     "variable_key": "agr_n2o_kt",                     "genesis_table": "32411BJ001"},
+    {"tab": "landscape",   "variable_key": "forest_area_ha",                 "genesis_table": "33111BJ003"},
+    {"tab": "landscape",   "variable_key": "natura2000_ha",                  "genesis_table": "32121BJ001"},
+    {"tab": "landscape",   "variable_key": "nature_reserves_ha",             "genesis_table": "32141BJ001"},
+    {"tab": "landscape",   "variable_key": "sealed_surface_pct",             "genesis_table": "33111BJ004"},
+    {"tab": "economic",    "variable_key": "population_total",               "genesis_table": "12411KJ002"},
+    {"tab": "economic",    "variable_key": "gdp_per_capita_eur",             "genesis_table": "82111KJ001"},
+    {"tab": "economic",    "variable_key": "unemployment_rate_pct",          "genesis_table": "13211KJ002"},
+    {"tab": "economic",    "variable_key": "household_income_eur",           "genesis_table": "82521KJ001"},
 ]
 
 # Maps this module's internal tab id to data/destatis_variables_catalogue.csv's `group`
 # column, used by _resolve_curated_kpis() to find same-group fallback candidates (D-14).
 _TAB_TO_CATALOGUE_GROUP: dict[str, str] = {
-    "landuse": "Agriculture",
+    "agriculture": "Agriculture",
     "soil": "Environment",
     "climate": "Environment",
     "landscape": "Environment",

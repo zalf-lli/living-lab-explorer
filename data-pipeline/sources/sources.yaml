@@ -11,7 +11,7 @@ defaults:
 
 layers:
   - id: landuse-croptypes
-    app_layer: landuse
+    app_layer: agriculture
     kind: raster
     classification: categorical
     title:
