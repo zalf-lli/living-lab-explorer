@@ -11,6 +11,7 @@ venv/
 # Data pipeline
 data/_cache/
 data/croptypes_2024.tif
+data/io_lulc_*.tif
 data/boart1000_ob_v20
 data/pmtiles/*.tmp
 data/buek250_mgm_utm_v60*

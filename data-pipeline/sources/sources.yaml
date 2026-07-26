@@ -33,7 +33,7 @@ layers:
       path: data/croptypes_2024.tif
       download_url: "https://download.geoservice.dlr.de/CROPTYPES/files/croptypes_2024.tif"
       sha256: null
-      crs: "EPSG:4326"
+      crs: "EPSG:32632"
       resolution_m: 10
       nodata: 0
     build:
@@ -47,7 +47,6 @@ layers:
       pmtiles: data/pmtiles/landuse-croptypes.pmtiles
       sync_to: app/public/data/pmtiles/landuse-croptypes.pmtiles
     legend:
-      - { value: 0, label: { en: "no data", de: "no data" }, color: "#cccccc" }
       - { value: 11, label: { en: "winter wheat", de: "Winterweizen" }, color: "#c2e077" }
       - { value: 12, label: { en: "winter barley", de: "Wintergerste" }, color: "#9bc72d" }
       - { value: 13, label: { en: "winter rye", de: "Winterroggen" }, color: "#5ec597" }
@@ -67,6 +66,61 @@ layers:
       - { value: 100, label: { en: "fruit trees and other woody vegetation", de: "Obst- und Feldgehoelz" }, color: "#8ffffc" }
       - { value: 110, label: { en: "hops", de: "Hopfen" }, color: "#66d1ff" }
       - { value: 111, label: { en: "other agricultural use", de: "Sonstige landwirtschaftliche Nutzung" }, color: "#3da5d9" }
+
+  - id: io-lulc-landcover
+    app_layer: landscape
+    kind: raster
+    classification: categorical
+    per_ll: true
+    title:
+      en: "Land cover (Esri/Impact Observatory, 2024)"
+      de: "Landbedeckung (Esri/Impact Observatory, 2024)"
+    description:
+      en: "Annual 10 m land use / land cover classification for 2024, derived from Sentinel-2 with deep learning."
+      de: "Jaehrliche 10-m-Landbedeckungsklassifikation 2024, abgeleitet aus Sentinel-2 mit Deep Learning."
+    source:
+      provider: "Impact Observatory / Esri / Microsoft"
+      dataset: "10m Annual Land Use Land Cover (9-class), 2024"
+      url: "https://registry.opendata.aws/io-lulc/"
+      license: "CC-BY-4.0"
+      attribution: "Esri, Impact Observatory, Microsoft - 10m Annual Land Use Land Cover, CC BY 4.0"
+      citation: "Karra, Kontgis, et al. Global land use/land cover with Sentinel-2 and deep learning. IGARSS 2021."
+      note: "The Impact Observatory STAC collection reports license: proprietary, but the AWS Registry of Open Data, the Microsoft Planetary Computer STAC collection, and Esri's own Living Atlas item licenseInfo all state CC BY 4.0 for the source raster. This project relies on the CC BY 4.0 reading."
+    input:
+      tiles:
+        rheingau: "32U"
+        hessian-low-mountain: "32U"
+        north-hessian-loess: "32U"
+        east-brandenburg: "33U"
+        havellandisches-luch: "33U"
+      path_pattern: "data/io_lulc_{tile}_2024.tif"
+      download_url_pattern: "https://io-10m-annual-lulc.s3.us-west-2.amazonaws.com/{tile}_2024.tif"
+      sha256_by_tile:
+        "32U": null
+        "33U": null
+      nodata: 0
+      resolution_m: 10
+    build:
+      script: python/build_land_cover.py
+      target_crs: "EPSG:3857"
+      min_zoom: 6
+      max_zoom: 12
+      tile_size: 512
+      resampling: nearest
+    output:
+      pmtiles_pattern: "data/pmtiles/land-cover-{slug}.pmtiles"
+      sync_pattern: "app/public/data/pmtiles/land-cover-{slug}.pmtiles"
+      class_histogram: "data/land_cover_class_histogram.json"
+    legend:
+      - { value: 1, label: { en: "Water", de: "Wasser" }, color: "#88bfd9" }
+      - { value: 2, label: { en: "Forest", de: "Wald" }, color: "#276d4e" }
+      - { value: 4, label: { en: "Wetland", de: "Feuchtgebiet" }, color: "#4f89a3" }
+      - { value: 5, label: { en: "Cropland", de: "Ackerland" }, color: "#c2e077" }
+      - { value: 7, label: { en: "Settlement", de: "Siedlung" }, color: "#b5ad9e" }
+      - { value: 8, label: { en: "Bare ground", de: "Offenboden" }, color: "#d0b385" }
+      - { value: 9, label: { en: "Snow / ice", de: "Schnee / Eis" }, color: "#f2f8e2" }
+      - { value: 10, label: { en: "Clouds", de: "Wolken" }, color: "#c6d2d5" }
+      - { value: 11, label: { en: "Grassland", de: "Gruenland" }, color: "#83d2af" }
 
   - id: buek250
     app_layer: soil
