@@ -152,6 +152,16 @@ This will:
 - regenerate `app/src/data/landuse_legend.js` from `sources/sources.yaml`
 - regenerate `app/src/data/layer_sources.js` so map-source attribution stays in sync with `sources.yaml`
 
+### The `tab` field in `data/destatis_curated_kpis.json` is a join key, not a label
+
+`data/destatis_curated_kpis.json`'s `tab` values are join keys, not display text: `generate_metadata.py::_build_kpi_by_tab` groups each Living Lab's KPIs into `ll_metadata.json`'s `kpiByTab` object using this exact string, and the same string is one app tab's id in `app/src/data/layers.js` / `LAYERS[].id`. Renaming a tab therefore requires changing three places together, in the same commit:
+
+1. `data-pipeline/python/fetch_destatis.py`'s `CURATED_KPIS` list (the `"tab"` value on every affected row) and, if the tab also corresponds to a `sources.yaml` layer, that layer's `app_layer`
+2. The committed `data/destatis_curated_kpis.json` manifest (regenerate via `python sync.py`, or hand-edit only if a live Destatis re-fetch is not viable -- see the comment above `CURATED_KPIS`)
+3. The two hardcoded tab-count assertions in `data-pipeline/tests/test_pipeline_outputs.py` (`test_destatis_curated_kpis_manifest_matches_contract` and `test_ll_metadata_kpi_by_tab_contract`)
+
+Phase 06 D-01 renamed the `landuse` tab to `agriculture` across all three places in the same change; `test_destatis_curated_kpis_manifest_matches_contract` also asserts no entry's `tab` still equals `landuse`, to catch a future partial revert.
+
 ## Adding a new data source
 
 Phase 4 introduces a declarative source registry. Until then, add a new Python script alongside `fetch_nuts.py` and write its output under `../data/` with a descriptive filename.
@@ -164,6 +174,8 @@ Thematic map layers are described in [`sources/sources.yaml`](./sources/sources.
 
 - `landuse-croptypes`: the DLR 2024 crop-types raster for Germany, clipped to the Living Lab area and converted into PMTiles
 - `io-lulc-landcover`: the Esri / Impact Observatory / Microsoft 10 m Annual Land Use Land Cover (9-class) raster, 2024 edition, CC BY 4.0. Unlike `landuse-croptypes` this layer is built **per Living Lab** (`data/pmtiles/land-cover-{slug}.pmtiles`, one file per LL) rather than as a single national output, because clipping to the union of all five LLs before tiling would peak near 11.6 GB of RAM during the build.
+
+Each layer entry has two distinct ids that must not be confused (see [`sources/README.md`](./sources/README.md) for the full rule): `id` is the *dataset* id and names the layer's build artefacts on disk (e.g. `landuse-croptypes.pmtiles`, the `--layer landuse-croptypes` CLI flag below); `app_layer` is the *app tab* id and must match one of `LAYERS[].id` in `app/src/data/layers.js`. The two are renamed independently -- `landuse-croptypes` kept its dataset `id` when its `app_layer` was renamed from `landuse` to `agriculture` (Phase 06 D-01), because the committed PMTiles filename must not change just because the app's tab label did. `io-lulc-landcover`'s `app_layer` is `landscape`.
 
 ### Install the PMTiles command-line tool
 
