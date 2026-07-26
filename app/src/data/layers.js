@@ -1,4 +1,5 @@
 import { LANDUSE_LEGEND } from './landuse_legend.js'
+import { LAND_COVER_LEGEND } from './land_cover_legend.js'
 
 const SOIL_LEGEND = [
   { value: 'brown-soils', en: 'Brown soils', de: 'Braunerden', color: '#b88752' },
@@ -19,7 +20,7 @@ export const PROTECTED_AREAS_LEGEND = [
 
 export const LAYERS = [
   {
-    id: 'landuse',
+    id: 'agriculture',
     type: 'raster',
     pmtilesUrl: 'data/pmtiles/landuse-croptypes.pmtiles',
     legend: LANDUSE_LEGEND,
@@ -36,7 +37,13 @@ export const LAYERS = [
     available: true,
   },
   { id: 'economic', type: 'placeholder', pmtilesUrl: null, legend: null, available: true },
-  { id: 'landscape', type: 'placeholder', pmtilesUrl: null, legend: null, available: true },
+  {
+    id: 'landscape',
+    type: 'raster',
+    pmtilesUrlPattern: 'data/pmtiles/land-cover-{slug}.pmtiles',
+    legend: LAND_COVER_LEGEND,
+    available: true,
+  },
 ]
 
 // Overlays are independent from LAYERS and do not appear in exclusive tab lists (per D-05).
@@ -61,7 +68,10 @@ export const LAYER_INDEX = new Map([...LAYERS, ...OVERLAYS].map((l) => [l.id, l]
 
 export function resolveLayerAsset(layerId, { slug } = {}) {
   const layer = LAYER_INDEX.get(layerId)
-  if (layer?.type === 'raster') return layer.pmtilesUrl ?? null
+  if (layer?.type === 'raster') {
+    if (layer.pmtilesUrlPattern && slug) return layer.pmtilesUrlPattern.replace('{slug}', slug)
+    return layer.pmtilesUrl ?? null
+  }
   if (layer?.type === 'vector' && layer.geojsonPathPattern && slug) {
     return layer.geojsonPathPattern.replace('{slug}', slug)
   }
@@ -69,7 +79,7 @@ export function resolveLayerAsset(layerId, { slug } = {}) {
 }
 
 export const LAYER_COLORS = {
-  landuse: { arable: '#c2e077', forest: '#276d4e', grassland: '#83d2af', settlement: '#b5ad9e', water: '#8ffffc' },
+  agriculture: { arable: '#c2e077', forest: '#276d4e', grassland: '#83d2af', settlement: '#b5ad9e', water: '#8ffffc' },
   climate: { arable: '#f9d1c2', forest: '#daf1e7', grassland: '#fce3da', settlement: '#f2f8e2', water: '#bdfffd' },
   soil: { arable: '#d4b483', forest: '#8a6a3e', grassland: '#c4a870', settlement: '#a09080', water: '#8ffffc' },
   economic: { arable: '#9bc72d', forest: '#225e43', grassland: '#5ec597', settlement: '#dc4b14', water: '#00b3ad' },
