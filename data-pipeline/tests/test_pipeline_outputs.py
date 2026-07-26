@@ -4,6 +4,7 @@ import json
 
 import geopandas as gpd
 import yaml
+from shapely.geometry import box
 
 from conftest import LL_SLUGS, repo_root
 
@@ -88,6 +89,52 @@ def test_buek250_geojson_fixtures_exist_and_match_contract() -> None:
         )
         assert gdf.loc[gdf["feature_kind"] != "soil_unit", "feature_kind"].isin(["water_area", "special_area"]).all()
         assert gdf.geometry.notna().all(), f"Fixture has null geometries: {path.name}"
+
+
+def test_protected_areas_layer_contract_declared() -> None:
+    """
+    Phase 05-01 Task 1: Assert the bfn-schutzgebiete layer is declared with correct WFS config,
+    build script, output pattern, and coordinate precision (chosen via Task 0).
+    """
+    layer = get_layer("bfn-schutzgebiete")
+    assert layer["kind"] == "vector"
+    assert layer["app_layer"] == "protected-areas"
+    assert layer["build"]["script"] == "python/fetch_protected_areas.py"
+    assert layer["wfs"]["url"] == "https://geodienste.bfn.de/ogc/wfs/schutzgebiet"
+    assert layer["wfs"]["version"] == "2.0.0"
+    assert layer["wfs"]["bbox_crs"] == "urn:ogc:def:crs:EPSG::4326"
+    assert layer["wfs"]["source_crs"] == "EPSG:25832"
+    assert layer["wfs"]["bbox_pad_deg"] == 0.05
+    assert layer["wfs"]["typenames"]["natura2000-sci"] == "bfn_sch_Schutzgebiet:Fauna_Flora_Habitat_Gebiete"
+    assert layer["wfs"]["typenames"]["natura2000-spa"] == "bfn_sch_Schutzgebiet:Vogelschutzgebiete"
+    assert layer["wfs"]["typenames"]["naturschutzgebiet"] == "bfn_sch_Schutzgebiet:Naturschutzgebiete"
+    assert layer["output"]["geojson_pattern"] == "data/geojson/protected-areas-{slug}.geojson"
+    # Task 0 decision: precision is 0.000001 (Option B)
+    assert "coordinate_precision" in layer["wfs"]
+    assert layer["wfs"]["coordinate_precision"] in (None, 0.000001, 0.00001), \
+        f"Expected coordinate_precision to be one of (None, 0.000001, 0.00001), got {layer['wfs']['coordinate_precision']}"
+
+
+def test_protected_areas_bbox_param_axis_order() -> None:
+    """
+    Phase 05-01 Task 1: Assert the _bbox_param helper returns lat,lon order with the
+    urn:ogc:def:crs:EPSG::4326 suffix. This is a pure unit test (no network) that guards against
+    the silent-failure mode where any other bbox spelling returns HTTP 200 with zero features.
+    """
+    from fetch_protected_areas import _bbox_param
+
+    # Rheingau bounds from data/ll_boundaries.geojson: lon 7.7726-8.4108, lat 49.9720-50.2960
+    rheingau = box(7.7726, 49.9720, 8.4108, 50.2960)
+
+    # With default pad=0.05 and bbox_crs="urn:ogc:def:crs:EPSG::4326"
+    bbox = _bbox_param(rheingau)
+    assert bbox == "49.9220,7.7226,50.3460,8.4608,urn:ogc:def:crs:EPSG::4326", \
+        f"Expected lat,lon ordering with urn: prefix and 0.05 degree padding, got {bbox}"
+
+    # With pad=0.0, verify it's a real parameter
+    bbox_no_pad = _bbox_param(rheingau, pad=0.0)
+    assert bbox_no_pad.startswith("49.9720,7.7726,50.2960,8.4108,"), \
+        f"Expected lat,lon ordering with zero padding at start, got {bbox_no_pad}"
 
 
 def test_destatis_nuts3_fixture_exists_and_matches_codes() -> None:
