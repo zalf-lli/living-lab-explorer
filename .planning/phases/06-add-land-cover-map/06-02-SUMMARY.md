@@ -161,3 +161,23 @@ None. All required tools (`pmtiles.exe`, a working Python 3.12 geospatial venv) 
 ---
 *Phase: 06-add-land-cover-map*
 *Completed: 2026-07-26*
+
+## Self-Check: PASSED
+
+- FOUND: data-pipeline/sync.py
+- FOUND: data-pipeline/python/build_pmtiles.py
+- FOUND: data-pipeline/sources/sources.yaml
+- FOUND: data-pipeline/README.md
+- FOUND: data/pmtiles/land-cover-east-brandenburg.pmtiles
+- FOUND: data/pmtiles/land-cover-havellandisches-luch.pmtiles
+- FOUND: data/pmtiles/land-cover-north-hessian-loess.pmtiles
+- FOUND: data/pmtiles/land-cover-hessian-low-mountain.pmtiles
+- FOUND: data/pmtiles/land-cover-rheingau.pmtiles
+- FOUND: data/land_cover_class_histogram.json
+- FOUND: app/public/data/pmtiles/land-cover-east-brandenburg.pmtiles
+- FOUND: app/src/data/land_cover_legend.js
+- FOUND: app/src/data/landuse_legend.js
+- FOUND commit: d14ff22 (Task 1)
+- FOUND commit: a035829 (Task 2)
+- FOUND commit: ab50fe9 (Task 3)
+- FOUND commit: 9a8a5b5 (SUMMARY)
