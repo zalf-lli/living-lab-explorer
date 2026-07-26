@@ -5,7 +5,7 @@ import { GeoJSON, MapContainer, TileLayer } from 'react-leaflet'
 import { useMap } from 'react-leaflet/hooks'
 import { PMTiles, leafletRasterLayer } from 'pmtiles'
 import { useGeoJSON } from '../../hooks/useGeoJSON.js'
-import { LAYER_INDEX, resolveLayerAsset } from '../../data/layers.js'
+import { LAYER_INDEX, PROTECTED_AREAS_LEGEND, resolveLayerAsset } from '../../data/layers.js'
 import { LAYER_SOURCE_INDEX } from '../../data/layer_sources.js'
 import { buildMaskFeature } from '../../lib/buildMaskGeometry.js'
 import { C } from '../../theme.js'
@@ -40,6 +40,82 @@ const SOIL_STRUCTURAL_STYLE = {
   weight: 0.7,
   fillColor: '#c6d2d5',
   fillOpacity: 0.65,
+}
+
+// Protected areas: derive style map from the shared palette (single source of truth)
+const PROTECTED_AREAS_ORDER = PROTECTED_AREAS_LEGEND.map((entry) => entry.value)
+const PROTECTED_AREAS_STYLES = Object.fromEntries(
+  PROTECTED_AREAS_LEGEND.map((entry) => [
+    entry.value,
+    {
+      fillColor: entry.color,
+      color: entry.strokeColor,
+      weight: entry.weight,
+      fillOpacity: entry.fillOpacity,
+    },
+  ])
+)
+const PROTECTED_AREAS_HOVER_STYLE = { fillOpacity: 0.75, weight: 1.6 }
+
+function getProtectedAreasStyle(feature) {
+  return PROTECTED_AREAS_STYLES[feature?.properties?.designation] ?? PROTECTED_AREAS_STYLES['Naturschutzgebiet']
+}
+
+function bindProtectedAreasTooltip(feature, layer, t, lang) {
+  const props = feature?.properties ?? {}
+  const tooltipDiv = document.createElement('div')
+  tooltipDiv.style.maxWidth = '280px'
+  tooltipDiv.style.lineHeight = '1.35'
+
+  const name = getLocalizedValue(props, 'name', lang)
+  if (name) {
+    tooltipDiv.appendChild(createTooltipRow(document, '', name, true))
+  }
+
+  const designation = getLocalizedValue(props, 'designation', lang)
+  if (designation) {
+    tooltipDiv.appendChild(
+      createTooltipRow(document, t('map.protectedAreasTooltip.designation'), designation)
+    )
+  }
+
+  if (props.area_ha != null) {
+    const areaText = `${props.area_ha.toLocaleString(lang === 'de' ? 'de-DE' : 'en-GB')} ${t('map.protectedAreasTooltip.areaUnit')}`
+    tooltipDiv.appendChild(
+      createTooltipRow(document, t('map.protectedAreasTooltip.area'), areaText)
+    )
+  }
+
+  if (props.established_year != null) {
+    tooltipDiv.appendChild(
+      createTooltipRow(document, t('map.protectedAreasTooltip.established'), String(props.established_year))
+    )
+  }
+
+  const authority = getLocalizedValue(props, 'authority', lang)
+  if (authority) {
+    tooltipDiv.appendChild(
+      createTooltipRow(document, t('map.protectedAreasTooltip.authority'), authority)
+    )
+  }
+
+  layer.bindPopup(tooltipDiv, { sticky: true, direction: 'top', opacity: 0.95 })
+}
+
+function buildProtectedAreasLegendEntries(collection) {
+  if (!collection?.features?.length) return null
+
+  const designations = new Set()
+  for (const feature of collection.features) {
+    const designation = feature?.properties?.designation
+    if (designation) {
+      designations.add(designation)
+    }
+  }
+
+  if (designations.size === 0) return null
+
+  return PROTECTED_AREAS_LEGEND.filter((entry) => designations.has(entry.value))
 }
 
 function getPmtiles(url) {
