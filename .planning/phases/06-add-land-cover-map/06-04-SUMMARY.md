@@ -117,3 +117,19 @@ None. No external service configuration is needed; the dummy-credential workarou
 ---
 *Phase: 06-add-land-cover-map*
 *Completed: 2026-07-26*
+
+## Self-Check: PASSED
+
+- FOUND: data-pipeline/sources/sources.yaml
+- FOUND: data-pipeline/python/fetch_destatis.py
+- FOUND: data/destatis_curated_kpis.json
+- FOUND: data/ll_metadata.json
+- FOUND: app/public/data/ll_metadata.json
+- FOUND: app/src/data/layer_sources.js
+- FOUND: data-pipeline/tests/test_pipeline_outputs.py
+- FOUND: data-pipeline/README.md
+- FOUND: data-pipeline/sources/README.md
+- FOUND commit: 55b2991 (Task 1)
+- FOUND commit: 6ac417a (Task 2)
+- FOUND commit: 0ac15c2 (Task 3)
+- FOUND commit: a1c20a5 (SUMMARY)
