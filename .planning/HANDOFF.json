@@ -1,35 +1,38 @@
 {
   "version": "1.0",
-  "timestamp": "2026-06-02T08:55:00.000Z",
-  "source": "codex",
-  "partial": true,
-  "phase": "03.1",
-  "phase_name": "data-source-research-user-validation-inserted",
-  "phase_dir": ".planning/phases/03.1-data-source-research-user-validation-inserted",
-  "plan": "03.1-03",
-  "task": "Wave 3 human review checkpoint",
+  "timestamp": "2026-07-26T21:08:04.565Z",
+  "phase": "06",
+  "phase_name": "add-land-cover-map",
+  "phase_dir": ".planning/phases/06-add-land-cover-map",
+  "plan": "06-05",
+  "task": 3,
   "total_tasks": 3,
-  "status": "human-verify-checkpoint",
+  "status": "paused",
   "completed_tasks": [
-    "03.1-01 Wave 1 catalogue scaffold committed",
-    "03.1-02 Wave 2 evidence-chained source research completed",
-    "Re-synced variables_catalogue.xlsx source_catalogue tab"
+    { "id": "06-01", "name": "Register land cover dataset + PMTiles build machinery", "status": "done", "commit": "8ea781a" },
+    { "id": "06-02", "name": "Wire sync.py + run the land cover build", "status": "done", "commit": "ab50fe9" },
+    { "id": "06-03", "name": "App tab restructure (agriculture/landscape)", "status": "done", "commit": "5450046" },
+    { "id": "06-04", "name": "Pipeline rename landuse -> agriculture", "status": "done", "commit": "6ac417a" },
+    { "id": "06-05-task-1", "name": "Run the full automated gate across pipeline and app", "status": "done", "commit": "d192751" },
+    { "id": "06-05-task-2", "name": "Bilingual walkthrough checkpoint (human-verify)", "status": "done", "progress": "Reviewer typed 'approved' — no palette correction requested" },
+    { "id": "06-05-task-3", "name": "Apply any palette correction and close out the phase record", "status": "in_progress", "progress": "Evidence close-out committed (69121a4). SUMMARY.md written but not committed. STATE.md frontmatter and ROADMAP.md updated via gsd-sdk but not committed. STATE.md body text not yet updated. Final metadata commit not yet made." }
   ],
   "remaining_tasks": [
-    "Human reviewer fills decision, priority, and rationale in data/variables_catalogue.xlsx",
-    "Regenerate data/source_catalogue.csv from reviewed xlsx",
-    "Create 999.x backlog items for decision=include rows",
-    "Restructure docs/data-sources.md"
+    { "id": "06-05-task-3-finish", "name": "Manually update STATE.md body (Status table Phase 6 row -> Complete, Current focus, Active Work note), then commit 06-05-SUMMARY.md + STATE.md + ROADMAP.md as one metadata commit", "status": "not_started" },
+    { "id": "phase-06-gates", "name": "Run execute-phase's remaining post-phase steps: code_review_gate, regression_gate, verify_phase_goal, aggregate_results", "status": "not_started" }
   ],
   "blockers": [],
-  "human_actions_pending": [
-    "Open data/variables_catalogue.xlsx, select source_catalogue, fill decision/priority/rationale for every candidate row, save and close the workbook."
-  ],
+  "human_actions_pending": [],
   "decisions": [
-    "Wave 2 defaults accepted: Thuenen uses Zenodo 15055561 fallback if Nextcloud is unreachable.",
-    "Wave 2 defaults accepted: JKI small structures remains as a [needs-verification] row."
+    { "decision": "Phase 6 wave 3 ran 06-03 and 06-04 in parallel worktrees (no files_modified overlap)", "rationale": "Plan dependency graph showed both depend only on 06-02, and file lists were disjoint", "phase": "06" },
+    { "decision": "Reviewer approved the bilingual walkthrough (06-05 Task 2) without requesting the orangeDeep Settlement-colour fallback", "rationale": "Built-area colour #b5ad9e was visible against the CARTO Voyager basemap at 0.85 opacity; no swap needed", "phase": "06" },
+    { "decision": "06-05 Task 3 left sources.yaml and land_cover_legend.js untouched", "rationale": "Direct consequence of the approved verdict — no palette correction to apply or rebuild", "phase": "06" }
   ],
-  "uncommitted_files": [],
-  "next_action": "Resume Wave 3 Task 2 after the reviewed workbook is saved and closed.",
-  "context_notes": "Wave 2 checks passed. Do not run export_source_catalogue.py after human review because it blanks candidate decision columns."
+  "uncommitted_files": [
+    ".planning/STATE.md",
+    ".planning/ROADMAP.md",
+    ".planning/phases/06-add-land-cover-map/06-05-SUMMARY.md"
+  ],
+  "next_action": "Read .planning/phases/06-add-land-cover-map/.continue-here.md, then finish 06-05 Task 3's bookkeeping (STATE.md body + final commit) before running the phase's remaining verification gates.",
+  "context_notes": "All 5 plans in Phase 6 executed cleanly across 4 waves (worktree-isolated, merged back with post-merge test gates passing every time). The only thing left is bookkeeping: one more commit to close out plan 06-05 and STATE/ROADMAP, then the execute-phase workflow's post-phase gates (code review, regression, goal verification) still need to run before the phase can be marked complete. Unrelated pre-existing uncommitted files (data-pipeline/tests/conftest.py, data/variables_catalogue.xlsx) predate this session and are NOT part of Phase 6 — leave untouched, they belong to Phase 3.1's still-open human-review checkpoint. A dev server (npm run dev, port 5174) may still be running in the background from the 06-05 checkpoint agent — verify and stop it if still alive before starting new work."
 }
