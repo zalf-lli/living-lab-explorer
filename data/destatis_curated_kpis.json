@@ -4,7 +4,7 @@
     "label_de": "Ackerland",
     "label_en": "Cropland area",
     "source_host": "regionalstatistik",
-    "tab": "landuse",
+    "tab": "agriculture",
     "unit_de": "ha",
     "unit_en": "ha",
     "variable_key": "land_area_cropland_ha"
@@ -14,7 +14,7 @@
     "label_de": "Anzahl Betriebe",
     "label_en": "Number of farms",
     "source_host": "regionalstatistik",
-    "tab": "landuse",
+    "tab": "agriculture",
     "unit_de": "Anzahl",
     "unit_en": "count",
     "variable_key": "farms_count"
@@ -24,7 +24,7 @@
     "label_de": "Durchschnittliche Betriebsgroesse",
     "label_en": "Average farm size",
     "source_host": "regionalstatistik",
-    "tab": "landuse",
+    "tab": "agriculture",
     "unit_de": "ha",
     "unit_en": "ha",
     "variable_key": "farm_avg_size_ha"
@@ -34,7 +34,7 @@
     "label_de": "Anteil oekologischer Landbau",
     "label_en": "Share of organic farming",
     "source_host": "regionalstatistik",
-    "tab": "landuse",
+    "tab": "agriculture",
     "unit_de": "%",
     "unit_en": "%",
     "variable_key": "organic_pct"
