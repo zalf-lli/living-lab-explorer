@@ -35,6 +35,19 @@ def test_pmtiles_fixture_exists_and_is_nonzero() -> None:
     assert pmtiles_path.stat().st_size > 0, f"PMTiles fixture is empty: {pmtiles_path}"
 
 
+def test_land_cover_pmtiles_fixtures_exist_and_are_nonzero() -> None:
+    """
+    Phase 06: mirrors test_pmtiles_fixture_exists_and_is_nonzero for the per-LL
+    io-lulc-landcover raster, turning the five committed land-cover-{slug}.pmtiles
+    files into a permanent contract rather than a one-off manual observation.
+    """
+    pmtiles_dir = repo_root() / "app" / "public" / "data" / "pmtiles"
+    for slug in LL_SLUGS:
+        pmtiles_path = pmtiles_dir / f"land-cover-{slug}.pmtiles"
+        assert pmtiles_path.exists(), f"Missing land cover PMTiles fixture: {pmtiles_path}"
+        assert pmtiles_path.stat().st_size > 0, f"Land cover PMTiles fixture is empty: {pmtiles_path}"
+
+
 def test_buek250_layer_contract_declared() -> None:
     layer = get_layer("buek250")
     assert layer["kind"] == "vector"
@@ -188,12 +201,19 @@ def test_destatis_curated_kpis_manifest_matches_contract() -> None:
         tab_counts[entry["tab"]] = tab_counts.get(entry["tab"], 0) + 1
 
     assert tab_counts == {
-        "landuse": 4,
+        "agriculture": 4,
         "soil": 3,
         "climate": 2,
         "landscape": 4,
         "economic": 4,
     }
+
+    # Phase 06 D-01: guard against a future partial revert reintroducing the pre-rename
+    # `landuse` tab key on only one side of the pipeline/app join.
+    assert not any(entry["tab"] == "landuse" for entry in data), (
+        "Found a stale 'landuse' tab id -- Phase 06 D-01 renamed the app tab id to "
+        "'agriculture'; check fetch_destatis.CURATED_KPIS and this manifest together"
+    )
 
 
 def test_ll_metadata_kpi_by_tab_contract() -> None:
@@ -212,7 +232,7 @@ def test_ll_metadata_kpi_by_tab_contract() -> None:
     assert data, "ll_metadata.json is empty"
 
     expected_tab_counts = {
-        "landuse": 4,
+        "agriculture": 4,
         "soil": 3,
         "climate": 2,
         "landscape": 4,

@@ -3,7 +3,7 @@
 export const LAYER_SOURCES = [
   {
     "id": "landuse-croptypes",
-    "appLayer": "landuse",
+    "appLayer": "agriculture",
     "title": {
       "en": "Crop types (DLR, 2024)",
       "de": "Anbaukulturen (DLR, 2024)"
