@@ -15,6 +15,25 @@
         "soil": "Mock-Platzhalter zur Beschreibung der Bodenverhaeltnisse."
       },
       "name": "Ost-Brandenburg",
+      "production": {
+        "agriculture_pct": "-",
+        "average_farm_size": "-",
+        "average_rent_rate": "-",
+        "forests_pct": "-",
+        "grassland_pct": "-",
+        "land_area": "-",
+        "main_crops": "-",
+        "main_livestock": "-",
+        "organic_pct": "-",
+        "protected_pct": "-"
+      },
+      "socio": {
+        "gdp_per_capita": "-",
+        "household_income": "-",
+        "nearest_city": "-",
+        "population": "-",
+        "population_density": "-"
+      },
       "soil_climate": {
         "altitude": "Mock - auszufuellen",
         "main_soil_types": "Mock - variiert je nach Standort",
@@ -37,6 +56,25 @@
         "soil": "Mock placeholder describing soil conditions for this Living Lab."
       },
       "name": "East Brandenburg",
+      "production": {
+        "agriculture_pct": "-",
+        "average_farm_size": "-",
+        "average_rent_rate": "-",
+        "forests_pct": "-",
+        "grassland_pct": "-",
+        "land_area": "-",
+        "main_crops": "-",
+        "main_livestock": "-",
+        "organic_pct": "-",
+        "protected_pct": "-"
+      },
+      "socio": {
+        "gdp_per_capita": "-",
+        "household_income": "-",
+        "nearest_city": "-",
+        "population": "-",
+        "population_density": "-"
+      },
       "soil_climate": {
         "altitude": "Mock - to be filled",
         "main_soil_types": "Mock - varies by location",
@@ -47,6 +85,13 @@
       "tagline": "Multifunctional and diverse arable farming systems"
     },
     "icon": "east-brandenburg",
+    "kpi": {
+      "area": 2410,
+      "farms": 312,
+      "precip": "540 mm/yr",
+      "soil": "Sandy loam",
+      "tempRange": "9.8 deg C avg"
+    },
     "kpiByTab": {
       "climate": [
         {
@@ -126,22 +171,22 @@
         {
           "genesisTable": null,
           "key": "natura2000_ha",
-          "sourceHost": null,
+          "sourceHost": "bfn_wfs",
           "unit": {
             "de": "ha",
             "en": "ha"
           },
-          "value": null
+          "value": 156577.4
         },
         {
           "genesisTable": null,
           "key": "nature_reserves_ha",
-          "sourceHost": null,
+          "sourceHost": "bfn_wfs",
           "unit": {
             "de": "ha",
             "en": "ha"
           },
-          "value": null
+          "value": 51566.3
         },
         {
           "genesisTable": "33111-01-02-4",
@@ -261,6 +306,25 @@
         "soil": "Mock-Platzhalter zur Beschreibung der Bodenverhaeltnisse."
       },
       "name": "Havelländisches Luch",
+      "production": {
+        "agriculture_pct": "-",
+        "average_farm_size": "-",
+        "average_rent_rate": "-",
+        "forests_pct": "-",
+        "grassland_pct": "-",
+        "land_area": "-",
+        "main_crops": "-",
+        "main_livestock": "-",
+        "organic_pct": "-",
+        "protected_pct": "-"
+      },
+      "socio": {
+        "gdp_per_capita": "-",
+        "household_income": "-",
+        "nearest_city": "-",
+        "population": "-",
+        "population_density": "-"
+      },
       "soil_climate": {
         "altitude": "Mock - auszufuellen",
         "main_soil_types": "Mock - variiert je nach Standort",
@@ -283,6 +347,25 @@
         "soil": "Mock placeholder describing soil conditions for this Living Lab."
       },
       "name": "Havelländisches Luch",
+      "production": {
+        "agriculture_pct": "-",
+        "average_farm_size": "-",
+        "average_rent_rate": "-",
+        "forests_pct": "-",
+        "grassland_pct": "-",
+        "land_area": "-",
+        "main_crops": "-",
+        "main_livestock": "-",
+        "organic_pct": "-",
+        "protected_pct": "-"
+      },
+      "socio": {
+        "gdp_per_capita": "-",
+        "household_income": "-",
+        "nearest_city": "-",
+        "population": "-",
+        "population_density": "-"
+      },
       "soil_climate": {
         "altitude": "Mock - to be filled",
         "main_soil_types": "Mock - varies by location",
@@ -293,6 +376,13 @@
       "tagline": "Climate protection and grassland use in fenland regions"
     },
     "icon": "havellandisches-luch",
+    "kpi": {
+      "area": 810,
+      "farms": 89,
+      "precip": "570 mm/yr",
+      "soil": "Peat / gley",
+      "tempRange": "9.5 deg C avg"
+    },
     "kpiByTab": {
       "climate": [
         {
@@ -372,22 +462,22 @@
         {
           "genesisTable": null,
           "key": "natura2000_ha",
-          "sourceHost": null,
+          "sourceHost": "bfn_wfs",
           "unit": {
             "de": "ha",
             "en": "ha"
           },
-          "value": null
+          "value": 122606.0
         },
         {
           "genesisTable": null,
           "key": "nature_reserves_ha",
-          "sourceHost": null,
+          "sourceHost": "bfn_wfs",
           "unit": {
             "de": "ha",
             "en": "ha"
           },
-          "value": null
+          "value": 41800.8
         },
         {
           "genesisTable": "33111-01-02-4",
@@ -505,6 +595,25 @@
         "soil": "Bodentypen sind sehr variabel: podsolige Braunerden mit geringer Basensaettigung, Buntsandstein, Braunerden mit hoher bis mittlerer Basensaettigung, Pseudogley, Parabraunerden aus Loess mit hoher Basensaettigung sowie Rendzina auf kalkhaltigen Standorten."
       },
       "name": "Hessisches Mittelgebirge",
+      "production": {
+        "agriculture_pct": "-",
+        "average_farm_size": "-",
+        "average_rent_rate": "-",
+        "forests_pct": "-",
+        "grassland_pct": "-",
+        "land_area": "-",
+        "main_crops": "-",
+        "main_livestock": "-",
+        "organic_pct": "-",
+        "protected_pct": "-"
+      },
+      "socio": {
+        "gdp_per_capita": "-",
+        "household_income": "-",
+        "nearest_city": "-",
+        "population": "-",
+        "population_density": "-"
+      },
       "soil_climate": {
         "altitude": "400-1000 m",
         "main_soil_types": "Braunerde",
@@ -527,6 +636,25 @@
         "soil": "Soil types are highly variable, including podzolic brown soils with low base saturation, red sandstone, brown soils with high to medium base saturation, pseudogley, parabraun soils from loess with high base saturation, and rendzina on calcareous sites (locally limited)."
       },
       "name": "Hessian Low Mountain Range",
+      "production": {
+        "agriculture_pct": "-",
+        "average_farm_size": "-",
+        "average_rent_rate": "-",
+        "forests_pct": "-",
+        "grassland_pct": "-",
+        "land_area": "-",
+        "main_crops": "-",
+        "main_livestock": "-",
+        "organic_pct": "-",
+        "protected_pct": "-"
+      },
+      "socio": {
+        "gdp_per_capita": "-",
+        "household_income": "-",
+        "nearest_city": "-",
+        "population": "-",
+        "population_density": "-"
+      },
       "soil_climate": {
         "altitude": "400-1000 m",
         "main_soil_types": "Brown earth",
@@ -537,6 +665,13 @@
       "tagline": "Integrated plant-animal agricultural systems"
     },
     "icon": "hessian-low-mountain",
+    "kpi": {
+      "area": 960,
+      "farms": 178,
+      "precip": "750 mm/yr",
+      "soil": "Brown earth",
+      "tempRange": "8.0 deg C avg"
+    },
     "kpiByTab": {
       "climate": [
         {
@@ -616,22 +751,22 @@
         {
           "genesisTable": null,
           "key": "natura2000_ha",
-          "sourceHost": null,
+          "sourceHost": "bfn_wfs",
           "unit": {
             "de": "ha",
             "en": "ha"
           },
-          "value": null
+          "value": 134837.9
         },
         {
           "genesisTable": null,
           "key": "nature_reserves_ha",
-          "sourceHost": null,
+          "sourceHost": "bfn_wfs",
           "unit": {
             "de": "ha",
             "en": "ha"
           },
-          "value": null
+          "value": 8263.6
         },
         {
           "genesisTable": "33111-01-02-4",
@@ -752,6 +887,25 @@
         "soil": "Mock-Platzhalter zur Beschreibung der Bodenverhaeltnisse."
       },
       "name": "Nordhessische Lössplatte",
+      "production": {
+        "agriculture_pct": "-",
+        "average_farm_size": "-",
+        "average_rent_rate": "-",
+        "forests_pct": "-",
+        "grassland_pct": "-",
+        "land_area": "-",
+        "main_crops": "-",
+        "main_livestock": "-",
+        "organic_pct": "-",
+        "protected_pct": "-"
+      },
+      "socio": {
+        "gdp_per_capita": "-",
+        "household_income": "-",
+        "nearest_city": "-",
+        "population": "-",
+        "population_density": "-"
+      },
       "soil_climate": {
         "altitude": "Mock - auszufuellen",
         "main_soil_types": "Mock - variiert je nach Standort",
@@ -774,6 +928,25 @@
         "soil": "Mock placeholder describing soil conditions for this Living Lab."
       },
       "name": "North Hessian Loess Plain",
+      "production": {
+        "agriculture_pct": "-",
+        "average_farm_size": "-",
+        "average_rent_rate": "-",
+        "forests_pct": "-",
+        "grassland_pct": "-",
+        "land_area": "-",
+        "main_crops": "-",
+        "main_livestock": "-",
+        "organic_pct": "-",
+        "protected_pct": "-"
+      },
+      "socio": {
+        "gdp_per_capita": "-",
+        "household_income": "-",
+        "nearest_city": "-",
+        "population": "-",
+        "population_density": "-"
+      },
       "soil_climate": {
         "altitude": "Mock - to be filled",
         "main_soil_types": "Mock - varies by location",
@@ -784,6 +957,13 @@
       "tagline": "Intensified organic farming"
     },
     "icon": "north-hessian-loess",
+    "kpi": {
+      "area": 1140,
+      "farms": 204,
+      "precip": "680 mm/yr",
+      "soil": "Loess / luvisol",
+      "tempRange": "9.1 deg C avg"
+    },
     "kpiByTab": {
       "climate": [
         {
@@ -863,22 +1043,22 @@
         {
           "genesisTable": null,
           "key": "natura2000_ha",
-          "sourceHost": null,
+          "sourceHost": "bfn_wfs",
           "unit": {
             "de": "ha",
             "en": "ha"
           },
-          "value": null
+          "value": 48127.0
         },
         {
           "genesisTable": null,
           "key": "nature_reserves_ha",
-          "sourceHost": null,
+          "sourceHost": "bfn_wfs",
           "unit": {
             "de": "ha",
             "en": "ha"
           },
-          "value": null
+          "value": 6002.0
         },
         {
           "genesisTable": "33111-01-02-4",
@@ -996,6 +1176,25 @@
         "soil": "Mock-Platzhalter zur Beschreibung der Bodenverhaeltnisse."
       },
       "name": "Rheingau",
+      "production": {
+        "agriculture_pct": "-",
+        "average_farm_size": "-",
+        "average_rent_rate": "-",
+        "forests_pct": "-",
+        "grassland_pct": "-",
+        "land_area": "-",
+        "main_crops": "-",
+        "main_livestock": "-",
+        "organic_pct": "-",
+        "protected_pct": "-"
+      },
+      "socio": {
+        "gdp_per_capita": "-",
+        "household_income": "-",
+        "nearest_city": "-",
+        "population": "-",
+        "population_density": "-"
+      },
       "soil_climate": {
         "altitude": "Mock - auszufuellen",
         "main_soil_types": "Mock - variiert je nach Standort",
@@ -1018,6 +1217,25 @@
         "soil": "Mock placeholder describing soil conditions for this Living Lab."
       },
       "name": "Rheingau",
+      "production": {
+        "agriculture_pct": "-",
+        "average_farm_size": "-",
+        "average_rent_rate": "-",
+        "forests_pct": "-",
+        "grassland_pct": "-",
+        "land_area": "-",
+        "main_crops": "-",
+        "main_livestock": "-",
+        "organic_pct": "-",
+        "protected_pct": "-"
+      },
+      "socio": {
+        "gdp_per_capita": "-",
+        "household_income": "-",
+        "nearest_city": "-",
+        "population": "-",
+        "population_density": "-"
+      },
       "soil_climate": {
         "altitude": "Mock - to be filled",
         "main_soil_types": "Mock - varies by location",
@@ -1028,6 +1246,13 @@
       "tagline": "Multifunctional and climate-resilient viticulture systems"
     },
     "icon": "rheingau",
+    "kpi": {
+      "area": 450,
+      "farms": 143,
+      "precip": "550 mm/yr",
+      "soil": "Slate / shallow loam",
+      "tempRange": "11.2 deg C avg"
+    },
     "kpiByTab": {
       "climate": [
         {
@@ -1107,22 +1332,22 @@
         {
           "genesisTable": null,
           "key": "natura2000_ha",
-          "sourceHost": null,
+          "sourceHost": "bfn_wfs",
           "unit": {
             "de": "ha",
             "en": "ha"
           },
-          "value": null
+          "value": 10501.3
         },
         {
           "genesisTable": null,
           "key": "nature_reserves_ha",
-          "sourceHost": null,
+          "sourceHost": "bfn_wfs",
           "unit": {
             "de": "ha",
             "en": "ha"
           },
-          "value": null
+          "value": 1221.7
         },
         {
           "genesisTable": "33111-01-02-4",

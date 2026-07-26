@@ -178,9 +178,10 @@ def test_destatis_curated_kpis_manifest_matches_contract() -> None:
     }
     for entry in data:
         assert set(entry.keys()) == expected_keys, entry
-        # source_host must be one of the known hosts for a resolved slot, or None for an
+        # source_host names the upstream source: a Destatis platform, or bfn_wfs for a value
+        # derived from the BfN protected-areas geometry (Phase 05.1), or None for an
         # honestly-unresolved slot (D-15) -- never fabricated or omitted (Plan 04-07).
-        assert entry["source_host"] in ("genesis", "regionalstatistik", None), entry
+        assert entry["source_host"] in ("genesis", "regionalstatistik", "bfn_wfs", None), entry
 
     tab_counts: dict[str, int] = {}
     for entry in data:
@@ -250,6 +251,9 @@ def test_destatis_resolved_slots_have_real_values() -> None:
     source_host) must carry at least one non-null value across the 14 Kreise in
     destatis_nuts3.json -- a "resolved" slot with no real data anywhere would silently violate
     D-15's "never fabricate, never silently drop" contract.
+
+    Non-Destatis hosts such as bfn_wfs are intentionally excluded here because they are not
+    Kreis-level series; see test_protected_area_kpis_reach_ll_metadata instead.
     """
     manifest_path = repo_root() / "data" / "destatis_curated_kpis.json"
     nuts3_path = repo_root() / "data" / "destatis_nuts3.json"
@@ -260,11 +264,77 @@ def test_destatis_resolved_slots_have_real_values() -> None:
         nuts3 = json.load(handle)
 
     for entry in manifest:
-        if entry["source_host"] is None:
+        # Skip non-Destatis hosts; they have their own test contracts
+        if entry["source_host"] not in ("genesis", "regionalstatistik"):
             continue
         variable_key = entry["variable_key"]
         values = [rec.get(variable_key) for rec in nuts3.values()]
         assert any(v is not None for v in values), (
             f"Manifest marks {variable_key!r} resolved (source_host={entry['source_host']!r}) "
-            "but destatis_nuts3.json has no non-null values for it across any Kreis"
+            "but destatis_nuts3.json has no non-null values for it across any Kresis"
         )
+
+
+def test_protected_area_kpis_are_populated() -> None:
+    """
+    Phase 05.1: protected_area_kpis.json exists, carries all 5 LL slugs as keys (excluding _meta),
+    and each LL has non-zero natura2000_ha and nature_reserves_ha values. This guards against
+    Pitfall 6: silent computation failure, where the protected area coverage computation stops
+    running but nothing in the suite fails because test_destatis_resolved_slots_have_real_values
+    deliberately skips non-Destatis hosts.
+    """
+    path = repo_root() / "data" / "protected_area_kpis.json"
+    assert path.exists(), f"Missing protected_area_kpis.json: {path}"
+
+    with path.open("r", encoding="utf-8") as handle:
+        data = json.load(handle)
+
+    # Verify _meta block exists and has correct source
+    assert "_meta" in data, "Missing _meta block in protected_area_kpis.json"
+    assert data["_meta"].get("source") == "bfn_wfs", f"Expected source='bfn_wfs', got {data['_meta'].get('source')}"
+
+    # Verify all 5 LL slugs are present (excluding _meta)
+    ll_data = {k: v for k, v in data.items() if k != "_meta"}
+    assert set(ll_data.keys()) == set(LL_SLUGS), (
+        f"Expected LL_SLUGS {set(LL_SLUGS)}, got {set(ll_data.keys())}"
+    )
+
+    # Verify each LL has non-zero coverage values
+    for slug in LL_SLUGS:
+        record = ll_data[slug]
+        assert record.get("natura2000_ha") is not None, f"{slug}: natura2000_ha is null"
+        assert record["natura2000_ha"] > 0, f"{slug}: natura2000_ha is {record['natura2000_ha']}, expected > 0"
+        assert record.get("nature_reserves_ha") is not None, f"{slug}: nature_reserves_ha is null"
+        assert record["nature_reserves_ha"] > 0, f"{slug}: nature_reserves_ha is {record['nature_reserves_ha']}, expected > 0"
+
+
+def test_protected_area_kpis_reach_ll_metadata() -> None:
+    """
+    Phase 05.1: the merge in generate_metadata.py successfully propagates protected_area_kpis
+    values into app/public/data/ll_metadata.json's kpiByTab.landscape. This guards against
+    Pitfall 6: regression where the merge is reverted or disabled but no test fails.
+    """
+    metadata_path = repo_root() / "app" / "public" / "data" / "ll_metadata.json"
+    assert metadata_path.exists(), f"Missing ll_metadata.json: {metadata_path}"
+
+    with metadata_path.open("r", encoding="utf-8") as handle:
+        metadata = json.load(handle)
+
+    for slug in LL_SLUGS:
+        assert slug in metadata, f"Missing {slug} in ll_metadata.json"
+        record = metadata[slug]
+        assert "kpiByTab" in record, f"Missing kpiByTab for {slug}"
+        assert "landscape" in record["kpiByTab"], f"Missing landscape tab for {slug}"
+
+        # Find natura2000_ha and nature_reserves_ha in the landscape tab
+        landscape = record["kpiByTab"]["landscape"]
+        kpi_map = {kpi["key"]: kpi for kpi in landscape}
+
+        for key in ("natura2000_ha", "nature_reserves_ha"):
+            assert key in kpi_map, f"{slug}: missing {key} in landscape KPIs"
+            kpi = kpi_map[key]
+            assert kpi["value"] is not None, f"{slug}.{key}: value is null"
+            assert kpi["value"] > 0, f"{slug}.{key}: value is {kpi['value']}, expected > 0"
+            assert kpi["sourceHost"] == "bfn_wfs", f"{slug}.{key}: sourceHost is {kpi['sourceHost']}, expected 'bfn_wfs'"
+            assert kpi["genesisTable"] is None, f"{slug}.{key}: genesisTable should be null, got {kpi['genesisTable']}"
+            assert kpi["unit"] == {"en": "ha", "de": "ha"}, f"{slug}.{key}: unexpected unit {kpi['unit']}"
