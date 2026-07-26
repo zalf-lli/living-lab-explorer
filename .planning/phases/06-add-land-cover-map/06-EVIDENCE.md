@@ -1,9 +1,9 @@
 # Phase 6 Decision Evidence Record (D-01..D-24)
 
 **Phase:** 06-add-land-cover-map
-**Plan:** 06-05, Task 1 (automated gate)
+**Plan:** 06-05, Tasks 1-3 (automated gate, bilingual checkpoint, close-out)
 **Date:** 2026-07-26
-**Status:** Automated gate complete. Task 2 (bilingual human-verify checkpoint) is pending — see 06-05-PLAN.md.
+**Status:** Complete. All three tasks of 06-05 finished; phase 06 closed out.
 
 ---
 
@@ -115,12 +115,81 @@ Every Living Lab shows a distinct class-value mix (e.g. East Brandenburg has the
 
 ---
 
-## Not Yet Closed (this Task 1 record)
+## Task 2 — Bilingual Human-Verify Checkpoint Result
 
-- D-24's interactive claim (switching between tabs repeatedly without either going blank) awaits the Task 2 human walkthrough.
-- The two visual risks flagged in `06-RESEARCH.md` (lines 468-472) — Settlement `#b5ad9e` legibility against the CARTO Voyager basemap, and the three-greens swatch distinguishability at 10x10 px — cannot be settled by any automated assertion and are the explicit subject of Task 2.
-- This file will be appended to (verdict, date, any palette correction, deferred/backlog closing notes) by Task 3 after the human reviewer responds.
+**Date:** 2026-07-26
+**Verdict: APPROVED — no issues found, no palette correction requested.**
+
+The reviewer completed the full ten-step bilingual walkthrough specified in `06-05-PLAN.md`
+Task 2 (five tabs in correct order with Landscape as the default, land cover raster rendering
+with real terrain structure, the three greens `#c2e077`/`#83d2af`/`#276d4e` distinguishable in
+the legend swatches, the Settlement colour `#b5ad9e` visible against the CARTO Voyager basemap
+at 0.85 opacity — **no orangeDeep swap requested**, the map info control crediting Impact
+Observatory / Esri / Microsoft with the CC BY 4.0 licence, the Agriculture tab rendering crop
+types with real KPI values and no grey "no data" legend swatch, repeated switching between
+Agriculture and Landscape leaving both rendering, a second Living Lab showing a visibly
+different land cover map, and German labels reading correctly — "Landwirtschaft" /
+"Landschaft" tabs and Wasser / Wald / Ackerland / Siedlung / Gruenland legend entries).
+
+This closes D-24's interactive claim (structurally PASS in Task 1, now confirmed interactively):
+**D-24 — PASS.** Both visual risks flagged in `06-RESEARCH.md` lines 468-472 (Settlement
+legibility, three-greens distinguishability) are resolved with **no palette change needed**.
+
+## Task 3 — Palette Correction Decision and Phase Close-Out
+
+**Date:** 2026-07-26
+**Action taken:** None. Per the plan's Task 3 instruction ("If the reviewer approved without
+changes, skip straight to the record update and leave `sources.yaml` untouched"), no palette
+edit was applied. `data-pipeline/sources/sources.yaml`'s `io-lulc-landcover` legend block and
+`app/src/data/land_cover_legend.js` remain exactly as built in 06-01/06-02 — the `#b5ad9e`
+Settlement colour and all other 8 legend hexes are unchanged.
+
+**Verification re-run after the no-op decision:**
+- `cd data-pipeline && python -m pytest tests/ -q` — **PASS**, `13 passed` (re-confirmed 2026-07-26, no regressions since Task 1)
+- Zero-new-colour check (D-10/D-11): all 9 `io-lulc-landcover` legend colours still present in `app/src/theme.js`, `app/src/data/layers.js`, or `app/src/components/LLMap/index.jsx` — unchanged from Task 1's result, since nothing was edited
+- No PMTiles rebuild was required (no colour change occurred), so no re-sync was triggered by Task 3
+
+### Deferred Scope (deliberately left for later, per `06-CONTEXT.md`)
+
+These were locked as out-of-scope during context-gathering and must not be treated as
+silently dropped or forgotten — they are recorded here as the phase's explicit boundary:
+
+1. **Full-Germany land cover backdrop** — a national-scale land cover layer for geographic
+   context while exploring a single Living Lab. Deferred to a future phase or optional overlay;
+   not attempted in Phase 6.
+2. **Land cover time series / historical comparison** — ESRI Sentinel-2 LULC is published
+   annually since 2015; Phase 6 delivers only the 2024 edition as a one-time fetch (D-16).
+   Tracking change over time is a backlog item.
+3. **Live ESRI integration** — Phase 6 is static-pipeline-only (D-05/D-06/D-07): a Python
+   script fetches the source COGs once at build time and commits the outputs; there is no
+   live ESRI REST API call or API key anywhere in `app/src/`. A pivot to live tiles, if ever
+   wanted, is future work.
+4. **Vector-to-raster fusion** — blending crop-type polygons or other vector boundaries into
+   a unified land cover raster is a data-fusion task explicitly out of scope for this phase.
+
+### Backlog Optimisations (research-logged, not phase work)
+
+1. **Per-tile colourisation inside `build_mbtiles()`** — `06-RESEARCH.md` notes that
+   `build_mbtiles()` currently materialises a full-extent RGBA array before tiling; moving
+   colourisation to a per-tile step would remove that full-extent array and reduce peak
+   memory, which would also lower the crop-types combined build's ~11.6 GB peak. Not
+   implemented in Phase 6 — logged as a pipeline-performance backlog item for a future phase.
+2. **`data/_cache/` temp-directory lock leak** — a pre-existing lock-file leak in the pipeline's
+   temp-directory cache, noted in `06-RESEARCH.md`'s backlog notes. Pre-dates Phase 6, is not
+   caused by any Phase 6 change, and is out of this phase's scope per the deviation-rules
+   scope boundary; recorded here so it is not lost.
 
 ---
 
-*Task 1 (automated gate) completed 2026-07-26. Awaiting Task 2 (human-verify checkpoint).*
+## Phase 06 Close-Out Summary
+
+All 24 locked decisions (D-01..D-24) have a recorded, checkable outcome (Task 1's Decision
+Evidence Table). The three deliberate deviations from literal CONTEXT wording are recorded
+with justifications. The two visual risks flagged in research were resolved by human review
+with no palette change needed. Deferred scope and backlog optimisations are written down
+above rather than silently absorbed. Phase 06 — Add Land Cover Map — is complete.
+
+---
+
+*Task 1 (automated gate) completed 2026-07-26. Task 2 (bilingual checkpoint) approved 2026-07-26.
+Task 3 (close-out, no palette correction) completed 2026-07-26. Plan 06-05 and Phase 06 complete.*
