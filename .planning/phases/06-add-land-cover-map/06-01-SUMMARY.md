@@ -109,3 +109,16 @@ None - no external service configuration required. (Plan 06-02 will need network
 ---
 *Phase: 06-add-land-cover-map*
 *Completed: 2026-07-26*
+
+## Self-Check: PASSED
+
+- FOUND: data-pipeline/python/build_land_cover.py
+- FOUND: data-pipeline/sources/sources.yaml
+- FOUND: data-pipeline/python/build_pmtiles.py
+- FOUND: .gitignore
+- FOUND: data-pipeline/requirements.txt
+- FOUND: .planning/phases/06-add-land-cover-map/06-01-SUMMARY.md
+- FOUND commit: fc4c102 (Task 1)
+- FOUND commit: 60f1891 (Task 2)
+- FOUND commit: 5830880 (Task 3)
+- FOUND commit: 8ea781a (SUMMARY)
