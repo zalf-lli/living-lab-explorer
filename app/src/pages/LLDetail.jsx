@@ -126,7 +126,7 @@ function LayoutSwitcher({ layout, onChange }) {
 }
 
 function useLayerState() {
-  const [layer, setLayerRaw] = useState('landuse')
+  const [layer, setLayerRaw] = useState('landscape')
   const setLayer = (id) => startTransition(() => setLayerRaw(id))
   return [layer, setLayer]
 }

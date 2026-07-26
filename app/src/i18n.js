@@ -69,7 +69,7 @@ const resources = {
         errorBody: 'Reload the page - if this keeps happening, the data source may be temporarily unreachable.',
       },
       layers: {
-        landuse: 'Agriculture',
+        agriculture: 'Agriculture',
         climate: 'Climate',
         soil: 'Soil',
         economic: 'Socio-economic',
@@ -77,7 +77,7 @@ const resources = {
         protectedAreas: 'Protected Areas',
       },
       legend: {
-        landuse: {
+        agriculture: {
           arable: 'Arable',
           forest: 'Forest',
           grassland: 'Grassland',
@@ -109,7 +109,7 @@ const resources = {
         },
       },
       charts: {
-        landuse: {
+        agriculture: {
           title: 'Land Use / Cover',
           unit: '% area',
           bars: {
@@ -270,7 +270,7 @@ const resources = {
         errorBody: 'Seite neu laden - falls das Problem bestehen bleibt, ist die Datenquelle moeglicherweise voruebergehend nicht erreichbar.',
       },
       layers: {
-        landuse: 'Landwirtschaft',
+        agriculture: 'Landwirtschaft',
         climate: 'Klima',
         soil: 'Boden',
         economic: 'Soziooekonomie',
@@ -278,7 +278,7 @@ const resources = {
         protectedAreas: 'Schutzgebiete',
       },
       legend: {
-        landuse: {
+        agriculture: {
           arable: 'Ackerland',
           forest: 'Wald',
           grassland: 'Gruenland',
@@ -310,7 +310,7 @@ const resources = {
         },
       },
       charts: {
-        landuse: {
+        agriculture: {
           title: 'Landnutzung / Bedeckung',
           unit: '% Flaeche',
           bars: {

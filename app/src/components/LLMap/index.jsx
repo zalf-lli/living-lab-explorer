@@ -135,9 +135,9 @@ function getBounds(featureLike) {
   return bounds.isValid() ? bounds : null
 }
 
-function RasterPmtilesLayer({ layerId }) {
+function RasterPmtilesLayer({ layerId, slug }) {
   const map = useMap()
-  const layerUrl = resolveLayerAsset(layerId)
+  const layerUrl = resolveLayerAsset(layerId, { slug })
 
   useEffect(() => {
     if (!layerUrl) return undefined
@@ -773,7 +773,9 @@ export default function LLMap({ ll, layer, height = 300 }) {
             subdomains={TILE_SUBDOMAINS}
             url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
           />
-          {layerConfig?.type === 'raster' ? <RasterPmtilesLayer layerId={layer} /> : null}
+          {layerConfig?.type === 'raster' ? (
+            <RasterPmtilesLayer layerId={layer} slug={ll.slug} key={`${layer}-${ll.slug}`} />
+          ) : null}
           {layer === 'soil' && soilFeatureCollection ? (
             <GeoJSON
               key={`soil-${ll.slug}`}
