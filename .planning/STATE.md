@@ -20,7 +20,7 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 
 **Core value:** A researcher or stakeholder can open the app and immediately see accurate, up-to-date geodata and statistics for any of the five Living Labs without any server infrastructure.
 
-**Current focus:** Phase 05 — add protected areas as toggleable layer on landscape map
+**Current focus:** Phase 06 — add land cover map to landscape tab; restructure layers
 
 ## Status
 
@@ -34,6 +34,7 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 | 3.1 | Data Source Research & User Validation | Inserted - ready to plan |
 | 4 | Destatis Statistics Integration | Waves 1-2+6-7 complete; 11/17 KPIs real; Waves 3-5 ready (2026-07-25) — see Active Work |
 | 5 | Protected areas as toggleable layer | Planned (2026-07-25) — 4 plans, 3 waves, 2 checkpoints, verified ✓ |
+| 6 | Add land cover map | Context gathered (2026-07-26) — 24 decisions locked, ready for planning |
 
 ## Active Work
 
