@@ -1,0 +1,48 @@
+{
+  "_meta": {
+    "computed_at": "2026-07-26T12:46:54.281591Z",
+    "input_pattern": "data/geojson/protected-areas-{slug}.geojson",
+    "metric_crs": "EPSG:25832",
+    "source": "bfn_wfs"
+  },
+  "east-brandenburg": {
+    "natura2000_feature_count": 204,
+    "natura2000_ha": 156577.4,
+    "natura2000_source_sum_ha": 593632.0,
+    "nature_reserves_feature_count": 151,
+    "nature_reserves_ha": 51566.3,
+    "nature_reserves_source_sum_ha": 79486.20000000001
+  },
+  "havellandisches-luch": {
+    "natura2000_feature_count": 141,
+    "natura2000_ha": 122606.0,
+    "natura2000_source_sum_ha": 320625.0,
+    "nature_reserves_feature_count": 116,
+    "nature_reserves_ha": 41800.8,
+    "nature_reserves_source_sum_ha": 55396.6
+  },
+  "hessian-low-mountain": {
+    "natura2000_feature_count": 173,
+    "natura2000_ha": 134837.9,
+    "natura2000_source_sum_ha": 281257.0,
+    "nature_reserves_feature_count": 189,
+    "nature_reserves_ha": 8263.6,
+    "nature_reserves_source_sum_ha": 9570.0
+  },
+  "north-hessian-loess": {
+    "natura2000_feature_count": 100,
+    "natura2000_ha": 48127.0,
+    "natura2000_source_sum_ha": 78867.0,
+    "nature_reserves_feature_count": 96,
+    "nature_reserves_ha": 6002.0,
+    "nature_reserves_source_sum_ha": 8230.4
+  },
+  "rheingau": {
+    "natura2000_feature_count": 37,
+    "natura2000_ha": 10501.3,
+    "natura2000_source_sum_ha": 42174.0,
+    "nature_reserves_feature_count": 41,
+    "nature_reserves_ha": 1221.7,
+    "nature_reserves_source_sum_ha": 1352.1
+  }
+}
