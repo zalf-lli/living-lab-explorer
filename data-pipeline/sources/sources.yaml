@@ -96,8 +96,8 @@ layers:
       path_pattern: "data/io_lulc_{tile}_2024.tif"
       download_url_pattern: "https://io-10m-annual-lulc.s3.us-west-2.amazonaws.com/{tile}_2024.tif"
       sha256_by_tile:
-        "32U": null
-        "33U": null
+        "32U": "d7efc1a9561446d1eb15ec3f310b529ba1b2d47a36ac93a9f992e5de263d910f"
+        "33U": "432f1e63781d0c9fcd9ec4e487c7fbfdab3ffee3309e2505036a4b1f51d4aad5"
       nodata: 0
       resolution_m: 10
     build:
