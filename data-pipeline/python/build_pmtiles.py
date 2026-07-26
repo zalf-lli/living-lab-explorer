@@ -34,19 +34,25 @@ def build_colormap(layer: dict, nodata: int | float | None) -> dict[int, tuple[i
     return cmap
 
 
-def build_clip_geometry(layer: dict, source_crs) -> object:
+def build_clip_geometry(layer: dict, source_crs, slug: str | None = None) -> object:
     import geopandas as gpd
 
     defaults = layer["defaults"]
     clip_path = resolve(defaults["clip_to"])
     clip_buffer_m = defaults.get("clip_buffer_m", 0)
     gdf = gpd.read_file(clip_path)
+    if slug is not None:
+        gdf = gdf[gdf["ll_slug"] == slug]
+        # CLAUDE.md rule: assert non-empty to catch silent clip failures
+        assert len(gdf) > 0, f"No features in {clip_path} with ll_slug={slug!r}"
     buffered = gdf.to_crs("EPSG:3857").geometry.union_all().buffer(clip_buffer_m)
     clip_geom = gpd.GeoSeries([buffered], crs="EPSG:3857").to_crs(source_crs).iloc[0]
     return clip_geom
 
 
-def build_paletted_geotiff(layer: dict, input_path: Path, output_tif: Path) -> tuple[float, float, float, float]:
+def build_paletted_geotiff(
+    layer: dict, input_path: Path, output_tif: Path, slug: str | None = None
+) -> tuple[float, float, float, float]:
     import numpy as np
     import rasterio
     from rasterio.enums import ColorInterp, Resampling
@@ -69,7 +75,7 @@ def build_paletted_geotiff(layer: dict, input_path: Path, output_tif: Path) -> t
         if declared_nodata is not None and src.nodata is not None and declared_nodata != src.nodata:
             print(f"[warn] YAML nodata={declared_nodata} but source nodata={src.nodata}; using source value")
 
-        clip_geom = build_clip_geometry(layer, src.crs)
+        clip_geom = build_clip_geometry(layer, src.crs, slug=slug)
         clipped, clipped_transform = mask(
             src,
             [clip_geom.__geo_interface__],
@@ -77,6 +83,13 @@ def build_paletted_geotiff(layer: dict, input_path: Path, output_tif: Path) -> t
             all_touched=True,
             nodata=source_nodata,
         )
+
+        clipped_nodata_mask = clipped[0] == source_nodata
+        if bool(np.all(clipped_nodata_mask)):
+            raise RuntimeError(
+                f"Clipped raster for layer {layer.get('id')!r} (slug={slug!r}) contains only nodata "
+                f"({source_nodata!r}) — the clip geometry likely does not overlap the source raster."
+            )
 
         bounds = array_bounds(clipped.shape[1], clipped.shape[2], clipped_transform)
         dst_transform, dst_width, dst_height = calculate_default_transform(
