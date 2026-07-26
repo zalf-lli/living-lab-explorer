@@ -655,13 +655,14 @@ function ProtectedAreasLayer({ collection, slugKey, t, lang }) {
   useEffect(() => {
     if (!collection?.features?.length) return undefined
 
-    // Create or retrieve the dedicated pane for protected areas (zIndex 450)
-    // This places it above overlayPane (400) where soil polygons and the white mask live,
-    // so protected areas extending past the LL boundary remain legible (D-03).
+    // Create or retrieve the dedicated pane for protected areas (zIndex 350)
+    // This places it above tilePane (200, land-use raster) but below overlayPane (400, soil/mask)
+    // so out-of-region protected areas are dimmed by the 60% white mask for visual consistency
+    // (user judgment call). Pane hierarchy: tilePane(200) < protectedAreasPane(350) < overlayPane(400).
     let pane = map.getPane('protectedAreasPane')
     if (!pane) {
       pane = map.createPane('protectedAreasPane')
-      pane.style.zIndex = 450
+      pane.style.zIndex = 350
     }
 
     // Canvas renderer handles 311,616 vertices without simplification (D-08)
