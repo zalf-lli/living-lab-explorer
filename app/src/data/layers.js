@@ -7,6 +7,16 @@ const SOIL_LEGEND = [
   { value: 'special-areas', en: 'Water / special areas', de: 'Gewaesser / Sonderflaechen', color: '#88bfd9' },
 ]
 
+// Single source of truth for protected-areas designation palette and labels.
+// color is the fill, strokeColor is the border. MapLegend reads only value/en/de/color and ignores the rest.
+// LLMap must import this array rather than redeclare any hex code.
+// The value strings must match the pipeline's designation property byte for byte — they are the join key between data, style map, and legend.
+export const PROTECTED_AREAS_LEGEND = [
+  { value: 'Natura 2000 SCI', en: 'Special Conservation Area', de: 'FFH-Gebiete (BSG)', color: '#e6c2e6', strokeColor: '#9966cc', weight: 1.2, fillOpacity: 0.55 },
+  { value: 'Natura 2000 SPA', en: 'Special Protection Area', de: 'Vogelschutzgebiete (VSG)', color: '#fff5b8', strokeColor: '#ffb84d', weight: 1.2, fillOpacity: 0.5 },
+  { value: 'Naturschutzgebiet', en: 'Nature Reserve', de: 'Naturschutzgebiete (NSG)', color: '#c2e6c2', strokeColor: '#66aa66', weight: 1.2, fillOpacity: 0.55 },
+]
+
 export const LAYERS = [
   {
     id: 'landuse',
@@ -29,7 +39,25 @@ export const LAYERS = [
   { id: 'landscape', type: 'placeholder', pmtilesUrl: null, legend: null, available: true },
 ]
 
-export const LAYER_INDEX = new Map(LAYERS.map((layer) => [layer.id, layer]))
+// Overlays are independent from LAYERS and do not appear in exclusive tab lists (per D-05).
+// LayerTabs.jsx maps over LAYERS only, so overlays are never offered as exclusive tabs.
+export const OVERLAYS = [
+  {
+    id: 'protected-areas',
+    type: 'vector',
+    pmtilesUrl: null,
+    geojsonPathPattern: 'data/geojson/protected-areas-{slug}.geojson',
+    legend: PROTECTED_AREAS_LEGEND,
+    legendNoteKey: 'legend.protectedAreas.note',
+    available: true,
+  },
+]
+
+export const OVERLAY_INDEX = new Map(OVERLAYS.map((o) => [o.id, o]))
+
+// LAYER_INDEX includes both LAYERS (for LayerTabs) and OVERLAYS (for MapLegend, MapInfoControl, resolveLayerAsset).
+// LAYERS stays tab-only so the overlay never becomes an exclusive tab (per D-05).
+export const LAYER_INDEX = new Map([...LAYERS, ...OVERLAYS].map((l) => [l.id, l]))
 
 export function resolveLayerAsset(layerId, { slug } = {}) {
   const layer = LAYER_INDEX.get(layerId)
