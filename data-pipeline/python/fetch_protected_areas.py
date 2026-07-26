@@ -238,8 +238,8 @@ def _normalise(frame: gpd.GeoDataFrame, key: str, cfg: dict) -> gpd.GeoDataFrame
     Returns:
         Normalised GeoDataFrame with contract properties only
     """
-    result = gpd.GeoDataFrame(crs="EPSG:4326")
-    result["geometry"] = frame.geometry
+    # Create GeoDataFrame with geometry column first, then set CRS
+    result = gpd.GeoDataFrame({"geometry": frame.geometry}, crs="EPSG:4326")
 
     # Name fields (BfN publishes German only; set English equal to German)
     result["name_de"] = frame[cfg["name_field"]].astype(str)

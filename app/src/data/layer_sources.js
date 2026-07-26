@@ -36,6 +36,24 @@ export const LAYER_SOURCES = [
     "license": "Nutzungsbestimmungen fuer die Bereitstellung von Geodaten des Bundes (GeoNutzV)",
     "attribution": "Datenquelle: BUEK250 V6.0, (c) BGR, Hannover, 2024",
     "citation": "BGR (2024): Bodenuebersichtskarte der Bundesrepublik Deutschland 1:250.000 (BUEK250), Hannover. https://doi.org/10.25928/BUEK250_6.0"
+  },
+  {
+    "id": "bfn-schutzgebiete",
+    "appLayer": "protected-areas",
+    "title": {
+      "en": "Protected areas (BfN, 2019/2023)",
+      "de": "Schutzgebiete (BfN, 2019/2023)"
+    },
+    "description": {
+      "en": "Natura 2000 sites (SCI and SPA) and German nature reserves intersecting each living lab.",
+      "de": "Natura-2000-Gebiete (FFH und Vogelschutz) und Naturschutzgebiete je Reallabor."
+    },
+    "provider": "Bundesamt fuer Naturschutz (BfN)",
+    "dataset": "Schutzgebiete in Deutschland (FFH 2019, Vogelschutz 2019, Naturschutzgebiete 2023)",
+    "url": "https://geodienste.bfn.de/schutzgebiete",
+    "license": "Nutzungsbestimmungen fuer die Bereitstellung von Geodaten des Bundes (GeoNutzV)",
+    "attribution": "Datenquelle: Bundesamt fuer Naturschutz (BfN)",
+    "citation": "BfN: Schutzgebiete in Deutschland. https://geodienste.bfn.de/schutzgebiete"
   }
 ]
 
