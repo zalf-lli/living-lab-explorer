@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: ready_to_plan
-last_updated: "2026-07-25T20:14:01.466Z"
+last_updated: "2026-07-26T14:22:55.676Z"
 progress:
   total_phases: 11
-  completed_phases: 5
-  total_plans: 25
-  completed_plans: 17
-  percent: 45
+  completed_phases: 7
+  total_plans: 30
+  completed_plans: 24
+  percent: 64
 ---
 
 # Project State
@@ -20,7 +20,7 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 
 **Core value:** A researcher or stakeholder can open the app and immediately see accurate, up-to-date geodata and statistics for any of the five Living Labs without any server infrastructure.
 
-**Current focus:** Phase 06 — add land cover map to landscape tab; restructure layers
+**Current focus:** Phase 06 — add-land-cover-map
 
 ## Status
 

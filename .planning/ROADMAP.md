@@ -269,7 +269,7 @@ their region, while crop types move to a distinct Agriculture tab - five exclusi
 land cover rasters built offline from CC BY 4.0 source data, no API key at runtime.
 **Requirements**: D-01 .. D-24 (Phase 6 has no REQUIREMENTS.md IDs; the 06-CONTEXT.md decisions are the spec)
 **Depends on:** Phase 5
-**Plans:** 5 plans, 4 waves, 1 blocking checkpoint
+**Plans:** 1/5 plans executed
 
 **Planning decisions (resolved during breakdown):**
 - The internal `landuse` -> `agriculture` rename is **in scope**, not deferred. `LAYERS[].id`,
@@ -285,7 +285,7 @@ land cover rasters built offline from CC BY 4.0 source data, no API key at runti
   11.6 GB on a 16.6 GB machine, per-LL near 2.2 GB.
 
 Plans:
-- [ ] 06-01-PLAN.md - Register io-lulc-landcover in sources.yaml, gitignore the source COGs, declare
+- [x] 06-01-PLAN.md - Register io-lulc-landcover in sources.yaml, gitignore the source COGs, declare
       mercantile, make build_pmtiles.py clip per slug, add build_land_cover.py with class-value guards (wave 1)
 - [ ] 06-02-PLAN.md - sync.py per-LL PMTiles publishing and legend codegen; run the build; pin source
       SHA-256; commit five per-LL rasters and the class histogram (wave 2)
