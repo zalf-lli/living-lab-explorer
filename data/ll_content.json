@@ -1,7 +1,7 @@
 {
   "east-brandenburg": {
     "slug": "east-brandenburg",
-    "contact": "lab1@zalf.de",
+    "manager": { "name": "Julia Gunnoltz", "email": "Julia.Gunnoltz@zalf.de" },
     "nuts3": ["DE409", "DE40A", "DE40B", "DE40C"],
     "num": "01",
     "order": 1,
@@ -19,7 +19,7 @@
   },
   "havellandisches-luch": {
     "slug": "havellandisches-luch",
-    "contact": "lab2@zalf.de",
+    "manager": { "name": "Sebastian Rogga", "email": "Sebastian.Rogga@zalf.de" },
     "nuts3": ["DE406", "DE408"],
     "num": "02",
     "order": 2,
@@ -37,7 +37,7 @@
   },
   "north-hessian-loess": {
     "slug": "north-hessian-loess",
-    "contact": "lab3@zalf.de",
+    "manager": { "name": "Silke Flörke", "email": "Silke.Floerke@zalf.de" },
     "nuts3": ["DE734", "DE737"],
     "num": "03",
     "order": 3,
@@ -50,12 +50,12 @@
       "name": "North Hessian Loess Plain",
       "tagline": "Intensified organic farming"    },
     "de": {
-      "name": "Nordhessische Lössplatte",
+      "name": "Nordhessische Lössebene",
       "tagline": "Intensivierter ökologischer Landbau"    }
   },
   "hessian-low-mountain": {
     "slug": "hessian-low-mountain",
-    "contact": "barbara.sprenger@zalf.de",
+    "manager": { "name": "Barbara Sprenger", "email": "barbara.sprenger@zalf.de" },
     "nuts3": ["DE721", "DE722", "DE723", "DE724", "DE725"],
     "num": "04",
     "order": 4,
@@ -66,50 +66,16 @@
     "icon": "hessian-low-mountain",
     "en": {
       "name": "Hessian Low Mountain Range",
-      "tagline": "Integrated plant-animal agricultural systems",
-      "soil_climate": {
-        "main_soil_types": "Brown earth",
-        "topography": "Low mountain",
-        "altitude": "400-1000 m",
-        "rainfall": "600->1000 mm/year",
-        "temperature": "7.4-10.1 deg C"
-      },
-      "description": {
-        "soil": "Soil types are highly variable, including podzolic brown soils with low base saturation, red sandstone, brown soils with high to medium base saturation, pseudogley, parabraun soils from loess with high base saturation, and rendzina on calcareous sites (locally limited).",
-        "climate": "Exposed to prevailing wind direction with slope rainfall and lower temperatures compared to the plains.",
-        "geography": "Low mountain regions at 400-1000 m altitude with high relief energy. Covers soil climate areas 1010 (Hesse low mountain range/Sauerland/Bergisches Land) and 1014 (Rhine-Main lowlands/Wittlicher Senke).",
-        "challenges": [
-          "Soil erosion during heavy rainfall",
-          "Marginal locations, some of which are unsuitable for cultivation"
-        ]
-      },
-      "delineation": "Based on the Giessen administrative district, with planned expansion to include all areas in Hesse with the characteristics mentioned. Covers sub-areas rather than a single contiguous region."
+      "tagline": "Integrated plant-animal agricultural systems"
     },
     "de": {
       "name": "Hessisches Mittelgebirge",
-      "tagline": "Integrierte Pflanze-Tier-Agrarsysteme",
-      "soil_climate": {
-        "main_soil_types": "Braunerde",
-        "topography": "Mittelgebirge",
-        "altitude": "400-1000 m",
-        "rainfall": "600->1000 mm/Jahr",
-        "temperature": "7,4-10,1 deg C"
-      },
-      "description": {
-        "soil": "Bodentypen sind sehr variabel: podsolige Braunerden mit geringer Basensaettigung, Buntsandstein, Braunerden mit hoher bis mittlerer Basensaettigung, Pseudogley, Parabraunerden aus Loess mit hoher Basensaettigung sowie Rendzina auf kalkhaltigen Standorten.",
-        "climate": "Exponiert zur Hauptwindrichtung mit Steigungsregen und niedrigeren Temperaturen als in den Ebenen.",
-        "geography": "Mittelgebirgsregion in 400-1000 m Hoehe mit hoher Reliefenergie. Umfasst die Bodenklimaraeume 1010 (Hessisches Mittelgebirge/Sauerland/Bergisches Land) und 1014 (Rhein-Main-Tiefebene/Wittlicher Senke).",
-        "challenges": [
-          "Bodenerosion bei Starkregen",
-          "Marginale Standorte, teilweise nicht ackerbaulich nutzbar"
-        ]
-      },
-      "delineation": "Ausgehend vom Regierungsbezirk Giessen, mit geplanter Erweiterung auf alle hessischen Gebiete mit den genannten Eigenschaften. Umfasst Teilflaechen statt einer einzigen zusammenhaengenden Region."
+      "tagline": "Integrierte Pflanze-Tier-Agrarsysteme"
     }
   },
   "rheingau": {
     "slug": "rheingau",
-    "contact": "lab5@zalf.de",
+    "manager": { "name": "Kristina Heilemann", "email": "Kristina.Heilemann@zalf.de" },
     "nuts3": ["DE71D"],
     "num": "05",
     "order": 5,

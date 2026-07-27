@@ -74,9 +74,14 @@ def _build_computed_record(
     destatis_meta: dict,
     protected_area_kpis: dict | None = None,
 ) -> dict:
+    manager = authored.get("manager") or {}
     return {
         "slug": slug,
-        "contact": authored.get("contact", ""),
+        # Regional network manager (name + email). `contact` stays in the output as the
+        # flat email alias so existing consumers keep working; manager.email is the
+        # single authored source of truth in ll_content.json.
+        "manager": {"name": manager.get("name", ""), "email": manager.get("email", "")},
+        "contact": manager.get("email") or authored.get("contact", ""),
         "nuts3": authored.get("nuts3", []),
         "kpiByTab": _build_kpi_by_tab(slug, destatis_ll, curated_kpis, protected_area_kpis),
         "destatisRetrievedAt": destatis_meta.get("fetched_at"),
