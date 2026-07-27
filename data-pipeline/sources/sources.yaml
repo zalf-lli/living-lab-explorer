@@ -111,8 +111,10 @@ layers:
       tile_size: 512
       resampling: nearest
     output:
+      # No sync_pattern key here: sync_pmtiles_per_ll() (sync.py) derives each
+      # per-LL destination from this pattern's repo-relative glob matches,
+      # prefixed with app/public/ -- it does not read a separate sync key.
       pmtiles_pattern: "data/pmtiles/land-cover-{slug}.pmtiles"
-      sync_pattern: "app/public/data/pmtiles/land-cover-{slug}.pmtiles"
       class_histogram: "data/land_cover_class_histogram.json"
     legend:
       - { value: 1, label: { en: "Water", de: "Wasser" }, color: "#88bfd9" }

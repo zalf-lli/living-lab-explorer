@@ -155,6 +155,11 @@ def sync_pmtiles() -> None:
 
 
 def sync_pmtiles_per_ll() -> None:
+    # Unlike sync_pmtiles() (which honors an explicit output.sync_to), this
+    # function has no separate "sync pattern" config key. The destination for
+    # each matched file is always derived from its path relative to the repo
+    # root, prefixed with app/public/ -- sources.yaml intentionally has no
+    # output.sync_pattern key for per-LL layers.
     sources = load_sources()
     root = repo_root()
     for layer in sources["layers"]:
