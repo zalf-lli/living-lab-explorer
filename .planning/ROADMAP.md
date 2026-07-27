@@ -284,17 +284,63 @@ Plans:
 
 ### Phase 7: Add BORIS land value maps as spatial layer for socio-economic tab (WFS from Brandenburg and Hessen geoportals)
 
-**Goal:** [To be planned]
-**Requirements**: TBD
+**Goal:** Living Lab visitors open the Socio-economic tab and see a standard-land-value (Bodenrichtwert)
+choropleth for their region - every zone type, coloured by EUR/m2 through six per-Living-Lab quantile
+buckets, with a bilingual usage-type tooltip - built offline from the Brandenburg and Hessen BORIS WFS
+services and shipped as static per-Living-Lab GeoJSON, with no runtime API dependency.
+**Requirements**: D-01 .. D-13 (from 07-CONTEXT.md) plus W-01 .. W-03 (Wave-0 decisions taken at the
+07-05 checkpoint). Phase 7 has no REQUIREMENTS.md IDs; the CONTEXT decisions are the spec, as in Phases 5 and 6.
 **Depends on:** Phase 6
-**Plans:** 0 plans
+**Plans:** 9 plans, 7 waves, 2 checkpoints (1 blocking decision, 1 blocking human verification)
 
-**Candidate WFS sources (from user, 2026-07-27, not yet validated):**
-- Hessen (BORIS Hessen): https://opendata.hessen.de/dataset/boris-hessen/resource/68f9e223-f56d-4c53-bd74-fb49f835c843
-- Brandenburg: https://geoportal.brandenburg.de/gs-json/xml?fileid=2e9a50ae-c1be-4c1f-817a-aef79d1d89a7
+**WFS sources (validated live 2026-07-27 during research, superseding the user's original candidate links):**
+- Brandenburg (BORIS-BB): `https://isk.geobasis-bb.de/ows/boris_wfs` - WFS 2.0.0, AdV BRM 3.0.1, EPSG:25833.
+  Geometry and value live on **separate** feature types joined by `gehoertZu`; one endpoint mixes every
+  Stichtag since 2010.
+- Hessen (BORIS-HE): `https://www.gds.hessen.de/wfs2/boris/cgi-bin/brw/2024/wfs` - WFS 2.0.0, AdV BRM 2.1,
+  EPSG:25832. Self-contained polygons, year-versioned endpoint.
+- Original user-supplied links resolved to portal/metadata pages rather than WFS endpoints; the two URLs
+  above were discovered and verified during Phase 7 research.
+
+**Planning decisions (resolved during breakdown):**
+- **Volume is the gating risk, not an implementation detail.** Verified per-Living-Lab zone counts run
+  1,668 (rheingau) to 30,018 (east-brandenburg) - 5x to 80x denser than any prior vector layer (protected
+  areas topped out at 362/LL). An unmitigated fetch would add roughly 1.2 GB across the two committed
+  copies. Waves 2-3 are therefore a measure-then-decide spike (`07-03`, `07-05`) that fixes the geometry
+  fidelity and size budget against real numbers before any production fetch code is written.
+- **Brandenburg and Hessen get separate fetch code paths**, not one config-driven function. Their object
+  models differ (BRM 3.0.1 vs 2.1) and Brandenburg requires a mandatory point/polygon join against a cached
+  full-state fetch of 113,293 value records. The `build_vector.py`/`fetch_protected_areas.py` "one fetch
+  function, config-driven field names" pattern is insufficient here.
+- **Canvas rendering is mandatory, not preferred.** The declarative `<GeoJSON>` component the soil tab uses
+  would emit one SVG path per polygon; the imperative `L.canvas()` pattern from `ProtectedAreasLayer` is the
+  required precedent.
+- **Frontend work runs in parallel with the pipeline spike** (waves 1-2), implementing against the locked
+  07-UI-SPEC.md property contract; visual verification is deferred to wave 7 once real data exists.
+- **Per-Living-Lab source attribution** required extending `sources.yaml` and `sync.py::generate_layer_sources()`
+  rather than hand-copying provider strings into `i18n.js` - every Living Lab sits entirely within one state,
+  so a single fixed attribution row would misattribute three of the five.
+- Zero new packages. Every dependency (geopandas, shapely, requests, pyyaml) is already installed.
 
 Plans:
-- [ ] TBD (run /gsd-plan-phase 7 to break down)
+- [ ] 07-01-PLAN.md - `boris_wfs.py` WFS 2.0 transport: fes:Intersects/gehoertZu request builders, capped
+      retrying HTTP, byte-sliced count extraction, per-state CRS-asserting GML reader, no-network unit tests (wave 1)
+- [ ] 07-02-PLAN.md - Frontend static config: `economic` placeholder to vector layer, BORIS ramp/no-data/hover
+      style exports from theme tokens, ten bilingual i18n keys (wave 1)
+- [ ] 07-03-PLAN.md - `probe_boris.py` spike: Hessen usage-code census, Brandenburg statewide point cache +
+      gehoertZu join + Stichtag histograms, seven-variant size/fidelity grid, `07-SPIKE.md` (wave 2)
+- [ ] 07-04-PLAN.md - LLMap economic path: quantile bucketing, value/no-data style, ranged legend builder,
+      three-row tooltip, Canvas `EconomicLayer`, per-state `MapInfoControl` attribution (wave 2)
+- [ ] 07-05-PLAN.md - **Blocking checkpoint:decision** W-01 volume budget + geometry fidelity, W-02
+      `has_current_value` recency rule, W-03 Hessen code map sign-off (wave 3)
+- [ ] 07-06-PLAN.md - `boris_semantics.py` state-discriminated bilingual contract (44-entry GDI-DE codelist),
+      `sources.yaml` two-state boris entry, `providersByState`/`llStates` codegen, contract tests (wave 4)
+- [ ] 07-07-PLAN.md - `fetch_boris.py`: Hessen self-contained path, Brandenburg cached-join path,
+      harmonize/trim/clip/simplify/round, validated sorted-key write (wave 5)
+- [ ] 07-08-PLAN.md - Full five-Living-Lab fetch, size-budget gate, `sync.py` publish, fixture contract
+      regression test (wave 6)
+- [ ] 07-09-PLAN.md - Full automated gate, four cross-file join-key checks, blocking bilingual human
+      verification across all five Living Labs, D-01..D-13 + W-01..W-03 evidence record (wave 7)
 
 ### Phase 9: Chart Data Contract
 
