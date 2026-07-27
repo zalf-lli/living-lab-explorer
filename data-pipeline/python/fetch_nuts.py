@@ -155,20 +155,6 @@ def dissolve_per_ll(features: list[dict]) -> list[dict]:
 
 
 MOCK_FACTSHEET_EN = {
-    "soil_climate": {
-        "main_soil_types": "Mock — varies by location",
-        "topography": "Mock topography",
-        "altitude": "Mock — to be filled",
-        "rainfall": "550–800 mm/year (mock)",
-        "temperature": "8.5–10.0 °C (mock)",
-    },
-    "description": {
-        "soil": "Mock placeholder describing soil conditions for this Living Lab.",
-        "climate": "Mock placeholder describing prevailing climate patterns.",
-        "geography": "Mock placeholder describing geographic characteristics.",
-        "challenges": ["Mock challenge 1", "Mock challenge 2"],
-    },
-    "delineation": "Mock placeholder explaining why these NUTS3 regions were chosen.",
     "production": {
         "land_area": "—",
         "agriculture_pct": "—",
@@ -191,20 +177,6 @@ MOCK_FACTSHEET_EN = {
 }
 
 MOCK_FACTSHEET_DE = {
-    "soil_climate": {
-        "main_soil_types": "Mock — variiert je nach Standort",
-        "topography": "Mock Topographie",
-        "altitude": "Mock — auszufüllen",
-        "rainfall": "550–800 mm/Jahr (Mock)",
-        "temperature": "8,5–10,0 °C (Mock)",
-    },
-    "description": {
-        "soil": "Mock-Platzhalter zur Beschreibung der Bodenverhältnisse.",
-        "climate": "Mock-Platzhalter zur Beschreibung des Klimas.",
-        "geography": "Mock-Platzhalter zur Beschreibung der geografischen Eigenschaften.",
-        "challenges": ["Mock Herausforderung 1", "Mock Herausforderung 2"],
-    },
-    "delineation": "Mock-Platzhalter zur Begründung der Auswahl der NUTS3-Regionen.",
     "production": MOCK_FACTSHEET_EN["production"],
     "socio": MOCK_FACTSHEET_EN["socio"],
 }
