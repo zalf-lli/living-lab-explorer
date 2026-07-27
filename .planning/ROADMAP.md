@@ -435,7 +435,7 @@ Plans:
 **Goal:** Turn the placeholder "Add for comparison" button into a working side-by-side comparison of two Living Labs: clicking it opens a menu of LL names, and selecting one switches /ll/:slug into a two-column ?compare= view where each column stacks that LL's KPIs, map, chart and text under one shared layer-tab row.
 **Requirements**: TBD
 **Depends on:** Phase 9 (the comparison columns stack KPIs, maps and charts, so every map layer and the chart data contract must exist first)
-**Plans:** 6 plans
+**Plans:** 2/6 plans executed
 
 **Context (captured 2026-07-27, promoted from backlog 999.2 on 2026-07-27):**
 
@@ -447,8 +447,8 @@ Plans:
 Plans:
 **Wave 1**
 
-- [ ] 10-01-PLAN.md — i18n comparison strings (EN+DE) plus StatPanel maxColumns/showEmptyState and BarChart minHeightWhenEmpty props
-- [ ] 10-02-PLAN.md — lift useLayerState into LLDetail (drop slug from remount keys) and make header LL pills carry/swap the ?compare= partner
+- [x] 10-01-PLAN.md — i18n comparison strings (EN+DE) plus StatPanel maxColumns/showEmptyState and BarChart minHeightWhenEmpty props
+- [x] 10-02-PLAN.md — lift useLayerState into LLDetail (drop slug from remount keys) and make header LL pills carry/swap the ?compare= partner
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
