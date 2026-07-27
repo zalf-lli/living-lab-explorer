@@ -71,7 +71,10 @@ layers:
     app_layer: landscape
     kind: raster
     classification: categorical
-    per_ll: true
+    # Whether a layer is built per-LL vs. nationally is not a config flag -- it is
+    # determined by which script processes it (build_land_cover.py vs. build_pmtiles.py)
+    # and by which output.* key is present (pmtiles_pattern vs. pmtiles). See
+    # output.pmtiles_pattern below for this layer's per-LL output pattern.
     title:
       en: "Land cover (Esri/Impact Observatory, 2024)"
       de: "Landbedeckung (Esri/Impact Observatory, 2024)"
