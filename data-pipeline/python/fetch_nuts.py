@@ -297,7 +297,6 @@ def build_metadata() -> dict:
             "slug": slug,
             "contact": defn["contact"],
             "nuts3": defn["nuts3"],
-            "mock": not is_hessian,
             "en": {
                 "name": defn["name_en"],
                 "tagline": defn["tagline_en"],

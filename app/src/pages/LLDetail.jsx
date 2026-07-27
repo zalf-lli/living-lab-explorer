@@ -6,25 +6,11 @@ import { LLBadge } from '../components/LLBadge.jsx'
 import { StatPanel } from '../components/StatPanel.jsx'
 import { BarChart } from '../components/BarChart.jsx'
 import { LayerTabs } from '../components/LayerTabs.jsx'
-import { PreliminaryDataBadge } from '../components/PreliminaryDataBadge.jsx'
 import { TextBlock } from '../components/TextBlock.jsx'
 
 const LLMap = lazy(() => import('../components/LLMap/index.jsx'))
 
-const LAYOUT_OPTIONS = [
-  {
-    id: 'A',
-    label: 'Option A',
-    sublabel: 'Split Screen',
-    desc: 'Map fixed left · data panel scrolls right',
-  },
-  {
-    id: 'B',
-    label: 'Option B',
-    sublabel: 'Stacked',
-    desc: 'Full-width sections · map then data below',
-  },
-]
+const LAYOUT_OPTIONS = [{ id: 'A' }, { id: 'B' }]
 
 export function LLDetail({ bySlug, loading }) {
   const { t } = useTranslation()
@@ -63,63 +49,55 @@ function LayoutSwitcher({ layout, onChange }) {
   return (
     <div
       style={{
-        background: C.teal,
-        padding: '8px 24px',
+        background: C.bg,
+        borderBottom: `1px solid ${C.mutedLight}`,
+        padding: '5px 24px',
         display: 'flex',
         alignItems: 'center',
-        gap: 10,
+        justifyContent: 'flex-end',
+        gap: 8,
         flexWrap: 'wrap',
       }}
     >
-      <span
-        style={{
-          color: 'rgba(195,233,216,0.6)',
-          fontSize: 10,
-          fontWeight: 700,
-          textTransform: 'uppercase',
-          letterSpacing: '0.12em',
-          marginRight: 4,
-        }}
-      >
-        {t('llDetail.designOption')}
-      </span>
-      {LAYOUT_OPTIONS.map((option) => {
-        const isActive = layout === option.id
-        return (
-          <button
-            key={option.id}
-            onClick={() => onChange(option.id)}
-            style={{
-              padding: '6px 16px',
-              borderRadius: 6,
-              cursor: 'pointer',
-              background: isActive ? C.orange : 'transparent',
-              border: isActive ? 'none' : '1px solid rgba(131,210,175,0.35)',
-              color: isActive ? C.white : 'rgba(195,233,216,0.8)',
-              transition: 'all 0.15s',
-              display: 'flex',
-              flexDirection: 'column',
-              alignItems: 'flex-start',
-              gap: 0,
-            }}
-          >
-            <span style={{ fontSize: 12, fontWeight: 800 }}>{t(`llDetail.option${option.id}`)}</span>
-            <span style={{ fontSize: 10, opacity: 0.8, fontWeight: 500 }}>{t(`llDetail.option${option.id}Sub`)}</span>
-          </button>
-        )
-      })}
-      <span style={{ fontSize: 11, color: 'rgba(131,210,175,0.65)', marginLeft: 6 }}>
-        {t(`llDetail.option${layout}Desc`)}
+      <span id="layout-switcher-label" style={{ fontSize: 11, color: 'rgba(2,35,34,0.45)' }}>
+        {t('llDetail.changeLayout')}
       </span>
       <div
+        role="group"
+        aria-labelledby="layout-switcher-label"
         style={{
-          marginLeft: 'auto',
-          fontSize: 10,
-          color: 'rgba(131,210,175,0.45)',
-          fontStyle: 'italic',
+          display: 'flex',
+          gap: 2,
+          padding: 2,
+          borderRadius: 999,
+          background: C.white,
+          border: `1px solid ${C.mutedLight}`,
         }}
       >
-        {t('llDetail.wireframeNote')}
+        {LAYOUT_OPTIONS.map((option) => {
+          const isActive = layout === option.id
+          return (
+            <button
+              key={option.id}
+              onClick={() => onChange(option.id)}
+              aria-pressed={isActive}
+              title={t(`llDetail.option${option.id}Desc`)}
+              style={{
+                padding: '4px 12px',
+                borderRadius: 999,
+                cursor: 'pointer',
+                background: isActive ? C.surface : 'transparent',
+                border: 'none',
+                color: isActive ? C.teal : 'rgba(2,35,34,0.5)',
+                fontSize: 11,
+                fontWeight: isActive ? 700 : 500,
+                transition: 'all 0.15s',
+              }}
+            >
+              {t(`llDetail.option${option.id}Sub`)}
+            </button>
+          )
+        })}
       </div>
     </div>
   )
@@ -182,11 +160,6 @@ function LayoutSplit({ ll }) {
               <div style={{ fontSize: 13, color: C.greenMid, marginTop: 4, maxWidth: 380 }}>
                 {ll.tagline}
               </div>
-              {ll.mock ? (
-                <div style={{ marginTop: 8 }}>
-                  <PreliminaryDataBadge />
-                </div>
-              ) : null}
               <div style={{ fontSize: 11, color: C.muted, marginTop: 4 }}>{ll.region}</div>
             </div>
           </div>
@@ -275,11 +248,6 @@ function LayoutStacked({ ll }) {
           <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.7)', marginTop: 4 }}>
             {ll.tagline}
           </div>
-          {ll.mock ? (
-            <div style={{ marginTop: 10 }}>
-              <PreliminaryDataBadge variant="dark" />
-            </div>
-          ) : null}
         </div>
       </div>
 
