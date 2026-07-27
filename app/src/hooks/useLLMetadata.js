@@ -37,6 +37,8 @@ function buildLL(raw, lang) {
     tagline: content.tagline,
     nuts3: raw.nuts3,
     contact: raw.contact,
+    // Regional network manager - name may be empty while an LL is still unassigned.
+    manager: raw.manager?.email ? { name: raw.manager.name || '', email: raw.manager.email } : null,
     content,
     kpiByTab: raw.kpiByTab ?? {},
     destatisRetrievedAt: raw.destatisRetrievedAt ?? null,

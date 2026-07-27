@@ -3,6 +3,7 @@ import { useParams, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { C } from '../theme.js'
 import { LLBadge } from '../components/LLBadge.jsx'
+import { ContactManagerButton } from '../components/ContactManagerButton.jsx'
 import { StatPanel } from '../components/StatPanel.jsx'
 import { BarChart } from '../components/BarChart.jsx'
 import { LayerTabs } from '../components/LayerTabs.jsx'
@@ -162,6 +163,7 @@ function LayoutSplit({ ll }) {
               </div>
               <div style={{ fontSize: 11, color: C.muted, marginTop: 4 }}>{ll.region}</div>
             </div>
+            <ContactManagerButton ll={ll} />
           </div>
         </div>
 
@@ -249,6 +251,7 @@ function LayoutStacked({ ll }) {
             {ll.tagline}
           </div>
         </div>
+        <ContactManagerButton ll={ll} variant="inverted" />
       </div>
 
       <div style={{ padding: '20px 32px 0' }}>

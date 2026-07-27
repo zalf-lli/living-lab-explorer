@@ -2,48 +2,14 @@
   "east-brandenburg": {
     "color": "#9bc72d",
     "colorDark": "#5e781b",
-    "contact": "lab1@zalf.de",
+    "contact": "Julia.Gunnoltz@zalf.de",
     "de": {
-      "delineation": "Mock-Platzhalter zur Begruendung der Auswahl der NUTS3-Regionen.",
-      "description": {
-        "challenges": [
-          "Mock Herausforderung 1",
-          "Mock Herausforderung 2"
-        ],
-        "climate": "Mock-Platzhalter zur Beschreibung des Klimas.",
-        "geography": "Mock-Platzhalter zur Beschreibung der geografischen Eigenschaften.",
-        "soil": "Mock-Platzhalter zur Beschreibung der Bodenverhaeltnisse."
-      },
       "name": "Ost-Brandenburg",
-      "soil_climate": {
-        "altitude": "Mock - auszufuellen",
-        "main_soil_types": "Mock - variiert je nach Standort",
-        "rainfall": "550-800 mm/Jahr (Mock)",
-        "temperature": "8,5-10,0 deg C (Mock)",
-        "topography": "Mock Topographie"
-      },
       "tagline": "Multifunktionale und vielfältige Ackerbausysteme"
     },
     "destatisRetrievedAt": "2026-07-25",
     "en": {
-      "delineation": "Mock placeholder explaining why these NUTS3 regions were chosen.",
-      "description": {
-        "challenges": [
-          "Mock challenge 1",
-          "Mock challenge 2"
-        ],
-        "climate": "Mock placeholder describing prevailing climate patterns.",
-        "geography": "Mock placeholder describing geographic characteristics.",
-        "soil": "Mock placeholder describing soil conditions for this Living Lab."
-      },
       "name": "East Brandenburg",
-      "soil_climate": {
-        "altitude": "Mock - to be filled",
-        "main_soil_types": "Mock - varies by location",
-        "rainfall": "550-800 mm/year (mock)",
-        "temperature": "8.5-10.0 deg C (mock)",
-        "topography": "Mock topography"
-      },
       "tagline": "Multifunctional and diverse arable farming systems"
     },
     "icon": "east-brandenburg",
@@ -229,6 +195,10 @@
         }
       ]
     },
+    "manager": {
+      "email": "Julia.Gunnoltz@zalf.de",
+      "name": "Julia Gunnoltz"
+    },
     "num": "01",
     "nuts3": [
       "DE409",
@@ -247,48 +217,14 @@
   "havellandisches-luch": {
     "color": "#00b3ad",
     "colorDark": "#005754",
-    "contact": "lab2@zalf.de",
+    "contact": "Sebastian.Rogga@zalf.de",
     "de": {
-      "delineation": "Mock-Platzhalter zur Begruendung der Auswahl der NUTS3-Regionen.",
-      "description": {
-        "challenges": [
-          "Mock Herausforderung 1",
-          "Mock Herausforderung 2"
-        ],
-        "climate": "Mock-Platzhalter zur Beschreibung des Klimas.",
-        "geography": "Mock-Platzhalter zur Beschreibung der geografischen Eigenschaften.",
-        "soil": "Mock-Platzhalter zur Beschreibung der Bodenverhaeltnisse."
-      },
       "name": "Havelländisches Luch",
-      "soil_climate": {
-        "altitude": "Mock - auszufuellen",
-        "main_soil_types": "Mock - variiert je nach Standort",
-        "rainfall": "550-800 mm/Jahr (Mock)",
-        "temperature": "8,5-10,0 deg C (Mock)",
-        "topography": "Mock Topographie"
-      },
       "tagline": "Klimaschutz und Grünlandnutzung in Niedermoorregionen"
     },
     "destatisRetrievedAt": "2026-07-25",
     "en": {
-      "delineation": "Mock placeholder explaining why these NUTS3 regions were chosen.",
-      "description": {
-        "challenges": [
-          "Mock challenge 1",
-          "Mock challenge 2"
-        ],
-        "climate": "Mock placeholder describing prevailing climate patterns.",
-        "geography": "Mock placeholder describing geographic characteristics.",
-        "soil": "Mock placeholder describing soil conditions for this Living Lab."
-      },
       "name": "Havelländisches Luch",
-      "soil_climate": {
-        "altitude": "Mock - to be filled",
-        "main_soil_types": "Mock - varies by location",
-        "rainfall": "550-800 mm/year (mock)",
-        "temperature": "8.5-10.0 deg C (mock)",
-        "topography": "Mock topography"
-      },
       "tagline": "Climate protection and grassland use in fenland regions"
     },
     "icon": "havellandisches-luch",
@@ -474,6 +410,10 @@
         }
       ]
     },
+    "manager": {
+      "email": "Sebastian.Rogga@zalf.de",
+      "name": "Sebastian Rogga"
+    },
     "num": "02",
     "nuts3": [
       "DE406",
@@ -492,46 +432,12 @@
     "colorDark": "#276d4e",
     "contact": "barbara.sprenger@zalf.de",
     "de": {
-      "delineation": "Ausgehend vom Regierungsbezirk Giessen, mit geplanter Erweiterung auf alle hessischen Gebiete mit den genannten Eigenschaften. Umfasst Teilflaechen statt einer einzigen zusammenhaengenden Region.",
-      "description": {
-        "challenges": [
-          "Bodenerosion bei Starkregen",
-          "Marginale Standorte, teilweise nicht ackerbaulich nutzbar"
-        ],
-        "climate": "Exponiert zur Hauptwindrichtung mit Steigungsregen und niedrigeren Temperaturen als in den Ebenen.",
-        "geography": "Mittelgebirgsregion in 400-1000 m Hoehe mit hoher Reliefenergie. Umfasst die Bodenklimaraeume 1010 (Hessisches Mittelgebirge/Sauerland/Bergisches Land) und 1014 (Rhein-Main-Tiefebene/Wittlicher Senke).",
-        "soil": "Bodentypen sind sehr variabel: podsolige Braunerden mit geringer Basensaettigung, Buntsandstein, Braunerden mit hoher bis mittlerer Basensaettigung, Pseudogley, Parabraunerden aus Loess mit hoher Basensaettigung sowie Rendzina auf kalkhaltigen Standorten."
-      },
       "name": "Hessisches Mittelgebirge",
-      "soil_climate": {
-        "altitude": "400-1000 m",
-        "main_soil_types": "Braunerde",
-        "rainfall": "600->1000 mm/Jahr",
-        "temperature": "7,4-10,1 deg C",
-        "topography": "Mittelgebirge"
-      },
       "tagline": "Integrierte Pflanze-Tier-Agrarsysteme"
     },
     "destatisRetrievedAt": "2026-07-25",
     "en": {
-      "delineation": "Based on the Giessen administrative district, with planned expansion to include all areas in Hesse with the characteristics mentioned. Covers sub-areas rather than a single contiguous region.",
-      "description": {
-        "challenges": [
-          "Soil erosion during heavy rainfall",
-          "Marginal locations, some of which are unsuitable for cultivation"
-        ],
-        "climate": "Exposed to prevailing wind direction with slope rainfall and lower temperatures compared to the plains.",
-        "geography": "Low mountain regions at 400-1000 m altitude with high relief energy. Covers soil climate areas 1010 (Hesse low mountain range/Sauerland/Bergisches Land) and 1014 (Rhine-Main lowlands/Wittlicher Senke).",
-        "soil": "Soil types are highly variable, including podzolic brown soils with low base saturation, red sandstone, brown soils with high to medium base saturation, pseudogley, parabraun soils from loess with high base saturation, and rendzina on calcareous sites (locally limited)."
-      },
       "name": "Hessian Low Mountain Range",
-      "soil_climate": {
-        "altitude": "400-1000 m",
-        "main_soil_types": "Brown earth",
-        "rainfall": "600->1000 mm/year",
-        "temperature": "7.4-10.1 deg C",
-        "topography": "Low mountain"
-      },
       "tagline": "Integrated plant-animal agricultural systems"
     },
     "icon": "hessian-low-mountain",
@@ -717,6 +623,10 @@
         }
       ]
     },
+    "manager": {
+      "email": "barbara.sprenger@zalf.de",
+      "name": "Barbara Sprenger"
+    },
     "num": "04",
     "nuts3": [
       "DE721",
@@ -736,48 +646,14 @@
   "north-hessian-loess": {
     "color": "#008581",
     "colorDark": "#00413f",
-    "contact": "lab3@zalf.de",
+    "contact": "Silke.Floerke@zalf.de",
     "de": {
-      "delineation": "Mock-Platzhalter zur Begruendung der Auswahl der NUTS3-Regionen.",
-      "description": {
-        "challenges": [
-          "Mock Herausforderung 1",
-          "Mock Herausforderung 2"
-        ],
-        "climate": "Mock-Platzhalter zur Beschreibung des Klimas.",
-        "geography": "Mock-Platzhalter zur Beschreibung der geografischen Eigenschaften.",
-        "soil": "Mock-Platzhalter zur Beschreibung der Bodenverhaeltnisse."
-      },
-      "name": "Nordhessische Lössplatte",
-      "soil_climate": {
-        "altitude": "Mock - auszufuellen",
-        "main_soil_types": "Mock - variiert je nach Standort",
-        "rainfall": "550-800 mm/Jahr (Mock)",
-        "temperature": "8,5-10,0 deg C (Mock)",
-        "topography": "Mock Topographie"
-      },
+      "name": "Nordhessische Lössebene",
       "tagline": "Intensivierter ökologischer Landbau"
     },
     "destatisRetrievedAt": "2026-07-25",
     "en": {
-      "delineation": "Mock placeholder explaining why these NUTS3 regions were chosen.",
-      "description": {
-        "challenges": [
-          "Mock challenge 1",
-          "Mock challenge 2"
-        ],
-        "climate": "Mock placeholder describing prevailing climate patterns.",
-        "geography": "Mock placeholder describing geographic characteristics.",
-        "soil": "Mock placeholder describing soil conditions for this Living Lab."
-      },
       "name": "North Hessian Loess Plain",
-      "soil_climate": {
-        "altitude": "Mock - to be filled",
-        "main_soil_types": "Mock - varies by location",
-        "rainfall": "550-800 mm/year (mock)",
-        "temperature": "8.5-10.0 deg C (mock)",
-        "topography": "Mock topography"
-      },
       "tagline": "Intensified organic farming"
     },
     "icon": "north-hessian-loess",
@@ -963,6 +839,10 @@
         }
       ]
     },
+    "manager": {
+      "email": "Silke.Floerke@zalf.de",
+      "name": "Silke Flörke"
+    },
     "num": "03",
     "nuts3": [
       "DE734",
@@ -979,48 +859,14 @@
   "rheingau": {
     "color": "#359269",
     "colorDark": "#225e43",
-    "contact": "lab5@zalf.de",
+    "contact": "Kristina.Heilemann@zalf.de",
     "de": {
-      "delineation": "Mock-Platzhalter zur Begruendung der Auswahl der NUTS3-Regionen.",
-      "description": {
-        "challenges": [
-          "Mock Herausforderung 1",
-          "Mock Herausforderung 2"
-        ],
-        "climate": "Mock-Platzhalter zur Beschreibung des Klimas.",
-        "geography": "Mock-Platzhalter zur Beschreibung der geografischen Eigenschaften.",
-        "soil": "Mock-Platzhalter zur Beschreibung der Bodenverhaeltnisse."
-      },
       "name": "Rheingau",
-      "soil_climate": {
-        "altitude": "Mock - auszufuellen",
-        "main_soil_types": "Mock - variiert je nach Standort",
-        "rainfall": "550-800 mm/Jahr (Mock)",
-        "temperature": "8,5-10,0 deg C (Mock)",
-        "topography": "Mock Topographie"
-      },
       "tagline": "Multifunktionale und klimaresiliente Weinbausysteme"
     },
     "destatisRetrievedAt": "2026-07-25",
     "en": {
-      "delineation": "Mock placeholder explaining why these NUTS3 regions were chosen.",
-      "description": {
-        "challenges": [
-          "Mock challenge 1",
-          "Mock challenge 2"
-        ],
-        "climate": "Mock placeholder describing prevailing climate patterns.",
-        "geography": "Mock placeholder describing geographic characteristics.",
-        "soil": "Mock placeholder describing soil conditions for this Living Lab."
-      },
       "name": "Rheingau",
-      "soil_climate": {
-        "altitude": "Mock - to be filled",
-        "main_soil_types": "Mock - varies by location",
-        "rainfall": "550-800 mm/year (mock)",
-        "temperature": "8.5-10.0 deg C (mock)",
-        "topography": "Mock topography"
-      },
       "tagline": "Multifunctional and climate-resilient viticulture systems"
     },
     "icon": "rheingau",
@@ -1205,6 +1051,10 @@
           "value": 74.0
         }
       ]
+    },
+    "manager": {
+      "email": "Kristina.Heilemann@zalf.de",
+      "name": "Kristina Heilemann"
     },
     "num": "05",
     "nuts3": [
