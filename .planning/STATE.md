@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: ready_to_plan
-last_updated: "2026-07-26T14:22:55.676Z"
+last_updated: "2026-07-26T21:06:59.128Z"
 progress:
   total_phases: 11
-  completed_phases: 7
+  completed_phases: 8
   total_plans: 30
-  completed_plans: 24
-  percent: 64
+  completed_plans: 29
+  percent: 73
 ---
 
 # Project State
@@ -20,7 +20,7 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 
 **Core value:** A researcher or stakeholder can open the app and immediately see accurate, up-to-date geodata and statistics for any of the five Living Labs without any server infrastructure.
 
-**Current focus:** Phase 06 — add-land-cover-map
+**Current focus:** Phase 06 complete — pending final code review/regression/goal-verification gates
 
 ## Status
 
@@ -34,9 +34,21 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 | 3.1 | Data Source Research & User Validation | Inserted - ready to plan |
 | 4 | Destatis Statistics Integration | Waves 1-2+6-7 complete; 11/17 KPIs real; Waves 3-5 ready (2026-07-25) — see Active Work |
 | 5 | Protected areas as toggleable layer | Planned (2026-07-25) — 4 plans, 3 waves, 2 checkpoints, verified ✓ |
-| 6 | Add land cover map | Context gathered (2026-07-26) — 24 decisions locked, ready for planning |
+| 6 | Add land cover map | Complete (2026-07-26) — 5/5 plans, 4 waves, D-01..D-24 evidence recorded, bilingual checkpoint approved |
+| 7 | Add BORIS land value maps as spatial layer for socio-economic tab | Not planned yet (2026-07-27) |
 
 ## Active Work
+
+**Phase 6 is complete (2026-07-26).** Land cover from the Impact Observatory / Esri / Microsoft 10m
+2024 dataset now fills the Landscape tab as five per-Living-Lab PMTiles files; crop types moved to a
+renamed Agriculture tab; Landscape is the LL detail page's default tab. All 5 plans executed across 4
+waves (06-01 dataset registration + build machinery, 06-02 sync.py wiring + actual PMTiles build, 06-03
+frontend tab restructure, 06-04 pipeline `landuse`→`agriculture` rename, 06-05 full automated gate +
+bilingual human-verify checkpoint). The reviewer approved the palette with no changes needed. All 24
+locked decisions (D-01..D-24), the three deliberate deviations from literal CONTEXT wording, and the
+phase's deferred scope (full-Germany backdrop, annual time series, live ESRI integration,
+vector-to-raster fusion) are recorded in `06-EVIDENCE.md`. Remaining: `/gsd:execute-phase 6`'s
+post-phase gates (code review, regression check, goal verification) still need to run.
 
 **Phase 4: Waves 1, 2, 6, and 7 are complete and merged to `data-pipeline-development`** (04-01,
 04-02, 04-06, 04-07 all have SUMMARY.md + passing tests, 7/7). Waves 3-5 (kpiByTab wiring into
@@ -125,3 +137,4 @@ Phase 2.2 completed on 2026-04-30 and replaced the shallow German-only soil look
 ### Roadmap Evolution
 
 - Phase 05.1 inserted after Phase 5: Calculate coverage KPIs for landscape tab using protected areas maps (URGENT)
+- 2026-07-27: Phase 7 added: "Add BORIS land value maps as spatial layer for socio-economic tab (WFS from Brandenburg and Hessen geoportals)" — incorporates BORIS land-value map data via WFS services from Brandenburg and Hessen (the two Bundesländer covering the 5 Living Labs) for the socio-economic tab

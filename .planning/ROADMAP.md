@@ -269,7 +269,7 @@ their region, while crop types move to a distinct Agriculture tab - five exclusi
 land cover rasters built offline from CC BY 4.0 source data, no API key at runtime.
 **Requirements**: D-01 .. D-24 (Phase 6 has no REQUIREMENTS.md IDs; the 06-CONTEXT.md decisions are the spec)
 **Depends on:** Phase 5
-**Plans:** 4/5 plans executed
+**Plans:** 5/5 plans complete
 
 **Planning decisions (resolved during breakdown):**
 - The internal `landuse` -> `agriculture` rename is **in scope**, not deferred. `LAYERS[].id`,
@@ -293,8 +293,18 @@ Plans:
       agriculture/landscape LAYERS entries, i18n renames, Landscape as the default tab (wave 3)
 - [x] 06-04-PLAN.md - Pipeline-side landuse -> agriculture join-key rename, metadata regeneration,
       test-contract updates and new regression assertions (wave 3)
-- [ ] 06-05-PLAN.md - Full automated gate, cross-file join-key consistency checks, blocking bilingual
+- [x] 06-05-PLAN.md - Full automated gate, cross-file join-key consistency checks, blocking bilingual
       human verification, D-01..D-24 evidence record (wave 4)
+
+### Phase 7: Add BORIS land value maps as spatial layer for socio-economic tab (WFS from Brandenburg and Hessen geoportals)
+
+**Goal:** [To be planned]
+**Requirements**: TBD
+**Depends on:** Phase 6
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 7 to break down)
 
 ## Backlog
 
