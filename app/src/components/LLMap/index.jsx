@@ -584,6 +584,7 @@ function MapInfoControl({ layer, overlayIds = [] }) {
 
 // Protected areas overlay toggle button (independent of active layer tab)
 function ProtectedAreasToggle({ active, onToggle }) {
+  const { t } = useTranslation()
   return (
     <button
       type="button"
@@ -619,7 +620,7 @@ function ProtectedAreasToggle({ active, onToggle }) {
           background: active ? C.teal : 'transparent',
         }}
       />
-      Protected Areas
+      {t('layers.protectedAreas')}
     </button>
   )
 }
