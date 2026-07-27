@@ -136,3 +136,16 @@ None - no external service configuration required.
 ---
 *Phase: 10-add-for-comparison-button-opens-ll-menu-and-switches-to-two-*
 *Completed: 2026-07-27*
+
+## Self-Check: PASSED
+
+- FOUND: app/src/pages/LLDetail.jsx
+- FOUND: .planning/phases/10-add-for-comparison-button-opens-ll-menu-and-switches-to-two-/10-03-SUMMARY.md
+- FOUND commit: 2514e20 (Task 1)
+- FOUND commit: 4b7cc85 (Task 2)
+- FOUND commit: 931976e (Task 3)
+- FOUND commit: 520b8b3 (SUMMARY.md metadata commit)
+- Verified: `cd app && npm run lint` exits 0
+- Verified: `cd app && npm run build` exits 0
+- Verified: `git diff --stat -- app/src/App.jsx app/package.json app/package-lock.json` prints nothing
+- Verified: `grep -c "removeEventListener" app/src/pages/LLDetail.jsx` returns 2
