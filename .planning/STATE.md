@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: ready_to_plan
-last_updated: "2026-07-27T08:25:22.935Z"
+last_updated: "2026-07-27T12:20:36.166Z"
 progress:
-  total_phases: 13
+  total_phases: 15
   completed_phases: 8
-  total_plans: 30
+  total_plans: 39
   completed_plans: 29
-  percent: 62
+  percent: 53
 ---
 
 # Project State
@@ -34,10 +34,22 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 | 4 | Destatis Statistics Integration | Waves 1-2+6-7 complete; 11/17 KPIs real; Waves 3-5 ready (2026-07-25) — see Active Work |
 | 5 | Protected areas as toggleable layer | Planned (2026-07-25) — 4 plans, 3 waves, 2 checkpoints, verified ✓ |
 | 6 | Add land cover map | Complete (2026-07-26) — 5/5 plans, 4 waves, D-01..D-24 evidence recorded, bilingual checkpoint approved |
-| 7 | Add BORIS land value maps as spatial layer for socio-economic tab | Not planned yet (2026-07-27) |
+| 7 | Add BORIS land value maps as spatial layer for socio-economic tab | Planned (2026-07-27) — 9 plans, 7 waves, 2 checkpoints, verified ✓ (0 blockers, warnings fixed) |
 | 9 | Chart Data Contract | Not planned yet (2026-07-27) |
 
 ## Active Work
+
+**Phase 7 is planned and ready to execute (2026-07-27).** 9 plans across 7 waves cover the BORIS
+(Bodenrichtwert) land-value choropleth for the Socio-economic tab, built from live Brandenburg
+(BORIS-BB) and Hessen (BORIS-HE) WFS services. Research flagged a blocking volume risk (verified
+per-Living-Lab zone counts run 1,668-30,018 — 5x-80x denser than any prior vector layer), so waves
+2-3 are a measure-then-decide spike (`07-03`) feeding a blocking `checkpoint:decision` (`07-05`) that
+locks the geometry/size budget, the `has_current_value` recency rule, and the Hessen usage-code map
+before any production fetch code is written. Wave 7 (`07-09`) closes with a blocking bilingual
+human-verification checkpoint across all five Living Labs. The plan-checker found 0 blockers and 3
+warnings (pane z-index collision with the protected-areas overlay, an untraceable requirement ID, and
+a pending UI-SPEC sign-off note); the first two were fixed directly in the plan files, the third is
+informational only. Next: `/gsd:execute-phase 7`.
 
 **Phase 6 is complete (2026-07-26).** Land cover from the Impact Observatory / Esri / Microsoft 10m
 2024 dataset now fills the Landscape tab as five per-Living-Lab PMTiles files; crop types moved to a
