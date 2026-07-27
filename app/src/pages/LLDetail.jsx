@@ -1,4 +1,4 @@
-import { lazy, startTransition, Suspense, useState } from 'react'
+import { lazy, startTransition, Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import { useParams, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { C } from '../theme.js'
@@ -8,6 +8,7 @@ import { StatPanel } from '../components/StatPanel.jsx'
 import { BarChart } from '../components/BarChart.jsx'
 import { LayerTabs } from '../components/LayerTabs.jsx'
 import { TextBlock } from '../components/TextBlock.jsx'
+import { LL_ICONS } from '../data/ll_icons.js'
 
 const LLMap = lazy(() => import('../components/LLMap/index.jsx'))
 
@@ -28,6 +29,44 @@ export function LLDetail({ bySlug, loading }) {
 
   const [layer, setLayer] = useLayerState()
 
+  const compareSlug = searchParams.get('compare')
+  const partnerCandidate = compareSlug ? bySlug?.[compareSlug] : null
+  // T-10-06: bySlug is built with Object.fromEntries, so inherited-property lookups
+  // (`__proto__`, `constructor`, `toString`, ...) all resolve truthy. Only accept a
+  // candidate whose own `slug` matches the requested value.
+  const partner =
+    partnerCandidate && partnerCandidate.slug === compareSlug && compareSlug !== slug
+      ? partnerCandidate
+      : null
+  // `Boolean(partner)` (isComparing) is intentionally not extracted as a standalone binding
+  // here — this plan does not yet branch rendering on it (the two-column branch arrives in
+  // plan 04); re-derive it there from `partner` to avoid an unused-variable lint error.
+  const compareOptions = useMemo(
+    () =>
+      Object.values(bySlug ?? {})
+        .filter((x) => x.slug !== slug)
+        .sort((a, b) => a.order - b.order),
+    [bySlug, slug]
+  )
+
+  const setCompare = (nextSlug) => {
+    const next = new URLSearchParams(searchParams)
+    next.set('compare', nextSlug)
+    setSearchParams(next)
+  }
+
+  // D-03: an unknown or self-referential ?compare= value is silently stripped, not
+  // surfaced as an error. Stripping the URL is the file's one legitimate side effect
+  // (not derived render state), unlike the useMemo-derived values above.
+  useEffect(() => {
+    if (loading || !bySlug) return
+    if (!compareSlug) return
+    if (partner) return
+    const next = new URLSearchParams(searchParams)
+    next.delete('compare')
+    setSearchParams(next, { replace: true })
+  }, [loading, bySlug, compareSlug, partner]) // eslint-disable-line react-hooks/exhaustive-deps
+
   if (loading) {
     return <LoadingCard>{t('llDetail.loading')}</LoadingCard>
   }
@@ -42,9 +81,23 @@ export function LLDetail({ bySlug, loading }) {
       <LayoutSwitcher layout={layout} onChange={setLayout} />
       <div style={{ flex: 1, overflow: 'hidden' }}>
         {layout === 'A' ? (
-          <LayoutSplit key="A" ll={ll} layer={layer} setLayer={setLayer} />
+          <LayoutSplit
+            key="A"
+            ll={ll}
+            layer={layer}
+            setLayer={setLayer}
+            compareOptions={compareOptions}
+            onPickCompare={setCompare}
+          />
         ) : (
-          <LayoutStacked key="B" ll={ll} layer={layer} setLayer={setLayer} />
+          <LayoutStacked
+            key="B"
+            ll={ll}
+            layer={layer}
+            setLayer={setLayer}
+            compareOptions={compareOptions}
+            onPickCompare={setCompare}
+          />
         )}
       </div>
     </div>
@@ -116,7 +169,7 @@ function useLayerState() {
   return [layer, setLayer]
 }
 
-function LayoutSplit({ ll, layer, setLayer }) {
+function LayoutSplit({ ll, layer, setLayer, compareOptions, onPickCompare }) {
   const { t } = useTranslation()
   return (
     <div
@@ -214,14 +267,14 @@ function LayoutSplit({ ll, layer, setLayer }) {
             </div>
           </div>
 
-          <CompareCTA compact />
+          <CompareCTA compact options={compareOptions} onPick={onPickCompare} />
         </div>
       </div>
     </div>
   )
 }
 
-function LayoutStacked({ ll, layer, setLayer }) {
+function LayoutStacked({ ll, layer, setLayer, compareOptions, onPickCompare }) {
   const { t } = useTranslation()
   return (
     <div style={{ overflowY: 'auto', height: '100%', background: C.bg }}>
@@ -327,50 +380,183 @@ function LayoutStacked({ ll, layer, setLayer }) {
       </div>
 
       <div style={{ padding: '16px 32px 32px' }}>
-        <CompareCTA />
+        <CompareCTA options={compareOptions} onPick={onPickCompare} />
       </div>
     </div>
   )
 }
 
-function CompareCTA({ compact = false }) {
+// Dismiss-on-Escape / dismiss-on-outside-click, generalised from StatPanel's sources-disclosure
+// pattern (StatPanel.jsx:14-29) — the only such pattern in the codebase (D-11). Consumers: the
+// ComparePicker trigger in CompareCTA (this file) and the comparison bar in a later plan.
+function useDismissOnOutside(open, onClose) {
+  const ref = useRef(null)
+
+  useEffect(() => {
+    if (!open) return undefined
+    const onKey = (e) => {
+      if (e.key === 'Escape') onClose()
+    }
+    const onPointer = (e) => {
+      if (!ref.current) return
+      if (!ref.current.contains(e.target)) onClose()
+    }
+    document.addEventListener('keydown', onKey)
+    document.addEventListener('mousedown', onPointer)
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.removeEventListener('mousedown', onPointer)
+    }
+  }, [open, onClose])
+
+  return ref
+}
+
+// Anchored dropdown panel only — the trigger button and open state stay with the parent so the
+// same panel can be anchored to the CompareCTA button here and to the comparison-bar name
+// buttons in a later plan (D-11, D-12, D-13).
+function ComparePicker({ options, onPick, align = 'right' }) {
   const { t } = useTranslation()
+  const [hoveredSlug, setHoveredSlug] = useState(null)
+
   return (
     <div
       style={{
-        background: C.limePale,
-        borderRadius: compact ? 12 : 14,
-        padding: compact ? '14px 18px' : '16px 24px',
-        border: `${compact ? 1.5 : 2}px dashed ${C.lime}`,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
+        position: 'absolute',
+        top: 'calc(100% + 8px)',
+        [align === 'right' ? 'right' : 'left']: 0,
+        width: 220,
+        background: C.white,
+        border: `1px solid ${C.mutedLight}`,
+        borderRadius: 12,
+        boxShadow: '0 8px 24px rgba(2,35,34,0.18)',
+        zIndex: 1000,
+        padding: '8px 0',
+        overflow: 'hidden',
       }}
     >
-      <div>
-        <div style={{ fontSize: compact ? 13 : 14, fontWeight: 700, color: C.green }}>
-          {compact ? t('llDetail.compareCompactTitle') : t('llDetail.compareTitle')}
-        </div>
-        {compact ? null : (
-          <div style={{ fontSize: 12, color: C.greenMid, marginTop: 2 }}>
-            {t('llDetail.compareBody')}
-          </div>
-        )}
-      </div>
-      <button
+      <div
         style={{
-          padding: compact ? '7px 16px' : '8px 20px',
-          borderRadius: 20,
-          background: C.orange,
-          color: C.white,
-          border: 'none',
-          fontSize: compact ? 12 : 13,
+          fontSize: 12,
           fontWeight: 700,
-          cursor: 'pointer',
+          color: C.teal,
+          lineHeight: 1.3,
+          padding: '8px 16px',
         }}
       >
-        + {compact ? t('llDetail.compareCompactAction') : t('llDetail.compareAction')}
-      </button>
+        {t('llDetail.comparePickerTitle')}
+      </div>
+      {options.map((ll) => {
+        const icon = LL_ICONS[ll.slug]
+        const isHovered = hoveredSlug === ll.slug
+        return (
+          <button
+            key={ll.slug}
+            type="button"
+            onClick={() => onPick(ll.slug)}
+            onMouseEnter={() => setHoveredSlug(ll.slug)}
+            onMouseLeave={() => setHoveredSlug(null)}
+            onFocus={() => setHoveredSlug(ll.slug)}
+            onBlur={() => setHoveredSlug(null)}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 8,
+              width: '100%',
+              padding: '8px 16px',
+              border: 'none',
+              background: isHovered ? C.surface : 'transparent',
+              cursor: 'pointer',
+              fontFamily: 'inherit',
+              fontSize: 12,
+              fontWeight: 700,
+              lineHeight: 1.3,
+              color: isHovered ? C.orange : C.teal,
+            }}
+          >
+            <svg
+              width="18"
+              height="18"
+              viewBox={icon?.vb}
+              fill="none"
+              style={{ flexShrink: 0 }}
+              dangerouslySetInnerHTML={{ __html: icon?.paths || '' }}
+            />
+            <span style={{ flex: 1, textAlign: 'left' }}>{ll.name}</span>
+            <span
+              style={{
+                width: 8,
+                height: 8,
+                borderRadius: '50%',
+                background: ll.outlineColor,
+                border: '1px solid rgba(2,35,34,0.15)',
+                display: 'inline-block',
+                flexShrink: 0,
+              }}
+            />
+          </button>
+        )
+      })}
+    </div>
+  )
+}
+
+function CompareCTA({ compact = false, options, onPick }) {
+  const { t } = useTranslation()
+  const [pickerOpen, setPickerOpen] = useState(false)
+  const pickerRef = useDismissOnOutside(pickerOpen, () => setPickerOpen(false))
+
+  return (
+    <div ref={pickerRef} style={{ position: 'relative' }}>
+      <div
+        style={{
+          background: C.limePale,
+          borderRadius: compact ? 12 : 14,
+          padding: compact ? '14px 18px' : '16px 24px',
+          border: `${compact ? 1.5 : 2}px dashed ${C.lime}`,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
+        }}
+      >
+        <div>
+          <div style={{ fontSize: compact ? 13 : 14, fontWeight: 700, color: C.green }}>
+            {compact ? t('llDetail.compareCompactTitle') : t('llDetail.compareTitle')}
+          </div>
+          {compact ? null : (
+            <div style={{ fontSize: 12, color: C.greenMid, marginTop: 2 }}>
+              {t('llDetail.compareBody')}
+            </div>
+          )}
+        </div>
+        <button
+          type="button"
+          aria-expanded={pickerOpen}
+          onClick={() => setPickerOpen((open) => !open)}
+          style={{
+            padding: compact ? '7px 16px' : '8px 20px',
+            borderRadius: 20,
+            background: C.orange,
+            color: C.white,
+            border: 'none',
+            fontSize: compact ? 12 : 13,
+            fontWeight: 700,
+            cursor: 'pointer',
+          }}
+        >
+          + {compact ? t('llDetail.compareCompactAction') : t('llDetail.compareAction')}
+        </button>
+      </div>
+      {pickerOpen ? (
+        <ComparePicker
+          options={options}
+          align="right"
+          onPick={(pickedSlug) => {
+            setPickerOpen(false)
+            onPick(pickedSlug)
+          }}
+        />
+      ) : null}
     </div>
   )
 }
