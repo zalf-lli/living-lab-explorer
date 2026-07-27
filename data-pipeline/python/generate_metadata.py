@@ -78,7 +78,6 @@ def _build_computed_record(
         "slug": slug,
         "contact": authored.get("contact", ""),
         "nuts3": authored.get("nuts3", []),
-        "mock": authored.get("mock", False),
         "kpiByTab": _build_kpi_by_tab(slug, destatis_ll, curated_kpis, protected_area_kpis),
         "destatisRetrievedAt": destatis_meta.get("fetched_at"),
     }

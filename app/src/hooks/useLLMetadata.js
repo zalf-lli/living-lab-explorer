@@ -37,7 +37,6 @@ function buildLL(raw, lang) {
     tagline: content.tagline,
     nuts3: raw.nuts3,
     contact: raw.contact,
-    mock: raw.mock,
     content,
     kpiByTab: raw.kpiByTab ?? {},
     destatisRetrievedAt: raw.destatisRetrievedAt ?? null,
