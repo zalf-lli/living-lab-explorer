@@ -39,4 +39,13 @@ export const CHART_DATA = {
       { key: 'over200', v: 17, c: '#7e2b0c' },
     ],
   },
+  landscape: {
+    bars: [
+      { key: 'cropland', v: 42, c: '#c2e077' },
+      { key: 'forest', v: 32, c: '#276d4e' },
+      { key: 'grassland', v: 12, c: '#83d2af' },
+      { key: 'settlement', v: 9, c: '#b5ad9e' },
+      { key: 'water', v: 5, c: '#88bfd9' },
+    ],
+  },
 }

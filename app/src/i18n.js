@@ -153,6 +153,17 @@ const resources = {
             over200: '> 200 ha',
           },
         },
+        landscape: {
+          title: 'Land Cover Distribution',
+          unit: '% area',
+          bars: {
+            cropland: 'Cropland',
+            forest: 'Forest',
+            grassland: 'Grassland',
+            settlement: 'Settlement',
+            water: 'Water',
+          },
+        },
       },
       barChart: {
         source: 'Source: placeholder data - {{unit}}',
@@ -352,6 +363,17 @@ const resources = {
             from10To50: '10-50 ha',
             from50To200: '50-200 ha',
             over200: '> 200 ha',
+          },
+        },
+        landscape: {
+          title: 'Landbedeckungsverteilung',
+          unit: '% Flaeche',
+          bars: {
+            cropland: 'Ackerland',
+            forest: 'Wald',
+            grassland: 'Gruenland',
+            settlement: 'Siedlung',
+            water: 'Wasser',
           },
         },
       },
