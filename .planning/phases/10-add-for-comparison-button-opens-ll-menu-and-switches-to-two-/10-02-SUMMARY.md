@@ -101,3 +101,12 @@ None - no external service configuration required.
 ---
 *Phase: 10-add-for-comparison-button-opens-ll-menu-and-switches-to-two-*
 *Completed: 2026-07-27*
+
+## Self-Check: PASSED
+
+- FOUND: app/src/pages/LLDetail.jsx
+- FOUND: app/src/components/Header.jsx
+- FOUND: .planning/phases/10-add-for-comparison-button-opens-ll-menu-and-switches-to-two-/10-02-SUMMARY.md
+- FOUND: 7cb3894 (Task 1 commit)
+- FOUND: e0580b0 (Task 2 commit)
+- FOUND: b73fd4d (SUMMARY.md metadata commit)
