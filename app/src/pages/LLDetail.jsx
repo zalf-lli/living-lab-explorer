@@ -3,7 +3,7 @@ import { useParams, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { C } from '../theme.js'
 import { LLBadge } from '../components/LLBadge.jsx'
-import { KPIStrip } from '../components/KPIStrip.jsx'
+import { StatPanel } from '../components/StatPanel.jsx'
 import { BarChart } from '../components/BarChart.jsx'
 import { LayerTabs } from '../components/LayerTabs.jsx'
 import { PreliminaryDataBadge } from '../components/PreliminaryDataBadge.jsx'
@@ -126,7 +126,7 @@ function LayoutSwitcher({ layout, onChange }) {
 }
 
 function useLayerState() {
-  const [layer, setLayerRaw] = useState('landuse')
+  const [layer, setLayerRaw] = useState('landscape')
   const setLayer = (id) => startTransition(() => setLayerRaw(id))
   return [layer, setLayer]
 }
@@ -193,7 +193,7 @@ function LayoutSplit({ ll }) {
         </div>
 
         <div style={{ padding: '20px 24px', display: 'flex', flexDirection: 'column', gap: 18 }}>
-          <KPIStrip ll={ll} />
+          <StatPanel tab={layer} ll={ll} />
 
           <div
             style={{
@@ -284,7 +284,7 @@ function LayoutStacked({ ll }) {
       </div>
 
       <div style={{ padding: '20px 32px 0' }}>
-        <KPIStrip ll={ll} />
+        <StatPanel tab={layer} ll={ll} />
       </div>
 
       <div

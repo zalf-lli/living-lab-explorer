@@ -3,7 +3,7 @@
 export const LAYER_SOURCES = [
   {
     "id": "landuse-croptypes",
-    "appLayer": "landuse",
+    "appLayer": "agriculture",
     "title": {
       "en": "Crop types (DLR, 2024)",
       "de": "Anbaukulturen (DLR, 2024)"
@@ -18,6 +18,24 @@ export const LAYER_SOURCES = [
     "license": "CC-BY-4.0",
     "attribution": "(c) DLR (2024), CC BY 4.0",
     "citation": "Asam et al. 2022"
+  },
+  {
+    "id": "io-lulc-landcover",
+    "appLayer": "landscape",
+    "title": {
+      "en": "Land cover (Esri/Impact Observatory, 2024)",
+      "de": "Landbedeckung (Esri/Impact Observatory, 2024)"
+    },
+    "description": {
+      "en": "Annual 10 m land use / land cover classification for 2024, derived from Sentinel-2 with deep learning.",
+      "de": "Jaehrliche 10-m-Landbedeckungsklassifikation 2024, abgeleitet aus Sentinel-2 mit Deep Learning."
+    },
+    "provider": "Impact Observatory / Esri / Microsoft",
+    "dataset": "10m Annual Land Use Land Cover (9-class), 2024",
+    "url": "https://registry.opendata.aws/io-lulc/",
+    "license": "CC-BY-4.0",
+    "attribution": "Esri, Impact Observatory, Microsoft - 10m Annual Land Use Land Cover, CC BY 4.0",
+    "citation": "Karra, Kontgis, et al. Global land use/land cover with Sentinel-2 and deep learning. IGARSS 2021."
   },
   {
     "id": "buek250",
@@ -36,6 +54,24 @@ export const LAYER_SOURCES = [
     "license": "Nutzungsbestimmungen fuer die Bereitstellung von Geodaten des Bundes (GeoNutzV)",
     "attribution": "Datenquelle: BUEK250 V6.0, (c) BGR, Hannover, 2024",
     "citation": "BGR (2024): Bodenuebersichtskarte der Bundesrepublik Deutschland 1:250.000 (BUEK250), Hannover. https://doi.org/10.25928/BUEK250_6.0"
+  },
+  {
+    "id": "bfn-schutzgebiete",
+    "appLayer": "protected-areas",
+    "title": {
+      "en": "Protected areas (BfN, 2019/2023)",
+      "de": "Schutzgebiete (BfN, 2019/2023)"
+    },
+    "description": {
+      "en": "Natura 2000 sites (SCI and SPA) and German nature reserves intersecting each living lab.",
+      "de": "Natura-2000-Gebiete (FFH und Vogelschutz) und Naturschutzgebiete je Reallabor."
+    },
+    "provider": "Bundesamt fuer Naturschutz (BfN)",
+    "dataset": "Schutzgebiete in Deutschland (FFH 2019, Vogelschutz 2019, Naturschutzgebiete 2023)",
+    "url": "https://geodienste.bfn.de/schutzgebiete",
+    "license": "Nutzungsbestimmungen fuer die Bereitstellung von Geodaten des Bundes (GeoNutzV)",
+    "attribution": "Datenquelle: Bundesamt fuer Naturschutz (BfN)",
+    "citation": "BfN: Schutzgebiete in Deutschland. https://geodienste.bfn.de/schutzgebiete"
   }
 ]
 

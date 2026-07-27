@@ -1,0 +1,589 @@
+statistics_code;statistics_label;time_code;time_label;time;1_variable_code;1_variable_label;1_variable_attribute_code;1_variable_attribute_label;value;value_unit;value_variable_code;value_variable_label
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;70343;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;6931763;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;29274;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;60917;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;2596897;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;25697;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;77089;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;3610211;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;33799;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;78003;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;10028574;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;39277;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;68562;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;5489669;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;31917;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;64725;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;4076496;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;22558;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;55943;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;2783803;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;23651;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;88159;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;8949547;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;37149;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;71171;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;5122744;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;31975;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;39994;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;2315676;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;15165;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;73973;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;5896418;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;27803;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;52047;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;3437760;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;18355;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;70878;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;5396037;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;25932;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;58194;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;4092912;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;23080;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;70689;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;5177240;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;31716;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;57580;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;4279940;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;25082;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;59359;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;7673739;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;30526;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;63959;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;3160006;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;29022;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;68187;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;4401388;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;24036;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;56981;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;2652086;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;25002;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;61665;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;8202978;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;32368;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;65194;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;4988580;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;29000;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;63482;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;2941949;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;27600;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;70800;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;5052890;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;25375;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;66654;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;3051948;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;28908;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;74657;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;5010905;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;26749;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;63396;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;6214492;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;26626;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;74976;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;6060960;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;34869;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;70849;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;9981943;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;37251;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;72327;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;9352641;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;36887;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;67791;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;9299221;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;35211;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;52019;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;3742993;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;20996;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;65308;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;3278985;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;28923;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;46769;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;2809868;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;18295;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;65715;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;3288264;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;29914;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;59648;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;3510567;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;21763;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;65983;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;3301650;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;29425;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;60322;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;7360212;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;28907;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;63937;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;4621849;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;25879;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;63923;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;7907539;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;31202;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;67831;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;4959847;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;27702;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;62406;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;7814894;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;31046;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;64326;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;3835795;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;23205;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;67800;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;8558127;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;33744;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;69180;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;4131576;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;24648;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;88089;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;7497944;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;41044;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;79299;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;6427314;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;36667;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;80180;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;10548343;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;42552;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;71281;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;7143890;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;30125;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;69839;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;3191862;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;30229;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;70046;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;9069741;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;35712;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;50170;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;3305881;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;17633;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;45244;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;2680373;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;17507;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;61586;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;4455344;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;22193;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;68831;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;5155753;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;25279;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;56512;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;3747759;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;19770;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;61968;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;3124196;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;27279;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;61207;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;3655048;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;22499;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;59588;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;4157781;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;21473;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;73797;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;5690276;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;27192;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;59259;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;3407639;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;21437;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;67119;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;3388448;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;30378;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;56304;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;4114375;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;24034;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;54494;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;3098666;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;19759;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;64139;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;4459377;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;22697;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;66470;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;4664924;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;23610;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;58410;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;2702643;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;25375;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;55214;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;2493132;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;23198;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;61750;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;4590155;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;26973;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;59607;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;4434023;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;26093;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;53927;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;2420896;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;22324;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;58816;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;5808331;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;24775;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;60999;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;5947081;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;25309;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;67269;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;5215266;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;30313;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;61058;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;2819090;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;26347;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;70487;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;3444558;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;31920;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;66193;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;3073931;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;29065;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;68824;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;5503348;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;31977;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;80645;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;3873439;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;35897;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;75286;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;7564196;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;31957;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;78642;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;7731978;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;32713;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;64449;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;6299938;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;26850;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;88697;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;11780442;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;47110;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;72632;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;7269224;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;30717;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;69206;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;6927355;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;29243;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;82161;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;10637090;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;43240;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;78178;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;10139646;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;41073;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;74522;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;3447373;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;32445;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;67941;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;5366892;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;31198;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;64149;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;4711836;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;23437;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;51255;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;3368881;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;18015;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;48857;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;3339249;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;17741;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;80038;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;8001314;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;33479;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;62373;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;4380273;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;22458;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;54557;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;3615767;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;19228;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;64974;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;4876777;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;24073;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;67738;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;5104924;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;24756;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;72499;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;5703535;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;27086;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;59149;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;4074390;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;21187;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;64164;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;7809463;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;32307;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;55768;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;3802137;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;19886;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;81996;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;6535964;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;30398;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;67851;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;8476165;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;35080;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;73065;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;5795627;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;27136;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;67973;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;8530933;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;35046;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;65041;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;8075116;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;33442;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;62919;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;7509453;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;31014;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;63125;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;7773061;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;32196;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;74445;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;9543423;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;38859;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;68394;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;8654049;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;35304;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;75858;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;9799814;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;39771;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;87715;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;7050615;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;32465;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;75151;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;9682822;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;39282;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;85020;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;6778939;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;30996;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;61425;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;2617115;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;26083;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;82464;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;12101814;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;43303;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;71400;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;5720460;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;33157;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;69386;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;9633049;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;36163;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;64118;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;4770095;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;23652;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;50055;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;3043109;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;19679;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;50155;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;3593788;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;20022;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;77781;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;6054064;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;35627;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;65767;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;3273707;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;29546;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;59685;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;3446178;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;21512;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;69938;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;3477506;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;30864;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;76813;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;5754125;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;34810;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;67302;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;4452323;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;24081;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;65898;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;3231580;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;29928;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;73428;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;5020159;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;26823;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;57649;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;4304833;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;25295;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;64998;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;8748912;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;34065;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;55991;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;2545521;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;23865;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;63151;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;4765449;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;27843;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;51674;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;2281401;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;20801;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;76957;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;5501613;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;27412;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;63845;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;2973823;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;28011;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;72332;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;10378576;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;38272;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;60592;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;5983203;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;25593;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;58761;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;5536464;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;23478;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;77635;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;5262551;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;27930;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;83476;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;10821293;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;41961;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;73222;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;9318226;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;36777;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;68917;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;8789340;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;34587;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;57452;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;2886204;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;24869;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;52711;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;2600140;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;21768;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;42228;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;2476219;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;16210;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;54922;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;3835263;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;21675;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;60388;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;4270418;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;23710;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;66773;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;4867260;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;27267;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;78152;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;5810628;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;32414;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;61985;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;3676662;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;22440;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;62151;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;7804517;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;30909;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;65869;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;8288235;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;32850;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;64572;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;8092211;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;32191;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;74369;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;4371612;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;25724;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;88575;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;7004635;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;38738;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;70463;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;8964805;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;35386;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;74135;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;10735219;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;39428;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;72205;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;10293713;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;38156;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;53155;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;3767607;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;21238;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;67010;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;4674875;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;29153;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;61897;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;3841348;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;21270;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;67362;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;4283091;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;23578;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;67617;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;2899687;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;29008;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;69059;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;5041259;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;28206;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;80859;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;6213958;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;37277;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;60846;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;4318363;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;23908;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;69493;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;4684723;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;25168;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;70417;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;4794737;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;25657;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;61388;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;8010076;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;31773;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;78326;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;5695324;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;35293;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;74741;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;5383344;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;33530;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;61209;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;8126948;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;32146;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;67315;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;9058707;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;34685;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;80338;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;5441039;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;28672;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;72869;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;4927669;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;26309;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;64796;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;2758775;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;27621;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;59892;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;2539314;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2017;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;25134;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;76667;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;11189351;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;40575;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;62391;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;2670767;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2019;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;26490;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;64423;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;4040722;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;22389;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;68494;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;4804050;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;29980;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;66269;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;4153036;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;22938;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;81350;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;6356523;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2018;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;37793;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;81874;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;3527120;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;35197;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;78913;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;6390565;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2021;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;36606;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;75146;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;5878883;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;34169;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;54194;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;2339997;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2013;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;23252;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;88380;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;7256882;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2022;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;40907;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;101749;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;8508390;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2023;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;47373;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;58492;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;2455194;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;24347;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;56861;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;2402361;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2015;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;23913;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;55452;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;2361979;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2014;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;23554;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;54003;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;2297954;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2011;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;22494;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;53648;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;2307283;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2012;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;22759;EUR;BIP804;Bruttoinlandsprodukt pro Kopf
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;51355;EUR;BIP803;Bruttoinlandsprodukt je erwerbstätige Person
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;2173601;Tsd. EUR;BIP802;Bruttoinlandsprodukt
+82000;VGR der Länder;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;21119;EUR;BIP804;Bruttoinlandsprodukt pro Kopf

@@ -5,7 +5,7 @@ import { GeoJSON, MapContainer, TileLayer } from 'react-leaflet'
 import { useMap } from 'react-leaflet/hooks'
 import { PMTiles, leafletRasterLayer } from 'pmtiles'
 import { useGeoJSON } from '../../hooks/useGeoJSON.js'
-import { LAYER_INDEX, resolveLayerAsset } from '../../data/layers.js'
+import { LAYER_INDEX, PROTECTED_AREAS_LEGEND, resolveLayerAsset } from '../../data/layers.js'
 import { LAYER_SOURCE_INDEX } from '../../data/layer_sources.js'
 import { buildMaskFeature } from '../../lib/buildMaskGeometry.js'
 import { C } from '../../theme.js'
@@ -42,6 +42,81 @@ const SOIL_STRUCTURAL_STYLE = {
   fillOpacity: 0.65,
 }
 
+// Protected areas: derive style map from the shared palette (single source of truth)
+const PROTECTED_AREAS_STYLES = Object.fromEntries(
+  PROTECTED_AREAS_LEGEND.map((entry) => [
+    entry.value,
+    {
+      fillColor: entry.color,
+      color: entry.strokeColor,
+      weight: entry.weight,
+      fillOpacity: entry.fillOpacity,
+    },
+  ])
+)
+const PROTECTED_AREAS_HOVER_STYLE = { fillOpacity: 0.75, weight: 1.6 }
+
+function getProtectedAreasStyle(feature) {
+  return PROTECTED_AREAS_STYLES[feature?.properties?.designation] ?? PROTECTED_AREAS_STYLES['Naturschutzgebiet']
+}
+
+function bindProtectedAreasTooltip(feature, layer, t, lang) {
+  const props = feature?.properties ?? {}
+  const tooltipDiv = document.createElement('div')
+  tooltipDiv.style.maxWidth = '280px'
+  tooltipDiv.style.lineHeight = '1.35'
+
+  const name = getLocalizedValue(props, 'name', lang)
+  if (name) {
+    tooltipDiv.appendChild(createTooltipRow(document, '', name, true))
+  }
+
+  const designation = getLocalizedValue(props, 'designation', lang)
+  if (designation) {
+    tooltipDiv.appendChild(
+      createTooltipRow(document, t('map.protectedAreasTooltip.designation'), designation)
+    )
+  }
+
+  if (props.area_ha != null) {
+    const areaText = `${props.area_ha.toLocaleString(lang === 'de' ? 'de-DE' : 'en-GB')} ${t('map.protectedAreasTooltip.areaUnit')}`
+    tooltipDiv.appendChild(
+      createTooltipRow(document, t('map.protectedAreasTooltip.area'), areaText)
+    )
+  }
+
+  if (props.established_year != null) {
+    tooltipDiv.appendChild(
+      createTooltipRow(document, t('map.protectedAreasTooltip.established'), String(props.established_year))
+    )
+  }
+
+  const authority = getLocalizedValue(props, 'authority', lang)
+  if (authority) {
+    tooltipDiv.appendChild(
+      createTooltipRow(document, t('map.protectedAreasTooltip.authority'), authority)
+    )
+  }
+
+  layer.bindPopup(tooltipDiv, { sticky: true, direction: 'top', opacity: 0.95 })
+}
+
+function buildProtectedAreasLegendEntries(collection) {
+  if (!collection?.features?.length) return null
+
+  const designations = new Set()
+  for (const feature of collection.features) {
+    const designation = feature?.properties?.designation
+    if (designation) {
+      designations.add(designation)
+    }
+  }
+
+  if (designations.size === 0) return null
+
+  return PROTECTED_AREAS_LEGEND.filter((entry) => designations.has(entry.value))
+}
+
 function getPmtiles(url) {
   if (!PMTILES_CACHE.has(url)) {
     PMTILES_CACHE.set(url, new PMTiles(url))
@@ -60,9 +135,9 @@ function getBounds(featureLike) {
   return bounds.isValid() ? bounds : null
 }
 
-function RasterPmtilesLayer({ layerId }) {
+function RasterPmtilesLayer({ layerId, slug }) {
   const map = useMap()
-  const layerUrl = resolveLayerAsset(layerId)
+  const layerUrl = resolveLayerAsset(layerId, { slug })
 
   useEffect(() => {
     if (!layerUrl) return undefined
@@ -371,13 +446,14 @@ function InfoRow({ label, primary, provider, license, url, viewSourceLabel, lice
   )
 }
 
-function MapInfoControl({ layer }) {
+function MapInfoControl({ layer, overlayIds = [] }) {
   const { t, i18n } = useTranslation()
   const [open, setOpen] = useState(false)
   const wrapperRef = useRef(null)
   const layerSource = LAYER_SOURCE_INDEX.get(layer) ?? null
   const layerConfig = LAYER_INDEX.get(layer)
   const showLayerRow = Boolean(layerConfig?.available && layerSource)
+  const showNoSourceFallback = !showLayerRow && overlayIds.every((id) => !LAYER_SOURCE_INDEX.get(id))
 
   useEffect(() => {
     if (!open) return undefined
@@ -479,13 +555,141 @@ function MapInfoControl({ layer }) {
               viewSourceLabel={t('map.info.viewSource')}
               licenseLabel={t('map.info.license')}
             />
-          ) : (
+          ) : null}
+          {overlayIds.map((overlayId) => {
+            const overlaySource = LAYER_SOURCE_INDEX.get(overlayId)
+            if (!overlaySource) return null
+            const overlayTitle = overlaySource.title?.[lang] || overlaySource.title?.en || overlaySource.dataset
+            return (
+              <InfoRow
+                key={overlayId}
+                label={t('map.info.dataSource')}
+                primary={overlayTitle}
+                provider={overlaySource.provider}
+                license={overlaySource.license}
+                url={overlaySource.url}
+                viewSourceLabel={t('map.info.viewSource')}
+                licenseLabel={t('map.info.license')}
+              />
+            )
+          })}
+          {showNoSourceFallback ? (
             <div style={{ color: C.muted, fontStyle: 'italic' }}>{t('map.info.noSource')}</div>
-          )}
+          ) : null}
         </div>
       ) : null}
     </div>
   )
+}
+
+// Protected areas overlay toggle button (independent of active layer tab)
+function ProtectedAreasToggle({ active, onToggle }) {
+  const { t } = useTranslation()
+  return (
+    <button
+      type="button"
+      onClick={onToggle}
+      aria-pressed={active}
+      style={{
+        position: 'absolute',
+        top: 12,
+        right: 12,
+        zIndex: 500,
+        background: 'rgba(255,255,255,0.94)',
+        border: `1px solid ${C.mutedLight}`,
+        borderRadius: 10,
+        padding: '6px 10px',
+        fontSize: 11.5,
+        fontWeight: 600,
+        color: C.teal,
+        boxShadow: '0 4px 12px rgba(2,35,34,0.12)',
+        cursor: 'pointer',
+        fontFamily: 'inherit',
+        display: 'flex',
+        alignItems: 'center',
+        gap: '6px',
+      }}
+    >
+      <span
+        style={{
+          display: 'inline-block',
+          width: '12px',
+          height: '12px',
+          border: `2px solid ${active ? 'transparent' : C.mutedLight}`,
+          borderRadius: 2,
+          background: active ? C.teal : 'transparent',
+        }}
+      />
+      {t('layers.protectedAreas')}
+    </button>
+  )
+}
+
+// Helper for status badge styling (used by both soil and protected areas badges)
+function statusBadgeStyle(tone, top) {
+  const colors = {
+    info: { background: C.bg, border: C.teal, color: C.teal },
+    error: { background: 'rgba(220,75,75,0.08)', border: '#dc4b4b', color: '#dc4b4b' },
+  }
+  const { background, border, color } = colors[tone] || colors.info
+  return {
+    position: 'absolute',
+    left: 12,
+    top,
+    zIndex: 500,
+    background,
+    border: `1px solid ${border}`,
+    borderRadius: 10,
+    padding: '8px 10px',
+    fontSize: 11.5,
+    fontWeight: 600,
+    color,
+    boxShadow: '0 4px 12px rgba(2,35,34,0.12)',
+    maxWidth: 280,
+  }
+}
+
+// Imperative protected areas layer using Canvas renderer (D-08: no simplification)
+function ProtectedAreasLayer({ collection, slugKey, t, lang }) {
+  const map = useMap()
+
+  useEffect(() => {
+    if (!collection?.features?.length) return undefined
+
+    // Create or retrieve the dedicated pane for protected areas (zIndex 350)
+    // This places it above tilePane (200, land-use raster) but below overlayPane (400, soil/mask)
+    // so out-of-region protected areas are dimmed by the 60% white mask for visual consistency
+    // (user judgment call). Pane hierarchy: tilePane(200) < protectedAreasPane(350) < overlayPane(400).
+    let pane = map.getPane('protectedAreasPane')
+    if (!pane) {
+      pane = map.createPane('protectedAreasPane')
+      pane.style.zIndex = 350
+    }
+
+    // Canvas renderer handles 311,616 vertices without simplification (D-08)
+    // The default SVG renderer would emit one <path> per feature, making East Brandenburg (355 features)
+    // unusable. Canvas rasterisation changes only the rendering backend, not the geometry.
+    const renderer = L.canvas({ padding: 0.5, pane: 'protectedAreasPane' })
+
+    // Build the layer with styling and hover interactivity
+    const layer = L.geoJSON(collection, {
+      pane: 'protectedAreasPane',
+      renderer,
+      style: getProtectedAreasStyle,
+      onEachFeature: (feature, featureLayer) => {
+        bindProtectedAreasTooltip(feature, featureLayer, t, lang)
+        featureLayer.on('mouseover', () => featureLayer.setStyle(PROTECTED_AREAS_HOVER_STYLE))
+        featureLayer.on('mouseout', () => featureLayer.setStyle(getProtectedAreasStyle(feature)))
+      },
+    })
+
+    layer.addTo(map)
+    return () => {
+      map.removeLayer(layer)
+    }
+  }, [collection, slugKey, map, t, lang])
+
+  return null
 }
 
 export default function LLMap({ ll, layer, height = 300 }) {
@@ -493,11 +697,27 @@ export default function LLMap({ ll, layer, height = 300 }) {
   const layerConfig = LAYER_INDEX.get(layer)
   const { data, loading, error } = useGeoJSON('data/ll_boundaries.geojson')
   const soilUrl = useMemo(
-    () => (layerConfig?.type === 'vector' ? resolveLayerAsset(layer, { slug: ll.slug }) : null),
-    [layer, layerConfig?.type, ll.slug],
+    () => (layer === 'soil' ? resolveLayerAsset(layer, { slug: ll.slug }) : null),
+    [layer, ll.slug],
   )
   const soilState = useGeoJSON(soilUrl)
   const lang = i18n.language?.startsWith('de') ? 'de' : 'en'
+
+  // Protected areas overlay (independent toggle, lazy fetch per D-07)
+  const [showProtectedAreas, setShowProtectedAreas] = useState(false)
+  const protectedAreasUrl = useMemo(
+    () => (showProtectedAreas ? resolveLayerAsset('protected-areas', { slug: ll.slug }) : null),
+    [showProtectedAreas, ll.slug],
+  )
+  const protectedAreasState = useGeoJSON(protectedAreasUrl)
+  const protectedAreasFeatureCollection = useMemo(
+    () => (Array.isArray(protectedAreasState.data) ? protectedAreasState.data[0] ?? null : null),
+    [protectedAreasState.data],
+  )
+  const protectedAreasLegendEntries = useMemo(
+    () => buildProtectedAreasLegendEntries(protectedAreasFeatureCollection),
+    [protectedAreasFeatureCollection],
+  )
 
   const boundaryFeature = useMemo(() => selectBoundary(data, ll.slug), [data, ll.slug])
   const soilFeatureCollection = useMemo(
@@ -554,8 +774,10 @@ export default function LLMap({ ll, layer, height = 300 }) {
             subdomains={TILE_SUBDOMAINS}
             url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
           />
-          {layerConfig?.type === 'raster' ? <RasterPmtilesLayer layerId={layer} /> : null}
-          {layerConfig?.type === 'vector' && soilFeatureCollection ? (
+          {layerConfig?.type === 'raster' ? (
+            <RasterPmtilesLayer layerId={layer} slug={ll.slug} key={`${layer}-${ll.slug}`} />
+          ) : null}
+          {layer === 'soil' && soilFeatureCollection ? (
             <GeoJSON
               key={`soil-${ll.slug}`}
               data={soilFeatureCollection}
@@ -565,14 +787,39 @@ export default function LLMap({ ll, layer, height = 300 }) {
           ) : null}
           {maskFeature ? <GeoJSON key={`mask-${ll.slug}`} data={maskFeature} style={MASK_STYLE} /> : null}
           <GeoJSON key={`outline-${ll.slug}-${outlineColor}`} data={boundaryFeature} style={outlineStyle} />
+          {showProtectedAreas && protectedAreasFeatureCollection ? (
+            <ProtectedAreasLayer collection={protectedAreasFeatureCollection} slugKey={ll.slug} t={t} lang={lang} />
+          ) : null}
         </MapContainer>
-        {layerConfig?.type === 'vector' && soilState.loading ? <SoilStatusBadge message={t('map.soilLoading')} /> : null}
-        {layerConfig?.type === 'vector' && soilState.error ? <SoilStatusBadge tone="error" message={t('map.soilLoadError')} /> : null}
-        {layerConfig?.available ? null : <ComingSoonBadge />}
-        <MapInfoControl layer={layer} />
+        {layer === 'soil' && soilState.loading ? <SoilStatusBadge message={t('map.soilLoading')} /> : null}
+        {layer === 'soil' && soilState.error ? <SoilStatusBadge tone="error" message={t('map.soilLoadError')} /> : null}
+        {showProtectedAreas && protectedAreasState.loading ? (
+          <div style={statusBadgeStyle('info', 48)}>{t('map.protectedAreasLoading')}</div>
+        ) : null}
+        {showProtectedAreas && protectedAreasState.error ? (
+          <div style={statusBadgeStyle('error', 48)}>{t('map.protectedAreasError')}</div>
+        ) : null}
+        {layerConfig?.available ? null : <ComingSoonBadge style={{ ...statusBadgeStyle('info', 48) }} />}
+        <ProtectedAreasToggle active={showProtectedAreas} onToggle={() => setShowProtectedAreas((v) => !v)} />
+        <MapInfoControl layer={layer} overlayIds={showProtectedAreas ? ['protected-areas'] : []} />
       </div>
       <div style={{ padding: '10px 16px', borderTop: `1px solid ${C.mutedLight}`, background: C.bg }}>
-        <MapLegend layer={layer} entries={soilLegendEntries} note={t('legend.soil.note')} />
+        <MapLegend layer={layer} entries={soilLegendEntries} note={layer === 'soil' ? t('legend.soil.note') : null} />
+        {showProtectedAreas ? (
+          <div
+            style={{
+              marginTop: '8px',
+              paddingTop: '8px',
+              borderTop: `1px solid ${C.mutedLight}`,
+            }}
+          >
+            {protectedAreasLegendEntries?.length ? (
+              <MapLegend layer="protected-areas" entries={protectedAreasLegendEntries} note={t('legend.protectedAreas.note')} />
+            ) : protectedAreasFeatureCollection ? (
+              <div style={{ fontSize: 11, color: C.muted, fontStyle: 'italic' }}>{t('legend.protectedAreas.empty')}</div>
+            ) : null}
+          </div>
+        ) : null}
       </div>
     </div>
   )

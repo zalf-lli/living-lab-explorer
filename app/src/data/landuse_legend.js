@@ -2,12 +2,6 @@
 // Do not edit by hand; run `python data-pipeline/sync.py` after changing sources.yaml.
 export const LANDUSE_LEGEND = [
   {
-    "value": 0,
-    "en": "no data",
-    "de": "no data",
-    "color": "#cccccc"
-  },
-  {
     "value": 11,
     "en": "winter wheat",
     "de": "Winterweizen",

@@ -11,7 +11,7 @@ defaults:
 
 layers:
   - id: landuse-croptypes
-    app_layer: landuse
+    app_layer: agriculture
     kind: raster
     classification: categorical
     title:
@@ -33,7 +33,7 @@ layers:
       path: data/croptypes_2024.tif
       download_url: "https://download.geoservice.dlr.de/CROPTYPES/files/croptypes_2024.tif"
       sha256: null
-      crs: "EPSG:4326"
+      crs: "EPSG:32632"
       resolution_m: 10
       nodata: 0
     build:
@@ -47,7 +47,6 @@ layers:
       pmtiles: data/pmtiles/landuse-croptypes.pmtiles
       sync_to: app/public/data/pmtiles/landuse-croptypes.pmtiles
     legend:
-      - { value: 0, label: { en: "no data", de: "no data" }, color: "#cccccc" }
       - { value: 11, label: { en: "winter wheat", de: "Winterweizen" }, color: "#c2e077" }
       - { value: 12, label: { en: "winter barley", de: "Wintergerste" }, color: "#9bc72d" }
       - { value: 13, label: { en: "winter rye", de: "Winterroggen" }, color: "#5ec597" }
@@ -67,6 +66,66 @@ layers:
       - { value: 100, label: { en: "fruit trees and other woody vegetation", de: "Obst- und Feldgehoelz" }, color: "#8ffffc" }
       - { value: 110, label: { en: "hops", de: "Hopfen" }, color: "#66d1ff" }
       - { value: 111, label: { en: "other agricultural use", de: "Sonstige landwirtschaftliche Nutzung" }, color: "#3da5d9" }
+
+  - id: io-lulc-landcover
+    app_layer: landscape
+    kind: raster
+    classification: categorical
+    # Whether a layer is built per-LL vs. nationally is not a config flag -- it is
+    # determined by which script processes it (build_land_cover.py vs. build_pmtiles.py)
+    # and by which output.* key is present (pmtiles_pattern vs. pmtiles). See
+    # output.pmtiles_pattern below for this layer's per-LL output pattern.
+    title:
+      en: "Land cover (Esri/Impact Observatory, 2024)"
+      de: "Landbedeckung (Esri/Impact Observatory, 2024)"
+    description:
+      en: "Annual 10 m land use / land cover classification for 2024, derived from Sentinel-2 with deep learning."
+      de: "Jaehrliche 10-m-Landbedeckungsklassifikation 2024, abgeleitet aus Sentinel-2 mit Deep Learning."
+    source:
+      provider: "Impact Observatory / Esri / Microsoft"
+      dataset: "10m Annual Land Use Land Cover (9-class), 2024"
+      url: "https://registry.opendata.aws/io-lulc/"
+      license: "CC-BY-4.0"
+      attribution: "Esri, Impact Observatory, Microsoft - 10m Annual Land Use Land Cover, CC BY 4.0"
+      citation: "Karra, Kontgis, et al. Global land use/land cover with Sentinel-2 and deep learning. IGARSS 2021."
+      note: "The Impact Observatory STAC collection reports license: proprietary, but the AWS Registry of Open Data, the Microsoft Planetary Computer STAC collection, and Esri's own Living Atlas item licenseInfo all state CC BY 4.0 for the source raster. This project relies on the CC BY 4.0 reading."
+    input:
+      tiles:
+        rheingau: "32U"
+        hessian-low-mountain: "32U"
+        north-hessian-loess: "32U"
+        east-brandenburg: "33U"
+        havellandisches-luch: "33U"
+      path_pattern: "data/io_lulc_{tile}_2024.tif"
+      download_url_pattern: "https://io-10m-annual-lulc.s3.us-west-2.amazonaws.com/{tile}_2024.tif"
+      sha256_by_tile:
+        "32U": "d7efc1a9561446d1eb15ec3f310b529ba1b2d47a36ac93a9f992e5de263d910f"
+        "33U": "432f1e63781d0c9fcd9ec4e487c7fbfdab3ffee3309e2505036a4b1f51d4aad5"
+      nodata: 0
+      resolution_m: 10
+    build:
+      script: python/build_land_cover.py
+      target_crs: "EPSG:3857"
+      min_zoom: 6
+      max_zoom: 12
+      tile_size: 512
+      resampling: nearest
+    output:
+      # No sync_pattern key here: sync_pmtiles_per_ll() (sync.py) derives each
+      # per-LL destination from this pattern's repo-relative glob matches,
+      # prefixed with app/public/ -- it does not read a separate sync key.
+      pmtiles_pattern: "data/pmtiles/land-cover-{slug}.pmtiles"
+      class_histogram: "data/land_cover_class_histogram.json"
+    legend:
+      - { value: 1, label: { en: "Water", de: "Wasser" }, color: "#88bfd9" }
+      - { value: 2, label: { en: "Forest", de: "Wald" }, color: "#276d4e" }
+      - { value: 4, label: { en: "Wetland", de: "Feuchtgebiet" }, color: "#4f89a3" }
+      - { value: 5, label: { en: "Cropland", de: "Ackerland" }, color: "#c2e077" }
+      - { value: 7, label: { en: "Settlement", de: "Siedlung" }, color: "#b5ad9e" }
+      - { value: 8, label: { en: "Bare ground", de: "Offenboden" }, color: "#d0b385" }
+      - { value: 9, label: { en: "Snow / ice", de: "Schnee / Eis" }, color: "#f2f8e2" }
+      - { value: 10, label: { en: "Clouds", de: "Wolken" }, color: "#c6d2d5" }
+      - { value: 11, label: { en: "Grassland", de: "Gruenland" }, color: "#83d2af" }
 
   - id: buek250
     app_layer: soil
@@ -113,3 +172,40 @@ layers:
       output_dir: data/geojson
     output:
       geojson_pattern: "data/geojson/buek250-{slug}.geojson"
+
+  - id: bfn-schutzgebiete
+    app_layer: protected-areas
+    kind: vector
+    title:
+      en: "Protected areas (BfN, 2019/2023)"
+      de: "Schutzgebiete (BfN, 2019/2023)"
+    description:
+      en: "Natura 2000 sites (SCI and SPA) and German nature reserves intersecting each living lab."
+      de: "Natura-2000-Gebiete (FFH und Vogelschutz) und Naturschutzgebiete je Reallabor."
+    source:
+      provider: "Bundesamt fuer Naturschutz (BfN)"
+      dataset: "Schutzgebiete in Deutschland (FFH 2019, Vogelschutz 2019, Naturschutzgebiete 2023)"
+      url: "https://geodienste.bfn.de/schutzgebiete"
+      metadata: "https://gdk.gdi-de.org/geonetwork/srv/api/records/bec888f9-ba0c-42dc-846e-177b8265dafa"
+      license: "Nutzungsbestimmungen fuer die Bereitstellung von Geodaten des Bundes (GeoNutzV)"
+      attribution: "Datenquelle: Bundesamt fuer Naturschutz (BfN)"
+      citation: "BfN: Schutzgebiete in Deutschland. https://geodienste.bfn.de/schutzgebiete"
+      note: "Nicht fuer Planungszwecke geeignet."
+    build:
+      script: python/fetch_protected_areas.py
+    wfs:
+      url: "https://geodienste.bfn.de/ogc/wfs/schutzgebiet"
+      version: "2.0.0"
+      source_crs: "EPSG:25832"
+      bbox_crs: "urn:ogc:def:crs:EPSG::4326"
+      bbox_pad_deg: 0.05
+      count: 5000
+      coordinate_precision: 0.000001
+      max_response_bytes: 104857600
+      output_dir: data/geojson
+      typenames:
+        natura2000-sci: "bfn_sch_Schutzgebiet:Fauna_Flora_Habitat_Gebiete"
+        natura2000-spa: "bfn_sch_Schutzgebiet:Vogelschutzgebiete"
+        naturschutzgebiet: "bfn_sch_Schutzgebiet:Naturschutzgebiete"
+    output:
+      geojson_pattern: "data/geojson/protected-areas-{slug}.geojson"

@@ -148,9 +148,21 @@ This will:
 
 - copy `ll_metadata.json` and the GeoJSON files into `app/public/data/`
 - copy any built `.pmtiles` files into `app/public/data/pmtiles/`
+- copy per-Living-Lab `land-cover-{slug}.pmtiles` files into `app/public/data/pmtiles/`
 - copy committed vector GeoJSON fixtures such as `data/geojson/buek250-{slug}.geojson` into `app/public/data/geojson/`
 - regenerate `app/src/data/landuse_legend.js` from `sources/sources.yaml`
+- regenerate `app/src/data/land_cover_legend.js` from `sources/sources.yaml`, filtered by the observed class histogram
 - regenerate `app/src/data/layer_sources.js` so map-source attribution stays in sync with `sources.yaml`
+
+### The `tab` field in `data/destatis_curated_kpis.json` is a join key, not a label
+
+`data/destatis_curated_kpis.json`'s `tab` values are join keys, not display text: `generate_metadata.py::_build_kpi_by_tab` groups each Living Lab's KPIs into `ll_metadata.json`'s `kpiByTab` object using this exact string, and the same string is one app tab's id in `app/src/data/layers.js` / `LAYERS[].id`. Renaming a tab therefore requires changing three places together, in the same commit:
+
+1. `data-pipeline/python/fetch_destatis.py`'s `CURATED_KPIS` list (the `"tab"` value on every affected row) and, if the tab also corresponds to a `sources.yaml` layer, that layer's `app_layer`
+2. The committed `data/destatis_curated_kpis.json` manifest (regenerate via `python sync.py`, or hand-edit only if a live Destatis re-fetch is not viable -- see the comment above `CURATED_KPIS`)
+3. The two hardcoded tab-count assertions in `data-pipeline/tests/test_pipeline_outputs.py` (`test_destatis_curated_kpis_manifest_matches_contract` and `test_ll_metadata_kpi_by_tab_contract`)
+
+Phase 06 D-01 renamed the `landuse` tab to `agriculture` across all three places in the same change; `test_destatis_curated_kpis_manifest_matches_contract` also asserts no entry's `tab` still equals `landuse`, to catch a future partial revert.
 
 ## Adding a new data source
 
@@ -160,9 +172,12 @@ R-based sources are supported symmetrically - see `R/fetch_example.R` once it la
 
 ## Building tile layers
 
-Thematic map layers are described in [`sources/sources.yaml`](./sources/sources.yaml). The current real layer is:
+Thematic map layers are described in [`sources/sources.yaml`](./sources/sources.yaml). The current real layers are:
 
 - `landuse-croptypes`: the DLR 2024 crop-types raster for Germany, clipped to the Living Lab area and converted into PMTiles
+- `io-lulc-landcover`: the Esri / Impact Observatory / Microsoft 10 m Annual Land Use Land Cover (9-class) raster, 2024 edition, CC BY 4.0. Unlike `landuse-croptypes` this layer is built **per Living Lab** (`data/pmtiles/land-cover-{slug}.pmtiles`, one file per LL) rather than as a single national output, because clipping to the union of all five LLs before tiling would peak near 11.6 GB of RAM during the build.
+
+Each layer entry has two distinct ids that must not be confused (see [`sources/README.md`](./sources/README.md) for the full rule): `id` is the *dataset* id and names the layer's build artefacts on disk (e.g. `landuse-croptypes.pmtiles`, the `--layer landuse-croptypes` CLI flag below); `app_layer` is the *app tab* id and must match one of `LAYERS[].id` in `app/src/data/layers.js`. The two are renamed independently -- `landuse-croptypes` kept its dataset `id` when its `app_layer` was renamed from `landuse` to `agriculture` (Phase 06 D-01), because the committed PMTiles filename must not change just because the app's tab label did. `io-lulc-landcover`'s `app_layer` is `landscape`.
 
 ### Install the PMTiles command-line tool
 
@@ -220,11 +235,40 @@ Expected result:
 
 - `../data/pmtiles/landuse-croptypes.pmtiles`
 
+### Build the land cover PMTiles layer (per Living Lab)
+
+From `data-pipeline/`, with the environment active:
+
+```powershell
+python python\build_land_cover.py
+```
+
+What the script does, once per Living Lab:
+
+1. Downloads (on first run) or reuses the local source tile at `../data/io_lulc_{32U,33U}_2024.tif` from the anonymous AWS Open Data bucket (~146 MB / ~144 MB, ~290 MB total)
+2. Validates the source raster (`count==1`, `dtype==uint8`, `nodata==0`) before any tiling work
+3. Clips to the Living Lab boundary and computes a per-class pixel histogram, asserting observed values are a legend-covered subset of the valid ESRI v3 taxonomy (`1,2,4,5,7,8,9,10,11` — values 3 and 6 were retired and must never appear)
+4. Reprojects to Web Mercator (`EPSG:3857`), applies the categorical legend colors from `sources.yaml`, builds temporary MBTiles, and converts to `land-cover-{slug}.pmtiles`
+
+Useful flags:
+
+- `--list` — print the slug-to-source-tile assignment and exit, without building anything
+- `--slug <slug> [<slug> ...]` — build only the named Living Lab(s) instead of all five. Useful for iterating: `rheingau` is the smallest LL (~63 tiles, ~2 MB output) and validates the whole chain in minutes, whereas a full run of all five LLs takes much longer and peaks near 2.2 GB of RAM per LL (kept low specifically by processing one LL at a time instead of a combined mosaic)
+
+Expected result:
+
+- `../data/pmtiles/land-cover-{slug}.pmtiles` for each of the five Living Labs
+- `../data/land_cover_class_histogram.json`, the per-Living-Lab class pixel histogram — this is build evidence, not a runtime asset, and also drives which classes `sync.py` includes in the generated legend (see below)
+
+The source COGs (`data/io_lulc_32U_2024.tif`, `data/io_lulc_33U_2024.tif`) are gitignored build inputs, downloaded on demand from the anonymous AWS bucket and never committed.
+
 ### Then sync the outputs into the app
 
 ```powershell
 python sync.py
 ```
+
+This also regenerates `app/src/data/land_cover_legend.js` (`LAND_COVER_LEGEND`) from `sources.yaml`'s `io-lulc-landcover` legend, filtered against `data/land_cover_class_histogram.json` so classes with zero pixels across every Living Lab (e.g. Snow/Ice) never occupy a dead legend row. **Do not hand-edit `land_cover_legend.js`** — like `landuse_legend.js`, it carries a "Do not edit by hand" header and is fully derived from `sources.yaml` plus the class histogram.
 
 ## BUEK250 soil semantics contract
 

@@ -34,19 +34,25 @@ def build_colormap(layer: dict, nodata: int | float | None) -> dict[int, tuple[i
     return cmap
 
 
-def build_clip_geometry(layer: dict, source_crs) -> object:
+def build_clip_geometry(layer: dict, source_crs, slug: str | None = None) -> object:
     import geopandas as gpd
 
     defaults = layer["defaults"]
     clip_path = resolve(defaults["clip_to"])
     clip_buffer_m = defaults.get("clip_buffer_m", 0)
     gdf = gpd.read_file(clip_path)
+    if slug is not None:
+        gdf = gdf[gdf["ll_slug"] == slug]
+        # CLAUDE.md rule: assert non-empty to catch silent clip failures
+        assert len(gdf) > 0, f"No features in {clip_path} with ll_slug={slug!r}"
     buffered = gdf.to_crs("EPSG:3857").geometry.union_all().buffer(clip_buffer_m)
     clip_geom = gpd.GeoSeries([buffered], crs="EPSG:3857").to_crs(source_crs).iloc[0]
     return clip_geom
 
 
-def build_paletted_geotiff(layer: dict, input_path: Path, output_tif: Path) -> tuple[float, float, float, float]:
+def build_paletted_geotiff(
+    layer: dict, input_path: Path, output_tif: Path, slug: str | None = None
+) -> tuple[float, float, float, float]:
     import numpy as np
     import rasterio
     from rasterio.enums import ColorInterp, Resampling
@@ -69,7 +75,7 @@ def build_paletted_geotiff(layer: dict, input_path: Path, output_tif: Path) -> t
         if declared_nodata is not None and src.nodata is not None and declared_nodata != src.nodata:
             print(f"[warn] YAML nodata={declared_nodata} but source nodata={src.nodata}; using source value")
 
-        clip_geom = build_clip_geometry(layer, src.crs)
+        clip_geom = build_clip_geometry(layer, src.crs, slug=slug)
         clipped, clipped_transform = mask(
             src,
             [clip_geom.__geo_interface__],
@@ -77,6 +83,13 @@ def build_paletted_geotiff(layer: dict, input_path: Path, output_tif: Path) -> t
             all_touched=True,
             nodata=source_nodata,
         )
+
+        clipped_nodata_mask = clipped[0] == source_nodata
+        if bool(np.all(clipped_nodata_mask)):
+            raise RuntimeError(
+                f"Clipped raster for layer {layer.get('id')!r} (slug={slug!r}) contains only nodata "
+                f"({source_nodata!r}) — the clip geometry likely does not overlap the source raster."
+            )
 
         bounds = array_bounds(clipped.shape[1], clipped.shape[2], clipped_transform)
         dst_transform, dst_width, dst_height = calculate_default_transform(
@@ -172,59 +185,71 @@ def build_mbtiles(paletted_tif: Path, output_mbtiles: Path, min_zoom: int, max_z
 
     print(f"[run] python mbtiles writer {paletted_tif} -> {output_mbtiles}")
 
-    with rasterio.open(paletted_tif) as src, sqlite3.connect(output_mbtiles) as conn:
-        west, south, east, north = transform_bounds(src.crs, "EPSG:4326", *src.bounds, densify_pts=21)
-        west = max(-180 + 1.0e-10, west)
-        south = max(-85.051129, south)
-        east = min(180 - 1.0e-10, east)
-        north = min(85.051129, north)
+    # NOTE: sqlite3.Connection's context manager only commits/rolls back the active
+    # transaction on exit -- it does NOT close the connection (this is documented
+    # sqlite3 behaviour, not a bug in this code). Left as `with ... as conn:`, the
+    # file handle stays open after this function returns, which is harmless on Linux
+    # but locks the file on Windows and breaks a caller that tries to unlink() the
+    # temp mbtiles immediately afterward (as build_land_cover.py's per-LL loop does
+    # to avoid accumulating 5x the temp files). Manage the connection lifecycle
+    # explicitly with try/finally so it is always closed before this function returns.
+    conn = sqlite3.connect(output_mbtiles)
+    try:
+        with rasterio.open(paletted_tif) as src:
+            west, south, east, north = transform_bounds(src.crs, "EPSG:4326", *src.bounds, densify_pts=21)
+            west = max(-180 + 1.0e-10, west)
+            south = max(-85.051129, south)
+            east = min(180 - 1.0e-10, east)
+            north = min(85.051129, north)
 
-        cur = conn.cursor()
-        cur.execute(
-            "CREATE TABLE tiles (zoom_level integer, tile_column integer, tile_row integer, tile_data blob);"
-        )
-        cur.execute("CREATE UNIQUE INDEX idx_zcr ON tiles (zoom_level, tile_column, tile_row);")
-        cur.execute("CREATE TABLE metadata (name text, value text);")
+            cur = conn.cursor()
+            cur.execute(
+                "CREATE TABLE tiles (zoom_level integer, tile_column integer, tile_row integer, tile_data blob);"
+            )
+            cur.execute("CREATE UNIQUE INDEX idx_zcr ON tiles (zoom_level, tile_column, tile_row);")
+            cur.execute("CREATE TABLE metadata (name text, value text);")
 
-        metadata = [
-            ("name", output_mbtiles.stem),
-            ("type", "overlay"),
-            ("version", "1.1"),
-            ("description", paletted_tif.name),
-            ("format", "png"),
-            ("bounds", f"{west:.6f},{south:.6f},{east:.6f},{north:.6f}"),
-            ("minzoom", str(min_zoom)),
-            ("maxzoom", str(max_zoom)),
-        ]
-        cur.executemany("INSERT INTO metadata (name, value) VALUES (?, ?);", metadata)
+            metadata = [
+                ("name", output_mbtiles.stem),
+                ("type", "overlay"),
+                ("version", "1.1"),
+                ("description", paletted_tif.name),
+                ("format", "png"),
+                ("bounds", f"{west:.6f},{south:.6f},{east:.6f},{north:.6f}"),
+                ("minzoom", str(min_zoom)),
+                ("maxzoom", str(max_zoom)),
+            ]
+            cur.executemany("INSERT INTO metadata (name, value) VALUES (?, ?);", metadata)
 
-        total_tiles = 0
-        written_tiles = 0
+            total_tiles = 0
+            written_tiles = 0
 
-        for zoom in range(min_zoom, max_zoom + 1):
-            for tile in mercantile.tiles(west, south, east, north, [zoom]):
-                total_tiles += 1
-                bounds = mercantile.xy_bounds(tile)
-                window = src.window(bounds.left, bounds.bottom, bounds.right, bounds.top)
-                tile_data = src.read(
-                    out_shape=(4, tile_size, tile_size),
-                    window=window,
-                    boundless=True,
-                    fill_value=0,
-                    resampling=Resampling.nearest,
-                )
-                if tile_data.shape[0] < 4 or not tile_data[3].any():
-                    continue
+            for zoom in range(min_zoom, max_zoom + 1):
+                for tile in mercantile.tiles(west, south, east, north, [zoom]):
+                    total_tiles += 1
+                    bounds = mercantile.xy_bounds(tile)
+                    window = src.window(bounds.left, bounds.bottom, bounds.right, bounds.top)
+                    tile_data = src.read(
+                        out_shape=(4, tile_size, tile_size),
+                        window=window,
+                        boundless=True,
+                        fill_value=0,
+                        resampling=Resampling.nearest,
+                    )
+                    if tile_data.shape[0] < 4 or not tile_data[3].any():
+                        continue
 
-                tile_row = int(math.pow(2, zoom)) - tile.y - 1
-                cur.execute(
-                    "INSERT INTO tiles (zoom_level, tile_column, tile_row, tile_data) VALUES (?, ?, ?, ?);",
-                    (zoom, tile.x, tile_row, sqlite3.Binary(png_bytes(tile_data))),
-                )
-                written_tiles += 1
+                    tile_row = int(math.pow(2, zoom)) - tile.y - 1
+                    cur.execute(
+                        "INSERT INTO tiles (zoom_level, tile_column, tile_row, tile_data) VALUES (?, ?, ?, ?);",
+                        (zoom, tile.x, tile_row, sqlite3.Binary(png_bytes(tile_data))),
+                    )
+                    written_tiles += 1
 
-        conn.commit()
-        print(f"[ok] wrote {written_tiles}/{total_tiles} tiles to {output_mbtiles.name}")
+            conn.commit()
+            print(f"[ok] wrote {written_tiles}/{total_tiles} tiles to {output_mbtiles.name}")
+    finally:
+        conn.close()
 
 
 def convert_pmtiles(output_mbtiles: Path, output_pmtiles: Path) -> None:

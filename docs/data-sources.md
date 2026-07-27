@@ -6,3 +6,11 @@
 
 - use API service of the Federal statistical office: https://www-genesis.destatis.de/datenbank/online. I have created an acc
 ount and have an API token which I would need to store safely as part of the routine. 
+
+- Time series data on agricultural land use between 1990 and 2023: https://www.researchsquare.com/article/rs-9074257/v1 data here: https://cloud.thuenen.de/index.php/s/yLGJNi6MoePycqf
+
+- JKI database of small farm structures: https://www.julius-kuehn.de/en/small-structures
+
+- Digital Field Block Cadastre: https://geoportal.brandenburg.de/detailansichtdienst/render?url=https://geoportal.brandenburg.de/gs-json/xml?fileid=9e95f21f-4ecf-4682-9a44-e5f7609f6fa0 THis is for Brandenburg would also need to find for Hesse
+
+Hesse landscape elements: https://inspire-geo.ibykus.net/geoserver/lawi/wfs?service=WFS&version=2.0.0&request=GetFeature&typeName=lawi:Landschaftselemente_2024&outputFormat=SHAPE-ZIP
