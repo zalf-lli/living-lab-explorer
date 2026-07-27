@@ -43,7 +43,9 @@ export function StatPanel({ tab, ll, maxColumns = 4, showEmptyState = false }) {
         <div style={{ fontSize: 12, fontWeight: 700, color: C.teal, lineHeight: 1.3 }}>
           {t('statPanel.compareEmptyTitle')}
         </div>
-        <div style={{ fontSize: 12, fontWeight: 400, color: C.muted, lineHeight: 1.4, marginTop: 4 }}>
+        <div
+          style={{ fontSize: 12, fontWeight: 400, color: C.muted, lineHeight: 1.4, marginTop: 4 }}
+        >
           {t('statPanel.compareEmptyBody')}
         </div>
       </div>
