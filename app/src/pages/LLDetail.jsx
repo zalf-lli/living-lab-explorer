@@ -81,9 +81,23 @@ export function LLDetail({ bySlug, loading }) {
       <LayoutSwitcher layout={layout} onChange={setLayout} />
       <div style={{ flex: 1, overflow: 'hidden' }}>
         {layout === 'A' ? (
-          <LayoutSplit key="A" ll={ll} layer={layer} setLayer={setLayer} />
+          <LayoutSplit
+            key="A"
+            ll={ll}
+            layer={layer}
+            setLayer={setLayer}
+            compareOptions={compareOptions}
+            onPickCompare={setCompare}
+          />
         ) : (
-          <LayoutStacked key="B" ll={ll} layer={layer} setLayer={setLayer} />
+          <LayoutStacked
+            key="B"
+            ll={ll}
+            layer={layer}
+            setLayer={setLayer}
+            compareOptions={compareOptions}
+            onPickCompare={setCompare}
+          />
         )}
       </div>
     </div>
@@ -155,7 +169,7 @@ function useLayerState() {
   return [layer, setLayer]
 }
 
-function LayoutSplit({ ll, layer, setLayer }) {
+function LayoutSplit({ ll, layer, setLayer, compareOptions, onPickCompare }) {
   const { t } = useTranslation()
   return (
     <div
@@ -253,14 +267,14 @@ function LayoutSplit({ ll, layer, setLayer }) {
             </div>
           </div>
 
-          <CompareCTA compact />
+          <CompareCTA compact options={compareOptions} onPick={onPickCompare} />
         </div>
       </div>
     </div>
   )
 }
 
-function LayoutStacked({ ll, layer, setLayer }) {
+function LayoutStacked({ ll, layer, setLayer, compareOptions, onPickCompare }) {
   const { t } = useTranslation()
   return (
     <div style={{ overflowY: 'auto', height: '100%', background: C.bg }}>
@@ -366,7 +380,7 @@ function LayoutStacked({ ll, layer, setLayer }) {
       </div>
 
       <div style={{ padding: '16px 32px 32px' }}>
-        <CompareCTA />
+        <CompareCTA options={compareOptions} onPick={onPickCompare} />
       </div>
     </div>
   )
@@ -487,44 +501,62 @@ function ComparePicker({ options, onPick, align = 'right' }) {
   )
 }
 
-function CompareCTA({ compact = false }) {
+function CompareCTA({ compact = false, options, onPick }) {
   const { t } = useTranslation()
+  const [pickerOpen, setPickerOpen] = useState(false)
+  const pickerRef = useDismissOnOutside(pickerOpen, () => setPickerOpen(false))
+
   return (
-    <div
-      style={{
-        background: C.limePale,
-        borderRadius: compact ? 12 : 14,
-        padding: compact ? '14px 18px' : '16px 24px',
-        border: `${compact ? 1.5 : 2}px dashed ${C.lime}`,
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-      }}
-    >
-      <div>
-        <div style={{ fontSize: compact ? 13 : 14, fontWeight: 700, color: C.green }}>
-          {compact ? t('llDetail.compareCompactTitle') : t('llDetail.compareTitle')}
-        </div>
-        {compact ? null : (
-          <div style={{ fontSize: 12, color: C.greenMid, marginTop: 2 }}>
-            {t('llDetail.compareBody')}
-          </div>
-        )}
-      </div>
-      <button
+    <div ref={pickerRef} style={{ position: 'relative' }}>
+      <div
         style={{
-          padding: compact ? '7px 16px' : '8px 20px',
-          borderRadius: 20,
-          background: C.orange,
-          color: C.white,
-          border: 'none',
-          fontSize: compact ? 12 : 13,
-          fontWeight: 700,
-          cursor: 'pointer',
+          background: C.limePale,
+          borderRadius: compact ? 12 : 14,
+          padding: compact ? '14px 18px' : '16px 24px',
+          border: `${compact ? 1.5 : 2}px dashed ${C.lime}`,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'space-between',
         }}
       >
-        + {compact ? t('llDetail.compareCompactAction') : t('llDetail.compareAction')}
-      </button>
+        <div>
+          <div style={{ fontSize: compact ? 13 : 14, fontWeight: 700, color: C.green }}>
+            {compact ? t('llDetail.compareCompactTitle') : t('llDetail.compareTitle')}
+          </div>
+          {compact ? null : (
+            <div style={{ fontSize: 12, color: C.greenMid, marginTop: 2 }}>
+              {t('llDetail.compareBody')}
+            </div>
+          )}
+        </div>
+        <button
+          type="button"
+          aria-expanded={pickerOpen}
+          onClick={() => setPickerOpen((open) => !open)}
+          style={{
+            padding: compact ? '7px 16px' : '8px 20px',
+            borderRadius: 20,
+            background: C.orange,
+            color: C.white,
+            border: 'none',
+            fontSize: compact ? 12 : 13,
+            fontWeight: 700,
+            cursor: 'pointer',
+          }}
+        >
+          + {compact ? t('llDetail.compareCompactAction') : t('llDetail.compareAction')}
+        </button>
+      </div>
+      {pickerOpen ? (
+        <ComparePicker
+          options={options}
+          align="right"
+          onPick={(pickedSlug) => {
+            setPickerOpen(false)
+            onPick(pickedSlug)
+          }}
+        />
+      ) : null}
     </div>
   )
 }
