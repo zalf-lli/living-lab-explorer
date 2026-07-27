@@ -1,4 +1,4 @@
-import { lazy, startTransition, Suspense, useEffect, useMemo, useState } from 'react'
+import { lazy, startTransition, Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import { useParams, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { C } from '../theme.js'
@@ -8,6 +8,7 @@ import { StatPanel } from '../components/StatPanel.jsx'
 import { BarChart } from '../components/BarChart.jsx'
 import { LayerTabs } from '../components/LayerTabs.jsx'
 import { TextBlock } from '../components/TextBlock.jsx'
+import { LL_ICONS } from '../data/ll_icons.js'
 
 const LLMap = lazy(() => import('../components/LLMap/index.jsx'))
 
@@ -367,6 +368,121 @@ function LayoutStacked({ ll, layer, setLayer }) {
       <div style={{ padding: '16px 32px 32px' }}>
         <CompareCTA />
       </div>
+    </div>
+  )
+}
+
+// Dismiss-on-Escape / dismiss-on-outside-click, generalised from StatPanel's sources-disclosure
+// pattern (StatPanel.jsx:14-29) — the only such pattern in the codebase (D-11). Consumers: the
+// ComparePicker trigger in CompareCTA (this file) and the comparison bar in a later plan.
+function useDismissOnOutside(open, onClose) {
+  const ref = useRef(null)
+
+  useEffect(() => {
+    if (!open) return undefined
+    const onKey = (e) => {
+      if (e.key === 'Escape') onClose()
+    }
+    const onPointer = (e) => {
+      if (!ref.current) return
+      if (!ref.current.contains(e.target)) onClose()
+    }
+    document.addEventListener('keydown', onKey)
+    document.addEventListener('mousedown', onPointer)
+    return () => {
+      document.removeEventListener('keydown', onKey)
+      document.removeEventListener('mousedown', onPointer)
+    }
+  }, [open, onClose])
+
+  return ref
+}
+
+// Anchored dropdown panel only — the trigger button and open state stay with the parent so the
+// same panel can be anchored to the CompareCTA button here and to the comparison-bar name
+// buttons in a later plan (D-11, D-12, D-13).
+function ComparePicker({ options, onPick, align = 'right' }) {
+  const { t } = useTranslation()
+  const [hoveredSlug, setHoveredSlug] = useState(null)
+
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        top: 'calc(100% + 8px)',
+        [align === 'right' ? 'right' : 'left']: 0,
+        width: 220,
+        background: C.white,
+        border: `1px solid ${C.mutedLight}`,
+        borderRadius: 12,
+        boxShadow: '0 8px 24px rgba(2,35,34,0.18)',
+        zIndex: 1000,
+        padding: '8px 0',
+        overflow: 'hidden',
+      }}
+    >
+      <div
+        style={{
+          fontSize: 12,
+          fontWeight: 700,
+          color: C.teal,
+          lineHeight: 1.3,
+          padding: '8px 16px',
+        }}
+      >
+        {t('llDetail.comparePickerTitle')}
+      </div>
+      {options.map((ll) => {
+        const icon = LL_ICONS[ll.slug]
+        const isHovered = hoveredSlug === ll.slug
+        return (
+          <button
+            key={ll.slug}
+            type="button"
+            onClick={() => onPick(ll.slug)}
+            onMouseEnter={() => setHoveredSlug(ll.slug)}
+            onMouseLeave={() => setHoveredSlug(null)}
+            onFocus={() => setHoveredSlug(ll.slug)}
+            onBlur={() => setHoveredSlug(null)}
+            style={{
+              display: 'flex',
+              alignItems: 'center',
+              gap: 8,
+              width: '100%',
+              padding: '8px 16px',
+              border: 'none',
+              background: isHovered ? C.surface : 'transparent',
+              cursor: 'pointer',
+              fontFamily: 'inherit',
+              fontSize: 12,
+              fontWeight: 700,
+              lineHeight: 1.3,
+              color: isHovered ? C.orange : C.teal,
+            }}
+          >
+            <svg
+              width="18"
+              height="18"
+              viewBox={icon?.vb}
+              fill="none"
+              style={{ flexShrink: 0 }}
+              dangerouslySetInnerHTML={{ __html: icon?.paths || '' }}
+            />
+            <span style={{ flex: 1, textAlign: 'left' }}>{ll.name}</span>
+            <span
+              style={{
+                width: 8,
+                height: 8,
+                borderRadius: '50%',
+                background: ll.outlineColor,
+                border: '1px solid rgba(2,35,34,0.15)',
+                display: 'inline-block',
+                flexShrink: 0,
+              }}
+            />
+          </button>
+        )
+      })}
     </div>
   )
 }
