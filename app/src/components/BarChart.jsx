@@ -2,10 +2,31 @@ import { useTranslation } from 'react-i18next'
 import { C } from '../theme.js'
 import { CHART_DATA } from '../data/chart_data.js'
 
-export function BarChart({ layer, compact = false }) {
+export function BarChart({ layer, compact = false, minHeightWhenEmpty }) {
   const { t } = useTranslation()
   const data = CHART_DATA[layer]
-  if (!data) return null
+  if (!data) {
+    if (minHeightWhenEmpty == null) return null
+    return (
+      <div
+        style={{
+          minHeight: minHeightWhenEmpty,
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'center',
+        }}
+      >
+        <div style={{ fontSize: 12, fontWeight: 700, color: C.teal, lineHeight: 1.3 }}>
+          {t('barChart.compareEmptyTitle')}
+        </div>
+        <div
+          style={{ fontSize: 12, fontWeight: 400, color: C.muted, lineHeight: 1.4, marginTop: 4 }}
+        >
+          {t('barChart.compareEmptyBody')}
+        </div>
+      </div>
+    )
+  }
   const max = Math.max(...data.bars.map((b) => b.v))
   const unit = t(`charts.${layer}.unit`)
   return (
