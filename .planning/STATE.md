@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: ready_to_plan
-last_updated: "2026-07-27T07:36:39.698Z"
+last_updated: "2026-07-27T08:25:22.935Z"
 progress:
-  total_phases: 12
+  total_phases: 13
   completed_phases: 8
   total_plans: 30
   completed_plans: 29
-  percent: 67
+  percent: 62
 ---
 
 # Project State
@@ -30,12 +30,12 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 | 2 | BUEK Vector Pipeline | Complete (2026-04-30) |
 | 2.1 | Soil Map Tab Integration | Complete (2026-04-30) |
 | 2.2 | Soil Semantics & Translation | Complete (2026-04-30) |
-| 3 | Chart Data Contract | Ready to plan |
 | 3.1 | Data Source Research & User Validation | Inserted - ready to plan |
 | 4 | Destatis Statistics Integration | Waves 1-2+6-7 complete; 11/17 KPIs real; Waves 3-5 ready (2026-07-25) — see Active Work |
 | 5 | Protected areas as toggleable layer | Planned (2026-07-25) — 4 plans, 3 waves, 2 checkpoints, verified ✓ |
 | 6 | Add land cover map | Complete (2026-07-26) — 5/5 plans, 4 waves, D-01..D-24 evidence recorded, bilingual checkpoint approved |
 | 7 | Add BORIS land value maps as spatial layer for socio-economic tab | Not planned yet (2026-07-27) |
+| 9 | Chart Data Contract | Not planned yet (2026-07-27) |
 
 ## Active Work
 
@@ -108,10 +108,12 @@ Phase 2.2 completed on 2026-04-30 and replaced the shallow German-only soil look
 | # | Description | Date | Commit | Directory |
 |---|-------------|------|--------|-----------|
 | 260725-e1x | Investigate near-miss Regionalstatistik.de water tables (32221-01-03-4/02-01-4/03-01-4) as replacements for the null groundwater_nitrate_mg_l KPI slot | 2026-07-25 | ab920f8 | [260725-e1x-investigate-the-near-miss-regionalstatis](./quick/260725-e1x-investigate-the-near-miss-regionalstatis/) |
+| 260727-fast | Remove all preliminary-data flags from app UI and pipeline; recast the design-option bar as a subtle "Change layout" switcher | 2026-07-27 | a37a9b4 | (inline) |
+| 260727-fast2 | Remove mock placeholder factsheet fields (soil_climate/description/delineation, EN+DE) from ll_content.json, ll_metadata.json, and fetch_nuts.py | 2026-07-27 | 4069627 | (inline) |
 
 ## Open Questions (from research)
 
-- Chart data embedded in `ll_metadata.json` OR separate per-LL files in `app/public/data/charts/`? (decide before Phase 3)
+- Chart data embedded in `ll_metadata.json` OR separate per-LL files in `app/public/data/charts/`? (decide before Phase 9)
 - Which candidate geodata portals and statistical services should be reviewed first, and what evidence format will make end-user approval easiest during Phase 3.1?
 - Should Phase 4 pursue Regionalstatistik.de credentials to fill the 15 GENESIS-Online data gaps before building Waves 3-5's app-layer UI, or accept population-only real data for an initial ship and backfill later?
 
@@ -138,3 +140,5 @@ Phase 2.2 completed on 2026-04-30 and replaced the shallow German-only soil look
 
 - Phase 05.1 inserted after Phase 5: Calculate coverage KPIs for landscape tab using protected areas maps (URGENT)
 - 2026-07-27: Phase 7 added: "Add BORIS land value maps as spatial layer for socio-economic tab (WFS from Brandenburg and Hessen geoportals)" — incorporates BORIS land-value map data via WFS services from Brandenburg and Hessen (the two Bundesländer covering the 5 Living Labs) for the socio-economic tab
+- 2026-07-27: Phase 3 "Chart Data Contract" removed from its original slot (never started, no directory existed) and re-added as Phase 9 at the end of the roadmap, so chart implementations are defined after all map layers (Phases 5, 5.1, 6, 7) exist for charts to summarize. CHARTS-01/CHARTS-02 traceability in ROADMAP.md and REQUIREMENTS.md updated to point at Phase 9. Phases 4-7 were left unrenumbered since they are already complete/underway with directories and commit history referencing their current numbers.
+- 2026-07-27: Phase 8 added: "Add maps and stats for climate variables using CHELSA data" — climate variable maps plus summary statistics, sourced from CHELSA via the `chelsa_cmip6` Python library (https://gitlabext.wsl.ch/karger/chelsa_cmip6/). Placed in the free slot 8 (vacated when the old Phase 3 moved to 9) rather than appended as Phase 10, so it sits with the other map-layer phases and before the Phase 9 chart contract that summarizes them. Phase 9's "Depends on" updated from Phase 7 to Phase 8 accordingly.

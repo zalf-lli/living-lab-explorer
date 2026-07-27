@@ -342,11 +342,21 @@ Plans:
 - [ ] 07-09-PLAN.md - Full automated gate, four cross-file join-key checks, blocking bilingual human
       verification across all five Living Labs, D-01..D-13 + W-01..W-03 evidence record (wave 7)
 
+### Phase 8: Add maps and stats for climate variables using CHELSA data
+
+**Goal:** [To be planned] — add climate variable maps and summary statistics to the app, sourced from CHELSA (accessed via the `chelsa_cmip6` Python library: https://gitlabext.wsl.ch/karger/chelsa_cmip6/).
+**Requirements**: TBD
+**Depends on:** Phase 7 (BORIS land value layer — last of the existing map-layer phases; the pipeline/layer conventions it establishes are reused here)
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 8 to break down)
+
 ### Phase 9: Chart Data Contract
 
 **Goal:** Document the chart output JSON schema and add optional `chart:` stanza support to `sources.yaml` + `sync.py` so any layer can declare a chart script and have its output copied to `app/public/data/charts/`.
 **Requirements**: CHARTS-01, CHARTS-02
-**Depends on:** Phase 7 (all map layers - protected areas, land cover, BORIS land value - must be built first so charts can be produced from the finished maps)
+**Depends on:** Phase 8 (all map layers - protected areas, land cover, BORIS land value, CHELSA climate - must be built first so charts can be produced from the finished maps)
 **Plans:** 0 plans
 
 **Note:** Formerly numbered Phase 3. Moved to the end of the roadmap (2026-07-27) because chart implementations are meant to summarize the map layers, so the contract should be defined once every map layer exists rather than speculatively up front.
