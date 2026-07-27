@@ -148,8 +148,10 @@ This will:
 
 - copy `ll_metadata.json` and the GeoJSON files into `app/public/data/`
 - copy any built `.pmtiles` files into `app/public/data/pmtiles/`
+- copy per-Living-Lab `land-cover-{slug}.pmtiles` files into `app/public/data/pmtiles/`
 - copy committed vector GeoJSON fixtures such as `data/geojson/buek250-{slug}.geojson` into `app/public/data/geojson/`
 - regenerate `app/src/data/landuse_legend.js` from `sources/sources.yaml`
+- regenerate `app/src/data/land_cover_legend.js` from `sources/sources.yaml`, filtered by the observed class histogram
 - regenerate `app/src/data/layer_sources.js` so map-source attribution stays in sync with `sources.yaml`
 
 ### The `tab` field in `data/destatis_curated_kpis.json` is a join key, not a label
