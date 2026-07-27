@@ -16,6 +16,7 @@ created: 2026-07-27
 **Status:** Ready for planner/executor consumption
 **Pre-populated from:** `10-CONTEXT.md` (D-01..D-29, all locked; 7 items left to "Claude's Discretion" — all resolved below with specific answers), `.planning/ROADMAP.md` Phase 10 entry, and direct inspection of `app/src/pages/LLDetail.jsx`, `app/src/components/StatPanel.jsx`, `app/src/components/Header.jsx`, `app/src/components/BarChart.jsx`, `app/src/components/LLBadge.jsx`, `app/src/components/LayerTabs.jsx`, `app/src/components/TextBlock.jsx`, `app/src/theme.js`, `app/src/i18n.js`, `app/public/data/ll_metadata.json`, `app/src/components/LLMap/index.jsx`.
 **User input required this session:** none — no `RESEARCH.md` exists for this phase (none was required; it is pure frontend composition of existing components), and every design-facing question `10-CONTEXT.md` leaves to "Claude's Discretion" is resolved below with a specific, prescriptive answer, cross-checked against the actual component code rather than assumed.
+**Revision note (this pass):** gsd-ui-checker returned two BLOCK findings (Dimension 4 — too many font weights; Dimension 5 — a non-4px-multiple spacing exception) plus three non-blocking suggestions. All five are addressed below. No `10-CONTEXT.md` decision (D-01..D-29) and no part of the `ll.outlineColor` accent-color finding was reopened or changed.
 
 ---
 
@@ -39,36 +40,42 @@ Declared values (multiples of 4px only), unchanged from prior phases:
 
 | Token | Value | Usage |
 |-------|-------|-------|
-| xs | 4px | Per-LL accent bar thickness (column top strip); color-chip diameter is 8px (2xs, see below) |
-| sm | 8px | Picker row internal gap; color chip ↔ name gap; StatPanel grid gap (existing, unchanged) |
-| md | 16px | Comparison bar name↔separator gaps; picker dropdown row padding (horizontal) |
-| lg | 24px | Column grid gap (the gutter between the two columns); column card horizontal margins (matches `LayoutStacked`'s existing `margin: '… 32px 0'` scaled down is NOT used — see exception below) |
-| xl | 32px | Not used by this phase's additions (reserved, matches `LayoutStacked` card margins which this phase reuses verbatim inside each column) |
+| xs | 4px | Per-LL accent bar thickness (column top strip) |
+| sm | 8px | Comparison bar vertical padding; picker row internal gap; color-chip diameter; `StatPanel` grid gap (existing, unchanged) |
+| md | 16px | Picker dropdown row horizontal padding |
+| lg | 24px | Column grid gap (the gutter between the two columns); comparison bar horizontal padding |
+| xl | 32px | Not used by this phase's additions (reserved — matches `LayoutStacked`'s existing card margins, which the column reuses verbatim) |
 | 2xl | 48px | Not used by this phase's additions |
 | 3xl | 64px | Not used by this phase's additions |
 
-**Exceptions (both are "match existing precedent exactly," not new arbitrary values):**
-1. **Comparison bar padding: `5px 24px`** — not a multiple of 4, but this bar occupies the exact same DOM slot as the existing `LayoutSwitcher` bar (`LLDetail.jsx:51-62`), which already uses `padding: '5px 24px'`. The comparison bar must match this exactly for visual continuity when toggling in/out of comparison mode (`?compare=` add/remove should not cause the bar's height to jump).
-2. **Color chip diameter: 8px** — smaller than the 4px-multiple scale's smallest token, used only as a small circular swatch (see Per-Column Brand Accent below), not as a spacing/layout value.
+**Exceptions: none.** Every declared value above is an exact multiple of 4px.
+
+**Fixed from the prior draft:** the comparison bar's padding is **`8px 24px`** (both on-scale: `sm`/`lg`), not the `5px 24px` the previous draft copied verbatim from the existing `LayoutSwitcher` bar (`LLDetail.jsx:51-62`). This makes the new bar ~3px taller than `LayoutSwitcher`. That is an accepted, one-time visual delta between the two bars sharing one DOM slot — it does not break the shared-slot alignment (the bar still sits flush against the tab strip below it either way), so no `theme.js`/`LayoutSwitcher` follow-up is required. Pixel-exact parity between the two bars is optional future cleanup, not a blocker here.
 
 ---
 
 ## Typography
 
-Reuses the app-wide consolidated scale (do not introduce new sizes or weights — every value below already appears somewhere in `app/src` at the cited location):
+Reuses the app-wide font family. For its own additions, this phase declares a **closed 2-size / 2-weight system** (the rest of the app's existing components keep whatever sizes/weights they already have — this table governs only the new UI introduced by this phase):
 
-| Role | Size | Weight | Line Height | Matches existing precedent at |
-|------|------|--------|-------------|-------------------------------|
-| Comparison bar hint label ("Comparing") | 11px | 400 | 1.3 | `LayoutSwitcher`'s `#layout-switcher-label` (`LLDetail.jsx:63`) |
-| Comparison bar LL name (clickable) | 13px | 700 | 1.2 | `CompareCTA`'s compact title (`LLDetail.jsx:347`) |
-| Comparison bar swap / exit button | 11px | 700 | 1.2 | `StatPanel`'s `sourcesToggle` button (`StatPanel.jsx:59`) |
-| Comparison bar separator glyph ("↔") | 13px | 400 | 1.2 | sized to match the LL-name buttons either side of it |
-| Picker dropdown row (icon + name) | 13px | 600 | 1.3 | between `StatPanel`'s field value weight (700) and body weight (400) — 600 already used for map status badges (see `07-UI-SPEC.md`'s "Badge (loading/error) 12px/600") |
-| Column header LL name | 22px | 900 | 1.1 | `LayoutSplit`'s header name (`LLDetail.jsx:158`) — **not** the 26px/900 used by `LayoutStacked`'s gradient hero, since D-19 explicitly rejects the gradient hero treatment |
-| Column header tagline | 13px | 400 | 1.4 | `LayoutSplit`'s header tagline (`LLDetail.jsx:161`) |
-| Column header region | 11px | 400 | 1.3 | `LayoutSplit`'s header region line (`LLDetail.jsx:164`) |
-| Empty-state placeholder title | 11px | 700 | 1.3 | `StatPanel`'s KPI field label (`StatPanel.jsx:91-92`) |
-| Empty-state placeholder body | 12px | 400 | 1.4 | `StatPanel`'s `pendingReviewBody` (`StatPanel.jsx:117`) |
+| Role | Size | Weight | Line Height |
+|------|------|--------|-------------|
+| Comparison bar hint label ("Comparing") | 12px | 400 | 1.3 |
+| Comparison bar separator glyph ("↔") | 12px | 400 | 1.2 |
+| Column header tagline | 12px | 400 | 1.4 |
+| Column header region | 12px | 400 | 1.3 |
+| Empty-state placeholder body | 12px | 400 | 1.4 |
+| Comparison bar LL name (clickable) | 12px | 700 | 1.2 |
+| Comparison bar swap / exit button | 12px | 700 | 1.2 |
+| Picker dropdown row (icon + name) | 12px | 700 | 1.3 |
+| Empty-state placeholder title | 12px | 700 | 1.3 |
+| Column header LL name | 22px | 700 | 1.1 |
+
+**Exactly two sizes (12px / 22px) and two weights (400 / 700).** This is a deliberate collapse from the prior draft, which declared four weights (400/600/700/900) by citing four different existing components as precedent — the checker correctly flagged that the *aggregate table this phase declares* is what's measured, not whether each individual value has precedent elsewhere. Specific folds:
+
+- **900 → 700** (column header LL name): the 22px size already carries all the hierarchy this element needs against the 12px secondary tier; an extra-bold 900 weight on top of that size jump was redundant.
+- **600 → 700** (picker dropdown row): the row's clickability is now signaled by weight (700, matching the comparison bar's own clickable LL-name buttons) instead of a mid-weight compromise.
+- **11px/13px → 12px** (hint label, separator, tagline, region, empty-state title/body, bar name/buttons, picker row): the prior draft's 11–13px cluster read as arbitrary micro-variation with no functional distinction. Consolidating to a single 12px secondary-tier size leaves exactly one clear size jump in the whole table — 12px → 22px — reserved for the one element that genuinely needs to read as a heading: the column header LL name.
 
 ---
 
@@ -95,6 +102,12 @@ Accent reserved for: `CompareCTA` button, comparison-bar Swap button, picker row
 
 ---
 
+## Visual Focal Point
+
+**Primary anchor: the two `LLMap` instances**, sitting side-by-side directly beneath the single shared `LayerTabs` row. That pairing — one shared tab strip, two maps immediately under it — is the moment the comparison actually happens visually; everything else (column headers, `StatPanel` tiles, `BarChart`, `TextBlock`s) is supporting context that scrolls above and below it, not competing for first-glance attention. The per-column accent bar reinforces this anchor by tying each map's boundary color to its own column before the reader's eye ever reaches the map itself.
+
+---
+
 ## Copywriting Contract
 
 | Element | Copy |
@@ -107,7 +120,7 @@ Accent reserved for: `CompareCTA` button, comparison-bar Swap button, picker row
 | Empty state body (BarChart, D-10) | EN: "This Living Lab does not have chart data for this tab yet." · DE: "Fuer dieses Living Lab liegen in diesem Reiter noch keine Diagrammdaten vor." |
 | Error state (D-26) | **No new copy.** Each column's map reuses its own layer's existing per-layer error badge (e.g. `map.economicError`, `map.soilError`) exactly as the single-LL view does — two independent `LLMap` mounts already carry independent error state; this is a behavior guarantee, not a new string. |
 | Comparison bar prefix | EN: "Comparing" · DE: "Vergleich:" |
-| Comparison bar swap button | EN: "⇄ Swap" (aria-label: "Swap comparison sides") · DE: "⇄ Tauschen" (aria-label: "Vergleichsseiten tauschen") |
+| Comparison bar swap button | EN: "⇄ Swap sides" (aria-label: "Swap comparison sides") · DE: "⇄ Seiten tauschen" (aria-label: "Vergleichsseiten tauschen") |
 | Comparison bar exit button | EN: "✕ Exit comparison" · DE: "✕ Vergleich beenden" |
 | Comparison bar name-button aria-label | EN: "Change comparison partner" · DE: "Vergleichspartner aendern" — used identically on both name buttons (see Interaction Contract for why) |
 | Destructive confirmation | n/a — Swap and Exit are instantly reversible URL-state changes (no data loss, no network call), so neither needs a confirmation dialog. Consistent with the app having no modal/confirm primitive anywhere. |
@@ -137,10 +150,12 @@ Occupies the exact DOM slot `LayoutSwitcher` occupies today (`LLDetail.jsx:40`).
 2. Name button A (route slug, always left per D-06): color chip + `llA.name`, `onClick` opens the picker (see below)
 3. Separator glyph: `↔` (decorative, `aria-hidden="true"`)
 4. Name button B (partner, `?compare=` value): color chip + `llB.name`, `onClick` opens the same picker
-5. Swap button: `⇄ Swap` — navigates to `/ll/<llB.slug>?compare=<llA.slug>` (D-06's rewrite-the-route swap)
+5. Swap button: `⇄ Swap sides` — navigates to `/ll/<llB.slug>?compare=<llA.slug>` (D-06's rewrite-the-route swap)
 6. Exit button: `✕ Exit comparison` — navigates to `/ll/<llA.slug>` (strips `?compare=`, keeps `?layout` untouched per D-02)
 
 Both name buttons are functionally identical: because the route slug is always the left column (D-06) and `?compare=` holds exactly one slug (D-05), there is only ever one thing to pick — the partner. Clicking **either** name opens the same picker (pre-populated to exclude the current route slug, per D-12); selecting an LL sets `?compare=<picked>`. This is the specific, locked resolution of D-14's "clicking either LL name reopens the same picker dropdown" — it is one picker, one target slot, regardless of which name triggered it.
+
+Bar container padding is `8px 24px` (see Spacing Scale fix above); it is ~3px taller than the `LayoutSwitcher` bar it replaces — an accepted, documented delta, not a bug.
 
 ### Picker dropdown (D-11/D-12/D-13 — anchored, not modal)
 
@@ -148,7 +163,7 @@ Both name buttons are functionally identical: because the route slug is always t
 - **Position:** `position: absolute`, anchored to the trigger's bounding box: `top: calc(100% + 6px)`, `left: 0`. Trigger's parent needs `position: relative`.
 - **Dimensions:** fixed width `220px`; height auto (4 rows × ~40px + 8px padding ≈ 168px).
 - **Chrome:** `background: C.white`, `border: 1px solid ${C.mutedLight}`, `borderRadius: 12px`, `boxShadow: '0 8px 24px rgba(2,35,34,0.18)'`, `zIndex: 1000` (above any map-badge `zIndex: 500` used inside `LLMap`, since this dropdown can visually overlap the map column).
-- **Rows:** exactly 4 (five LLs minus the current route slug, D-12 — no disabled state). Each row: `LL_ICONS[slug]` SVG (18px, matching `Header.jsx:84-91`) + `ll.name` (13px/600) + trailing 8px color chip (`ll.outlineColor`). Row padding `8px 12px`, hover/focus background `C.surface`, hover/focus text color `C.orange` (the one picker-specific use of the accent color).
+- **Rows:** exactly 4 (five LLs minus the current route slug, D-12 — no disabled state). Each row: `LL_ICONS[slug]` SVG (18px, matching `Header.jsx:84-91`) + `ll.name` (12px/700) + trailing 8px color chip (`ll.outlineColor`). Row padding `8px 16px`, hover/focus background `C.surface`, hover/focus text color `C.orange` (the one picker-specific use of the accent color).
 - **Dismiss:** Escape key or outside click — **verbatim port** of `StatPanel`'s `useEffect` dismiss pattern (`StatPanel.jsx:14-29`), same `keydown`/`mousedown` listener pair with cleanup, gated on the dropdown's open boolean.
 - **No backdrop, no focus trap, no scroll lock** (D-11 — matches the app having no such primitive anywhere).
 
@@ -157,9 +172,9 @@ Both name buttons are functionally identical: because the route slug is always t
 Top → bottom, single scroll container shared by both columns (D-20):
 
 1. **Accent bar** — 4px, `ll.outlineColor` (new, see Per-Column Brand Accent)
-2. **Header block** — badge (`LLBadge size="lg"`, 52px) + name (22px/900) + region (11px/400) + tagline (13px/400), **no `ContactManagerButton`** (D-19). Reuses `LayoutSplit`'s plain white header chrome (`padding: '20px 24px 16px'`, `background: C.white`, `borderBottom: 1.5px solid C.mutedLight`) — **not** `LayoutStacked`'s teal gradient hero (rejected by D-19: both columns would render the same gradient, distinguishing nothing).
+2. **Header block** — badge (`LLBadge size="lg"`, 52px) + name (22px/700) + region (12px/400) + tagline (12px/400), **no `ContactManagerButton`** (D-19). Reuses `LayoutSplit`'s plain white header chrome (`padding: '20px 24px 16px'`, `background: C.white`, `borderBottom: 1.5px solid C.mutedLight`) — **not** `LayoutStacked`'s teal gradient hero (rejected by D-19: both columns would render the same gradient, distinguishing nothing).
 3. **`StatPanel`** — `tab={sharedLayer}`, `ll={ll}`, new `maxColumns={2}` prop (D-29 — see Component Modifications)
-4. **`LLMap`** — `height={300}` (D-27), independent `Suspense`/`MapFallback` per column (D-24), own legend (D-25), own bounds-fit (D-22)
+4. **`LLMap`** — `height={300}` (D-27), independent `Suspense`/`MapFallback` per column (D-24), own legend (D-25), own bounds-fit (D-22) — the phase's visual focal point (see Visual Focal Point above)
 5. **`BarChart`** — `compact` prop (D-28, already exists, no `BarChart` changes)
 6. **Two `TextBlock`s, stacked vertically** (not side-by-side, per D-16) — `t('llDetail.aboutLandscape')` then `t('llDetail.socioEconomicContext')`, each `lines={4}` (shorter than the single-LL page's 5, since the column is narrower and two stacked blocks already use more vertical space than the 2-across grid did)
 
@@ -171,7 +186,7 @@ No `LayerTabs` inside the column (shared, rendered once above both columns, D-07
 
 ### Empty-state footprint (D-10)
 
-- **`StatPanel`, zero fields:** instead of `return null` (current `StatPanel.jsx:31`), render one placeholder `div` spanning the full grid width (`gridColumn: '1 / -1'`), same `padding: '12px 16px'` and `border: 1px solid ${C.mutedLight}` as a populated tile, containing the empty-state heading + body copy above. This occupies the same vertical rhythm as a populated KPI row without fabricating fake tiles.
+- **`StatPanel`, zero fields:** instead of `return null` (current `StatPanel.jsx:31`), render one placeholder `div` spanning the full grid width (`gridColumn: '1 / -1'`), same `padding: '12px 16px'` and `border: 1px solid ${C.mutedLight}` as a populated tile, containing the empty-state heading (12px/700) + body (12px/400) copy above. This occupies the same vertical rhythm as a populated KPI row without fabricating fake tiles.
 - **`BarChart`, no `CHART_DATA[layer]` entry:** instead of `return null` (current `BarChart.jsx:8`), render the same empty-state copy inside a block with `minHeight: 150px` (approximates a populated compact chart's height) — **only** applied when `BarChart` is rendered inside a comparison column (pass a new `minHeightWhenEmpty` prop, default `undefined`, so the single-LL view's existing null-return behavior is unchanged there).
 
 ### Loading & error states for the two maps (D-23/D-24/D-26)
@@ -213,7 +228,7 @@ New keys, both languages, added under the existing `llDetail` and a new `statPan
 llDetail: {
   comparePrefix: 'Comparing',
   comparePickerTitle: 'Compare with',
-  compareSwap: '⇄ Swap',
+  compareSwap: '⇄ Swap sides',
   compareSwapAria: 'Swap comparison sides',
   compareExit: '✕ Exit comparison',
   compareChangePartnerAria: 'Change comparison partner',
@@ -233,7 +248,7 @@ barChart: {
 llDetail: {
   comparePrefix: 'Vergleich:',
   comparePickerTitle: 'Vergleichen mit',
-  compareSwap: '⇄ Tauschen',
+  compareSwap: '⇄ Seiten tauschen',
   compareSwapAria: 'Vergleichsseiten tauschen',
   compareExit: '✕ Vergleich beenden',
   compareChangePartnerAria: 'Vergleichspartner aendern',
