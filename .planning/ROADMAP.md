@@ -26,17 +26,21 @@
 **Implementation plan:**
 
 **Wave 1**
+
 - `01-01` - Establish `data/ll_content.json` as the single hand-authored LL source and move metadata merge logic into the pipeline
 
 **Wave 2** *(blocked on Wave 1 completion)*
+
 - `01-02` - Remove `app/src/data/ll_display.js`, migrate UI consumers to metadata-only reads, and render preliminary-data badges
 
 **Cross-cutting constraints:**
+
 - `data/ll_content.json` is the only human-authored LL content source; pipeline code may read it but must never overwrite it
 - Human-authored metadata fields win on merge conflicts when producing `data/ll_metadata.json`
 - `mock: true` must render a bilingual preliminary-data badge on both the landing card and LL detail header
 
 **Success criteria:**
+
 1. Developer edits a tagline in `data/ll_content.json`, runs `python data-pipeline/sync.py`, and the updated text appears in `app/public/data/ll_metadata.json` without touching any other file
 2. `app/src/data/ll_display.js` no longer exists; `npm run build` still produces a working app with correct LL colours, icons, and names
 3. An LL with `"mock": true` in `ll_content.json` shows a bilingual "Preliminary data / Vorlaeufige Daten" badge in both the landing card and the detail page header
@@ -52,6 +56,7 @@
 **UI hint**: no
 
 **Success criteria:**
+
 1. Running `python data-pipeline/python/build_vector.py --layer buek250` produces one GeoJSON file per LL in `data/geojson/` with correct CRS (EPSG:4326), non-empty features, and a build log line reporting output file size
 2. Running `python -m pytest data-pipeline/tests/` passes all smoke tests, verifying PMTiles output (existing layer) and GeoJSON outputs (new BUEK layer) without re-running the full build
 3. The script aborts with a clear error message (not a silent empty file) if CRS misalignment or invalid geometries are detected
@@ -69,17 +74,21 @@
 **Implementation plan:**
 
 **Wave 1**
+
 - `02.1-01` - Publish the committed BUEK250 GeoJSON files into `app/public/data/geojson/` during sync and add a vector-capable frontend layer contract for the soil tab
 
 **Wave 2** *(blocked on Wave 1 completion)*
+
 - `02.1-02` - Render the soil tab through a lazy per-LL GeoJSON overlay in `LLMap`, with deterministic styling and resilient loading/error states
 
 **Cross-cutting constraints:**
+
 - Phase 2 remains the source contract: execution must consume `data/geojson/buek250-{slug}.geojson` rather than inventing a second soil output format
 - Soil data must load lazily for the active LL only; switching away from the soil tab must not trigger or require a soil fetch
 - Soil overlay failures must not blank the LL detail shell or regress the existing landuse PMTiles behavior
 
 **Success criteria:**
+
 1. The app can load the matching `buek250-{ll-slug}.geojson` file for the active Living Lab from `app/public/data/` when the soil map tab is opened
 2. The LL detail experience renders the BUEK polygons inside the soil map tab with stable styling and without regressing the existing map behavior
 3. The vector layer load is lazy and surfaces a clear loading or error state instead of blocking the rest of the LL detail page
@@ -97,15 +106,19 @@
 **Implementation plan:**
 
 **Wave 1**
+
 - `02.2-01` - Analyze the SQLite schema (`LEGENDENEINHEIT`, `PROFIL`, `HORIZONT`, `GL_EINHEIT`, `GL_BAG_FLAECHENTYP`) and define a canonical per-polygon soil metadata contract with null-handling and field provenance
 
 **Wave 2** *(blocked on Wave 1 completion)*
+
 - `02.2-02` - Build the bilingual and cleaned export path in the pipeline, including normalization of malformed strings and a deterministic strategy for mapping German source terms into English
 
 **Wave 3** *(blocked on Wave 2 completion)*
+
 - `02.2-03` - Update the frontend soil legend/info usage to consume the improved contract instead of the current two-bucket fallback and raw German text
 
 **Cross-cutting constraints:**
+
 - The SQLite database is authoritative for soil semantics, but its text content is German-first and partially sparse; the app contract must make provenance and fallback behavior explicit instead of pretending all fields are complete
 - The BUEK250 database metadata states that `LEGENDENEINHEIT` contains the textual legend descriptions, while `PROFIL` and `HORIZONT` drive thematic evaluations and `GL_EINHEIT` plus `GL_BAG_FLAECHENTYP` provide higher-level grouping of general legend units and parent-material surface types
 - English names should be generated through a reproducible mapping or translation layer committed to the repo, not via ad-hoc manual edits inside emitted GeoJSON files
@@ -113,6 +126,7 @@
 - Broken or truncated strings from the raw database export must be cleaned in the preparation step before they reach runtime assets
 
 **Success criteria:**
+
 1. Running the BUEK vector preparation emits a documented soil metadata contract with readable fields whose provenance is clear and whose empty values are handled intentionally
 2. The app-facing soil metadata includes stable English labels or names for user-facing fields, without losing the original German source values where traceability is needed
 3. Raw malformed text snippets and sparsely populated fields no longer leak directly into the runtime UI contract
@@ -133,21 +147,26 @@
 **Implementation plan:**
 
 **Wave 1**
+
 - [ ] `03.1-01-PLAN.md` - Define the 21-column review-catalogue format; scaffold export_source_catalogue.py + source_catalogue.csv + the source_catalogue xlsx review tab with seed rows
 
 **Wave 2** *(blocked on Wave 1 completion)*
+
 - [ ] `03.1-02-PLAN.md` - AI-assisted, citation-backed source research filling the catalogue; targeted IACS/InVeKoS discovery for Brandenburg, Hesse, Lower Saxony; verified facts kept separate from advisory (AI) columns
 
 **Wave 3** *(blocked on Wave 2 completion)*
+
 - [ ] `03.1-03-PLAN.md` - Human review (include/defer/reject + priority + rationale); regenerate the committed CSV mirror; convert approved sources into 999.x backlog items with integration sketches; restructure docs/data-sources.md
 
 **Cross-cutting constraints:**
+
 - The research loop must stay human-in-the-loop: AI can accelerate discovery and summarization, but end-users decide what is relevant enough to include
 - Each candidate source summary must make scope, spatial or temporal coverage, access method, licensing or reuse constraints, update cadence, and likely integration complexity explicit
 - Research outputs must separate verified source facts from AI interpretation so later implementation work can trust the evidence chain
 - The outcome of this phase is not data ingestion itself; it is a curated and decision-backed shortlist that de-risks subsequent integration phases
 
 **Success criteria:**
+
 1. There is a documented inventory of candidate geodata and statistical services or portals, each summarized in a consistent, end-user-readable format
 2. End-users can review those summaries and clearly indicate which sources should be included, deferred, or rejected
 3. The approved sources are converted into concrete follow-on integration inputs, such as prioritized requirements, backlog items, or future roadmap phases with enough detail to implement
@@ -176,6 +195,7 @@
 **Plans:** 7/7 plans complete
 
 **Context (resumes paused work):**
+
 - Prior work exists and was paused: `data-pipeline/python/fetch_destatis.py` (fetch + aggregation + expert-review CSV export), `data/destatis_variables.csv` (per-indicator values for expert selection), `data/destatis_variables_catalogue.csv` (candidate variable catalogue with EN/DE labels and GENESIS table IDs)
 - Previous API calls failed. Destatis support (email, 2026-07) diagnosed the request structure. Required fixes:
   - POST requests with `Content-Type: application/x-www-form-urlencoded` set in the HTTP header
@@ -185,6 +205,7 @@
 - Note: base URL changes to `https://genesis.destatis.de/genesisWS/rest/2020/` from 28 May 2026 (already past — verify which host is live)
 
 **Scope:**
+
 1. Fix `fetch_destatis.py` auth/request structure per the support email; verify each GENESIS table ID in the catalogue actually exists and resolves at Kreis (NUTS3) level
 2. Process raw responses into per-NUTS3 records and per-LL aggregates (`data/destatis_nuts3.json`, `data/destatis_ll.json`) plus expert-review CSVs
 3. Wire selected indicators through `sync.py` into the app (respecting the file-on-disk pipeline–app contract) and render them in the LL views
@@ -192,26 +213,33 @@
 **Implementation plan:**
 
 **Wave 1**
+
 - [ ] `04-01-PLAN.md` — Fix GENESIS-Online auth (headers not body, corrected host), add pre-flight check_auth(), empirically confirm the regional-key column/code format
 
 **Wave 2** *(blocked on Wave 1 completion)*
+
 - [ ] `04-02-PLAN.md` — Align curated field names with the variable catalogue, verify the 17 curated picks' GENESIS tables live with D-14 fallback, run the live fetch, add pytest coverage
 
 **Wave 3** *(blocked on Wave 2 completion)*
+
 - [ ] `04-03-PLAN.md` — Extend generate_metadata.py with a kpiByTab computed field; one-time direct strip of ll_content.json's legacy placeholder blocks (D-11); regenerate and verify ll_metadata.json
 
 **Wave 4** *(blocked on Wave 3 completion)*
+
 - [ ] `04-04-PLAN.md` — Rename/add tabs and flip availability (D-01..D-04, D-06..D-08) in layers.js; add 17 kpi.* labels + statPanel.* i18n copy
 
 **Wave 5** *(blocked on Wave 4 completion)*
+
 - [ ] `04-05-PLAN.md` — Build StatPanel component; wire into LLDetail (both layouts); retire KPIStrip (D-05); human-verify checkpoint across all tabs and both languages
 
 **Cross-cutting constraints:**
+
 - `data/ll_content.json` is edited directly by the executor once (D-11), never written by a pipeline script
 - Destatis credentials stay in HTTP headers only, never in the POST body or in printed logs
 - `_deep_merge`'s authored-wins policy is unchanged (D-12); Pitfall 3 is resolved by removing the conflicting authored fields instead
 
 **Success criteria:**
+
 1. `fetch_destatis.py` successfully authenticates against the live GENESIS-Online API and produces real (non-null) per-NUTS3/per-LL data for the 17 curated indicators
 2. `app/public/data/ll_metadata.json` carries a `kpiByTab` field per LL with real values, units, and GENESIS table provenance, grouped into Agriculture/Soil/Climate/Landscape/Socio-economic
 3. The LL detail page renders a StatPanel per tab (replacing the retired KPIStrip) with locale-aware formatting, an empty-state em-dash, and a working source-attribution link, verified across all 5 tabs and both languages
@@ -224,6 +252,7 @@
 **Plans:** 4 plans
 
 Plans:
+
 - [ ] 05-01-PLAN.md - BfN WFS fetch script, sources.yaml registration, five per-LL GeoJSON outputs (wave 1, blocking decision: coordinate precision)
 - [ ] 05-02-PLAN.md - Overlay registration in layers.js, bilingual i18n keys, UI-SPEC corrections (wave 1, blocking decision: overlay vs tab)
 - [ ] 05-03-PLAN.md - LLMap overlay toggle, lazy fetch, Canvas rendering, tooltips, legend, attribution (wave 2)
@@ -237,6 +266,7 @@ Plans:
 **Plans:** 3 plans
 
 **Locked decisions:**
+
 - D-01: Fill only the two existing `_ha` slots. No percentage KPI, no new curated-KPI entry.
 - D-02: Add `bfn_wfs` as a new `source_host` enum value in the curated KPI manifest.
 - D-03: Computed values live in a new `data/protected_area_kpis.json`, merged into `kpiByTab` at `generate_metadata.py` build time - never patched into `destatis_ll.json`, which `aggregate_ll()` destructively regenerates.
@@ -244,6 +274,7 @@ Plans:
 - D-05: Two existing test contracts must be deliberately updated in the same commit as the manifest change.
 
 Plans:
+
 - [ ] 05.1-01-PLAN.md - Coverage computation script (dissolve -> clip -> EPSG:25832 area) and `data/protected_area_kpis.json` (wave 1)
 - [ ] 05.1-02-PLAN.md - `bfn_wfs` source_host, test-contract repairs, `generate_metadata.py` merge, regenerated metadata, 2 new regression tests (wave 2)
 - [ ] 05.1-03-PLAN.md - D-01..D-05 evidence record and blocking bilingual Landscape-tab verification (wave 3)
@@ -258,27 +289,36 @@ land cover rasters built offline from CC BY 4.0 source data, no API key at runti
 **Plans:** 5/5 plans complete
 
 **Planning decisions (resolved during breakdown):**
+
 - The internal `landuse` -> `agriculture` rename is **in scope**, not deferred. `LAYERS[].id`,
   `kpiByTab` keys and `sources.yaml`'s `app_layer` are string-matched, so renaming only the app side
   would silently empty the Agriculture tab's four Destatis KPIs. The dataset id `landuse-croptypes`
   and the committed `.pmtiles` filenames deliberately keep their names.
+
 - `LAND_COVER_LEGEND` is **codegen'd** from `sources.yaml` into `app/src/data/land_cover_legend.js`
   and imported by `layers.js`, rather than hand-written there. D-12's structure is delivered exactly;
   hand-authoring was rejected because `build_colormap()` bakes the same hex codes into the PNG pixels.
+
 - No `legend.landCover.*` i18n keys are added. `MapLegend.jsx` reads `entry[lang]` off the generated
   legend array; such keys would be dead code. Class labels live in the `sources.yaml` legend.
+
 - Per-LL processing (D-14) is treated as **mandatory**, not preferred: the combined build peaks near
   11.6 GB on a 16.6 GB machine, per-LL near 2.2 GB.
 
 Plans:
+
 - [x] 06-01-PLAN.md - Register io-lulc-landcover in sources.yaml, gitignore the source COGs, declare
       mercantile, make build_pmtiles.py clip per slug, add build_land_cover.py with class-value guards (wave 1)
+
 - [x] 06-02-PLAN.md - sync.py per-LL PMTiles publishing and legend codegen; run the build; pin source
       SHA-256; commit five per-LL rasters and the class histogram (wave 2)
+
 - [x] 06-03-PLAN.md - Frontend: pmtilesUrlPattern resolution, slug threading into RasterPmtilesLayer,
       agriculture/landscape LAYERS entries, i18n renames, Landscape as the default tab (wave 3)
+
 - [x] 06-04-PLAN.md - Pipeline-side landuse -> agriculture join-key rename, metadata regeneration,
       test-contract updates and new regression assertions (wave 3)
+
 - [x] 06-05-PLAN.md - Full automated gate, cross-file join-key consistency checks, blocking bilingual
       human verification, D-01..D-24 evidence record (wave 4)
 
@@ -294,51 +334,69 @@ services and shipped as static per-Living-Lab GeoJSON, with no runtime API depen
 **Plans:** 9 plans, 7 waves, 2 checkpoints (1 blocking decision, 1 blocking human verification)
 
 **WFS sources (validated live 2026-07-27 during research, superseding the user's original candidate links):**
+
 - Brandenburg (BORIS-BB): `https://isk.geobasis-bb.de/ows/boris_wfs` - WFS 2.0.0, AdV BRM 3.0.1, EPSG:25833.
   Geometry and value live on **separate** feature types joined by `gehoertZu`; one endpoint mixes every
   Stichtag since 2010.
+
 - Hessen (BORIS-HE): `https://www.gds.hessen.de/wfs2/boris/cgi-bin/brw/2024/wfs` - WFS 2.0.0, AdV BRM 2.1,
   EPSG:25832. Self-contained polygons, year-versioned endpoint.
+
 - Original user-supplied links resolved to portal/metadata pages rather than WFS endpoints; the two URLs
   above were discovered and verified during Phase 7 research.
 
 **Planning decisions (resolved during breakdown):**
+
 - **Volume is the gating risk, not an implementation detail.** Verified per-Living-Lab zone counts run
   1,668 (rheingau) to 30,018 (east-brandenburg) - 5x to 80x denser than any prior vector layer (protected
   areas topped out at 362/LL). An unmitigated fetch would add roughly 1.2 GB across the two committed
   copies. Waves 2-3 are therefore a measure-then-decide spike (`07-03`, `07-05`) that fixes the geometry
   fidelity and size budget against real numbers before any production fetch code is written.
+
 - **Brandenburg and Hessen get separate fetch code paths**, not one config-driven function. Their object
   models differ (BRM 3.0.1 vs 2.1) and Brandenburg requires a mandatory point/polygon join against a cached
   full-state fetch of 113,293 value records. The `build_vector.py`/`fetch_protected_areas.py` "one fetch
   function, config-driven field names" pattern is insufficient here.
+
 - **Canvas rendering is mandatory, not preferred.** The declarative `<GeoJSON>` component the soil tab uses
   would emit one SVG path per polygon; the imperative `L.canvas()` pattern from `ProtectedAreasLayer` is the
   required precedent.
+
 - **Frontend work runs in parallel with the pipeline spike** (waves 1-2), implementing against the locked
   07-UI-SPEC.md property contract; visual verification is deferred to wave 7 once real data exists.
+
 - **Per-Living-Lab source attribution** required extending `sources.yaml` and `sync.py::generate_layer_sources()`
   rather than hand-copying provider strings into `i18n.js` - every Living Lab sits entirely within one state,
   so a single fixed attribution row would misattribute three of the five.
+
 - Zero new packages. Every dependency (geopandas, shapely, requests, pyyaml) is already installed.
 
 Plans:
+
 - [ ] 07-01-PLAN.md - `boris_wfs.py` WFS 2.0 transport: fes:Intersects/gehoertZu request builders, capped
       retrying HTTP, byte-sliced count extraction, per-state CRS-asserting GML reader, no-network unit tests (wave 1)
+
 - [ ] 07-02-PLAN.md - Frontend static config: `economic` placeholder to vector layer, BORIS ramp/no-data/hover
       style exports from theme tokens, ten bilingual i18n keys (wave 1)
+
 - [ ] 07-03-PLAN.md - `probe_boris.py` spike: Hessen usage-code census, Brandenburg statewide point cache +
       gehoertZu join + Stichtag histograms, seven-variant size/fidelity grid, `07-SPIKE.md` (wave 2)
+
 - [ ] 07-04-PLAN.md - LLMap economic path: quantile bucketing, value/no-data style, ranged legend builder,
       three-row tooltip, Canvas `EconomicLayer`, per-state `MapInfoControl` attribution (wave 2)
+
 - [ ] 07-05-PLAN.md - **Blocking checkpoint:decision** W-01 volume budget + geometry fidelity, W-02
       `has_current_value` recency rule, W-03 Hessen code map sign-off (wave 3)
+
 - [ ] 07-06-PLAN.md - `boris_semantics.py` state-discriminated bilingual contract (44-entry GDI-DE codelist),
       `sources.yaml` two-state boris entry, `providersByState`/`llStates` codegen, contract tests (wave 4)
+
 - [ ] 07-07-PLAN.md - `fetch_boris.py`: Hessen self-contained path, Brandenburg cached-join path,
       harmonize/trim/clip/simplify/round, validated sorted-key write (wave 5)
+
 - [ ] 07-08-PLAN.md - Full five-Living-Lab fetch, size-budget gate, `sync.py` publish, fixture contract
       regression test (wave 6)
+
 - [ ] 07-09-PLAN.md - Full automated gate, four cross-file join-key checks, blocking bilingual human
       verification across all five Living Labs, D-01..D-13 + W-01..W-03 evidence record (wave 7)
 
@@ -350,6 +408,7 @@ Plans:
 **Plans:** 0 plans
 
 Plans:
+
 - [ ] TBD (run /gsd-plan-phase 8 to break down)
 
 ### Phase 9: Chart Data Contract
@@ -362,11 +421,13 @@ Plans:
 **Note:** Formerly numbered Phase 3. Moved to the end of the roadmap (2026-07-27) because chart implementations are meant to summarize the map layers, so the contract should be defined once every map layer exists rather than speculatively up front.
 
 **Success criteria:**
+
 1. The chart JSON schema is documented (shape, field names, types, bilingual label convention) in a location a future implementer can find without reading source code
 2. A `sources.yaml` entry with a `chart:` stanza passes `sync.py` without errors; `sync.py` logs a `[chart]` line and copies the output file if it exists, or logs `[chart] skipped - not yet built` if it doesn't
 3. The crop-types layer (existing) can be given a `chart:` stanza as a dry-run validation without writing any chart computation code
 
 Plans:
+
 - [ ] TBD (run /gsd-plan-phase 9 to break down)
 
 ### Phase 10: Wire up "Add for comparison" button to a real two-column LL comparison layout
@@ -377,17 +438,32 @@ Plans:
 **Plans:** 6 plans
 
 **Context (captured 2026-07-27, promoted from backlog 999.2 on 2026-07-27):**
+
 - The "Add for comparison" button in the bottom right is currently a placeholder with no behaviour
 - On click it should open a small menu listing the LL names
 - Selecting an LL switches the layout to two columns (one per LL)
 - Each column shows a stacked view of KPIs, maps, charts, and text
 
 Plans:
+**Wave 1**
+
 - [ ] 10-01-PLAN.md — i18n comparison strings (EN+DE) plus StatPanel maxColumns/showEmptyState and BarChart minHeightWhenEmpty props
 - [ ] 10-02-PLAN.md — lift useLayerState into LLDetail (drop slug from remount keys) and make header LL pills carry/swap the ?compare= partner
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
 - [ ] 10-03-PLAN.md — parse, validate and silently strip ?compare=; add the dismiss hook, the ComparePicker dropdown and the wired CompareCTA
+
+**Wave 3** *(blocked on Wave 2 completion)*
+
 - [ ] 10-04-PLAN.md — ComparisonColumn + LayoutCompare two-column grid with one shared LayerTabs row and one shared scroll container
+
+**Wave 4** *(blocked on Wave 3 completion)*
+
 - [ ] 10-05-PLAN.md — ComparisonBar replacing the A/B switcher, with change-partner, swap-sides and exit navigation
+
+**Wave 5** *(blocked on Wave 4 completion)*
+
 - [ ] 10-06-PLAN.md — full automated gate, D-01..D-29 evidence table, and blocking bilingual human verification
 
 ## Backlog
@@ -399,6 +475,7 @@ Plans:
 **Plans:** 0 plans
 
 Plans:
+
 - [ ] TBD (promote with /gsd:review-backlog when ready)
 
 ---

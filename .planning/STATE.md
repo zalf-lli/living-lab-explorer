@@ -3,11 +3,11 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: ready_to_plan
-last_updated: "2026-07-27T12:37:55.729Z"
+last_updated: "2026-07-27T13:39:49.554Z"
 progress:
   total_phases: 15
   completed_phases: 8
-  total_plans: 39
+  total_plans: 45
   completed_plans: 29
   percent: 53
 ---
@@ -36,19 +36,31 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 | 6 | Add land cover map | Complete (2026-07-26) — 5/5 plans, 4 waves, D-01..D-24 evidence recorded, bilingual checkpoint approved |
 | 7 | Add BORIS land value maps as spatial layer for socio-economic tab | Planned (2026-07-27) — 9 plans, 7 waves, 2 checkpoints, verified ✓ (0 blockers, warnings fixed) |
 | 9 | Chart Data Contract | Not planned yet (2026-07-27) |
-| 10 | Two-column LL comparison view | Context gathered (2026-07-27) — 29 decisions locked, ready to plan |
+| 10 | Two-column LL comparison view | Planned (2026-07-27) — 6 plans, 5 waves, 1 checkpoint, verified ✓ (0 blockers, 4 warnings) |
 
 ## Active Work
 
-**Phase 10 context gathered (2026-07-27).** Seven gray areas discussed, 29 decisions locked in
-`.planning/phases/10-add-for-comparison-button-opens-ll-menu-and-switches-to-two-/10-CONTEXT.md`.
-The comparison view is a `?compare=<slug>` param on the existing `/ll/:slug` route (no new route),
-with one shared layer-tab row driving two columns, a comparison bar replacing the A/B switcher, and
-each column a compact `LayoutStacked` reusing every existing component. The one structural refactor
-is lifting `useLayerState` out of the remount-keyed layout components so the active tab survives LL
-swaps (D-09). Per-column map legends are a correctness requirement, not styling — Phase 7 D-09 locks
-BORIS to per-LL quantile scales. Depends on Phase 9 (chart data contract). Next:
-`/gsd:plan-phase 10`.
+**Phase 10 is planned and ready to execute (2026-07-27).** 6 plans across 5 waves turn the
+placeholder "Add for comparison" button into a real two-column comparison. The view is a
+`?compare=<slug>` param on the existing `/ll/:slug` route (no new route), with one shared layer-tab
+row driving two columns, a comparison bar replacing the A/B switcher, and each column a compact
+`LayoutStacked` reusing every existing component. `app/src/pages/LLDetail.jsx` is the hot file, so
+plans `10-02` → `10-03` → `10-04` → `10-05` are strictly serialized across waves 2-5; only wave 1
+(`10-01` i18n/StatPanel/BarChart props, `10-02` state lift + header) parallelizes. Wave 5 (`10-06`)
+closes with a blocking bilingual human-verification checkpoint plus a D-01..D-29 evidence table.
+The one structural refactor is lifting `useLayerState` out of the remount-keyed layout components so
+the active tab survives LL swaps (D-09). Per-column map legends are a correctness requirement, not
+styling — Phase 7 D-09 locks BORIS to per-LL quantile scales.
+
+Planning surfaced two real defects: `Header` is rendered outside `<Routes>` (`App.jsx:27`) so its
+`useParams()` returns `{}` and the active-pill highlight is dead code (fixed in `10-02` via
+`useLocation()`); and `bySlug` is built with `Object.fromEntries`, so `?compare=__proto__` resolves
+truthy — mitigated in `10-03` by an own-property `partnerCandidate.slug === compareSlug` identity
+check. Plan-checker found 0 blockers and 4 informational warnings; the notable one is that
+`ROADMAP.md` declares Phase 10 `Depends on: Phase 9`, but Phase 9 is not planned and Phases 7-8 are
+not merged into this branch — the D-10 empty-state design degrades gracefully under exactly that
+partial-completeness condition, so the plans still reach the Phase 10 goal. Reconcile the
+ROADMAP/STATE sequencing when Phase 9 lands. Next: `/gsd:execute-phase 10`.
 
 **Phase 7 is planned and ready to execute (2026-07-27).** 9 plans across 7 waves cover the BORIS
 (Bodenrichtwert) land-value choropleth for the Socio-economic tab, built from live Brandenburg
