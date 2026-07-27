@@ -109,6 +109,18 @@ None - no external service configuration required.
 - Threat mitigations verified: `grep -c dangerouslySetInnerHTML` returns 0 for both `StatPanel.jsx` and `BarChart.jsx`; `maxColumns` is only ever consumed inside `Math.min(fields.length, maxColumns)` with no user-controlled input path yet; `app/package.json`/`app/package-lock.json` are unchanged (no new dependencies introduced)
 - No blockers for plans 10-02 through 10-06
 
+## Self-Check: PASSED
+
+- FOUND: app/src/i18n.js
+- FOUND: app/src/components/StatPanel.jsx
+- FOUND: app/src/components/BarChart.jsx
+- FOUND: .planning/phases/10-add-for-comparison-button-opens-ll-menu-and-switches-to-two-/10-01-SUMMARY.md
+- FOUND: .planning/phases/10-add-for-comparison-button-opens-ll-menu-and-switches-to-two-/deferred-items.md
+- FOUND commit: 09fa890 (Task 1)
+- FOUND commit: be15f7a (Task 2)
+- FOUND commit: 7d6bc35 (Task 2 fix)
+- FOUND commit: ecb4f5d (Task 3)
+
 ---
 *Phase: 10-add-for-comparison-button-opens-ll-menu-and-switches-to-two-*
 *Completed: 2026-07-27*
