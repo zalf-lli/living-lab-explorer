@@ -64,6 +64,8 @@ const resources = {
         sourceRegionalstatistik: 'Source: Regionalstatistik.de, table {{tableId}}, retrieved {{date}}',
         viewSource: 'View source',
         sourcesToggle: 'Sources',
+        compareEmptyTitle: 'No KPI data yet',
+        compareEmptyBody: 'This Living Lab does not have statistics for this tab yet.',
         errorTitle: 'Statistics are temporarily unavailable.',
         errorBody: 'Reload the page - if this keeps happening, the data source may be temporarily unreachable.',
       },
@@ -166,6 +168,8 @@ const resources = {
       },
       barChart: {
         source: 'Source: placeholder data - {{unit}}',
+        compareEmptyTitle: 'No chart data yet',
+        compareEmptyBody: 'This Living Lab does not have chart data for this tab yet.',
       },
       textBlock: {
         placeholder: 'Narrative text placeholder - landscape context, research focus, key challenges',
@@ -223,6 +227,12 @@ const resources = {
         compareBody: 'Secondary feature - select any two LLs to view side-by-side metrics',
         compareAction: 'Compare',
         compareCompactAction: 'Add for comparison',
+        comparePrefix: 'Comparing',
+        comparePickerTitle: 'Compare with',
+        compareSwap: '⇄ Swap sides',
+        compareSwapAria: 'Swap comparison sides',
+        compareExit: '✕ Exit comparison',
+        compareChangePartnerAria: 'Change comparison partner',
         contactManager: 'Contact Regional Network Manager',
         contactManagerSubject: 'Enquiry about Living Lab {{name}}',
       },
@@ -274,6 +284,9 @@ const resources = {
         sourceRegionalstatistik: 'Quelle: Regionalstatistik.de, Tabelle {{tableId}}, abgerufen am {{date}}',
         viewSource: 'Quelle ansehen',
         sourcesToggle: 'Quellen',
+        compareEmptyTitle: 'Noch keine KPI-Daten',
+        compareEmptyBody:
+          'Fuer dieses Living Lab liegen in diesem Reiter noch keine Statistiken vor.',
         errorTitle: 'Statistiken sind voruebergehend nicht verfuegbar.',
         errorBody: 'Seite neu laden - falls das Problem bestehen bleibt, ist die Datenquelle moeglicherweise voruebergehend nicht erreichbar.',
       },
@@ -376,6 +389,9 @@ const resources = {
       },
       barChart: {
         source: 'Quelle: Platzhalterdaten - {{unit}}',
+        compareEmptyTitle: 'Noch keine Diagrammdaten',
+        compareEmptyBody:
+          'Fuer dieses Living Lab liegen in diesem Reiter noch keine Diagrammdaten vor.',
       },
       textBlock: {
         placeholder: 'Textplatzhalter - Landschaftskontext, Forschungsfokus, zentrale Herausforderungen',
@@ -433,6 +449,12 @@ const resources = {
         compareBody: 'Sekundaere Funktion - zwei Living Labs fuer einen Seitenvergleich auswaehlen',
         compareAction: 'Vergleichen',
         compareCompactAction: 'Zum Vergleich hinzufuegen',
+        comparePrefix: 'Vergleich:',
+        comparePickerTitle: 'Vergleichen mit',
+        compareSwap: '⇄ Seiten tauschen',
+        compareSwapAria: 'Vergleichsseiten tauschen',
+        compareExit: '✕ Vergleich beenden',
+        compareChangePartnerAria: 'Vergleichspartner aendern',
         contactManager: 'Regionales Netzwerkmanagement kontaktieren',
         contactManagerSubject: 'Anfrage zum Reallabor {{name}}',
       },
