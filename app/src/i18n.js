@@ -110,14 +110,14 @@ const resources = {
       },
       charts: {
         agriculture: {
-          title: 'Land Use / Cover',
+          title: 'Crop Type Composition',
           unit: '% area',
           bars: {
-            arableLand: 'Arable land',
-            forest: 'Forest',
-            grassland: 'Grassland',
-            settlement: 'Settlement',
-            water: 'Water',
+            winterWheat: 'Winter wheat',
+            maize: 'Maize',
+            winterBarley: 'Winter barley',
+            sugarBeet: 'Sugar beet',
+            otherCrops: 'Other crops',
           },
         },
         climate: {
@@ -151,6 +151,17 @@ const resources = {
             from10To50: '10-50 ha',
             from50To200: '50-200 ha',
             over200: '> 200 ha',
+          },
+        },
+        landscape: {
+          title: 'Land Cover Distribution',
+          unit: '% area',
+          bars: {
+            cropland: 'Cropland',
+            forest: 'Forest',
+            grassland: 'Grassland',
+            settlement: 'Settlement',
+            water: 'Water',
           },
         },
       },
@@ -311,14 +322,14 @@ const resources = {
       },
       charts: {
         agriculture: {
-          title: 'Landnutzung / Bedeckung',
+          title: 'Anbauverteilung',
           unit: '% Flaeche',
           bars: {
-            arableLand: 'Ackerland',
-            forest: 'Wald',
-            grassland: 'Gruenland',
-            settlement: 'Siedlung',
-            water: 'Wasser',
+            winterWheat: 'Winterweizen',
+            maize: 'Mais',
+            winterBarley: 'Wintergerste',
+            sugarBeet: 'Zuckerrueben',
+            otherCrops: 'Sonstige Kulturen',
           },
         },
         climate: {
@@ -352,6 +363,17 @@ const resources = {
             from10To50: '10-50 ha',
             from50To200: '50-200 ha',
             over200: '> 200 ha',
+          },
+        },
+        landscape: {
+          title: 'Landbedeckungsverteilung',
+          unit: '% Flaeche',
+          bars: {
+            cropland: 'Ackerland',
+            forest: 'Wald',
+            grassland: 'Gruenland',
+            settlement: 'Siedlung',
+            water: 'Wasser',
           },
         },
       },
