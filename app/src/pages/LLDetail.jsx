@@ -26,6 +26,8 @@ export function LLDetail({ bySlug, loading }) {
     setSearchParams(next, { replace: true })
   }
 
+  const [layer, setLayer] = useLayerState()
+
   if (loading) {
     return <LoadingCard>{t('llDetail.loading')}</LoadingCard>
   }
@@ -39,7 +41,11 @@ export function LLDetail({ bySlug, loading }) {
     <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 60px)' }}>
       <LayoutSwitcher layout={layout} onChange={setLayout} />
       <div style={{ flex: 1, overflow: 'hidden' }}>
-        {layout === 'A' ? <LayoutSplit key={`A-${ll.slug}`} ll={ll} /> : <LayoutStacked key={`B-${ll.slug}`} ll={ll} />}
+        {layout === 'A' ? (
+          <LayoutSplit key="A" ll={ll} layer={layer} setLayer={setLayer} />
+        ) : (
+          <LayoutStacked key="B" ll={ll} layer={layer} setLayer={setLayer} />
+        )}
       </div>
     </div>
   )
@@ -110,9 +116,8 @@ function useLayerState() {
   return [layer, setLayer]
 }
 
-function LayoutSplit({ ll }) {
+function LayoutSplit({ ll, layer, setLayer }) {
   const { t } = useTranslation()
-  const [layer, setLayer] = useLayerState()
   return (
     <div
       style={{
@@ -216,9 +221,8 @@ function LayoutSplit({ ll }) {
   )
 }
 
-function LayoutStacked({ ll }) {
+function LayoutStacked({ ll, layer, setLayer }) {
   const { t } = useTranslation()
-  const [layer, setLayer] = useLayerState()
   return (
     <div style={{ overflowY: 'auto', height: '100%', background: C.bg }}>
       <div
