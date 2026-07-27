@@ -110,14 +110,14 @@ const resources = {
       },
       charts: {
         agriculture: {
-          title: 'Land Use / Cover',
+          title: 'Crop Type Composition',
           unit: '% area',
           bars: {
-            arableLand: 'Arable land',
-            forest: 'Forest',
-            grassland: 'Grassland',
-            settlement: 'Settlement',
-            water: 'Water',
+            winterWheat: 'Winter wheat',
+            maize: 'Maize',
+            winterBarley: 'Winter barley',
+            sugarBeet: 'Sugar beet',
+            otherCrops: 'Other crops',
           },
         },
         climate: {
@@ -322,14 +322,14 @@ const resources = {
       },
       charts: {
         agriculture: {
-          title: 'Landnutzung / Bedeckung',
+          title: 'Anbauverteilung',
           unit: '% Flaeche',
           bars: {
-            arableLand: 'Ackerland',
-            forest: 'Wald',
-            grassland: 'Gruenland',
-            settlement: 'Siedlung',
-            water: 'Wasser',
+            winterWheat: 'Winterweizen',
+            maize: 'Mais',
+            winterBarley: 'Wintergerste',
+            sugarBeet: 'Zuckerrueben',
+            otherCrops: 'Sonstige Kulturen',
           },
         },
         climate: {

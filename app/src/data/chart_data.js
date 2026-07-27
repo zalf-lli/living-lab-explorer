@@ -5,11 +5,11 @@
 export const CHART_DATA = {
   agriculture: {
     bars: [
-      { key: 'arableLand', v: 58, c: '#c2e077' },
-      { key: 'forest', v: 22, c: '#276d4e' },
-      { key: 'grassland', v: 14, c: '#83d2af' },
-      { key: 'settlement', v: 4, c: '#b5ad9e' },
-      { key: 'water', v: 2, c: '#8ffffc' },
+      { key: 'winterWheat', v: 28, c: '#c2e077' },
+      { key: 'maize', v: 20, c: '#005754' },
+      { key: 'winterBarley', v: 14, c: '#9bc72d' },
+      { key: 'sugarBeet', v: 10, c: '#bb3f11' },
+      { key: 'otherCrops', v: 28, c: '#3da5d9' },
     ],
   },
   climate: {
