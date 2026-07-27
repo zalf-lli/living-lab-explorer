@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: ready_to_plan
-last_updated: "2026-07-27T12:20:36.166Z"
+last_updated: "2026-07-27T12:37:55.729Z"
 progress:
   total_phases: 15
   completed_phases: 8
@@ -36,8 +36,19 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 | 6 | Add land cover map | Complete (2026-07-26) — 5/5 plans, 4 waves, D-01..D-24 evidence recorded, bilingual checkpoint approved |
 | 7 | Add BORIS land value maps as spatial layer for socio-economic tab | Planned (2026-07-27) — 9 plans, 7 waves, 2 checkpoints, verified ✓ (0 blockers, warnings fixed) |
 | 9 | Chart Data Contract | Not planned yet (2026-07-27) |
+| 10 | Two-column LL comparison view | Context gathered (2026-07-27) — 29 decisions locked, ready to plan |
 
 ## Active Work
+
+**Phase 10 context gathered (2026-07-27).** Seven gray areas discussed, 29 decisions locked in
+`.planning/phases/10-add-for-comparison-button-opens-ll-menu-and-switches-to-two-/10-CONTEXT.md`.
+The comparison view is a `?compare=<slug>` param on the existing `/ll/:slug` route (no new route),
+with one shared layer-tab row driving two columns, a comparison bar replacing the A/B switcher, and
+each column a compact `LayoutStacked` reusing every existing component. The one structural refactor
+is lifting `useLayerState` out of the remount-keyed layout components so the active tab survives LL
+swaps (D-09). Per-column map legends are a correctness requirement, not styling — Phase 7 D-09 locks
+BORIS to per-LL quantile scales. Depends on Phase 9 (chart data contract). Next:
+`/gsd:plan-phase 10`.
 
 **Phase 7 is planned and ready to execute (2026-07-27).** 9 plans across 7 waves cover the BORIS
 (Bodenrichtwert) land-value choropleth for the Socio-economic tab, built from live Brandenburg
