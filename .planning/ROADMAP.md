@@ -371,10 +371,10 @@ Plans:
 
 ### Phase 10: Wire up "Add for comparison" button to a real two-column LL comparison layout
 
-**Goal:** [To be planned] — turn the placeholder "Add for comparison" button into a working side-by-side comparison of two Living Labs.
+**Goal:** Turn the placeholder "Add for comparison" button into a working side-by-side comparison of two Living Labs: clicking it opens a menu of LL names, and selecting one switches /ll/:slug into a two-column ?compare= view where each column stacks that LL's KPIs, map, chart and text under one shared layer-tab row.
 **Requirements**: TBD
 **Depends on:** Phase 9 (the comparison columns stack KPIs, maps and charts, so every map layer and the chart data contract must exist first)
-**Plans:** 0 plans
+**Plans:** 6 plans
 
 **Context (captured 2026-07-27, promoted from backlog 999.2 on 2026-07-27):**
 - The "Add for comparison" button in the bottom right is currently a placeholder with no behaviour
@@ -383,7 +383,12 @@ Plans:
 - Each column shows a stacked view of KPIs, maps, charts, and text
 
 Plans:
-- [ ] TBD (run /gsd-plan-phase 10 to break down)
+- [ ] 10-01-PLAN.md — i18n comparison strings (EN+DE) plus StatPanel maxColumns/showEmptyState and BarChart minHeightWhenEmpty props
+- [ ] 10-02-PLAN.md — lift useLayerState into LLDetail (drop slug from remount keys) and make header LL pills carry/swap the ?compare= partner
+- [ ] 10-03-PLAN.md — parse, validate and silently strip ?compare=; add the dismiss hook, the ComparePicker dropdown and the wired CompareCTA
+- [ ] 10-04-PLAN.md — ComparisonColumn + LayoutCompare two-column grid with one shared LayerTabs row and one shared scroll container
+- [ ] 10-05-PLAN.md — ComparisonBar replacing the A/B switcher, with change-partner, swap-sides and exit navigation
+- [ ] 10-06-PLAN.md — full automated gate, D-01..D-29 evidence table, and blocking bilingual human verification
 
 ## Backlog
 
