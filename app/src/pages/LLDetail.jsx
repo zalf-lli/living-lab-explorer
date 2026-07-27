@@ -1,4 +1,4 @@
-import { lazy, startTransition, Suspense, useState } from 'react'
+import { lazy, startTransition, Suspense, useEffect, useMemo, useState } from 'react'
 import { useParams, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { C } from '../theme.js'
@@ -27,6 +27,44 @@ export function LLDetail({ bySlug, loading }) {
   }
 
   const [layer, setLayer] = useLayerState()
+
+  const compareSlug = searchParams.get('compare')
+  const partnerCandidate = compareSlug ? bySlug?.[compareSlug] : null
+  // T-10-06: bySlug is built with Object.fromEntries, so inherited-property lookups
+  // (`__proto__`, `constructor`, `toString`, ...) all resolve truthy. Only accept a
+  // candidate whose own `slug` matches the requested value.
+  const partner =
+    partnerCandidate && partnerCandidate.slug === compareSlug && compareSlug !== slug
+      ? partnerCandidate
+      : null
+  // `Boolean(partner)` (isComparing) is intentionally not extracted as a standalone binding
+  // here — this plan does not yet branch rendering on it (the two-column branch arrives in
+  // plan 04); re-derive it there from `partner` to avoid an unused-variable lint error.
+  const compareOptions = useMemo(
+    () =>
+      Object.values(bySlug ?? {})
+        .filter((x) => x.slug !== slug)
+        .sort((a, b) => a.order - b.order),
+    [bySlug, slug]
+  )
+
+  const setCompare = (nextSlug) => {
+    const next = new URLSearchParams(searchParams)
+    next.set('compare', nextSlug)
+    setSearchParams(next)
+  }
+
+  // D-03: an unknown or self-referential ?compare= value is silently stripped, not
+  // surfaced as an error. Stripping the URL is the file's one legitimate side effect
+  // (not derived render state), unlike the useMemo-derived values above.
+  useEffect(() => {
+    if (loading || !bySlug) return
+    if (!compareSlug) return
+    if (partner) return
+    const next = new URLSearchParams(searchParams)
+    next.delete('compare')
+    setSearchParams(next, { replace: true })
+  }, [loading, bySlug, compareSlug, partner]) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (loading) {
     return <LoadingCard>{t('llDetail.loading')}</LoadingCard>
