@@ -303,6 +303,10 @@ Plans:
 **Depends on:** Phase 6
 **Plans:** 0 plans
 
+**Candidate WFS sources (from user, 2026-07-27, not yet validated):**
+- Hessen (BORIS Hessen): https://opendata.hessen.de/dataset/boris-hessen/resource/68f9e223-f56d-4c53-bd74-fb49f835c843
+- Brandenburg: https://geoportal.brandenburg.de/gs-json/xml?fileid=2e9a50ae-c1be-4c1f-817a-aef79d1d89a7
+
 Plans:
 - [ ] TBD (run /gsd-plan-phase 7 to break down)
 
