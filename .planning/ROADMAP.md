@@ -369,6 +369,22 @@ Plans:
 Plans:
 - [ ] TBD (run /gsd-plan-phase 9 to break down)
 
+### Phase 10: Wire up "Add for comparison" button to a real two-column LL comparison layout
+
+**Goal:** [To be planned] — turn the placeholder "Add for comparison" button into a working side-by-side comparison of two Living Labs.
+**Requirements**: TBD
+**Depends on:** Phase 9 (the comparison columns stack KPIs, maps and charts, so every map layer and the chart data contract must exist first)
+**Plans:** 0 plans
+
+**Context (captured 2026-07-27, promoted from backlog 999.2 on 2026-07-27):**
+- The "Add for comparison" button in the bottom right is currently a placeholder with no behaviour
+- On click it should open a small menu listing the LL names
+- Selecting an LL switches the layout to two columns (one per LL)
+- Each column shows a stacked view of KPIs, maps, charts, and text
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 10 to break down)
+
 ## Backlog
 
 ### Phase 999.1: Find real data sources for 4 curated Destatis KPI fields with no Destatis-family source (BACKLOG)
@@ -376,21 +392,6 @@ Plans:
 **Goal:** [Captured for future planning]
 **Requirements:** TBD
 **Plans:** 0 plans
-
-Plans:
-- [ ] TBD (promote with /gsd:review-backlog when ready)
-
-### Phase 999.2: Wire up "Add for comparison" button to a real two-column LL comparison layout (BACKLOG)
-
-**Goal:** [Captured for future planning]
-**Requirements:** TBD
-**Plans:** 0 plans
-
-Context captured:
-- The "Add for comparison" button in the bottom right is currently a placeholder with no behaviour
-- On click it should open a small menu listing the LL names
-- Selecting an LL switches the layout to two columns (one per LL)
-- Each column shows a stacked view of KPIs, maps, charts, and text
 
 Plans:
 - [ ] TBD (promote with /gsd:review-backlog when ready)
