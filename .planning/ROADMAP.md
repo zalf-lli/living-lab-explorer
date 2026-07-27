@@ -8,7 +8,6 @@
 | 2 | BUEK Vector Pipeline | Process the BUEK soil source through a new vector pipeline path and verify all pipeline outputs with smoke tests | PIPELINE-01, PIPELINE-02, PIPELINE-03 | no |
 | 2.1 | Soil Map Tab Integration (INSERTED) | Wire the new BUEK GeoJSON outputs into the app so each LL can render the soil layer inside the soil map tab | TBD | yes |
 | 2.2 | Soil Semantics & Translation (INSERTED) | Replace the raw German-only BUEK lookup fields with a clean bilingual soil contract derived from the SQLite database structure | TBD | yes |
-| 3 | Chart Data Contract | Define and plumb the per-source chart summary interface so future chart implementations have a clear, stable target | CHARTS-01, CHARTS-02 | no |
 | 3.1 | Data Source Research & User Validation (INSERTED) | Research candidate geodata and statistical portals with AI-assisted summaries, review them with end-users, and turn the selected data opportunities into an integration-ready backlog | TBD | no |
 | 4 | Destatis Statistics Integration | 7/7 | Complete   | 2026-07-25 |
 
@@ -121,19 +120,6 @@
 
 ---
 
-### Phase 3: Chart Data Contract
-
-**Goal:** Document the chart output JSON schema and add optional `chart:` stanza support to `sources.yaml` + `sync.py` so any layer can declare a chart script and have its output copied to `app/public/data/charts/`.
-**Requirements:** CHARTS-01, CHARTS-02
-**UI hint**: no
-
-**Success criteria:**
-1. The chart JSON schema is documented (shape, field names, types, bilingual label convention) in a location a future implementer can find without reading source code
-2. A `sources.yaml` entry with a `chart:` stanza passes `sync.py` without errors; `sync.py` logs a `[chart]` line and copies the output file if it exists, or logs `[chart] skipped - not yet built` if it doesn't
-3. The crop-types layer (existing) can be given a `chart:` stanza as a dry-run validation without writing any chart computation code
-
----
-
 ### Phase 3.1: Data Source Research & User Validation (INSERTED)
 
 **Status:** Planned (2026-06-01)
@@ -179,8 +165,8 @@
 | PIPELINE-01 | 2     | BUEK Vector Pipeline |
 | PIPELINE-02 | 2     | BUEK Vector Pipeline |
 | PIPELINE-03 | 2     | BUEK Vector Pipeline |
-| CHARTS-01   | 3     | Chart Data Contract |
-| CHARTS-02   | 3     | Chart Data Contract |
+| CHARTS-01   | 9     | Chart Data Contract |
+| CHARTS-02   | 9     | Chart Data Contract |
 
 ### Phase 4: Destatis Statistics Integration
 
@@ -310,6 +296,23 @@ Plans:
 Plans:
 - [ ] TBD (run /gsd-plan-phase 7 to break down)
 
+### Phase 9: Chart Data Contract
+
+**Goal:** Document the chart output JSON schema and add optional `chart:` stanza support to `sources.yaml` + `sync.py` so any layer can declare a chart script and have its output copied to `app/public/data/charts/`.
+**Requirements**: CHARTS-01, CHARTS-02
+**Depends on:** Phase 7 (all map layers - protected areas, land cover, BORIS land value - must be built first so charts can be produced from the finished maps)
+**Plans:** 0 plans
+
+**Note:** Formerly numbered Phase 3. Moved to the end of the roadmap (2026-07-27) because chart implementations are meant to summarize the map layers, so the contract should be defined once every map layer exists rather than speculatively up front.
+
+**Success criteria:**
+1. The chart JSON schema is documented (shape, field names, types, bilingual label convention) in a location a future implementer can find without reading source code
+2. A `sources.yaml` entry with a `chart:` stanza passes `sync.py` without errors; `sync.py` logs a `[chart]` line and copies the output file if it exists, or logs `[chart] skipped - not yet built` if it doesn't
+3. The crop-types layer (existing) can be given a `chart:` stanza as a dry-run validation without writing any chart computation code
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 9 to break down)
+
 ## Backlog
 
 ### Phase 999.1: Find real data sources for 4 curated Destatis KPI fields with no Destatis-family source (BACKLOG)
@@ -317,6 +320,21 @@ Plans:
 **Goal:** [Captured for future planning]
 **Requirements:** TBD
 **Plans:** 0 plans
+
+Plans:
+- [ ] TBD (promote with /gsd:review-backlog when ready)
+
+### Phase 999.2: Wire up "Add for comparison" button to a real two-column LL comparison layout (BACKLOG)
+
+**Goal:** [Captured for future planning]
+**Requirements:** TBD
+**Plans:** 0 plans
+
+Context captured:
+- The "Add for comparison" button in the bottom right is currently a placeholder with no behaviour
+- On click it should open a small menu listing the LL names
+- Selecting an LL switches the layout to two columns (one per LL)
+- Each column shows a stacked view of KPIs, maps, charts, and text
 
 Plans:
 - [ ] TBD (promote with /gsd:review-backlog when ready)
