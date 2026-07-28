@@ -5,7 +5,15 @@ import { GeoJSON, MapContainer, TileLayer } from 'react-leaflet'
 import { useMap } from 'react-leaflet/hooks'
 import { PMTiles, leafletRasterLayer } from 'pmtiles'
 import { useGeoJSON } from '../../hooks/useGeoJSON.js'
-import { LAYER_INDEX, PROTECTED_AREAS_LEGEND, resolveLayerAsset } from '../../data/layers.js'
+import {
+  BORIS_HOVER_STYLE,
+  BORIS_NO_DATA_STYLE,
+  BORIS_RAMP,
+  BORIS_VALUE_STYLE_BASE,
+  LAYER_INDEX,
+  PROTECTED_AREAS_LEGEND,
+  resolveLayerAsset,
+} from '../../data/layers.js'
 import { LAYER_SOURCE_INDEX } from '../../data/layer_sources.js'
 import { buildMaskFeature } from '../../lib/buildMaskGeometry.js'
 import { C } from '../../theme.js'
@@ -317,6 +325,132 @@ function bindSoilTooltip(feature, layer, t, lang) {
     }
   } else if (specialType) {
     wrapper.appendChild(createTooltipRow(window.document, t('map.soilTooltip.type'), specialType))
+  }
+
+  layer.bindTooltip(wrapper, {
+    sticky: true,
+    direction: 'top',
+    opacity: 0.95,
+  })
+}
+
+// BORIS choropleth quantile bucketing (D-02, D-09): computed per Living Lab, fixed at 6 buckets.
+// No-current-value zones (D-08) are excluded from the maths, not merely from display -- locked contract.
+function computeQuantileBuckets(collection, bucketCount = 6) {
+  const features = collection?.features
+  if (!Array.isArray(features) || features.length === 0) return null
+
+  const values = []
+  for (const feature of features) {
+    const props = feature?.properties ?? {}
+    if (props.has_current_value === true && Number.isFinite(props.bodenrichtwert)) {
+      values.push(props.bodenrichtwert)
+    }
+  }
+  if (values.length === 0) return null
+
+  values.sort((a, b) => a - b)
+  const breaks = []
+  for (let i = 0; i <= bucketCount; i += 1) {
+    const index = Math.min(values.length - 1, Math.floor((i / bucketCount) * values.length))
+    breaks.push(values[index])
+  }
+  // Force the top breakpoint to the true maximum so the top bucket is closed.
+  breaks[bucketCount] = values[values.length - 1]
+  return breaks
+}
+
+// Half-open ranges [breaks[i], breaks[i+1]) with the top bucket closed on both ends.
+function getBucketIndex(value, buckets) {
+  if (!Number.isFinite(value) || !buckets) return -1
+  const bucketCount = buckets.length - 1
+  for (let i = 0; i < bucketCount; i += 1) {
+    const lo = buckets[i]
+    const hi = buckets[i + 1]
+    if (i === bucketCount - 1) {
+      if (value >= lo && value <= hi) return i
+    } else if (value >= lo && value < hi) {
+      return i
+    }
+  }
+  return -1
+}
+
+// Fill colour encodes value only (D-06) -- no border-per-usage-type, no hatching.
+function getEconomicStyle(feature, buckets) {
+  const props = feature?.properties ?? {}
+  const value = props.bodenrichtwert
+  if (props.has_current_value !== true || !Number.isFinite(value) || !buckets) {
+    return BORIS_NO_DATA_STYLE
+  }
+  const index = getBucketIndex(value, buckets)
+  if (index < 0) return BORIS_NO_DATA_STYLE
+  return { ...BORIS_VALUE_STYLE_BASE, fillColor: BORIS_RAMP[index] }
+}
+
+// D-04: exact euro-per-square-metre range per bucket, rounded for the label only -- getEconomicStyle
+// keeps using the unrounded breakpoints. Collapses adjacent buckets whose rounded label is identical
+// (UI-SPEC collapsed-bucket rule) into a single legend row, keeping the lowest bucket's colour.
+function buildEconomicLegendEntries(collection, buckets) {
+  const features = collection?.features
+  const hasNoData = Array.isArray(features) && features.some((f) => f?.properties?.has_current_value !== true)
+  if (!buckets && !hasNoData) return null
+
+  const entries = []
+  if (buckets) {
+    const bucketCount = buckets.length - 1
+    let lastLabel = null
+    for (let i = 0; i < bucketCount; i += 1) {
+      const lo = Math.round(buckets[i])
+      const hi = Math.round(buckets[i + 1])
+      const label = `${lo}-${hi} €/m²`
+      if (label !== lastLabel) {
+        entries.push({ value: `bucket-${i}`, en: label, de: label, color: BORIS_RAMP[i] })
+        lastLabel = label
+      }
+    }
+  }
+
+  if (hasNoData) {
+    entries.push({
+      value: 'no-data',
+      en: 'No current value',
+      de: 'Kein aktueller Wert',
+      color: BORIS_NO_DATA_STYLE.fillColor,
+    })
+  }
+
+  return entries
+}
+
+// D-12: exactly three tooltip rows -- current value (or no-current-value), usage type, valuation date.
+// bodenrichtwertNummer, usage_type_code, and development-status fields are provenance-only and never rendered.
+function bindEconomicTooltip(feature, layer, t, lang) {
+  const props = feature?.properties ?? {}
+  const value = props.bodenrichtwert
+  const locale = lang === 'de' ? 'de-DE' : 'en-US'
+
+  const wrapper = window.document.createElement('div')
+  wrapper.style.maxWidth = '280px'
+  wrapper.style.lineHeight = '1.35'
+
+  const hasFiniteCurrentValue = props.has_current_value === true && Number.isFinite(value)
+  const titleText = hasFiniteCurrentValue
+    ? `${Number(value).toLocaleString(locale)} €/m²`
+    : t('map.economicTooltip.noCurrentValue')
+  wrapper.appendChild(createTooltipRow(window.document, '', titleText, true))
+
+  const usageType = getLocalizedValue(props, 'usage_type', lang)
+  if (usageType) {
+    wrapper.appendChild(createTooltipRow(window.document, t('map.economicTooltip.usageType'), usageType))
+  }
+
+  if (props.stichtag) {
+    let dateText = new Date(props.stichtag).toLocaleDateString(locale)
+    if (props.has_current_value !== true) {
+      dateText += ' ' + t('map.economicTooltip.historical')
+    }
+    wrapper.appendChild(createTooltipRow(window.document, t('map.economicTooltip.valuationDate'), dateText))
   }
 
   layer.bindTooltip(wrapper, {
