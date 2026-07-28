@@ -1,5 +1,6 @@
 import { LANDUSE_LEGEND } from './landuse_legend.js'
 import { LAND_COVER_LEGEND } from './land_cover_legend.js'
+import { C } from '../theme.js'
 
 const SOIL_LEGEND = [
   { value: 'brown-soils', en: 'Brown soils', de: 'Braunerden', color: '#b88752' },
@@ -17,6 +18,17 @@ export const PROTECTED_AREAS_LEGEND = [
   { value: 'Natura 2000 SPA', en: 'Special Protection Area', de: 'Vogelschutzgebiete (VSG)', color: '#fff5b8', strokeColor: '#ffb84d', weight: 1.2, fillOpacity: 0.5 },
   { value: 'Naturschutzgebiet', en: 'Nature Reserve', de: 'Naturschutzgebiete (NSG)', color: '#c2e6c2', strokeColor: '#66aa66', weight: 1.2, fillOpacity: 0.55 },
 ]
+
+// Single source of truth for BORIS land-value styling; LLMap must import these rather than redeclare hex codes.
+// D-01/D-03 sequential ramp: teal = cheap, orange = expensive, zero newly invented ramp hues.
+export const BORIS_RAMP = [C.tealBg, C.teal, C.tealMid, C.tealLight, C.orangeDark, C.orange]
+
+// Sole exception to the zero-new-colours rule: theme.js has no neutral grey.
+// Leaflet canvas cannot render diagonal hatches, so muted fill plus dashed stroke is the locked equivalent.
+export const BORIS_NO_DATA_STYLE = { fillColor: '#d8d8d2', color: '#9a9a90', weight: 0.4, dashArray: '3,3', fillOpacity: 0.55 }
+
+export const BORIS_VALUE_STYLE_BASE = { color: 'rgba(2,35,34,0.35)', weight: 0.4, fillOpacity: 0.78 }
+export const BORIS_HOVER_STYLE = { fillOpacity: 0.92, weight: 0.7 }
 
 export const LAYERS = [
   {
@@ -36,7 +48,15 @@ export const LAYERS = [
     legendNoteKey: 'legend.soil.note',
     available: true,
   },
-  { id: 'economic', type: 'placeholder', pmtilesUrl: null, legend: null, available: true },
+  {
+    id: 'economic',
+    type: 'vector',
+    pmtilesUrl: null,
+    geojsonPathPattern: 'data/geojson/boris-{slug}.geojson',
+    legend: null,
+    legendNoteKey: 'legend.economic.note',
+    available: true,
+  },
   {
     id: 'landscape',
     type: 'raster',
