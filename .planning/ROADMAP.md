@@ -435,7 +435,7 @@ Plans:
 **Goal:** Turn the placeholder "Add for comparison" button into a working side-by-side comparison of two Living Labs: clicking it opens a menu of LL names, and selecting one switches /ll/:slug into a two-column ?compare= view where each column stacks that LL's KPIs, map, chart and text under one shared layer-tab row.
 **Requirements**: TBD
 **Depends on:** Phase 9 (the comparison columns stack KPIs, maps and charts, so every map layer and the chart data contract must exist first)
-**Plans:** 5/6 plans executed
+**Plans:** 6/6 plans complete
 
 **Context (captured 2026-07-27, promoted from backlog 999.2 on 2026-07-27):**
 
@@ -464,7 +464,7 @@ Plans:
 
 **Wave 5** *(blocked on Wave 4 completion)*
 
-- [ ] 10-06-PLAN.md — full automated gate, D-01..D-29 evidence table, and blocking bilingual human verification
+- [x] 10-06-PLAN.md — full automated gate, D-01..D-29 evidence table, and blocking bilingual human verification
 
 ## Backlog
 
