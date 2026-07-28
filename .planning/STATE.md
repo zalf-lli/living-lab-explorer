@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: ready_to_plan
-stopped_at: Completed 07-05-PLAN.md
-last_updated: "2026-07-28T11:16:31.130Z"
+stopped_at: Completed 07-06-PLAN.md
+last_updated: "2026-07-28T12:13:49.628Z"
 progress:
   total_phases: 15
   completed_phases: 9
   total_plans: 45
-  completed_plans: 40
+  completed_plans: 42
   percent: 60
 ---
 
@@ -35,7 +35,7 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 | 4 | Destatis Statistics Integration | Waves 1-2+6-7 complete; 11/17 KPIs real; Waves 3-5 ready (2026-07-25) — see Active Work |
 | 5 | Protected areas as toggleable layer | Planned (2026-07-25) — 4 plans, 3 waves, 2 checkpoints, verified ✓ |
 | 6 | Add land cover map | Complete (2026-07-26) — 5/5 plans, 4 waves, D-01..D-24 evidence recorded, bilingual checkpoint approved |
-| 7 | Add BORIS land value maps as spatial layer for socio-economic tab | Planned (2026-07-27) — 9 plans, 7 waves, 2 checkpoints, verified ✓ (0 blockers, warnings fixed) |
+| 7 | Add BORIS land value maps as spatial layer for socio-economic tab | In progress — 6/9 plans complete (07-06 executed 2026-07-28: boris_semantics.py + sources.yaml + sync.py declarative contract) |
 | 9 | Chart Data Contract | Not planned yet (2026-07-27) |
 | 10 | Two-column LL comparison view | Planned (2026-07-27) — 6 plans, 5 waves, 1 checkpoint, verified ✓ (0 blockers, 4 warnings) |
 
@@ -179,8 +179,12 @@ Phase 2.2 completed on 2026-04-30 and replaced the shallow German-only soil look
 - 2026-07-27: Phase 3 "Chart Data Contract" removed from its original slot (never started, no directory existed) and re-added as Phase 9 at the end of the roadmap, so chart implementations are defined after all map layers (Phases 5, 5.1, 6, 7) exist for charts to summarize. CHARTS-01/CHARTS-02 traceability in ROADMAP.md and REQUIREMENTS.md updated to point at Phase 9. Phases 4-7 were left unrenumbered since they are already complete/underway with directories and commit history referencing their current numbers.
 - 2026-07-27: Phase 8 added: "Add maps and stats for climate variables using CHELSA data" — climate variable maps plus summary statistics, sourced from CHELSA via the `chelsa_cmip6` Python library (https://gitlabext.wsl.ch/karger/chelsa_cmip6/). Placed in the free slot 8 (vacated when the old Phase 3 moved to 9) rather than appended as Phase 10, so it sits with the other map-layer phases and before the Phase 9 chart contract that summarizes them. Phase 9's "Depends on" updated from Phase 7 to Phase 8 accordingly.
 
+### Plan Decisions
+
+- [Phase 07, plan 06]: `boris_semantics.BR_ART_NUTZUNG` has 42 entries, not the 44 that `07-RESEARCH.md`'s prose claims — its own section 3.1 table only enumerates 42 rows; transcribed the verified 42 rather than inventing 2 more. Hessen code `LW` is deliberately excluded from `HE_ART_NUTZUNG` (falls to `UNMAPPED_USAGE` with the raw code preserved) per the `07-SPIKE.md` W-03 locked checkpoint decision, overriding `07-06-PLAN.md`'s own acceptance-criteria text which (echoing a superseded `07-RESEARCH.md` guess) said `LW` should map to the agricultural canonical pair. `semantics.recency_cutoff` in `sources.yaml` is `null` (with a new `recency_window_years: 10` key) rather than a baked-in `"2016-01-01"` literal, per the locked instruction to implement W-02 as a rolling window, not a hardcoded date. See `07-06-SUMMARY.md` Deviations for full detail.
+
 ## Session
 
-**Last session:** 2026-07-28T11:16:31.105Z
-**Stopped at:** Completed 07-05-PLAN.md
+**Last session:** 2026-07-28T12:09:35.278Z
+**Stopped at:** Completed 07-06-PLAN.md
 **Resume file:** None
