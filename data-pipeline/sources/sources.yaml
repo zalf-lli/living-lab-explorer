@@ -209,3 +209,93 @@ layers:
         naturschutzgebiet: "bfn_sch_Schutzgebiet:Naturschutzgebiete"
     output:
       geojson_pattern: "data/geojson/protected-areas-{slug}.geojson"
+
+  - id: boris
+    app_layer: economic
+    kind: vector
+    title:
+      en: "Standard land values (BORIS)"
+      de: "Bodenrichtwerte (BORIS)"
+    description:
+      en: "Standard land values (Bodenrichtwerte) for the Living Lab regions, as published by the Brandenburg and Hessen valuation committees."
+      de: "Bodenrichtwerte fuer die Living-Lab-Regionen, veroeffentlicht von den Gutachterausschuessen Brandenburg und Hessen."
+    source:
+      provider: "Brandenburg Land Survey and Geobasis Information Office (LGB) / Hessian State Office for Land Management and Geoinformation (HLBG)"
+      dataset: "BORIS (Bodenrichtwertinformationssystem) standard land values"
+      url: "https://isk.geobasis-bb.de/ows/boris_wfs"
+      license: "GeoNutzV / Kostenfreier automatisierter Abruf nach Gutachterausschusskostengesetz"
+      attribution: "Datenquelle: LGB Brandenburg / HLBG Hessen (BORIS)"
+      citation: "LGB / HLBG: BORIS Bodenrichtwertinformationssystem."
+    # Per-Living-Lab detail: every LL sits entirely within one state, so attribution is
+    # rendered per state, not as a single fixed row (07-UI-SPEC.md "Data Attribution &
+    # Info Control"). generate_layer_sources() (sync.py) passes this through unchanged
+    # into layer_sources.js as providersByState -- do not hand-copy these strings into
+    # i18n.js (Phase 5 D-05.4 precedent).
+    sources_by_state:
+      bb:
+        provider: "Brandenburg Land Survey and Geobasis Information Office (LGB)"
+        dataset: "BORIS-BB standard land values"
+        url: "https://isk.geobasis-bb.de/ows/boris_wfs"
+        license: "GeoNutzV, kostenfreier automatisierter Abruf"
+        attribution: "Landesvermessung und Geobasisinformation Brandenburg (LGB)"
+      he:
+        provider: "Hessian State Office for Land Management and Geoinformation (HLBG)"
+        dataset: "BORIS-HE standard land values"
+        url: "https://www.gds.hessen.de/wfs2/boris/cgi-bin/brw/2024/wfs"
+        license: "Kostenfreier automatisierter Abruf nach Gutachterausschusskostengesetz"
+        attribution: "Hessisches Landesamt fuer Bodenmanagement und Geoinformation (HLBG)"
+    build:
+      script: python/fetch_boris.py
+    wfs:
+      bbox_crs: "urn:ogc:def:crs:EPSG::4326"
+      count: 5000
+      max_response_bytes: 209715200
+      output_dir: data/geojson
+      cache_dir: data/_cache/boris
+      # W-01 (07-SPIKE.md, locked 2026-07-28): variant E, ~11 m coordinate precision /
+      # ~55 m simplification, accepted at the larger ~33 MB-per-LL-per-copy budget in
+      # exchange for higher geometric fidelity. Do not re-derive; transcribed as-is.
+      coordinate_precision: 0.0001
+      simplify_tolerance: 0.0005
+      states:
+        bb:
+          url: "https://isk.geobasis-bb.de/ows/boris_wfs"
+          version: "2.0.0"
+          source_crs: "EPSG:25833"
+          zone_typename: "br:BR_BodenrichtwertFlaeche"
+          value_typename: "br:BR_Bodenrichtwert"
+          geometry_property: "adv:position"
+          join: gehoertZu
+        he:
+          # Hessen's WFS is year-versioned. Live probe 2026-07-28: brw/2022/wfs and
+          # brw/2024/wfs exist; brw/2025/wfs and brw/2026/wfs both 404. This URL is the
+          # single, obvious, easily-swapped place to bump when a newer vintage is
+          # confirmed available -- change the year in this one string, nothing else.
+          url: "https://www.gds.hessen.de/wfs2/boris/cgi-bin/brw/2024/wfs"
+          version: "2.0.0"
+          source_crs: "EPSG:25832"
+          zone_typename: "boris:BR_BodenrichtwertZonal"
+          value_typename: null
+          geometry_property: "adv:position"
+          join: null
+    ll_states:
+      rheingau: he
+      north-hessian-loess: he
+      hessian-low-mountain: he
+      havellandisches-luch: bb
+      east-brandenburg: bb
+    semantics:
+      contract_version: boris-usage-semantics-v1
+      # W-02 (07-SPIKE.md, locked 2026-07-28): rolling 10-year window, not a hardcoded
+      # date literal -- max(stichtag) >= (run_year - recency_window_years)-01-01. The
+      # fetch script computes recency_cutoff fresh at run time; it is intentionally null
+      # here so a stale date is never checked into version control.
+      recency_rule: "rolling-10-year-window"
+      recency_window_years: 10
+      recency_cutoff: null
+      fallback_policy:
+        unmapped_usage: "A usage code with no canonical match falls to boris_semantics.UNMAPPED_USAGE with the raw code preserved in usage_type_code (D-11); Hessen 'LW' is deliberately included here per the 07-SPIKE.md W-03 checkpoint decision, not mapped to an invented canonical target."
+        no_current_value: "Zones without a current Stichtag under the rolling-10-year-window recency rule are still included in the output (D-08) and flagged has_current_value=false for a distinct no-data map style, never dropped."
+        translations: "Bilingual EN/DE labels come from deterministic lookup tables in data-pipeline/python/boris_semantics.py; no usage-type filtering occurs (D-05)."
+    output:
+      geojson_pattern: "data/geojson/boris-{slug}.geojson"
