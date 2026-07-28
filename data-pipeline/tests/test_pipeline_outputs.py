@@ -437,3 +437,80 @@ def test_protected_area_kpis_reach_ll_metadata() -> None:
             assert kpi["sourceHost"] == "bfn_wfs", f"{slug}.{key}: sourceHost is {kpi['sourceHost']}, expected 'bfn_wfs'"
             assert kpi["genesisTable"] is None, f"{slug}.{key}: genesisTable should be null, got {kpi['genesisTable']}"
             assert kpi["unit"] == {"en": "ha", "de": "ha"}, f"{slug}.{key}: unexpected unit {kpi['unit']}"
+
+
+# Accepted per-Living-Lab-per-copy byte budget, transcribed from the W-01 locked decision
+# in 07-SPIKE.md ("## Locked Wave-0 Decisions" -> "W-01 Geometry fidelity and size budget").
+# The 07-SPIKE.md text itself records east-brandenburg's own measured variant-E size as
+# 33,954,375 bytes immediately below the "~33 MB (33,000,000 bytes)" label, so the real
+# locked ceiling for this suite is the larger, explicitly-measured figure -- not the
+# rounded label -- to avoid a false failure on the exact number the checkpoint approved.
+BORIS_BUDGET_BYTES_PER_LL_PER_COPY = 33_954_375
+
+
+def test_boris_geojson_fixtures_exist_and_match_contract() -> None:
+    """
+    Plan 07-08: mirrors test_buek250_geojson_fixtures_exist_and_match_contract's shape --
+    existence, CRS, non-empty, and the ten-key 07-UI-SPEC.md "Runtime asset" contract --
+    plus the JSON-type and size-budget guarantees the frontend and the W-01 checkpoint
+    depend on.
+    """
+    pattern = get_layer("boris")["output"]["geojson_pattern"]
+
+    contract_keys = {
+        "bodenrichtwert",
+        "has_current_value",
+        "stichtag",
+        "usage_type_code",
+        "usage_type_en",
+        "usage_type_de",
+        "development_status_en",
+        "development_status_de",
+        "bodenrichtwertNummer",
+        "ll_slug",
+    }
+
+    for slug in LL_SLUGS:
+        path = repo_root() / pattern.format(slug=slug)
+        assert path.exists(), f"Missing GeoJSON fixture: {path}"
+
+        gdf = gpd.read_file(path)
+        assert str(gdf.crs) == "EPSG:4326", f"Unexpected CRS for {path.name}: {gdf.crs}"
+        assert len(gdf) > 0, f"Fixture has no features: {path.name}"
+
+        non_geometry_columns = set(gdf.columns) - {"geometry"}
+        assert non_geometry_columns == contract_keys, (
+            f"{path.name}: expected exactly the ten-key contract, got {sorted(non_geometry_columns)}"
+        )
+
+        assert gdf.geometry.notna().all(), f"Fixture has null geometries: {path.name}"
+        assert gdf["ll_slug"].unique().tolist() == [slug], (
+            f"{path.name}: ll_slug values must all equal {slug!r}"
+        )
+
+        with path.open("r", encoding="utf-8") as handle:
+            raw = json.load(handle)
+
+        for feature in raw["features"]:
+            props = feature["properties"]
+            assert isinstance(props["has_current_value"], bool), (
+                f"{path.name}: has_current_value must be a real bool, got {type(props['has_current_value'])}"
+            )
+            brw = props["bodenrichtwert"]
+            assert brw is None or isinstance(brw, (int, float)), (
+                f"{path.name}: bodenrichtwert must be None or a number, got {type(brw)}: {brw!r}"
+            )
+            assert not isinstance(brw, bool), f"{path.name}: bodenrichtwert must never be a bool"
+
+        assert any(f["properties"].get("usage_type_en") for f in raw["features"]), (
+            f"{path.name}: no feature has a non-null usage_type_en"
+        )
+        assert any(f["properties"].get("usage_type_de") for f in raw["features"]), (
+            f"{path.name}: no feature has a non-null usage_type_de"
+        )
+
+        size_bytes = path.stat().st_size
+        assert size_bytes <= BORIS_BUDGET_BYTES_PER_LL_PER_COPY, (
+            f"{path.name}: {size_bytes:,} bytes exceeds the W-01 budget of "
+            f"{BORIS_BUDGET_BYTES_PER_LL_PER_COPY:,} bytes (07-SPIKE.md)"
+        )
