@@ -331,7 +331,7 @@ services and shipped as static per-Living-Lab GeoJSON, with no runtime API depen
 **Requirements**: D-01 .. D-13 (from 07-CONTEXT.md) plus W-01 .. W-03 (Wave-0 decisions taken at the
 07-05 checkpoint). Phase 7 has no REQUIREMENTS.md IDs; the CONTEXT decisions are the spec, as in Phases 5 and 6.
 **Depends on:** Phase 6
-**Plans:** 9 plans, 7 waves, 2 checkpoints (1 blocking decision, 1 blocking human verification)
+**Plans:** 2/9 plans executed
 
 **WFS sources (validated live 2026-07-27 during research, superseding the user's original candidate links):**
 
@@ -373,10 +373,10 @@ services and shipped as static per-Living-Lab GeoJSON, with no runtime API depen
 
 Plans:
 
-- [ ] 07-01-PLAN.md - `boris_wfs.py` WFS 2.0 transport: fes:Intersects/gehoertZu request builders, capped
+- [x] 07-01-PLAN.md - `boris_wfs.py` WFS 2.0 transport: fes:Intersects/gehoertZu request builders, capped
       retrying HTTP, byte-sliced count extraction, per-state CRS-asserting GML reader, no-network unit tests (wave 1)
 
-- [ ] 07-02-PLAN.md - Frontend static config: `economic` placeholder to vector layer, BORIS ramp/no-data/hover
+- [x] 07-02-PLAN.md - Frontend static config: `economic` placeholder to vector layer, BORIS ramp/no-data/hover
       style exports from theme tokens, ten bilingual i18n keys (wave 1)
 
 - [ ] 07-03-PLAN.md - `probe_boris.py` spike: Hessen usage-code census, Brandenburg statewide point cache +
