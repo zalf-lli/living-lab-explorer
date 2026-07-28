@@ -177,3 +177,21 @@ unauthenticated BORIS-BB and BORIS-HE WFS endpoints already used by earlier phas
 ---
 *Phase: 07-add-boris-land-value-maps-as-spatial-layer-for-socio-economi*
 *Completed: 2026-07-28*
+
+## Self-Check: PASSED
+
+- FOUND: data/geojson/boris-east-brandenburg.geojson
+- FOUND: data/geojson/boris-havellandisches-luch.geojson
+- FOUND: data/geojson/boris-hessian-low-mountain.geojson
+- FOUND: data/geojson/boris-north-hessian-loess.geojson
+- FOUND: data/geojson/boris-rheingau.geojson
+- FOUND: app/public/data/geojson/boris-east-brandenburg.geojson
+- FOUND: app/public/data/geojson/boris-havellandisches-luch.geojson
+- FOUND: app/public/data/geojson/boris-hessian-low-mountain.geojson
+- FOUND: app/public/data/geojson/boris-north-hessian-loess.geojson
+- FOUND: app/public/data/geojson/boris-rheingau.geojson
+- FOUND: data-pipeline/tests/test_pipeline_outputs.py
+- FOUND commit: 8dddab7 (Task 1: fetch and commit source fixtures)
+- FOUND commit: 903aba0 (Task 2: publish through sync.py)
+- FOUND commit: ec7f495 (Task 3: fixture contract regression test)
+- FOUND commit: 577b7aa (SUMMARY)
