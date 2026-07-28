@@ -48,14 +48,14 @@ completed: 2026-07-28
 
 # Phase 10 Plan 06: Automated Gate + D-01..D-29 Evidence Table Summary
 
-**Full automated gate (lint/build green, format:check's only failure is the pre-existing repo-wide CRLF condition) plus a 29-row decision-by-decision evidence table covering the whole phase; Task 2 (bilingual human verification) is a blocking checkpoint owned by the orchestrator, not executed here.**
+**Full automated gate (lint/build green; the `format:check` exit 1 is a verified pre-existing repo-wide condition, not a phase-10 regression) plus a 29-row decision-by-decision evidence table covering the whole phase, closed out by an approved bilingual human verification of the two-column comparison view.**
 
 ## Performance
 
 - **Duration:** ~50 min
 - **Started:** 2026-07-28 (session start)
 - **Completed:** 2026-07-28
-- **Tasks:** 1 of 2 (Task 2 is a `checkpoint:human-verify` returned to the orchestrator, not executed by this agent)
+- **Tasks:** 2 of 2 (Task 1 by the executor; Task 2, a `checkpoint:human-verify`, resolved by the reviewer and recorded by the orchestrator)
 - **Files modified:** 0 source files (evidence-gathering only)
 
 ## Accomplishments
@@ -163,21 +163,53 @@ None — plan Task 1 executed exactly as written. Two verification-process notes
 
 None beyond the two verification-process notes above. `npm run lint` and `npm run build` both exit 0 on the phase-final tree; the dependency and untouched-file guarantees both hold.
 
+## Human verification findings
+
+**Task 2 — `checkpoint:human-verify`, `gate="blocking"` — RESOLVED**
+
+| Field | Value |
+|---|---|
+| Reviewer | Benjamin Samuel Black (project owner) |
+| Date | 2026-07-28 |
+| Dev server | `cd app && npm run dev` → http://localhost:5173/ |
+| Scope presented | All 23 steps, sections A–G, EN and DE, across all five Living Labs |
+| Verbatim response | `approved` |
+| Status | **APPROVED — no issues reported** |
+
+**Issues raised:** none. The reviewer returned an unqualified approval, so no verification step
+maps to a failed decision ID and no gap rows are recorded.
+
+**Caveats surfaced to the reviewer before sign-off** (both acknowledged, neither contested):
+
+| # | Caveat | Decision affected | Disposition |
+|---|---|---|---|
+| 1 | `npm run format:check` exits 1 (16 files). Verified pre-existing and repo-wide — 2 files are line-ending-only, 14 carry `printWidth: 100` violations, and the pre-phase-10 blobs of `Header.jsx`, `StatPanel.jsx` and `i18n.js` at `5bc5516` already failed Prettier identically. Phase 10 introduced no new formatting violation. | none (out of phase scope) | Accepted as pre-existing; repo-wide Prettier normalization remains available as separate work |
+| 2 | `grep -c "useLayerState()"` returns 2, not the plan's stated 1 — the function's own declaration line matches the same substring. One real call site at `LLDetail.jsx:31`, above the early returns. | D-09 | Not a defect; the decision's actual requirement is met and separately evidenced |
+
+**Threat-model closure:** T-10-16 (malicious shared `?compare=` link) was exercised by verification
+step 20 — `?compare=bogus`, `?compare=east-brandenburg` (self) and `?compare=__proto__` all silently
+strip with no reflected text and no crash. T-10-SC (supply chain) holds via the empty
+`package.json` / `package-lock.json` diff. T-10-17 remains accepted as documented.
+
 ## User Setup Required
 
-None for Task 1. Task 2 requires a human reviewer to run through the 23-step bilingual verification script and report back — see the checkpoint state returned to the orchestrator.
+None. Both tasks are complete.
 
 ## Next Phase Readiness
 
-- All 29 locked decisions have recorded, checkable evidence; the automated gate is green modulo the pre-existing, unrelated CRLF condition.
-- This plan is **not complete**: Task 2 (`checkpoint:human-verify`, `gate="blocking"`) still needs a human reviewer to confirm the two-column comparison view in both English and German across all five Living Labs before Phase 10 can be marked done. ROADMAP.md plan progress for `10-06` is intentionally **not** marked complete by this agent.
-- No `UNPROVEN` rows exist to specially flag to the reviewer, but the reviewer should still be told: (a) the `format:check` pre-existing-CRLF caveat above, in case they run the gate themselves, and (b) that `D-09`'s literal grep count is 2 rather than the plan's stated 1, for the documented non-defect reason.
+- All 29 locked decisions (D-01..D-29) have recorded, checkable evidence; zero `UNPROVEN` rows.
+- `npm run lint` and `npm run build` are green; the `format:check` exit 1 is a verified pre-existing
+  repo-wide condition, not a phase-10 regression.
+- Bilingual human sign-off is recorded above. **Plan 10-06 is complete, and with it Phase 10.**
+- Carried forward as optional follow-up work, not a blocker: a repo-wide Prettier + line-ending
+  normalization pass (`.gitattributes` / `core.autocrlf` plus `prettier --write`) touching ~16 files
+  that no phase-10 plan owned.
 
 ---
 *Phase: 10-add-for-comparison-button-opens-ll-menu-and-switches-to-two-*
-*Completed: 2026-07-28 (Task 1 only — Task 2 pending human verification)*
+*Completed: 2026-07-28 (Task 1 automated gate + Task 2 human verification, approved)*
 
-## Self-Check: PASSED (Task 1 only)
+## Self-Check: PASSED
 
 - FOUND: .planning/phases/10-add-for-comparison-button-opens-ll-menu-and-switches-to-two-/10-06-SUMMARY.md
 - Verified: `cd app && npm run lint` exits 0
@@ -185,4 +217,4 @@ None for Task 1. Task 2 requires a human reviewer to run through the 23-step bil
 - Verified: `git diff --stat app/package.json app/package-lock.json` prints nothing
 - Verified: `git diff --stat app/src/App.jsx app/src/components/LayerTabs.jsx app/src/components/LLMap/index.jsx app/src/components/LLBadge.jsx app/src/components/TextBlock.jsx` prints nothing
 - Verified: i18n EN/DE parity script exits 0 and prints `i18n EN/DE key parity OK`
-- Task 2 (human verification) not yet performed — this SUMMARY documents Task 1 only, per plan scope
+- Verified: Task 2 human verification performed by the reviewer and recorded verbatim under "Human verification findings" — response `approved`, no issues reported
