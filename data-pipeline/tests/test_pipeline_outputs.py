@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 
 import geopandas as gpd
+import pytest
 import yaml
 from shapely.geometry import box
 
@@ -126,6 +127,84 @@ def test_protected_areas_layer_contract_declared() -> None:
     assert "coordinate_precision" in layer["wfs"]
     assert layer["wfs"]["coordinate_precision"] in (None, 0.000001, 0.00001), \
         f"Expected coordinate_precision to be one of (None, 0.000001, 0.00001), got {layer['wfs']['coordinate_precision']}"
+
+
+def test_boris_layer_contract_declared() -> None:
+    """
+    Plan 07-06: assert the boris layer is declared with per-state WFS config, the W-01
+    tuning values, the five-slug ll_states map, and the semantics block -- mirroring
+    test_protected_areas_layer_contract_declared's shape.
+    """
+    layer = get_layer("boris")
+    assert layer["kind"] == "vector"
+    assert layer["app_layer"] == "economic"
+    assert layer["build"]["script"] == "python/fetch_boris.py"
+
+    wfs = layer["wfs"]
+    assert wfs["states"]["bb"]["url"] == "https://isk.geobasis-bb.de/ows/boris_wfs"
+    assert wfs["states"]["bb"]["source_crs"] == "EPSG:25833"
+    assert wfs["states"]["bb"]["zone_typename"] == "br:BR_BodenrichtwertFlaeche"
+    assert wfs["states"]["bb"]["value_typename"] == "br:BR_Bodenrichtwert"
+    assert wfs["states"]["he"]["url"] == "https://www.gds.hessen.de/wfs2/boris/cgi-bin/brw/2024/wfs"
+    assert wfs["states"]["he"]["source_crs"] == "EPSG:25832"
+    assert wfs["states"]["he"]["zone_typename"] == "boris:BR_BodenrichtwertZonal"
+    assert wfs["bbox_crs"] == "urn:ogc:def:crs:EPSG::4326"
+    # CRS-confusion guard (T-07-06): a future refactor must never collapse the two
+    # states' source_crs values into one shared top-level key.
+    assert "source_crs" not in wfs
+
+    assert layer["output"]["geojson_pattern"] == "data/geojson/boris-{slug}.geojson"
+
+    assert set(layer["ll_states"]) == set(LL_SLUGS)
+    assert set(layer["ll_states"].values()) <= {"bb", "he"}
+
+    semantics = layer["semantics"]
+    assert semantics["contract_version"] == "boris-usage-semantics-v1"
+    assert semantics.get("recency_rule")
+
+    sources_by_state = layer["sources_by_state"]
+    assert set(sources_by_state) == {"bb", "he"}
+    for state_entry in sources_by_state.values():
+        assert state_entry.get("provider")
+        assert state_entry.get("license")
+        assert state_entry.get("url")
+
+
+def test_boris_usage_codes_are_state_discriminated() -> None:
+    """
+    Plan 07-06: pure unit test (no network, no fixtures) proving the harmonization
+    contract -- both states' raw usage codes converge onto one canonical bilingual
+    vocabulary, and a code from one state can never resolve through the other state's
+    table (07-RESEARCH.md section 3.2 anti-pattern).
+    """
+    from boris_semantics import (
+        BR_ART_NUTZUNG,
+        ENTWICKLUNGSZUSTAND,
+        UNMAPPED_USAGE,
+        resolve_development_status,
+        resolve_usage,
+    )
+
+    assert len(BR_ART_NUTZUNG) == 42
+    assert len(ENTWICKLUNGSZUSTAND) == 10
+
+    # A Hessen code resolved under "bb" must fall to the fallback.
+    assert resolve_usage("bb", "LW")[1:] == UNMAPPED_USAGE
+
+    # A Brandenburg numeric code resolved under "he" must fall to the fallback.
+    assert resolve_usage("he", "2100")[1:] == UNMAPPED_USAGE
+
+    # A full GDI-DE codelist href resolves under "bb" to its bare code.
+    href = "https://registry.gdi-de.org/codelist/de.adv-online.gid/BR_Art_Nutzung/1100"
+    code, en, de = resolve_usage("bb", href)
+    assert code == "1100"
+    assert en == "Residential building land"
+
+    # Both alphabets converge on the same English label for the same concept.
+    assert resolve_development_status("bb", "3000")[0] == resolve_development_status("he", "E")[0]
+
+    with pytest.raises(ValueError):
+        resolve_usage("xx", "1100")
 
 
 def test_protected_areas_bbox_param_axis_order() -> None:
