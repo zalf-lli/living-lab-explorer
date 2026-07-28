@@ -401,7 +401,6 @@ function LayoutStacked({ ll, layer, setLayer, compareOptions, onPickCompare }) {
 // Compact LayoutStacked (D-16) for one column of the two-column comparison view: accent bar,
 // plain white header (LayoutSplit's chrome, minus ContactManagerButton, D-19), KPIs, map, chart
 // and two stacked text blocks. No LayerTabs (shared, D-07) and no CompareCTA (D-15).
-// eslint-disable-next-line no-unused-vars -- wired into LayoutCompare in the next task of this plan
 function ComparisonColumn({ ll, layer }) {
   const { t } = useTranslation()
   return (
@@ -504,6 +503,53 @@ function ComparisonColumn({ ll, layer }) {
       </div>
 
       <div style={{ height: 32 }} />
+    </div>
+  )
+}
+
+// Two-column comparison view (D-16, D-20, D-21): one shared LayerTabs row above a single shared
+// scroll container holding two ComparisonColumn instances side by side. No per-column scrolling,
+// no media query, no CompareCTA/LayoutSwitcher/ContactManagerButton/second LayerTabs anywhere in
+// this tree (D-07, D-15).
+// eslint-disable-next-line no-unused-vars -- wired into LLDetail's render branch in the next task of this plan
+function LayoutCompare({ llA, llB, layer, setLayer }) {
+  const { t } = useTranslation()
+  return (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
+        background: C.bg,
+        overflow: 'hidden',
+      }}
+    >
+      <div
+        style={{
+          flexShrink: 0,
+          padding: '10px 24px 6px',
+          background: C.bg,
+          borderBottom: `1px solid ${C.mutedLight}`,
+        }}
+      >
+        <LayerTabs active={layer} onChange={setLayer} />
+        <div style={{ fontSize: 11, color: 'rgba(2,35,34,0.55)', marginTop: 6 }}>
+          {t('llDetail.layerTabsHint')}
+        </div>
+      </div>
+
+      <div style={{ flex: 1, minHeight: 0, overflowY: 'auto' }}>
+        <div
+          style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, alignItems: 'start' }}
+        >
+          <div style={{ borderRight: `1.5px solid ${C.mutedLight}` }}>
+            <ComparisonColumn ll={llA} layer={layer} key={llA.slug} />
+          </div>
+          <div>
+            <ComparisonColumn ll={llB} layer={layer} key={llB.slug} />
+          </div>
+        </div>
+      </div>
     </div>
   )
 }
