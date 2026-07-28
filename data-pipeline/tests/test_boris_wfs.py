@@ -152,3 +152,18 @@ def test_parse_property_values_dedupes_in_order() -> None:
     assert parse_property_values(href_raw, "art") == [
         "https://registry.gdi-de.org/codelist/de.adv-online.gid/BR_Art_Nutzung/1100"
     ]
+
+
+def test_parse_property_values_falls_back_to_bare_member_text() -> None:
+    # Verified live 2026-07-28: BORIS-HE's GetPropertyValue response wraps each
+    # returned value directly in <wfs:member>, with no nested element carrying
+    # the requested property's local name.
+    raw = b"""
+    <wfs:ValueCollection>
+      <wfs:member>LW</wfs:member>
+      <wfs:member>W</wfs:member>
+      <wfs:member>W</wfs:member>
+    </wfs:ValueCollection>
+    """
+
+    assert parse_property_values(raw, "art") == ["LW", "W"]
