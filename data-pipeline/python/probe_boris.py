@@ -77,6 +77,58 @@ BB_ART_NUTZUNG_CODES = {
     "3140", "9998",
 }
 
+# code -> (BB's own parenthetical abbreviation, German label), from the same
+# 07-RESEARCH.md section 3.1 table. Used only to PROPOSE a W-03 canonical target for
+# each observed HE code by exact abbreviation match; this is evidence for the 07-05
+# checkpoint, not a locked decision.
+BB_ART_NUTZUNG_TABLE = {
+    "1100": ("W", "Wohnbauflaeche"),
+    "1110": ("WS", "Kleinsiedlungsgebiet"),
+    "1120": ("WR", "reines Wohngebiet"),
+    "1130": ("WA", "allgemeines Wohngebiet"),
+    "1140": ("WB", "besonderes Wohngebiet"),
+    "1200": ("M", "gemischte Baufl."),
+    "1210": ("MD", "Dorfgebiet"),
+    "1220": ("MDW", "Doerfliches Wohngebiet"),
+    "1230": ("MI", "Mischgebiet"),
+    "1240": ("MK", "Kerngebiet"),
+    "1250": ("MU", "Urbanes Gebiet"),
+    "1300": ("G", "gewerbliche Baufl."),
+    "1310": ("GE", "Gewerbegebiet"),
+    "1320": ("GI", "Industriegebiet"),
+    "1400": ("S", "Sonderbaufl."),
+    "1410": ("SE", "Sondergebiet fuer Erholung"),
+    "1420": ("SO", "sonstige Sondergebiete"),
+    "1500": ("GB", "Baufl. fuer Gemeinbedarf"),
+    "2000": ("L", "landwirtschaftliche Fl."),
+    "2100": ("A", "Acker"),
+    "2200": ("GR", "Gruenland"),
+    "2300": ("EGA", "Erwerbsgartenbaufl."),
+    "2400": ("SK", "Anbaufl. f. Sonderkulturen"),
+    "2500": ("WG", "Weingarten"),
+    "2600": ("KUP", "Kurzumtriebsplantagen, Agroforst"),
+    "2700": ("UN", "Unland, Geringstland, Bergweide, Moor"),
+    "2800": ("F", "forstwirtschaftliche Fl."),
+    "3010": ("PG", "private Gruenfl."),
+    "3020": ("KGA", "Kleingartenfl."),
+    "3030": ("FGA", "Freizeitgartenfl."),
+    "3040": ("CA", "Campingplatz"),
+    "3050": ("SPO", "Sportfl."),
+    "3060": ("SG", "sonstige private Fl."),
+    "3070": ("FH", "Friedhof"),
+    "3080": ("WF", "Wasserfl."),
+    "3090": ("FP", "Flughafen, Flugplaetze"),
+    "3100": ("PP", "private Parkplaetze"),
+    "3110": ("LG", "Lagerfl."),
+    "3120": ("AB", "Abbauland"),
+    "3130": ("GF", "Gemeinbedarfsfl., kein Bauland"),
+    "3140": ("SN", "Sondernutzungsfl."),
+    "9998": (None, "Nach Quellenlage nicht zu spezifizieren"),
+}
+BB_ABBREVIATION_TO_CODE = {
+    abbrev: code for code, (abbrev, _label) in BB_ART_NUTZUNG_TABLE.items() if abbrev
+}
+
 
 def cache_dir() -> Path:
     path = resolve("data/_cache/boris")
@@ -217,11 +269,21 @@ def _count_property_occurrences(raw: bytes, local_name: str) -> Counter:
 
 
 def _find_column(frame: gpd.GeoDataFrame, keyword: str) -> str | None:
-    """Find a GML-derived column name containing keyword (case-insensitive substring)."""
+    """Find a GML-derived column name matching keyword: exact match, then suffix, then substring.
+
+    Prefers an exact (case-insensitive) match first. This matters concretely for
+    HE's zone schema, which carries both a plain `art` column (nutzung.art) and an
+    unrelated `bodenrichtwertArt` column -- a suffix-only match would have picked
+    `bodenrichtwertArt` before `art` depending on column order, silently returning
+    the wrong field.
+    """
     keyword_lower = keyword.lower()
     candidates = [c for c in frame.columns if keyword_lower in c.lower()]
     if not candidates:
         return None
+    exact = [c for c in candidates if c.lower() == keyword_lower]
+    if exact:
+        return exact[0]
     exact_suffix = [c for c in candidates if c.lower().endswith(keyword_lower)]
     return exact_suffix[0] if exact_suffix else candidates[0]
 
@@ -665,8 +727,468 @@ def probe_bb_values(refresh: bool, ll_filter: str | None = None) -> dict:
     return {"per_ll": per_ll, "point_index_size": len(point_index)}
 
 
+# Exact server-side fes:Intersects zone counts per Living Lab, verified live and
+# recorded in 07-RESEARCH.md section 5.1 (2026-07-27). Used only to extrapolate the
+# two un-measured HE Living Labs' projected byte size from the measured rheingau
+# per-feature average; the three probed LLs use their own live-measured counts.
+KNOWN_ZONE_COUNTS = {
+    "rheingau": 1668,
+    "north-hessian-loess": 3435,
+    "hessian-low-mountain": 9531,
+    "havellandisches-luch": 19083,
+    "east-brandenburg": 30018,
+}
+
+VOLUME_PROBE_SLUGS = ["east-brandenburg", "havellandisches-luch", "rheingau"]
+
+CONTRACT_KEYS = [
+    "bodenrichtwert",
+    "has_current_value",
+    "stichtag",
+    "usage_type_code",
+    "usage_type_en",
+    "usage_type_de",
+    "development_status_en",
+    "development_status_de",
+    "bodenrichtwertNummer",
+    "ll_slug",
+]
+
+# Placeholder bilingual labels of realistic length -- the real harmonization table
+# lands in plan 07-06 (D-11). Label length, not correctness, drives byte count here.
+_PLACEHOLDER_USAGE_EN = "Residential building land"
+_PLACEHOLDER_USAGE_DE = "Wohnbauflaeche"
+_PLACEHOLDER_DEV_EN = "Building-ready land"
+_PLACEHOLDER_DEV_DE = "Bauland"
+
+# variant letter -> (use 10-key contract?, gpd.clip()?, coordinate_precision, simplify_tolerance)
+VARIANT_SPECS: dict[str, dict] = {
+    "N": {"contract": False, "clip": False, "precision": None, "simplify": None},
+    "A": {"contract": True, "clip": True, "precision": 0.000001, "simplify": None},
+    "B": {"contract": True, "clip": True, "precision": 0.00001, "simplify": None},
+    "C": {"contract": True, "clip": True, "precision": 0.00001, "simplify": 0.0001},
+    "D": {"contract": True, "clip": True, "precision": 0.0001, "simplify": 0.0001},
+    "E": {"contract": True, "clip": True, "precision": 0.0001, "simplify": 0.0005},
+    "F": {"contract": True, "clip": True, "precision": 0.0005, "simplify": 0.001},
+}
+
+BUDGET_BYTES_PER_LL_PER_COPY = 8_000_000
+BUDGET_ANCHOR_LARGEST_LL_BYTES = 7_582_567  # protected-areas-east-brandenburg.geojson
+BUDGET_ANCHOR_TREE_MB = 29
+
+
+def _materialize_contract_frame(
+    zone_frame: gpd.GeoDataFrame, slug: str, state: str, point_index: dict
+) -> gpd.GeoDataFrame:
+    """Build the 10-key frontend property contract frame (07-UI-SPEC.md "Runtime asset")."""
+    contract = gpd.GeoDataFrame(
+        {"geometry": list(zone_frame.geometry.values)}, crs=zone_frame.crs
+    )
+
+    if state == "bb":
+        assert "gml_id" in zone_frame.columns, f"{slug}: zone frame missing gml_id join key"
+        bodenrichtwert, stichtag, usage_code, brw_nummer, has_current = [], [], [], [], []
+        for oid in zone_frame["gml_id"]:
+            recs = point_index.get(oid, [])
+            ms = _max_stichtag(recs) if recs else None
+            if not recs or ms is None:
+                bodenrichtwert.append(None)
+                stichtag.append(None)
+                usage_code.append(None)
+                brw_nummer.append(None)
+                has_current.append(False)
+                continue
+            current = next((r for r in recs if r.get("stichtag") == ms), recs[-1])
+            bodenrichtwert.append(current.get("bodenrichtwert"))
+            stichtag.append(ms)
+            usage_code.append(current.get("nutzung_art"))
+            brw_nummer.append(current.get("bodenrichtwertNummer"))
+            # Placeholder recency rule (R3, >=2024-01-01) for byte-count measurement
+            # only -- the actual rule is a 07-05 checkpoint decision (W-02), not
+            # fixed by this spike.
+            has_current.append(ms >= "2024-01-01")
+        contract["bodenrichtwert"] = bodenrichtwert
+        contract["stichtag"] = stichtag
+        contract["usage_type_code"] = usage_code
+        contract["bodenrichtwertNummer"] = brw_nummer
+        contract["has_current_value"] = has_current
+    else:
+        brw_col = _find_column(zone_frame, "bodenrichtwert")
+        stichtag_col = _find_column(zone_frame, "stichtag")
+        art_col = _find_column(zone_frame, "art")
+        brwnr_col = _find_column(zone_frame, "bodenrichtwertNummer")
+        contract["bodenrichtwert"] = zone_frame[brw_col].tolist() if brw_col else None
+        contract["stichtag"] = zone_frame[stichtag_col].tolist() if stichtag_col else None
+        contract["usage_type_code"] = zone_frame[art_col].tolist() if art_col else None
+        contract["bodenrichtwertNummer"] = (
+            zone_frame[brwnr_col].tolist() if brwnr_col else None
+        )
+        # HE's endpoint is year-versioned (2024 vintage only) -- every record it
+        # returns is already current by construction.
+        contract["has_current_value"] = True
+
+    contract["usage_type_en"] = _PLACEHOLDER_USAGE_EN
+    contract["usage_type_de"] = _PLACEHOLDER_USAGE_DE
+    contract["development_status_en"] = _PLACEHOLDER_DEV_EN
+    contract["development_status_de"] = _PLACEHOLDER_DEV_DE
+    contract["ll_slug"] = slug
+
+    return contract[CONTRACT_KEYS + ["geometry"]]
+
+
+def _count_vertices(geom) -> int:
+    """Count coordinate pairs in a geometry, regardless of geometry type.
+
+    Uses shapely.get_coordinates rather than a Polygon-only `.exterior`/`.interiors`
+    walk: a live run against east-brandenburg's zone data surfaced at least one
+    non-Polygon geometry (a bare LineString) after clip/simplify/precision
+    processing, which the Polygon-only walk raised AttributeError on (Rule 1 bug
+    fix -- get_coordinates handles every shapely geometry type uniformly).
+    """
+    if geom is None or geom.is_empty:
+        return 0
+    from shapely import get_coordinates
+
+    return len(get_coordinates(geom))
+
+
+def _run_variant_grid(
+    slug: str, ll_geom_wgs84, zone_frame: gpd.GeoDataFrame, contract_frame: gpd.GeoDataFrame
+) -> dict:
+    """Write and measure the seven W-01 volume/fidelity variants for one Living Lab."""
+    from shapely import set_precision
+
+    spike_dir = cache_dir() / "spike"
+    spike_dir.mkdir(parents=True, exist_ok=True)
+
+    baseline_frame: gpd.GeoDataFrame | None = None
+    results: dict = {}
+
+    for letter, spec in VARIANT_SPECS.items():
+        source = contract_frame if spec["contract"] else zone_frame
+        frame = source.copy()
+
+        if spec["clip"]:
+            mask = gpd.GeoDataFrame(
+                {"ll_slug": [slug]}, geometry=[ll_geom_wgs84], crs="EPSG:4326"
+            )
+            frame = gpd.clip(frame, mask)
+
+        if spec["simplify"] is not None:
+            frame.geometry = frame.geometry.simplify(spec["simplify"], preserve_topology=True)
+
+        if spec["precision"] is not None:
+            frame.geometry = frame.geometry.apply(
+                lambda g, p=spec["precision"]: set_precision(g, grid_size=p)
+            )
+            frame.geometry = frame.geometry.make_valid()
+
+        empty_count = int(frame.geometry.is_empty.sum())
+        frame_nonempty = frame[~frame.geometry.is_empty].copy()
+
+        if len(frame_nonempty) == 0:
+            print(f"  [warn] variant {letter} ({slug}): all geometries empty after processing, skipping")
+            results[letter] = None
+            continue
+
+        if not frame_nonempty.geometry.is_valid.all():
+            frame_nonempty.geometry = frame_nonempty.geometry.make_valid()
+        if not frame_nonempty.geometry.is_valid.all():
+            print(f"  [warn] variant {letter} ({slug}): invalid geometry could not be repaired, skipping")
+            results[letter] = None
+            continue
+
+        output_path = spike_dir / f"boris-spike-{slug}-{letter}.geojson"
+        payload = frame_nonempty.to_json(drop_id=True, sort_keys=True)
+        output_path.write_text(payload + "\n", encoding="utf-8")
+
+        size_bytes = output_path.stat().st_size
+        vertex_count = int(frame_nonempty.geometry.apply(_count_vertices).sum())
+
+        if letter == "N":
+            baseline_frame = frame_nonempty
+
+        area_change = None
+        if baseline_frame is not None and letter != "N":
+            common_idx = frame_nonempty.index.intersection(baseline_frame.index)
+            if len(common_idx):
+                # Reproject to a metric CRS (EPSG:3035, ETRS89-extended LAEA Europe)
+                # for the area comparison only -- geographic-CRS (degree) area has
+                # no physical meaning and geopandas warns accordingly. The written
+                # GeoJSON stays in EPSG:4326; only this fidelity ratio uses 3035.
+                base_areas = (
+                    baseline_frame.loc[common_idx].geometry.to_crs("EPSG:3035").area
+                )
+                var_areas = (
+                    frame_nonempty.loc[common_idx].geometry.to_crs("EPSG:3035").area
+                )
+                denom = base_areas.replace(0, pd.NA)
+                rel_change = ((var_areas - base_areas).abs() / denom).dropna()
+                if len(rel_change):
+                    area_change = float(rel_change.mean())
+
+        results[letter] = {
+            "bytes": size_bytes,
+            "mb": size_bytes / (1024 * 1024),
+            "feature_count": len(frame_nonempty),
+            "vertex_count": vertex_count,
+            "empty_count": empty_count,
+            "mean_abs_rel_area_change_vs_N": area_change,
+        }
+        area_str = f"{area_change:.4f}" if area_change is not None else "n/a"
+        print(
+            f"  variant {letter}: {size_bytes:,} bytes ({size_bytes / 1024 / 1024:.2f} MB), "
+            f"{len(frame_nonempty)} features, {vertex_count} vertices, {empty_count} empty, "
+            f"mean_abs_rel_area_change_vs_N={area_str}"
+        )
+
+    return results
+
+
 def probe_volume(refresh: bool, ll_filter: str | None = None) -> dict:
-    raise NotImplementedError("volume probe is implemented in plan 07-03 Task 3")
+    """Task 3: measure the seven W-01 variants and write 07-SPIKE.md with all evidence."""
+    print("[volume] gathering W-03 (Hessen codes) and W-02 (BB Stichtag) evidence for the report...")
+    he_results = probe_he_codes(False)
+    bb_results = probe_bb_values(False)
+
+    boundaries = load_boundaries()
+    target_slugs = [s for s in VOLUME_PROBE_SLUGS if not ll_filter or s == ll_filter]
+    if ll_filter and not target_slugs:
+        raise RuntimeError(f"--ll {ll_filter!r} is not one of the three volume-probe Living Labs")
+
+    point_index = None
+    volume_results: dict[str, dict] = {}
+
+    for slug in target_slugs:
+        print(f"\n[volume] {slug}")
+        state = LL_STATES[slug]
+        geom = _geom_for_slug(boundaries, slug)
+        zone_frame = fetch_zones(slug, geom, state, refresh)
+
+        if state == "bb":
+            if point_index is None:
+                point_index = build_bb_point_index(refresh)
+            contract_frame = _materialize_contract_frame(zone_frame, slug, state, point_index)
+        else:
+            contract_frame = _materialize_contract_frame(zone_frame, slug, state, {})
+
+        variants = _run_variant_grid(slug, geom, zone_frame, contract_frame)
+        volume_results[slug] = {
+            "zone_count": len(zone_frame),
+            "variants": variants,
+        }
+
+    print("\n[volume] Projected repository impact (2x, both data/geojson/ and app/public/ copies):")
+    projected: dict[str, float] = {}
+    for letter in VARIANT_SPECS:
+        total_bytes = 0
+        measured_total = 0
+        for slug in VOLUME_PROBE_SLUGS:
+            if slug not in volume_results:
+                continue
+            variant = volume_results[slug]["variants"].get(letter)
+            if variant is None:
+                continue
+            total_bytes += variant["bytes"]
+            measured_total += 1
+
+        rheingau_variant = volume_results.get("rheingau", {}).get("variants", {}).get(letter)
+        if rheingau_variant is not None:
+            rheingau_count = volume_results["rheingau"]["zone_count"]
+            bytes_per_feature = rheingau_variant["bytes"] / rheingau_count if rheingau_count else 0
+            for unmeasured_slug in ("north-hessian-loess", "hessian-low-mountain"):
+                if unmeasured_slug in volume_results:
+                    continue
+                total_bytes += bytes_per_feature * KNOWN_ZONE_COUNTS[unmeasured_slug]
+
+        projected[letter] = total_bytes * 2
+        print(f"  variant {letter}: projected total {projected[letter] / 1024 / 1024:.1f} MB")
+
+    write_spike_report(he_results, bb_results, volume_results, projected)
+
+    return {"volume": volume_results, "projected_repo_impact_bytes": projected}
+
+
+def _propose_w03_target(code: str) -> tuple[str, str]:
+    """Propose a canonical BB target for an observed HE code by exact abbreviation match.
+
+    Returns (proposed_target_text, status) where status is "mapped" or "UNMAPPABLE".
+    This is a proposal for the 07-05 checkpoint, not a locked decision.
+    """
+    bb_code = BB_ABBREVIATION_TO_CODE.get(code)
+    if bb_code is None:
+        return "UNMAPPABLE", "UNMAPPABLE"
+    _abbrev, label_de = BB_ART_NUTZUNG_TABLE[bb_code]
+    return f"{bb_code} ({label_de})", "mapped"
+
+
+def write_spike_report(
+    he_results: dict, bb_results: dict, volume_results: dict, projected: dict
+) -> Path:
+    """Write 07-SPIKE.md with the W-01/W-02/W-03 evidence for the 07-05 checkpoint."""
+    lines: list[str] = []
+    run_date = date.today().isoformat()
+
+    lines.append("# Phase 7 Wave-0 Spike")
+    lines.append("")
+    lines.append(
+        f"Run date: {run_date}. Every number below was measured live against the "
+        "BORIS-BB and BORIS-HE WFS services by `data-pipeline/python/probe_boris.py` "
+        "(plan 07-03), except where explicitly marked as an extrapolation."
+    )
+    lines.append("")
+
+    # --- W-01 ---
+    lines.append("## W-01 Volume and geometry fidelity")
+    lines.append("")
+    for slug in VOLUME_PROBE_SLUGS:
+        if slug not in volume_results:
+            continue
+        lines.append(f"### {slug} ({volume_results[slug]['zone_count']} zones)")
+        lines.append("")
+        lines.append(
+            "| Variant | Bytes | MB | Features | Vertices | Empty | Mean abs rel area change vs N |"
+        )
+        lines.append("|---|---:|---:|---:|---:|---:|---:|")
+        for letter in VARIANT_SPECS:
+            variant = volume_results[slug]["variants"].get(letter)
+            if variant is None:
+                lines.append(f"| {letter} | skipped | skipped | - | - | - | - |")
+                continue
+            area = (
+                f"{variant['mean_abs_rel_area_change_vs_N']:.4f}"
+                if variant["mean_abs_rel_area_change_vs_N"] is not None
+                else "n/a"
+            )
+            lines.append(
+                f"| {letter} | {variant['bytes']:,} | {variant['mb']:.2f} | "
+                f"{variant['feature_count']} | {variant['vertex_count']} | "
+                f"{variant['empty_count']} | {area} |"
+            )
+        lines.append("")
+
+    lines.append(
+        "### Projected repository impact (both `data/geojson/` and `app/public/` copies, "
+        "measured LLs summed + the two un-measured HE LLs extrapolated from rheingau's "
+        "per-feature average size)"
+    )
+    lines.append("")
+    lines.append("| Variant | Projected total bytes | Projected total MB |")
+    lines.append("|---|---:|---:|")
+    for letter in VARIANT_SPECS:
+        total = projected.get(letter, 0)
+        lines.append(f"| {letter} | {total:,.0f} | {total / 1024 / 1024:.1f} |")
+    lines.append("")
+
+    lines.append(
+        f"Budget anchor: the largest per-LL vector GeoJSON committed today is "
+        f"`protected-areas-east-brandenburg.geojson` at {BUDGET_ANCHOR_LARGEST_LL_BYTES:,} "
+        f"bytes ({BUDGET_ANCHOR_LARGEST_LL_BYTES / 1024 / 1024:.1f} MiB); the whole "
+        f"`data/geojson/` tree is ~{BUDGET_ANCHOR_TREE_MB} MB; every file in that tree is "
+        "committed twice."
+    )
+    lines.append("")
+
+    eb_variants = volume_results.get("east-brandenburg", {}).get("variants", {})
+    qualifying = [
+        letter
+        for letter, v in eb_variants.items()
+        if v is not None and v["bytes"] <= BUDGET_BYTES_PER_LL_PER_COPY
+    ]
+    if qualifying:
+        lines.append(
+            f"Variants meeting a <={BUDGET_BYTES_PER_LL_PER_COPY:,} byte "
+            f"(<=8 MB) per-LL-per-copy budget for east-brandenburg: "
+            f"{', '.join(qualifying)}."
+        )
+    else:
+        lines.append(
+            f"No measured variant meets a <={BUDGET_BYTES_PER_LL_PER_COPY:,} byte "
+            "(<=8 MB) per-LL-per-copy budget for east-brandenburg; a structural change "
+            "(per-LL PMTiles for the two Brandenburg LLs, or a larger accepted budget) "
+            "would be required to fit within it."
+        )
+    lines.append("")
+
+    # --- W-02 ---
+    lines.append("## W-02 has_current_value recency threshold")
+    lines.append("")
+    bb_per_ll = bb_results.get("per_ll", {})
+    if bb_per_ll:
+        lines.append("| Rule | " + " | ".join(bb_per_ll.keys()) + " | hessen (all HE LLs) |")
+        lines.append("|---|" + "---:|" * (len(bb_per_ll) + 1))
+        for rule in ("R1", "R2", "R3"):
+            row = [f"{bb_per_ll[slug]['rule_pcts'][rule]:.1f}%" for slug in bb_per_ll]
+            lines.append(f"| {rule} | " + " | ".join(row) + " | 0.0% |")
+        lines.append("")
+        lines.append(
+            "Hessen is 0% by construction: the year-versioned `/2024/wfs` endpoint only "
+            "ever returns the 2024 vintage, so every HE zone is current under every rule."
+        )
+        lines.append("")
+
+        for slug, data in bb_per_ll.items():
+            lines.append(f"### {slug} max(stichtag).year histogram (matched zones only)")
+            lines.append("")
+            lines.append("| Year | Zones |")
+            lines.append("|---:|---:|")
+            for year, count in sorted(data["year_histogram"].items()):
+                lines.append(f"| {year} | {count} |")
+            lines.append("")
+    else:
+        lines.append("(no Brandenburg Living Labs probed)")
+        lines.append("")
+
+    # --- W-03 ---
+    lines.append("## W-03 Hessen usage-code vocabulary")
+    lines.append("")
+    union_art = he_results.get("union_art", {})
+    lines.append("| HE code | Occurrences (3 Hessen LLs) | Proposed canonical target |")
+    lines.append("|---|---:|---|")
+    items = union_art.items() if isinstance(union_art, dict) else union_art.most_common()
+    for code, count in sorted(items, key=lambda kv: -kv[1]):
+        target, _status = _propose_w03_target(code)
+        lines.append(f"| {code} | {count} | {target} |")
+    lines.append("")
+
+    union_ez = he_results.get("union_entwicklungszustand", {})
+    lines.append("### entwicklungszustand union (3 Hessen LLs)")
+    lines.append("")
+    lines.append("| Code | Occurrences | In expected {B,R,E,LF,SF}? |")
+    lines.append("|---|---:|---|")
+    ez_items = union_ez.items() if isinstance(union_ez, dict) else union_ez.most_common()
+    for code, count in sorted(ez_items, key=lambda kv: -kv[1]):
+        flag = "yes" if code in EXPECTED_ENTWICKLUNGSZUSTAND_HE else "UNEXPECTED"
+        lines.append(f"| {code} | {count} | {flag} |")
+    lines.append("")
+
+    # --- Open items ---
+    lines.append("## Open items for the checkpoint")
+    lines.append("")
+    lines.append(
+        "1. Which W-01 volume/fidelity variant (or a structural alternative such as "
+        "per-LL PMTiles for the two Brandenburg Living Labs) to lock for the committed "
+        "BORIS GeoJSON output, given the measured per-LL-per-copy byte budget above."
+    )
+    lines.append(
+        "2. Which W-02 recency rule (R1 relative, R2 >=2022-01-01, or R3 >=2024-01-01) "
+        "sets `has_current_value`, given the measured false-percentage per rule per "
+        "Brandenburg Living Lab above."
+    )
+    lines.append(
+        "3. Which proposed W-03 HE-to-canonical usage-code mappings to confirm or "
+        "adjust, and how to handle any UNMAPPABLE HE code (for example `LW`, which "
+        "does not exactly match any BB abbreviation)."
+    )
+    lines.append("")
+
+    content = "\n".join(lines) + "\n"
+    output_path = resolve(
+        ".planning/phases/07-add-boris-land-value-maps-as-spatial-layer-for-socio-economi/07-SPIKE.md"
+    )
+    output_path.write_text(content, encoding="utf-8")
+    print(f"\n[volume] wrote {output_path}")
+    return output_path
 
 
 def build_arg_parser() -> argparse.ArgumentParser:
