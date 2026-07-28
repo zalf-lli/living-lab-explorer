@@ -1,5 +1,5 @@
 import { lazy, startTransition, Suspense, useEffect, useMemo, useRef, useState } from 'react'
-import { useParams, useSearchParams } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { C } from '../theme.js'
 import { LLBadge } from '../components/LLBadge.jsx'
@@ -17,6 +17,7 @@ const LAYOUT_OPTIONS = [{ id: 'A' }, { id: 'B' }]
 export function LLDetail({ bySlug, loading }) {
   const { t } = useTranslation()
   const { slug } = useParams()
+  const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
   const layoutParam = (searchParams.get('layout') || 'A').toUpperCase()
   const layout = layoutParam === 'B' ? 'B' : 'A'
@@ -74,9 +75,37 @@ export function LLDetail({ bySlug, loading }) {
     return <LoadingCard>{t('llDetail.unknown', { slug })}</LoadingCard>
   }
 
+  // D-06: the former partner becomes the route slug (left column); the former primary becomes
+  // ?compare=. No ?side= param, no ordering state — the URL always reads left-to-right the way
+  // the page looks. ?layout rides along in the cloned params untouched.
+  const handleSwap = () => {
+    const next = new URLSearchParams(searchParams)
+    next.set('compare', ll.slug)
+    navigate({ pathname: `/ll/${partner.slug}`, search: next.toString() })
+  }
+
+  // Strips only ?compare= (no `replace`, so Back re-enters comparison symmetrically with how
+  // setCompare pushes on entry); ?layout survives (D-02).
+  const handleExit = () => {
+    const next = new URLSearchParams(searchParams)
+    next.delete('compare')
+    setSearchParams(next)
+  }
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 60px)' }}>
-      <LayoutSwitcher layout={layout} onChange={setLayout} />
+      {isComparing ? (
+        <ComparisonBar
+          llA={ll}
+          llB={partner}
+          options={compareOptions}
+          onPick={setCompare}
+          onSwap={handleSwap}
+          onExit={handleExit}
+        />
+      ) : (
+        <LayoutSwitcher layout={layout} onChange={setLayout} />
+      )}
       <div style={{ flex: 1, overflow: 'hidden' }}>
         {isComparing ? (
           <LayoutCompare key="C" llA={ll} llB={partner} layer={layer} setLayer={setLayer} />
@@ -159,6 +188,140 @@ function LayoutSwitcher({ layout, onChange }) {
           )
         })}
       </div>
+    </div>
+  )
+}
+
+// Replaces LayoutSwitcher's DOM slot while comparing (D-02/D-14/D-15). A row of distinct
+// actions (hint label, 2 name buttons sharing one picker, swap, exit) rather than a toggle
+// group, so plain buttons with individual aria-labels are correct instead of LayoutSwitcher's
+// role="group"/aria-pressed idiom.
+function ComparisonBar({ llA, llB, options, onPick, onSwap, onExit }) {
+  const { t } = useTranslation()
+  const [pickerOpen, setPickerOpen] = useState(false)
+  const pickerRef = useDismissOnOutside(pickerOpen, () => setPickerOpen(false))
+
+  const nameButtonStyle = {
+    display: 'flex',
+    alignItems: 'center',
+    gap: 8,
+    padding: '4px 12px',
+    borderRadius: 999,
+    background: C.white,
+    border: `1px solid ${C.mutedLight}`,
+    color: C.teal,
+    fontSize: 12,
+    fontWeight: 700,
+    lineHeight: 1.2,
+    fontFamily: 'inherit',
+    cursor: 'pointer',
+  }
+
+  return (
+    <div
+      style={{
+        background: C.bg,
+        borderBottom: `1px solid ${C.mutedLight}`,
+        padding: '8px 24px',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'flex-end',
+        gap: 8,
+        flexWrap: 'wrap',
+      }}
+    >
+      <span style={{ fontSize: 12, fontWeight: 400, color: 'rgba(2,35,34,0.45)', lineHeight: 1.3 }}>
+        {t('llDetail.comparePrefix')}
+      </span>
+
+      <div
+        ref={pickerRef}
+        style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 8 }}
+      >
+        <button
+          type="button"
+          aria-label={t('llDetail.compareChangePartnerAria')}
+          aria-expanded={pickerOpen}
+          onClick={() => setPickerOpen((open) => !open)}
+          style={nameButtonStyle}
+        >
+          <span
+            style={{
+              width: 8,
+              height: 8,
+              borderRadius: '50%',
+              background: llA.outlineColor,
+              border: '1px solid rgba(2,35,34,0.15)',
+              display: 'inline-block',
+              flexShrink: 0,
+            }}
+          />
+          {llA.name}
+        </button>
+        <span
+          aria-hidden="true"
+          style={{ fontSize: 12, fontWeight: 400, color: 'rgba(2,35,34,0.45)', lineHeight: 1.2 }}
+        >
+          ↔
+        </span>
+        <button
+          type="button"
+          aria-label={t('llDetail.compareChangePartnerAria')}
+          aria-expanded={pickerOpen}
+          onClick={() => setPickerOpen((open) => !open)}
+          style={nameButtonStyle}
+        >
+          <span
+            style={{
+              width: 8,
+              height: 8,
+              borderRadius: '50%',
+              background: llB.outlineColor,
+              border: '1px solid rgba(2,35,34,0.15)',
+              display: 'inline-block',
+              flexShrink: 0,
+            }}
+          />
+          {llB.name}
+        </button>
+        {pickerOpen ? (
+          <ComparePicker
+            options={options}
+            align="right"
+            onPick={(pickedSlug) => {
+              setPickerOpen(false)
+              onPick(pickedSlug)
+            }}
+          />
+        ) : null}
+      </div>
+
+      <button
+        type="button"
+        aria-label={t('llDetail.compareSwapAria')}
+        onClick={onSwap}
+        style={{
+          ...nameButtonStyle,
+          background: 'transparent',
+          border: `1px solid ${C.orange}`,
+          color: C.orange,
+        }}
+      >
+        {t('llDetail.compareSwap')}
+      </button>
+
+      <button
+        type="button"
+        onClick={onExit}
+        style={{
+          ...nameButtonStyle,
+          background: C.white,
+          border: `1px solid ${C.mutedLight}`,
+          color: C.teal,
+        }}
+      >
+        {t('llDetail.compareExit')}
+      </button>
     </div>
   )
 }
