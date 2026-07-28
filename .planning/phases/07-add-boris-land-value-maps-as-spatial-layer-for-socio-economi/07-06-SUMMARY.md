@@ -131,3 +131,12 @@ None - no external service configuration required. This plan writes no GeoJSON o
 ---
 *Phase: 07-add-boris-land-value-maps-as-spatial-layer-for-socio-economi*
 *Completed: 2026-07-28*
+
+## Self-Check: PASSED
+
+- FOUND: data-pipeline/python/boris_semantics.py
+- FOUND: .planning/phases/07-add-boris-land-value-maps-as-spatial-layer-for-socio-economi/07-06-SUMMARY.md
+- FOUND commit: 025e39e (Task 1)
+- FOUND commit: 4ffd88e (Task 2)
+- FOUND commit: a8a5b52 (Task 3)
+- FOUND commit: e369aee (SUMMARY)
