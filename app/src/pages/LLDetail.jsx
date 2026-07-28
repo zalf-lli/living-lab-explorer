@@ -1,5 +1,5 @@
 import { lazy, startTransition, Suspense, useEffect, useMemo, useRef, useState } from 'react'
-import { useParams, useSearchParams } from 'react-router-dom'
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { C } from '../theme.js'
 import { LLBadge } from '../components/LLBadge.jsx'
@@ -17,6 +17,7 @@ const LAYOUT_OPTIONS = [{ id: 'A' }, { id: 'B' }]
 export function LLDetail({ bySlug, loading }) {
   const { t } = useTranslation()
   const { slug } = useParams()
+  const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
   const layoutParam = (searchParams.get('layout') || 'A').toUpperCase()
   const layout = layoutParam === 'B' ? 'B' : 'A'
@@ -74,9 +75,37 @@ export function LLDetail({ bySlug, loading }) {
     return <LoadingCard>{t('llDetail.unknown', { slug })}</LoadingCard>
   }
 
+  // D-06: the former partner becomes the route slug (left column); the former primary becomes
+  // ?compare=. No ?side= param, no ordering state — the URL always reads left-to-right the way
+  // the page looks. ?layout rides along in the cloned params untouched.
+  const handleSwap = () => {
+    const next = new URLSearchParams(searchParams)
+    next.set('compare', ll.slug)
+    navigate({ pathname: `/ll/${partner.slug}`, search: next.toString() })
+  }
+
+  // Strips only ?compare= (no `replace`, so Back re-enters comparison symmetrically with how
+  // setCompare pushes on entry); ?layout survives (D-02).
+  const handleExit = () => {
+    const next = new URLSearchParams(searchParams)
+    next.delete('compare')
+    setSearchParams(next)
+  }
+
   return (
     <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 60px)' }}>
-      <LayoutSwitcher layout={layout} onChange={setLayout} />
+      {isComparing ? (
+        <ComparisonBar
+          llA={ll}
+          llB={partner}
+          options={compareOptions}
+          onPick={setCompare}
+          onSwap={handleSwap}
+          onExit={handleExit}
+        />
+      ) : (
+        <LayoutSwitcher layout={layout} onChange={setLayout} />
+      )}
       <div style={{ flex: 1, overflow: 'hidden' }}>
         {isComparing ? (
           <LayoutCompare key="C" llA={ll} llB={partner} layer={layer} setLayer={setLayer} />
