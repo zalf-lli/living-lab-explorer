@@ -162,3 +162,124 @@ Hessen is 0% by construction: the year-versioned `/2024/wfs` endpoint only ever 
 2. Which W-02 recency rule (R1 relative, R2 >=2022-01-01, or R3 >=2024-01-01) sets `has_current_value`, given the measured false-percentage per rule per Brandenburg Living Lab above.
 3. Which proposed W-03 HE-to-canonical usage-code mappings to confirm or adjust, and how to handle any UNMAPPABLE HE code (for example `LW`, which does not exactly match any BB abbreviation).
 
+## Locked Wave-0 Decisions
+
+### W-01 Geometry fidelity and size budget
+
+**Chosen option:** `w01-raise-budget` (W-01 B — accept a larger per-Living-Lab budget in exchange for
+higher geometric fidelity), variant **E**.
+
+- `coordinate_precision`: **0.0001** decimal degrees (~11 m)
+- `simplify_tolerance`: **0.0005** decimal degrees (~55 m)
+- Accepted per-Living-Lab-per-copy byte budget: **~33 MB (33,000,000 bytes)**
+- Measured east-brandenburg size at variant E: **33,954,375 bytes (32.38 MB)**, 29,049 of 30,095
+  features surviving, 1,046 geometries collapsing to empty, mean abs rel area change 0.1217
+- Measured havellandisches-luch at E: 21,824,138 bytes (20.81 MB)
+- Measured rheingau at E: 1,193,697 bytes (1.14 MB)
+- Projected total repository impact (all 5 Living Labs x both committed copies, `data/geojson/` +
+  `app/public/data/geojson/`): **132,282,661 bytes (126.2 MB)**
+- Output format: **GeoJSON for all five Living Labs.** No re-plan of 07-06..07-09 is required.
+
+**Rationale:**
+- There is no backend server; the app is served statically from GitHub Pages, so GitHub file/repo size
+  limits are the binding constraint, not a server-side storage budget.
+- `w01-fit-budget` (fit an 8 MB/LL/copy budget) is **not achievable** — no measured variant meets it for
+  east-brandenburg; the smallest, variant F, is 24.55 MB.
+- `w01-structural` (per-LL PMTiles for the two Brandenburg Living Labs) was **rejected**: its premise is
+  false for this vector data. `data-pipeline/python/build_pmtiles.py` builds *raster* PMTiles via
+  rasterio/`rio`; `app/src/components/LLMap/index.jsx` imports `leafletRasterLayer` and the app has no
+  vector-tile renderer (no maplibre-gl, no protomaps-leaflet in `app/package.json`); `tippecanoe` is not
+  installed and has no official Windows build. Raster tiles also carry no per-feature attributes, which
+  would break the D-12 tooltip, the client-side quantile bucketing, and the data-driven legend that plan
+  07-04 already implemented.
+- Measured gzip ratio on this repo's own largest committed GeoJSON
+  (`data/geojson/protected-areas-east-brandenburg.geojson`, 7,582,567 bytes -> 2,047,526 bytes at gzip
+  -6, 3.7x) implies variant E costs roughly 8.7 MB over the wire for east-brandenburg, assuming GitHub
+  Pages gzips `.geojson`. Verify this on first deploy; pre-compress if it does not.
+- Variant E's largest single file (32.38 MB) sits below GitHub's 50 MB warning threshold and well below
+  the 100 MB hard block. `.git` is currently 541 MB against a 1 GB recommended ceiling.
+- **Deliberately out of scope for Phase 7** (tracked separately, do not implement here): `app/public/data/`
+  is a committed duplicate of `data/`, and `.github/workflows/deploy-pages.yml` never runs Python. Adding
+  a plain copy step to that workflow and gitignoring `app/public/data/` would halve every projected figure
+  above.
+
+### W-02 has_current_value recency rule
+
+**Chosen rule:** rolling 10-year window (a self-maintaining generalisation of R2/R3).
+
+- Predicate to implement: **`max(stichtag) >= (run_year - 10)-01-01`**
+- Evaluated at the 2026 run date: **`max(stichtag) >= "2016-01-01"`**
+- Stated criterion: aligning the recency bar to Hessen's vintage is not important; **maximal coverage**
+  of the map is the goal.
+- Recomputed impact (derived independently from the `max(stichtag).year` histograms above; agrees with
+  the values reported at checkpoint time, no discrepancy found):
+  - **havellandisches-luch:** 12,997 of 18,961 matched zones have `max(stichtag).year >= 2016` ->
+    **68.54% coloured / 31.46% no-current-value**.
+  - **east-brandenburg:** 19,110 of 30,095 matched zones have `max(stichtag).year >= 2016` ->
+    **63.50% coloured / 36.50% no-current-value**.
+  - **hessen (all 3 HE Living Labs):** 0% no-current-value (unchanged from the table above).
+
+**Rationale:**
+- Hessen publishes biennial WFS vintages and 2026 is NOT yet available. Live probe on 2026-07-28 of
+  `https://www.gds.hessen.de/wfs2/boris/cgi-bin/brw/{year}/wfs?service=WFS&request=GetCapabilities`
+  returned HTTP 404 for 2026 and 2025, HTTP 200 "WFS HE BORIS 2024" for 2024, and HTTP 200 "WFS HE BORIS
+  2022" for 2022. The 2026 Stichtag data visible in the Hessen geoportal is a WMS/portal view carrying no
+  per-zone attributes, so it cannot feed this choropleth.
+- Rule R1 (relative to the newest year present in each Living Lab) was rejected: Brandenburg revalues on
+  a rolling staggered cycle, so R1 would mark ~92% of Brandenburg zones as current against 0% no-data in
+  Hessen — an artifact of publication cadence, not of land values.
+
+### W-03 Hessen usage-code map
+
+All 32 cleanly-proposed HE-code rows below are approved unchanged. `LW` is deliberately UNMAPPABLE and is
+NOT given an invented canonical target; it falls to the bilingual fallback below with the raw code `LW`
+preserved in `usage_type_code`. The same fallback applies to any Hessen code not present in this table.
+
+| HE raw code | Canonical BB codelist code | EN | DE |
+|---|---|---|---|
+| W | 1100 | Residential building area | Wohnbaufläche |
+| M | 1200 | Mixed building area | Gemischte Baufläche |
+| F | 2800 | Forestry area | Forstwirtschaftliche Fläche |
+| A | 2100 | Arable land | Acker |
+| GR | 2200 | Grassland | Grünland |
+| WA | 1130 | General residential area | Allgemeines Wohngebiet |
+| G | 1300 | Commercial building area | Gewerbliche Baufläche |
+| KGA | 3020 | Allotment garden area | Kleingartenfläche |
+| MI | 1230 | Mixed-use area | Mischgebiet |
+| FGA | 3030 | Recreational garden area | Freizeitgartenfläche |
+| GB | 1500 | Public-facility building area | Baufläche für Gemeinbedarf |
+| LW | UNMAPPABLE | Unmapped usage type | Nicht zugeordneter Nutzungstyp |
+| GE | 1310 | Commercial zone | Gewerbegebiet |
+| PG | 3010 | Private green area | Private Grünfläche |
+| SO | 1420 | Other special-purpose area | Sonstige Sondergebiete |
+| MD | 1210 | Village area | Dorfgebiet |
+| FH | 3070 | Cemetery | Friedhof |
+| SPO | 3050 | Sports area | Sportfläche |
+| S | 1400 | Special building area | Sonderbaufläche |
+| SE | 1410 | Special recreational area | Sondergebiet für Erholung |
+| WR | 1120 | Pure residential area | Reines Wohngebiet |
+| GF | 3130 | Public-facility area, non-building land | Gemeinbedarfsfläche, kein Bauland |
+| GI | 1320 | Industrial zone | Industriegebiet |
+| SN | 3140 | Special-use area | Sondernutzungsfläche |
+| SG | 3060 | Other private area | Sonstige private Fläche |
+| WG | 2500 | Vineyard | Weingarten |
+| WB | 1140 | Special residential area | Besonderes Wohngebiet |
+| MK | 1240 | Core area | Kerngebiet |
+| WS | 1110 | Small settlement area | Kleinsiedlungsgebiet |
+| CA | 3040 | Campsite | Campingplatz |
+| FP | 3090 | Airport, airfields | Flughafen, Flugplätze |
+| EGA | 2300 | Commercial horticulture area | Erwerbsgartenbaufläche |
+| LG | 3110 | Storage area | Lagerfläche |
+
+Fallback statement: any Hessen code absent from this table (or explicitly `LW`) maps to
+`("Unmapped usage type", "Nicht zugeordneter Nutzungstyp")` with the raw code preserved in
+`usage_type_code`.
+
+`entwicklungszustand` needs no decision: all five observed codes (B 8642, LF 4139, SF 1823, R 84, E 48)
+fall inside the expected {B, R, E, LF, SF} set.
+
+---
+
+Checkpoint answered 2026-07-28. Plans 07-06 and 07-07 must transcribe these values rather than
+re-deriving them.
+
