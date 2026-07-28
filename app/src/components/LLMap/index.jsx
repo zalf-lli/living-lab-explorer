@@ -424,7 +424,8 @@ function buildEconomicLegendEntries(collection, buckets) {
 }
 
 // D-12: exactly three tooltip rows -- current value (or no-current-value), usage type, valuation date.
-// bodenrichtwertNummer, usage_type_code, and development-status fields are provenance-only and never rendered.
+// The zone reference number, the raw usage code, and the development-status fields are
+// provenance-only and are never rendered here.
 function bindEconomicTooltip(feature, layer, t, lang) {
   const props = feature?.properties ?? {}
   const value = props.bodenrichtwert
@@ -580,7 +581,7 @@ function InfoRow({ label, primary, provider, license, url, viewSourceLabel, lice
   )
 }
 
-function MapInfoControl({ layer, overlayIds = [] }) {
+function MapInfoControl({ layer, slug, overlayIds = [] }) {
   const { t, i18n } = useTranslation()
   const [open, setOpen] = useState(false)
   const wrapperRef = useRef(null)
@@ -588,6 +589,14 @@ function MapInfoControl({ layer, overlayIds = [] }) {
   const layerConfig = LAYER_INDEX.get(layer)
   const showLayerRow = Boolean(layerConfig?.available && layerSource)
   const showNoSourceFallback = !showLayerRow && overlayIds.every((id) => !LAYER_SOURCE_INDEX.get(id))
+
+  // T-07-11: resolve provider/license/url per Living Lab from the pipeline-generated
+  // providersByState/llStates (plan 07-06). Both fields are optional -- absent until 07-06
+  // lands and 07-09 regenerates layer_sources.js, and every other layer never carries them --
+  // so the fallback to the flat layerSource fields below is the normal path, not an error state.
+  const stateKey = layerSource?.llStates?.[slug]
+  const stateProvider = stateKey ? layerSource?.providersByState?.[stateKey] : null
+  const effectiveSource = stateProvider ? { ...layerSource, ...stateProvider } : layerSource
 
   useEffect(() => {
     if (!open) return undefined
@@ -683,9 +692,9 @@ function MapInfoControl({ layer, overlayIds = [] }) {
             <InfoRow
               label={t('map.info.dataSource')}
               primary={layerTitle}
-              provider={layerSource.provider}
-              license={layerSource.license}
-              url={layerSource.url}
+              provider={effectiveSource.provider}
+              license={effectiveSource.license}
+              url={effectiveSource.url}
               viewSourceLabel={t('map.info.viewSource')}
               licenseLabel={t('map.info.license')}
             />
@@ -1015,7 +1024,7 @@ export default function LLMap({ ll, layer, height = 300 }) {
         ) : null}
         {layerConfig?.available ? null : <ComingSoonBadge style={{ ...statusBadgeStyle('info', 48) }} />}
         <ProtectedAreasToggle active={showProtectedAreas} onToggle={() => setShowProtectedAreas((v) => !v)} />
-        <MapInfoControl layer={layer} overlayIds={showProtectedAreas ? ['protected-areas'] : []} />
+        <MapInfoControl layer={layer} slug={ll.slug} overlayIds={showProtectedAreas ? ['protected-areas'] : []} />
       </div>
       <div style={{ padding: '10px 16px', borderTop: `1px solid ${C.mutedLight}`, background: C.bg }}>
         <MapLegend
