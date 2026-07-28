@@ -331,7 +331,7 @@ services and shipped as static per-Living-Lab GeoJSON, with no runtime API depen
 **Requirements**: D-01 .. D-13 (from 07-CONTEXT.md) plus W-01 .. W-03 (Wave-0 decisions taken at the
 07-05 checkpoint). Phase 7 has no REQUIREMENTS.md IDs; the CONTEXT decisions are the spec, as in Phases 5 and 6.
 **Depends on:** Phase 6
-**Plans:** 7/9 plans executed
+**Plans:** 8/9 plans executed
 
 **WFS sources (validated live 2026-07-27 during research, superseding the user's original candidate links):**
 
@@ -394,7 +394,7 @@ Plans:
 - [x] 07-07-PLAN.md - `fetch_boris.py`: Hessen self-contained path, Brandenburg cached-join path,
       harmonize/trim/clip/simplify/round, validated sorted-key write (wave 5)
 
-- [ ] 07-08-PLAN.md - Full five-Living-Lab fetch, size-budget gate, `sync.py` publish, fixture contract
+- [x] 07-08-PLAN.md - Full five-Living-Lab fetch, size-budget gate, `sync.py` publish, fixture contract
       regression test (wave 6)
 
 - [ ] 07-09-PLAN.md - Full automated gate, four cross-file join-key checks, blocking bilingual human
