@@ -71,9 +71,15 @@ export function Header({ lls }) {
                   if (compareSlug && activeSlug) {
                     // D-04: clicked LL becomes primary and keeps comparing; if it was
                     // already the partner, the two swap sides.
-                    const nextPartner = ll.slug === compareSlug ? activeSlug : compareSlug
-                    navigate(`/ll/${ll.slug}?compare=${encodeURIComponent(nextPartner)}`)
+                    // D-02: clone the live params rather than rebuilding the query string,
+                    // so ?layout (and anything added later) rides along untouched and
+                    // exiting comparison restores the layout the user actually had.
+                    const next = new URLSearchParams(searchParams)
+                    next.set('compare', ll.slug === compareSlug ? activeSlug : compareSlug)
+                    navigate({ pathname: `/ll/${ll.slug}`, search: `?${next.toString()}` })
                   } else {
+                    // Unchanged from before this phase: a plain LL switch resets the query
+                    // string. Not in D-02's scope, which governs comparison only.
                     navigate(`/ll/${ll.slug}`)
                   }
                 }}

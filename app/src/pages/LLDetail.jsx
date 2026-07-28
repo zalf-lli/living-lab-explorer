@@ -1,4 +1,13 @@
-import { lazy, startTransition, Suspense, useEffect, useMemo, useRef, useState } from 'react'
+import {
+  lazy,
+  startTransition,
+  Suspense,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { C } from '../theme.js'
@@ -59,7 +68,10 @@ export function LLDetail({ bySlug, loading }) {
   // (not derived render state), unlike the useMemo-derived values above.
   useEffect(() => {
     if (loading || !bySlug) return
-    if (!compareSlug) return
+    // `null` means absent; `''` means present-but-empty (`?compare=`), which is just as
+    // invalid as an unknown slug and must be stripped rather than left to ride along in
+    // every cloned URL. Testing falsiness here would let the empty case through.
+    if (compareSlug === null) return
     if (partner) return
     const next = new URLSearchParams(searchParams)
     next.delete('compare')
@@ -200,6 +212,7 @@ function ComparisonBar({ llA, llB, options, onPick, onSwap, onExit }) {
   const { t } = useTranslation()
   const [pickerOpen, setPickerOpen] = useState(false)
   const pickerRef = useDismissOnOutside(pickerOpen, () => setPickerOpen(false))
+  const pickerId = useId()
 
   const nameButtonStyle = {
     display: 'flex',
@@ -241,6 +254,8 @@ function ComparisonBar({ llA, llB, options, onPick, onSwap, onExit }) {
         <button
           type="button"
           aria-label={t('llDetail.compareChangePartnerAria')}
+          aria-haspopup="menu"
+          aria-controls={pickerOpen ? pickerId : undefined}
           aria-expanded={pickerOpen}
           onClick={() => setPickerOpen((open) => !open)}
           style={nameButtonStyle}
@@ -267,6 +282,8 @@ function ComparisonBar({ llA, llB, options, onPick, onSwap, onExit }) {
         <button
           type="button"
           aria-label={t('llDetail.compareChangePartnerAria')}
+          aria-haspopup="menu"
+          aria-controls={pickerOpen ? pickerId : undefined}
           aria-expanded={pickerOpen}
           onClick={() => setPickerOpen((open) => !open)}
           style={nameButtonStyle}
@@ -286,6 +303,7 @@ function ComparisonBar({ llA, llB, options, onPick, onSwap, onExit }) {
         </button>
         {pickerOpen ? (
           <ComparePicker
+            id={pickerId}
             options={options}
             align="right"
             onPick={(pickedSlug) => {
@@ -721,11 +739,28 @@ function LayoutCompare({ llA, llB, layer, setLayer }) {
 // ComparePicker trigger in CompareCTA (this file) and the comparison bar in a later plan.
 function useDismissOnOutside(open, onClose) {
   const ref = useRef(null)
+  const triggerRef = useRef(null)
 
   useEffect(() => {
-    if (!open) return undefined
+    if (!open) {
+      triggerRef.current = null
+      return undefined
+    }
+    // Remember whichever control opened the panel so Escape can hand focus back to it
+    // rather than dropping the user on <body>. Captured only on the closed→open edge:
+    // callers pass an inline arrow as `onClose`, so this effect re-runs on every render,
+    // and an unguarded capture would overwrite the trigger with whatever row the user
+    // has since tabbed onto.
+    if (triggerRef.current === null) {
+      triggerRef.current = document.activeElement
+    }
     const onKey = (e) => {
-      if (e.key === 'Escape') onClose()
+      if (e.key !== 'Escape') return
+      const trigger = triggerRef.current
+      onClose()
+      if (trigger && typeof trigger.focus === 'function' && document.contains(trigger)) {
+        trigger.focus()
+      }
     }
     const onPointer = (e) => {
       if (!ref.current) return
@@ -745,12 +780,16 @@ function useDismissOnOutside(open, onClose) {
 // Anchored dropdown panel only — the trigger button and open state stay with the parent so the
 // same panel can be anchored to the CompareCTA button here and to the comparison-bar name
 // buttons in a later plan (D-11, D-12, D-13).
-function ComparePicker({ options, onPick, align = 'right' }) {
+function ComparePicker({ options, onPick, align = 'right', id }) {
   const { t } = useTranslation()
   const [hoveredSlug, setHoveredSlug] = useState(null)
+  const titleId = `${id}-title`
 
   return (
     <div
+      id={id}
+      role="menu"
+      aria-labelledby={titleId}
       style={{
         position: 'absolute',
         top: 'calc(100% + 8px)',
@@ -760,12 +799,16 @@ function ComparePicker({ options, onPick, align = 'right' }) {
         border: `1px solid ${C.mutedLight}`,
         borderRadius: 12,
         boxShadow: '0 8px 24px rgba(2,35,34,0.18)',
-        zIndex: 1000,
+        // Leaflet's own .leaflet-top/.leaflet-bottom control containers also sit at
+        // z-index 1000, and nothing between them and the root creates a stacking
+        // context — at a tie the later DOM node (the map) would win. Clear them.
+        zIndex: 1200,
         padding: '8px 0',
         overflow: 'hidden',
       }}
     >
       <div
+        id={titleId}
         style={{
           fontSize: 12,
           fontWeight: 700,
@@ -783,6 +826,7 @@ function ComparePicker({ options, onPick, align = 'right' }) {
           <button
             key={ll.slug}
             type="button"
+            role="menuitem"
             onClick={() => onPick(ll.slug)}
             onMouseEnter={() => setHoveredSlug(ll.slug)}
             onMouseLeave={() => setHoveredSlug(null)}
@@ -835,6 +879,7 @@ function CompareCTA({ compact = false, options, onPick }) {
   const { t } = useTranslation()
   const [pickerOpen, setPickerOpen] = useState(false)
   const pickerRef = useDismissOnOutside(pickerOpen, () => setPickerOpen(false))
+  const pickerId = useId()
 
   return (
     <div ref={pickerRef} style={{ position: 'relative' }}>
@@ -861,6 +906,8 @@ function CompareCTA({ compact = false, options, onPick }) {
         </div>
         <button
           type="button"
+          aria-haspopup="menu"
+          aria-controls={pickerOpen ? pickerId : undefined}
           aria-expanded={pickerOpen}
           onClick={() => setPickerOpen((open) => !open)}
           style={{
@@ -879,6 +926,7 @@ function CompareCTA({ compact = false, options, onPick }) {
       </div>
       {pickerOpen ? (
         <ComparePicker
+          id={pickerId}
           options={options}
           align="right"
           onPick={(pickedSlug) => {
