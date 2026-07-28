@@ -38,9 +38,7 @@ export function LLDetail({ bySlug, loading }) {
     partnerCandidate && partnerCandidate.slug === compareSlug && compareSlug !== slug
       ? partnerCandidate
       : null
-  // `Boolean(partner)` (isComparing) is intentionally not extracted as a standalone binding
-  // here — this plan does not yet branch rendering on it (the two-column branch arrives in
-  // plan 04); re-derive it there from `partner` to avoid an unused-variable lint error.
+  const isComparing = Boolean(partner)
   const compareOptions = useMemo(
     () =>
       Object.values(bySlug ?? {})
@@ -80,7 +78,9 @@ export function LLDetail({ bySlug, loading }) {
     <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 60px)' }}>
       <LayoutSwitcher layout={layout} onChange={setLayout} />
       <div style={{ flex: 1, overflow: 'hidden' }}>
-        {layout === 'A' ? (
+        {isComparing ? (
+          <LayoutCompare key="C" llA={ll} llB={partner} layer={layer} setLayer={setLayer} />
+        ) : layout === 'A' ? (
           <LayoutSplit
             key="A"
             ll={ll}
@@ -189,7 +189,13 @@ function LayoutSplit({ ll, layer, setLayer, compareOptions, onPickCompare }) {
           overflow: 'hidden',
         }}
       >
-        <div style={{ padding: '10px 16px 6px', background: C.bg, borderBottom: `1px solid ${C.mutedLight}` }}>
+        <div
+          style={{
+            padding: '10px 16px 6px',
+            background: C.bg,
+            borderBottom: `1px solid ${C.mutedLight}`,
+          }}
+        >
           <LayerTabs active={layer} onChange={setLayer} />
           <div style={{ fontSize: 11, color: 'rgba(2,35,34,0.55)', marginTop: 6 }}>
             {t('llDetail.layerTabsHint')}
@@ -324,7 +330,13 @@ function LayoutStacked({ ll, layer, setLayer, compareOptions, onPickCompare }) {
           overflow: 'hidden',
         }}
       >
-        <div style={{ padding: '12px 20px 6px', background: C.bg, borderBottom: `1px solid ${C.mutedLight}` }}>
+        <div
+          style={{
+            padding: '12px 20px 6px',
+            background: C.bg,
+            borderBottom: `1px solid ${C.mutedLight}`,
+          }}
+        >
           <LayerTabs active={layer} onChange={setLayer} />
           <div style={{ fontSize: 11, color: 'rgba(2,35,34,0.55)', marginTop: 6 }}>
             {t('llDetail.layerTabsHint')}
@@ -381,6 +393,161 @@ function LayoutStacked({ ll, layer, setLayer, compareOptions, onPickCompare }) {
 
       <div style={{ padding: '16px 32px 32px' }}>
         <CompareCTA options={compareOptions} onPick={onPickCompare} />
+      </div>
+    </div>
+  )
+}
+
+// Compact LayoutStacked (D-16) for one column of the two-column comparison view: accent bar,
+// plain white header (LayoutSplit's chrome, minus ContactManagerButton, D-19), KPIs, map, chart
+// and two stacked text blocks. No LayerTabs (shared, D-07) and no CompareCTA (D-15).
+function ComparisonColumn({ ll, layer }) {
+  const { t } = useTranslation()
+  return (
+    <div>
+      <div style={{ height: 4, background: ll.outlineColor }} />
+
+      <div
+        style={{
+          padding: '20px 24px 16px',
+          background: C.white,
+          borderBottom: `1.5px solid ${C.mutedLight}`,
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
+          <LLBadge slug={ll.slug} size="lg" />
+          <div>
+            <div style={{ fontSize: 22, fontWeight: 700, color: C.teal, lineHeight: 1.1 }}>
+              {ll.name}
+            </div>
+            <div
+              style={{
+                fontSize: 12,
+                fontWeight: 400,
+                color: C.greenMid,
+                lineHeight: 1.4,
+                marginTop: 4,
+              }}
+            >
+              {ll.tagline}
+            </div>
+            <div
+              style={{
+                fontSize: 12,
+                fontWeight: 400,
+                color: C.muted,
+                lineHeight: 1.3,
+                marginTop: 4,
+              }}
+            >
+              {ll.region}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style={{ padding: '20px 32px 0' }}>
+        <StatPanel tab={layer} ll={ll} maxColumns={2} showEmptyState />
+      </div>
+
+      <div
+        style={{
+          margin: '18px 32px 0',
+          background: C.white,
+          borderRadius: 14,
+          border: `1.5px solid ${C.mutedLight}`,
+          overflow: 'hidden',
+        }}
+      >
+        <Suspense fallback={<MapFallback />}>
+          <LLMap ll={ll} layer={layer} height={300} />
+        </Suspense>
+      </div>
+
+      <div
+        style={{
+          margin: '16px 32px 0',
+          background: C.white,
+          borderRadius: 14,
+          border: `1.5px solid ${C.mutedLight}`,
+          overflow: 'hidden',
+        }}
+      >
+        <div style={{ padding: 20 }}>
+          <BarChart layer={layer} compact minHeightWhenEmpty={150} />
+        </div>
+      </div>
+
+      <div style={{ margin: '16px 32px 0' }}>
+        <div
+          style={{
+            background: C.white,
+            borderRadius: 14,
+            padding: 20,
+            border: `1.5px solid ${C.mutedLight}`,
+            marginBottom: 16,
+          }}
+        >
+          <TextBlock title={t('llDetail.aboutLandscape')} lines={4} />
+        </div>
+        <div
+          style={{
+            background: C.white,
+            borderRadius: 14,
+            padding: 20,
+            border: `1.5px solid ${C.mutedLight}`,
+          }}
+        >
+          <TextBlock title={t('llDetail.socioEconomicContext')} lines={4} />
+        </div>
+      </div>
+
+      <div style={{ height: 32 }} />
+    </div>
+  )
+}
+
+// Two-column comparison view (D-16, D-20, D-21): one shared LayerTabs row above a single shared
+// scroll container holding two ComparisonColumn instances side by side. No per-column scrolling,
+// no media query, no CompareCTA/LayoutSwitcher/ContactManagerButton/second LayerTabs anywhere in
+// this tree (D-07, D-15).
+function LayoutCompare({ llA, llB, layer, setLayer }) {
+  const { t } = useTranslation()
+  return (
+    <div
+      style={{
+        display: 'flex',
+        flexDirection: 'column',
+        height: '100%',
+        background: C.bg,
+        overflow: 'hidden',
+      }}
+    >
+      <div
+        style={{
+          flexShrink: 0,
+          padding: '10px 24px 6px',
+          background: C.bg,
+          borderBottom: `1px solid ${C.mutedLight}`,
+        }}
+      >
+        <LayerTabs active={layer} onChange={setLayer} />
+        <div style={{ fontSize: 11, color: 'rgba(2,35,34,0.55)', marginTop: 6 }}>
+          {t('llDetail.layerTabsHint')}
+        </div>
+      </div>
+
+      <div style={{ flex: 1, minHeight: 0, overflowY: 'auto' }}>
+        <div
+          style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, alignItems: 'start' }}
+        >
+          <div style={{ borderRight: `1.5px solid ${C.mutedLight}` }}>
+            <ComparisonColumn ll={llA} layer={layer} key={llA.slug} />
+          </div>
+          <div>
+            <ComparisonColumn ll={llB} layer={layer} key={llB.slug} />
+          </div>
+        </div>
       </div>
     </div>
   )
