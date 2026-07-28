@@ -234,7 +234,10 @@ function ComparisonBar({ llA, llB, options, onPick, onSwap, onExit }) {
         {t('llDetail.comparePrefix')}
       </span>
 
-      <div ref={pickerRef} style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 8 }}>
+      <div
+        ref={pickerRef}
+        style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 8 }}
+      >
         <button
           type="button"
           aria-label={t('llDetail.compareChangePartnerAria')}
