@@ -189,7 +189,13 @@ function LayoutSplit({ ll, layer, setLayer, compareOptions, onPickCompare }) {
           overflow: 'hidden',
         }}
       >
-        <div style={{ padding: '10px 16px 6px', background: C.bg, borderBottom: `1px solid ${C.mutedLight}` }}>
+        <div
+          style={{
+            padding: '10px 16px 6px',
+            background: C.bg,
+            borderBottom: `1px solid ${C.mutedLight}`,
+          }}
+        >
           <LayerTabs active={layer} onChange={setLayer} />
           <div style={{ fontSize: 11, color: 'rgba(2,35,34,0.55)', marginTop: 6 }}>
             {t('llDetail.layerTabsHint')}
@@ -324,7 +330,13 @@ function LayoutStacked({ ll, layer, setLayer, compareOptions, onPickCompare }) {
           overflow: 'hidden',
         }}
       >
-        <div style={{ padding: '12px 20px 6px', background: C.bg, borderBottom: `1px solid ${C.mutedLight}` }}>
+        <div
+          style={{
+            padding: '12px 20px 6px',
+            background: C.bg,
+            borderBottom: `1px solid ${C.mutedLight}`,
+          }}
+        >
           <LayerTabs active={layer} onChange={setLayer} />
           <div style={{ fontSize: 11, color: 'rgba(2,35,34,0.55)', marginTop: 6 }}>
             {t('llDetail.layerTabsHint')}
@@ -382,6 +394,116 @@ function LayoutStacked({ ll, layer, setLayer, compareOptions, onPickCompare }) {
       <div style={{ padding: '16px 32px 32px' }}>
         <CompareCTA options={compareOptions} onPick={onPickCompare} />
       </div>
+    </div>
+  )
+}
+
+// Compact LayoutStacked (D-16) for one column of the two-column comparison view: accent bar,
+// plain white header (LayoutSplit's chrome, minus ContactManagerButton, D-19), KPIs, map, chart
+// and two stacked text blocks. No LayerTabs (shared, D-07) and no CompareCTA (D-15).
+// eslint-disable-next-line no-unused-vars -- wired into LayoutCompare in the next task of this plan
+function ComparisonColumn({ ll, layer }) {
+  const { t } = useTranslation()
+  return (
+    <div>
+      <div style={{ height: 4, background: ll.outlineColor }} />
+
+      <div
+        style={{
+          padding: '20px 24px 16px',
+          background: C.white,
+          borderBottom: `1.5px solid ${C.mutedLight}`,
+        }}
+      >
+        <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
+          <LLBadge slug={ll.slug} size="lg" />
+          <div>
+            <div style={{ fontSize: 22, fontWeight: 700, color: C.teal, lineHeight: 1.1 }}>
+              {ll.name}
+            </div>
+            <div
+              style={{
+                fontSize: 12,
+                fontWeight: 400,
+                color: C.greenMid,
+                lineHeight: 1.4,
+                marginTop: 4,
+              }}
+            >
+              {ll.tagline}
+            </div>
+            <div
+              style={{
+                fontSize: 12,
+                fontWeight: 400,
+                color: C.muted,
+                lineHeight: 1.3,
+                marginTop: 4,
+              }}
+            >
+              {ll.region}
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style={{ padding: '20px 32px 0' }}>
+        <StatPanel tab={layer} ll={ll} maxColumns={2} showEmptyState />
+      </div>
+
+      <div
+        style={{
+          margin: '18px 32px 0',
+          background: C.white,
+          borderRadius: 14,
+          border: `1.5px solid ${C.mutedLight}`,
+          overflow: 'hidden',
+        }}
+      >
+        <Suspense fallback={<MapFallback />}>
+          <LLMap ll={ll} layer={layer} height={300} />
+        </Suspense>
+      </div>
+
+      <div
+        style={{
+          margin: '16px 32px 0',
+          background: C.white,
+          borderRadius: 14,
+          border: `1.5px solid ${C.mutedLight}`,
+          overflow: 'hidden',
+        }}
+      >
+        <div style={{ padding: 20 }}>
+          <BarChart layer={layer} compact minHeightWhenEmpty={150} />
+        </div>
+      </div>
+
+      <div style={{ margin: '16px 32px 0' }}>
+        <div
+          style={{
+            background: C.white,
+            borderRadius: 14,
+            padding: 20,
+            border: `1.5px solid ${C.mutedLight}`,
+            marginBottom: 16,
+          }}
+        >
+          <TextBlock title={t('llDetail.aboutLandscape')} lines={4} />
+        </div>
+        <div
+          style={{
+            background: C.white,
+            borderRadius: 14,
+            padding: 20,
+            border: `1.5px solid ${C.mutedLight}`,
+          }}
+        >
+          <TextBlock title={t('llDetail.socioEconomicContext')} lines={4} />
+        </div>
+      </div>
+
+      <div style={{ height: 32 }} />
     </div>
   )
 }
