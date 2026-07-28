@@ -331,7 +331,7 @@ services and shipped as static per-Living-Lab GeoJSON, with no runtime API depen
 **Requirements**: D-01 .. D-13 (from 07-CONTEXT.md) plus W-01 .. W-03 (Wave-0 decisions taken at the
 07-05 checkpoint). Phase 7 has no REQUIREMENTS.md IDs; the CONTEXT decisions are the spec, as in Phases 5 and 6.
 **Depends on:** Phase 6
-**Plans:** 2/9 plans executed
+**Plans:** 4/9 plans executed
 
 **WFS sources (validated live 2026-07-27 during research, superseding the user's original candidate links):**
 
@@ -379,10 +379,10 @@ Plans:
 - [x] 07-02-PLAN.md - Frontend static config: `economic` placeholder to vector layer, BORIS ramp/no-data/hover
       style exports from theme tokens, ten bilingual i18n keys (wave 1)
 
-- [ ] 07-03-PLAN.md - `probe_boris.py` spike: Hessen usage-code census, Brandenburg statewide point cache +
+- [x] 07-03-PLAN.md - `probe_boris.py` spike: Hessen usage-code census, Brandenburg statewide point cache +
       gehoertZu join + Stichtag histograms, seven-variant size/fidelity grid, `07-SPIKE.md` (wave 2)
 
-- [ ] 07-04-PLAN.md - LLMap economic path: quantile bucketing, value/no-data style, ranged legend builder,
+- [x] 07-04-PLAN.md - LLMap economic path: quantile bucketing, value/no-data style, ranged legend builder,
       three-row tooltip, Canvas `EconomicLayer`, per-state `MapInfoControl` attribution (wave 2)
 
 - [ ] 07-05-PLAN.md - **Blocking checkpoint:decision** W-01 volume budget + geometry fidelity, W-02
