@@ -129,3 +129,10 @@ None - no external service configuration required. Both live smoke-tests ran aga
 ---
 *Phase: 07-add-boris-land-value-maps-as-spatial-layer-for-socio-economi*
 *Completed: 2026-07-28*
+
+## Self-Check: PASSED
+
+- FOUND: data-pipeline/python/fetch_boris.py
+- FOUND: .planning/phases/07-add-boris-land-value-maps-as-spatial-layer-for-socio-economi/07-07-SUMMARY.md
+- FOUND commit: 406514e (Task 1+2+3: fetch_boris.py)
+- FOUND commit: d824a4e (SUMMARY)

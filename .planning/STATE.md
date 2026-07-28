@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: ready_to_plan
-stopped_at: Completed 07-06-PLAN.md
-last_updated: "2026-07-28T12:13:49.628Z"
+stopped_at: Completed 07-07-PLAN.md
+last_updated: "2026-07-28T15:20:00.000Z"
 progress:
   total_phases: 15
   completed_phases: 9
   total_plans: 45
-  completed_plans: 42
+  completed_plans: 43
   percent: 60
 ---
 
@@ -35,7 +35,7 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 | 4 | Destatis Statistics Integration | Waves 1-2+6-7 complete; 11/17 KPIs real; Waves 3-5 ready (2026-07-25) — see Active Work |
 | 5 | Protected areas as toggleable layer | Planned (2026-07-25) — 4 plans, 3 waves, 2 checkpoints, verified ✓ |
 | 6 | Add land cover map | Complete (2026-07-26) — 5/5 plans, 4 waves, D-01..D-24 evidence recorded, bilingual checkpoint approved |
-| 7 | Add BORIS land value maps as spatial layer for socio-economic tab | In progress — 6/9 plans complete (07-06 executed 2026-07-28: boris_semantics.py + sources.yaml + sync.py declarative contract) |
+| 7 | Add BORIS land value maps as spatial layer for socio-economic tab | In progress — 7/9 plans complete (07-07 executed 2026-07-28: fetch_boris.py production script, live-verified against both states) |
 | 9 | Chart Data Contract | Not planned yet (2026-07-27) |
 | 10 | Two-column LL comparison view | Planned (2026-07-27) — 6 plans, 5 waves, 1 checkpoint, verified ✓ (0 blockers, 4 warnings) |
 
@@ -182,9 +182,10 @@ Phase 2.2 completed on 2026-04-30 and replaced the shallow German-only soil look
 ### Plan Decisions
 
 - [Phase 07, plan 06]: `boris_semantics.BR_ART_NUTZUNG` has 42 entries, not the 44 that `07-RESEARCH.md`'s prose claims — its own section 3.1 table only enumerates 42 rows; transcribed the verified 42 rather than inventing 2 more. Hessen code `LW` is deliberately excluded from `HE_ART_NUTZUNG` (falls to `UNMAPPED_USAGE` with the raw code preserved) per the `07-SPIKE.md` W-03 locked checkpoint decision, overriding `07-06-PLAN.md`'s own acceptance-criteria text which (echoing a superseded `07-RESEARCH.md` guess) said `LW` should map to the agricultural canonical pair. `semantics.recency_cutoff` in `sources.yaml` is `null` (with a new `recency_window_years: 10` key) rather than a baked-in `"2016-01-01"` literal, per the locked instruction to implement W-02 as a rolling window, not a hardcoded date. See `07-06-SUMMARY.md` Deviations for full detail.
+- [Phase 07, plan 07]: `fetch_boris.py` written and live-verified against both states — rheingau (Hessen, 1676 features written and re-validated) and havellandisches-luch (Brandenburg, 18644 features dry-run only, matched=18961/unmatched=0/failing_recency=5964, all figures matching `07-SPIKE.md`'s locked W-01/W-02 measurements within rounding). Fixed a live bug: a trailing 0-feature GML paging page crashes pyogrio (no layer schema to detect), so only pages with `numberReturned > 0` are parsed. All three tasks' code was authored together in one file and landed in a single commit (`406514e`) rather than three, since splitting the write into separate passes would have produced an unrunnable intermediate script; each task's verification still ran independently against the live services in plan order. See `07-07-SUMMARY.md` Deviations for full detail.
 
 ## Session
 
-**Last session:** 2026-07-28T12:09:35.278Z
-**Stopped at:** Completed 07-06-PLAN.md
+**Last session:** 2026-07-28T15:20:00.000Z
+**Stopped at:** Completed 07-07-PLAN.md
 **Resume file:** None
