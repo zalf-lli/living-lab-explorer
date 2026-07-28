@@ -1,4 +1,4 @@
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { C } from '../theme.js'
 import { LL_ICONS } from '../data/ll_icons.js'
@@ -9,7 +9,10 @@ const LOGO_PATHS = `<path d="M36.327 17.321C34.0625 16.2831 31.5778 16 27.1432 1
 export function Header({ lls }) {
   const { t, i18n } = useTranslation()
   const navigate = useNavigate()
-  const { slug: activeSlug } = useParams()
+  const location = useLocation()
+  const [searchParams] = useSearchParams()
+  const activeSlug = location.pathname.match(/^\/ll\/([^/]+)/)?.[1]
+  const compareSlug = searchParams.get('compare')
   const activeLang = i18n.resolvedLanguage?.startsWith('de') ? 'de' : 'en'
 
   return (
@@ -64,7 +67,22 @@ export function Header({ lls }) {
             return (
               <button
                 key={ll.slug}
-                onClick={() => navigate(`/ll/${ll.slug}`)}
+                onClick={() => {
+                  if (compareSlug && activeSlug) {
+                    // D-04: clicked LL becomes primary and keeps comparing; if it was
+                    // already the partner, the two swap sides.
+                    // D-02: clone the live params rather than rebuilding the query string,
+                    // so ?layout (and anything added later) rides along untouched and
+                    // exiting comparison restores the layout the user actually had.
+                    const next = new URLSearchParams(searchParams)
+                    next.set('compare', ll.slug === compareSlug ? activeSlug : compareSlug)
+                    navigate({ pathname: `/ll/${ll.slug}`, search: `?${next.toString()}` })
+                  } else {
+                    // Unchanged from before this phase: a plain LL switch resets the query
+                    // string. Not in D-02's scope, which governs comparison only.
+                    navigate(`/ll/${ll.slug}`)
+                  }
+                }}
                 style={{
                   padding: '5px 12px 5px 6px',
                   borderRadius: 40,
