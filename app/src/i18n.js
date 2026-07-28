@@ -98,11 +98,8 @@ const resources = {
           note: 'Legend shows the dominant semantic soil groups for this Living Lab; raw BUEK IDs stay in the data only as provenance.',
         },
         economic: {
-          arable: 'High output',
-          forest: 'Low intensity',
-          grassland: 'Medium',
-          settlement: 'Built-up',
-          water: 'N/A',
+          note: "Colors are scaled to this Living Lab's own value range and are not comparable across the five Living Labs.",
+          empty: 'No land value zones are available for this Living Lab.',
         },
         protectedAreas: {
           note: 'Conservation sites intersecting this Living Lab region. Full polygon boundaries are shown, so sites extend beyond the region outline and designations may overlap. Source: BfN (FFH and bird sanctuaries 2019, nature reserves 2023) - not suitable for planning purposes.',
@@ -178,6 +175,8 @@ const resources = {
         loadError: 'Failed to load map data. Check the browser console.',
         soilLoading: 'Loading soil polygons for this Living Lab...',
         soilLoadError: 'Soil data could not be loaded for this Living Lab.',
+        economicLoading: 'Loading land value zones for this Living Lab...',
+        economicError: 'Land value data could not be loaded for this Living Lab.',
         protectedAreasLoading: 'Loading protected areas for this Living Lab...',
         protectedAreasError: 'Protected areas data could not be loaded for this Living Lab.',
         placeholder: 'Interactive map (Leaflet + PMTiles) lands in Phase 3',
@@ -200,6 +199,12 @@ const resources = {
           secondaryType: 'Secondary soil type',
           parentMaterial: 'Parent material',
           profile: 'Profile',
+        },
+        economicTooltip: {
+          usageType: 'Usage type',
+          valuationDate: 'Valuation date',
+          noCurrentValue: 'No current value',
+          historical: '(historical)',
         },
         protectedAreasTooltip: {
           designation: 'Designation',
@@ -319,11 +324,8 @@ const resources = {
           note: 'Die Legende zeigt die dominanten Bodengruppen dieses Living Labs; Farben folgen der semantischen Hauptgruppe, waehrend Detailangaben erst im Tooltip erscheinen.',
         },
         economic: {
-          arable: 'Hoher Output',
-          forest: 'Geringe Intensitaet',
-          grassland: 'Mittel',
-          settlement: 'Bebaut',
-          water: 'k. A.',
+          note: 'Die Farbskala bezieht sich nur auf dieses Living Lab und ist nicht mit anderen Living Labs vergleichbar.',
+          empty: 'Keine Bodenrichtwertzonen sind fuer dieses Living Lab verfuegbar.',
         },
         protectedAreas: {
           note: 'Schutzgebiete, die diese Reallabor-Region schneiden. Es werden vollstaendige Polygongrenzen gezeigt, daher reichen Gebiete ueber den Regionsumriss hinaus und Ueberlagerungen sind moeglich. Quelle: BfN (FFH und Vogelschutz 2019, Naturschutzgebiete 2023) - nicht fuer Planungszwecke geeignet.',
@@ -400,6 +402,8 @@ const resources = {
         loadError: 'Kartendaten konnten nicht geladen werden. Bitte Browser-Konsole pruefen.',
         soilLoading: 'Bodenpolygone fuer dieses Living Lab werden geladen...',
         soilLoadError: 'Die Bodendaten fuer dieses Living Lab konnten nicht geladen werden.',
+        economicLoading: 'Bodenrichtwertzonen fuer dieses Living Lab werden geladen...',
+        economicError: 'Die Bodenrichtwertdaten fuer dieses Living Lab konnten nicht geladen werden.',
         protectedAreasLoading: 'Schutzgebiete fuer dieses Living Lab werden geladen...',
         protectedAreasError: 'Die Schutzgebietsdaten fuer dieses Living Lab konnten nicht geladen werden.',
         placeholder: 'Interaktive Karte (Leaflet + PMTiles) folgt in Phase 3',
@@ -422,6 +426,12 @@ const resources = {
           secondaryType: 'Sekundaerer Bodentyp',
           parentMaterial: 'Ausgangsmaterial',
           profile: 'Profil',
+        },
+        economicTooltip: {
+          usageType: 'Nutzungsart',
+          valuationDate: 'Stichtag',
+          noCurrentValue: 'Kein aktueller Wert',
+          historical: '(historisch)',
         },
         protectedAreasTooltip: {
           designation: 'Schutzgebietstyp',
