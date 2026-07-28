@@ -435,7 +435,7 @@ Plans:
 **Goal:** Turn the placeholder "Add for comparison" button into a working side-by-side comparison of two Living Labs: clicking it opens a menu of LL names, and selecting one switches /ll/:slug into a two-column ?compare= view where each column stacks that LL's KPIs, map, chart and text under one shared layer-tab row.
 **Requirements**: TBD
 **Depends on:** Phase 9 (the comparison columns stack KPIs, maps and charts, so every map layer and the chart data contract must exist first)
-**Plans:** 4/6 plans executed
+**Plans:** 5/6 plans executed
 
 **Context (captured 2026-07-27, promoted from backlog 999.2 on 2026-07-27):**
 
@@ -460,7 +460,7 @@ Plans:
 
 **Wave 4** *(blocked on Wave 3 completion)*
 
-- [ ] 10-05-PLAN.md — ComparisonBar replacing the A/B switcher, with change-partner, swap-sides and exit navigation
+- [x] 10-05-PLAN.md — ComparisonBar replacing the A/B switcher, with change-partner, swap-sides and exit navigation
 
 **Wave 5** *(blocked on Wave 4 completion)*
 
