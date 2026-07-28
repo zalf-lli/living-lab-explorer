@@ -826,6 +826,53 @@ function ProtectedAreasLayer({ collection, slugKey, t, lang }) {
   return null
 }
 
+// Imperative BORIS choropleth layer using Canvas renderer -- mandatory here, not a preference:
+// per-LL zone counts (1,668-30,018) are 5x-80x the protected-areas precedent that already required
+// Canvas. The declarative <GeoJSON> component soil uses would emit one SVG path per polygon and
+// freeze the two Brandenburg Living Labs.
+// Pane hierarchy: tilePane(200) < economicPane(340) < protectedAreasPane(350) < overlayPane(400)
+function EconomicLayer({ collection, buckets, slugKey, t, lang }) {
+  const map = useMap()
+
+  useEffect(() => {
+    if (!collection?.features?.length) return undefined
+
+    // Create or retrieve the dedicated pane for the BORIS choropleth (zIndex 340).
+    // Strictly below protectedAreasPane (350, index.jsx above) -- never equal -- so that the
+    // protected-areas overlay always draws on top of the choropleth fill regardless of which
+    // layer the user toggles on first (ProtectedAreasToggle is independent of the active tab).
+    let pane = map.getPane('economicPane')
+    if (!pane) {
+      pane = map.createPane('economicPane')
+      pane.style.zIndex = 340
+    }
+
+    const renderer = L.canvas({ padding: 0.5, pane: 'economicPane' })
+
+    const layer = L.geoJSON(collection, {
+      pane: 'economicPane',
+      renderer,
+      style: (feature) => getEconomicStyle(feature, buckets),
+      onEachFeature: (feature, featureLayer) => {
+        bindEconomicTooltip(feature, featureLayer, t, lang)
+        // Per-feature hover emphasis is a revisable performance escape hatch (07-UI-SPEC.md):
+        // the tooltip must always work, but this style-swap may be dropped for the two
+        // Brandenburg Living Labs if profiling in plan 07-09 shows interaction latency --
+        // dropping it must be logged as a deviation.
+        featureLayer.on('mouseover', () => featureLayer.setStyle(BORIS_HOVER_STYLE))
+        featureLayer.on('mouseout', () => featureLayer.setStyle(getEconomicStyle(feature, buckets)))
+      },
+    })
+
+    layer.addTo(map)
+    return () => {
+      map.removeLayer(layer)
+    }
+  }, [collection, buckets, slugKey, map, t, lang])
+
+  return null
+}
+
 export default function LLMap({ ll, layer, height = 300 }) {
   const { t, i18n } = useTranslation()
   const layerConfig = LAYER_INDEX.get(layer)
@@ -859,6 +906,24 @@ export default function LLMap({ ll, layer, height = 300 }) {
     [soilState.data],
   )
   const soilLegendEntries = useMemo(() => buildSoilLegendEntries(soilFeatureCollection), [soilFeatureCollection])
+
+  // Economic (BORIS) tab: lazy fetch gated on the active tab, mirroring the soil branch (not the
+  // protected-areas boolean-toggle pattern) since economic is an exclusive tab.
+  const economicUrl = useMemo(
+    () => (layer === 'economic' ? resolveLayerAsset('economic', { slug: ll.slug }) : null),
+    [layer, ll.slug],
+  )
+  const economicState = useGeoJSON(economicUrl)
+  const economicFeatureCollection = useMemo(
+    () => (Array.isArray(economicState.data) ? economicState.data[0] ?? null : null),
+    [economicState.data],
+  )
+  const economicBuckets = useMemo(() => computeQuantileBuckets(economicFeatureCollection), [economicFeatureCollection])
+  const economicLegendEntries = useMemo(
+    () => buildEconomicLegendEntries(economicFeatureCollection, economicBuckets),
+    [economicFeatureCollection, economicBuckets],
+  )
+
   const bounds = useMemo(() => (boundaryFeature ? getBounds(boundaryFeature) : null), [boundaryFeature])
   const maskFeature = useMemo(
     () => (layerConfig?.available ? buildMaskFeature(boundaryFeature) : null),
@@ -919,6 +984,15 @@ export default function LLMap({ ll, layer, height = 300 }) {
               onEachFeature={(feature, featureLayer) => bindSoilTooltip(feature, featureLayer, t, lang)}
             />
           ) : null}
+          {layer === 'economic' && economicFeatureCollection ? (
+            <EconomicLayer
+              collection={economicFeatureCollection}
+              buckets={economicBuckets}
+              slugKey={ll.slug}
+              t={t}
+              lang={lang}
+            />
+          ) : null}
           {maskFeature ? <GeoJSON key={`mask-${ll.slug}`} data={maskFeature} style={MASK_STYLE} /> : null}
           <GeoJSON key={`outline-${ll.slug}-${outlineColor}`} data={boundaryFeature} style={outlineStyle} />
           {showProtectedAreas && protectedAreasFeatureCollection ? (
@@ -927,6 +1001,12 @@ export default function LLMap({ ll, layer, height = 300 }) {
         </MapContainer>
         {layer === 'soil' && soilState.loading ? <SoilStatusBadge message={t('map.soilLoading')} /> : null}
         {layer === 'soil' && soilState.error ? <SoilStatusBadge tone="error" message={t('map.soilLoadError')} /> : null}
+        {layer === 'economic' && economicState.loading ? (
+          <SoilStatusBadge message={t('map.economicLoading')} />
+        ) : null}
+        {layer === 'economic' && economicState.error ? (
+          <SoilStatusBadge tone="error" message={t('map.economicError')} />
+        ) : null}
         {showProtectedAreas && protectedAreasState.loading ? (
           <div style={statusBadgeStyle('info', 48)}>{t('map.protectedAreasLoading')}</div>
         ) : null}
@@ -938,7 +1018,20 @@ export default function LLMap({ ll, layer, height = 300 }) {
         <MapInfoControl layer={layer} overlayIds={showProtectedAreas ? ['protected-areas'] : []} />
       </div>
       <div style={{ padding: '10px 16px', borderTop: `1px solid ${C.mutedLight}`, background: C.bg }}>
-        <MapLegend layer={layer} entries={soilLegendEntries} note={layer === 'soil' ? t('legend.soil.note') : null} />
+        <MapLegend
+          layer={layer}
+          entries={layer === 'soil' ? soilLegendEntries : layer === 'economic' ? economicLegendEntries : null}
+          note={
+            layer === 'soil'
+              ? t('legend.soil.note')
+              : layer === 'economic'
+                ? t('legend.economic.note')
+                : null
+          }
+        />
+        {layer === 'economic' && economicFeatureCollection && !economicLegendEntries?.length ? (
+          <div style={{ fontSize: 11, color: C.muted, fontStyle: 'italic' }}>{t('legend.economic.empty')}</div>
+        ) : null}
         {showProtectedAreas ? (
           <div
             style={{
