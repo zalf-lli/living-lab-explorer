@@ -38,9 +38,7 @@ export function LLDetail({ bySlug, loading }) {
     partnerCandidate && partnerCandidate.slug === compareSlug && compareSlug !== slug
       ? partnerCandidate
       : null
-  // `Boolean(partner)` (isComparing) is intentionally not extracted as a standalone binding
-  // here — this plan does not yet branch rendering on it (the two-column branch arrives in
-  // plan 04); re-derive it there from `partner` to avoid an unused-variable lint error.
+  const isComparing = Boolean(partner)
   const compareOptions = useMemo(
     () =>
       Object.values(bySlug ?? {})
@@ -80,7 +78,9 @@ export function LLDetail({ bySlug, loading }) {
     <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 60px)' }}>
       <LayoutSwitcher layout={layout} onChange={setLayout} />
       <div style={{ flex: 1, overflow: 'hidden' }}>
-        {layout === 'A' ? (
+        {isComparing ? (
+          <LayoutCompare key="C" llA={ll} llB={partner} layer={layer} setLayer={setLayer} />
+        ) : layout === 'A' ? (
           <LayoutSplit
             key="A"
             ll={ll}
@@ -511,7 +511,6 @@ function ComparisonColumn({ ll, layer }) {
 // scroll container holding two ComparisonColumn instances side by side. No per-column scrolling,
 // no media query, no CompareCTA/LayoutSwitcher/ContactManagerButton/second LayerTabs anywhere in
 // this tree (D-07, D-15).
-// eslint-disable-next-line no-unused-vars -- wired into LLDetail's render branch in the next task of this plan
 function LayoutCompare({ llA, llB, layer, setLayer }) {
   const { t } = useTranslation()
   return (
