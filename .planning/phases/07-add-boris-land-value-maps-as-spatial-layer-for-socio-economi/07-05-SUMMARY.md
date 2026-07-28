@@ -90,3 +90,11 @@ None - no external service configuration required.
 ---
 *Phase: 07-add-boris-land-value-maps-as-spatial-layer-for-socio-economi*
 *Completed: 2026-07-28*
+
+## Self-Check: PASSED
+
+- FOUND: `.planning/phases/07-add-boris-land-value-maps-as-spatial-layer-for-socio-economi/07-SPIKE.md`
+- FOUND: `.planning/phases/07-add-boris-land-value-maps-as-spatial-layer-for-socio-economi/07-05-SUMMARY.md`
+- FOUND commit: `1ed5c9d` (Task 2 — record locked Wave-0 decisions)
+- FOUND commit: `dc3ee84` (plan summary)
+- `git status --porcelain -- data-pipeline app` empty — no pipeline or app files modified
