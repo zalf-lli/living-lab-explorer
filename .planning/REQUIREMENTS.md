@@ -50,5 +50,5 @@
 | PIPELINE-01 | 2             | BÜK Vector Pipeline |
 | PIPELINE-02 | 2             | BÜK Vector Pipeline |
 | PIPELINE-03 | 2             | BÜK Vector Pipeline |
-| CHARTS-01   | 3             | Chart Data Contract |
-| CHARTS-02   | 3             | Chart Data Contract |
+| CHARTS-01   | 9             | Chart Data Contract |
+| CHARTS-02   | 9             | Chart Data Contract |
