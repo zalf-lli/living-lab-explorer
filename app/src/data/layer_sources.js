@@ -72,6 +72,47 @@ export const LAYER_SOURCES = [
     "license": "Nutzungsbestimmungen fuer die Bereitstellung von Geodaten des Bundes (GeoNutzV)",
     "attribution": "Datenquelle: Bundesamt fuer Naturschutz (BfN)",
     "citation": "BfN: Schutzgebiete in Deutschland. https://geodienste.bfn.de/schutzgebiete"
+  },
+  {
+    "id": "boris",
+    "appLayer": "economic",
+    "title": {
+      "en": "Standard land values (BORIS)",
+      "de": "Bodenrichtwerte (BORIS)"
+    },
+    "description": {
+      "en": "Standard land values (Bodenrichtwerte) for the Living Lab regions, as published by the Brandenburg and Hessen valuation committees.",
+      "de": "Bodenrichtwerte fuer die Living-Lab-Regionen, veroeffentlicht von den Gutachterausschuessen Brandenburg und Hessen."
+    },
+    "provider": "Brandenburg Land Survey and Geobasis Information Office (LGB) / Hessian State Office for Land Management and Geoinformation (HLBG)",
+    "dataset": "BORIS (Bodenrichtwertinformationssystem) standard land values",
+    "url": "https://isk.geobasis-bb.de/ows/boris_wfs",
+    "license": "GeoNutzV / Kostenfreier automatisierter Abruf nach Gutachterausschusskostengesetz",
+    "attribution": "Datenquelle: LGB Brandenburg / HLBG Hessen (BORIS)",
+    "citation": "LGB / HLBG: BORIS Bodenrichtwertinformationssystem.",
+    "providersByState": {
+      "bb": {
+        "provider": "Brandenburg Land Survey and Geobasis Information Office (LGB)",
+        "dataset": "BORIS-BB standard land values",
+        "url": "https://isk.geobasis-bb.de/ows/boris_wfs",
+        "license": "GeoNutzV, kostenfreier automatisierter Abruf",
+        "attribution": "Landesvermessung und Geobasisinformation Brandenburg (LGB)"
+      },
+      "he": {
+        "provider": "Hessian State Office for Land Management and Geoinformation (HLBG)",
+        "dataset": "BORIS-HE standard land values",
+        "url": "https://www.gds.hessen.de/wfs2/boris/cgi-bin/brw/2024/wfs",
+        "license": "Kostenfreier automatisierter Abruf nach Gutachterausschusskostengesetz",
+        "attribution": "Hessisches Landesamt fuer Bodenmanagement und Geoinformation (HLBG)"
+      }
+    },
+    "llStates": {
+      "rheingau": "he",
+      "north-hessian-loess": "he",
+      "hessian-low-mountain": "he",
+      "havellandisches-luch": "bb",
+      "east-brandenburg": "bb"
+    }
   }
 ]
 

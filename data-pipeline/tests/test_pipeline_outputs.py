@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 
 import geopandas as gpd
+import pytest
 import yaml
 from shapely.geometry import box
 
@@ -126,6 +127,84 @@ def test_protected_areas_layer_contract_declared() -> None:
     assert "coordinate_precision" in layer["wfs"]
     assert layer["wfs"]["coordinate_precision"] in (None, 0.000001, 0.00001), \
         f"Expected coordinate_precision to be one of (None, 0.000001, 0.00001), got {layer['wfs']['coordinate_precision']}"
+
+
+def test_boris_layer_contract_declared() -> None:
+    """
+    Plan 07-06: assert the boris layer is declared with per-state WFS config, the W-01
+    tuning values, the five-slug ll_states map, and the semantics block -- mirroring
+    test_protected_areas_layer_contract_declared's shape.
+    """
+    layer = get_layer("boris")
+    assert layer["kind"] == "vector"
+    assert layer["app_layer"] == "economic"
+    assert layer["build"]["script"] == "python/fetch_boris.py"
+
+    wfs = layer["wfs"]
+    assert wfs["states"]["bb"]["url"] == "https://isk.geobasis-bb.de/ows/boris_wfs"
+    assert wfs["states"]["bb"]["source_crs"] == "EPSG:25833"
+    assert wfs["states"]["bb"]["zone_typename"] == "br:BR_BodenrichtwertFlaeche"
+    assert wfs["states"]["bb"]["value_typename"] == "br:BR_Bodenrichtwert"
+    assert wfs["states"]["he"]["url"] == "https://www.gds.hessen.de/wfs2/boris/cgi-bin/brw/2024/wfs"
+    assert wfs["states"]["he"]["source_crs"] == "EPSG:25832"
+    assert wfs["states"]["he"]["zone_typename"] == "boris:BR_BodenrichtwertZonal"
+    assert wfs["bbox_crs"] == "urn:ogc:def:crs:EPSG::4326"
+    # CRS-confusion guard (T-07-06): a future refactor must never collapse the two
+    # states' source_crs values into one shared top-level key.
+    assert "source_crs" not in wfs
+
+    assert layer["output"]["geojson_pattern"] == "data/geojson/boris-{slug}.geojson"
+
+    assert set(layer["ll_states"]) == set(LL_SLUGS)
+    assert set(layer["ll_states"].values()) <= {"bb", "he"}
+
+    semantics = layer["semantics"]
+    assert semantics["contract_version"] == "boris-usage-semantics-v1"
+    assert semantics.get("recency_rule")
+
+    sources_by_state = layer["sources_by_state"]
+    assert set(sources_by_state) == {"bb", "he"}
+    for state_entry in sources_by_state.values():
+        assert state_entry.get("provider")
+        assert state_entry.get("license")
+        assert state_entry.get("url")
+
+
+def test_boris_usage_codes_are_state_discriminated() -> None:
+    """
+    Plan 07-06: pure unit test (no network, no fixtures) proving the harmonization
+    contract -- both states' raw usage codes converge onto one canonical bilingual
+    vocabulary, and a code from one state can never resolve through the other state's
+    table (07-RESEARCH.md section 3.2 anti-pattern).
+    """
+    from boris_semantics import (
+        BR_ART_NUTZUNG,
+        ENTWICKLUNGSZUSTAND,
+        UNMAPPED_USAGE,
+        resolve_development_status,
+        resolve_usage,
+    )
+
+    assert len(BR_ART_NUTZUNG) == 42
+    assert len(ENTWICKLUNGSZUSTAND) == 10
+
+    # A Hessen code resolved under "bb" must fall to the fallback.
+    assert resolve_usage("bb", "LW")[1:] == UNMAPPED_USAGE
+
+    # A Brandenburg numeric code resolved under "he" must fall to the fallback.
+    assert resolve_usage("he", "2100")[1:] == UNMAPPED_USAGE
+
+    # A full GDI-DE codelist href resolves under "bb" to its bare code.
+    href = "https://registry.gdi-de.org/codelist/de.adv-online.gid/BR_Art_Nutzung/1100"
+    code, en, de = resolve_usage("bb", href)
+    assert code == "1100"
+    assert en == "Residential building land"
+
+    # Both alphabets converge on the same English label for the same concept.
+    assert resolve_development_status("bb", "3000")[0] == resolve_development_status("he", "E")[0]
+
+    with pytest.raises(ValueError):
+        resolve_usage("xx", "1100")
 
 
 def test_protected_areas_bbox_param_axis_order() -> None:
@@ -358,3 +437,153 @@ def test_protected_area_kpis_reach_ll_metadata() -> None:
             assert kpi["sourceHost"] == "bfn_wfs", f"{slug}.{key}: sourceHost is {kpi['sourceHost']}, expected 'bfn_wfs'"
             assert kpi["genesisTable"] is None, f"{slug}.{key}: genesisTable should be null, got {kpi['genesisTable']}"
             assert kpi["unit"] == {"en": "ha", "de": "ha"}, f"{slug}.{key}: unexpected unit {kpi['unit']}"
+
+
+# Accepted per-Living-Lab-per-copy byte budget, transcribed from the W-01 locked decision
+# in 07-SPIKE.md ("## Locked Wave-0 Decisions" -> "W-01 Geometry fidelity and size budget").
+# The 07-SPIKE.md text itself records east-brandenburg's own measured variant-E size as
+# 33,954,375 bytes immediately below the "~33 MB (33,000,000 bytes)" label, so the real
+# locked ceiling for this suite is the larger, explicitly-measured figure -- not the
+# rounded label -- to avoid a false failure on the exact number the checkpoint approved.
+BORIS_BUDGET_BYTES_PER_LL_PER_COPY = 33_954_375
+
+
+def test_narrative_by_tab_contract() -> None:
+    """
+    Quick task 260729-bsg: generate_metadata.build_metadata must emit a normalized
+    narrativeByTab[<tab>][<slot>][<lang>] cube for every Living Lab, per D-02/D-03/D-04.
+    Covers both the in-memory fixture behaviours and the committed runtime asset shape.
+    """
+    import sys
+
+    sys.path.insert(0, str(repo_root() / "data-pipeline" / "python"))
+    from generate_metadata import NARRATIVE_SLOTS, NARRATIVE_TABS, build_metadata
+
+    # In-memory fixture: soil.about authored in English only, whitespace-only elsewhere,
+    # an unknown tab key that must be dropped, and a second LL authoring no narrative at all.
+    fixture = {
+        "slug-a": {
+            "slug": "slug-a",
+            "en": {
+                "narrative": {
+                    "soil": {"about": "Soil types are highly variable.", "challenges": "   "},
+                    "protected-areas": {"about": "should be dropped"},
+                },
+            },
+            "de": {},
+        },
+        "slug-b": {
+            "slug": "slug-b",
+            "en": {},
+            "de": {},
+        },
+    }
+    metadata = build_metadata(ll_content=fixture)
+
+    slug_a_narrative = metadata["slug-a"]["narrativeByTab"]
+    assert slug_a_narrative["soil"]["about"]["en"] == "Soil types are highly variable."
+    assert slug_a_narrative["soil"]["about"]["de"] is None
+    # Whitespace-only authored string normalizes to None, never "" (D-04).
+    assert slug_a_narrative["soil"]["challenges"]["en"] is None
+    # Unknown authored tab key is dropped, not propagated.
+    assert "protected-areas" not in slug_a_narrative
+    assert set(slug_a_narrative) == set(NARRATIVE_TABS)
+
+    slug_b_narrative = metadata["slug-b"]["narrativeByTab"]
+    for tab in NARRATIVE_TABS:
+        assert tab in slug_b_narrative
+        for slot in NARRATIVE_SLOTS:
+            assert slug_b_narrative[tab][slot] == {"en": None, "de": None}
+
+    # Committed runtime asset: every slug carries a complete five-tab narrativeByTab cube,
+    # values are str or None, and the legacy "-" sentinel never leaks in.
+    path = repo_root() / "app" / "public" / "data" / "ll_metadata.json"
+    assert path.exists(), f"Missing ll_metadata.json fixture: {path}"
+    with path.open("r", encoding="utf-8") as handle:
+        data = json.load(handle)
+
+    for slug in LL_SLUGS:
+        assert slug in data, f"Missing {slug} in ll_metadata.json"
+        record = data[slug]
+        assert "narrativeByTab" in record, f"Missing narrativeByTab for {slug}"
+        narrative_by_tab = record["narrativeByTab"]
+        assert set(narrative_by_tab) == set(NARRATIVE_TABS), (
+            f"{slug}: expected tabs {set(NARRATIVE_TABS)}, got {set(narrative_by_tab)}"
+        )
+        for tab in NARRATIVE_TABS:
+            for slot in NARRATIVE_SLOTS:
+                slot_block = narrative_by_tab[tab][slot]
+                assert set(slot_block) == {"en", "de"}
+                for lang_value in slot_block.values():
+                    assert lang_value is None or isinstance(lang_value, str), (
+                        f"{slug}.{tab}.{slot}: expected str or None, got {type(lang_value)}"
+                    )
+                    assert lang_value != "-", f"{slug}.{tab}.{slot}: leaked '-' sentinel"
+
+
+def test_boris_geojson_fixtures_exist_and_match_contract() -> None:
+    """
+    Plan 07-08: mirrors test_buek250_geojson_fixtures_exist_and_match_contract's shape --
+    existence, CRS, non-empty, and the ten-key 07-UI-SPEC.md "Runtime asset" contract --
+    plus the JSON-type and size-budget guarantees the frontend and the W-01 checkpoint
+    depend on.
+    """
+    pattern = get_layer("boris")["output"]["geojson_pattern"]
+
+    contract_keys = {
+        "bodenrichtwert",
+        "has_current_value",
+        "stichtag",
+        "usage_type_code",
+        "usage_type_en",
+        "usage_type_de",
+        "development_status_en",
+        "development_status_de",
+        "bodenrichtwertNummer",
+        "ll_slug",
+    }
+
+    for slug in LL_SLUGS:
+        path = repo_root() / pattern.format(slug=slug)
+        assert path.exists(), f"Missing GeoJSON fixture: {path}"
+
+        gdf = gpd.read_file(path)
+        assert str(gdf.crs) == "EPSG:4326", f"Unexpected CRS for {path.name}: {gdf.crs}"
+        assert len(gdf) > 0, f"Fixture has no features: {path.name}"
+
+        non_geometry_columns = set(gdf.columns) - {"geometry"}
+        assert non_geometry_columns == contract_keys, (
+            f"{path.name}: expected exactly the ten-key contract, got {sorted(non_geometry_columns)}"
+        )
+
+        assert gdf.geometry.notna().all(), f"Fixture has null geometries: {path.name}"
+        assert gdf["ll_slug"].unique().tolist() == [slug], (
+            f"{path.name}: ll_slug values must all equal {slug!r}"
+        )
+
+        with path.open("r", encoding="utf-8") as handle:
+            raw = json.load(handle)
+
+        for feature in raw["features"]:
+            props = feature["properties"]
+            assert isinstance(props["has_current_value"], bool), (
+                f"{path.name}: has_current_value must be a real bool, got {type(props['has_current_value'])}"
+            )
+            brw = props["bodenrichtwert"]
+            assert brw is None or isinstance(brw, (int, float)), (
+                f"{path.name}: bodenrichtwert must be None or a number, got {type(brw)}: {brw!r}"
+            )
+            assert not isinstance(brw, bool), f"{path.name}: bodenrichtwert must never be a bool"
+
+        assert any(f["properties"].get("usage_type_en") for f in raw["features"]), (
+            f"{path.name}: no feature has a non-null usage_type_en"
+        )
+        assert any(f["properties"].get("usage_type_de") for f in raw["features"]), (
+            f"{path.name}: no feature has a non-null usage_type_de"
+        )
+
+        size_bytes = path.stat().st_size
+        assert size_bytes <= BORIS_BUDGET_BYTES_PER_LL_PER_COPY, (
+            f"{path.name}: {size_bytes:,} bytes exceeds the W-01 budget of "
+            f"{BORIS_BUDGET_BYTES_PER_LL_PER_COPY:,} bytes (07-SPIKE.md)"
+        )

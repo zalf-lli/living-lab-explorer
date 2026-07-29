@@ -3,12 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: ready_to_plan
-last_updated: "2026-07-28T06:54:15.389Z"
+stopped_at: Phase 8 UI-SPEC approved
+last_updated: "2026-07-29T06:50:12.764Z"
 progress:
   total_phases: 15
   completed_phases: 9
   total_plans: 45
-  completed_plans: 36
+  completed_plans: 43
   percent: 60
 ---
 
@@ -20,7 +21,7 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 
 **Core value:** A researcher or stakeholder can open the app and immediately see accurate, up-to-date geodata and statistics for any of the five Living Labs without any server infrastructure.
 
-**Current focus:** Phase 10 — add-for-comparison-button-opens-ll-menu-and-switches-to-two-
+**Current focus:** Phase 07 — add-boris-land-value-maps-as-spatial-layer-for-socio-economi
 
 ## Status
 
@@ -34,7 +35,7 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 | 4 | Destatis Statistics Integration | Waves 1-2+6-7 complete; 11/17 KPIs real; Waves 3-5 ready (2026-07-25) — see Active Work |
 | 5 | Protected areas as toggleable layer | Planned (2026-07-25) — 4 plans, 3 waves, 2 checkpoints, verified ✓ |
 | 6 | Add land cover map | Complete (2026-07-26) — 5/5 plans, 4 waves, D-01..D-24 evidence recorded, bilingual checkpoint approved |
-| 7 | Add BORIS land value maps as spatial layer for socio-economic tab | Planned (2026-07-27) — 9 plans, 7 waves, 2 checkpoints, verified ✓ (0 blockers, warnings fixed) |
+| 7 | Add BORIS land value maps as spatial layer for socio-economic tab | In progress — 8/9 plans complete (07-08 executed 2026-07-28: all five Living Labs fetched, committed, published, and locked behind a fixture regression test) |
 | 9 | Chart Data Contract | Not planned yet (2026-07-27) |
 | 10 | Two-column LL comparison view | Planned (2026-07-27) — 6 plans, 5 waves, 1 checkpoint, verified ✓ (0 blockers, 4 warnings) |
 
@@ -62,17 +63,24 @@ not merged into this branch — the D-10 empty-state design degrades gracefully 
 partial-completeness condition, so the plans still reach the Phase 10 goal. Reconcile the
 ROADMAP/STATE sequencing when Phase 9 lands. Next: `/gsd:execute-phase 10`.
 
-**Phase 7 is planned and ready to execute (2026-07-27).** 9 plans across 7 waves cover the BORIS
+**Phase 7: 8/9 plans complete (2026-07-28).** 9 plans across 7 waves cover the BORIS
 (Bodenrichtwert) land-value choropleth for the Socio-economic tab, built from live Brandenburg
 (BORIS-BB) and Hessen (BORIS-HE) WFS services. Research flagged a blocking volume risk (verified
 per-Living-Lab zone counts run 1,668-30,018 — 5x-80x denser than any prior vector layer), so waves
-2-3 are a measure-then-decide spike (`07-03`) feeding a blocking `checkpoint:decision` (`07-05`) that
-locks the geometry/size budget, the `has_current_value` recency rule, and the Hessen usage-code map
-before any production fetch code is written. Wave 7 (`07-09`) closes with a blocking bilingual
-human-verification checkpoint across all five Living Labs. The plan-checker found 0 blockers and 3
-warnings (pane z-index collision with the protected-areas overlay, an untraceable requirement ID, and
-a pending UI-SPEC sign-off note); the first two were fixed directly in the plan files, the third is
-informational only. Next: `/gsd:execute-phase 7`.
+2-3 were a measure-then-decide spike (`07-03`) feeding a blocking `checkpoint:decision` (`07-05`) that
+locked the geometry/size budget, the `has_current_value` recency rule, and the Hessen usage-code map
+before any production fetch code was written. Plan `07-08` (2026-07-28) ran the full unfiltered fetch
+across all five Living Labs, committed all ten GeoJSON copies (`data/geojson/` + published
+`app/public/data/geojson/`), and locked the ten-key contract behind a new pytest regression test
+(`test_boris_geojson_fixtures_exist_and_match_contract`, suite now 27/27 green). All five zone counts
+landed within 5% of `07-RESEARCH.md`'s figures and both Brandenburg no-data shares reproduced the
+locked W-02 figures within rounding. One flagged-but-not-blocking discrepancy: east-brandenburg's
+committed size (33,948,983 bytes) exceeds `fetch_boris.py`'s rounded diagnostic constant
+(33,000,000 bytes) but is 5,392 bytes under `07-SPIKE.md`'s own specific locked measurement for that
+Living Lab (33,954,375 bytes) — see `07-08-SUMMARY.md` Deviations for full reasoning; flagged for
+`07-09`'s evidence record and human sign-off. Wave 7 (`07-09`) closes with a blocking bilingual
+human-verification checkpoint across all five Living Labs, now backed by real data end-to-end. Next:
+`/gsd:execute-phase 7` to run `07-09`.
 
 **Phase 6 is complete (2026-07-26).** Land cover from the Impact Observatory / Esri / Microsoft 10m
 2024 dataset now fills the Landscape tab as five per-Living-Lab PMTiles files; crop types moved to a
@@ -145,6 +153,7 @@ Phase 2.2 completed on 2026-04-30 and replaced the shallow German-only soil look
 | 260725-e1x | Investigate near-miss Regionalstatistik.de water tables (32221-01-03-4/02-01-4/03-01-4) as replacements for the null groundwater_nitrate_mg_l KPI slot | 2026-07-25 | ab920f8 | [260725-e1x-investigate-the-near-miss-regionalstatis](./quick/260725-e1x-investigate-the-near-miss-regionalstatis/) |
 | 260727-fast | Remove all preliminary-data flags from app UI and pipeline; recast the design-option bar as a subtle "Change layout" switcher | 2026-07-27 | a37a9b4 | (inline) |
 | 260727-fast2 | Remove mock placeholder factsheet fields (soil_climate/description/delineation, EN+DE) from ll_content.json, ll_metadata.json, and fetch_nuts.py | 2026-07-27 | 4069627 | (inline) |
+| 260729-bsg | Wire per-theme narrative text (about + focus) for each layer tab from ll_content.json through generate_metadata.py into TextBlock, across split, stacked and comparison layouts — plumbing shipped, awaiting human authoring of the first real prose (Task 3 checkpoint) | 2026-07-29 | 13d2d20 | [260729-bsg-wire-per-theme-narrative-text-about-focu](./quick/260729-bsg-wire-per-theme-narrative-text-about-focu/) |
 
 ## Open Questions (from research)
 
@@ -177,3 +186,15 @@ Phase 2.2 completed on 2026-04-30 and replaced the shallow German-only soil look
 - 2026-07-27: Phase 7 added: "Add BORIS land value maps as spatial layer for socio-economic tab (WFS from Brandenburg and Hessen geoportals)" — incorporates BORIS land-value map data via WFS services from Brandenburg and Hessen (the two Bundesländer covering the 5 Living Labs) for the socio-economic tab
 - 2026-07-27: Phase 3 "Chart Data Contract" removed from its original slot (never started, no directory existed) and re-added as Phase 9 at the end of the roadmap, so chart implementations are defined after all map layers (Phases 5, 5.1, 6, 7) exist for charts to summarize. CHARTS-01/CHARTS-02 traceability in ROADMAP.md and REQUIREMENTS.md updated to point at Phase 9. Phases 4-7 were left unrenumbered since they are already complete/underway with directories and commit history referencing their current numbers.
 - 2026-07-27: Phase 8 added: "Add maps and stats for climate variables using CHELSA data" — climate variable maps plus summary statistics, sourced from CHELSA via the `chelsa_cmip6` Python library (https://gitlabext.wsl.ch/karger/chelsa_cmip6/). Placed in the free slot 8 (vacated when the old Phase 3 moved to 9) rather than appended as Phase 10, so it sits with the other map-layer phases and before the Phase 9 chart contract that summarizes them. Phase 9's "Depends on" updated from Phase 7 to Phase 8 accordingly.
+
+### Plan Decisions
+
+- [Phase 07, plan 06]: `boris_semantics.BR_ART_NUTZUNG` has 42 entries, not the 44 that `07-RESEARCH.md`'s prose claims — its own section 3.1 table only enumerates 42 rows; transcribed the verified 42 rather than inventing 2 more. Hessen code `LW` is deliberately excluded from `HE_ART_NUTZUNG` (falls to `UNMAPPED_USAGE` with the raw code preserved) per the `07-SPIKE.md` W-03 locked checkpoint decision, overriding `07-06-PLAN.md`'s own acceptance-criteria text which (echoing a superseded `07-RESEARCH.md` guess) said `LW` should map to the agricultural canonical pair. `semantics.recency_cutoff` in `sources.yaml` is `null` (with a new `recency_window_years: 10` key) rather than a baked-in `"2016-01-01"` literal, per the locked instruction to implement W-02 as a rolling window, not a hardcoded date. See `07-06-SUMMARY.md` Deviations for full detail.
+- [Phase 07, plan 07]: `fetch_boris.py` written and live-verified against both states — rheingau (Hessen, 1676 features written and re-validated) and havellandisches-luch (Brandenburg, 18644 features dry-run only, matched=18961/unmatched=0/failing_recency=5964, all figures matching `07-SPIKE.md`'s locked W-01/W-02 measurements within rounding). Fixed a live bug: a trailing 0-feature GML paging page crashes pyogrio (no layer schema to detect), so only pages with `numberReturned > 0` are parsed. All three tasks' code was authored together in one file and landed in a single commit (`406514e`) rather than three, since splitting the write into separate passes would have produced an unrunnable intermediate script; each task's verification still ran independently against the live services in plan order. See `07-07-SUMMARY.md` Deviations for full detail.
+- [Phase 07, plan 08]: Ran the unfiltered five-Living-Lab fetch, committed all ten GeoJSON copies, and added `test_boris_geojson_fixtures_exist_and_match_contract` (suite 27/27 green). All zone counts within 5% of `07-RESEARCH.md`; both Brandenburg no-data shares within rounding of the locked W-02 figures; all three Hessen fixtures 0% no-data. east-brandenburg's committed size (33,948,983 bytes) exceeds `fetch_boris.py`'s rounded diagnostic constant (33,000,000 bytes) but is 5,392 bytes under `07-SPIKE.md`'s own specific locked measurement for that Living Lab (33,954,375 bytes) — the new regression test asserts against the precise locked figure, not the rounded constant. Flagged (not blocking) for `07-09`'s evidence record and human sign-off. See `07-08-SUMMARY.md` Deviations for full detail.
+
+## Session
+
+**Last session:** 2026-07-29T06:50:12.735Z
+**Stopped at:** Phase 8 UI-SPEC approved
+**Resume file:** .planning/phases/08-add-maps-and-stats-for-climate-variables-using-chelsa-data/08-UI-SPEC.md

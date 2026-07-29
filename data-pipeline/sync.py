@@ -112,20 +112,27 @@ def generate_layer_sources() -> None:
         src = layer.get("source", {}) or {}
         title = layer.get("title", {}) or {}
         description = layer.get("description", {}) or {}
-        entries.append(
-            {
-                "id": layer.get("id"),
-                "appLayer": app_layer,
-                "title": {"en": title.get("en", ""), "de": title.get("de", "")},
-                "description": {"en": description.get("en", ""), "de": description.get("de", "")},
-                "provider": src.get("provider", ""),
-                "dataset": src.get("dataset", ""),
-                "url": src.get("url", ""),
-                "license": src.get("license", ""),
-                "attribution": src.get("attribution", ""),
-                "citation": src.get("citation", ""),
-            }
-        )
+        entry = {
+            "id": layer.get("id"),
+            "appLayer": app_layer,
+            "title": {"en": title.get("en", ""), "de": title.get("de", "")},
+            "description": {"en": description.get("en", ""), "de": description.get("de", "")},
+            "provider": src.get("provider", ""),
+            "dataset": src.get("dataset", ""),
+            "url": src.get("url", ""),
+            "license": src.get("license", ""),
+            "attribution": src.get("attribution", ""),
+            "citation": src.get("citation", ""),
+        }
+        # Layers published by more than one state authority (e.g. boris) declare a
+        # sources_by_state map alongside the flat `source` fallback above. Only those
+        # layers gain these two extra keys, so every pre-existing generated record stays
+        # byte-identical (T-07-13).
+        sources_by_state = layer.get("sources_by_state")
+        if sources_by_state:
+            entry["providersByState"] = sources_by_state
+            entry["llStates"] = layer.get("ll_states", {}) or {}
+        entries.append(entry)
 
     target = resolve("app/src/data/layer_sources.js")
     body = (

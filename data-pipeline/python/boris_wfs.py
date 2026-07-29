@@ -224,7 +224,14 @@ def read_gml_frame(raw, expected_crs, label):
 
 
 def parse_property_values(raw, local_name) -> list[str]:
-    """Extract distinct property values from a WFS ValueCollection by regex."""
+    """Extract distinct property values from a WFS ValueCollection by regex.
+
+    Tries a nested-element-or-href match first (`<ns:{local_name}>v</...>` or an
+    `xlink:href="..."` attribute on that element). If neither matches, falls back
+    to bare `<wfs:member>v</wfs:member>` text — verified live against BORIS-HE's
+    GetPropertyValue response, which returns the selected property as plain text
+    directly inside `wfs:member` with no nested element carrying the property name.
+    """
     text = raw.decode("utf-8", errors="replace")
     escaped_name = re.escape(local_name)
     value_pattern = re.compile(
@@ -233,6 +240,10 @@ def parse_property_values(raw, local_name) -> list[str]:
     )
     href_pattern = re.compile(
         rf'<[A-Za-z0-9_]+:{escaped_name}[^>]*xlink:href="([^"]*)"',
+        flags=re.MULTILINE,
+    )
+    member_pattern = re.compile(
+        r"<wfs:member>([^<]*)</wfs:member>",
         flags=re.MULTILINE,
     )
 
@@ -247,4 +258,12 @@ def parse_property_values(raw, local_name) -> list[str]:
         if value not in seen:
             seen.add(value)
             values.append(value)
+
+    if not values:
+        for match in member_pattern.finditer(text):
+            value = match.group(1)
+            if value not in seen:
+                seen.add(value)
+                values.append(value)
+
     return values

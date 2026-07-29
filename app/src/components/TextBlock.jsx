@@ -1,11 +1,12 @@
-import { useTranslation } from 'react-i18next'
 import { C } from '../theme.js'
 
-// Placeholder narrative block. Shows a striped gradient that reads as
-// "text coming soon" — replace with real prose from ll_metadata.json once
-// stakeholders have filled in the content fields.
-export function TextBlock({ title, lines = 4, height }) {
-  const { t } = useTranslation()
+// Renders authored per-theme narrative prose (an `about` or `challenges` slot from
+// ll.narrativeByTab) when `text` is provided; otherwise falls back to the striped
+// "text coming soon" gradient for tabs the researcher hasn't authored yet.
+export function TextBlock({ title, text, lines = 4, height }) {
+  const trimmed = typeof text === 'string' ? text.trim() : ''
+  const hasText = trimmed.length > 0
+
   return (
     <div>
       {title ? (
@@ -22,16 +23,26 @@ export function TextBlock({ title, lines = 4, height }) {
           {title}
         </div>
       ) : null}
-      <div
-        style={{
-          background: `repeating-linear-gradient(0deg, ${C.surfaceMid} 0px, ${C.surfaceMid} 1px, transparent 1px, transparent 20px)`,
-          height: height || lines * 20,
-          borderRadius: 4,
-        }}
-      />
-      <div style={{ fontSize: 10, color: C.muted, marginTop: 6, fontStyle: 'italic' }}>
-        {t('textBlock.placeholder')}
-      </div>
+      {hasText ? (
+        <div
+          style={{
+            fontSize: 13,
+            lineHeight: 1.55,
+            color: C.teal,
+            whiteSpace: 'pre-line',
+          }}
+        >
+          {trimmed}
+        </div>
+      ) : (
+        <div
+          style={{
+            background: `repeating-linear-gradient(0deg, ${C.surfaceMid} 0px, ${C.surfaceMid} 1px, transparent 1px, transparent 20px)`,
+            height: height || lines * 20,
+            borderRadius: 4,
+          }}
+        />
+      )}
     </div>
   )
 }

@@ -168,9 +168,6 @@ const resources = {
         compareEmptyTitle: 'No chart data yet',
         compareEmptyBody: 'This Living Lab does not have chart data for this tab yet.',
       },
-      textBlock: {
-        placeholder: 'Narrative text placeholder - landscape context, research focus, key challenges',
-      },
       map: {
         loadError: 'Failed to load map data. Check the browser console.',
         soilLoading: 'Loading soil polygons for this Living Lab...',
@@ -224,9 +221,8 @@ const resources = {
         optionBDesc: 'Full-width sections - map then data below',
         layerTabsHint: 'Click the tabs to explore different socio-environmental features.',
         distributionTitle: '{{layer}} - distribution',
-        aboutLandscape: 'About this Landscape',
-        researchFocus: 'Research Focus',
-        socioEconomicContext: 'Socio-economic Context',
+        aboutTheme: 'Overview',
+        challenges: 'Challenges',
         compareTitle: 'Compare with another Living Lab',
         compareCompactTitle: 'Want to compare with another Living Lab?',
         compareBody: 'Secondary feature - select any two LLs to view side-by-side metrics',
@@ -395,9 +391,6 @@ const resources = {
         compareEmptyBody:
           'Fuer dieses Living Lab liegen in diesem Reiter noch keine Diagrammdaten vor.',
       },
-      textBlock: {
-        placeholder: 'Textplatzhalter - Landschaftskontext, Forschungsfokus, zentrale Herausforderungen',
-      },
       map: {
         loadError: 'Kartendaten konnten nicht geladen werden. Bitte Browser-Konsole pruefen.',
         soilLoading: 'Bodenpolygone fuer dieses Living Lab werden geladen...',
@@ -451,9 +444,8 @@ const resources = {
         optionBDesc: 'Abschnitte in voller Breite - Karte oben, Daten darunter',
         layerTabsHint: 'Klicken Sie auf die Tabs, um verschiedene sozio-oekologische Merkmale zu erkunden.',
         distributionTitle: '{{layer}} - Verteilung',
-        aboutLandscape: 'Ueber diese Landschaft',
-        researchFocus: 'Forschungsfokus',
-        socioEconomicContext: 'Soziooekonomischer Kontext',
+        aboutTheme: 'Übersicht',
+        challenges: 'Herausforderungen',
         compareTitle: 'Mit einem anderen Living Lab vergleichen',
         compareCompactTitle: 'Mit einem anderen Living Lab vergleichen?',
         compareBody: 'Sekundaere Funktion - zwei Living Labs fuer einen Seitenvergleich auswaehlen',

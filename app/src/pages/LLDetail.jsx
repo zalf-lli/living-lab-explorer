@@ -449,8 +449,16 @@ function LayoutSplit({ ll, layer, setLayer, compareOptions, onPickCompare }) {
             }}
           >
             <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
-              <TextBlock title={t('llDetail.aboutLandscape')} lines={4} />
-              <TextBlock title={t('llDetail.researchFocus')} lines={4} />
+              <TextBlock
+                title={t('llDetail.aboutTheme', { layer: t(`layers.${layer}`) })}
+                text={ll.narrativeByTab?.[layer]?.about}
+                lines={4}
+              />
+              <TextBlock
+                title={t('llDetail.challenges')}
+                text={ll.narrativeByTab?.[layer]?.challenges}
+                lines={4}
+              />
             </div>
           </div>
 
@@ -558,7 +566,11 @@ function LayoutStacked({ ll, layer, setLayer, compareOptions, onPickCompare }) {
             border: `1.5px solid ${C.mutedLight}`,
           }}
         >
-          <TextBlock title={t('llDetail.aboutLandscape')} lines={5} />
+          <TextBlock
+            title={t('llDetail.aboutTheme', { layer: t(`layers.${layer}`) })}
+            text={ll.narrativeByTab?.[layer]?.about}
+            lines={5}
+          />
         </div>
         <div
           style={{
@@ -568,7 +580,11 @@ function LayoutStacked({ ll, layer, setLayer, compareOptions, onPickCompare }) {
             border: `1.5px solid ${C.mutedLight}`,
           }}
         >
-          <TextBlock title={t('llDetail.socioEconomicContext')} lines={5} />
+          <TextBlock
+            title={t('llDetail.challenges')}
+            text={ll.narrativeByTab?.[layer]?.challenges}
+            lines={5}
+          />
         </div>
       </div>
 
@@ -669,7 +685,11 @@ function ComparisonColumn({ ll, layer }) {
             marginBottom: 16,
           }}
         >
-          <TextBlock title={t('llDetail.aboutLandscape')} lines={4} />
+          <TextBlock
+            title={t('llDetail.aboutTheme', { layer: t(`layers.${layer}`) })}
+            text={ll.narrativeByTab?.[layer]?.about}
+            lines={4}
+          />
         </div>
         <div
           style={{
@@ -679,7 +699,11 @@ function ComparisonColumn({ ll, layer }) {
             border: `1.5px solid ${C.mutedLight}`,
           }}
         >
-          <TextBlock title={t('llDetail.socioEconomicContext')} lines={4} />
+          <TextBlock
+            title={t('llDetail.challenges')}
+            text={ll.narrativeByTab?.[layer]?.challenges}
+            lines={4}
+          />
         </div>
       </div>
 

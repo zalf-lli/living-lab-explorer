@@ -331,7 +331,7 @@ services and shipped as static per-Living-Lab GeoJSON, with no runtime API depen
 **Requirements**: D-01 .. D-13 (from 07-CONTEXT.md) plus W-01 .. W-03 (Wave-0 decisions taken at the
 07-05 checkpoint). Phase 7 has no REQUIREMENTS.md IDs; the CONTEXT decisions are the spec, as in Phases 5 and 6.
 **Depends on:** Phase 6
-**Plans:** 2/9 plans executed
+**Plans:** 8/9 plans executed
 
 **WFS sources (validated live 2026-07-27 during research, superseding the user's original candidate links):**
 
@@ -379,22 +379,22 @@ Plans:
 - [x] 07-02-PLAN.md - Frontend static config: `economic` placeholder to vector layer, BORIS ramp/no-data/hover
       style exports from theme tokens, ten bilingual i18n keys (wave 1)
 
-- [ ] 07-03-PLAN.md - `probe_boris.py` spike: Hessen usage-code census, Brandenburg statewide point cache +
+- [x] 07-03-PLAN.md - `probe_boris.py` spike: Hessen usage-code census, Brandenburg statewide point cache +
       gehoertZu join + Stichtag histograms, seven-variant size/fidelity grid, `07-SPIKE.md` (wave 2)
 
-- [ ] 07-04-PLAN.md - LLMap economic path: quantile bucketing, value/no-data style, ranged legend builder,
+- [x] 07-04-PLAN.md - LLMap economic path: quantile bucketing, value/no-data style, ranged legend builder,
       three-row tooltip, Canvas `EconomicLayer`, per-state `MapInfoControl` attribution (wave 2)
 
-- [ ] 07-05-PLAN.md - **Blocking checkpoint:decision** W-01 volume budget + geometry fidelity, W-02
+- [x] 07-05-PLAN.md - **Blocking checkpoint:decision** W-01 volume budget + geometry fidelity, W-02
       `has_current_value` recency rule, W-03 Hessen code map sign-off (wave 3)
 
-- [ ] 07-06-PLAN.md - `boris_semantics.py` state-discriminated bilingual contract (44-entry GDI-DE codelist),
+- [x] 07-06-PLAN.md - `boris_semantics.py` state-discriminated bilingual contract (44-entry GDI-DE codelist),
       `sources.yaml` two-state boris entry, `providersByState`/`llStates` codegen, contract tests (wave 4)
 
-- [ ] 07-07-PLAN.md - `fetch_boris.py`: Hessen self-contained path, Brandenburg cached-join path,
+- [x] 07-07-PLAN.md - `fetch_boris.py`: Hessen self-contained path, Brandenburg cached-join path,
       harmonize/trim/clip/simplify/round, validated sorted-key write (wave 5)
 
-- [ ] 07-08-PLAN.md - Full five-Living-Lab fetch, size-budget gate, `sync.py` publish, fixture contract
+- [x] 07-08-PLAN.md - Full five-Living-Lab fetch, size-budget gate, `sync.py` publish, fixture contract
       regression test (wave 6)
 
 - [ ] 07-09-PLAN.md - Full automated gate, four cross-file join-key checks, blocking bilingual human
