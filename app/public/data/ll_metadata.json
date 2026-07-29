@@ -199,6 +199,58 @@
       "email": "Julia.Gunnoltz@zalf.de",
       "name": "Julia Gunnoltz"
     },
+    "narrativeByTab": {
+      "agriculture": {
+        "about": {
+          "de": null,
+          "en": null
+        },
+        "focus": {
+          "de": null,
+          "en": null
+        }
+      },
+      "climate": {
+        "about": {
+          "de": null,
+          "en": null
+        },
+        "focus": {
+          "de": null,
+          "en": null
+        }
+      },
+      "economic": {
+        "about": {
+          "de": null,
+          "en": null
+        },
+        "focus": {
+          "de": null,
+          "en": null
+        }
+      },
+      "landscape": {
+        "about": {
+          "de": null,
+          "en": null
+        },
+        "focus": {
+          "de": null,
+          "en": null
+        }
+      },
+      "soil": {
+        "about": {
+          "de": null,
+          "en": null
+        },
+        "focus": {
+          "de": null,
+          "en": null
+        }
+      }
+    },
     "num": "01",
     "nuts3": [
       "DE409",
@@ -414,6 +466,58 @@
       "email": "Sebastian.Rogga@zalf.de",
       "name": "Sebastian Rogga"
     },
+    "narrativeByTab": {
+      "agriculture": {
+        "about": {
+          "de": null,
+          "en": null
+        },
+        "focus": {
+          "de": null,
+          "en": null
+        }
+      },
+      "climate": {
+        "about": {
+          "de": null,
+          "en": null
+        },
+        "focus": {
+          "de": null,
+          "en": null
+        }
+      },
+      "economic": {
+        "about": {
+          "de": null,
+          "en": null
+        },
+        "focus": {
+          "de": null,
+          "en": null
+        }
+      },
+      "landscape": {
+        "about": {
+          "de": null,
+          "en": null
+        },
+        "focus": {
+          "de": null,
+          "en": null
+        }
+      },
+      "soil": {
+        "about": {
+          "de": null,
+          "en": null
+        },
+        "focus": {
+          "de": null,
+          "en": null
+        }
+      }
+    },
     "num": "02",
     "nuts3": [
       "DE406",
@@ -626,6 +730,58 @@
     "manager": {
       "email": "barbara.sprenger@zalf.de",
       "name": "Barbara Sprenger"
+    },
+    "narrativeByTab": {
+      "agriculture": {
+        "about": {
+          "de": null,
+          "en": null
+        },
+        "focus": {
+          "de": null,
+          "en": null
+        }
+      },
+      "climate": {
+        "about": {
+          "de": null,
+          "en": null
+        },
+        "focus": {
+          "de": null,
+          "en": null
+        }
+      },
+      "economic": {
+        "about": {
+          "de": null,
+          "en": null
+        },
+        "focus": {
+          "de": null,
+          "en": null
+        }
+      },
+      "landscape": {
+        "about": {
+          "de": null,
+          "en": null
+        },
+        "focus": {
+          "de": null,
+          "en": null
+        }
+      },
+      "soil": {
+        "about": {
+          "de": null,
+          "en": null
+        },
+        "focus": {
+          "de": null,
+          "en": null
+        }
+      }
     },
     "num": "04",
     "nuts3": [
@@ -843,6 +999,58 @@
       "email": "Silke.Floerke@zalf.de",
       "name": "Silke Flörke"
     },
+    "narrativeByTab": {
+      "agriculture": {
+        "about": {
+          "de": null,
+          "en": null
+        },
+        "focus": {
+          "de": null,
+          "en": null
+        }
+      },
+      "climate": {
+        "about": {
+          "de": null,
+          "en": null
+        },
+        "focus": {
+          "de": null,
+          "en": null
+        }
+      },
+      "economic": {
+        "about": {
+          "de": null,
+          "en": null
+        },
+        "focus": {
+          "de": null,
+          "en": null
+        }
+      },
+      "landscape": {
+        "about": {
+          "de": null,
+          "en": null
+        },
+        "focus": {
+          "de": null,
+          "en": null
+        }
+      },
+      "soil": {
+        "about": {
+          "de": null,
+          "en": null
+        },
+        "focus": {
+          "de": null,
+          "en": null
+        }
+      }
+    },
     "num": "03",
     "nuts3": [
       "DE734",
@@ -1055,6 +1263,58 @@
     "manager": {
       "email": "Kristina.Heilemann@zalf.de",
       "name": "Kristina Heilemann"
+    },
+    "narrativeByTab": {
+      "agriculture": {
+        "about": {
+          "de": null,
+          "en": null
+        },
+        "focus": {
+          "de": null,
+          "en": null
+        }
+      },
+      "climate": {
+        "about": {
+          "de": null,
+          "en": null
+        },
+        "focus": {
+          "de": null,
+          "en": null
+        }
+      },
+      "economic": {
+        "about": {
+          "de": null,
+          "en": null
+        },
+        "focus": {
+          "de": null,
+          "en": null
+        }
+      },
+      "landscape": {
+        "about": {
+          "de": null,
+          "en": null
+        },
+        "focus": {
+          "de": null,
+          "en": null
+        }
+      },
+      "soil": {
+        "about": {
+          "de": null,
+          "en": null
+        },
+        "focus": {
+          "de": null,
+          "en": null
+        }
+      }
     },
     "num": "05",
     "nuts3": [
