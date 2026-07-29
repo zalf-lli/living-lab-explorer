@@ -16,6 +16,13 @@ created: 2026-07-29
 picker, period switcher), and its two null-forever KPI tiles (`agr_ch4_kt`/`agr_n2o_kt`) are replaced by
 four CHELSA-derived tiles with a new two-line shape. No new route, no new tab, no new page.
 
+**Visual hierarchy / primary focal point:** the raster map is the primary focal point — it occupies the
+largest area and is what the eye lands on first, exactly as on every other tab. The variable picker and
+period switcher are secondary controls (they sit directly above/beside the map and exist only to change
+what the map shows). The four KPI tiles are tertiary — a confirming, at-a-glance numeric summary below the
+map, read after the map, never before it. This ordering is unchanged from every prior tab (map first, stats
+second) and Phase 8 introduces no new page region that would compete with it.
+
 ---
 
 ## Design System
@@ -44,7 +51,7 @@ Declared values (must be multiples of 4):
 
 | Token | Value | Usage |
 |-------|-------|-------|
-| xs | 4px | Icon/swatch gaps, legend chip padding |
+| xs | 4px | Icon/swatch gaps, legend chip padding, KPI tile internal line spacing |
 | sm | 8px | Compact element spacing, control internal gaps |
 | md | 16px | Default element spacing, tab/control row padding |
 | lg | 24px | Section padding |
@@ -61,7 +68,9 @@ Declared values (must be multiples of 4):
   legend swatch gaps, badge padding). These are pre-existing and not to be "corrected" to 4px multiples if
   Phase 8 code sits directly adjacent to them (e.g. legend rows below the new climate map).
 - New Phase 8 components (period switcher, variable picker container, two-line KPI tile) should use the
-  4px-multiple scale above where there is no adjacent precedent to match.
+  4px-multiple scale above where there is no adjacent precedent to match. **No exception is granted for any
+  new Phase 8 spacing value** — the KPI tile's line-2 → line-3 gap (D-20) uses the `xs` (`4px`) token, not a
+  bespoke value; see Typography below.
 
 ---
 
@@ -72,20 +81,28 @@ Observed/declared scale (matches the existing app's compact-UI type system — d
 | Role | Size | Weight | Line Height |
 |------|------|--------|-------------|
 | Meta / legend label | 11px | 400 | 1.35 |
-| Body / tab label | 13px | 500 (inactive) / 700 (active) | 1.3 |
+| Body / tab label | 13px | 500 (inactive, legacy) / 700 (active) | 1.3 |
 | Label (KPI tile heading, uppercase) | 11px | 700 | 1.3 |
 | Stat value (KPI tile primary line) | 15px | 700 | 1.2 |
 | Stat delta (KPI tile secondary line — **new**, D-20) | 12px | 400 | 1.3 |
 
+**Weight exceptions (grandfathered, not extended to new Phase 8 UI — mirrors the Spacing Scale exceptions
+pattern above):**
+
+- `LayerTabs.jsx`'s `500` inactive-tab weight is a **legacy-only** value. It is reused as-is wherever
+  `LayerTabs.jsx` itself renders (unchanged, out of this phase's scope), but no new Phase 8 component may
+  introduce a third weight — the variable picker's inactive state uses `400`, not `500` (see Variable
+  picker spec below), even though it sits directly beside `LayerTabs`.
+
 **Weight contract:** two weights carry all new Phase 8 UI — **400 (regular)** for body/meta/delta text and
-**700 (bold)** for values, active states, and labels. `LayerTabs.jsx`'s existing `500` (inactive tab) is a
-pre-existing exception, not a precedent to extend; new Phase 8 buttons (variable picker, period switcher)
-should use 400/700 only, matching `StatPanel.jsx` tile typography exactly.
+**700 (bold)** for values, active states, and labels. New Phase 8 buttons (variable picker, period switcher)
+use 400/700 only, matching `StatPanel.jsx` tile typography exactly.
 
 **New tile shape (D-20):** each KPI tile gets a second text line beneath the existing 15px/700 value line —
 `{delta value} by 2071–2100` at 12px/400/`C.muted`, e.g. `+2.8 °C by 2071–2100` under `9.4 °C`. This is the
 one new typographic role this phase introduces; it must sit inside the same `StatPanel.jsx` tile container
-(no new padding/border), directly below the existing value line with a 2px gap.
+(no new padding/border), directly below the existing value line with a **4px** gap (the `xs` spacing token
+— see Spacing Scale; no exception applies, this is a new Phase 8 value with no adjacent legacy precedent).
 
 ---
 
@@ -191,7 +208,8 @@ since this phase introduces two genuinely new UI controls plus one new tile shap
   first and pre-selected on tab open (D-08).
 - Active state: 700 weight, `C.orange` text/underline (accent-reserved use #1) — mirror `LayerTabs`'s
   active-tab treatment (bold + colored 2.5px bottom border) exactly, so the two rows visually nest.
-- Inactive state: 400 weight (not `LayerTabs`'s 500 — see Typography weight contract), `rgba(2,35,34,0.5)`.
+- Inactive state: **400** weight (not `LayerTabs`'s legacy `500` — see Typography weight exceptions above),
+  `rgba(2,35,34,0.5)`.
 - Labels are short variable names, not full scientific descriptions (`GDD`, `Mean temp.` / `Mitteltemp.`,
   `Precipitation` / `Niederschlag`, `Summer precip.` / `Sommerniederschlag`) — full definitions live only in
   the D-14 legend note, never duplicated in the button label.
@@ -221,6 +239,7 @@ since this phase introduces two genuinely new UI controls plus one new tile shap
   solid C.mutedLight` border, `12px 16px` padding).
 - Line 1 (unchanged): 11px/700/uppercase/`C.greenMid` label, e.g. `GDD`.
 - Line 2 (unchanged): 15px/700/`C.teal` baseline value, e.g. `1,842 °C·d`.
+- Line 2 → Line 3 gap: **4px** (the `xs` spacing token — see Spacing Scale; no bespoke value).
 - Line 3 (**new**, D-20): 12px/400/`C.muted`, far-horizon-only delta (D-21), explicitly labelled with the
   year range so it never reads as ambiguous with the baseline line — e.g. `+310 °C·d by 2071–2100` /
   `+310 °C·d bis 2071–2100`. Percent-family variables use the same unit convention as the map legend
