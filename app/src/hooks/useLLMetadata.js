@@ -32,7 +32,7 @@ function buildNarrativeByTab(raw, lang) {
     const slots = source[tab] ?? {}
     result[tab] = {
       about: slots.about?.[lang] || slots.about?.en || null,
-      focus: slots.focus?.[lang] || slots.focus?.en || null,
+      challenges: slots.challenges?.[lang] || slots.challenges?.en || null,
     }
   }
   return result

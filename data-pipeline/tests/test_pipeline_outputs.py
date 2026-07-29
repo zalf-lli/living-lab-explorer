@@ -466,7 +466,7 @@ def test_narrative_by_tab_contract() -> None:
             "slug": "slug-a",
             "en": {
                 "narrative": {
-                    "soil": {"about": "Soil types are highly variable.", "focus": "   "},
+                    "soil": {"about": "Soil types are highly variable.", "challenges": "   "},
                     "protected-areas": {"about": "should be dropped"},
                 },
             },
@@ -484,7 +484,7 @@ def test_narrative_by_tab_contract() -> None:
     assert slug_a_narrative["soil"]["about"]["en"] == "Soil types are highly variable."
     assert slug_a_narrative["soil"]["about"]["de"] is None
     # Whitespace-only authored string normalizes to None, never "" (D-04).
-    assert slug_a_narrative["soil"]["focus"]["en"] is None
+    assert slug_a_narrative["soil"]["challenges"]["en"] is None
     # Unknown authored tab key is dropped, not propagated.
     assert "protected-areas" not in slug_a_narrative
     assert set(slug_a_narrative) == set(NARRATIVE_TABS)

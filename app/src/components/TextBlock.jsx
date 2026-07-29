@@ -1,11 +1,9 @@
-import { useTranslation } from 'react-i18next'
 import { C } from '../theme.js'
 
-// Renders authored per-theme narrative prose (an `about` or `focus` slot from
+// Renders authored per-theme narrative prose (an `about` or `challenges` slot from
 // ll.narrativeByTab) when `text` is provided; otherwise falls back to the striped
-// "text coming soon" placeholder gradient for tabs the researcher hasn't authored yet.
+// "text coming soon" gradient for tabs the researcher hasn't authored yet.
 export function TextBlock({ title, text, lines = 4, height }) {
-  const { t } = useTranslation()
   const trimmed = typeof text === 'string' ? text.trim() : ''
   const hasText = trimmed.length > 0
 
@@ -37,18 +35,13 @@ export function TextBlock({ title, text, lines = 4, height }) {
           {trimmed}
         </div>
       ) : (
-        <>
-          <div
-            style={{
-              background: `repeating-linear-gradient(0deg, ${C.surfaceMid} 0px, ${C.surfaceMid} 1px, transparent 1px, transparent 20px)`,
-              height: height || lines * 20,
-              borderRadius: 4,
-            }}
-          />
-          <div style={{ fontSize: 10, color: C.muted, marginTop: 6, fontStyle: 'italic' }}>
-            {t('textBlock.placeholder')}
-          </div>
-        </>
+        <div
+          style={{
+            background: `repeating-linear-gradient(0deg, ${C.surfaceMid} 0px, ${C.surfaceMid} 1px, transparent 1px, transparent 20px)`,
+            height: height || lines * 20,
+            borderRadius: 4,
+          }}
+        />
       )}
     </div>
   )

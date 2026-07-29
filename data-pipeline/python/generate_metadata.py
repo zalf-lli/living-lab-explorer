@@ -24,7 +24,7 @@ PROTECTED_AREA_KPIS_FILE = DATA / "protected_area_kpis.json"
 # Layer tab ids that can carry authored narrative text (mirrors app/src/data/layers.js
 # LAYERS[].id). "protected-areas" is an OVERLAYS entry, never a tab, and gets no slot.
 NARRATIVE_TABS = ("agriculture", "climate", "economic", "landscape", "soil")
-NARRATIVE_SLOTS = ("about", "focus")
+NARRATIVE_SLOTS = ("about", "challenges")
 NARRATIVE_LANGS = ("de", "en")
 
 

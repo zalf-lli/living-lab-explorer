@@ -12,10 +12,26 @@
     "icon": "east-brandenburg",
     "en": {
       "name": "East Brandenburg",
-      "tagline": "Multifunctional and diverse arable farming systems"    },
+      "tagline": "Multifunctional and diverse arable farming systems",
+      "narrative": {
+        "agriculture": { "about": "", "challenges": "" },
+        "climate": { "about": "", "challenges": "" },
+        "economic": { "about": "", "challenges": "" },
+        "landscape": { "about": "", "challenges": "" },
+        "soil": { "about": "", "challenges": "" }
+      }
+    },
     "de": {
       "name": "Ost-Brandenburg",
-      "tagline": "Multifunktionale und vielfältige Ackerbausysteme"    }
+      "tagline": "Multifunktionale und vielfältige Ackerbausysteme",
+      "narrative": {
+        "agriculture": { "about": "", "challenges": "" },
+        "climate": { "about": "", "challenges": "" },
+        "economic": { "about": "", "challenges": "" },
+        "landscape": { "about": "", "challenges": "" },
+        "soil": { "about": "", "challenges": "" }
+      }
+    }
   },
   "havellandisches-luch": {
     "slug": "havellandisches-luch",
@@ -30,10 +46,34 @@
     "icon": "havellandisches-luch",
     "en": {
       "name": "Havelländisches Luch",
-      "tagline": "Climate protection and grassland use in fenland regions"    },
+      "tagline": "Climate protection and grassland use in fenland regions",
+      "narrative": {
+        "agriculture": { 
+        "about": "Agriculture and livestock farming characterise large areas of the Havelland region. Over 80% of agricultural land is farmed by businesses, who own more than 100 ha farmland each. Small businesses account for just 3.6% of the area. Due to the high proportion of grassland in the region, cattle, horse and sheep farming are particularly important. A wide variety of crops are grown, from rye and barley to maize, potatoes, high-quality wheat and beet. Parts of the Havelländische Luch are also attractive for arable farming due to their proximity to groundwater.",
+        "challenges": "Agriculture in the Havelland district is characterised by location and land conditions (wetlands, predominance of grassland, varying soil quality) and is simultaneously subject to growing external demands (animal welfare, biodiversity, environmental protection, economic efficiency, climate change, and in the east of the region: land use pressure from competing land users). The combination of different uses (arable land, grassland, animal husbandry) and coordination with water/soil/nature conservation associations make the situation complex. Water management requirements clash with outdated water regulation technology." },
+        "climate": { 
+          "about": "The Havelland district is still considered part of the North-East German lowlands, with influences of maritime climates. Summers are relatively warm, and summer precipitation levels of 250-350 mm are slightly higher than during the rest of the year. In winter, which can be considered mild to moderately cold on average, there are more days with precipitation than in summer, but with lower total precipitation levels.",
+          "challenges": "Due to increasing evaporation, the climatic water balance in the area under consideration is generally deteriorating. This is particularly evident in summer and is a development that will become increasingly significant in the future." },
+        "economic": {
+           "about": "The socio-economic situation of the Havelland region is strongly influenced by its proximity to Berlin, with the eastern part of the region, which is close to the city, differing significantly from the rural western part. The population and building density is much higher in the east. The towns of Falkensee and Nauen, which are close to Berlin, have grown rapidly in recent years, and the district is among the top 15 in Germany in terms of positive net migration. Most industrial companies (especially in the logistics sector) are also located in the east of the district. The importance of tourism (especially water tourism) has increased recently. The unemployment rate is relatively low compared to the rest of the state. However, household incomes are among the lowest in Germany.",
+            "challenges": "" },
+        "landscape": { "about": "", "challenges": "" },
+        "soil": { 
+          "about": "Havelland is classified as part of the North German inland lowlands and has sandy, diluvial soils. The quality of the arable soil increases from west to east.",
+           "challenges": "" }
+      }
+    },
     "de": {
       "name": "Havelländisches Luch",
-      "tagline": "Klimaschutz und Grünlandnutzung in Niedermoorregionen"    }
+      "tagline": "Klimaschutz und Grünlandnutzung in Niedermoorregionen",
+      "narrative": {
+        "agriculture": { "about": "", "challenges": "" },
+        "climate": { "about": "", "challenges": "" },
+        "economic": { "about": "", "challenges": "" },
+        "landscape": { "about": "", "challenges": "" },
+        "soil": { "about": "", "challenges": "" }
+      }
+    }
   },
   "north-hessian-loess": {
     "slug": "north-hessian-loess",
@@ -48,10 +88,26 @@
     "icon": "north-hessian-loess",
     "en": {
       "name": "North Hessian Loess Plain",
-      "tagline": "Intensified organic farming"    },
+      "tagline": "Intensified organic farming",
+      "narrative": {
+        "agriculture": { "about": "", "challenges": "" },
+        "climate": { "about": "", "challenges": "" },
+        "economic": { "about": "", "challenges": "" },
+        "landscape": { "about": "", "challenges": "" },
+        "soil": { "about": "", "challenges": "" }
+      }
+    },
     "de": {
       "name": "Nordhessische Lössebene",
-      "tagline": "Intensivierter ökologischer Landbau"    }
+      "tagline": "Intensivierter ökologischer Landbau",
+      "narrative": {
+        "agriculture": { "about": "", "challenges": "" },
+        "climate": { "about": "", "challenges": "" },
+        "economic": { "about": "", "challenges": "" },
+        "landscape": { "about": "", "challenges": "" },
+        "soil": { "about": "", "challenges": "" }
+      }
+    }
   },
   "hessian-low-mountain": {
     "slug": "hessian-low-mountain",
@@ -66,11 +122,25 @@
     "icon": "hessian-low-mountain",
     "en": {
       "name": "Hessian Low Mountain Range",
-      "tagline": "Integrated plant-animal agricultural systems"
+      "tagline": "Integrated plant-animal agricultural systems",
+      "narrative": {
+        "agriculture": { "about": "", "challenges": "" },
+        "climate": { "about": "", "challenges": "" },
+        "economic": { "about": "", "challenges": "" },
+        "landscape": { "about": "", "challenges": "" },
+        "soil": { "about": "", "challenges": "" }
+      }
     },
     "de": {
       "name": "Hessisches Mittelgebirge",
-      "tagline": "Integrierte Pflanze-Tier-Agrarsysteme"
+      "tagline": "Integrierte Pflanze-Tier-Agrarsysteme",
+      "narrative": {
+        "agriculture": { "about": "", "challenges": "" },
+        "climate": { "about": "", "challenges": "" },
+        "economic": { "about": "", "challenges": "" },
+        "landscape": { "about": "", "challenges": "" },
+        "soil": { "about": "", "challenges": "" }
+      }
     }
   },
   "rheingau": {
@@ -86,9 +156,25 @@
     "icon": "rheingau",
     "en": {
       "name": "Rheingau",
-      "tagline": "Multifunctional and climate-resilient viticulture systems"    },
+      "tagline": "Multifunctional and climate-resilient viticulture systems",
+      "narrative": {
+        "agriculture": { "about": "", "challenges": "" },
+        "climate": { "about": "", "challenges": "" },
+        "economic": { "about": "", "challenges": "" },
+        "landscape": { "about": "", "challenges": "" },
+        "soil": { "about": "", "challenges": "" }
+      }
+    },
     "de": {
       "name": "Rheingau",
-      "tagline": "Multifunktionale und klimaresiliente Weinbausysteme"    }
+      "tagline": "Multifunktionale und klimaresiliente Weinbausysteme",
+      "narrative": {
+        "agriculture": { "about": "", "challenges": "" },
+        "climate": { "about": "", "challenges": "" },
+        "economic": { "about": "", "challenges": "" },
+        "landscape": { "about": "", "challenges": "" },
+        "soil": { "about": "", "challenges": "" }
+      }
+    }
   }
 }

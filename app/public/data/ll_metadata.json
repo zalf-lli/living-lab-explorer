@@ -5,11 +5,55 @@
     "contact": "Julia.Gunnoltz@zalf.de",
     "de": {
       "name": "Ost-Brandenburg",
+      "narrative": {
+        "agriculture": {
+          "about": "",
+          "challenges": ""
+        },
+        "climate": {
+          "about": "",
+          "challenges": ""
+        },
+        "economic": {
+          "about": "",
+          "challenges": ""
+        },
+        "landscape": {
+          "about": "",
+          "challenges": ""
+        },
+        "soil": {
+          "about": "",
+          "challenges": ""
+        }
+      },
       "tagline": "Multifunktionale und vielfältige Ackerbausysteme"
     },
     "destatisRetrievedAt": "2026-07-25",
     "en": {
       "name": "East Brandenburg",
+      "narrative": {
+        "agriculture": {
+          "about": "",
+          "challenges": ""
+        },
+        "climate": {
+          "about": "",
+          "challenges": ""
+        },
+        "economic": {
+          "about": "",
+          "challenges": ""
+        },
+        "landscape": {
+          "about": "",
+          "challenges": ""
+        },
+        "soil": {
+          "about": "",
+          "challenges": ""
+        }
+      },
       "tagline": "Multifunctional and diverse arable farming systems"
     },
     "icon": "east-brandenburg",
@@ -205,7 +249,7 @@
           "de": null,
           "en": null
         },
-        "focus": {
+        "challenges": {
           "de": null,
           "en": null
         }
@@ -215,7 +259,7 @@
           "de": null,
           "en": null
         },
-        "focus": {
+        "challenges": {
           "de": null,
           "en": null
         }
@@ -225,7 +269,7 @@
           "de": null,
           "en": null
         },
-        "focus": {
+        "challenges": {
           "de": null,
           "en": null
         }
@@ -235,7 +279,7 @@
           "de": null,
           "en": null
         },
-        "focus": {
+        "challenges": {
           "de": null,
           "en": null
         }
@@ -245,7 +289,7 @@
           "de": null,
           "en": null
         },
-        "focus": {
+        "challenges": {
           "de": null,
           "en": null
         }
@@ -272,11 +316,55 @@
     "contact": "Sebastian.Rogga@zalf.de",
     "de": {
       "name": "Havelländisches Luch",
+      "narrative": {
+        "agriculture": {
+          "about": "",
+          "challenges": ""
+        },
+        "climate": {
+          "about": "",
+          "challenges": ""
+        },
+        "economic": {
+          "about": "",
+          "challenges": ""
+        },
+        "landscape": {
+          "about": "",
+          "challenges": ""
+        },
+        "soil": {
+          "about": "",
+          "challenges": ""
+        }
+      },
       "tagline": "Klimaschutz und Grünlandnutzung in Niedermoorregionen"
     },
     "destatisRetrievedAt": "2026-07-25",
     "en": {
       "name": "Havelländisches Luch",
+      "narrative": {
+        "agriculture": {
+          "about": "Agriculture and livestock farming characterise large areas of the Havelland region. Over 80% of agricultural land is farmed by businesses, who own more than 100 ha farmland each. Small businesses account for just 3.6% of the area. Due to the high proportion of grassland in the region, cattle, horse and sheep farming are particularly important. A wide variety of crops are grown, from rye and barley to maize, potatoes, high-quality wheat and beet. Parts of the Havelländische Luch are also attractive for arable farming due to their proximity to groundwater.",
+          "challenges": "Agriculture in the Havelland district is characterised by location and land conditions (wetlands, predominance of grassland, varying soil quality) and is simultaneously subject to growing external demands (animal welfare, biodiversity, environmental protection, economic efficiency, climate change, and in the east of the region: land use pressure from competing land users). The combination of different uses (arable land, grassland, animal husbandry) and coordination with water/soil/nature conservation associations make the situation complex. Water management requirements clash with outdated water regulation technology."
+        },
+        "climate": {
+          "about": "The Havelland district is still considered part of the North-East German lowlands, with influences of maritime climates. Summers are relatively warm, and summer precipitation levels of 250-350 mm are slightly higher than during the rest of the year. In winter, which can be considered mild to moderately cold on average, there are more days with precipitation than in summer, but with lower total precipitation levels.",
+          "challenges": "Due to increasing evaporation, the climatic water balance in the area under consideration is generally deteriorating. This is particularly evident in summer and is a development that will become increasingly significant in the future."
+        },
+        "economic": {
+          "about": "The socio-economic situation of the Havelland region is strongly influenced by its proximity to Berlin, with the eastern part of the region, which is close to the city, differing significantly from the rural western part. The population and building density is much higher in the east. The towns of Falkensee and Nauen, which are close to Berlin, have grown rapidly in recent years, and the district is among the top 15 in Germany in terms of positive net migration. Most industrial companies (especially in the logistics sector) are also located in the east of the district. The importance of tourism (especially water tourism) has increased recently. The unemployment rate is relatively low compared to the rest of the state. However, household incomes are among the lowest in Germany.",
+          "challenges": ""
+        },
+        "landscape": {
+          "about": "",
+          "challenges": ""
+        },
+        "soil": {
+          "about": "Havelland is classified as part of the North German inland lowlands and has sandy, diluvial soils. The quality of the arable soil increases from west to east.",
+          "challenges": ""
+        }
+      },
       "tagline": "Climate protection and grassland use in fenland regions"
     },
     "icon": "havellandisches-luch",
@@ -470,29 +558,29 @@
       "agriculture": {
         "about": {
           "de": null,
-          "en": null
+          "en": "Agriculture and livestock farming characterise large areas of the Havelland region. Over 80% of agricultural land is farmed by businesses, who own more than 100 ha farmland each. Small businesses account for just 3.6% of the area. Due to the high proportion of grassland in the region, cattle, horse and sheep farming are particularly important. A wide variety of crops are grown, from rye and barley to maize, potatoes, high-quality wheat and beet. Parts of the Havelländische Luch are also attractive for arable farming due to their proximity to groundwater."
         },
-        "focus": {
+        "challenges": {
           "de": null,
-          "en": null
+          "en": "Agriculture in the Havelland district is characterised by location and land conditions (wetlands, predominance of grassland, varying soil quality) and is simultaneously subject to growing external demands (animal welfare, biodiversity, environmental protection, economic efficiency, climate change, and in the east of the region: land use pressure from competing land users). The combination of different uses (arable land, grassland, animal husbandry) and coordination with water/soil/nature conservation associations make the situation complex. Water management requirements clash with outdated water regulation technology."
         }
       },
       "climate": {
         "about": {
           "de": null,
-          "en": null
+          "en": "The Havelland district is still considered part of the North-East German lowlands, with influences of maritime climates. Summers are relatively warm, and summer precipitation levels of 250-350 mm are slightly higher than during the rest of the year. In winter, which can be considered mild to moderately cold on average, there are more days with precipitation than in summer, but with lower total precipitation levels."
         },
-        "focus": {
+        "challenges": {
           "de": null,
-          "en": null
+          "en": "Due to increasing evaporation, the climatic water balance in the area under consideration is generally deteriorating. This is particularly evident in summer and is a development that will become increasingly significant in the future."
         }
       },
       "economic": {
         "about": {
           "de": null,
-          "en": null
+          "en": "The socio-economic situation of the Havelland region is strongly influenced by its proximity to Berlin, with the eastern part of the region, which is close to the city, differing significantly from the rural western part. The population and building density is much higher in the east. The towns of Falkensee and Nauen, which are close to Berlin, have grown rapidly in recent years, and the district is among the top 15 in Germany in terms of positive net migration. Most industrial companies (especially in the logistics sector) are also located in the east of the district. The importance of tourism (especially water tourism) has increased recently. The unemployment rate is relatively low compared to the rest of the state. However, household incomes are among the lowest in Germany."
         },
-        "focus": {
+        "challenges": {
           "de": null,
           "en": null
         }
@@ -502,7 +590,7 @@
           "de": null,
           "en": null
         },
-        "focus": {
+        "challenges": {
           "de": null,
           "en": null
         }
@@ -510,9 +598,9 @@
       "soil": {
         "about": {
           "de": null,
-          "en": null
+          "en": "Havelland is classified as part of the North German inland lowlands and has sandy, diluvial soils. The quality of the arable soil increases from west to east."
         },
-        "focus": {
+        "challenges": {
           "de": null,
           "en": null
         }
@@ -537,11 +625,55 @@
     "contact": "barbara.sprenger@zalf.de",
     "de": {
       "name": "Hessisches Mittelgebirge",
+      "narrative": {
+        "agriculture": {
+          "about": "",
+          "challenges": ""
+        },
+        "climate": {
+          "about": "",
+          "challenges": ""
+        },
+        "economic": {
+          "about": "",
+          "challenges": ""
+        },
+        "landscape": {
+          "about": "",
+          "challenges": ""
+        },
+        "soil": {
+          "about": "",
+          "challenges": ""
+        }
+      },
       "tagline": "Integrierte Pflanze-Tier-Agrarsysteme"
     },
     "destatisRetrievedAt": "2026-07-25",
     "en": {
       "name": "Hessian Low Mountain Range",
+      "narrative": {
+        "agriculture": {
+          "about": "",
+          "challenges": ""
+        },
+        "climate": {
+          "about": "",
+          "challenges": ""
+        },
+        "economic": {
+          "about": "",
+          "challenges": ""
+        },
+        "landscape": {
+          "about": "",
+          "challenges": ""
+        },
+        "soil": {
+          "about": "",
+          "challenges": ""
+        }
+      },
       "tagline": "Integrated plant-animal agricultural systems"
     },
     "icon": "hessian-low-mountain",
@@ -737,7 +869,7 @@
           "de": null,
           "en": null
         },
-        "focus": {
+        "challenges": {
           "de": null,
           "en": null
         }
@@ -747,7 +879,7 @@
           "de": null,
           "en": null
         },
-        "focus": {
+        "challenges": {
           "de": null,
           "en": null
         }
@@ -757,7 +889,7 @@
           "de": null,
           "en": null
         },
-        "focus": {
+        "challenges": {
           "de": null,
           "en": null
         }
@@ -767,7 +899,7 @@
           "de": null,
           "en": null
         },
-        "focus": {
+        "challenges": {
           "de": null,
           "en": null
         }
@@ -777,7 +909,7 @@
           "de": null,
           "en": null
         },
-        "focus": {
+        "challenges": {
           "de": null,
           "en": null
         }
@@ -805,11 +937,55 @@
     "contact": "Silke.Floerke@zalf.de",
     "de": {
       "name": "Nordhessische Lössebene",
+      "narrative": {
+        "agriculture": {
+          "about": "",
+          "challenges": ""
+        },
+        "climate": {
+          "about": "",
+          "challenges": ""
+        },
+        "economic": {
+          "about": "",
+          "challenges": ""
+        },
+        "landscape": {
+          "about": "",
+          "challenges": ""
+        },
+        "soil": {
+          "about": "",
+          "challenges": ""
+        }
+      },
       "tagline": "Intensivierter ökologischer Landbau"
     },
     "destatisRetrievedAt": "2026-07-25",
     "en": {
       "name": "North Hessian Loess Plain",
+      "narrative": {
+        "agriculture": {
+          "about": "",
+          "challenges": ""
+        },
+        "climate": {
+          "about": "",
+          "challenges": ""
+        },
+        "economic": {
+          "about": "",
+          "challenges": ""
+        },
+        "landscape": {
+          "about": "",
+          "challenges": ""
+        },
+        "soil": {
+          "about": "",
+          "challenges": ""
+        }
+      },
       "tagline": "Intensified organic farming"
     },
     "icon": "north-hessian-loess",
@@ -1005,7 +1181,7 @@
           "de": null,
           "en": null
         },
-        "focus": {
+        "challenges": {
           "de": null,
           "en": null
         }
@@ -1015,7 +1191,7 @@
           "de": null,
           "en": null
         },
-        "focus": {
+        "challenges": {
           "de": null,
           "en": null
         }
@@ -1025,7 +1201,7 @@
           "de": null,
           "en": null
         },
-        "focus": {
+        "challenges": {
           "de": null,
           "en": null
         }
@@ -1035,7 +1211,7 @@
           "de": null,
           "en": null
         },
-        "focus": {
+        "challenges": {
           "de": null,
           "en": null
         }
@@ -1045,7 +1221,7 @@
           "de": null,
           "en": null
         },
-        "focus": {
+        "challenges": {
           "de": null,
           "en": null
         }
@@ -1070,11 +1246,55 @@
     "contact": "Kristina.Heilemann@zalf.de",
     "de": {
       "name": "Rheingau",
+      "narrative": {
+        "agriculture": {
+          "about": "",
+          "challenges": ""
+        },
+        "climate": {
+          "about": "",
+          "challenges": ""
+        },
+        "economic": {
+          "about": "",
+          "challenges": ""
+        },
+        "landscape": {
+          "about": "",
+          "challenges": ""
+        },
+        "soil": {
+          "about": "",
+          "challenges": ""
+        }
+      },
       "tagline": "Multifunktionale und klimaresiliente Weinbausysteme"
     },
     "destatisRetrievedAt": "2026-07-25",
     "en": {
       "name": "Rheingau",
+      "narrative": {
+        "agriculture": {
+          "about": "",
+          "challenges": ""
+        },
+        "climate": {
+          "about": "",
+          "challenges": ""
+        },
+        "economic": {
+          "about": "",
+          "challenges": ""
+        },
+        "landscape": {
+          "about": "",
+          "challenges": ""
+        },
+        "soil": {
+          "about": "",
+          "challenges": ""
+        }
+      },
       "tagline": "Multifunctional and climate-resilient viticulture systems"
     },
     "icon": "rheingau",
@@ -1270,7 +1490,7 @@
           "de": null,
           "en": null
         },
-        "focus": {
+        "challenges": {
           "de": null,
           "en": null
         }
@@ -1280,7 +1500,7 @@
           "de": null,
           "en": null
         },
-        "focus": {
+        "challenges": {
           "de": null,
           "en": null
         }
@@ -1290,7 +1510,7 @@
           "de": null,
           "en": null
         },
-        "focus": {
+        "challenges": {
           "de": null,
           "en": null
         }
@@ -1300,7 +1520,7 @@
           "de": null,
           "en": null
         },
-        "focus": {
+        "challenges": {
           "de": null,
           "en": null
         }
@@ -1310,7 +1530,7 @@
           "de": null,
           "en": null
         },
-        "focus": {
+        "challenges": {
           "de": null,
           "en": null
         }

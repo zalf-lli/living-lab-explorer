@@ -455,8 +455,8 @@ function LayoutSplit({ ll, layer, setLayer, compareOptions, onPickCompare }) {
                 lines={4}
               />
               <TextBlock
-                title={t('llDetail.researchFocus')}
-                text={ll.narrativeByTab?.[layer]?.focus}
+                title={t('llDetail.challenges')}
+                text={ll.narrativeByTab?.[layer]?.challenges}
                 lines={4}
               />
             </div>
@@ -581,8 +581,8 @@ function LayoutStacked({ ll, layer, setLayer, compareOptions, onPickCompare }) {
           }}
         >
           <TextBlock
-            title={t('llDetail.researchFocus')}
-            text={ll.narrativeByTab?.[layer]?.focus}
+            title={t('llDetail.challenges')}
+            text={ll.narrativeByTab?.[layer]?.challenges}
             lines={5}
           />
         </div>
@@ -700,8 +700,8 @@ function ComparisonColumn({ ll, layer }) {
           }}
         >
           <TextBlock
-            title={t('llDetail.researchFocus')}
-            text={ll.narrativeByTab?.[layer]?.focus}
+            title={t('llDetail.challenges')}
+            text={ll.narrativeByTab?.[layer]?.challenges}
             lines={4}
           />
         </div>
