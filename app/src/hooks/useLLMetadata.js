@@ -22,6 +22,22 @@ function fetchMetadata() {
   return inflight
 }
 
+// Collapses raw.narrativeByTab[tab][slot] = {en, de} pairs to the active language, with EN
+// fallback (D-05) -- same idiom as `region`. Defaults to {} when absent so a stale cached
+// ll_metadata.json (pre-narrativeByTab) degrades to placeholders instead of crashing (T-03).
+function buildNarrativeByTab(raw, lang) {
+  const source = raw.narrativeByTab ?? {}
+  const result = {}
+  for (const tab of Object.keys(source)) {
+    const slots = source[tab] ?? {}
+    result[tab] = {
+      about: slots.about?.[lang] || slots.about?.en || null,
+      focus: slots.focus?.[lang] || slots.focus?.en || null,
+    }
+  }
+  return result
+}
+
 function buildLL(raw, lang) {
   const content = raw[lang] || raw.en || {}
   return {
@@ -41,6 +57,7 @@ function buildLL(raw, lang) {
     manager: raw.manager?.email ? { name: raw.manager.name || '', email: raw.manager.email } : null,
     content,
     kpiByTab: raw.kpiByTab ?? {},
+    narrativeByTab: buildNarrativeByTab(raw, lang),
     destatisRetrievedAt: raw.destatisRetrievedAt ?? null,
   }
 }

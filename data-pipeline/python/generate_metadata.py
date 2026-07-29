@@ -1,3 +1,11 @@
+"""Generate app/public/data/ll_metadata.json (computed half) merged with authored
+data/ll_content.json (human-owned half).
+
+This module READS data/ll_content.json (CONTENT_FILE) but must NEVER write it -- it is
+human-owned per CLAUDE.md's critical rules. All write paths in this module target
+METADATA_FILE only.
+"""
+
 from __future__ import annotations
 
 import json
@@ -12,6 +20,12 @@ DESTATIS_LL_FILE = DATA / "destatis_ll.json"
 CURATED_KPIS_FILE = DATA / "destatis_curated_kpis.json"
 DESTATIS_META_FILE = DATA / "destatis_meta.json"
 PROTECTED_AREA_KPIS_FILE = DATA / "protected_area_kpis.json"
+
+# Layer tab ids that can carry authored narrative text (mirrors app/src/data/layers.js
+# LAYERS[].id). "protected-areas" is an OVERLAYS entry, never a tab, and gets no slot.
+NARRATIVE_TABS = ("agriculture", "climate", "economic", "landscape", "soil")
+NARRATIVE_SLOTS = ("about", "focus")
+NARRATIVE_LANGS = ("de", "en")
 
 
 def load_ll_content(path: Path = CONTENT_FILE) -> dict[str, dict]:
@@ -66,6 +80,38 @@ def _build_kpi_by_tab(slug: str, destatis_ll: dict, curated_kpis: list, protecte
     return by_tab
 
 
+def _clean_narrative_text(value: object) -> str | None:
+    """Normalize an authored narrative string: strip whitespace, map empty/whitespace-only
+    or non-string values to None. Never returns "" or the legacy "-" sentinel (D-04)."""
+    if not isinstance(value, str):
+        return None
+    stripped = value.strip()
+    return stripped or None
+
+
+def _build_narrative_by_tab(authored: dict) -> dict:
+    """Normalize authored['en'|'de']['narrative'][tab][slot] into the inline-pair contract
+    narrativeByTab[tab][slot][lang], matching the region:{en,de} / KPI unit:{en,de} idiom.
+
+    Always emits all five NARRATIVE_TABS and both NARRATIVE_SLOTS for every LL, each with
+    both NARRATIVE_LANGS keys, defaulting to None where unauthored (D-03). Iterates the
+    module-level constants (not the authored dict's keys) so an unknown authored tab id is
+    dropped by construction rather than propagated.
+    """
+    by_tab: dict[str, dict] = {}
+    for tab in NARRATIVE_TABS:
+        by_tab[tab] = {}
+        for slot in NARRATIVE_SLOTS:
+            by_tab[tab][slot] = {}
+            for lang in NARRATIVE_LANGS:
+                lang_block = authored.get(lang) if isinstance(authored, dict) else None
+                narrative = lang_block.get("narrative") if isinstance(lang_block, dict) else None
+                tab_block = narrative.get(tab) if isinstance(narrative, dict) else None
+                raw_value = tab_block.get(slot) if isinstance(tab_block, dict) else None
+                by_tab[tab][slot][lang] = _clean_narrative_text(raw_value)
+    return by_tab
+
+
 def _build_computed_record(
     slug: str,
     authored: dict,
@@ -84,6 +130,7 @@ def _build_computed_record(
         "contact": manager.get("email") or authored.get("contact", ""),
         "nuts3": authored.get("nuts3", []),
         "kpiByTab": _build_kpi_by_tab(slug, destatis_ll, curated_kpis, protected_area_kpis),
+        "narrativeByTab": _build_narrative_by_tab(authored),
         "destatisRetrievedAt": destatis_meta.get("fetched_at"),
     }
 
