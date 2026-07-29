@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: ready_to_plan
-stopped_at: Phase 8 context gathered
-last_updated: "2026-07-29T06:32:41.032Z"
+stopped_at: Phase 8 UI-SPEC approved
+last_updated: "2026-07-29T06:50:12.764Z"
 progress:
   total_phases: 15
   completed_phases: 9
@@ -153,6 +153,7 @@ Phase 2.2 completed on 2026-04-30 and replaced the shallow German-only soil look
 | 260725-e1x | Investigate near-miss Regionalstatistik.de water tables (32221-01-03-4/02-01-4/03-01-4) as replacements for the null groundwater_nitrate_mg_l KPI slot | 2026-07-25 | ab920f8 | [260725-e1x-investigate-the-near-miss-regionalstatis](./quick/260725-e1x-investigate-the-near-miss-regionalstatis/) |
 | 260727-fast | Remove all preliminary-data flags from app UI and pipeline; recast the design-option bar as a subtle "Change layout" switcher | 2026-07-27 | a37a9b4 | (inline) |
 | 260727-fast2 | Remove mock placeholder factsheet fields (soil_climate/description/delineation, EN+DE) from ll_content.json, ll_metadata.json, and fetch_nuts.py | 2026-07-27 | 4069627 | (inline) |
+| 260729-bsg | Wire per-theme narrative text (about + focus) for each layer tab from ll_content.json through generate_metadata.py into TextBlock, across split, stacked and comparison layouts — plumbing shipped, awaiting human authoring of the first real prose (Task 3 checkpoint) | 2026-07-29 | 13d2d20 | [260729-bsg-wire-per-theme-narrative-text-about-focu](./quick/260729-bsg-wire-per-theme-narrative-text-about-focu/) |
 
 ## Open Questions (from research)
 
@@ -194,6 +195,6 @@ Phase 2.2 completed on 2026-04-30 and replaced the shallow German-only soil look
 
 ## Session
 
-**Last session:** 2026-07-29T06:32:40.997Z
-**Stopped at:** Phase 8 context gathered
-**Resume file:** .planning/phases/08-add-maps-and-stats-for-climate-variables-using-chelsa-data/08-CONTEXT.md
+**Last session:** 2026-07-29T06:50:12.735Z
+**Stopped at:** Phase 8 UI-SPEC approved
+**Resume file:** .planning/phases/08-add-maps-and-stats-for-climate-variables-using-chelsa-data/08-UI-SPEC.md
