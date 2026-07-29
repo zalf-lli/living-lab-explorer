@@ -402,14 +402,93 @@ Plans:
 
 ### Phase 8: Add maps and stats for climate variables using CHELSA data
 
-**Goal:** [To be planned] — add climate variable maps and summary statistics to the app, sourced from CHELSA (accessed via the `chelsa_cmip6` Python library: https://gitlabext.wsl.ch/karger/chelsa_cmip6/).
-**Requirements**: TBD
-**Depends on:** Phase 7 (BORIS land value layer — last of the existing map-layer phases; the pipeline/layer conventions it establishes are reused here)
-**Plans:** 0 plans
+**Goal:** Living Lab visitors open the Climate tab and see a CHELSA-derived ~1 km climate raster for
+their region - one of four variables, shown either as the 1981-2010 baseline or as projected change
+under SSP3-7.0 across two future horizons - on a colour scale shared by all five Living Labs, with
+four KPI tiles beneath it reporting each variable's baseline value plus its 2071-2100 change. Built
+offline from static CHELSA/CMIP6 files and shipped as 60 per-Living-Lab PMTiles, with no runtime API
+dependency.
+**Requirements**: D-01 .. D-23 (from 08-CONTEXT.md) plus W-05 .. W-08 (Wave-2 decisions taken at the
+08-03 checkpoint). Phase 8 has no REQUIREMENTS.md IDs; the CONTEXT decisions are the spec, as in
+Phases 5, 05.1, 6 and 7.
+**Depends on:** Phase 7 (BORIS land value layer - last of the existing map-layer phases; the
+pipeline/layer conventions it establishes are reused here)
+**Plans:** 11 plans across 8 waves
+
+**Planning decisions (resolved during breakdown):**
+
+- **D-07 (GDD) is a live two-path decision, not a yes/no.** Research reversed 08-CONTEXT.md's premise:
+  `chelsa-cmip6==1.4` is on PyPI and does expose a `.gdd()` method with a 5 degC default matching D-06,
+  but only through a live cloud-compute path adding ~10 heavy dependencies, and its formula sums raw
+  temperatures on days above threshold rather than the textbook `sum(max(T - 5, 0))`. A lighter static
+  path (pre-built CHELSA CMIP6 GeoTIFFs on WSL's envicloud, zero new dependencies) covers bio1/bio12/bio18
+  but carries no GDD. Waves 1-2 are therefore a measure-then-decide spike (`08-01`) feeding a blocking
+  `checkpoint:decision` (`08-03`), copying the Phase 7 `07-03`/`07-05` precedent verbatim.
+
+- **D-09's shared colour scale needs a two-pass build with no Phase 6/7 precedent.** `build_colormap()`
+  takes an a-priori categorical dict; climate's mapping is computed. `compute_climate_color_breaks.py`
+  pools all five Living Labs' pixels into one committed breakpoint set before any per-LL bake, and
+  `build_continuous_colormap()` becomes a sibling to `build_colormap()`.
+
+- **D-12 is settled empirically, not assumed.** The Pass-0 script derives the diverging-vs-sequential
+  verdict from the five observed per-Living-Lab means and records them alongside it for audit.
+
+- **`sync.py::sync_pmtiles_per_ll()` needs a real code change.** Its `.replace("{slug}", "*")` handles
+  one placeholder; the climate pattern carries three.
+
+- **Two surfaces have no analog:** `StatPanel.jsx`'s D-20 delta row and `sources.yaml`'s
+  variable x period x GCM-crossed input block. Both are planned as design work, not copy-paste.
+
+- **D-18 is a same-commit requirement.** The manifest edit, both locked `tab_counts` dicts, the
+  `source_host` allow-list and the two dead i18n labels land together (Phase 05.1 D-05 discipline).
+
+- Zero new packages under the recommended static path.
 
 Plans:
 
-- [ ] TBD (run /gsd-plan-phase 8 to break down)
+**Wave 1**
+
+- [ ] 08-01-PLAN.md - `probe_chelsa.py` spike: future-period URL structure, static monthly `tas`,
+      CMIP6 product licence, five-GCM grid alignment, windowed-read cost, `08-SPIKE.md`
+- [ ] 08-02-PLAN.md - Frontend contracts: climate ramp exports, three-placeholder `resolveLayerAsset`,
+      `StatPanel.jsx` two-line delta tile
+
+**Wave 2** *(blocked on Wave 1)*
+
+- [ ] 08-03-PLAN.md - **Blocking checkpoint:decision** W-05 fourth variable (true GDD vs `bio10`),
+      W-06 URL templates, W-07 provenance text, W-08 acquisition budget cap
+
+**Wave 3** *(blocked on Wave 2)*
+
+- [ ] 08-04-PLAN.md - `sources.yaml` `chelsa-climate` entry, `fetch_climate.py` windowed acquisition +
+      five-GCM mean + family-aware change fields, twelve gitignored rasters
+- [ ] 08-05-PLAN.md - Full bilingual climate i18n block, `VariablePicker.jsx`, `PeriodSwitcher.jsx`
+
+**Wave 4** *(blocked on Wave 3)*
+
+- [ ] 08-06-PLAN.md - Pass-0 `compute_climate_color_breaks.py`, `build_continuous_colormap()`,
+      Pass-1 `build_climate_pmtiles.py`, breaks contract test
+- [ ] 08-07-PLAN.md - `compute_climate_kpis.py` area-weighted zonal mean, `data/climate_kpis.json`
+
+**Wave 5** *(blocked on Wave 4)*
+
+- [ ] 08-08-PLAN.md - Multi-placeholder sync glob, `generate_climate_legend()` codegen, the 60-file
+      build run and publish
+
+**Wave 6** *(blocked on Wave 5)*
+
+- [ ] 08-09-PLAN.md - D-18 manifest swap + both `tab_counts` dicts + allow-list + dead i18n labels,
+      `chelsa` `source_host` branch with delta threading, regenerated metadata (one commit)
+
+**Wave 7** *(blocked on Wave 6)*
+
+- [ ] 08-10-PLAN.md - `layers.js` climate raster entry, `useClimateControlState` lift and threading,
+      `LLMap` raster/legend/note/badge wiring, dead placeholder legend removal
+
+**Wave 8** *(blocked on Wave 7)*
+
+- [ ] 08-11-PLAN.md - Full automated gate, seven cross-file join-key checks, D-01..D-23 evidence
+      record, blocking bilingual human verification
 
 ### Phase 9: Chart Data Contract
 
