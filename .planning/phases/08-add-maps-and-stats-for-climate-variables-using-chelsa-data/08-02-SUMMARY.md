@@ -96,3 +96,12 @@ None - no external service configuration required.
 ---
 *Phase: 08-add-maps-and-stats-for-climate-variables-using-chelsa-data*
 *Completed: 2026-07-29*
+
+## Self-Check: PASSED
+
+- FOUND: app/src/data/layers.js
+- FOUND: app/src/components/StatPanel.jsx
+- FOUND: .planning/phases/08-add-maps-and-stats-for-climate-variables-using-chelsa-data/08-02-SUMMARY.md
+- FOUND commit: b834d88 (Task 1)
+- FOUND commit: 5bf852e (Task 2)
+- FOUND commit: 360f15b (SUMMARY.md)
