@@ -2,9 +2,9 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: ready_to_execute
-stopped_at: Phase 8 planned — 11 plans, 8 waves, plan-checker passed
-last_updated: "2026-07-29T11:53:45.857Z"
+status: in_progress
+stopped_at: Phase 8 Wave 1 partial — 08-02 merged; 08-01 halted by session quota, needs rerun
+last_updated: "2026-07-29T12:01:55.146Z"
 progress:
   total_phases: 15
   completed_phases: 9
@@ -21,7 +21,7 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 
 **Core value:** A researcher or stakeholder can open the app and immediately see accurate, up-to-date geodata and statistics for any of the five Living Labs without any server infrastructure.
 
-**Current focus:** Phase 07 — add-boris-land-value-maps-as-spatial-layer-for-socio-economi
+**Current focus:** Phase 08 — add-maps-and-stats-for-climate-variables-using-chelsa-data
 
 ## Status
 
@@ -36,7 +36,7 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 | 5 | Protected areas as toggleable layer | Planned (2026-07-25) — 4 plans, 3 waves, 2 checkpoints, verified ✓ |
 | 6 | Add land cover map | Complete (2026-07-26) — 5/5 plans, 4 waves, D-01..D-24 evidence recorded, bilingual checkpoint approved |
 | 7 | Add BORIS land value maps as spatial layer for socio-economic tab | In progress — 8/9 plans complete (07-08 executed 2026-07-28: all five Living Labs fetched, committed, published, and locked behind a fixture regression test) |
-| 8 | Add maps and stats for climate variables using CHELSA data | Planned (2026-07-29) — 11 plans, 8 waves, 2 blocking checkpoints, verified ✓ (0 blockers, 0 warnings after 1 revision) |
+| 8 | Add maps and stats for climate variables using CHELSA data | In progress (2026-07-29) — Wave 1 partial: 08-02 complete and merged; 08-01 (CHELSA network probe) halted by session quota with zero commits, must be rerun before Wave 2 |
 | 9 | Chart Data Contract | Not planned yet (2026-07-27) |
 | 10 | Two-column LL comparison view | Planned (2026-07-27) — 6 plans, 5 waves, 1 checkpoint, verified ✓ (0 blockers, 4 warnings) |
 

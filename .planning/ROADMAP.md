@@ -413,7 +413,7 @@ dependency.
 Phases 5, 05.1, 6 and 7.
 **Depends on:** Phase 7 (BORIS land value layer - last of the existing map-layer phases; the
 pipeline/layer conventions it establishes are reused here)
-**Plans:** 11 plans across 8 waves
+**Plans:** 1/11 plans executed
 
 **Planning decisions (resolved during breakdown):**
 
@@ -450,7 +450,7 @@ Plans:
 
 - [ ] 08-01-PLAN.md - `probe_chelsa.py` spike: future-period URL structure, static monthly `tas`,
       CMIP6 product licence, five-GCM grid alignment, windowed-read cost, `08-SPIKE.md`
-- [ ] 08-02-PLAN.md - Frontend contracts: climate ramp exports, three-placeholder `resolveLayerAsset`,
+- [x] 08-02-PLAN.md - Frontend contracts: climate ramp exports, three-placeholder `resolveLayerAsset`,
       `StatPanel.jsx` two-line delta tile
 
 **Wave 2** *(blocked on Wave 1)*
