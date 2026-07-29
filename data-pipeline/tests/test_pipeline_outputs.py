@@ -448,6 +448,79 @@ def test_protected_area_kpis_reach_ll_metadata() -> None:
 BORIS_BUDGET_BYTES_PER_LL_PER_COPY = 33_954_375
 
 
+def test_narrative_by_tab_contract() -> None:
+    """
+    Quick task 260729-bsg: generate_metadata.build_metadata must emit a normalized
+    narrativeByTab[<tab>][<slot>][<lang>] cube for every Living Lab, per D-02/D-03/D-04.
+    Covers both the in-memory fixture behaviours and the committed runtime asset shape.
+    """
+    import sys
+
+    sys.path.insert(0, str(repo_root() / "data-pipeline" / "python"))
+    from generate_metadata import NARRATIVE_SLOTS, NARRATIVE_TABS, build_metadata
+
+    # In-memory fixture: soil.about authored in English only, whitespace-only elsewhere,
+    # an unknown tab key that must be dropped, and a second LL authoring no narrative at all.
+    fixture = {
+        "slug-a": {
+            "slug": "slug-a",
+            "en": {
+                "narrative": {
+                    "soil": {"about": "Soil types are highly variable.", "focus": "   "},
+                    "protected-areas": {"about": "should be dropped"},
+                },
+            },
+            "de": {},
+        },
+        "slug-b": {
+            "slug": "slug-b",
+            "en": {},
+            "de": {},
+        },
+    }
+    metadata = build_metadata(ll_content=fixture)
+
+    slug_a_narrative = metadata["slug-a"]["narrativeByTab"]
+    assert slug_a_narrative["soil"]["about"]["en"] == "Soil types are highly variable."
+    assert slug_a_narrative["soil"]["about"]["de"] is None
+    # Whitespace-only authored string normalizes to None, never "" (D-04).
+    assert slug_a_narrative["soil"]["focus"]["en"] is None
+    # Unknown authored tab key is dropped, not propagated.
+    assert "protected-areas" not in slug_a_narrative
+    assert set(slug_a_narrative) == set(NARRATIVE_TABS)
+
+    slug_b_narrative = metadata["slug-b"]["narrativeByTab"]
+    for tab in NARRATIVE_TABS:
+        assert tab in slug_b_narrative
+        for slot in NARRATIVE_SLOTS:
+            assert slug_b_narrative[tab][slot] == {"en": None, "de": None}
+
+    # Committed runtime asset: every slug carries a complete five-tab narrativeByTab cube,
+    # values are str or None, and the legacy "-" sentinel never leaks in.
+    path = repo_root() / "app" / "public" / "data" / "ll_metadata.json"
+    assert path.exists(), f"Missing ll_metadata.json fixture: {path}"
+    with path.open("r", encoding="utf-8") as handle:
+        data = json.load(handle)
+
+    for slug in LL_SLUGS:
+        assert slug in data, f"Missing {slug} in ll_metadata.json"
+        record = data[slug]
+        assert "narrativeByTab" in record, f"Missing narrativeByTab for {slug}"
+        narrative_by_tab = record["narrativeByTab"]
+        assert set(narrative_by_tab) == set(NARRATIVE_TABS), (
+            f"{slug}: expected tabs {set(NARRATIVE_TABS)}, got {set(narrative_by_tab)}"
+        )
+        for tab in NARRATIVE_TABS:
+            for slot in NARRATIVE_SLOTS:
+                slot_block = narrative_by_tab[tab][slot]
+                assert set(slot_block) == {"en", "de"}
+                for lang_value in slot_block.values():
+                    assert lang_value is None or isinstance(lang_value, str), (
+                        f"{slug}.{tab}.{slot}: expected str or None, got {type(lang_value)}"
+                    )
+                    assert lang_value != "-", f"{slug}.{tab}.{slot}: leaked '-' sentinel"
+
+
 def test_boris_geojson_fixtures_exist_and_match_contract() -> None:
     """
     Plan 07-08: mirrors test_buek250_geojson_fixtures_exist_and_match_contract's shape --
