@@ -127,6 +127,19 @@ export function StatPanel({ tab, ll, maxColumns = 4, showEmptyState = false }) {
             ) : (
               <div style={{ fontSize: 15, fontWeight: 700, color: C.muted, lineHeight: 1.2 }}>–</div>
             )}
+            {'delta' in field ? (
+              field.delta != null ? (
+                <div style={{ fontSize: 12, fontWeight: 400, color: C.muted, lineHeight: 1.3, marginTop: 4 }}>
+                  {`${Number(field.delta).toLocaleString(locale, { signDisplay: 'exceptZero' })} ${
+                    field.deltaUnit?.[lang] ?? field.unit?.[lang] ?? ''
+                  } ${t('statPanel.byHorizon', { horizon: field.deltaHorizon })}`.trim()}
+                </div>
+              ) : (
+                <div style={{ fontSize: 12, fontWeight: 400, color: C.muted, lineHeight: 1.3, marginTop: 4 }}>
+                  –
+                </div>
+              )
+            ) : null}
           </div>
         ))}
       </div>

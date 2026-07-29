@@ -30,6 +30,14 @@ export const BORIS_NO_DATA_STYLE = { fillColor: '#d8d8d2', color: '#9a9a90', wei
 export const BORIS_VALUE_STYLE_BASE = { color: 'rgba(2,35,34,0.35)', weight: 0.4, fillOpacity: 0.78 }
 export const BORIS_HOVER_STYLE = { fillOpacity: 0.92, weight: 0.7 }
 
+// Single source of truth for the CHELSA climate ramp families; LLMap must import these rather than
+// redeclare hex codes. Light-to-dark = low-to-high for both sequential families (D-13); the diverging
+// ramp is reserved for sign-varying change maps (D-12) and centres on C.bg as the near-zero neutral.
+// Zero newly invented hues — every stop below is a C.* token reference into theme.js.
+export const CLIMATE_HEAT_RAMP = [C.orangeGhost, C.orange, C.orangeDark, C.orangeDeep]
+export const CLIMATE_WATER_RAMP = [C.tealLight, C.tealMid, C.teal, C.tealBg]
+export const CLIMATE_DIVERGING_RAMP = [C.orangeDark, C.orange, C.bg, C.tealMid, C.teal]
+
 export const LAYERS = [
   {
     id: 'agriculture',
@@ -86,10 +94,22 @@ export const OVERLAY_INDEX = new Map(OVERLAYS.map((o) => [o.id, o]))
 // LAYERS stays tab-only so the overlay never becomes an exclusive tab (per D-05).
 export const LAYER_INDEX = new Map([...LAYERS, ...OVERLAYS].map((l) => [l.id, l]))
 
-export function resolveLayerAsset(layerId, { slug } = {}) {
+export function resolveLayerAsset(layerId, { slug, variable, period } = {}) {
   const layer = LAYER_INDEX.get(layerId)
   if (layer?.type === 'raster') {
-    if (layer.pmtilesUrlPattern && slug) return layer.pmtilesUrlPattern.replace('{slug}', slug)
+    if (layer.pmtilesUrlPattern) {
+      const values = { slug, variable, period }
+      let unresolved = false
+      const resolved = layer.pmtilesUrlPattern.replace(/\{(slug|variable|period)\}/g, (token, key) => {
+        const value = values[key]
+        if (value == null) {
+          unresolved = true
+          return token
+        }
+        return value
+      })
+      return unresolved ? null : resolved
+    }
     return layer.pmtilesUrl ?? null
   }
   if (layer?.type === 'vector' && layer.geojsonPathPattern && slug) {
