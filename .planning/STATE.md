@@ -2,13 +2,13 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: ready_to_plan
-stopped_at: Phase 8 UI-SPEC approved
-last_updated: "2026-07-29T06:50:12.764Z"
+status: ready_to_execute
+stopped_at: Phase 8 planned — 11 plans, 8 waves, plan-checker passed
+last_updated: "2026-07-29T11:53:45.857Z"
 progress:
   total_phases: 15
   completed_phases: 9
-  total_plans: 45
+  total_plans: 56
   completed_plans: 43
   percent: 60
 ---
@@ -36,10 +36,45 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 | 5 | Protected areas as toggleable layer | Planned (2026-07-25) — 4 plans, 3 waves, 2 checkpoints, verified ✓ |
 | 6 | Add land cover map | Complete (2026-07-26) — 5/5 plans, 4 waves, D-01..D-24 evidence recorded, bilingual checkpoint approved |
 | 7 | Add BORIS land value maps as spatial layer for socio-economic tab | In progress — 8/9 plans complete (07-08 executed 2026-07-28: all five Living Labs fetched, committed, published, and locked behind a fixture regression test) |
+| 8 | Add maps and stats for climate variables using CHELSA data | Planned (2026-07-29) — 11 plans, 8 waves, 2 blocking checkpoints, verified ✓ (0 blockers, 0 warnings after 1 revision) |
 | 9 | Chart Data Contract | Not planned yet (2026-07-27) |
 | 10 | Two-column LL comparison view | Planned (2026-07-27) — 6 plans, 5 waves, 1 checkpoint, verified ✓ (0 blockers, 4 warnings) |
 
 ## Active Work
+
+**Phase 8 is planned and ready to execute (2026-07-29).** 11 plans across 8 waves fill both halves of
+the Climate tab from CHELSA: the `climate` placeholder in `app/src/data/layers.js:41` becomes a real
+per-LL raster (60 PMTiles = 4 variables x 3 periods x 5 LLs), and the tab's two permanently-null KPI
+slots (`agr_ch4_kt`, `agr_n2o_kt`) are dropped for four CHELSA-derived tiles mirroring the map
+variables.
+
+Research reversed one of the phase's own premises. `08-CONTEXT.md` called `chelsa_cmip6` an unvetted
+GitLab dependency; it is in fact published on PyPI as `chelsa-cmip6==1.4` (the GitLab repo is the dev
+version — user-corrected during planning). It *does* expose `.gdd()` at a 5 degC default matching
+D-06, so GDD is not underivable — but only via a live cloud-compute path adding ~10 heavy
+dependencies (xarray, dask, zarr, gcsfs, netcdf4, esgf-pyclient, google-cloud-storage), and its
+formula sums raw temperatures on days above threshold rather than the textbook `sum(max(T - 5, 0))`.
+A lighter static path research surfaced — pre-built CHELSA CMIP6 GeoTIFFs on WSL's public envicloud,
+fetchable with the already-pinned `rasterio`/`requests`, zero new dependencies — covers bio1/bio12/bio18
+but carries no GDD. Waves 1-2 are therefore a measure-then-decide spike (`08-01`) feeding a blocking
+`checkpoint:decision` (`08-03`), copying Phase 7's `07-03`/`07-05` precedent verbatim.
+
+**The GDD fork is deliberately left open, and two of its three answers halt the phase.** `08-04`
+onward implement only the static `bio10` acquisition shape; choosing `gdd-light` or `gdd-heavy` at the
+`08-03` checkpoint is a legitimate outcome that returns to `/gsd:plan-phase 8 --gaps` to re-plan the
+acquisition wave first. This is stated in each option's cost, in `08-03`'s resume signal, and as a
+hard precondition in `08-04`'s objective, `must_haves` and Task 1 acceptance criteria — the plan set
+no longer pretends all three answers are equally cheap.
+
+Two design surfaces have no analog anywhere in the codebase and are planned as real design work:
+D-09's shared-across-all-LLs colour scale (a Pass-0 `compute_climate_color_breaks.py` pooling all five
+LLs' pixels into committed breakpoints before any per-LL bake, plus a `build_continuous_colormap()`
+sibling to `build_colormap()` — no Phase 6/7 precedent, since palette hex is baked into PNG pixels),
+and `StatPanel.jsx`'s D-20 two-line delta tile. D-12's diverging-vs-sequential ramp split is settled
+empirically from the five observed per-LL means, not hardcoded. Two volume gates are binding fail
+assertions, not warnings: `08-04` halts on the W-08 transfer cap, `08-08` on a literal 209,715,200-byte
+committed-footprint cap asserted inside its verify command. Plan-checker passed after one revision
+(the open-fork blocker); decision coverage D-01..D-23 is 23/23. Next: `/gsd:execute-phase 8`.
 
 **Phase 10 is planned and ready to execute (2026-07-27).** 6 plans across 5 waves turn the
 placeholder "Add for comparison" button into a real two-column comparison. The view is a
