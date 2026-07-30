@@ -1,0 +1,102 @@
+{
+  "_meta": {
+    "computed_at": "2026-07-30T10:04:04.129449Z",
+    "delta_horizon": "2071_2100",
+    "delta_horizon_label": "2071-2100",
+    "input_pattern": "data/climate_source/chelsa-{variable}-{period}.tif",
+    "metric_crs": "EPSG:25832",
+    "source": "chelsa",
+    "variables": {
+      "annual_precip_mm": {
+        "delta_unit": {
+          "de": "%",
+          "en": "%"
+        },
+        "unit": {
+          "de": "mm",
+          "en": "mm"
+        }
+      },
+      "gdd5_degc_days": {
+        "delta_unit": {
+          "de": "degC-Tag",
+          "en": "degC-day"
+        },
+        "unit": {
+          "de": "degC-Tag",
+          "en": "degC-day"
+        }
+      },
+      "mean_annual_temp_degc": {
+        "delta_unit": {
+          "de": "degC",
+          "en": "degC"
+        },
+        "unit": {
+          "de": "degC",
+          "en": "degC"
+        }
+      },
+      "warm_quarter_precip_mm": {
+        "delta_unit": {
+          "de": "%",
+          "en": "%"
+        },
+        "unit": {
+          "de": "mm",
+          "en": "mm"
+        }
+      }
+    }
+  },
+  "east-brandenburg": {
+    "annual_precip_mm": 599.0,
+    "annual_precip_mm_delta": 3.0,
+    "gdd5_degc_days": 2026.0,
+    "gdd5_degc_days_delta": 1143.0,
+    "mean_annual_temp_degc": 9.4,
+    "mean_annual_temp_degc_delta": 4.1,
+    "warm_quarter_precip_mm": 189.0,
+    "warm_quarter_precip_mm_delta": -5.3
+  },
+  "havellandisches-luch": {
+    "annual_precip_mm": 595.0,
+    "annual_precip_mm_delta": 2.7,
+    "gdd5_degc_days": 2075.0,
+    "gdd5_degc_days_delta": 1154.0,
+    "mean_annual_temp_degc": 9.6,
+    "mean_annual_temp_degc_delta": 4.1,
+    "warm_quarter_precip_mm": 186.0,
+    "warm_quarter_precip_mm_delta": -5.9
+  },
+  "hessian-low-mountain": {
+    "annual_precip_mm": 862.0,
+    "annual_precip_mm_delta": 2.9,
+    "gdd5_degc_days": 1802.0,
+    "gdd5_degc_days_delta": 1091.0,
+    "mean_annual_temp_degc": 8.7,
+    "mean_annual_temp_degc_delta": 3.9,
+    "warm_quarter_precip_mm": 220.0,
+    "warm_quarter_precip_mm_delta": -8.6
+  },
+  "north-hessian-loess": {
+    "annual_precip_mm": 805.0,
+    "annual_precip_mm_delta": 2.3,
+    "gdd5_degc_days": 1735.0,
+    "gdd5_degc_days_delta": 1076.0,
+    "mean_annual_temp_degc": 8.5,
+    "mean_annual_temp_degc_delta": 3.9,
+    "warm_quarter_precip_mm": 227.0,
+    "warm_quarter_precip_mm_delta": -8.7
+  },
+  "rheingau": {
+    "annual_precip_mm": 726.0,
+    "annual_precip_mm_delta": 1.9,
+    "gdd5_degc_days": 1834.0,
+    "gdd5_degc_days_delta": 1112.0,
+    "mean_annual_temp_degc": 8.9,
+    "mean_annual_temp_degc_delta": 3.9,
+    "warm_quarter_precip_mm": 199.0,
+    "warm_quarter_precip_mm_delta": -9.8
+  }
+}

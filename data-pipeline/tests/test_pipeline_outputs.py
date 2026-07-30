@@ -587,3 +587,60 @@ def test_boris_geojson_fixtures_exist_and_match_contract() -> None:
             f"{path.name}: {size_bytes:,} bytes exceeds the W-01 budget of "
             f"{BORIS_BUDGET_BYTES_PER_LL_PER_COPY:,} bytes (07-SPIKE.md)"
         )
+
+
+def test_climate_kpis_fixture_matches_contract() -> None:
+    """
+    Plan 08-07: climate_kpis.json (produced by compute_climate_kpis.py) exists, carries a
+    chelsa-sourced _meta block with D-21 delta-horizon metadata plus a four-variable
+    manifest, and every LL slug object carries exactly the eight numeric keys (baseline +
+    far-horizon delta per variable, D-19/D-20) implied by that manifest -- mirroring
+    test_destatis_curated_kpis_manifest_matches_contract's shape.
+    """
+    import math
+
+    path = repo_root() / "data" / "climate_kpis.json"
+    assert path.exists(), f"Missing climate_kpis.json (producer: compute_climate_kpis.py): {path}"
+
+    with path.open("r", encoding="utf-8") as handle:
+        data = json.load(handle)
+
+    assert "_meta" in data, "Missing _meta block in climate_kpis.json"
+    meta = data["_meta"]
+    assert meta.get("computed_at"), "Missing _meta.computed_at"
+    assert meta.get("source") == "chelsa", f"Expected _meta.source=='chelsa', got {meta.get('source')!r}"
+    assert meta.get("metric_crs") == "EPSG:25832", f"Expected _meta.metric_crs=='EPSG:25832', got {meta.get('metric_crs')!r}"
+    assert meta.get("input_pattern"), "Missing _meta.input_pattern"
+    assert meta.get("delta_horizon") == "2071_2100", f"Expected _meta.delta_horizon=='2071_2100', got {meta.get('delta_horizon')!r}"
+    assert meta.get("delta_horizon_label") == "2071-2100", (
+        f"Expected _meta.delta_horizon_label=='2071-2100', got {meta.get('delta_horizon_label')!r}"
+    )
+
+    variables = meta.get("variables")
+    assert isinstance(variables, dict), "Missing or malformed _meta.variables block"
+    assert len(variables) == 4, f"Expected exactly 4 entries in _meta.variables, got {len(variables)}"
+
+    variable_keys = set(variables.keys())
+    for variable_key, entry in variables.items():
+        assert entry.get("unit", {}).get("en"), f"{variable_key}: missing non-empty unit.en"
+        assert entry.get("unit", {}).get("de"), f"{variable_key}: missing non-empty unit.de"
+        assert entry.get("delta_unit", {}).get("en"), f"{variable_key}: missing non-empty delta_unit.en"
+        assert entry.get("delta_unit", {}).get("de"), f"{variable_key}: missing non-empty delta_unit.de"
+
+    ll_data = {k: v for k, v in data.items() if k != "_meta"}
+    assert set(ll_data.keys()) == set(LL_SLUGS), (
+        f"Expected LL_SLUGS {set(LL_SLUGS)}, got {set(ll_data.keys())}"
+    )
+
+    # Every slug object's key set must be matched against the manifest's own variable_key
+    # set, so this test cannot silently drift from _meta.variables.
+    expected_keys = variable_keys | {f"{key}_delta" for key in variable_keys}
+    for slug, record in ll_data.items():
+        assert set(record.keys()) == expected_keys, (
+            f"{slug}: expected exactly {sorted(expected_keys)}, got {sorted(record.keys())}"
+        )
+        for key, value in record.items():
+            assert isinstance(value, (int, float)) and not isinstance(value, bool), (
+                f"{slug}.{key}: expected a number, got {type(value)}: {value!r}"
+            )
+            assert math.isfinite(value), f"{slug}.{key}: value is not finite: {value!r}"
