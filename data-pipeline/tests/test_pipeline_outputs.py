@@ -644,3 +644,22 @@ def test_climate_kpis_fixture_matches_contract() -> None:
                 f"{slug}.{key}: expected a number, got {type(value)}: {value!r}"
             )
             assert math.isfinite(value), f"{slug}.{key}: value is not finite: {value!r}"
+
+
+def test_climate_color_breaks_contract() -> None:
+    """
+    Plan 08-06: enforces the D-09/D-12/D-13 shared-colour-scale contract on
+    data/climate_color_breaks.json via check_color_breaks.check_color_breaks. If the
+    artifact is missing, the producer is compute_climate_color_breaks.py, matching how
+    test_destatis_curated_kpis_manifest_matches_contract names its own producer.
+    """
+    import sys
+
+    sys.path.insert(0, str(repo_root() / "data-pipeline" / "tests"))
+    from check_color_breaks import check_color_breaks
+
+    path = repo_root() / "data" / "climate_color_breaks.json"
+    assert path.exists(), (
+        f"Missing {path} -- run data-pipeline/python/compute_climate_color_breaks.py first"
+    )
+    check_color_breaks(path)
