@@ -91,6 +91,7 @@ const resources = {
           bio18: 'Summer precip.',
         },
         period: {
+          rowLabel: 'Time period',
           baseline: 'Baseline',
           change: 'Change',
           h2041_2070: '2041-2070',
@@ -343,6 +344,7 @@ const resources = {
           bio18: 'Sommerniederschlag',
         },
         period: {
+          rowLabel: 'Zeitraum',
           baseline: 'Basiswert',
           change: 'Aenderung',
           h2041_2070: '2041-2070',
