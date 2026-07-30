@@ -210,3 +210,122 @@ runs. This gate is never auto-approvable (T-08-SC) and, per this brief's downstr
 above, only becomes relevant after a fresh `/gsd:plan-phase 8 --gaps` pass, since `gdd-heavy` halts
 this phase before any install step is reachable.
 
+## Locked decisions
+
+### W-05 — Fourth variable
+
+**Locked 2026-07-30.** Chosen option id: **`gdd5`** — CHELSA's own directly-published static
+growing-degree-days-above-5degC file (the W-01 bonus finding), approved by the human at the Task 2
+checkpoint on 2026-07-30. This was **not** one of the three option ids this phase's earlier planning
+documents originally framed for this decision; it is a fourth possibility this plan's Decision brief
+surfaced after `08-01`'s live probe found it. Do not re-derive the values below; transcribe as-is.
+
+- Variable id: `gdd`
+- KPI `variable_key`: `gdd5_degc_days`
+- Unit EN: `degC-day`; Unit DE: `degC-Tag`
+- Ramp family: heat
+- Legend note EN: "Heat accumulated above 5 degC over the year -- a measure of how much growing
+  season a crop gets."
+- Legend note DE: "Ueber das Jahr summierte Waerme oberhalb von 5 degC -- ein Mass dafuer, wie viel
+  Vegetationszeit eine Kultur erhaelt."
+- Formula verdict: CHELSA's own `gdd5` formula was **not** independently re-derived against CHELSA's
+  technical documentation in this session (no PDF-extraction tooling was available at `08-01`) and
+  remains an **open verification item**, not a locked fact -- carry this caveat into any user-facing
+  claim of textbook agronomic GDD fidelity until it is confirmed.
+- Acquisition shape: one directly-published CHELSA raster per (variable, period, GCM), fetched with
+  the same `requests`/`rasterio` mechanism as `bio1`/`bio12`/`bio18`/`bio10` -- the same shape `08-04`
+  already implements for `bio10`.
+
+**Downstream:** `gdd5` -- same static per-variable GeoTIFF acquisition shape as `bio10`; `08-04`
+onwards execute as written. See `## Phase status` below.
+
+**Required follow-up (flagged here so it is not silently forgotten):**
+1. `08-04` Task 1's execution precondition currently checks `08-SPIKE.md`'s `### W-05` value against
+   three literal option-id strings only, none of which is `gdd5`. Whoever executes `08-04` next must
+   recognize `gdd5` as a `bio10`-shaped outcome and update that precondition-check wording (a one-line
+   fix inside `08-04-PLAN.md`, not a re-planned acquisition wave). This plan's `files_modified`
+   frontmatter is `08-SPIKE.md` only, so that edit is out of scope here and is recorded as a Deviation
+   in `08-03-SUMMARY.md` for the orchestrator/next dispatch to apply before Wave 3 executes.
+2. `gdd5`'s full remote file sizes (452,334,119 bytes baseline; 499,682,878-531,940,694 bytes future
+   per GCM) are 3.9x-4.4x larger than `bio1`'s equivalent files, and no windowed `/vsicurl/`
+   Germany-extent read has been measured for `gdd5` specifically. `08-04`'s Stage-1 measure-then-decide
+   gate (Task 3) will produce that measurement for the first time; the W-08 budget cap below was set
+   from `bio1`'s measured proxy and may need re-confirming once `gdd5`'s real read cost is known.
+
+### W-06 — Source URL templates
+
+**Locked 2026-07-30**, approved as-is.
+
+- Future-period template:
+  `https://os.zhdk.cloud.switch.ch/chelsav2/GLOBAL/climatologies/{period}/{GCM_UPPER}/{ssp}/bio/CHELSA_{variable}_{period}_{gcm}_{ssp}_V.2.1.tif`
+- Baseline template:
+  `https://os.zhdk.cloud.switch.ch/chelsav2/GLOBAL/climatologies/1981-2010/bio/CHELSA_{variable}_1981-2010_V.2.1.tif`
+
+Both re-confirmed live at `08-01` with a 40/40 HTTP 200 matrix (4 variables x 2 periods x 5 GCMs). Do
+not re-derive; transcribe as-is into `sources.yaml`.
+
+### W-07 — Provenance text
+
+**Locked 2026-07-30**, approved as proposed (conservative wording, not the baseline product's
+unqualified CC0).
+
+- `license`: CC0-1.0 (Creative Commons Zero - No Rights Reserved (CC0 1.0)) for the CHELSA V2.1
+  baseline climatology dataset page (confirmed live at `08-01`).
+- `attribution`: CHELSA V2.1 (WSL), (c) Dirk Nikolaus Karger, Olaf Conrad, Juergen Boehner et al.,
+  DOI 10.16904/envidat.228.
+- `citation`: Karger DN. et al. Climatologies at high resolution for the earth's land surface areas,
+  Scientific Data, 4, 170122 (2017), DOI 10.1038/sdata.2017.122.
+- `note`: This EnviDat entry (DOI 10.16904/envidat.228, license CC0-1.0) is the umbrella
+  "Climatologies at high resolution" dataset page confirmed live at `08-01`. **The underlying CMIP6
+  GCM model outputs additionally carry their own WCRP CMIP6 Terms of Use (conventionally
+  CC-BY-4.0-style, naming the modelling centre per GCM), which this phase could not independently
+  re-verify against a live WSL-hosted page.** `sources.yaml`'s `chelsa-climate` entry must carry this
+  note verbatim rather than asserting an unqualified CC0 for the CMIP6-derived product.
+
+### W-08 — Acquisition budget cap
+
+**Locked 2026-07-30**, approved.
+
+- `max_seconds_per_read`: **300** seconds (measured actual: 7.48s on the one windowed read performed
+  at `08-01`, so this cap carries wide headroom).
+- `max_total_transfer_bytes`: **5368709120** bytes (5 GiB, binary convention).
+  - Chosen-convention rationale: this codebase already uses the binary MiB/GiB convention for byte
+    caps elsewhere in this same phase -- `08-08-PLAN.md`'s committed-footprint cap is the literal
+    integer `209715200` bytes, i.e. exactly `200 * 1024 * 1024` (200 MiB) -- and `sources.yaml`
+    already carries `max_response_bytes: 104857600` (100 MiB) and `max_response_bytes: 209715200`
+    (200 MiB) for other layers. `5368709120 = 5 * 1024**3` follows that same local precedent rather
+    than the decimal `5000000000` alternative.
+  - W-04's own measured projection for the `bio10`-shaped 44-read/4-variable matrix: ~102.7 MB
+    transfer, ~329.3 s wall -- both comfortably inside this cap. `gdd5`'s own read cost is not yet
+    measured (see the W-05 follow-up above); `08-04` must re-check this cap against `gdd5`'s first
+    real Stage-1 measurement rather than assuming the `bio10`/`bio1` proxy applies unchanged.
+- D-06 base temperature: **5 degC**, confirmed unchanged, matching `chelsa_cmip6`'s own default
+  (`growing_degree_days(tas, threshold=None)`) and `08-RESEARCH.md`'s recommendation.
+
+## Locked four-variable table
+
+| id | `variable_key` | unit EN | unit DE | ramp family | i18n label key | legend-note key |
+|---|---|---|---|---|---|---|
+| `gdd` | `gdd5_degc_days` | `degC-day` | `degC-Tag` | heat | `climateVariable.gdd` | `legend.climate.note.gdd` |
+| `bio1` | `mean_annual_temp_degc` | `degC` | `degC` | heat | `climateVariable.bio1` | `legend.climate.note.bio1` |
+| `bio12` | `annual_precip_mm` | `mm` | `mm` | water | `climateVariable.bio12` | `legend.climate.note.bio12` |
+| `bio18` | `warm_quarter_precip_mm` | `mm` | `mm` | water | `climateVariable.bio18` | `legend.climate.note.bio18` |
+
+## Naming contract (transcribe, do not invent)
+
+- PMTiles pattern: `data/pmtiles/climate-{variable}-{period}-{slug}.pmtiles`
+- Period tokens: `baseline`, `2041_2070`, `2071_2100`
+- Germany-extent intermediate rasters: `data/climate_source/chelsa-{variable}-{period}.tif`
+- New `source_host` enum value: `chelsa` (D-23)
+- Computed KPI file: `data/climate_kpis.json`
+- Shared colour breaks file: `data/climate_color_breaks.json`
+- `sources.yaml` layer id: `chelsa-climate`, `app_layer: climate`, `classification: continuous`
+
+## Phase status
+
+`08-04` may proceed as written under the `gdd5` outcome (identical static per-variable acquisition
+shape to `bio10`), subject to the two follow-up items recorded in the `### W-05` subsection above --
+neither blocks starting `08-04`, but both must be resolved inside it (the precondition-check wording
+addition before Task 1 runs, and the `gdd5` read-cost re-check as part of Task 3's Stage-1
+measurement).
+
