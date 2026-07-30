@@ -111,3 +111,14 @@ None - no external service configuration required.
 ---
 *Phase: 08-add-maps-and-stats-for-climate-variables-using-chelsa-data*
 *Completed: 2026-07-30*
+
+## Self-Check: PASSED
+
+- FOUND: app/src/i18n.js
+- FOUND: app/src/components/VariablePicker.jsx
+- FOUND: app/src/components/PeriodSwitcher.jsx
+- FOUND: .planning/phases/08-add-maps-and-stats-for-climate-variables-using-chelsa-data/08-05-SUMMARY.md
+- FOUND commit: 863bc0e (Task 1)
+- FOUND commit: 9d86dfd (Task 2)
+- FOUND commit: 362b0c2 (Task 3)
+- FOUND commit: 1e774a1 (SUMMARY.md)
