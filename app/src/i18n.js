@@ -48,6 +48,10 @@ const resources = {
         groundwater_abstraction_1000m3: 'Groundwater abstraction (non-public supply)',
         agr_ch4_kt: 'Agricultural CH4 emissions',
         agr_n2o_kt: 'Agricultural N2O emissions',
+        gdd5_degc_days: 'Growing degree days (base 5 degC)',
+        mean_annual_temp_degc: 'Mean annual temperature',
+        annual_precip_mm: 'Annual precipitation',
+        warm_quarter_precip_mm: 'Precipitation of warmest quarter',
         forest_area_ha: 'Forest area',
         natura2000_ha: 'Natura 2000 area',
         nature_reserves_ha: 'Nature reserves area',
@@ -68,6 +72,7 @@ const resources = {
         compareEmptyBody: 'This Living Lab does not have statistics for this tab yet.',
         errorTitle: 'Statistics are temporarily unavailable.',
         errorBody: 'Reload the page - if this keeps happening, the data source may be temporarily unreachable.',
+        byHorizon: 'by {{horizon}}',
       },
       layers: {
         agriculture: 'Agriculture',
@@ -76,6 +81,23 @@ const resources = {
         economic: 'Socio-economic',
         landscape: 'Landscape',
         protectedAreas: 'Protected Areas',
+      },
+      climate: {
+        variableRowLabel: 'Climate variable',
+        variable: {
+          gdd: 'GDD',
+          bio1: 'Mean temp.',
+          bio12: 'Precipitation',
+          bio18: 'Summer precip.',
+        },
+        period: {
+          baseline: 'Baseline',
+          change: 'Change',
+          h2041_2070: '2041-2070',
+          h2071_2100: '2071-2100',
+          baselineHint: '1981-2010 climatological normal',
+          changeHint: 'Projected change under SSP3-7.0',
+        },
       },
       legend: {
         agriculture: {
@@ -91,6 +113,12 @@ const resources = {
           grassland: 'Warm',
           settlement: 'Cool',
           water: 'Water / cold',
+          note: {
+            gdd: 'Heat accumulated above 5 degC over the year - a measure of how much growing season a crop gets.',
+            bio1: 'Mean annual air temperature, averaged over the reference period.',
+            bio12: 'Total precipitation summed over the year.',
+            bio18: 'Precipitation falling in the warmest three-month quarter - relevant to summer drought stress.',
+          },
         },
         soil: {
           soilPolygons: 'BUEK soil polygons',
@@ -172,6 +200,8 @@ const resources = {
         loadError: 'Failed to load map data. Check the browser console.',
         soilLoading: 'Loading soil polygons for this Living Lab...',
         soilLoadError: 'Soil data could not be loaded for this Living Lab.',
+        climateLoading: 'Loading climate layer for this Living Lab...',
+        climateError: 'Climate layer failed to load. Try switching variables or periods, or reload the page.',
         economicLoading: 'Loading land value zones for this Living Lab...',
         economicError: 'Land value data could not be loaded for this Living Lab.',
         protectedAreasLoading: 'Loading protected areas for this Living Lab...',
@@ -269,6 +299,10 @@ const resources = {
         groundwater_abstraction_1000m3: 'Grundwasserentnahme (nichtoeffentliche Versorgung)',
         agr_ch4_kt: 'CH4-Emissionen Landwirtschaft',
         agr_n2o_kt: 'N2O-Emissionen Landwirtschaft',
+        gdd5_degc_days: 'Waermesumme (Basis 5 degC)',
+        mean_annual_temp_degc: 'Mittlere Jahrestemperatur',
+        annual_precip_mm: 'Jahresniederschlag',
+        warm_quarter_precip_mm: 'Niederschlag des waermsten Vierteljahres',
         forest_area_ha: 'Waldflaeche',
         natura2000_ha: 'Natura-2000-Flaeche',
         nature_reserves_ha: 'Naturschutzgebietsflaeche',
@@ -290,6 +324,7 @@ const resources = {
           'Fuer dieses Living Lab liegen in diesem Reiter noch keine Statistiken vor.',
         errorTitle: 'Statistiken sind voruebergehend nicht verfuegbar.',
         errorBody: 'Seite neu laden - falls das Problem bestehen bleibt, ist die Datenquelle moeglicherweise voruebergehend nicht erreichbar.',
+        byHorizon: 'bis {{horizon}}',
       },
       layers: {
         agriculture: 'Landwirtschaft',
@@ -298,6 +333,23 @@ const resources = {
         economic: 'Soziooekonomie',
         landscape: 'Landschaft',
         protectedAreas: 'Schutzgebiete',
+      },
+      climate: {
+        variableRowLabel: 'Klimavariable',
+        variable: {
+          gdd: 'GDD',
+          bio1: 'Mitteltemp.',
+          bio12: 'Niederschlag',
+          bio18: 'Sommerniederschlag',
+        },
+        period: {
+          baseline: 'Basiswert',
+          change: 'Aenderung',
+          h2041_2070: '2041-2070',
+          h2071_2100: '2071-2100',
+          baselineHint: 'Klimanormalperiode 1981-2010',
+          changeHint: 'Projizierte Aenderung unter SSP3-7.0',
+        },
       },
       legend: {
         agriculture: {
@@ -313,6 +365,12 @@ const resources = {
           grassland: 'Warm',
           settlement: 'Kuehl',
           water: 'Wasser / kalt',
+          note: {
+            gdd: 'Ueber das Jahr summierte Waerme oberhalb von 5 degC - ein Mass dafuer, wie viel Vegetationszeit eine Kultur erhaelt.',
+            bio1: 'Mittlere jaehrliche Lufttemperatur, gemittelt ueber den Referenzzeitraum.',
+            bio12: 'Ueber das Jahr summierter Gesamtniederschlag.',
+            bio18: 'Niederschlag im waermsten Vierteljahr - relevant fuer sommerlichen Trockenstress.',
+          },
         },
         soil: {
           soilPolygons: 'BUEK-Bodenpolygone',
@@ -395,6 +453,8 @@ const resources = {
         loadError: 'Kartendaten konnten nicht geladen werden. Bitte Browser-Konsole pruefen.',
         soilLoading: 'Bodenpolygone fuer dieses Living Lab werden geladen...',
         soilLoadError: 'Die Bodendaten fuer dieses Living Lab konnten nicht geladen werden.',
+        climateLoading: 'Klimaebene fuer dieses Reallabor wird geladen...',
+        climateError: 'Klimaebene konnte nicht geladen werden. Variable oder Zeitraum wechseln oder Seite neu laden.',
         economicLoading: 'Bodenrichtwertzonen fuer dieses Living Lab werden geladen...',
         economicError: 'Die Bodenrichtwertdaten fuer dieses Living Lab konnten nicht geladen werden.',
         protectedAreasLoading: 'Schutzgebiete fuer dieses Living Lab werden geladen...',
