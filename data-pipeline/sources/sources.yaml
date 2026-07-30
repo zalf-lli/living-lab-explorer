@@ -420,7 +420,20 @@ layers:
       # fetch_climate.py prints the computed sha256 of each derived raster on the first
       # successful run, exactly as build_land_cover.py does for input.sha256_by_tile --
       # paste each printed digest here, keyed "{variable}-{period}", to pin it.
-      sha256_by_derived: {}
+      # Pinned 2026-07-30 from the first real Stage 1 + Stage 2 acquisition run (08-04).
+      sha256_by_derived:
+        "bio1-baseline": "9ba2962f53ba7bd52d7d653d223750c4bb9ee4794635f56ceb06cee907182d12"
+        "bio1-2041_2070": "1e9a6ad80822c9dd18a76d771aa39d744a0d6913e846667088de4b40ce402ca2"
+        "bio1-2071_2100": "758421ab9c7a96640fb9133370110b600384f339690b68c4af1b9479780eec44"
+        "bio12-baseline": "97bcfb5394a27f6f73795dc8073f52d293daf85002da5144aaccb35b1ad4aaf9"
+        "bio12-2041_2070": "28d683d77c7929b84084ee521187c32e9d185a42adafe6723b2e8d02c12d40af"
+        "bio12-2071_2100": "15442d033c7f34436ca4fb9029532cb09d52460a467a8be50cc263473dc0d100"
+        "bio18-baseline": "3bf6754679d7fd7f00cc55c77e42c5b94be11788afb8c48c5fb3d355c53258b8"
+        "bio18-2041_2070": "dbf42bad8ba76a63ed0e356e42df9796dde3a934522a53fe44d5c00c4fb2ce62"
+        "bio18-2071_2100": "fdea74171f01b26e41703eddea00a849b187109515dbf3f67d91386c440fd181"
+        "gdd-baseline": "117b136f350bdf8f562c2b34fe869ca143b4b4d97b2a7072ef6c3ce3271a4dd5"
+        "gdd-2041_2070": "d67726c6ca38c060578fb9cc774b5917c145e6a1531870f290ae49c4b716cc6b"
+        "gdd-2071_2100": "941bfb0b3ae6bcf29ad943023af9cb5cb2fd6480e5428478caadae17e90b3a04"
     input:
       dir: data/climate_source
       path_pattern: "data/climate_source/chelsa-{variable}-{period}.tif"

@@ -15,6 +15,11 @@ data/io_lulc_*.tif
 data/boart1000_ob_v20
 data/pmtiles/*.tmp
 data/buek250_mgm_utm_v60*
+# Germany-extent CHELSA rasters (baseline + change fields), rebuildable by
+# fetch_climate.py. The committed artifacts of this layer are the per-LL
+# PMTiles plus data/climate_kpis.json and data/climate_color_breaks.json,
+# not these intermediates.
+data/climate_source/
 
 # React app (Vite)
 app/node_modules/
