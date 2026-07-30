@@ -233,14 +233,21 @@ def _multi_model_mean(arrays: list, nodata) -> "np.ndarray":
 def _derive_change_field(future: "np.ndarray", baseline: "np.ndarray", *, change_mode: str, nodata) -> "np.ndarray":
     """D-11: absolute delta for the heat family, percent change for the water family.
 
-    The percent branch guards against a zero/nodata baseline denominator so a division
-    by a dry cell cannot produce an infinity that later poisons 08-06's colour breaks.
+    Both branches guard against a nodata or non-finite baseline/future pixel so a nodata
+    cell (the pipeline's finite `-9999` sentinel from `_read_window`, or a NaN left by
+    `_multi_model_mean` when every GCM agreed nodata) cannot silently produce a wrong-but-
+    finite value that later poisons 08-06's colour breaks or 08-07's area-weighted KPIs.
+    The percent branch additionally guards against a zero baseline denominator.
     """
+    result = np.full_like(baseline, nodata, dtype=np.float32)
+    valid = (
+        np.isfinite(baseline) & np.isfinite(future) & (baseline != nodata) & (future != nodata)
+    )
     if change_mode == "absolute":
-        return (future - baseline).astype(np.float32)
+        result[valid] = (future[valid] - baseline[valid]).astype(np.float32)
+        return result
     if change_mode == "percent":
-        result = np.full_like(baseline, nodata, dtype=np.float32)
-        safe = np.isfinite(baseline) & (baseline != 0)
+        safe = valid & (baseline != 0)
         result[safe] = ((future[safe] - baseline[safe]) / baseline[safe] * 100.0).astype(np.float32)
         return result
     raise ValueError(f"Unknown change_mode {change_mode!r}")

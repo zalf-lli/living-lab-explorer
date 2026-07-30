@@ -436,8 +436,8 @@ layers:
         "bio18-2041_2070": "98bc7717e7a940d23e34005566a97facd749af8d7e58664941ff545b6b179360"
         "bio18-2071_2100": "440a2495e5de88d1f596447b89b853b8abfd22e01f716bd577b9337b1e1eba3c"
         "gdd-baseline": "925dcfd95b6b1d1c22978d5eb7aab69b56fb15a67d3a1120cfa936764cd02d03"
-        "gdd-2041_2070": "0607bd02dfb83d33d098b278d4753f042347f290ba11d78da8f2c8872314aeff"
-        "gdd-2071_2100": "c218934b6bbc8b0b9c970aec462b21ea19207a607e2cb7a55d2adb38dcc813cb"
+        "gdd-2041_2070": "9d2e168fc896a84a56ae7c0a39a348b7e838ab588096f265f8fd01b0367cca9f"
+        "gdd-2071_2100": "81c5ff7822408dbe5f54bc8449407c23bbb192aed199be34b6ea0061d382294a"
     input:
       dir: data/climate_source
       path_pattern: "data/climate_source/chelsa-{variable}-{period}.tif"

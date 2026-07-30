@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 
 import geopandas as gpd
+import numpy as np
 import pytest
 import yaml
 from shapely.geometry import box
@@ -663,3 +664,35 @@ def test_climate_color_breaks_contract() -> None:
         f"Missing {path} -- run data-pipeline/python/compute_climate_color_breaks.py first"
     )
     check_color_breaks(path)
+
+
+def test_derive_change_field_guards_nodata() -> None:
+    """
+    Code review CR-01 (phase 08): fetch_climate._derive_change_field must resolve a pixel
+    to `nodata` -- never a finite-but-wrong value -- whenever its baseline or future input
+    is nodata (the pipeline's finite -9999 sentinel) or NaN (the marker
+    _multi_model_mean leaves when every GCM agreed nodata for a pixel), for both the
+    absolute and percent change_mode branches.
+    """
+    import sys
+
+    sys.path.insert(0, str(repo_root() / "data-pipeline" / "python"))
+    from fetch_climate import _derive_change_field
+
+    nodata = -9999.0
+    # Column order: [normal pixel, nodata baseline, nodata future, NaN future, zero baseline]
+    baseline = np.array([5.0, nodata, 5.0, 5.0, 0.0], dtype=np.float64)
+    future = np.array([8.0, 8.0, nodata, np.nan, 8.0], dtype=np.float64)
+
+    absolute = _derive_change_field(future, baseline, change_mode="absolute", nodata=nodata)
+    assert absolute[0] == pytest.approx(3.0)
+    assert absolute[1] == nodata, f"nodata baseline must resolve to nodata, got {absolute[1]!r}"
+    assert absolute[2] == nodata, f"nodata future must resolve to nodata, got {absolute[2]!r}"
+    assert absolute[3] == nodata, f"NaN future must resolve to nodata, got {absolute[3]!r}"
+
+    percent = _derive_change_field(future, baseline, change_mode="percent", nodata=nodata)
+    assert percent[0] == pytest.approx(60.0)
+    assert percent[1] == nodata, f"nodata baseline must resolve to nodata, got {percent[1]!r}"
+    assert percent[2] == nodata, f"nodata future must resolve to nodata, got {percent[2]!r}"
+    assert percent[3] == nodata, f"NaN future must resolve to nodata, got {percent[3]!r}"
+    assert percent[4] == nodata, f"zero baseline must resolve to nodata, got {percent[4]!r}"
