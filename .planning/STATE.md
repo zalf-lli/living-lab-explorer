@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: in_progress
-stopped_at: Phase 8 UI-SPEC approved
-last_updated: "2026-07-29T16:10:07.131Z"
+stopped_at: Phase 8 Wave 2 (08-03) complete — W-05 locked as gdd5
+last_updated: "2026-07-30T09:58:00.000Z"
 progress:
   total_phases: 15
   completed_phases: 9
   total_plans: 56
-  completed_plans: 44
+  completed_plans: 45
   percent: 60
 ---
 
@@ -36,13 +36,13 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 | 5 | Protected areas as toggleable layer | Planned (2026-07-25) — 4 plans, 3 waves, 2 checkpoints, verified ✓ |
 | 6 | Add land cover map | Complete (2026-07-26) — 5/5 plans, 4 waves, D-01..D-24 evidence recorded, bilingual checkpoint approved |
 | 7 | Add BORIS land value maps as spatial layer for socio-economic tab | In progress — 8/9 plans complete (07-08 executed 2026-07-28: all five Living Labs fetched, committed, published, and locked behind a fixture regression test) |
-| 8 | Add maps and stats for climate variables using CHELSA data | In progress (2026-07-29) — Wave 1 partial: 08-02 complete and merged; 08-01 (CHELSA network probe) halted by session quota with zero commits, must be rerun before Wave 2 |
+| 8 | Add maps and stats for climate variables using CHELSA data | In progress (2026-07-30) — 3/11 plans complete: Wave 1 (08-01, 08-02) merged; Wave 2 (08-03 blocking checkpoint) resolved — W-05 locked as `gdd5`, phase proceeds (no re-plan halt). Wave 3 needs a one-line precondition fix in 08-04-PLAN.md first |
 | 9 | Chart Data Contract | Not planned yet (2026-07-27) |
 | 10 | Two-column LL comparison view | Planned (2026-07-27) — 6 plans, 5 waves, 1 checkpoint, verified ✓ (0 blockers, 4 warnings) |
 
 ## Active Work
 
-**Phase 8 is planned and ready to execute (2026-07-29).** 11 plans across 8 waves fill both halves of
+**Phase 8, Wave 2 complete (2026-07-30).** 11 plans across 8 waves fill both halves of
 the Climate tab from CHELSA: the `climate` placeholder in `app/src/data/layers.js:41` becomes a real
 per-LL raster (60 PMTiles = 4 variables x 3 periods x 5 LLs), and the tab's two permanently-null KPI
 slots (`agr_ch4_kt`, `agr_n2o_kt`) are dropped for four CHELSA-derived tiles mirroring the map
@@ -59,12 +59,24 @@ fetchable with the already-pinned `rasterio`/`requests`, zero new dependencies �
 but carries no GDD. Waves 1-2 are therefore a measure-then-decide spike (`08-01`) feeding a blocking
 `checkpoint:decision` (`08-03`), copying Phase 7's `07-03`/`07-05` precedent verbatim.
 
-**The GDD fork is deliberately left open, and two of its three answers halt the phase.** `08-04`
-onward implement only the static `bio10` acquisition shape; choosing `gdd-light` or `gdd-heavy` at the
-`08-03` checkpoint is a legitimate outcome that returns to `/gsd:plan-phase 8 --gaps` to re-plan the
-acquisition wave first. This is stated in each option's cost, in `08-03`'s resume signal, and as a
-hard precondition in `08-04`'s objective, `must_haves` and Task 1 acceptance criteria — the plan set
-no longer pretends all three answers are equally cheap.
+**The GDD fork resolved to a fourth option nobody had planned for.** `08-01`'s live probe surfaced
+`gdd5` — CHELSA's own directly-published static GDD-above-5degC file — which neither `08-CONTEXT.md`
+nor `08-RESEARCH.md` knew about. At the `08-03` checkpoint (2026-07-30) the human chose `gdd5` over
+`bio10`, `gdd-light`, and `gdd-heavy`. Because `gdd5` uses the same static per-variable acquisition
+shape `08-04` already implements for `bio10`, this does **not** trigger the re-planning halt — no
+`/gsd:plan-phase 8 --gaps` detour is needed, and `08-SPIKE.md` carries `## Phase status` (proceed),
+not `## Phase halt`. W-06 (URL templates), W-07 (provenance text, with an explicit caveat that the
+underlying CMIP6 GCM outputs' own WCRP Terms of Use were not independently re-verified) and W-08
+(300s/read cap, ~5GB total transfer cap, 5degC GDD base) are all locked in `08-SPIKE.md`'s
+`## Locked decisions` section regardless of the W-05 outcome.
+
+**One required fix before Wave 3 runs:** `08-04-PLAN.md`'s Task 1 precondition text only recognizes
+`bio10`/`gdd-light`/`gdd-heavy` as valid W-05 verdicts — it needs a one-line wording update to also
+accept `gdd5`, the actual locked outcome. This was left unfixed by design (out of `08-03`'s declared
+`files_modified` scope) and is flagged in both `08-SPIKE.md`'s `### W-05` subsection and
+`08-03-SUMMARY.md`'s Deviations. `gdd5`'s per-file sizes (452-532MB) are notably larger than
+`bio1`/`bio10`'s (~103MB for the whole 4-variable matrix) and no windowed-read cost has been measured
+for it yet, so `08-04`'s W-08 budget-cap enforcement should be watched closely on first real run.
 
 Two design surfaces have no analog anywhere in the codebase and are planned as real design work:
 D-09's shared-across-all-LLs colour scale (a Pass-0 `compute_climate_color_breaks.py` pooling all five
@@ -74,7 +86,9 @@ and `StatPanel.jsx`'s D-20 two-line delta tile. D-12's diverging-vs-sequential r
 empirically from the five observed per-LL means, not hardcoded. Two volume gates are binding fail
 assertions, not warnings: `08-04` halts on the W-08 transfer cap, `08-08` on a literal 209,715,200-byte
 committed-footprint cap asserted inside its verify command. Plan-checker passed after one revision
-(the open-fork blocker); decision coverage D-01..D-23 is 23/23. Next: `/gsd:execute-phase 8`.
+(the open-fork blocker); decision coverage D-01..D-23 is 23/23. Next: apply the one-line `gdd5`
+precondition fix to `08-04-PLAN.md`, then `/gsd:execute-phase 8 --wave 3` (or `/gsd:execute-phase 8`
+to run all remaining waves).
 
 **Phase 10 is planned and ready to execute (2026-07-27).** 6 plans across 5 waves turn the
 placeholder "Add for comparison" button into a real two-column comparison. The view is a
@@ -230,6 +244,6 @@ Phase 2.2 completed on 2026-04-30 and replaced the shallow German-only soil look
 
 ## Session
 
-**Last session:** 2026-07-29T06:50:12.735Z
-**Stopped at:** Phase 8 UI-SPEC approved
-**Resume file:** .planning/phases/08-add-maps-and-stats-for-climate-variables-using-chelsa-data/08-UI-SPEC.md
+**Last session:** 2026-07-30T09:58:00.000Z
+**Stopped at:** Phase 8 Wave 2 (08-03) complete — W-05 locked as gdd5; needs 08-04-PLAN.md precondition fix before Wave 3
+**Resume file:** .planning/phases/08-add-maps-and-stats-for-climate-variables-using-chelsa-data/08-SPIKE.md

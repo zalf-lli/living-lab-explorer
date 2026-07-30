@@ -413,7 +413,7 @@ dependency.
 Phases 5, 05.1, 6 and 7.
 **Depends on:** Phase 7 (BORIS land value layer - last of the existing map-layer phases; the
 pipeline/layer conventions it establishes are reused here)
-**Plans:** 2/11 plans executed
+**Plans:** 3/11 plans executed
 
 **Planning decisions (resolved during breakdown):**
 
@@ -455,13 +455,18 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1)*
 
-- [ ] 08-03-PLAN.md - **Blocking checkpoint:decision** W-05 fourth variable (true GDD vs `bio10`),
-      W-06 URL templates, W-07 provenance text, W-08 acquisition budget cap
+- [x] 08-03-PLAN.md - **Blocking checkpoint:decision** — W-05 locked as `gdd5` (CHELSA's own static
+      GDD-above-5degC file, discovered mid-spike; not one of the plan's original three options), W-06
+      URL templates, W-07 provenance text, W-08 acquisition budget cap all locked. `08-SPIKE.md`
+      carries `## Phase status` (proceed) — no re-planning halt.
 
 **Wave 3** *(blocked on Wave 2)*
 
 - [ ] 08-04-PLAN.md - `sources.yaml` `chelsa-climate` entry, `fetch_climate.py` windowed acquisition +
-      five-GCM mean + family-aware change fields, twelve gitignored rasters
+      five-GCM mean + family-aware change fields, twelve gitignored rasters. **Required pre-check:**
+      Task 1's precondition text only recognizes `bio10`/`gdd-light`/`gdd-heavy` as valid W-05
+      verdicts and needs a one-line wording update to also accept the actual locked outcome, `gdd5`,
+      before this plan executes (flagged in `08-03-SUMMARY.md` Deviations).
 - [ ] 08-05-PLAN.md - Full bilingual climate i18n block, `VariablePicker.jsx`, `PeriodSwitcher.jsx`
 
 **Wave 4** *(blocked on Wave 3)*
