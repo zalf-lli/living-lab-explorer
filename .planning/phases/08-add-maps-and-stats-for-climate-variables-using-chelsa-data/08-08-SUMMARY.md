@@ -179,3 +179,14 @@ None - no external service configuration required. (The Python venv and `npm ins
 ---
 *Phase: 08-add-maps-and-stats-for-climate-variables-using-chelsa-data*
 *Completed: 2026-07-30*
+
+## Self-Check: PASSED
+
+- FOUND: `app/src/data/climate_legend.js`
+- FOUND: `.planning/phases/08-add-maps-and-stats-for-climate-variables-using-chelsa-data/08-08-SUMMARY.md`
+- FOUND: 60/60 files in `data/pmtiles/climate-*.pmtiles`
+- FOUND: 60/60 files in `app/public/data/pmtiles/climate-*.pmtiles`
+- FOUND commit `b2cfc4d` (Task 1)
+- FOUND commit `2ab0c6f` (Task 2)
+- FOUND commit `b66339e` (Task 3)
+- FOUND commit `6c55412` (this SUMMARY)
