@@ -420,20 +420,24 @@ layers:
       # fetch_climate.py prints the computed sha256 of each derived raster on the first
       # successful run, exactly as build_land_cover.py does for input.sha256_by_tile --
       # paste each printed digest here, keyed "{variable}-{period}", to pin it.
-      # Pinned 2026-07-30 from the first real Stage 1 + Stage 2 acquisition run (08-04).
+      # Re-pinned 2026-07-30 (plan 08-07): the 08-04-pinned digests below were computed
+      # from rasters written before fetch_climate.py's scale/offset bug fix (raw CHELSA
+      # integers were never converted to physical units, e.g. bio1 read as ~2820 "degC"
+      # instead of ~8.9 degC) -- every digest changed because every raster's byte content
+      # changed. See 08-07-SUMMARY.md Deviations for the full root-cause writeup.
       sha256_by_derived:
-        "bio1-baseline": "9ba2962f53ba7bd52d7d653d223750c4bb9ee4794635f56ceb06cee907182d12"
-        "bio1-2041_2070": "1e9a6ad80822c9dd18a76d771aa39d744a0d6913e846667088de4b40ce402ca2"
-        "bio1-2071_2100": "758421ab9c7a96640fb9133370110b600384f339690b68c4af1b9479780eec44"
-        "bio12-baseline": "97bcfb5394a27f6f73795dc8073f52d293daf85002da5144aaccb35b1ad4aaf9"
-        "bio12-2041_2070": "28d683d77c7929b84084ee521187c32e9d185a42adafe6723b2e8d02c12d40af"
-        "bio12-2071_2100": "15442d033c7f34436ca4fb9029532cb09d52460a467a8be50cc263473dc0d100"
-        "bio18-baseline": "3bf6754679d7fd7f00cc55c77e42c5b94be11788afb8c48c5fb3d355c53258b8"
-        "bio18-2041_2070": "dbf42bad8ba76a63ed0e356e42df9796dde3a934522a53fe44d5c00c4fb2ce62"
-        "bio18-2071_2100": "fdea74171f01b26e41703eddea00a849b187109515dbf3f67d91386c440fd181"
-        "gdd-baseline": "117b136f350bdf8f562c2b34fe869ca143b4b4d97b2a7072ef6c3ce3271a4dd5"
-        "gdd-2041_2070": "d67726c6ca38c060578fb9cc774b5917c145e6a1531870f290ae49c4b716cc6b"
-        "gdd-2071_2100": "941bfb0b3ae6bcf29ad943023af9cb5cb2fd6480e5428478caadae17e90b3a04"
+        "bio1-baseline": "df5e559cec2ed7472726338ecadb583f3d108329dee0ad40503d854d740b8885"
+        "bio1-2041_2070": "bee0ba707c5e2896466aa81a53b677826dbfcb1db0b9a81210298363c4771c8f"
+        "bio1-2071_2100": "bbbcf4320175277b28dbd1b1bbb80d01744cb4304435e11ba3fa26e0082b5416"
+        "bio12-baseline": "83579dfc9b3983940bcf88d4f586192648373f40f904538c61d164ea9fc5f25f"
+        "bio12-2041_2070": "5efa264adc4e57da7f796cc7b879301ecb773077c628d4fca6dffbe78518d680"
+        "bio12-2071_2100": "68591eef691c382faa5d4eb7b4fea25fb012f7e6d9bc3e03e0cecce6c4e82cc0"
+        "bio18-baseline": "4547f16a990d7d89a96f7656b492a47c9d3893083f0a345b7a6d3b43ab6c067d"
+        "bio18-2041_2070": "98bc7717e7a940d23e34005566a97facd749af8d7e58664941ff545b6b179360"
+        "bio18-2071_2100": "440a2495e5de88d1f596447b89b853b8abfd22e01f716bd577b9337b1e1eba3c"
+        "gdd-baseline": "925dcfd95b6b1d1c22978d5eb7aab69b56fb15a67d3a1120cfa936764cd02d03"
+        "gdd-2041_2070": "0607bd02dfb83d33d098b278d4753f042347f290ba11d78da8f2c8872314aeff"
+        "gdd-2071_2100": "c218934b6bbc8b0b9c970aec462b21ea19207a607e2cb7a55d2adb38dcc813cb"
     input:
       dir: data/climate_source
       path_pattern: "data/climate_source/chelsa-{variable}-{period}.tif"

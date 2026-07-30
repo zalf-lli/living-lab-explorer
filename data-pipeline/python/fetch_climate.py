@@ -128,10 +128,18 @@ def _output_path(layer: dict, variable_id: str, period_token: str) -> Path:
 def _read_window(layer: dict, url: str, *, label: str) -> tuple:
     """Windowed /vsicurl/ read of one Germany-extent raster.
 
-    Returns (array, transform, meta) where meta = (crs, dtype, nodata, res). Never calls
-    src.read() without window= (T-08-01 / RESEARCH.md Pitfall/Standard Stack). Enforces
-    the per-read wall-clock cap and accumulates the module-level transfer estimate,
-    raising SystemExit the instant the running total crosses the W-08 cap.
+    Returns (array, transform, meta) where meta = (crs, dtype, nodata, res) and `array`
+    is already converted from CHELSA's raw scaled-integer encoding into physical units,
+    using that file's own GDAL scale/offset tags (read from the file, never hardcoded).
+    CHELSA publishes bio1 as (Kelvin x10) uint16 with scale=0.1/offset=-273.15, and
+    gdd5/bio12/bio18 as (physical-unit x10) integers with scale=0.1/offset=0.0.
+    `rasterio.read()` never applies these automatically -- skipping this step silently
+    produced values off by roughly a factor of 300 for temperature (e.g. a raw mean of
+    ~2820 read as "2820.6 degC" instead of the correct ~8.9 degC), a bug plan 08-07's own
+    plausibility gate caught before any KPI was committed. Never calls src.read() without
+    window= (T-08-01 / RESEARCH.md Pitfall/Standard Stack). Enforces the per-read
+    wall-clock cap and accumulates the module-level transfer estimate, raising SystemExit
+    the instant the running total crosses the W-08 cap.
     """
     global _TRANSFER_ESTIMATE_BYTES, _TOTAL_REMOTE_READS, _TOTAL_WALL_SECONDS
 
@@ -139,6 +147,7 @@ def _read_window(layer: dict, url: str, *, label: str) -> tuple:
     bbox = climate["bbox"]
     max_seconds = climate["budget"]["max_seconds_per_read"]
     max_bytes = climate["budget"]["max_total_transfer_bytes"]
+    output_nodata = layer["input"]["nodata"]
 
     vsicurl_url = "/vsicurl/" + url
     start = time.monotonic()
@@ -146,8 +155,11 @@ def _read_window(layer: dict, url: str, *, label: str) -> tuple:
         window = from_bounds(
             bbox["xmin"], bbox["ymin"], bbox["xmax"], bbox["ymax"], transform=src.transform
         )
-        array = src.read(1, window=window)
+        raw = src.read(1, window=window)
         window_transform = src.window_transform(window)
+        raw_nodata = src.nodata
+        scale = src.scales[0] if src.scales else 1.0
+        offset = src.offsets[0] if src.offsets else 0.0
         meta = (src.crs, src.dtypes[0], src.nodata, src.res)
     elapsed = time.monotonic() - start
 
@@ -157,7 +169,10 @@ def _read_window(layer: dict, url: str, *, label: str) -> tuple:
             f"climate.budget.max_seconds_per_read={max_seconds}s"
         )
 
-    array_bytes = array.nbytes
+    # Budget/transfer accounting is measured on the raw wire-format array, before the
+    # float64 unit-conversion below -- keeps the W-08 byte accounting an honest proxy for
+    # actual network transfer, not an artifact of the dtype upconversion.
+    array_bytes = raw.nbytes
     _TRANSFER_ESTIMATE_BYTES += array_bytes
     _TOTAL_REMOTE_READS += 1
     _TOTAL_WALL_SECONDS += elapsed
@@ -171,6 +186,16 @@ def _read_window(layer: dict, url: str, *, label: str) -> tuple:
             f"climate.budget.max_total_transfer_bytes={max_bytes:,} bytes. "
             "This cap is a human W-08 sign-off; there is no runtime override."
         )
+
+    # Apply the source file's own scale/offset to convert raw integers to physical units
+    # *before* any nodata masking, multi-model averaging, or change-field math happens
+    # downstream. Nodata pixels are remapped to the pipeline's canonical output nodata
+    # (sources.yaml input.nodata, -9999) so downstream code always sees one sentinel,
+    # regardless of what raw sentinel (None/0/65535/2147483647) the source file used.
+    physical = raw.astype(np.float64) * scale + offset
+    if raw_nodata is not None:
+        physical[raw == raw_nodata] = output_nodata
+    array = physical.astype(np.float32)
 
     return array, window_transform, meta
 
