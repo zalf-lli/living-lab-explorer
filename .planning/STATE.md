@@ -58,7 +58,21 @@ re-fetched the 12 gitignored Germany-extent CHELSA source rasters (all sha256 di
 pinned values exactly) and reused/repaired the Phase 6 short-path venv at `C:\lcvenv` (added the one
 missing `python-dotenv` package) to sidestep the OneDrive-path `MAX_PATH` issue documented in
 `data-pipeline/README.md`. Post-merge gates: `npm run build` clean, `python -m pytest
-data-pipeline/tests/` 30/30 passing. Pre-existing land-cover/crop-types PMTiles unchanged. **Next:**
+data-pipeline/tests/` 30/30 passing. Pre-existing land-cover/crop-types PMTiles unchanged.
+
+**First Phase 8 code review + fix (2026-07-30).** Ran `/gsd:code-review 8` (never previously run for
+this phase) across all 19 non-planning source files touched by Waves 1-5. Found and fixed one real,
+verified bug (CR-01): `fetch_climate.py::_derive_change_field` didn't implement the nodata guard its
+own docstring claimed — baseline pixels use the finite `-9999` sentinel while future pixels can be
+`NaN` (from `_multi_model_mean` when every GCM agreed nodata), so a nodata pixel produced a wrong,
+finite value invisible to every downstream `!= nodata`/`isfinite` filter. Re-running `fetch_climate.py`
+after the fix reproduced 10/12 rasters byte-identically; both `gdd` change periods
+(`2041_2070`, `2071_2100`) changed and their pinned digests in `sources.yaml` were updated. Verified
+blast radius is zero for already-committed artifacts: the affected pixels fall outside all five
+Living Lab clip polygons, so `data/climate_color_breaks.json`, `data/climate_kpis.json`, and all 60
+committed PMTiles (the 10 `gdd` change-mode files rebuilt and byte-compared) are unchanged. Added
+`test_derive_change_field_guards_nodata` as a direct regression test (31/31 passing). Two lower-severity
+findings (WR-01, WR-02) and one info-level note (IN-01) left as-is — see `08-REVIEW.md`. **Next:**
 `/gsd:execute-phase 8 --wave 6` (08-09 — the D-18 KPI manifest swap + `chelsa` `source_host` branch).
 
 **Phase 8, Wave 4 complete (2026-07-30).** 08-06 built the shared cross-Living-Lab colour-break
