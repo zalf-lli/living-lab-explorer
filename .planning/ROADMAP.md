@@ -413,7 +413,7 @@ dependency.
 Phases 5, 05.1, 6 and 7.
 **Depends on:** Phase 7 (BORIS land value layer - last of the existing map-layer phases; the
 pipeline/layer conventions it establishes are reused here)
-**Plans:** 5/11 plans executed
+**Plans:** 7/11 plans executed
 
 **Planning decisions (resolved during breakdown):**
 
@@ -471,9 +471,9 @@ Plans:
 
 **Wave 4** *(blocked on Wave 3)*
 
-- [ ] 08-06-PLAN.md - Pass-0 `compute_climate_color_breaks.py`, `build_continuous_colormap()`,
+- [x] 08-06-PLAN.md - Pass-0 `compute_climate_color_breaks.py`, `build_continuous_colormap()`,
       Pass-1 `build_climate_pmtiles.py`, breaks contract test
-- [ ] 08-07-PLAN.md - `compute_climate_kpis.py` area-weighted zonal mean, `data/climate_kpis.json`
+- [x] 08-07-PLAN.md - `compute_climate_kpis.py` area-weighted zonal mean, `data/climate_kpis.json`
 
 **Wave 5** *(blocked on Wave 4)*
 

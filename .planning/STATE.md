@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: in_progress
-stopped_at: Phase 8 Wave 2 (08-03) complete — W-05 locked as gdd5; needs 08-04-PLAN.md precondition fix before Wave 3
-last_updated: "2026-07-30T08:10:23.739Z"
+stopped_at: Phase 8 Wave 4 (08-06, 08-07) complete — colour-break machinery + climate KPIs merged; Wave 5 (08-08, full PMTiles build) next
+last_updated: "2026-07-30T12:30:00.000Z"
 progress:
   total_phases: 15
   completed_phases: 9
   total_plans: 56
-  completed_plans: 46
-  percent: 60
+  completed_plans: 48
+  percent: 61
 ---
 
 # Project State
@@ -36,11 +36,32 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 | 5 | Protected areas as toggleable layer | Planned (2026-07-25) — 4 plans, 3 waves, 2 checkpoints, verified ✓ |
 | 6 | Add land cover map | Complete (2026-07-26) — 5/5 plans, 4 waves, D-01..D-24 evidence recorded, bilingual checkpoint approved |
 | 7 | Add BORIS land value maps as spatial layer for socio-economic tab | In progress — 8/9 plans complete (07-08 executed 2026-07-28: all five Living Labs fetched, committed, published, and locked behind a fixture regression test) |
-| 8 | Add maps and stats for climate variables using CHELSA data | In progress (2026-07-30) — 3/11 plans complete: Wave 1 (08-01, 08-02) merged; Wave 2 (08-03 blocking checkpoint) resolved — W-05 locked as `gdd5`, phase proceeds (no re-plan halt). Wave 3 needs a one-line precondition fix in 08-04-PLAN.md first |
+| 8 | Add maps and stats for climate variables using CHELSA data | In progress (2026-07-30) — 7/11 plans complete: Waves 1-4 merged (08-01..08-07). Wave 4 (08-06 colour breaks + Pass-1 tiler, 08-07 climate KPIs) done; 30/30 tests passing. Wave 5 (08-08, full 60-PMTiles build) next |
 | 9 | Chart Data Contract | Not planned yet (2026-07-27) |
 | 10 | Two-column LL comparison view | Planned (2026-07-27) — 6 plans, 5 waves, 1 checkpoint, verified ✓ (0 blockers, 4 warnings) |
 
 ## Active Work
+
+**Phase 8, Wave 4 complete (2026-07-30).** 08-06 built the shared cross-Living-Lab colour-break
+machinery (`compute_climate_color_breaks.py` Pass 0 + `build_continuous_colormap()` +
+`build_climate_pmtiles.py` Pass 1) and empirically resolved D-12's diverging-vs-sequential question:
+against real built data, **all four variables (gdd, bio1, bio12, bio18) came back `sequential`** for
+both baseline and change — no variable's five per-LL means crossed zero. This is a legitimate
+empirical result, not a bug, but it differs from earlier docs' assumption that precipitation would
+likely diverge — flag for `08-08`'s legend codegen. 08-07 built `compute_climate_kpis.py` (area-weighted
+zonal mean per Living Lab) and caught a real bug while validating its own plausibility gate: `08-04`'s
+`fetch_climate.py` never applied CHELSA's GDAL scale/offset tags, so every raster held raw scaled
+integers instead of physical units (mean annual temperature was reading ~2820 instead of ~8.9 degC).
+Fixed `_read_window()` to apply each file's own scale/offset, re-ran the full 12-raster acquisition,
+and re-pinned all `sha256_by_derived` digests in `sources.yaml`. Both plans landed on the fix
+independently (08-06's own draft found the same bug) — 08-07's already-merged, already-tested version
+was kept as the single source of truth; 08-06's redispatch reused it rather than re-fixing it. Full
+suite: 30/30 passing. **Next:** `/gsd:execute-phase 8 --wave 5` (08-08 — the real 60-PMTiles build).
+
+**Session note:** the first 08-06 executor attempt stalled mid-run (paused on a background CHELSA
+fetch) and its process was lost across a session boundary before it could finish or write a SUMMARY.
+Its in-progress draft was checkpointed as a WIP commit before being superseded by a clean redispatch;
+that WIP branch has since been deleted after the redispatch completed and merged. No work was lost.
 
 **Phase 8, Wave 2 complete (2026-07-30).** 11 plans across 8 waves fill both halves of
 the Climate tab from CHELSA: the `climate` placeholder in `app/src/data/layers.js:41` becomes a real
