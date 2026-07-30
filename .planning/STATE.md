@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: in_progress
-stopped_at: Phase 8 Wave 4 (08-06, 08-07) complete — colour-break machinery + climate KPIs merged; Wave 5 (08-08, full PMTiles build) next
-last_updated: "2026-07-30T12:30:00.000Z"
+stopped_at: Phase 8 Wave 5 (08-08, full 60-PMTiles build) complete — sync glob generalized, climate_legend.js codegen'd, all 60 tiles built and published inside footprint cap; Wave 6 (08-09, KPI manifest swap) next
+last_updated: "2026-07-30T13:30:00.000Z"
 progress:
   total_phases: 15
   completed_phases: 9
   total_plans: 56
-  completed_plans: 48
-  percent: 61
+  completed_plans: 49
+  percent: 63
 ---
 
 # Project State
@@ -36,11 +36,30 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 | 5 | Protected areas as toggleable layer | Planned (2026-07-25) — 4 plans, 3 waves, 2 checkpoints, verified ✓ |
 | 6 | Add land cover map | Complete (2026-07-26) — 5/5 plans, 4 waves, D-01..D-24 evidence recorded, bilingual checkpoint approved |
 | 7 | Add BORIS land value maps as spatial layer for socio-economic tab | In progress — 8/9 plans complete (07-08 executed 2026-07-28: all five Living Labs fetched, committed, published, and locked behind a fixture regression test) |
-| 8 | Add maps and stats for climate variables using CHELSA data | In progress (2026-07-30) — 7/11 plans complete: Waves 1-4 merged (08-01..08-07). Wave 4 (08-06 colour breaks + Pass-1 tiler, 08-07 climate KPIs) done; 30/30 tests passing. Wave 5 (08-08, full 60-PMTiles build) next |
+| 8 | Add maps and stats for climate variables using CHELSA data | In progress (2026-07-30) — 8/11 plans complete: Waves 1-5 merged (08-01..08-08). Wave 5 (08-08, full 60-PMTiles build) done; 30/30 tests + app build passing. Wave 6 (08-09, KPI manifest swap) next |
 | 9 | Chart Data Contract | Not planned yet (2026-07-27) |
 | 10 | Two-column LL comparison view | Planned (2026-07-27) — 6 plans, 5 waves, 1 checkpoint, verified ✓ (0 blockers, 4 warnings) |
 
 ## Active Work
+
+**Phase 8, Wave 5 complete (2026-07-30).** `08-08` generalized `sync.py`'s per-Living-Lab glob to
+any number of `{...}` placeholders (`_pattern_to_glob()`, shared by `sync_pmtiles_per_ll()` and
+`sync_vector_geojson()`), codegen'd `app/src/data/climate_legend.js` (`CLIMATE_VARIABLES` with `gdd`
+first per D-08, `CLIMATE_LEGEND` unit-aware bilingual bands per D-11, `CLIMATE_RAMP_SHAPE` confirming
+all four variables `sequential` per D-12), and ran the real two-stage 60-file CHELSA PMTiles build.
+Stage 1 (`gdd`, 15 files, chosen as the largest-source variable for a conservative extrapolation)
+measured `S1_BYTES = 6,242,399` bytes; the extrapolated `S1_BYTES * 4 * 2 = 49,939,192` bytes passed
+the `209,715,200`-byte (200 MiB) cap, so Stage 2 (`bio1`, `bio12`, `bio18`, 45 more files) proceeded.
+Final measured two-copy footprint: `49,642,502` bytes (23.7% of cap) — asserted by an automated verify
+command, not reported qualitatively. D-09's shared-across-all-LLs colour scale was spot-checked for
+`gdd`/baseline: every Living Lab's distinct-colour set is a subset of the shared 4-colour scale, no
+Living-Lab-only colour. Two Rule-3 blocking auto-fixes (both environment-only, no git-tracked files):
+re-fetched the 12 gitignored Germany-extent CHELSA source rasters (all sha256 digests matched the
+pinned values exactly) and reused/repaired the Phase 6 short-path venv at `C:\lcvenv` (added the one
+missing `python-dotenv` package) to sidestep the OneDrive-path `MAX_PATH` issue documented in
+`data-pipeline/README.md`. Post-merge gates: `npm run build` clean, `python -m pytest
+data-pipeline/tests/` 30/30 passing. Pre-existing land-cover/crop-types PMTiles unchanged. **Next:**
+`/gsd:execute-phase 8 --wave 6` (08-09 — the D-18 KPI manifest swap + `chelsa` `source_host` branch).
 
 **Phase 8, Wave 4 complete (2026-07-30).** 08-06 built the shared cross-Living-Lab colour-break
 machinery (`compute_climate_color_breaks.py` Pass 0 + `build_continuous_colormap()` +
@@ -265,6 +284,6 @@ Phase 2.2 completed on 2026-04-30 and replaced the shallow German-only soil look
 
 ## Session
 
-**Last session:** 2026-07-30T09:58:00.000Z
-**Stopped at:** Phase 8 Wave 2 (08-03) complete — W-05 locked as gdd5; needs 08-04-PLAN.md precondition fix before Wave 3
-**Resume file:** .planning/phases/08-add-maps-and-stats-for-climate-variables-using-chelsa-data/08-SPIKE.md
+**Last session:** 2026-07-30T13:30:00.000Z
+**Stopped at:** Phase 8 Wave 5 (08-08) complete — 60/60 climate PMTiles built, published, and committed inside the footprint cap; climate_legend.js codegen'd
+**Resume file:** .planning/phases/08-add-maps-and-stats-for-climate-variables-using-chelsa-data/08-09-PLAN.md

@@ -413,7 +413,7 @@ dependency.
 Phases 5, 05.1, 6 and 7.
 **Depends on:** Phase 7 (BORIS land value layer - last of the existing map-layer phases; the
 pipeline/layer conventions it establishes are reused here)
-**Plans:** 7/11 plans executed
+**Plans:** 8/11 plans executed
 
 **Planning decisions (resolved during breakdown):**
 
@@ -477,7 +477,7 @@ Plans:
 
 **Wave 5** *(blocked on Wave 4)*
 
-- [ ] 08-08-PLAN.md - Multi-placeholder sync glob, `generate_climate_legend()` codegen, the 60-file
+- [x] 08-08-PLAN.md - Multi-placeholder sync glob, `generate_climate_legend()` codegen, the 60-file
       build run and publish
 
 **Wave 6** *(blocked on Wave 5)*
