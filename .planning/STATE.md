@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: in_progress
-stopped_at: Phase 8 Wave 1 partial — 08-02 merged; 08-01 halted by session quota, needs rerun
-last_updated: "2026-07-29T12:01:55.146Z"
+stopped_at: Phase 8 UI-SPEC approved
+last_updated: "2026-07-29T16:10:07.131Z"
 progress:
   total_phases: 15
   completed_phases: 9
   total_plans: 56
-  completed_plans: 43
+  completed_plans: 44
   percent: 60
 ---
 
