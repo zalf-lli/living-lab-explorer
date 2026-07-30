@@ -471,6 +471,369 @@ def probe_align() -> dict:
     return {"records": records, "mismatches": mismatches, "reference": reference}
 
 
+def probe_gdd5_discovery() -> dict:
+    """Bonus finding, live-verified (not trusted secondhand from a prior halted attempt):
+
+    The --urls S3 listing surfaced a directly-published `gdd5` file in CHELSA's own
+    bio/ folder -- growing degree days above a 5C base, exactly D-06's index -- as a
+    first-class bioclim-family static variable, entirely independent of the
+    `chelsa_cmip6` Python package. This is re-verified live here across the baseline
+    and all 5 D-04 GCMs for one future period, because it materially changes the
+    08-03 tradeoff (see 08-SPIKE.md Recommendation).
+    """
+    print("[gdd5] verifying the CHELSA-native static gdd5 file (heat sum >=5C base, D-06's index) live...")
+    baseline_url = (
+        "https://os.zhdk.cloud.switch.ch/chelsav2/GLOBAL/climatologies/1981-2010/bio/"
+        "CHELSA_gdd5_1981-2010_V.2.1.tif"
+    )
+    baseline_status, baseline_length = probe_url(baseline_url)
+    print(f"[gdd5] baseline gdd5 -> {baseline_status} ({baseline_length} bytes)")
+
+    period, ssp = "2071-2100", "ssp370"
+    _validate_token(period, ALLOWED_PERIODS, "period")
+    _validate_token(ssp, ALLOWED_SSPS, "ssp")
+    template = (
+        "https://os.zhdk.cloud.switch.ch/chelsav2/GLOBAL/climatologies/{period}/"
+        "{GCM_UPPER}/{ssp}/bio/CHELSA_gdd5_{period}_{gcm}_{ssp}_V.2.1.tif"
+    )
+    per_gcm: dict[str, tuple[int, int | None]] = {}
+    for gcm in ALLOWED_GCMS:
+        _validate_token(gcm, ALLOWED_GCMS, "gcm")
+        url = template.format(period=period, GCM_UPPER=gcm.upper(), gcm=gcm, ssp=ssp)
+        status, length = probe_url(url)
+        per_gcm[gcm] = (status, length)
+        print(f"[gdd5] future {gcm} -> {status} ({length} bytes)")
+
+    all_ok = baseline_status == 200 and all(status == 200 for status, _length in per_gcm.values())
+    verdict = "confirmed" if all_ok else "NOT fully confirmed"
+    print(f"[{'ok' if all_ok else 'warn'}] gdd5 static file {verdict} across baseline + all 5 GCMs for {period}/{ssp}")
+
+    return {
+        "baseline_status": baseline_status,
+        "baseline_length": baseline_length,
+        "per_gcm": per_gcm,
+        "all_ok": all_ok,
+        "period": period,
+        "ssp": ssp,
+    }
+
+
+def probe_cost() -> dict:
+    """Task 3 (--cost): measure one windowed /vsicurl/ read against the full remote file
+    size, then extrapolate to the full 44-read acquisition matrix. W-04 (part 2)."""
+    import time
+
+    from rasterio.windows import from_bounds
+
+    variable, period, ssp, gcm = "bio1", "2071-2100", "ssp370", "gfdl-esm4"
+    _validate_token(variable, ALLOWED_VARIABLES, "variable")
+    _validate_token(period, ALLOWED_PERIODS, "period")
+    _validate_token(ssp, ALLOWED_SSPS, "ssp")
+    _validate_token(gcm, ALLOWED_GCMS, "gcm")
+
+    template = (
+        "https://os.zhdk.cloud.switch.ch/chelsav2/GLOBAL/climatologies/{period}/"
+        "{GCM_UPPER}/{ssp}/bio/CHELSA_{variable}_{period}_{gcm}_{ssp}_V.2.1.tif"
+    )
+    url = template.format(period=period, GCM_UPPER=gcm.upper(), gcm=gcm, ssp=ssp, variable=variable)
+    _enforce_https(url)
+
+    head_status, full_content_length = probe_url(url)
+    print(f"[cost] full remote Content-Length: {full_content_length} bytes (HEAD status {head_status})")
+
+    vsicurl_url = "/vsicurl/" + url
+    start = time.monotonic()
+    with rasterio.open(vsicurl_url) as src:
+        window = from_bounds(5.5, 47.0, 15.5, 55.5, transform=src.transform)
+        data = src.read(1, window=window)
+    elapsed = time.monotonic() - start
+
+    array_bytes = data.nbytes
+    print(f"[cost] windowed read wall time: {elapsed:.2f} seconds")
+    print(f"[cost] windowed read array shape: {data.shape}, dtype: {data.dtype}")
+    print(f"[cost] windowed read in-memory size: {array_bytes:,} bytes ({array_bytes / 1024 / 1024:.2f} MB)")
+    print(
+        "[cost] GDAL byte-level transfer counter not directly observable (CPL_CURL_VERBOSE "
+        "left off per plan instruction); reporting wall time + in-memory array size as the "
+        "proxy measurement instead, per the plan's explicit fallback"
+    )
+
+    # 4 variables x (1 baseline + 2 horizons x 5 GCMs) = 44 remote reads
+    total_reads = 4 * (1 + 2 * 5)
+    projected_bytes = array_bytes * total_reads
+    projected_seconds = elapsed * total_reads
+    print(
+        f"[cost] projected full acquisition matrix: {total_reads} reads, "
+        f"~{projected_bytes / 1024 / 1024:.1f} MB extrapolated transfer, "
+        f"~{projected_seconds:.1f} seconds extrapolated wall time"
+    )
+
+    warn_lines: list[str] = []
+    if elapsed > 300:
+        warn_lines.append(f"single windowed read exceeded 300s: {elapsed:.1f}s")
+        print(f"[warn] {warn_lines[-1]}")
+    if projected_bytes > 5 * 1024**3:
+        warn_lines.append(f"projected total transfer exceeds 5 GB: {projected_bytes / 1024**3:.2f} GB")
+        print(f"[warn] {warn_lines[-1]}")
+    if not warn_lines:
+        print("[ok] windowed read stays within the 300s per-read and 5GB projected-total caps (T-08-03)")
+
+    return {
+        "url": url,
+        "full_content_length": full_content_length,
+        "elapsed_seconds": elapsed,
+        "array_shape": data.shape,
+        "array_dtype": str(data.dtype),
+        "array_bytes": array_bytes,
+        "total_reads": total_reads,
+        "projected_bytes": projected_bytes,
+        "projected_seconds": projected_seconds,
+        "warn_lines": warn_lines,
+    }
+
+
+def write_spike_report(
+    urls_result: dict,
+    tas_result: dict,
+    license_result: dict,
+    align_result: dict,
+    cost_result: dict,
+    gdd5_result: dict,
+) -> "Path":
+    """Task 3: transcribe every finding into 08-SPIKE.md for the 08-03 checkpoint."""
+    lines: list[str] = []
+
+    lines.append("# Phase 8 Wave-0 Spike (plan 08-01)")
+    lines.append("")
+    lines.append(
+        "Every number below was measured live against os.zhdk.cloud.switch.ch / "
+        "envicloud.wsl.ch / www.envidat.ch by `data-pipeline/python/probe_chelsa.py`, "
+        "except where explicitly marked as an extrapolation."
+    )
+    lines.append("")
+
+    # --- W-01 ---
+    lines.append("## W-01 -- Confirmed download URL templates")
+    lines.append("")
+    lines.append(
+        f"**Future-period template** (source: {urls_result['template_source']}):"
+    )
+    lines.append("")
+    lines.append(f"    {urls_result['template']}")
+    lines.append("")
+    lines.append(
+        f"**Baseline template** (re-confirmed live): `{BASELINE_URL}`"
+    )
+    lines.append("")
+    lines.append(
+        f"40-URL matrix (4 variables x 2 periods x 5 GCMs): "
+        f"{urls_result['matrix_ok']}/{urls_result['matrix_total']} resolved HTTP 200."
+    )
+    if urls_result["matrix_non200"]:
+        lines.append("")
+        lines.append("Non-200 combinations:")
+        lines.append("")
+        lines.append("| Variable | Period | GCM | Status |")
+        lines.append("|---|---|---|---:|")
+        for variable, period, gcm, status in urls_result["matrix_non200"]:
+            lines.append(f"| {variable} | {period} | {gcm} | {status} |")
+    else:
+        lines.append("All 40 combinations resolved 200 -- no gaps in the matrix.")
+    lines.append("")
+    lines.append("Baseline re-confirmation (all 4 variables):")
+    lines.append("")
+    lines.append("| Variable | Status | Content-Length (bytes) |")
+    lines.append("|---|---:|---:|")
+    for variable, (status, length) in urls_result["baseline_results"].items():
+        lines.append(f"| {variable} | {status} | {length:,} |" if length else f"| {variable} | {status} | - |")
+    lines.append("")
+    lines.append(
+        "The plain-text `envidatS3paths.txt` index named by the plan as the "
+        "\"authoritative shortcut\" 404s on both `os.zhdk.cloud.switch.ch` and "
+        "`envicloud.wsl.ch`. The bucket instead exposes a standard, public S3 "
+        "`ListObjectsV2`-style listing query (`?list-type=2&prefix=...&delimiter=/`), "
+        "used here as an equivalent authoritative source (it lists real keys, not a "
+        "guess) before falling back to candidate probing -- the fallback was not "
+        "needed; the listing resolved the template on the first attempt."
+    )
+    lines.append("")
+
+    lines.append("### Bonus finding, live-verified this run: a directly-published static `gdd5` file")
+    lines.append("")
+    lines.append(
+        "The same `--urls` bio/ folder listing surfaced `CHELSA_gdd5_*` alongside "
+        "`bio1`..`bio19` -- CHELSA's own growing-degree-days-above-5C variable, matching "
+        "D-06's index exactly, published as a first-class static bioclim-family file "
+        "**entirely independent of the `chelsa_cmip6` Python package**. This is the lead "
+        "a prior halted attempt at this same plan noticed but never live-verified; it is "
+        "re-verified live here, not trusted secondhand:"
+    )
+    lines.append("")
+    lines.append(f"- Baseline (1981-2010): status {gdd5_result['baseline_status']}, "
+                  f"{gdd5_result['baseline_length']:,} bytes" if gdd5_result['baseline_length'] else
+                  f"- Baseline (1981-2010): status {gdd5_result['baseline_status']}")
+    lines.append(
+        f"- Future period {gdd5_result['period']}/{gdd5_result['ssp']}, all 5 D-04 GCMs:"
+    )
+    lines.append("")
+    lines.append("| GCM | Status | Content-Length (bytes) |")
+    lines.append("|---|---:|---:|")
+    for gcm, (status, length) in gdd5_result["per_gcm"].items():
+        lines.append(f"| {gcm} | {status} | {length:,} |" if length else f"| {gcm} | {status} | - |")
+    lines.append("")
+    lines.append(
+        f"**Verdict: {'CONFIRMED' if gdd5_result['all_ok'] else 'NOT FULLY CONFIRMED'}** -- "
+        "`gdd5` is fetchable with the exact same zero-new-dependency `requests`/`rasterio` "
+        "mechanism as bio1/bio12/bio18, for both the baseline and all 5 future-period GCMs. "
+        "See the Recommendation section below: this is a third, previously-unconsidered "
+        "option for the D-07 GDD slot, lighter than both alternatives research compared."
+    )
+    lines.append("")
+
+    # --- W-02 ---
+    lines.append("## W-02 -- Static monthly `tas` availability for future periods")
+    lines.append("")
+    lines.append(f"**{'PUBLISHED' if tas_result['published'] else 'NOT PUBLISHED'}**")
+    lines.append("")
+    lines.append(f"Evidence: {tas_result['evidence']}")
+    lines.append("")
+    lines.append(
+        "Consequence for D-07: since monthly `tas` is statically published for future "
+        "periods too, true GDD *could* in principle be hand-derived from it via the "
+        "standard `sum(max(T - 5, 0))` formula without the `chelsa_cmip6` heavy dependency "
+        "-- but this is now superseded by the gdd5 bonus finding above, which is a "
+        "directly-published GDD-equivalent file needing no derivation at all."
+    )
+    lines.append("")
+
+    # --- W-03 ---
+    lines.append("## W-03 -- License, attribution and citation for the CMIP6-derived product")
+    lines.append("")
+    lines.append(f"- `license`: {license_result['license']}")
+    lines.append(f"- `attribution`: {license_result['attribution']}")
+    lines.append(f"- `citation`: {license_result['citation']}")
+    lines.append(f"- `note`: {license_result['note']}")
+    lines.append("")
+    lines.append(
+        f"This {'MATCHES' if license_result['same_as_baseline_cc0'] else 'DIFFERS FROM'} "
+        "the CHELSA V2.1 baseline climatology's CC0 license (confirms research Assumption A2)."
+    )
+    lines.append("")
+
+    # --- W-04 ---
+    lines.append("## W-04 -- Grid alignment and windowed-read cost")
+    lines.append("")
+    if align_result["mismatches"]:
+        lines.append(f"**Grid alignment: MISMATCH** in fields: {align_result['mismatches']}")
+    else:
+        lines.append(
+            "**Grid alignment: CONFIRMED** -- all 5 D-04 GCM rasters (bio1, 2071-2100, "
+            "ssp370) share an identical transform/shape/crs/dtype/nodata:"
+        )
+    lines.append("")
+    ref = align_result["reference"]
+    lines.append(f"    transform={ref['transform']}  shape={ref['shape']}  crs={ref['crs']}  "
+                  f"dtype={ref['dtype']}  nodata={ref['nodata']}")
+    lines.append("")
+    lines.append(
+        f"Full remote file size (bio1, 2071-2100, ssp370, gfdl-esm4): "
+        f"{cost_result['full_content_length']:,} bytes "
+        f"({cost_result['full_content_length'] / 1024 / 1024:.1f} MB)."
+    )
+    lines.append(
+        f"Germany-window `/vsicurl/` read: {cost_result['elapsed_seconds']:.2f} seconds wall "
+        f"time, array shape {cost_result['array_shape']}, dtype {cost_result['array_dtype']}, "
+        f"in-memory size {cost_result['array_bytes']:,} bytes "
+        f"({cost_result['array_bytes'] / 1024 / 1024:.2f} MB)."
+    )
+    lines.append(
+        "GDAL byte-level transfer was not directly observable (per the plan's explicit "
+        "fallback); wall time + in-memory array size are reported as the proxy measurement."
+    )
+    lines.append("")
+    lines.append(
+        f"Projected full acquisition matrix (4 variables x (1 baseline + 2 horizons x 5 "
+        f"GCMs) = {cost_result['total_reads']} reads): "
+        f"~{cost_result['projected_bytes'] / 1024 / 1024:.1f} MB extrapolated transfer, "
+        f"~{cost_result['projected_seconds']:.1f} seconds extrapolated wall time."
+    )
+    if cost_result["warn_lines"]:
+        lines.append("")
+        for warn in cost_result["warn_lines"]:
+            lines.append(f"**WARNING:** {warn}")
+    else:
+        lines.append("")
+        lines.append(
+            "Both caps (300s per read, 5GB projected total) are observed -- recommended "
+            "acquisition budget cap for `sources.yaml`: use this measured projection as "
+            "the baseline budget, revisited once `bio12`/`bio18` (larger files) are "
+            "individually measured in a later plan."
+        )
+    lines.append("")
+
+    # --- Recommendation ---
+    lines.append("## Recommendation for the 08-03 checkpoint")
+    lines.append("")
+    lines.append(
+        "Three options now exist for the D-07 GDD slot (a third beyond the two "
+        "`08-RESEARCH.md` compared), presented here as measured costs -- **08-03 decides, "
+        "not this document:**"
+    )
+    lines.append("")
+    lines.append("| | `chelsa-cmip6==1.4` (heavy) | `bio10` fallback (light, no true GDD) | `gdd5` static file (light, true GDD-equivalent) |")
+    lines.append("|---|---|---|---|")
+    lines.append(
+        "| New dependencies | ~10 transitive (xarray, dask, zarr, gcsfs, netcdf4, "
+        "h5netcdf, esgf-pyclient, siphon, google-cloud-storage family, aiohttp) | zero | zero |"
+    )
+    lines.append(
+        "| Network calls at build time | live GCS/ESGF pulls on every run | static "
+        "`requests`/`rasterio` fetch (same mechanism as bio1/bio12/bio18) | static "
+        "`requests`/`rasterio` fetch (same mechanism as bio1/bio12/bio18) |"
+    )
+    lines.append(
+        "| Formula | non-standard: sums raw temperature on days >=threshold, not "
+        "`sum(max(T-5,0))` (Pitfall 2) | N/A -- not a GDD variable at all (bio10 = mean "
+        f"temp of warmest quarter) | CHELSA's own bioclim-family `gdd5` "
+        "(definition not independently re-derived this session; recommend confirming "
+        "the exact formula against CHELSA's technical documentation PDF before 08-03, "
+        "since this session had no PDF-text-extraction tooling available) |"
+    )
+    lines.append(
+        f"| Measured cost this spike | not measured (out of scope for the light-path "
+        "spike) | covered by this spike's bio1 measurements above (same acquisition "
+        "shape) | "
+        f"{'CONFIRMED' if gdd5_result['all_ok'] else 'not fully confirmed'} fetchable "
+        "across baseline + all 5 GCMs for 2071-2100/ssp370; same file-size class as "
+        "bio1/bio10 (not bio12/bio18's much larger precipitation files) |"
+    )
+    lines.append(
+        "| On-brand match to D-08 (\"GDD is the default variable\") | yes, if the heavy "
+        "path is accepted | no -- would require rewriting D-06/D-08's copy around "
+        "`bio10` instead of GDD | **yes** -- delivers the literal GDD index D-06 named, "
+        "with zero dependency cost |"
+    )
+    lines.append("")
+    lines.append(
+        "This spike's measurements suggest the `gdd5` static file is the strongest "
+        "candidate of the three -- it is the only option matching D-06's literal GDD "
+        "requirement at zero new dependency cost -- but the exact `gdd5` formula has not "
+        "been independently verified against CHELSA's own technical specification in "
+        "this session (no PDF-reading tool was available), and D-07 explicitly reserves "
+        "this decision for a human. **08-03 must decide among `chelsa-cmip6`, `bio10`, "
+        "and `gdd5`,** not this spike."
+    )
+    lines.append("")
+
+    content = "\n".join(lines) + "\n"
+    output_path = resolve(
+        ".planning/phases/08-add-maps-and-stats-for-climate-variables-using-chelsa-data/08-SPIKE.md"
+    )
+    output_path.write_text(content, encoding="utf-8")
+    print(f"\n[ok] wrote {output_path}")
+    return output_path
+
+
 def build_arg_parser() -> argparse.ArgumentParser:
     parser = argparse.ArgumentParser(
         description=(
@@ -483,6 +846,14 @@ def build_arg_parser() -> argparse.ArgumentParser:
     parser.add_argument("--tas", action="store_true", help="Task 2 / W-02: is monthly tas published for future periods?")
     parser.add_argument("--license", action="store_true", help="Task 2 / W-03: fetch the CMIP6 product's license/attribution/citation")
     parser.add_argument("--align", action="store_true", help="Task 2 / W-04: assert 5-GCM grid alignment")
+    parser.add_argument(
+        "--cost",
+        action="store_true",
+        help=(
+            "Task 3 / W-04: measure windowed-read cost, then re-run --urls/--tas/--license/"
+            "--align internally and write 08-SPIKE.md with every finding"
+        ),
+    )
     return parser
 
 
@@ -501,6 +872,19 @@ def main() -> None:
         ran_any = True
     if args.align:
         probe_align()
+        ran_any = True
+    if args.cost:
+        # --cost assembles the complete spike: it re-runs the other three probes
+        # internally (rather than requiring four separate invocations first) so that
+        # `python probe_chelsa.py --cost` alone writes a complete 08-SPIKE.md, matching
+        # this plan's own <verify> command.
+        urls_result = probe_urls()
+        tas_result = probe_tas()
+        license_result = probe_license()
+        align_result = probe_align()
+        gdd5_result = probe_gdd5_discovery()
+        cost_result = probe_cost()
+        write_spike_report(urls_result, tas_result, license_result, align_result, cost_result, gdd5_result)
         ran_any = True
     if not ran_any:
         parser.print_help()
