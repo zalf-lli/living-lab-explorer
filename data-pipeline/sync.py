@@ -1,11 +1,29 @@
 from __future__ import annotations
 
 import json
+import re
 import shutil
 from pathlib import Path
 
 from python._sources import get_layer, load_sources, repo_root, resolve
 from python.generate_metadata import write_metadata
+
+
+_PLACEHOLDER_RE = re.compile(r"\{[^{}]+\}")
+
+
+def _pattern_to_glob(pattern: str) -> str:
+    """Substitute every `{...}` placeholder in a sources.yaml pattern with `*`.
+
+    Land cover's `pmtiles_pattern` carries one placeholder (`{slug}`); climate's
+    carries three (`{variable}`, `{period}`, `{slug}`). A plain
+    `.replace("{slug}", "*")` only ever widened the one land-cover/BORIS knew about, so
+    it silently matched nothing for climate's three-placeholder pattern. This regex
+    substitution tolerates any number of placeholders (including zero, which round-trips
+    unchanged), so both per-LL sync functions can share one implementation without
+    drifting from each other.
+    """
+    return _PLACEHOLDER_RE.sub("*", pattern)
 
 
 STATIC_DATA_FILES = [
@@ -161,31 +179,54 @@ def sync_pmtiles() -> None:
         sync_file(source, resolve(sync_target))
 
 
+def _sync_matched_pattern(pattern: str) -> int:
+    """Glob a sources.yaml pattern (any number of `{...}` placeholders) and mirror every
+    match into app/public/, deriving the destination purely from the match's repo-relative
+    path. Returns the number of files synced.
+
+    A wildcarded glob is a wider match surface than a literal path, so any match whose
+    resolved path escapes the repo root is skipped with a [warn] rather than copied --
+    this guards against a stray symlink or an unexpected match writing outside
+    app/public/data/ (T-08-16).
+    """
+    root = repo_root()
+    matches = sorted(root.glob(_pattern_to_glob(pattern)))
+    if not matches:
+        print(f"[skip] no files matched {pattern}")
+        return 0
+    synced = 0
+    for source in matches:
+        resolved_source = source.resolve()
+        resolved_root = root.resolve()
+        if resolved_root not in resolved_source.parents and resolved_source != resolved_root:
+            print(f"[warn] match escapes repo root, skipping: {source}")
+            continue
+        rel_path = source.relative_to(root)
+        sync_file(source, resolve(Path("app/public") / rel_path))
+        synced += 1
+    print(f"[sync] {synced}/{len(matches)} files matched {pattern}")
+    return synced
+
+
 def sync_pmtiles_per_ll() -> None:
     # Unlike sync_pmtiles() (which honors an explicit output.sync_to), this
     # function has no separate "sync pattern" config key. The destination for
     # each matched file is always derived from its path relative to the repo
     # root, prefixed with app/public/ -- sources.yaml intentionally has no
-    # output.sync_pattern key for per-LL layers.
+    # output.sync_pattern key for per-LL layers. The glob tolerates any number of
+    # `{...}` placeholders (via _pattern_to_glob), since the climate pattern carries
+    # three (`{variable}`, `{period}`, `{slug}`) where land cover and BORIS carry one.
     sources = load_sources()
-    root = repo_root()
     for layer in sources["layers"]:
         output = layer.get("output", {})
         pattern = output.get("pmtiles_pattern")
         if not pattern:
             continue
-        matches = sorted(root.glob(pattern.replace("{slug}", "*")))
-        if not matches:
-            print(f"[skip] no pmtiles matched {pattern}")
-            continue
-        for source in matches:
-            rel_path = source.relative_to(root)
-            sync_file(source, resolve(Path("app/public") / rel_path))
+        _sync_matched_pattern(pattern)
 
 
 def sync_vector_geojson() -> None:
     sources = load_sources()
-    root = repo_root()
     for layer in sources["layers"]:
         if layer.get("kind") != "vector":
             continue
@@ -193,13 +234,7 @@ def sync_vector_geojson() -> None:
         geojson_pattern = output.get("geojson_pattern")
         if not geojson_pattern:
             continue
-        matches = sorted(root.glob(geojson_pattern.replace("{slug}", "*")))
-        if not matches:
-            print(f"[skip] no vector outputs matched {geojson_pattern}")
-            continue
-        for source in matches:
-            rel_path = source.relative_to(root)
-            sync_file(source, resolve(Path("app/public") / rel_path))
+        _sync_matched_pattern(geojson_pattern)
 
 
 def sync_to_app() -> None:
