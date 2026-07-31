@@ -10,6 +10,8 @@ import {
   BORIS_NO_DATA_STYLE,
   BORIS_RAMP,
   BORIS_VALUE_STYLE_BASE,
+  CLIMATE_LEGEND,
+  CLIMATE_VARIABLES,
   LAYER_INDEX,
   PROTECTED_AREAS_LEGEND,
   resolveLayerAsset,
@@ -18,6 +20,7 @@ import { LAYER_SOURCE_INDEX } from '../../data/layer_sources.js'
 import { buildMaskFeature } from '../../lib/buildMaskGeometry.js'
 import { C } from '../../theme.js'
 import { MapLegend } from '../MapLegend.jsx'
+import { PeriodSwitcher } from '../PeriodSwitcher.jsx'
 
 const MAP_STYLE = { width: '100%', height: '100%' }
 const TILE_SUBDOMAINS = ['a', 'b', 'c', 'd']
@@ -143,20 +146,45 @@ function getBounds(featureLike) {
   return bounds.isValid() ? bounds : null
 }
 
-function RasterPmtilesLayer({ layerId, slug }) {
+// T-08-06/T-08-21: variable and period are interpolated into the fetched asset path, so an
+// unresolvable combination (resolveLayerAsset returns null) renders no overlay and reports the
+// error status rather than issuing a request for an unresolved-brace URL. T-08-11: exactly one
+// overlay is ever in flight -- the caller's remount key (see the raster mount point below) tears
+// this component down before the next combination mounts, so overlapping tile requests cannot
+// occur here. A `cancelled` flag guards against a stale header-read resolution updating state (or
+// adding an overlay) after a variable/period change has already torn this effect down -- with
+// three axes (layer, variable, period) changing independently this is a real race, not a
+// theoretical one.
+function RasterPmtilesLayer({ layerId, slug, variable, period, onStatus }) {
   const map = useMap()
-  const layerUrl = resolveLayerAsset(layerId, { slug })
+  const layerUrl = resolveLayerAsset(layerId, { slug, variable, period })
 
   useEffect(() => {
-    if (!layerUrl) return undefined
-    const overlay = leafletRasterLayer(getPmtiles(layerUrl), {
-      opacity: 0.85,
-    })
-    overlay.addTo(map)
-    return () => {
-      map.removeLayer(overlay)
+    if (!layerUrl) {
+      onStatus?.({ loading: false, error: true })
+      return undefined
     }
-  }, [layerUrl, map])
+    let cancelled = false
+    let overlay = null
+    onStatus?.({ loading: true, error: false })
+    const pmtiles = getPmtiles(layerUrl)
+    pmtiles
+      .getHeader()
+      .then(() => {
+        if (cancelled) return
+        overlay = leafletRasterLayer(pmtiles, { opacity: 0.85 })
+        overlay.addTo(map)
+        onStatus?.({ loading: false, error: false })
+      })
+      .catch(() => {
+        if (cancelled) return
+        onStatus?.({ loading: false, error: true })
+      })
+    return () => {
+      cancelled = true
+      if (overlay) map.removeLayer(overlay)
+    }
+  }, [layerUrl, map, variable, period]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return null
 }
@@ -882,10 +910,21 @@ function EconomicLayer({ collection, buckets, slugKey, t, lang }) {
   return null
 }
 
-export default function LLMap({ ll, layer, height = 300 }) {
+export default function LLMap({
+  ll,
+  layer,
+  height = 300,
+  variable = null,
+  period = null,
+  periodMode = 'baseline',
+  horizon = '2071_2100',
+  onPeriodModeChange = () => {},
+  onHorizonChange = () => {},
+}) {
   const { t, i18n } = useTranslation()
   const layerConfig = LAYER_INDEX.get(layer)
   const { data, loading, error } = useGeoJSON('data/ll_boundaries.geojson')
+  const [climateState, setClimateState] = useState({ loading: false, error: false })
   const soilUrl = useMemo(
     () => (layer === 'soil' ? resolveLayerAsset(layer, { slug: ll.slug }) : null),
     [layer, ll.slug],
@@ -931,6 +970,14 @@ export default function LLMap({ ll, layer, height = 300 }) {
   const economicLegendEntries = useMemo(
     () => buildEconomicLegendEntries(economicFeatureCollection, economicBuckets),
     [economicFeatureCollection, economicBuckets],
+  )
+
+  // D-11/D-12: 08-08's pipeline codegen already baked unit-aware labels and the empirically-derived
+  // ramp shape into CLIMATE_LEGEND's band strings/colours, so this component performs no number
+  // formatting and no unit logic of its own -- it only selects which precomputed band array is active.
+  const climateLegendEntries = useMemo(
+    () => CLIMATE_LEGEND[variable]?.[periodMode === 'baseline' ? 'baseline' : 'change'] ?? null,
+    [variable, periodMode],
   )
 
   const bounds = useMemo(() => (boundaryFeature ? getBounds(boundaryFeature) : null), [boundaryFeature])
@@ -983,7 +1030,18 @@ export default function LLMap({ ll, layer, height = 300 }) {
             url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
           />
           {layerConfig?.type === 'raster' ? (
-            <RasterPmtilesLayer layerId={layer} slug={ll.slug} key={`${layer}-${ll.slug}`} />
+            <RasterPmtilesLayer
+              layerId={layer}
+              slug={ll.slug}
+              variable={layer === 'climate' ? variable : null}
+              period={layer === 'climate' ? period : null}
+              onStatus={layer === 'climate' ? setClimateState : undefined}
+              key={
+                layer === 'climate'
+                  ? `${layer}-${ll.slug}-${variable}-${period}`
+                  : `${layer}-${ll.slug}`
+              }
+            />
           ) : null}
           {layer === 'soil' && soilFeatureCollection ? (
             <GeoJSON
@@ -1016,6 +1074,12 @@ export default function LLMap({ ll, layer, height = 300 }) {
         {layer === 'economic' && economicState.error ? (
           <SoilStatusBadge tone="error" message={t('map.economicError')} />
         ) : null}
+        {layer === 'climate' && climateState.loading ? (
+          <SoilStatusBadge message={t('map.climateLoading')} />
+        ) : null}
+        {layer === 'climate' && climateState.error ? (
+          <SoilStatusBadge tone="error" message={t('map.climateError')} />
+        ) : null}
         {showProtectedAreas && protectedAreasState.loading ? (
           <div style={statusBadgeStyle('info', 48)}>{t('map.protectedAreasLoading')}</div>
         ) : null}
@@ -1024,18 +1088,41 @@ export default function LLMap({ ll, layer, height = 300 }) {
         ) : null}
         {layerConfig?.available ? null : <ComingSoonBadge style={{ ...statusBadgeStyle('info', 48) }} />}
         <ProtectedAreasToggle active={showProtectedAreas} onToggle={() => setShowProtectedAreas((v) => !v)} />
+        {layer === 'climate' ? (
+          // D-15/D-16/D-17: attached to the map (not the layer-tabs row), offset below
+          // ProtectedAreasToggle's own top-right slot so the two absolutely-positioned controls
+          // never overlap. State is entirely owned by LLDetail (D-17) -- this instance only forwards.
+          <PeriodSwitcher
+            mode={periodMode}
+            horizon={horizon}
+            onModeChange={onPeriodModeChange}
+            onHorizonChange={onHorizonChange}
+            horizons={['2041_2070', '2071_2100']}
+            style={{ position: 'absolute', top: 56, right: 12, zIndex: 500 }}
+          />
+        ) : null}
         <MapInfoControl layer={layer} slug={ll.slug} overlayIds={showProtectedAreas ? ['protected-areas'] : []} />
       </div>
       <div style={{ padding: '10px 16px', borderTop: `1px solid ${C.mutedLight}`, background: C.bg }}>
         <MapLegend
           layer={layer}
-          entries={layer === 'soil' ? soilLegendEntries : layer === 'economic' ? economicLegendEntries : null}
+          entries={
+            layer === 'soil'
+              ? soilLegendEntries
+              : layer === 'economic'
+                ? economicLegendEntries
+                : layer === 'climate'
+                  ? climateLegendEntries
+                  : null
+          }
           note={
             layer === 'soil'
               ? t('legend.soil.note')
               : layer === 'economic'
                 ? t('legend.economic.note')
-                : null
+                : layer === 'climate'
+                  ? t(CLIMATE_VARIABLES.find((v) => v.id === variable)?.legendNoteKey)
+                  : null
           }
         />
         {layer === 'economic' && economicFeatureCollection && !economicLegendEntries?.length ? (
