@@ -39,6 +39,22 @@ const MASK_STYLE = {
   stroke: false,
   interactive: false,
 }
+// Climate uses this same dimming mask (like every other raster layer) to hide the
+// shared pipeline clip_buffer_m margin (data-pipeline/sources/sources.yaml) baked around
+// every raster's true Living Lab extent. For land cover/soil/protected areas, a 60%-white
+// dim over that buffer ring just reads as muted surrounding context. Climate's colour
+// ramps are ordinal/sequential, though, so any legend colour dimmed 60% toward white
+// lands in the same pale hue family as the ramp's own lowest class (verified: bio1's
+// b1-b3 dim to #f7bda8/#f1b7a1/#e4b2a0, all visually adjacent to its true b0
+// #fce3da) -- so the buffer ring reads as a false "ring of lowest-class cells"
+// (.planning/debug/resolved/climate-boundary-na-artifact.md). A fully opaque mask for
+// climate only removes that misread without changing any other layer's dimming.
+const MASK_STYLE_OPAQUE = {
+  fillColor: '#ffffff',
+  fillOpacity: 1,
+  stroke: false,
+  interactive: false,
+}
 const SOIL_PALETTE = ['#b88752', '#c29b68', '#a87445', '#d0b385', '#8f6136', '#c98b5e', '#aa7c57', '#bfa07a']
 const SOIL_SPECIAL_STYLE = {
   color: '#4f89a3',
@@ -1060,7 +1076,13 @@ export default function LLMap({
               lang={lang}
             />
           ) : null}
-          {maskFeature ? <GeoJSON key={`mask-${ll.slug}`} data={maskFeature} style={MASK_STYLE} /> : null}
+          {maskFeature ? (
+            <GeoJSON
+              key={`mask-${ll.slug}`}
+              data={maskFeature}
+              style={layer === 'climate' ? MASK_STYLE_OPAQUE : MASK_STYLE}
+            />
+          ) : null}
           <GeoJSON key={`outline-${ll.slug}-${outlineColor}`} data={boundaryFeature} style={outlineStyle} />
           {showProtectedAreas && protectedAreasFeatureCollection ? (
             <ProtectedAreasLayer collection={protectedAreasFeatureCollection} slugKey={ll.slug} t={t} lang={lang} />

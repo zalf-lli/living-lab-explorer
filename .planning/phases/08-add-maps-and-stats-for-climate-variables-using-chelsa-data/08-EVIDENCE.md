@@ -147,10 +147,20 @@ with a Phase 8 completion verdict.
    whether it is being read/labelled correctly.
 2. "the degree symbol is not rendering instead the text always reads 'degC'" — the literal string
    `degC` is showing in the UI instead of a rendered `°C`, across the legend and/or KPI tiles.
-3. "All living labs have a border of cells in the lowest value class across all variables this is
-   clear an artifact of cells that span the border being assigned NA values." — boundary/edge pixels
-   spanning the Living Lab clip mask appear to be receiving a nodata sentinel that is then binned
-   into the lowest legitimate value class instead of being excluded/rendered transparent.
+3. **FIXED (2026-07-31, see `.planning/debug/resolved/climate-boundary-na-artifact.md`).** "All
+   living labs have a border of cells in the lowest value class across all variables this is
+   clear an artifact of cells that span the border being assigned NA values." — root cause was
+   **not** a pipeline nodata bug: direct measurement on real raster data (bio1/baseline/
+   east-brandenburg) found nodata-adjacent and interior valid pixels statistically
+   indistinguishable (6.1% vs 5.6% in the lowest band), and the shared `clip_buffer_m: 2000`
+   fully insulates the true LL boundary from ever touching a nodata pixel. The real cause: every
+   raster layer's dimming mask (`app/src/components/LLMap/index.jsx`) is only 60% opaque
+   (`MASK_STYLE`), so the ~2km buffer ring of real, correctly-classified climate pixels shows
+   through dimmed-toward-white — and because climate's colour ramps are ordinal/sequential (unlike
+   land cover's categorical legend), any class dimmed 60% toward white lands visually in the
+   ramp's own pale/lowest-class range, misreading as a data artifact. Fix: added a fully-opaque
+   `MASK_STYLE_OPAQUE` used only for `layer === 'climate'`, leaving every other layer's dimming
+   unchanged. Human-verified fixed in the running dev server.
 4. "for all of the change maps the number of categories is too coarse and all cells are falling into
    the same categories leading to uniformly coloured maps." — change-mode colour breaks do not
    discriminate across the actual per-pixel change range; every cell lands in the same bin.
@@ -165,5 +175,6 @@ with a Phase 8 completion verdict.
 
 **Disposition:** Plan 08-11 is NOT complete. Task 3's blocking checkpoint has not received approval.
 No SUMMARY.md has been written for 08-11. Phase 8 is not marked complete in `STATE.md` or
-`ROADMAP.md`. These five issues need investigation and fixes (likely via `/gsd:debug` or a gap-closure
+`ROADMAP.md`. Issue 3 is fixed and human-verified (2026-07-31). The remaining five issues need
+investigation and fixes (likely via `/gsd:debug` or a gap-closure
 plan) before the checkpoint can be re-run and the phase closed.
