@@ -39,9 +39,18 @@ export const BORIS_HOVER_STYLE = { fillOpacity: 0.92, weight: 0.7 }
 // redeclare hex codes. Light-to-dark = low-to-high for both sequential families (D-13); the diverging
 // ramp is reserved for sign-varying change maps (D-12) and centres on C.bg as the near-zero neutral.
 // Zero newly invented hues — every stop below is a C.* token reference into theme.js.
+// These 4-stop baseline ramps are unchanged by the climate-coarse-change-bins debug fix.
 export const CLIMATE_HEAT_RAMP = [C.orangeGhost, C.orange, C.orangeDark, C.orangeDeep]
 export const CLIMATE_WATER_RAMP = [C.tealLight, C.tealMid, C.teal, C.tealBg]
 export const CLIMATE_DIVERGING_RAMP = [C.orangeDark, C.orange, C.bg, C.tealMid, C.teal]
+
+// Change-mode-only 5-stop sequential ramps (climate-coarse-change-bins debug fix, 2026-07-31):
+// each family's 4-stop ramp above plus one additional darkest stop (C.orangeDeepest /
+// C.tealDeepest), mirroring compute_climate_color_breaks.py's HEAT_RAMP_CHANGE / WATER_RAMP_CHANGE
+// on the Python side exactly (duplication across the two sides is deliberate, per the existing
+// climate_legend.js codegen reconciliation pattern). Baseline maps never use these.
+export const CLIMATE_HEAT_RAMP_CHANGE = [...CLIMATE_HEAT_RAMP, C.orangeDeepest]
+export const CLIMATE_WATER_RAMP_CHANGE = [...CLIMATE_WATER_RAMP, C.tealDeepest]
 
 export const LAYERS = [
   {

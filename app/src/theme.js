@@ -10,12 +10,22 @@ export const C = {
   orangeDark: '#dc4b14',
   orangeDeep: '#bb3f11',
   orangeGhost: '#fce3da',
+  // 5th heat-ramp stop, CHELSA change-mode maps only (climate-coarse-change-bins debug fix,
+  // 2026-07-31): continues the orange->orangeDark->orangeDeep darkening progression by one more
+  // step, at the same ~0.85 per-channel ratio as the orangeDark->orangeDeep step. Not used by
+  // any baseline ramp or by any other layer.
+  orangeDeepest: '#9f350e',
 
   // substrat — teal (headings, dark surfaces)
   teal: '#005754',
   tealMid: '#008581',
   tealLight: '#00b3ad',
   tealBg: '#00413f',
+  // 5th water-ramp stop, CHELSA change-mode maps only (climate-coarse-change-bins debug fix,
+  // 2026-07-31): continues the tealMid->teal->tealBg darkening progression by one more step, at
+  // the same ~0.75 per-channel ratio as the teal->tealBg step. Not used by any baseline ramp or
+  // by any other layer.
+  tealDeepest: '#00312f',
 
   // technik — green (secondary)
   green: '#225e43',

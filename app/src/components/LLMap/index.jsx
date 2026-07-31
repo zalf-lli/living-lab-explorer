@@ -991,9 +991,16 @@ export default function LLMap({
   // D-11/D-12: 08-08's pipeline codegen already baked unit-aware labels and the empirically-derived
   // ramp shape into CLIMATE_LEGEND's band strings/colours, so this component performs no number
   // formatting and no unit logic of its own -- it only selects which precomputed band array is active.
+  // Change mode carries a separate band array per horizon (climate-coarse-change-bins debug fix,
+  // 2026-07-31): the two future horizons no longer share one pooled scale (reversed 08-EVIDENCE.md
+  // deviation #2), so the active horizon token selects which of CLIMATE_LEGEND[variable].change's
+  // two per-horizon band arrays is shown, exactly mirroring how the PMTiles pixels were classified.
   const climateLegendEntries = useMemo(
-    () => CLIMATE_LEGEND[variable]?.[periodMode === 'baseline' ? 'baseline' : 'change'] ?? null,
-    [variable, periodMode],
+    () =>
+      periodMode === 'baseline'
+        ? CLIMATE_LEGEND[variable]?.baseline ?? null
+        : CLIMATE_LEGEND[variable]?.change?.[horizon] ?? null,
+    [variable, periodMode, horizon],
   )
 
   const bounds = useMemo(() => (boundaryFeature ? getBounds(boundaryFeature) : null), [boundaryFeature])

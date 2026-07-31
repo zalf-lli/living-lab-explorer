@@ -87,9 +87,22 @@ def _list_slugs(layer: dict) -> list[str]:
 
 def _mode_for_period(period_token: str) -> str:
     """`baseline` maps to the `baseline` color_breaks block; both horizon tokens
-    (`2041_2070`, `2071_2100`) map to the `change` block, so the two horizons share one
-    fixed scale (mirrors compute_climate_color_breaks.py's pooling rule)."""
+    (`2041_2070`, `2071_2100`) map to the `change` block."""
     return "baseline" if period_token == "baseline" else "change"
+
+
+def _block_for_period(color_breaks: dict, variable_id: str, period_token: str) -> dict:
+    """Resolve the breaks/colors block for one (variable, period_token).
+
+    `baseline` is a single flat block. Each of the two horizon tokens (`2041_2070`,
+    `2071_2100`) now carries its own block, keyed by that same period token, under
+    `change` -- the two horizons no longer share one pooled scale (climate-coarse-
+    change-bins debug fix, 2026-07-31; see compute_climate_color_breaks.py's docstring).
+    """
+    variable_breaks = color_breaks[variable_id]
+    if period_token == "baseline":
+        return variable_breaks["baseline"]
+    return variable_breaks["change"][period_token]
 
 
 def _sweep_stale_temp_dirs(cache_root: Path, layer_id: str) -> None:
@@ -113,15 +126,22 @@ def _load_color_breaks(layer: dict) -> dict:
     return json.loads(breaks_path.read_text(encoding="utf-8"))
 
 
-def _build_classifiers(color_breaks: dict, variable_ids: list[str]) -> dict:
-    """One classify() callable per (variable, mode) pair, built once before the per-slug
-    loop starts -- never recomputed per Living Lab. This is the D-09 ordering constraint
-    expressed in code."""
+def _build_classifiers(color_breaks: dict, variable_ids: list[str], period_tokens: list[str]) -> dict:
+    """One classify() callable per (variable, period_token) pair, built once before the
+    per-slug loop starts -- never recomputed per Living Lab. This is the D-09 ordering
+    constraint expressed in code.
+
+    Keyed by period_token (not mode) since the climate-coarse-change-bins debug fix: each
+    of the two horizon tokens now resolves to its own block via `_block_for_period()`,
+    rather than both horizons sharing one `(variable, "change")` classifier.
+    """
     classifiers = {}
     for variable_id in variable_ids:
-        for mode in ("baseline", "change"):
-            block = color_breaks[variable_id][mode]
-            classifiers[(variable_id, mode)] = build_continuous_colormap(block["breaks"], block["colors"])
+        for period_token in period_tokens:
+            block = _block_for_period(color_breaks, variable_id, period_token)
+            classifiers[(variable_id, period_token)] = build_continuous_colormap(
+                block["breaks"], block["colors"]
+            )
     return classifiers
 
 
@@ -270,13 +290,12 @@ def build_climate_pmtiles(
 
     # Load data/climate_color_breaks.json exactly once, in setup scope, before the loop.
     color_breaks = _load_color_breaks(layer)
-    classifiers = _build_classifiers(color_breaks, target_variables)
+    classifiers = _build_classifiers(color_breaks, target_variables, target_periods)
 
     if dry_run:
         modes_seen = {period_token: _mode_for_period(period_token) for period_token in target_periods}
         for variable_id, period_token, _slug in matrix:
-            mode = _mode_for_period(period_token)
-            assert (variable_id, mode) in classifiers  # confirms every classifier resolved cleanly
+            assert (variable_id, period_token) in classifiers  # confirms every classifier resolved cleanly
         print(f"[dry-run] {len(matrix)} planned outputs; period -> mode: {modes_seen}")
         print("[dry-run] no raster opened, no file written")
         return
@@ -296,8 +315,7 @@ def build_climate_pmtiles(
     temp_dir_path = Path(tempfile.mkdtemp(prefix=f"{layer_id}-", dir=cache_root))
     try:
         for variable_id, period_token, slug in matrix:
-            mode = _mode_for_period(period_token)
-            classify = classifiers[(variable_id, mode)]
+            classify = classifiers[(variable_id, period_token)]
 
             tile_path = resolve(path_pattern.format(variable=variable_id, period=period_token))
             if not tile_path.exists():

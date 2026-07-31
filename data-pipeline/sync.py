@@ -184,6 +184,11 @@ def generate_climate_legend() -> None:
     per-value legend, climate's legend is per-variable and per-mode (baseline/change),
     since D-11/D-12 make it unit-aware and sign-aware in a way no categorical layer
     needed to be.
+
+    `change` is now per-horizon (climate-coarse-change-bins debug fix, 2026-07-31): each
+    of the two horizon tokens (`2041_2070`, `2071_2100`) gets its own band array and ramp
+    verdict, since the two horizons no longer share one pooled colour scale. `baseline`
+    is unchanged -- one flat block, one band array.
     """
     layer = get_layer("chelsa-climate")
     breaks_path = resolve(layer["output"]["color_breaks"])
@@ -214,16 +219,22 @@ def generate_climate_legend() -> None:
         )
 
         variable_breaks = color_breaks[variable_id]
-        modes: dict = {}
-        ramp_by_mode: dict = {}
-        for mode in ("baseline", "change"):
-            block = variable_breaks[mode]
-            modes[mode] = _climate_bands_for_mode(
-                block["breaks"], block["colors"], block["unit"], signed=(mode == "change")
+
+        baseline_block = variable_breaks["baseline"]
+        baseline_bands = _climate_bands_for_mode(
+            baseline_block["breaks"], baseline_block["colors"], baseline_block["unit"], signed=False
+        )
+
+        change_bands_by_horizon: dict = {}
+        change_ramp_by_horizon: dict = {}
+        for horizon, block in variable_breaks["change"].items():
+            change_bands_by_horizon[horizon] = _climate_bands_for_mode(
+                block["breaks"], block["colors"], block["unit"], signed=True
             )
-            ramp_by_mode[mode] = block["ramp"]
-        climate_legend[variable_id] = modes
-        climate_ramp_shape[variable_id] = ramp_by_mode
+            change_ramp_by_horizon[horizon] = block["ramp"]
+
+        climate_legend[variable_id] = {"baseline": baseline_bands, "change": change_bands_by_horizon}
+        climate_ramp_shape[variable_id] = {"baseline": baseline_block["ramp"], "change": change_ramp_by_horizon}
 
     assert len(climate_variables) == 4, (
         f"CLIMATE_VARIABLES must carry exactly 4 entries (D-05), got {len(climate_variables)}"

@@ -87,32 +87,72 @@ export const CLIMATE_LEGEND = {
         "color": "#bb3f11"
       }
     ],
-    "change": [
-      {
-        "value": "b0",
-        "en": "< +647.0 degC-day",
-        "de": "< +647,0 degC-Tag",
-        "color": "#fce3da"
-      },
-      {
-        "value": "b1",
-        "en": "+647.0 – +822.0 degC-day",
-        "de": "+647,0 – +822,0 degC-Tag",
-        "color": "#eb5b25"
-      },
-      {
-        "value": "b2",
-        "en": "+822.0 – +1129.0 degC-day",
-        "de": "+822,0 – +1129,0 degC-Tag",
-        "color": "#dc4b14"
-      },
-      {
-        "value": "b3",
-        "en": "> +1129.0 degC-day",
-        "de": "> +1129,0 degC-Tag",
-        "color": "#bb3f11"
-      }
-    ]
+    "change": {
+      "2041_2070": [
+        {
+          "value": "b0",
+          "en": "< +621.0 degC-day",
+          "de": "< +621,0 degC-Tag",
+          "color": "#fce3da"
+        },
+        {
+          "value": "b1",
+          "en": "+621.0 – +638.0 degC-day",
+          "de": "+621,0 – +638,0 degC-Tag",
+          "color": "#eb5b25"
+        },
+        {
+          "value": "b2",
+          "en": "+638.0 – +654.0 degC-day",
+          "de": "+638,0 – +654,0 degC-Tag",
+          "color": "#dc4b14"
+        },
+        {
+          "value": "b3",
+          "en": "+654.0 – +675.0 degC-day",
+          "de": "+654,0 – +675,0 degC-Tag",
+          "color": "#bb3f11"
+        },
+        {
+          "value": "b4",
+          "en": "> +675.0 degC-day",
+          "de": "> +675,0 degC-Tag",
+          "color": "#9f350e"
+        }
+      ],
+      "2071_2100": [
+        {
+          "value": "b0",
+          "en": "< +1086.0 degC-day",
+          "de": "< +1086,0 degC-Tag",
+          "color": "#fce3da"
+        },
+        {
+          "value": "b1",
+          "en": "+1086.0 – +1114.0 degC-day",
+          "de": "+1086,0 – +1114,0 degC-Tag",
+          "color": "#eb5b25"
+        },
+        {
+          "value": "b2",
+          "en": "+1114.0 – +1139.0 degC-day",
+          "de": "+1114,0 – +1139,0 degC-Tag",
+          "color": "#dc4b14"
+        },
+        {
+          "value": "b3",
+          "en": "+1139.0 – +1161.0 degC-day",
+          "de": "+1139,0 – +1161,0 degC-Tag",
+          "color": "#bb3f11"
+        },
+        {
+          "value": "b4",
+          "en": "> +1161.0 degC-day",
+          "de": "> +1161,0 degC-Tag",
+          "color": "#9f350e"
+        }
+      ]
+    }
   },
   "bio1": {
     "baseline": [
@@ -141,32 +181,72 @@ export const CLIMATE_LEGEND = {
         "color": "#bb3f11"
       }
     ],
-    "change": [
-      {
-        "value": "b0",
-        "en": "< +2.6 degC",
-        "de": "< +2,6 degC",
-        "color": "#fce3da"
-      },
-      {
-        "value": "b1",
-        "en": "+2.6 – +3.3 degC",
-        "de": "+2,6 – +3,3 degC",
-        "color": "#eb5b25"
-      },
-      {
-        "value": "b2",
-        "en": "+3.3 – +4.0 degC",
-        "de": "+3,3 – +4,0 degC",
-        "color": "#dc4b14"
-      },
-      {
-        "value": "b3",
-        "en": "> +4.0 degC",
-        "de": "> +4,0 degC",
-        "color": "#bb3f11"
-      }
-    ]
+    "change": {
+      "2041_2070": [
+        {
+          "value": "b0",
+          "en": "< +2.5 degC",
+          "de": "< +2,5 degC",
+          "color": "#fce3da"
+        },
+        {
+          "value": "b1",
+          "en": "+2.5 – +2.6 degC",
+          "de": "+2,5 – +2,6 degC",
+          "color": "#eb5b25"
+        },
+        {
+          "value": "b2",
+          "en": "+2.6 – +2.7 degC",
+          "de": "+2,6 – +2,7 degC",
+          "color": "#dc4b14"
+        },
+        {
+          "value": "b3",
+          "en": "+2.7 – +2.8 degC",
+          "de": "+2,7 – +2,8 degC",
+          "color": "#bb3f11"
+        },
+        {
+          "value": "b4",
+          "en": "> +2.8 degC",
+          "de": "> +2,8 degC",
+          "color": "#9f350e"
+        }
+      ],
+      "2071_2100": [
+        {
+          "value": "b0",
+          "en": "< +3.9 degC",
+          "de": "< +3,9 degC",
+          "color": "#fce3da"
+        },
+        {
+          "value": "b1",
+          "en": "+3.9 – +4.0 degC",
+          "de": "+3,9 – +4,0 degC",
+          "color": "#eb5b25"
+        },
+        {
+          "value": "b2",
+          "en": "+4.0 – +4.1 degC",
+          "de": "+4,0 – +4,1 degC",
+          "color": "#dc4b14"
+        },
+        {
+          "value": "b3",
+          "en": "+4.1 – +4.2 degC",
+          "de": "+4,1 – +4,2 degC",
+          "color": "#bb3f11"
+        },
+        {
+          "value": "b4",
+          "en": "> +4.2 degC",
+          "de": "> +4,2 degC",
+          "color": "#9f350e"
+        }
+      ]
+    }
   },
   "bio12": {
     "baseline": [
@@ -195,32 +275,72 @@ export const CLIMATE_LEGEND = {
         "color": "#00413f"
       }
     ],
-    "change": [
-      {
-        "value": "b0",
-        "en": "< +1.5 %",
-        "de": "< +1,5 %",
-        "color": "#00b3ad"
-      },
-      {
-        "value": "b1",
-        "en": "+1.5 – +2.0 %",
-        "de": "+1,5 – +2,0 %",
-        "color": "#008581"
-      },
-      {
-        "value": "b2",
-        "en": "+2.0 – +3.0 %",
-        "de": "+2,0 – +3,0 %",
-        "color": "#005754"
-      },
-      {
-        "value": "b3",
-        "en": "> +3.0 %",
-        "de": "> +3,0 %",
-        "color": "#00413f"
-      }
-    ]
+    "change": {
+      "2041_2070": [
+        {
+          "value": "b0",
+          "en": "< +1.0 %",
+          "de": "< +1,0 %",
+          "color": "#00b3ad"
+        },
+        {
+          "value": "b1",
+          "en": "+1.0 – +1.5 %",
+          "de": "+1,0 – +1,5 %",
+          "color": "#008581"
+        },
+        {
+          "value": "b2",
+          "en": "+1.5 – +2.0 %",
+          "de": "+1,5 – +2,0 %",
+          "color": "#005754"
+        },
+        {
+          "value": "b3",
+          "en": "+2.0 – +2.5 %",
+          "de": "+2,0 – +2,5 %",
+          "color": "#00413f"
+        },
+        {
+          "value": "b4",
+          "en": "> +2.5 %",
+          "de": "> +2,5 %",
+          "color": "#00312f"
+        }
+      ],
+      "2071_2100": [
+        {
+          "value": "b0",
+          "en": "< +2.5 %",
+          "de": "< +2,5 %",
+          "color": "#00b3ad"
+        },
+        {
+          "value": "b1",
+          "en": "+2.5 – +3.0 %",
+          "de": "+2,5 – +3,0 %",
+          "color": "#008581"
+        },
+        {
+          "value": "b2",
+          "en": "+3.0 – +3.5 %",
+          "de": "+3,0 – +3,5 %",
+          "color": "#005754"
+        },
+        {
+          "value": "b3",
+          "en": "+3.5 – +4.0 %",
+          "de": "+3,5 – +4,0 %",
+          "color": "#00413f"
+        },
+        {
+          "value": "b4",
+          "en": "> +4.0 %",
+          "de": "> +4,0 %",
+          "color": "#00312f"
+        }
+      ]
+    }
   },
   "bio18": {
     "baseline": [
@@ -249,50 +369,102 @@ export const CLIMATE_LEGEND = {
         "color": "#00413f"
       }
     ],
-    "change": [
-      {
-        "value": "b0",
-        "en": "< -6.5 %",
-        "de": "< -6,5 %",
-        "color": "#00b3ad"
-      },
-      {
-        "value": "b1",
-        "en": "-6.5 – -5.5 %",
-        "de": "-6,5 – -5,5 %",
-        "color": "#008581"
-      },
-      {
-        "value": "b2",
-        "en": "-5.5 – -5.0 %",
-        "de": "-5,5 – -5,0 %",
-        "color": "#005754"
-      },
-      {
-        "value": "b3",
-        "en": "> -5.0 %",
-        "de": "> -5,0 %",
-        "color": "#00413f"
-      }
-    ]
+    "change": {
+      "2041_2070": [
+        {
+          "value": "b0",
+          "en": "< -5.5 %",
+          "de": "< -5,5 %",
+          "color": "#00b3ad"
+        },
+        {
+          "value": "b1",
+          "en": "-5.5 – -5.0 %",
+          "de": "-5,5 – -5,0 %",
+          "color": "#008581"
+        },
+        {
+          "value": "b2",
+          "en": "-5.0 – -4.5 %",
+          "de": "-5,0 – -4,5 %",
+          "color": "#005754"
+        },
+        {
+          "value": "b3",
+          "en": "-4.5 – -4.0 %",
+          "de": "-4,5 – -4,0 %",
+          "color": "#00413f"
+        },
+        {
+          "value": "b4",
+          "en": "> -4.0 %",
+          "de": "> -4,0 %",
+          "color": "#00312f"
+        }
+      ],
+      "2071_2100": [
+        {
+          "value": "b0",
+          "en": "< -8.5 %",
+          "de": "< -8,5 %",
+          "color": "#00b3ad"
+        },
+        {
+          "value": "b1",
+          "en": "-8.5 – -8.0 %",
+          "de": "-8,5 – -8,0 %",
+          "color": "#008581"
+        },
+        {
+          "value": "b2",
+          "en": "-8.0 – -5.5 %",
+          "de": "-8,0 – -5,5 %",
+          "color": "#005754"
+        },
+        {
+          "value": "b3",
+          "en": "-5.5 – -5.0 %",
+          "de": "-5,5 – -5,0 %",
+          "color": "#00413f"
+        },
+        {
+          "value": "b4",
+          "en": "> -5.0 %",
+          "de": "> -5,0 %",
+          "color": "#00312f"
+        }
+      ]
+    }
   }
 }
 
 export const CLIMATE_RAMP_SHAPE = {
   "gdd": {
     "baseline": "sequential",
-    "change": "sequential"
+    "change": {
+      "2041_2070": "sequential",
+      "2071_2100": "sequential"
+    }
   },
   "bio1": {
     "baseline": "sequential",
-    "change": "sequential"
+    "change": {
+      "2041_2070": "sequential",
+      "2071_2100": "sequential"
+    }
   },
   "bio12": {
     "baseline": "sequential",
-    "change": "sequential"
+    "change": {
+      "2041_2070": "sequential",
+      "2071_2100": "sequential"
+    }
   },
   "bio18": {
     "baseline": "sequential",
-    "change": "sequential"
+    "change": {
+      "2041_2070": "sequential",
+      "2071_2100": "sequential"
+    }
   }
 }
