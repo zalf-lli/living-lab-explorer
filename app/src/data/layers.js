@@ -1,6 +1,11 @@
 import { LANDUSE_LEGEND } from './landuse_legend.js'
 import { LAND_COVER_LEGEND } from './land_cover_legend.js'
+import { CLIMATE_VARIABLES, CLIMATE_LEGEND } from './climate_legend.js'
 import { C } from '../theme.js'
+
+// Re-exported so layers.js stays the single module the map layer configuration is read from;
+// components should not import climate_legend.js directly from two places.
+export { CLIMATE_VARIABLES, CLIMATE_LEGEND }
 
 const SOIL_LEGEND = [
   { value: 'brown-soils', en: 'Brown soils', de: 'Braunerden', color: '#b88752' },
@@ -46,7 +51,17 @@ export const LAYERS = [
     legend: LANDUSE_LEGEND,
     available: true,
   },
-  { id: 'climate', type: 'placeholder', pmtilesUrl: null, legend: null, available: true },
+  {
+    id: 'climate',
+    type: 'raster',
+    pmtilesUrlPattern: 'data/pmtiles/climate-{variable}-{period}-{slug}.pmtiles',
+    // Climate's legend is per-variable and per-mode, so it cannot live on the layer entry the way
+    // LAND_COVER_LEGEND does. LLMap computes the active bands at the call site (from CLIMATE_LEGEND,
+    // above) and passes them through MapLegend's existing `entries` prop, exactly as soil and
+    // economic already do. This null is deliberate, not an oversight.
+    legend: null,
+    available: true,
+  },
   {
     id: 'soil',
     type: 'vector',
@@ -120,7 +135,6 @@ export function resolveLayerAsset(layerId, { slug, variable, period } = {}) {
 
 export const LAYER_COLORS = {
   agriculture: { arable: '#c2e077', forest: '#276d4e', grassland: '#83d2af', settlement: '#b5ad9e', water: '#8ffffc' },
-  climate: { arable: '#f9d1c2', forest: '#daf1e7', grassland: '#fce3da', settlement: '#f2f8e2', water: '#bdfffd' },
   soil: { arable: '#d4b483', forest: '#8a6a3e', grassland: '#c4a870', settlement: '#a09080', water: '#8ffffc' },
   economic: { arable: '#9bc72d', forest: '#225e43', grassland: '#5ec597', settlement: '#dc4b14', water: '#00b3ad' },
 }
