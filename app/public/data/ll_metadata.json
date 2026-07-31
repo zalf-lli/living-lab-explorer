@@ -102,24 +102,68 @@
       ],
       "climate": [
         {
-          "genesisTable": null,
-          "key": "agr_ch4_kt",
-          "sourceHost": null,
-          "unit": {
-            "de": "kt CO2aeq",
-            "en": "kt CO2eq"
+          "delta": 1143.0,
+          "deltaHorizon": "2071-2100",
+          "deltaUnit": {
+            "de": "degC-Tag",
+            "en": "degC-day"
           },
-          "value": null
+          "genesisTable": null,
+          "key": "gdd5_degc_days",
+          "sourceHost": "chelsa",
+          "unit": {
+            "de": "degC-Tag",
+            "en": "degC-day"
+          },
+          "value": 2026.0
         },
         {
-          "genesisTable": null,
-          "key": "agr_n2o_kt",
-          "sourceHost": null,
-          "unit": {
-            "de": "kt CO2aeq",
-            "en": "kt CO2eq"
+          "delta": 4.1,
+          "deltaHorizon": "2071-2100",
+          "deltaUnit": {
+            "de": "degC",
+            "en": "degC"
           },
-          "value": null
+          "genesisTable": null,
+          "key": "mean_annual_temp_degc",
+          "sourceHost": "chelsa",
+          "unit": {
+            "de": "degC",
+            "en": "degC"
+          },
+          "value": 9.4
+        },
+        {
+          "delta": 3.0,
+          "deltaHorizon": "2071-2100",
+          "deltaUnit": {
+            "de": "%",
+            "en": "%"
+          },
+          "genesisTable": null,
+          "key": "annual_precip_mm",
+          "sourceHost": "chelsa",
+          "unit": {
+            "de": "mm",
+            "en": "mm"
+          },
+          "value": 599.0
+        },
+        {
+          "delta": -5.3,
+          "deltaHorizon": "2071-2100",
+          "deltaUnit": {
+            "de": "%",
+            "en": "%"
+          },
+          "genesisTable": null,
+          "key": "warm_quarter_precip_mm",
+          "sourceHost": "chelsa",
+          "unit": {
+            "de": "mm",
+            "en": "mm"
+          },
+          "value": 189.0
         }
       ],
       "economic": [
@@ -413,24 +457,68 @@
       ],
       "climate": [
         {
-          "genesisTable": null,
-          "key": "agr_ch4_kt",
-          "sourceHost": null,
-          "unit": {
-            "de": "kt CO2aeq",
-            "en": "kt CO2eq"
+          "delta": 1154.0,
+          "deltaHorizon": "2071-2100",
+          "deltaUnit": {
+            "de": "degC-Tag",
+            "en": "degC-day"
           },
-          "value": null
+          "genesisTable": null,
+          "key": "gdd5_degc_days",
+          "sourceHost": "chelsa",
+          "unit": {
+            "de": "degC-Tag",
+            "en": "degC-day"
+          },
+          "value": 2075.0
         },
         {
-          "genesisTable": null,
-          "key": "agr_n2o_kt",
-          "sourceHost": null,
-          "unit": {
-            "de": "kt CO2aeq",
-            "en": "kt CO2eq"
+          "delta": 4.1,
+          "deltaHorizon": "2071-2100",
+          "deltaUnit": {
+            "de": "degC",
+            "en": "degC"
           },
-          "value": null
+          "genesisTable": null,
+          "key": "mean_annual_temp_degc",
+          "sourceHost": "chelsa",
+          "unit": {
+            "de": "degC",
+            "en": "degC"
+          },
+          "value": 9.6
+        },
+        {
+          "delta": 2.7,
+          "deltaHorizon": "2071-2100",
+          "deltaUnit": {
+            "de": "%",
+            "en": "%"
+          },
+          "genesisTable": null,
+          "key": "annual_precip_mm",
+          "sourceHost": "chelsa",
+          "unit": {
+            "de": "mm",
+            "en": "mm"
+          },
+          "value": 595.0
+        },
+        {
+          "delta": -5.9,
+          "deltaHorizon": "2071-2100",
+          "deltaUnit": {
+            "de": "%",
+            "en": "%"
+          },
+          "genesisTable": null,
+          "key": "warm_quarter_precip_mm",
+          "sourceHost": "chelsa",
+          "unit": {
+            "de": "mm",
+            "en": "mm"
+          },
+          "value": 186.0
         }
       ],
       "economic": [
@@ -722,24 +810,68 @@
       ],
       "climate": [
         {
-          "genesisTable": null,
-          "key": "agr_ch4_kt",
-          "sourceHost": null,
-          "unit": {
-            "de": "kt CO2aeq",
-            "en": "kt CO2eq"
+          "delta": 1091.0,
+          "deltaHorizon": "2071-2100",
+          "deltaUnit": {
+            "de": "degC-Tag",
+            "en": "degC-day"
           },
-          "value": null
+          "genesisTable": null,
+          "key": "gdd5_degc_days",
+          "sourceHost": "chelsa",
+          "unit": {
+            "de": "degC-Tag",
+            "en": "degC-day"
+          },
+          "value": 1802.0
         },
         {
-          "genesisTable": null,
-          "key": "agr_n2o_kt",
-          "sourceHost": null,
-          "unit": {
-            "de": "kt CO2aeq",
-            "en": "kt CO2eq"
+          "delta": 3.9,
+          "deltaHorizon": "2071-2100",
+          "deltaUnit": {
+            "de": "degC",
+            "en": "degC"
           },
-          "value": null
+          "genesisTable": null,
+          "key": "mean_annual_temp_degc",
+          "sourceHost": "chelsa",
+          "unit": {
+            "de": "degC",
+            "en": "degC"
+          },
+          "value": 8.7
+        },
+        {
+          "delta": 2.9,
+          "deltaHorizon": "2071-2100",
+          "deltaUnit": {
+            "de": "%",
+            "en": "%"
+          },
+          "genesisTable": null,
+          "key": "annual_precip_mm",
+          "sourceHost": "chelsa",
+          "unit": {
+            "de": "mm",
+            "en": "mm"
+          },
+          "value": 862.0
+        },
+        {
+          "delta": -8.6,
+          "deltaHorizon": "2071-2100",
+          "deltaUnit": {
+            "de": "%",
+            "en": "%"
+          },
+          "genesisTable": null,
+          "key": "warm_quarter_precip_mm",
+          "sourceHost": "chelsa",
+          "unit": {
+            "de": "mm",
+            "en": "mm"
+          },
+          "value": 220.0
         }
       ],
       "economic": [
@@ -1034,24 +1166,68 @@
       ],
       "climate": [
         {
-          "genesisTable": null,
-          "key": "agr_ch4_kt",
-          "sourceHost": null,
-          "unit": {
-            "de": "kt CO2aeq",
-            "en": "kt CO2eq"
+          "delta": 1076.0,
+          "deltaHorizon": "2071-2100",
+          "deltaUnit": {
+            "de": "degC-Tag",
+            "en": "degC-day"
           },
-          "value": null
+          "genesisTable": null,
+          "key": "gdd5_degc_days",
+          "sourceHost": "chelsa",
+          "unit": {
+            "de": "degC-Tag",
+            "en": "degC-day"
+          },
+          "value": 1735.0
         },
         {
-          "genesisTable": null,
-          "key": "agr_n2o_kt",
-          "sourceHost": null,
-          "unit": {
-            "de": "kt CO2aeq",
-            "en": "kt CO2eq"
+          "delta": 3.9,
+          "deltaHorizon": "2071-2100",
+          "deltaUnit": {
+            "de": "degC",
+            "en": "degC"
           },
-          "value": null
+          "genesisTable": null,
+          "key": "mean_annual_temp_degc",
+          "sourceHost": "chelsa",
+          "unit": {
+            "de": "degC",
+            "en": "degC"
+          },
+          "value": 8.5
+        },
+        {
+          "delta": 2.3,
+          "deltaHorizon": "2071-2100",
+          "deltaUnit": {
+            "de": "%",
+            "en": "%"
+          },
+          "genesisTable": null,
+          "key": "annual_precip_mm",
+          "sourceHost": "chelsa",
+          "unit": {
+            "de": "mm",
+            "en": "mm"
+          },
+          "value": 805.0
+        },
+        {
+          "delta": -8.7,
+          "deltaHorizon": "2071-2100",
+          "deltaUnit": {
+            "de": "%",
+            "en": "%"
+          },
+          "genesisTable": null,
+          "key": "warm_quarter_precip_mm",
+          "sourceHost": "chelsa",
+          "unit": {
+            "de": "mm",
+            "en": "mm"
+          },
+          "value": 227.0
         }
       ],
       "economic": [
@@ -1343,24 +1519,68 @@
       ],
       "climate": [
         {
-          "genesisTable": null,
-          "key": "agr_ch4_kt",
-          "sourceHost": null,
-          "unit": {
-            "de": "kt CO2aeq",
-            "en": "kt CO2eq"
+          "delta": 1112.0,
+          "deltaHorizon": "2071-2100",
+          "deltaUnit": {
+            "de": "degC-Tag",
+            "en": "degC-day"
           },
-          "value": null
+          "genesisTable": null,
+          "key": "gdd5_degc_days",
+          "sourceHost": "chelsa",
+          "unit": {
+            "de": "degC-Tag",
+            "en": "degC-day"
+          },
+          "value": 1834.0
         },
         {
-          "genesisTable": null,
-          "key": "agr_n2o_kt",
-          "sourceHost": null,
-          "unit": {
-            "de": "kt CO2aeq",
-            "en": "kt CO2eq"
+          "delta": 3.9,
+          "deltaHorizon": "2071-2100",
+          "deltaUnit": {
+            "de": "degC",
+            "en": "degC"
           },
-          "value": null
+          "genesisTable": null,
+          "key": "mean_annual_temp_degc",
+          "sourceHost": "chelsa",
+          "unit": {
+            "de": "degC",
+            "en": "degC"
+          },
+          "value": 8.9
+        },
+        {
+          "delta": 1.9,
+          "deltaHorizon": "2071-2100",
+          "deltaUnit": {
+            "de": "%",
+            "en": "%"
+          },
+          "genesisTable": null,
+          "key": "annual_precip_mm",
+          "sourceHost": "chelsa",
+          "unit": {
+            "de": "mm",
+            "en": "mm"
+          },
+          "value": 726.0
+        },
+        {
+          "delta": -9.8,
+          "deltaHorizon": "2071-2100",
+          "deltaUnit": {
+            "de": "%",
+            "en": "%"
+          },
+          "genesisTable": null,
+          "key": "warm_quarter_precip_mm",
+          "sourceHost": "chelsa",
+          "unit": {
+            "de": "mm",
+            "en": "mm"
+          },
+          "value": 199.0
         }
       ],
       "economic": [

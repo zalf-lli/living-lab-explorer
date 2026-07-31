@@ -257,7 +257,7 @@ def test_destatis_curated_kpis_manifest_matches_contract() -> None:
     with path.open("r", encoding="utf-8") as handle:
         data = json.load(handle)
 
-    assert len(data) == 17, f"Expected 17 curated KPI entries, got {len(data)}"
+    assert len(data) == 19, f"Expected 19 curated KPI entries, got {len(data)}"
 
     expected_keys = {
         "tab",
@@ -271,10 +271,11 @@ def test_destatis_curated_kpis_manifest_matches_contract() -> None:
     }
     for entry in data:
         assert set(entry.keys()) == expected_keys, entry
-        # source_host names the upstream source: a Destatis platform, or bfn_wfs for a value
-        # derived from the BfN protected-areas geometry (Phase 05.1), or None for an
+        # source_host names the upstream source: a Destatis platform, bfn_wfs for a value
+        # derived from the BfN protected-areas geometry (Phase 05.1), chelsa for a value
+        # computed from CHELSA climate rasters at build time (Phase 08), or None for an
         # honestly-unresolved slot (D-15) -- never fabricated or omitted (Plan 04-07).
-        assert entry["source_host"] in ("genesis", "regionalstatistik", "bfn_wfs", None), entry
+        assert entry["source_host"] in ("genesis", "regionalstatistik", "bfn_wfs", None, "chelsa"), entry
 
     tab_counts: dict[str, int] = {}
     for entry in data:
@@ -283,7 +284,7 @@ def test_destatis_curated_kpis_manifest_matches_contract() -> None:
     assert tab_counts == {
         "agriculture": 4,
         "soil": 3,
-        "climate": 2,
+        "climate": 4,
         "landscape": 4,
         "economic": 4,
     }
@@ -314,7 +315,7 @@ def test_ll_metadata_kpi_by_tab_contract() -> None:
     expected_tab_counts = {
         "agriculture": 4,
         "soil": 3,
-        "climate": 2,
+        "climate": 4,
         "landscape": 4,
         "economic": 4,
     }
