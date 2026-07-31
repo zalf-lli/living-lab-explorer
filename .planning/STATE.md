@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: in_progress
-stopped_at: Phase 8 Wave 5 (08-08, full 60-PMTiles build) complete — sync glob generalized, climate_legend.js codegen'd, all 60 tiles built and published inside footprint cap; Wave 6 (08-09, KPI manifest swap) next
-last_updated: "2026-07-30T13:30:00.000Z"
+stopped_at: Phase 8 Wave 5 (08-08) complete — 60/60 climate PMTiles built, published, and committed inside the footprint cap; climate_legend.js codegen'd
+last_updated: "2026-07-31T06:05:54.348Z"
 progress:
-  total_phases: 15
+  total_phases: 14
   completed_phases: 9
   total_plans: 56
-  completed_plans: 49
-  percent: 63
+  completed_plans: 51
+  percent: 64
 ---
 
 # Project State

@@ -413,7 +413,7 @@ dependency.
 Phases 5, 05.1, 6 and 7.
 **Depends on:** Phase 7 (BORIS land value layer - last of the existing map-layer phases; the
 pipeline/layer conventions it establishes are reused here)
-**Plans:** 8/11 plans executed
+**Plans:** 9/11 plans executed
 
 **Planning decisions (resolved during breakdown):**
 
@@ -482,7 +482,7 @@ Plans:
 
 **Wave 6** *(blocked on Wave 5)*
 
-- [ ] 08-09-PLAN.md - D-18 manifest swap + both `tab_counts` dicts + allow-list + dead i18n labels,
+- [x] 08-09-PLAN.md - D-18 manifest swap + both `tab_counts` dicts + allow-list + dead i18n labels,
       `chelsa` `source_host` branch with delta threading, regenerated metadata (one commit)
 
 **Wave 7** *(blocked on Wave 6)*
