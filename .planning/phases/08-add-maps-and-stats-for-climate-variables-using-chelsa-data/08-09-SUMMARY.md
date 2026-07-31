@@ -134,3 +134,15 @@ None -- no external service configuration required. (The `npm install` step abov
 ---
 *Phase: 08-add-maps-and-stats-for-climate-variables-using-chelsa-data*
 *Completed: 2026-07-31*
+
+## Self-Check: PASSED
+
+- FOUND: `data/destatis_curated_kpis.json`
+- FOUND: `data-pipeline/python/generate_metadata.py`
+- FOUND: `data-pipeline/tests/test_pipeline_outputs.py`
+- FOUND: `app/src/i18n.js`
+- FOUND: `data/ll_metadata.json`
+- FOUND: `app/public/data/ll_metadata.json`
+- FOUND: `.planning/phases/08-add-maps-and-stats-for-climate-variables-using-chelsa-data/08-09-SUMMARY.md`
+- FOUND commit `f4b8a8e` (Tasks 1-3, combined per D-18)
+- FOUND commit `dd74b12` (this SUMMARY)
