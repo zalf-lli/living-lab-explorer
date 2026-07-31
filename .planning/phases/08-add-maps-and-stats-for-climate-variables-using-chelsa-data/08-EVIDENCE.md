@@ -140,11 +140,18 @@ Recorded verbatim from the human reviewer at the Task 3 blocking checkpoint (202
 messages. Nothing in this phase is marked complete; `STATE.md`/`ROADMAP.md` have not been updated
 with a Phase 8 completion verdict.
 
-1. "The legend and KPI figures for GDD have non-sensical values e.g '2,075 degC-day' there was a
-   fix at some point to try and correct this?" — likely relates to the `08-07`/CR-01 nodata-guard
-   history around `_derive_change_field` (see Deliberate deviations #4 and Deferred scope #8 above);
-   needs re-investigation of whether the displayed figure is a baseline or change-mode value and
-   whether it is being read/labelled correctly.
+1. **RESOLVED as not-a-bug, label clarified (2026-07-31).** "The legend and KPI figures for GDD have
+   non-sensical values e.g '2,075 degC-day' there was a fix at some point to try and correct this?"
+   — GDD (`gdd5_degc_days`) is an annual *sum* (`sum(max(daily_mean_temp - 5degC, 0))` over the
+   year), not an average, so values in the low thousands are the expected order of magnitude —
+   confirmed against real data (`data/climate_kpis.json`: baseline 1,834-2,026 degC-day across
+   Living Labs, matching the plausible range already validated at `08-07`'s gate; see Deferred
+   scope #8 above). The 2071-2100 delta (e.g. +1,143 degC-day for east-brandenburg) is an absolute
+   (not percent) delta, consistent with the temperature-family convention `mean_annual_temp_degc`
+   also uses, and is internally consistent with its own +4.1 degC mean-temperature delta for the
+   same period. The actual gap was clarity, not correctness: the `kpi.gdd5_degc_days` label read
+   "Growing degree days (base 5 degC)" with no cue that it is a summed, not averaged, quantity.
+   Fixed by appending "annual sum" / "Jahressumme" to the EN/DE label (`app/src/i18n.js`).
 2. "the degree symbol is not rendering instead the text always reads 'degC'" — the literal string
    `degC` is showing in the UI instead of a rendered `°C`, across the legend and/or KPI tiles.
 3. **FIXED (2026-07-31, see `.planning/debug/resolved/climate-boundary-na-artifact.md`).** "All
@@ -175,6 +182,6 @@ with a Phase 8 completion verdict.
 
 **Disposition:** Plan 08-11 is NOT complete. Task 3's blocking checkpoint has not received approval.
 No SUMMARY.md has been written for 08-11. Phase 8 is not marked complete in `STATE.md` or
-`ROADMAP.md`. Issue 3 is fixed and human-verified (2026-07-31). The remaining five issues need
-investigation and fixes (likely via `/gsd:debug` or a gap-closure
+`ROADMAP.md`. Issue 3 is fixed and human-verified, and issue 1 is resolved as a label-clarity fix
+(both 2026-07-31). The remaining four issues need investigation and fixes (likely via `/gsd:debug` or a gap-closure
 plan) before the checkpoint can be re-run and the phase closed.
