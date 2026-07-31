@@ -131,3 +131,34 @@ Transcribed from `08-CONTEXT.md`'s Deferred Ideas block, so the next planner see
 ## Known live placeholders
 
 **`charts.climate` in `i18n.js` and `CHART_DATA.climate` in `app/src/data/chart_data.js` still drive a placeholder BarChart** ("Mean Monthly Temp.", six hardcoded monthly bar values `jan`/`mar`/`may`/`jul`/`sep`/`nov`) that is **not** wired to any real CHELSA data and sits **outside this phase's UI surface** (the Climate tab's chart region, distinct from the map slot and the StatPanel KPI tiles this phase actually built). This is a known, pre-existing state — the same placeholder every other tab's chart carries (`app/src/data/chart_data.js`'s header comment: "Placeholder chart data per thematic layer... for now they match the wireframe") — not an oversight introduced or left behind by Phase 8. Phase 9 (Chart Data Contract) is the phase explicitly scoped to replace these placeholders with real per-layer chart data.
+
+---
+
+## Reported issues
+
+Recorded verbatim from the human reviewer at the Task 3 blocking checkpoint (2026-07-31). Nothing
+in this phase is marked complete; `STATE.md`/`ROADMAP.md` have not been updated with a Phase 8
+completion verdict.
+
+1. "The legend and KPI figures for GDD have non-sensical values e.g '2,075 degC-day' there was a
+   fix at some point to try and correct this?" — likely relates to the `08-07`/CR-01 nodata-guard
+   history around `_derive_change_field` (see Deliberate deviations #4 and Deferred scope #8 above);
+   needs re-investigation of whether the displayed figure is a baseline or change-mode value and
+   whether it is being read/labelled correctly.
+2. "the degree symbol is not rendering instead the text always reads 'degC'" — the literal string
+   `degC` is showing in the UI instead of a rendered `°C`, across the legend and/or KPI tiles.
+3. "All living labs have a border of cells in the lowest value class across all variables this is
+   clear an artifact of cells that span the border being assigned NA values." — boundary/edge pixels
+   spanning the Living Lab clip mask appear to be receiving a nodata sentinel that is then binned
+   into the lowest legitimate value class instead of being excluded/rendered transparent.
+4. "for all of the change maps the number of categories is too coarse and all cells are falling into
+   the same categories leading to uniformly coloured maps." — change-mode colour breaks do not
+   discriminate across the actual per-pixel change range; every cell lands in the same bin.
+5. "The sources button in the KPI bar for the climate tab doesn't open anything" — a UI wiring
+   defect, possibly climate-specific (other tabs' sources button may work) or possibly a
+   pre-existing/broader defect surfaced here for the first time.
+
+**Disposition:** Plan 08-11 is NOT complete. Task 3's blocking checkpoint has not received approval.
+No SUMMARY.md has been written for 08-11. Phase 8 is not marked complete in `STATE.md` or
+`ROADMAP.md`. These five issues need investigation and fixes (likely via `/gsd:debug` or a gap-closure
+plan) before the checkpoint can be re-run and the phase closed.
