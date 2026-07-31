@@ -200,19 +200,37 @@ with a Phase 8 completion verdict.
    dominant-bin share dropped from 78-100% to 51-59% across all five Living Labs); a small number
    of combinations remain near-uniform under the new scheme, reflecting genuinely small real
    spatial variability for that Living Lab/variable rather than a residual classification bug.
-5. "The sources button in the KPI bar for the climate tab doesn't open anything" — a UI wiring
-   defect, possibly climate-specific (other tabs' sources button may work) or possibly a
-   pre-existing/broader defect surfaced here for the first time.
-6. "the URL used for the climate data in the map source pop up opens on an error on the envidat
-   website" — the provenance/source URL wired into the map's info popup (`MapInfoControl` or
-   equivalent) for the CHELSA climate layer points at an EnviDat page that errors when opened;
-   the URL itself needs re-checking against the live EnviDat catalogue, not just against
-   `sources.yaml`'s recorded value.
+5. **FIXED (2026-07-31).** "The sources button in the KPI bar for the climate tab doesn't open
+   anything" — `StatPanel.jsx`'s `uniqueSources` only recognized Destatis/Regionalstatistik
+   entries via `field.genesisTable`; all four CHELSA KPI fields have `genesisTable: null`
+   (`source_host: chelsa` has no table concept), so they were silently filtered to an empty
+   array and the toggled panel rendered nothing. Fixed generically, not chelsa-special-cased:
+   fields with a real value but no `genesisTable` now fall back to `LAYER_SOURCE_INDEX`
+   (keyed by the same `appLayer`/tab id `sources.yaml` already uses for the map's
+   `MapInfoControl`), guarded on `field.value != null` so the soil tab's two genuinely-null
+   slots (`n_surplus_kg_ha`, `p_surplus_kg_ha`, `source_host: null`) don't get misattributed
+   to an unrelated layer source. New `statPanel.sourceLayer` i18n key added (EN/DE).
+6. **FIXED (2026-07-31).** "the URL used for the climate data in the map source pop up opens
+   on an error on the envidat website" — `sources.yaml`'s `chelsa-climate.source.url` was
+   `https://envidat.ch/#/metadata/chelsa_v2_1`: wrong slug (underscore, no `www.`). The EnviDat
+   SPA shell returns HTTP 200 for any hash route, masking the failure as an in-app not-found
+   rather than an HTTP error. Confirmed the correct slug live: the DOI resolver for the same
+   dataset (`10.16904/envidat.228`, already cited in `sources.yaml`'s `attribution`) redirects
+   to `https://www.envidat.ch/#/metadata/chelsa-climatologies` — the same package id
+   `probe_chelsa.py` already used successfully at `08-01`. Fixed at the source;
+   `layer_sources.js` picks it up via `sync.py` codegen.
+
+   **Content addition folded in alongside this fix (human request, 2026-07-31):** the source
+   `provider` line (the only line `MapInfoControl`/`StatPanel` actually render — `dataset` was
+   never rendered anywhere) now states that Change-mode figures are a 5-GCM multi-model mean
+   under SSP3-7.0 (D-04/D-03), while Baseline is a plain 1981-2010 observed climatology with no
+   GCM/SSP involved (D-01) — worded to stay accurate for both modes rather than unconditionally
+   tagging the whole layer as an SSP3-7.0 product.
 
 **Disposition:** Plan 08-11 is NOT complete. Task 3's blocking checkpoint has not received approval.
 No SUMMARY.md has been written for 08-11. Phase 8 is not marked complete in `STATE.md` or
-`ROADMAP.md`. Issues 1, 2, 3 and 4 are fixed (2026-07-31; issue 3 human-verified in a running dev
-server, issue 1 resolved as a label-clarity fix, issues 2 and 4 fixed and gate-verified pending
-human visual re-verification). The remaining two issues (sources button, EnviDat URL)
-need investigation and fixes (likely via `/gsd:debug` or a gap-closure plan) before the checkpoint
-can be re-run and the phase closed.
+`ROADMAP.md`. **All 6 reported issues are now fixed** (2026-07-31; issues 3 and 5 human-verified
+or gate-plus-human-verifiable in the running dev server, issue 1 resolved as a label-clarity fix,
+issues 2, 4 and 6 fixed and gate-verified). A full human visual re-verification pass across all
+five Living Labs, four variables, three periods and both languages is still required before the
+Task 3 checkpoint can be re-run and the phase closed.
