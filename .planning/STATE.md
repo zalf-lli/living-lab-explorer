@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: in_progress
-stopped_at: Phase 8 Wave 5 (08-08) complete — 60/60 climate PMTiles built, published, and committed inside the footprint cap; climate_legend.js codegen'd
+stopped_at: Phase 8 Wave 7 (08-10) complete — Climate tab wired end-to-end (raster layer, variable/period controls, unit-aware legend); Wave 8 (08-11 checkpoint) next
 last_updated: "2026-07-31T06:05:54.348Z"
 progress:
   total_phases: 14
   completed_phases: 9
   total_plans: 56
-  completed_plans: 51
+  completed_plans: 52
   percent: 64
 ---
 
@@ -36,11 +36,22 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 | 5 | Protected areas as toggleable layer | Planned (2026-07-25) — 4 plans, 3 waves, 2 checkpoints, verified ✓ |
 | 6 | Add land cover map | Complete (2026-07-26) — 5/5 plans, 4 waves, D-01..D-24 evidence recorded, bilingual checkpoint approved |
 | 7 | Add BORIS land value maps as spatial layer for socio-economic tab | In progress — 8/9 plans complete (07-08 executed 2026-07-28: all five Living Labs fetched, committed, published, and locked behind a fixture regression test) |
-| 8 | Add maps and stats for climate variables using CHELSA data | In progress (2026-07-30) — 8/11 plans complete: Waves 1-5 merged (08-01..08-08). Wave 5 (08-08, full 60-PMTiles build) done; 30/30 tests + app build passing. Wave 6 (08-09, KPI manifest swap) next |
+| 8 | Add maps and stats for climate variables using CHELSA data | In progress (2026-07-31) — 10/11 plans complete: Waves 1-7 merged (08-01..08-10). Wave 7 (08-10, Climate tab wired end-to-end) done; 31/31 pipeline tests + app build passing. Wave 8 (08-11, phase close-out checkpoint) next |
 | 9 | Chart Data Contract | Not planned yet (2026-07-27) |
 | 10 | Two-column LL comparison view | Planned (2026-07-27) — 6 plans, 5 waves, 1 checkpoint, verified ✓ (0 blockers, 4 warnings) |
 
 ## Active Work
+
+**Phase 8, Wave 7 complete (2026-07-31).** `08-10` flipped the Climate tab's `layers.js` entry from
+placeholder to a real three-axis raster (variable x period x Living Lab), lifted
+`useClimateControlState` beside `useLayerState` in `LLDetail.jsx` and threaded it through all three
+layouts (split/stacked/compare), and wired `LLMap`'s `RasterPmtilesLayer` plus a mounted
+`PeriodSwitcher`, unit-aware legend and per-variable note into the map. Five dead
+`legend.climate.{arable,forest,grassland,settlement,water}` i18n keys and `LAYER_COLORS.climate` were
+deleted. Post-merge gates: `npm run lint` and `npm run build` both clean; `python -m pytest
+data-pipeline/tests/` 31/31 passing (no pipeline files touched). No deviations, no checkpoints hit —
+fully autonomous. **Next:** `/gsd:execute-phase 8` (08-11 — phase close-out, blocking bilingual
+human-verify checkpoint).
 
 **Phase 8, Wave 5 complete (2026-07-30).** `08-08` generalized `sync.py`'s per-Living-Lab glob to
 any number of `{...}` placeholders (`_pattern_to_glob()`, shared by `sync_pmtiles_per_ll()` and
@@ -298,6 +309,6 @@ Phase 2.2 completed on 2026-04-30 and replaced the shallow German-only soil look
 
 ## Session
 
-**Last session:** 2026-07-30T13:30:00.000Z
-**Stopped at:** Phase 8 Wave 5 (08-08) complete — 60/60 climate PMTiles built, published, and committed inside the footprint cap; climate_legend.js codegen'd
-**Resume file:** .planning/phases/08-add-maps-and-stats-for-climate-variables-using-chelsa-data/08-09-PLAN.md
+**Last session:** 2026-07-31T06:05:54.348Z
+**Stopped at:** Phase 8 Wave 7 (08-10) complete — Climate tab wired end-to-end (raster layer, variable/period controls, unit-aware legend); Wave 8 (08-11 checkpoint) next
+**Resume file:** .planning/phases/08-add-maps-and-stats-for-climate-variables-using-chelsa-data/08-11-PLAN.md
