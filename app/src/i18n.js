@@ -107,11 +107,6 @@ const resources = {
           water: 'Water',
         },
         climate: {
-          arable: 'Very warm',
-          forest: 'Temperate',
-          grassland: 'Warm',
-          settlement: 'Cool',
-          water: 'Water / cold',
           note: {
             gdd: 'Heat accumulated above 5 degC over the year - a measure of how much growing season a crop gets.',
             bio1: 'Mean annual air temperature, averaged over the reference period.',
@@ -358,11 +353,6 @@ const resources = {
           water: 'Wasser',
         },
         climate: {
-          arable: 'Sehr warm',
-          forest: 'Gemaessigt',
-          grassland: 'Warm',
-          settlement: 'Kuehl',
-          water: 'Wasser / kalt',
           note: {
             gdd: 'Ueber das Jahr summierte Waerme oberhalb von 5 degC - ein Mass dafuer, wie viel Vegetationszeit eine Kultur erhaelt.',
             bio1: 'Mittlere jaehrliche Lufttemperatur, gemittelt ueber den Referenzzeitraum.',

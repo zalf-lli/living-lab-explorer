@@ -17,7 +17,9 @@ import { StatPanel } from '../components/StatPanel.jsx'
 import { BarChart } from '../components/BarChart.jsx'
 import { LayerTabs } from '../components/LayerTabs.jsx'
 import { TextBlock } from '../components/TextBlock.jsx'
+import { VariablePicker } from '../components/VariablePicker.jsx'
 import { LL_ICONS } from '../data/ll_icons.js'
+import { CLIMATE_VARIABLES } from '../data/layers.js'
 
 const LLMap = lazy(() => import('../components/LLMap/index.jsx'))
 
@@ -38,6 +40,11 @@ export function LLDetail({ bySlug, loading }) {
   }
 
   const [layer, setLayer] = useLayerState()
+  const [climateVariable, setClimateVariable, periodMode, setPeriodMode, horizon, setHorizon] =
+    useClimateControlState()
+  // Derived once here (not per layout) so all three layouts and both comparison columns cannot
+  // disagree on which raster/legend/note the active variable+period combination resolves to.
+  const period = periodMode === 'baseline' ? 'baseline' : horizon
 
   const compareSlug = searchParams.get('compare')
   const partnerCandidate = compareSlug ? bySlug?.[compareSlug] : null
@@ -120,7 +127,20 @@ export function LLDetail({ bySlug, loading }) {
       )}
       <div style={{ flex: 1, overflow: 'hidden' }}>
         {isComparing ? (
-          <LayoutCompare key="C" llA={ll} llB={partner} layer={layer} setLayer={setLayer} />
+          <LayoutCompare
+            key="C"
+            llA={ll}
+            llB={partner}
+            layer={layer}
+            setLayer={setLayer}
+            climateVariable={climateVariable}
+            setClimateVariable={setClimateVariable}
+            periodMode={periodMode}
+            setPeriodMode={setPeriodMode}
+            horizon={horizon}
+            setHorizon={setHorizon}
+            period={period}
+          />
         ) : layout === 'A' ? (
           <LayoutSplit
             key="A"
@@ -129,6 +149,13 @@ export function LLDetail({ bySlug, loading }) {
             setLayer={setLayer}
             compareOptions={compareOptions}
             onPickCompare={setCompare}
+            climateVariable={climateVariable}
+            setClimateVariable={setClimateVariable}
+            periodMode={periodMode}
+            setPeriodMode={setPeriodMode}
+            horizon={horizon}
+            setHorizon={setHorizon}
+            period={period}
           />
         ) : (
           <LayoutStacked
@@ -138,6 +165,13 @@ export function LLDetail({ bySlug, loading }) {
             setLayer={setLayer}
             compareOptions={compareOptions}
             onPickCompare={setCompare}
+            climateVariable={climateVariable}
+            setClimateVariable={setClimateVariable}
+            periodMode={periodMode}
+            setPeriodMode={setPeriodMode}
+            horizon={horizon}
+            setHorizon={setHorizon}
+            period={period}
           />
         )}
       </div>
@@ -350,7 +384,35 @@ function useLayerState() {
   return [layer, setLayer]
 }
 
-function LayoutSplit({ ll, layer, setLayer, compareOptions, onPickCompare }) {
+// Climate control state lives once here, beside useLayerState, for the same reason: D-17 requires
+// one shared instance to drive both of Phase 10's comparison columns identically. CLIMATE_VARIABLES
+// is the ordering authority for D-08's default (its first entry is the heat-index/GDD variable).
+// horizon initialises to the far horizon (2071-2100) so the first click on Change lands on the same
+// horizon the KPI tiles report (D-21), keeping the map and the tiles in agreement by default.
+function useClimateControlState() {
+  const [climateVariable, setClimateVariableRaw] = useState(CLIMATE_VARIABLES[0].id)
+  const [periodMode, setPeriodModeRaw] = useState('baseline')
+  const [horizon, setHorizonRaw] = useState('2071_2100')
+  const setClimateVariable = (id) => startTransition(() => setClimateVariableRaw(id))
+  const setPeriodMode = (mode) => startTransition(() => setPeriodModeRaw(mode))
+  const setHorizon = (h) => startTransition(() => setHorizonRaw(h))
+  return [climateVariable, setClimateVariable, periodMode, setPeriodMode, horizon, setHorizon]
+}
+
+function LayoutSplit({
+  ll,
+  layer,
+  setLayer,
+  compareOptions,
+  onPickCompare,
+  climateVariable,
+  setClimateVariable,
+  periodMode,
+  setPeriodMode,
+  horizon,
+  setHorizon,
+  period,
+}) {
   const { t } = useTranslation()
   return (
     <div
@@ -378,13 +440,30 @@ function LayoutSplit({ ll, layer, setLayer, compareOptions, onPickCompare }) {
           }}
         >
           <LayerTabs active={layer} onChange={setLayer} />
+          {layer === 'climate' ? (
+            <VariablePicker
+              variables={CLIMATE_VARIABLES}
+              active={climateVariable}
+              onChange={setClimateVariable}
+            />
+          ) : null}
           <div style={{ fontSize: 11, color: 'rgba(2,35,34,0.55)', marginTop: 6 }}>
             {t('llDetail.layerTabsHint')}
           </div>
         </div>
         <div style={{ flex: 1, minHeight: 0 }}>
           <Suspense fallback={<MapFallback />}>
-            <LLMap ll={ll} layer={layer} height="100%" />
+            <LLMap
+              ll={ll}
+              layer={layer}
+              height="100%"
+              variable={climateVariable}
+              period={period}
+              periodMode={periodMode}
+              horizon={horizon}
+              onPeriodModeChange={setPeriodMode}
+              onHorizonChange={setHorizon}
+            />
           </Suspense>
         </div>
       </div>
@@ -469,7 +548,20 @@ function LayoutSplit({ ll, layer, setLayer, compareOptions, onPickCompare }) {
   )
 }
 
-function LayoutStacked({ ll, layer, setLayer, compareOptions, onPickCompare }) {
+function LayoutStacked({
+  ll,
+  layer,
+  setLayer,
+  compareOptions,
+  onPickCompare,
+  climateVariable,
+  setClimateVariable,
+  periodMode,
+  setPeriodMode,
+  horizon,
+  setHorizon,
+  period,
+}) {
   const { t } = useTranslation()
   return (
     <div style={{ overflowY: 'auto', height: '100%', background: C.bg }}>
@@ -527,12 +619,29 @@ function LayoutStacked({ ll, layer, setLayer, compareOptions, onPickCompare }) {
           }}
         >
           <LayerTabs active={layer} onChange={setLayer} />
+          {layer === 'climate' ? (
+            <VariablePicker
+              variables={CLIMATE_VARIABLES}
+              active={climateVariable}
+              onChange={setClimateVariable}
+            />
+          ) : null}
           <div style={{ fontSize: 11, color: 'rgba(2,35,34,0.55)', marginTop: 6 }}>
             {t('llDetail.layerTabsHint')}
           </div>
         </div>
         <Suspense fallback={<MapFallback />}>
-          <LLMap ll={ll} layer={layer} height={300} />
+          <LLMap
+            ll={ll}
+            layer={layer}
+            height={300}
+            variable={climateVariable}
+            period={period}
+            periodMode={periodMode}
+            horizon={horizon}
+            onPeriodModeChange={setPeriodMode}
+            onHorizonChange={setHorizon}
+          />
         </Suspense>
       </div>
 
@@ -598,7 +707,16 @@ function LayoutStacked({ ll, layer, setLayer, compareOptions, onPickCompare }) {
 // Compact LayoutStacked (D-16) for one column of the two-column comparison view: accent bar,
 // plain white header (LayoutSplit's chrome, minus ContactManagerButton, D-19), KPIs, map, chart
 // and two stacked text blocks. No LayerTabs (shared, D-07) and no CompareCTA (D-15).
-function ComparisonColumn({ ll, layer }) {
+function ComparisonColumn({
+  ll,
+  layer,
+  climateVariable,
+  period,
+  periodMode,
+  horizon,
+  onPeriodModeChange,
+  onHorizonChange,
+}) {
   const { t } = useTranslation()
   return (
     <div>
@@ -657,7 +775,17 @@ function ComparisonColumn({ ll, layer }) {
         }}
       >
         <Suspense fallback={<MapFallback />}>
-          <LLMap ll={ll} layer={layer} height={300} />
+          <LLMap
+            ll={ll}
+            layer={layer}
+            height={300}
+            variable={climateVariable}
+            period={period}
+            periodMode={periodMode}
+            horizon={horizon}
+            onPeriodModeChange={onPeriodModeChange}
+            onHorizonChange={onHorizonChange}
+          />
         </Suspense>
       </div>
 
@@ -716,7 +844,19 @@ function ComparisonColumn({ ll, layer }) {
 // scroll container holding two ComparisonColumn instances side by side. No per-column scrolling,
 // no media query, no CompareCTA/LayoutSwitcher/ContactManagerButton/second LayerTabs anywhere in
 // this tree (D-07, D-15).
-function LayoutCompare({ llA, llB, layer, setLayer }) {
+function LayoutCompare({
+  llA,
+  llB,
+  layer,
+  setLayer,
+  climateVariable,
+  setClimateVariable,
+  periodMode,
+  setPeriodMode,
+  horizon,
+  setHorizon,
+  period,
+}) {
   const { t } = useTranslation()
   return (
     <div
@@ -737,6 +877,14 @@ function LayoutCompare({ llA, llB, layer, setLayer }) {
         }}
       >
         <LayerTabs active={layer} onChange={setLayer} />
+        {layer === 'climate' ? (
+          // D-17: exactly one VariablePicker instance governs both comparison columns below.
+          <VariablePicker
+            variables={CLIMATE_VARIABLES}
+            active={climateVariable}
+            onChange={setClimateVariable}
+          />
+        ) : null}
         <div style={{ fontSize: 11, color: 'rgba(2,35,34,0.55)', marginTop: 6 }}>
           {t('llDetail.layerTabsHint')}
         </div>
@@ -747,10 +895,30 @@ function LayoutCompare({ llA, llB, layer, setLayer }) {
           style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, alignItems: 'start' }}
         >
           <div style={{ borderRight: `1.5px solid ${C.mutedLight}` }}>
-            <ComparisonColumn ll={llA} layer={layer} key={llA.slug} />
+            <ComparisonColumn
+              ll={llA}
+              layer={layer}
+              key={llA.slug}
+              climateVariable={climateVariable}
+              period={period}
+              periodMode={periodMode}
+              horizon={horizon}
+              onPeriodModeChange={setPeriodMode}
+              onHorizonChange={setHorizon}
+            />
           </div>
           <div>
-            <ComparisonColumn ll={llB} layer={layer} key={llB.slug} />
+            <ComparisonColumn
+              ll={llB}
+              layer={layer}
+              key={llB.slug}
+              climateVariable={climateVariable}
+              period={period}
+              periodMode={periodMode}
+              horizon={horizon}
+              onPeriodModeChange={setPeriodMode}
+              onHorizonChange={setHorizon}
+            />
           </div>
         </div>
       </div>
