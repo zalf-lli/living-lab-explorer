@@ -92,18 +92,25 @@ def build_continuous_colormap(breaks: list, colors: list):
     return classify
 
 
-def build_clip_geometry(layer: dict, source_crs, slug: str | None = None) -> object:
+def build_clip_geometry(
+    layer: dict, source_crs, slug: str | None = None, buffer_m: float | None = None
+) -> object:
+    """Returns the (buffered, by default) clip geometry for `layer`/`slug`, reprojected to
+    `source_crs`. `buffer_m` overrides the layer's configured `defaults.clip_buffer_m` --
+    pass `0` to get the TRUE (unbuffered) Living Lab boundary in the same source, e.g. to
+    build an alpha mask that hides a raster's buffer-margin pixels without touching the
+    buffered crop extent itself (climate-basemap-hidden-outside-boundary debug fix)."""
     import geopandas as gpd
 
     defaults = layer["defaults"]
     clip_path = resolve(defaults["clip_to"])
-    clip_buffer_m = defaults.get("clip_buffer_m", 0)
+    effective_buffer_m = defaults.get("clip_buffer_m", 0) if buffer_m is None else buffer_m
     gdf = gpd.read_file(clip_path)
     if slug is not None:
         gdf = gdf[gdf["ll_slug"] == slug]
         # CLAUDE.md rule: assert non-empty to catch silent clip failures
         assert len(gdf) > 0, f"No features in {clip_path} with ll_slug={slug!r}"
-    buffered = gdf.to_crs("EPSG:3857").geometry.union_all().buffer(clip_buffer_m)
+    buffered = gdf.to_crs("EPSG:3857").geometry.union_all().buffer(effective_buffer_m)
     clip_geom = gpd.GeoSeries([buffered], crs="EPSG:3857").to_crs(source_crs).iloc[0]
     return clip_geom
 

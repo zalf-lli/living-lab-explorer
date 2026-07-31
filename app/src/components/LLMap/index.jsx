@@ -33,25 +33,20 @@ const BASEMAP_SOURCE = {
   license: 'ODbL / CC BY 3.0',
 }
 
+// Every raster layer's clip_buffer_m margin (data-pipeline/sources/sources.yaml) is now
+// made transparent at bake time for pixels outside the TRUE (unbuffered) Living Lab
+// boundary (climate-basemap-hidden-outside-boundary debug fix, build_climate_pmtiles.py's
+// build_climate_tif()), so this single shared mask only ever needs to dim the basemap for
+// geographic context outside the boundary -- it never has to hide leftover layer data,
+// for climate or any other layer. An earlier climate-only opaque variant of this mask
+// (removed) fixed the climate-boundary-na-artifact ring but, because the mask sits above
+// both the raster and the basemap (they share Leaflet's default tilePane), it also hid the
+// basemap outside the boundary -- inconsistent with every other tab. See
+// .planning/debug/resolved/climate-boundary-na-artifact.md and
+// .planning/debug/resolved/climate-basemap-hidden-outside-boundary.md.
 const MASK_STYLE = {
   fillColor: '#ffffff',
   fillOpacity: 0.6,
-  stroke: false,
-  interactive: false,
-}
-// Climate uses this same dimming mask (like every other raster layer) to hide the
-// shared pipeline clip_buffer_m margin (data-pipeline/sources/sources.yaml) baked around
-// every raster's true Living Lab extent. For land cover/soil/protected areas, a 60%-white
-// dim over that buffer ring just reads as muted surrounding context. Climate's colour
-// ramps are ordinal/sequential, though, so any legend colour dimmed 60% toward white
-// lands in the same pale hue family as the ramp's own lowest class (verified: bio1's
-// b1-b3 dim to #f7bda8/#f1b7a1/#e4b2a0, all visually adjacent to its true b0
-// #fce3da) -- so the buffer ring reads as a false "ring of lowest-class cells"
-// (.planning/debug/resolved/climate-boundary-na-artifact.md). A fully opaque mask for
-// climate only removes that misread without changing any other layer's dimming.
-const MASK_STYLE_OPAQUE = {
-  fillColor: '#ffffff',
-  fillOpacity: 1,
   stroke: false,
   interactive: false,
 }
@@ -1087,7 +1082,7 @@ export default function LLMap({
             <GeoJSON
               key={`mask-${ll.slug}`}
               data={maskFeature}
-              style={layer === 'climate' ? MASK_STYLE_OPAQUE : MASK_STYLE}
+              style={MASK_STYLE}
             />
           ) : null}
           <GeoJSON key={`outline-${ll.slug}-${outlineColor}`} data={boundaryFeature} style={outlineStyle} />

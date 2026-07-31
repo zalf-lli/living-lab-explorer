@@ -232,6 +232,35 @@ def build_climate_tif(layer: dict, tile_path: Path, output_tif: Path, *, slug: s
         nodata_mask = value_data == nodata
         rgba = classify(value_data, nodata_mask)
 
+        # climate-basemap-hidden-outside-boundary debug fix: clip_geom above used the
+        # BUFFERED extent (true boundary + clip_buffer_m) to crop/reproject, so real,
+        # correctly-classified pixels exist in the ~2km ring between the true boundary and
+        # that buffered extent. The buffer's crop margin is still needed (avoids a coverage
+        # gap between the raster's edge and the frontend mask hole at low zoom -- unchanged),
+        # but those ring pixels must never be *visible* as data: force alpha=0 for every
+        # pixel outside the TRUE (unbuffered) Living Lab boundary, regardless of what
+        # classify() assigned it. This makes the ring genuinely transparent (the basemap
+        # shows through it) instead of a real classified colour the frontend previously had
+        # to paper over with an opacity mask -- and unlike a frontend mask, this can never
+        # also hide the basemap, since the basemap is a wholly separate Leaflet layer with no
+        # raster pixels of its own to make transparent. A prior fix (climate-boundary-na-
+        # artifact) made the frontend's outer dimming mask fully opaque for climate to hide
+        # this same ring; that made the basemap disappear outside the boundary too,
+        # inconsistent with every other tab. This pipeline-level fix replaces that frontend
+        # special-case entirely -- the outer mask goes back to the shared 60% MASK_STYLE for
+        # every layer including climate.
+        from rasterio.features import geometry_mask
+
+        true_boundary_geom = build_clip_geometry(layer, target_crs, slug=slug, buffer_m=0)
+        outside_true_boundary = geometry_mask(
+            [true_boundary_geom.__geo_interface__],
+            out_shape=(dst_height, dst_width),
+            transform=dst_transform,
+            all_touched=True,
+            invert=False,
+        )
+        rgba[3][outside_true_boundary] = 0
+
         rgba_profile = dst_profile.copy()
         rgba_profile.pop("nodata", None)
         rgba_profile.update(count=4, dtype="uint8", photometric="RGBA")
