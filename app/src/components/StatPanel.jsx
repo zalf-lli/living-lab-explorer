@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
+import { LAYER_SOURCE_INDEX } from '../data/layer_sources.js'
 import { C } from '../theme.js'
 
 // Per-tab KPI tile grid: shows StatPanel's Destatis-sourced fields for the active tab,
@@ -55,14 +56,32 @@ export function StatPanel({ tab, ll, maxColumns = 4, showEmptyState = false }) {
   const lang = i18n.language?.startsWith('de') ? 'de' : 'en'
   const locale = i18n.language === 'de' ? 'de-DE' : 'en-US'
   const hasPendingReview = fields.some((field) => field.value == null)
+  // Destatis/Regionalstatistik-sourced fields carry a genesisTable and get a per-table
+  // GENESIS-Online/Regionalstatistik.de link. Fields with no genesisTable but a real value
+  // (e.g. CHELSA climate KPIs, source_host: chelsa) have no table concept at all -- fall
+  // back to the tab's own layer-level source (LAYER_SOURCE_INDEX, keyed by the same
+  // appLayer/tab id sources.yaml already uses for the map's MapInfoControl), so the sources
+  // panel never silently renders empty for a non-Destatis-sourced tab. Guarded on
+  // `field.value != null` so genuinely-unavailable KPI slots (source_host: null, e.g. the
+  // soil tab's n_surplus_kg_ha/p_surplus_kg_ha nulls) never get misattributed to that tab's
+  // unrelated layer source just because they also lack a genesisTable.
+  const layerSource = LAYER_SOURCE_INDEX.get(tab)
   const uniqueSources = [
     ...new Map(
       fields
-        .filter((field) => field.genesisTable)
-        .map((field) => [
-          `${field.sourceHost}::${field.genesisTable}`,
-          { tableId: field.genesisTable, sourceHost: field.sourceHost },
-        ]),
+        .map((field) => {
+          if (field.genesisTable) {
+            return [
+              `genesis::${field.sourceHost}::${field.genesisTable}`,
+              { kind: 'genesis', tableId: field.genesisTable, sourceHost: field.sourceHost },
+            ]
+          }
+          if (layerSource && field.value != null) {
+            return [`layer::${tab}`, { kind: 'layer', layerSource }]
+          }
+          return null
+        })
+        .filter(Boolean),
     ).values(),
   ]
 
@@ -155,23 +174,42 @@ export function StatPanel({ tab, ll, maxColumns = 4, showEmptyState = false }) {
 
       {sourcesOpen ? (
         <div style={{ marginTop: 8 }}>
-          {uniqueSources.map(({ tableId, sourceHost }) => {
-            const isRegionalstatistik = sourceHost === 'regionalstatistik'
-            const sourceKey = isRegionalstatistik ? 'statPanel.sourceRegionalstatistik' : 'statPanel.source'
-            const href = isRegionalstatistik
-              ? `https://www.regionalstatistik.de/genesis/online?operation=table&code=${tableId}`
-              : `https://www-genesis.destatis.de/genesis//online?operation=table&code=${tableId}`
+          {uniqueSources.map((source) => {
+            if (source.kind === 'genesis') {
+              const { tableId, sourceHost } = source
+              const isRegionalstatistik = sourceHost === 'regionalstatistik'
+              const sourceKey = isRegionalstatistik ? 'statPanel.sourceRegionalstatistik' : 'statPanel.source'
+              const href = isRegionalstatistik
+                ? `https://www.regionalstatistik.de/genesis/online?operation=table&code=${tableId}`
+                : `https://www-genesis.destatis.de/genesis//online?operation=table&code=${tableId}`
+              return (
+                <div key={`genesis::${sourceHost}::${tableId}`} style={{ fontSize: 11, fontWeight: 700, color: C.muted }}>
+                  {t(sourceKey, { tableId, date: ll.destatisRetrievedAt || '—' })}{' '}
+                  <a
+                    href={href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ color: C.orange, fontWeight: 700, textDecoration: 'none' }}
+                  >
+                    {t('statPanel.viewSource')}
+                  </a>
+                </div>
+              )
+            }
+            const { layerSource } = source
             return (
-              <div key={`${sourceHost}::${tableId}`} style={{ fontSize: 11, fontWeight: 700, color: C.muted }}>
-                {t(sourceKey, { tableId, date: ll.destatisRetrievedAt || '—' })}{' '}
-                <a
-                  href={href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  style={{ color: C.orange, fontWeight: 700, textDecoration: 'none' }}
-                >
-                  {t('statPanel.viewSource')}
-                </a>
+              <div key={`layer::${tab}`} style={{ fontSize: 11, fontWeight: 700, color: C.muted }}>
+                {t('statPanel.sourceLayer', { provider: layerSource.provider })}{' '}
+                {layerSource.url ? (
+                  <a
+                    href={layerSource.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ color: C.orange, fontWeight: 700, textDecoration: 'none' }}
+                  >
+                    {t('statPanel.viewSource')}
+                  </a>
+                ) : null}
               </div>
             )
           })}
