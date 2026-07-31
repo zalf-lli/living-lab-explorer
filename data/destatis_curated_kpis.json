@@ -71,12 +71,12 @@
   },
   {
     "genesis_table": null,
-    "label_de": "Waermesumme (Basis 5 degC)",
-    "label_en": "Growing degree days (base 5 degC)",
+    "label_de": "Waermesumme, Jahressumme (Basis 5 °C)",
+    "label_en": "Growing degree days, annual sum (base 5 °C)",
     "source_host": "chelsa",
     "tab": "climate",
-    "unit_de": "degC-Tag",
-    "unit_en": "degC-day",
+    "unit_de": "°C·d",
+    "unit_en": "°C·d",
     "variable_key": "gdd5_degc_days"
   },
   {
@@ -85,8 +85,8 @@
     "label_en": "Mean annual temperature",
     "source_host": "chelsa",
     "tab": "climate",
-    "unit_de": "degC",
-    "unit_en": "degC",
+    "unit_de": "°C",
+    "unit_en": "°C",
     "variable_key": "mean_annual_temp_degc"
   },
   {

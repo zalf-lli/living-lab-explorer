@@ -1,7 +1,7 @@
 {
   "_meta": {
     "clip_to": "data/nuts3_ll.geojson",
-    "computed_at": "2026-07-31T09:30:36.185321Z",
+    "computed_at": "2026-07-31T11:53:05.186951Z",
     "input_pattern": "data/climate_source/chelsa-{variable}-{period}.tif",
     "slugs": [
       "east-brandenburg",
@@ -36,8 +36,8 @@
       },
       "ramp": "sequential",
       "unit": {
-        "de": "degC",
-        "en": "degC"
+        "de": "°C",
+        "en": "°C"
       }
     },
     "change": {
@@ -66,8 +66,8 @@
         },
         "ramp": "sequential",
         "unit": {
-          "de": "degC",
-          "en": "degC"
+          "de": "°C",
+          "en": "°C"
         }
       },
       "2071_2100": {
@@ -95,8 +95,8 @@
         },
         "ramp": "sequential",
         "unit": {
-          "de": "degC",
-          "en": "degC"
+          "de": "°C",
+          "en": "°C"
         }
       }
     }
@@ -303,8 +303,8 @@
       },
       "ramp": "sequential",
       "unit": {
-        "de": "degC-Tag",
-        "en": "degC-day"
+        "de": "°C·d",
+        "en": "°C·d"
       }
     },
     "change": {
@@ -333,8 +333,8 @@
         },
         "ramp": "sequential",
         "unit": {
-          "de": "degC-Tag",
-          "en": "degC-day"
+          "de": "°C·d",
+          "en": "°C·d"
         }
       },
       "2071_2100": {
@@ -362,8 +362,8 @@
         },
         "ramp": "sequential",
         "unit": {
-          "de": "degC-Tag",
-          "en": "degC-day"
+          "de": "°C·d",
+          "en": "°C·d"
         }
       }
     }

@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "computed_at": "2026-07-30T10:04:04.129449Z",
+    "computed_at": "2026-07-31T11:54:29.867596Z",
     "delta_horizon": "2071_2100",
     "delta_horizon_label": "2071-2100",
     "input_pattern": "data/climate_source/chelsa-{variable}-{period}.tif",
@@ -19,22 +19,22 @@
       },
       "gdd5_degc_days": {
         "delta_unit": {
-          "de": "degC-Tag",
-          "en": "degC-day"
+          "de": "°C·d",
+          "en": "°C·d"
         },
         "unit": {
-          "de": "degC-Tag",
-          "en": "degC-day"
+          "de": "°C·d",
+          "en": "°C·d"
         }
       },
       "mean_annual_temp_degc": {
         "delta_unit": {
-          "de": "degC",
-          "en": "degC"
+          "de": "°C",
+          "en": "°C"
         },
         "unit": {
-          "de": "degC",
-          "en": "degC"
+          "de": "°C",
+          "en": "°C"
         }
       },
       "warm_quarter_precip_mm": {

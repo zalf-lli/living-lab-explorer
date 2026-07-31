@@ -5,12 +5,12 @@ export const CLIMATE_VARIABLES = [
     "id": "gdd",
     "family": "heat",
     "unit": {
-      "en": "degC-day",
-      "de": "degC-Tag"
+      "en": "°C·d",
+      "de": "°C·d"
     },
     "deltaUnit": {
-      "en": "degC-day",
-      "de": "degC-Tag"
+      "en": "°C·d",
+      "de": "°C·d"
     },
     "labelKey": "climate.variable.gdd",
     "legendNoteKey": "legend.climate.note.gdd"
@@ -19,12 +19,12 @@ export const CLIMATE_VARIABLES = [
     "id": "bio1",
     "family": "heat",
     "unit": {
-      "en": "degC",
-      "de": "degC"
+      "en": "°C",
+      "de": "°C"
     },
     "deltaUnit": {
-      "en": "degC",
-      "de": "degC"
+      "en": "°C",
+      "de": "°C"
     },
     "labelKey": "climate.variable.bio1",
     "legendNoteKey": "legend.climate.note.bio1"
@@ -64,26 +64,26 @@ export const CLIMATE_LEGEND = {
     "baseline": [
       {
         "value": "b0",
-        "en": "< 1827.0 degC-day",
-        "de": "< 1827,0 degC-Tag",
+        "en": "< 1827.0 °C·d",
+        "de": "< 1827,0 °C·d",
         "color": "#fce3da"
       },
       {
         "value": "b1",
-        "en": "1827.0 – 1996.0 degC-day",
-        "de": "1827,0 – 1996,0 degC-Tag",
+        "en": "1827.0 – 1996.0 °C·d",
+        "de": "1827,0 – 1996,0 °C·d",
         "color": "#eb5b25"
       },
       {
         "value": "b2",
-        "en": "1996.0 – 2066.0 degC-day",
-        "de": "1996,0 – 2066,0 degC-Tag",
+        "en": "1996.0 – 2066.0 °C·d",
+        "de": "1996,0 – 2066,0 °C·d",
         "color": "#dc4b14"
       },
       {
         "value": "b3",
-        "en": "> 2066.0 degC-day",
-        "de": "> 2066,0 degC-Tag",
+        "en": "> 2066.0 °C·d",
+        "de": "> 2066,0 °C·d",
         "color": "#bb3f11"
       }
     ],
@@ -91,64 +91,64 @@ export const CLIMATE_LEGEND = {
       "2041_2070": [
         {
           "value": "b0",
-          "en": "< +621.0 degC-day",
-          "de": "< +621,0 degC-Tag",
+          "en": "< +621.0 °C·d",
+          "de": "< +621,0 °C·d",
           "color": "#fce3da"
         },
         {
           "value": "b1",
-          "en": "+621.0 – +638.0 degC-day",
-          "de": "+621,0 – +638,0 degC-Tag",
+          "en": "+621.0 – +638.0 °C·d",
+          "de": "+621,0 – +638,0 °C·d",
           "color": "#eb5b25"
         },
         {
           "value": "b2",
-          "en": "+638.0 – +654.0 degC-day",
-          "de": "+638,0 – +654,0 degC-Tag",
+          "en": "+638.0 – +654.0 °C·d",
+          "de": "+638,0 – +654,0 °C·d",
           "color": "#dc4b14"
         },
         {
           "value": "b3",
-          "en": "+654.0 – +675.0 degC-day",
-          "de": "+654,0 – +675,0 degC-Tag",
+          "en": "+654.0 – +675.0 °C·d",
+          "de": "+654,0 – +675,0 °C·d",
           "color": "#bb3f11"
         },
         {
           "value": "b4",
-          "en": "> +675.0 degC-day",
-          "de": "> +675,0 degC-Tag",
+          "en": "> +675.0 °C·d",
+          "de": "> +675,0 °C·d",
           "color": "#9f350e"
         }
       ],
       "2071_2100": [
         {
           "value": "b0",
-          "en": "< +1086.0 degC-day",
-          "de": "< +1086,0 degC-Tag",
+          "en": "< +1086.0 °C·d",
+          "de": "< +1086,0 °C·d",
           "color": "#fce3da"
         },
         {
           "value": "b1",
-          "en": "+1086.0 – +1114.0 degC-day",
-          "de": "+1086,0 – +1114,0 degC-Tag",
+          "en": "+1086.0 – +1114.0 °C·d",
+          "de": "+1086,0 – +1114,0 °C·d",
           "color": "#eb5b25"
         },
         {
           "value": "b2",
-          "en": "+1114.0 – +1139.0 degC-day",
-          "de": "+1114,0 – +1139,0 degC-Tag",
+          "en": "+1114.0 – +1139.0 °C·d",
+          "de": "+1114,0 – +1139,0 °C·d",
           "color": "#dc4b14"
         },
         {
           "value": "b3",
-          "en": "+1139.0 – +1161.0 degC-day",
-          "de": "+1139,0 – +1161,0 degC-Tag",
+          "en": "+1139.0 – +1161.0 °C·d",
+          "de": "+1139,0 – +1161,0 °C·d",
           "color": "#bb3f11"
         },
         {
           "value": "b4",
-          "en": "> +1161.0 degC-day",
-          "de": "> +1161,0 degC-Tag",
+          "en": "> +1161.0 °C·d",
+          "de": "> +1161,0 °C·d",
           "color": "#9f350e"
         }
       ]
@@ -158,26 +158,26 @@ export const CLIMATE_LEGEND = {
     "baseline": [
       {
         "value": "b0",
-        "en": "< 8.9 degC",
-        "de": "< 8,9 degC",
+        "en": "< 8.9 °C",
+        "de": "< 8,9 °C",
         "color": "#fce3da"
       },
       {
         "value": "b1",
-        "en": "8.9 – 9.4 degC",
-        "de": "8,9 – 9,4 degC",
+        "en": "8.9 – 9.4 °C",
+        "de": "8,9 – 9,4 °C",
         "color": "#eb5b25"
       },
       {
         "value": "b2",
-        "en": "9.4 – 9.6 degC",
-        "de": "9,4 – 9,6 degC",
+        "en": "9.4 – 9.6 °C",
+        "de": "9,4 – 9,6 °C",
         "color": "#dc4b14"
       },
       {
         "value": "b3",
-        "en": "> 9.6 degC",
-        "de": "> 9,6 degC",
+        "en": "> 9.6 °C",
+        "de": "> 9,6 °C",
         "color": "#bb3f11"
       }
     ],
@@ -185,64 +185,64 @@ export const CLIMATE_LEGEND = {
       "2041_2070": [
         {
           "value": "b0",
-          "en": "< +2.5 degC",
-          "de": "< +2,5 degC",
+          "en": "< +2.5 °C",
+          "de": "< +2,5 °C",
           "color": "#fce3da"
         },
         {
           "value": "b1",
-          "en": "+2.5 – +2.6 degC",
-          "de": "+2,5 – +2,6 degC",
+          "en": "+2.5 – +2.6 °C",
+          "de": "+2,5 – +2,6 °C",
           "color": "#eb5b25"
         },
         {
           "value": "b2",
-          "en": "+2.6 – +2.7 degC",
-          "de": "+2,6 – +2,7 degC",
+          "en": "+2.6 – +2.7 °C",
+          "de": "+2,6 – +2,7 °C",
           "color": "#dc4b14"
         },
         {
           "value": "b3",
-          "en": "+2.7 – +2.8 degC",
-          "de": "+2,7 – +2,8 degC",
+          "en": "+2.7 – +2.8 °C",
+          "de": "+2,7 – +2,8 °C",
           "color": "#bb3f11"
         },
         {
           "value": "b4",
-          "en": "> +2.8 degC",
-          "de": "> +2,8 degC",
+          "en": "> +2.8 °C",
+          "de": "> +2,8 °C",
           "color": "#9f350e"
         }
       ],
       "2071_2100": [
         {
           "value": "b0",
-          "en": "< +3.9 degC",
-          "de": "< +3,9 degC",
+          "en": "< +3.9 °C",
+          "de": "< +3,9 °C",
           "color": "#fce3da"
         },
         {
           "value": "b1",
-          "en": "+3.9 – +4.0 degC",
-          "de": "+3,9 – +4,0 degC",
+          "en": "+3.9 – +4.0 °C",
+          "de": "+3,9 – +4,0 °C",
           "color": "#eb5b25"
         },
         {
           "value": "b2",
-          "en": "+4.0 – +4.1 degC",
-          "de": "+4,0 – +4,1 degC",
+          "en": "+4.0 – +4.1 °C",
+          "de": "+4,0 – +4,1 °C",
           "color": "#dc4b14"
         },
         {
           "value": "b3",
-          "en": "+4.1 – +4.2 degC",
-          "de": "+4,1 – +4,2 degC",
+          "en": "+4.1 – +4.2 °C",
+          "de": "+4,1 – +4,2 °C",
           "color": "#bb3f11"
         },
         {
           "value": "b4",
-          "en": "> +4.2 degC",
-          "de": "> +4,2 degC",
+          "en": "> +4.2 °C",
+          "de": "> +4,2 °C",
           "color": "#9f350e"
         }
       ]

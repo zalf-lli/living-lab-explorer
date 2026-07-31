@@ -364,22 +364,22 @@ layers:
           change_mode: absolute
           variable_key: gdd5_degc_days
           unit:
-            en: "degC-day"
-            de: "degC-Tag"
+            en: "°C·d"
+            de: "°C·d"
           delta_unit:
-            en: "degC-day"
-            de: "degC-Tag"
+            en: "°C·d"
+            de: "°C·d"
         bio1:
           chelsa_variable: bio1
           family: heat
           change_mode: absolute
           variable_key: mean_annual_temp_degc
           unit:
-            en: "degC"
-            de: "degC"
+            en: "°C"
+            de: "°C"
           delta_unit:
-            en: "degC"
-            de: "degC"
+            en: "°C"
+            de: "°C"
         bio12:
           chelsa_variable: bio12
           family: water

@@ -51,8 +51,8 @@ DELTA_HORIZON_LABEL = "2071-2100"
 # value), not per variable -- so a unit change in sources.yaml that isn't reflected here
 # raises a KeyError instead of silently changing rounding behaviour.
 ROUNDING_BY_UNIT = {
-    "degC": 1,
-    "degC-day": 0,
+    "°C": 1,
+    "°C·d": 0,
     "mm": 0,
     "%": 1,
 }

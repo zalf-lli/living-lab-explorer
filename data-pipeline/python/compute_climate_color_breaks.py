@@ -108,8 +108,8 @@ WATER_RAMP_CHANGE = WATER_RAMP + ["#00312f"]  # theme.js C.tealDeepest -- highes
 # exactly one of these four unit strings via either its baseline `unit` or its change-mode
 # `delta_unit`.
 UNIT_ROUND_STEP = {
-    "degC": 0.1,
-    "degC-day": 1.0,
+    "°C": 0.1,
+    "°C·d": 1.0,
     "mm": 1.0,
     "%": 0.5,
 }

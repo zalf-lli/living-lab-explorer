@@ -46,7 +46,7 @@ const resources = {
         n_surplus_kg_ha: 'Nitrogen surplus',
         p_surplus_kg_ha: 'Phosphorus surplus',
         groundwater_abstraction_1000m3: 'Groundwater abstraction (non-public supply)',
-        gdd5_degc_days: 'Growing degree days, annual sum (base 5 degC)',
+        gdd5_degc_days: 'Growing degree days, annual sum (base 5 °C)',
         mean_annual_temp_degc: 'Mean annual temperature',
         annual_precip_mm: 'Annual precipitation',
         warm_quarter_precip_mm: 'Precipitation of warmest quarter',
@@ -108,7 +108,7 @@ const resources = {
         },
         climate: {
           note: {
-            gdd: 'Heat accumulated above 5 degC over the year - a measure of how much growing season a crop gets.',
+            gdd: 'Heat accumulated above 5 °C over the year - a measure of how much growing season a crop gets.',
             bio1: 'Mean annual air temperature, averaged over the reference period.',
             bio12: 'Total precipitation summed over the year.',
             bio18: 'Precipitation falling in the warmest three-month quarter - relevant to summer drought stress.',
@@ -291,7 +291,7 @@ const resources = {
         n_surplus_kg_ha: 'Stickstoffueberschuss',
         p_surplus_kg_ha: 'Phosphorueberschuss',
         groundwater_abstraction_1000m3: 'Grundwasserentnahme (nichtoeffentliche Versorgung)',
-        gdd5_degc_days: 'Waermesumme, Jahressumme (Basis 5 degC)',
+        gdd5_degc_days: 'Waermesumme, Jahressumme (Basis 5 °C)',
         mean_annual_temp_degc: 'Mittlere Jahrestemperatur',
         annual_precip_mm: 'Jahresniederschlag',
         warm_quarter_precip_mm: 'Niederschlag des waermsten Vierteljahres',
@@ -354,7 +354,7 @@ const resources = {
         },
         climate: {
           note: {
-            gdd: 'Ueber das Jahr summierte Waerme oberhalb von 5 degC - ein Mass dafuer, wie viel Vegetationszeit eine Kultur erhaelt.',
+            gdd: 'Ueber das Jahr summierte Waerme oberhalb von 5 °C - ein Mass dafuer, wie viel Vegetationszeit eine Kultur erhaelt.',
             bio1: 'Mittlere jaehrliche Lufttemperatur, gemittelt ueber den Referenzzeitraum.',
             bio12: 'Ueber das Jahr summierter Gesamtniederschlag.',
             bio18: 'Niederschlag im waermsten Vierteljahr - relevant fuer sommerlichen Trockenstress.',

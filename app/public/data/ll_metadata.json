@@ -105,15 +105,15 @@
           "delta": 1143.0,
           "deltaHorizon": "2071-2100",
           "deltaUnit": {
-            "de": "degC-Tag",
-            "en": "degC-day"
+            "de": "°C·d",
+            "en": "°C·d"
           },
           "genesisTable": null,
           "key": "gdd5_degc_days",
           "sourceHost": "chelsa",
           "unit": {
-            "de": "degC-Tag",
-            "en": "degC-day"
+            "de": "°C·d",
+            "en": "°C·d"
           },
           "value": 2026.0
         },
@@ -121,15 +121,15 @@
           "delta": 4.1,
           "deltaHorizon": "2071-2100",
           "deltaUnit": {
-            "de": "degC",
-            "en": "degC"
+            "de": "°C",
+            "en": "°C"
           },
           "genesisTable": null,
           "key": "mean_annual_temp_degc",
           "sourceHost": "chelsa",
           "unit": {
-            "de": "degC",
-            "en": "degC"
+            "de": "°C",
+            "en": "°C"
           },
           "value": 9.4
         },
@@ -460,15 +460,15 @@
           "delta": 1154.0,
           "deltaHorizon": "2071-2100",
           "deltaUnit": {
-            "de": "degC-Tag",
-            "en": "degC-day"
+            "de": "°C·d",
+            "en": "°C·d"
           },
           "genesisTable": null,
           "key": "gdd5_degc_days",
           "sourceHost": "chelsa",
           "unit": {
-            "de": "degC-Tag",
-            "en": "degC-day"
+            "de": "°C·d",
+            "en": "°C·d"
           },
           "value": 2075.0
         },
@@ -476,15 +476,15 @@
           "delta": 4.1,
           "deltaHorizon": "2071-2100",
           "deltaUnit": {
-            "de": "degC",
-            "en": "degC"
+            "de": "°C",
+            "en": "°C"
           },
           "genesisTable": null,
           "key": "mean_annual_temp_degc",
           "sourceHost": "chelsa",
           "unit": {
-            "de": "degC",
-            "en": "degC"
+            "de": "°C",
+            "en": "°C"
           },
           "value": 9.6
         },
@@ -813,15 +813,15 @@
           "delta": 1091.0,
           "deltaHorizon": "2071-2100",
           "deltaUnit": {
-            "de": "degC-Tag",
-            "en": "degC-day"
+            "de": "°C·d",
+            "en": "°C·d"
           },
           "genesisTable": null,
           "key": "gdd5_degc_days",
           "sourceHost": "chelsa",
           "unit": {
-            "de": "degC-Tag",
-            "en": "degC-day"
+            "de": "°C·d",
+            "en": "°C·d"
           },
           "value": 1802.0
         },
@@ -829,15 +829,15 @@
           "delta": 3.9,
           "deltaHorizon": "2071-2100",
           "deltaUnit": {
-            "de": "degC",
-            "en": "degC"
+            "de": "°C",
+            "en": "°C"
           },
           "genesisTable": null,
           "key": "mean_annual_temp_degc",
           "sourceHost": "chelsa",
           "unit": {
-            "de": "degC",
-            "en": "degC"
+            "de": "°C",
+            "en": "°C"
           },
           "value": 8.7
         },
@@ -1169,15 +1169,15 @@
           "delta": 1076.0,
           "deltaHorizon": "2071-2100",
           "deltaUnit": {
-            "de": "degC-Tag",
-            "en": "degC-day"
+            "de": "°C·d",
+            "en": "°C·d"
           },
           "genesisTable": null,
           "key": "gdd5_degc_days",
           "sourceHost": "chelsa",
           "unit": {
-            "de": "degC-Tag",
-            "en": "degC-day"
+            "de": "°C·d",
+            "en": "°C·d"
           },
           "value": 1735.0
         },
@@ -1185,15 +1185,15 @@
           "delta": 3.9,
           "deltaHorizon": "2071-2100",
           "deltaUnit": {
-            "de": "degC",
-            "en": "degC"
+            "de": "°C",
+            "en": "°C"
           },
           "genesisTable": null,
           "key": "mean_annual_temp_degc",
           "sourceHost": "chelsa",
           "unit": {
-            "de": "degC",
-            "en": "degC"
+            "de": "°C",
+            "en": "°C"
           },
           "value": 8.5
         },
@@ -1522,15 +1522,15 @@
           "delta": 1112.0,
           "deltaHorizon": "2071-2100",
           "deltaUnit": {
-            "de": "degC-Tag",
-            "en": "degC-day"
+            "de": "°C·d",
+            "en": "°C·d"
           },
           "genesisTable": null,
           "key": "gdd5_degc_days",
           "sourceHost": "chelsa",
           "unit": {
-            "de": "degC-Tag",
-            "en": "degC-day"
+            "de": "°C·d",
+            "en": "°C·d"
           },
           "value": 1834.0
         },
@@ -1538,15 +1538,15 @@
           "delta": 3.9,
           "deltaHorizon": "2071-2100",
           "deltaUnit": {
-            "de": "degC",
-            "en": "degC"
+            "de": "°C",
+            "en": "°C"
           },
           "genesisTable": null,
           "key": "mean_annual_temp_degc",
           "sourceHost": "chelsa",
           "unit": {
-            "de": "degC",
-            "en": "degC"
+            "de": "°C",
+            "en": "°C"
           },
           "value": 8.9
         },
