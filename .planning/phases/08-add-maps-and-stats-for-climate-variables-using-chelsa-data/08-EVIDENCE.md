@@ -157,8 +157,18 @@ with a Phase 8 completion verdict.
    same period. The actual gap was clarity, not correctness: the `kpi.gdd5_degc_days` label read
    "Growing degree days (base 5 degC)" with no cue that it is a summed, not averaged, quantity.
    Fixed by appending "annual sum" / "Jahressumme" to the EN/DE label (`app/src/i18n.js`).
-2. "the degree symbol is not rendering instead the text always reads 'degC'" — the literal string
-   `degC` is showing in the UI instead of a rendered `°C`, across the legend and/or KPI tiles.
+2. **FIXED (2026-07-31).** "the degree symbol is not rendering instead the text always reads
+   'degC'" — not a rendering bug: every temperature unit string was literally authored as ASCII
+   `degC`/`degC-day` at the source (`sources.yaml`'s `bio1`/`gdd` `unit`/`delta_unit` fields),
+   propagating through `compute_climate_kpis.py`, `compute_climate_color_breaks.py`, and
+   `data/destatis_curated_kpis.json`'s hand-maintained `unit_en`/`unit_de` (the field
+   `StatPanel.jsx` actually reads for the KPI tile's baseline unit via `generate_metadata.py`,
+   a separate path from the pipeline-generated `climate_kpis.json`). `08-UI-SPEC.md`'s own
+   copywriting contract already specified `°C`/`°C·d` (e.g. "+2.8 °C by 2071-2100", "1,842
+   °C·d") — the implementation never matched it. Fixed at the source and every downstream
+   consumer; verified via raw byte inspection of the built bundle (proper UTF-8 `0xC2 0xB0`/
+   `0xC2 0xB7` sequences, zero remaining `degC` substring anywhere in source or generated
+   output). No PMTiles rebake needed — unit strings don't affect pixel classification.
 3. **FIXED (2026-07-31, see `.planning/debug/resolved/climate-boundary-na-artifact.md`).** "All
    living labs have a border of cells in the lowest value class across all variables this is
    clear an artifact of cells that span the border being assigned NA values." — root cause was
@@ -201,8 +211,8 @@ with a Phase 8 completion verdict.
 
 **Disposition:** Plan 08-11 is NOT complete. Task 3's blocking checkpoint has not received approval.
 No SUMMARY.md has been written for 08-11. Phase 8 is not marked complete in `STATE.md` or
-`ROADMAP.md`. Issues 1, 3 and 4 are fixed (2026-07-31; issue 3 human-verified in a running dev
-server, issue 1 resolved as a label-clarity fix, issue 4 fixed and gate-verified pending human
-visual re-verification). The remaining three issues (degree symbol, sources button, EnviDat URL)
+`ROADMAP.md`. Issues 1, 2, 3 and 4 are fixed (2026-07-31; issue 3 human-verified in a running dev
+server, issue 1 resolved as a label-clarity fix, issues 2 and 4 fixed and gate-verified pending
+human visual re-verification). The remaining two issues (sources button, EnviDat URL)
 need investigation and fixes (likely via `/gsd:debug` or a gap-closure plan) before the checkpoint
 can be re-run and the phase closed.
