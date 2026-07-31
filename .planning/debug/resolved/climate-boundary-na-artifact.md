@@ -5,7 +5,16 @@ created: 2026-07-31
 updated: 2026-07-31
 phase: 08-add-maps-and-stats-for-climate-variables-using-chelsa-data
 related_plan: 08-11
+superseded_by: .planning/debug/resolved/climate-basemap-hidden-outside-boundary.md
 ---
+
+**NOTE (2026-07-31):** The fix recorded below (a climate-only fully-opaque frontend mask) caused
+a regression — it also hid the basemap outside the Living Lab boundary, inconsistent with every
+other tab. The diagnosis of *this* issue (the buffer-ring artifact itself, and why it's not a
+pipeline nodata bug) still stands and is accurate. The *fix* was superseded by
+`climate-basemap-hidden-outside-boundary.md`, which moves the fix to the pixel level (transparent
+alpha for buffer-ring pixels in the raster data itself) instead of the frontend mask, resolving
+both this issue and the regression it caused.
 
 ## Symptoms
 

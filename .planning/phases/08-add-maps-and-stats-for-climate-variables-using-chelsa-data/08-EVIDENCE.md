@@ -169,20 +169,40 @@ with a Phase 8 completion verdict.
    consumer; verified via raw byte inspection of the built bundle (proper UTF-8 `0xC2 0xB0`/
    `0xC2 0xB7` sequences, zero remaining `degC` substring anywhere in source or generated
    output). No PMTiles rebake needed — unit strings don't affect pixel classification.
-3. **FIXED (2026-07-31, see `.planning/debug/resolved/climate-boundary-na-artifact.md`).** "All
-   living labs have a border of cells in the lowest value class across all variables this is
-   clear an artifact of cells that span the border being assigned NA values." — root cause was
-   **not** a pipeline nodata bug: direct measurement on real raster data (bio1/baseline/
-   east-brandenburg) found nodata-adjacent and interior valid pixels statistically
-   indistinguishable (6.1% vs 5.6% in the lowest band), and the shared `clip_buffer_m: 2000`
-   fully insulates the true LL boundary from ever touching a nodata pixel. The real cause: every
-   raster layer's dimming mask (`app/src/components/LLMap/index.jsx`) is only 60% opaque
-   (`MASK_STYLE`), so the ~2km buffer ring of real, correctly-classified climate pixels shows
-   through dimmed-toward-white — and because climate's colour ramps are ordinal/sequential (unlike
-   land cover's categorical legend), any class dimmed 60% toward white lands visually in the
-   ramp's own pale/lowest-class range, misreading as a data artifact. Fix: added a fully-opaque
-   `MASK_STYLE_OPAQUE` used only for `layer === 'climate'`, leaving every other layer's dimming
-   unchanged. Human-verified fixed in the running dev server.
+3. **FIXED (2026-07-31, see `.planning/debug/resolved/climate-boundary-na-artifact.md` and
+   `.planning/debug/resolved/climate-basemap-hidden-outside-boundary.md`).** "All living labs
+   have a border of cells in the lowest value class across all variables this is clear an
+   artifact of cells that span the border being assigned NA values." — root cause was **not** a
+   pipeline nodata bug: direct measurement on real raster data (bio1/baseline/east-brandenburg)
+   found nodata-adjacent and interior valid pixels statistically indistinguishable (6.1% vs 5.6%
+   in the lowest band), and the shared `clip_buffer_m: 2000` fully insulates the true LL boundary
+   from ever touching a nodata pixel. The real cause: every raster layer's dimming mask
+   (`app/src/components/LLMap/index.jsx`) is only 60% opaque (`MASK_STYLE`), so the ~2km buffer
+   ring of real, correctly-classified climate pixels shows through dimmed-toward-white — and
+   because climate's colour ramps are ordinal/sequential (unlike land cover's categorical
+   legend), any class dimmed 60% toward white lands visually in the ramp's own pale/lowest-class
+   range, misreading as a data artifact.
+
+   **First fix (superseded — caused a regression):** made the mask fully opaque (`MASK_STYLE_
+   OPAQUE`) only for `layer === 'climate'`. This hid the ring but also hid the basemap outside
+   the boundary everywhere, since the same mask sits above both the raster and the basemap
+   (they share Leaflet's `tilePane`) — inconsistent with every other tab. A single opacity mask
+   structurally cannot hide one layer while leaving another visible underneath it on the same
+   screen pixels.
+
+   **Final fix (pixel-level, not frontend):** `build_climate_pmtiles.py`'s `build_climate_tif()`
+   still crops/reprojects using the buffered clip geometry (still needed to avoid a low-zoom
+   coverage gap), but now additionally rasterizes the TRUE (unbuffered) boundary via
+   `rasterio.features.geometry_mask()` and forces alpha=0 for every pixel outside it, regardless
+   of the colour `classify()` assigned. `build_clip_geometry()` (`build_pmtiles.py`) gained an
+   optional `buffer_m` override for this. The frontend mask reverted to the shared 60%-opacity
+   `MASK_STYLE` for every layer including climate; `MASK_STYLE_OPAQUE` was removed entirely — the
+   basemap now dims consistently across all tabs, and the buffer ring is genuinely transparent in
+   the data itself rather than papered over by a frontend opacity trick. Verified numerically
+   (1,848 of 49,737 pixels in one test file were real buffer-ring data now correctly made
+   transparent, 13,585 true-boundary pixels remain visible) before rebaking all 60 climate
+   PMTiles. Human-verified fixed for the original ring artifact; basemap-visibility fix is
+   gate-verified, pending human visual re-verification.
 4. **FIXED (2026-07-31, see `.planning/debug/resolved/climate-coarse-change-bins.md` and
    Deliberate deviations #5 above).** "for all of the change maps the number of categories is too
    coarse and all cells are falling into the same categories leading to uniformly coloured maps."

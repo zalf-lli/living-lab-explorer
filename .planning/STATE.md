@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: in_progress
-stopped_at: Phase 8 Wave 8 (08-11) — all 6 checkpoint defects fixed and gate-verified; Task 3 human-verify checkpoint needs a full re-run across all 5 Living Labs/4 variables/3 periods/both languages before the phase can close
+stopped_at: Phase 8 Wave 8 (08-11) — all 6 checkpoint defects fixed and gate-verified, plus a regression from the boundary-artifact fix (basemap hidden outside LL boundary) found and fixed at the pixel level (60 PMTiles rebaked); Task 3 human-verify checkpoint needs a full re-run before the phase can close
 last_updated: "2026-07-31T06:05:54.348Z"
 progress:
   total_phases: 14
