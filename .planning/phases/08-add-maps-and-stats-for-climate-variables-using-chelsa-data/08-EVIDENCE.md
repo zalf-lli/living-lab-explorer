@@ -136,9 +136,9 @@ Transcribed from `08-CONTEXT.md`'s Deferred Ideas block, so the next planner see
 
 ## Reported issues
 
-Recorded verbatim from the human reviewer at the Task 3 blocking checkpoint (2026-07-31). Nothing
-in this phase is marked complete; `STATE.md`/`ROADMAP.md` have not been updated with a Phase 8
-completion verdict.
+Recorded verbatim from the human reviewer at the Task 3 blocking checkpoint (2026-07-31), across two
+messages. Nothing in this phase is marked complete; `STATE.md`/`ROADMAP.md` have not been updated
+with a Phase 8 completion verdict.
 
 1. "The legend and KPI figures for GDD have non-sensical values e.g '2,075 degC-day' there was a
    fix at some point to try and correct this?" — likely relates to the `08-07`/CR-01 nodata-guard
@@ -157,6 +157,11 @@ completion verdict.
 5. "The sources button in the KPI bar for the climate tab doesn't open anything" — a UI wiring
    defect, possibly climate-specific (other tabs' sources button may work) or possibly a
    pre-existing/broader defect surfaced here for the first time.
+6. "the URL used for the climate data in the map source pop up opens on an error on the envidat
+   website" — the provenance/source URL wired into the map's info popup (`MapInfoControl` or
+   equivalent) for the CHELSA climate layer points at an EnviDat page that errors when opened;
+   the URL itself needs re-checking against the live EnviDat catalogue, not just against
+   `sources.yaml`'s recorded value.
 
 **Disposition:** Plan 08-11 is NOT complete. Task 3's blocking checkpoint has not received approval.
 No SUMMARY.md has been written for 08-11. Phase 8 is not marked complete in `STATE.md` or

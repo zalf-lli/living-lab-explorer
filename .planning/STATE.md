@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: in_progress
-stopped_at: Phase 8 Wave 7 (08-10) complete — Climate tab wired end-to-end (raster layer, variable/period controls, unit-aware legend); Wave 8 (08-11 checkpoint) next
+stopped_at: Phase 8 Wave 8 (08-11) blocked at Task 3 human-verify checkpoint — reviewer found 6 defects (GDD values, degree symbol, boundary NA artifact, coarse change-map bins, dead sources button, broken EnviDat source URL); needs fixes before re-verification
 last_updated: "2026-07-31T06:05:54.348Z"
 progress:
   total_phases: 14
@@ -36,7 +36,7 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 | 5 | Protected areas as toggleable layer | Planned (2026-07-25) — 4 plans, 3 waves, 2 checkpoints, verified ✓ |
 | 6 | Add land cover map | Complete (2026-07-26) — 5/5 plans, 4 waves, D-01..D-24 evidence recorded, bilingual checkpoint approved |
 | 7 | Add BORIS land value maps as spatial layer for socio-economic tab | In progress — 8/9 plans complete (07-08 executed 2026-07-28: all five Living Labs fetched, committed, published, and locked behind a fixture regression test) |
-| 8 | Add maps and stats for climate variables using CHELSA data | In progress (2026-07-31) — 10/11 plans complete: Waves 1-7 merged (08-01..08-10). Wave 7 (08-10, Climate tab wired end-to-end) done; 31/31 pipeline tests + app build passing. Wave 8 (08-11, phase close-out checkpoint) next |
+| 8 | Add maps and stats for climate variables using CHELSA data | In progress (2026-07-31) — 10/11 plans complete; 08-11 Tasks 1-2 done (automated gate green, D-01..D-23 evidenced) but Task 3 checkpoint blocked — reviewer found 6 real defects, see Active Work |
 | 9 | Chart Data Contract | Not planned yet (2026-07-27) |
 | 10 | Two-column LL comparison view | Planned (2026-07-27) — 6 plans, 5 waves, 1 checkpoint, verified ✓ (0 blockers, 4 warnings) |
 
