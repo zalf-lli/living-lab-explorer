@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: in_progress
-stopped_at: Phase 8 Wave 8 (08-11) — all 6 checkpoint defects fixed and gate-verified, plus a regression from the boundary-artifact fix (basemap hidden outside LL boundary) found and fixed at the pixel level (60 PMTiles rebaked); Task 3 human-verify checkpoint needs a full re-run before the phase can close
+stopped_at: Phase 8 complete (08-11 Task 3 checkpoint approved) — Climate tab ships CHELSA maps and KPIs for all 5 Living Labs; next up is Phase 9 (Chart Data Contract) or Phase 10 (two-column comparison view, already planned)
 last_updated: "2026-07-31T06:05:54.348Z"
 progress:
   total_phases: 14
-  completed_phases: 9
+  completed_phases: 10
   total_plans: 56
-  completed_plans: 52
-  percent: 64
+  completed_plans: 53
+  percent: 71
 ---
 
 # Project State
@@ -36,11 +36,33 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 | 5 | Protected areas as toggleable layer | Planned (2026-07-25) — 4 plans, 3 waves, 2 checkpoints, verified ✓ |
 | 6 | Add land cover map | Complete (2026-07-26) — 5/5 plans, 4 waves, D-01..D-24 evidence recorded, bilingual checkpoint approved |
 | 7 | Add BORIS land value maps as spatial layer for socio-economic tab | In progress — 8/9 plans complete (07-08 executed 2026-07-28: all five Living Labs fetched, committed, published, and locked behind a fixture regression test) |
-| 8 | Add maps and stats for climate variables using CHELSA data | In progress (2026-07-31) — 10/11 plans complete; 08-11 Tasks 1-2 done, all 6 checkpoint defects fixed and gate-verified — Task 3 needs a full re-verification pass before phase close, see Active Work |
+| 8 | Add maps and stats for climate variables using CHELSA data | Complete (2026-07-31) — 11/11 plans, 60 CHELSA PMTiles (4 variables x 3 periods x 5 LLs), D-07 resolved to `gdd5` (static, zero new dependencies), D-12 empirically sequential for all four variables; Task 3 checkpoint approved |
 | 9 | Chart Data Contract | Not planned yet (2026-07-27) |
 | 10 | Two-column LL comparison view | Planned (2026-07-27) — 6 plans, 5 waves, 1 checkpoint, verified ✓ (0 blockers, 4 warnings) |
 
 ## Active Work
+
+**Phase 8 is complete (2026-07-31).** `08-11` closed the phase: Task 1 ran the full automated
+gate (31/31 pytest, `sync.py` idempotent, `npm run lint`/`build` clean, seven cross-file join-key
+checks and three regression checks all passing); Task 2 wrote `08-EVIDENCE.md` with a verdict for
+all 23 locked decisions. Task 3's blocking bilingual human-verification checkpoint initially came
+back with 6 reported defects (non-obvious GDD units, `degC` not rendering as `°C`, a false "ring of
+lowest-class cells" at every Living Lab's boundary, uniformly-coloured change maps, a dead KPI-bar
+"Sources" button, and a broken EnviDat source link) plus one regression discovered mid-fix (the
+first boundary-ring fix made the basemap invisible outside the Living Lab boundary, inconsistent
+with every other tab). All seven issues were root-caused and fixed:
+- GDD's ~2,000 `°C·d` figures are correct (an annual sum, not an average) — label clarified with "annual sum" rather than changing any value
+- Every `degC` string was ASCII at the source (`sources.yaml`); fixed there and in every downstream consumer including `destatis_curated_kpis.json`'s hand-maintained unit fields
+- The boundary ring and the basemap-visibility regression both traced to the same shared `clip_buffer_m` pipeline margin; the durable fix moved masking from the frontend (an opacity mask, which cannot hide one layer while leaving another visible on the same pixels) to the pixel level (`build_climate_pmtiles.py` now writes alpha=0 for pixels outside the true, unbuffered Living Lab boundary) — 60 PMTiles rebaked
+- Change-mode colour breaks pooled both future horizons into one 4-class scale, spending most of the bin budget separating horizons instead of showing spatial variation (every one of 40 variable/horizon/LL combinations had 43-100% of pixels in one bin); fixed per an explicit human decision to compute breaks per horizon and widen to 5 classes (reversing two previously-locked decisions, both documented in `08-EVIDENCE.md`)
+- The KPI-bar sources button was empty for CHELSA KPIs since they have no `genesisTable`; generalized the fallback to any layer's `LAYER_SOURCE_INDEX` entry
+- The EnviDat URL used a wrong slug; corrected via a live DOI-resolver cross-check, and the source attribution now states Change-mode figures are a 5-GCM multi-model mean under SSP3-7.0 while Baseline is a plain observed climatology (human-requested content addition)
+
+Full debug trail in `.planning/debug/resolved/climate-boundary-na-artifact.md`,
+`.planning/debug/resolved/climate-coarse-change-bins.md`, and
+`.planning/debug/resolved/climate-basemap-hidden-outside-boundary.md`. Task 3 re-verified and
+approved. **Next:** Phase 9 (Chart Data Contract, not yet planned) or Phase 10 (two-column LL
+comparison view, already planned — 6 plans, 5 waves, verified — `/gsd:execute-phase 10`).
 
 **Phase 8, Wave 7 complete (2026-07-31).** `08-10` flipped the Climate tab's `layers.js` entry from
 placeholder to a real three-axis raster (variable x period x Living Lab), lifted
@@ -309,6 +331,6 @@ Phase 2.2 completed on 2026-04-30 and replaced the shallow German-only soil look
 
 ## Session
 
-**Last session:** 2026-07-31T06:05:54.348Z
-**Stopped at:** Phase 8 Wave 7 (08-10) complete — Climate tab wired end-to-end (raster layer, variable/period controls, unit-aware legend); Wave 8 (08-11 checkpoint) next
-**Resume file:** .planning/phases/08-add-maps-and-stats-for-climate-variables-using-chelsa-data/08-11-PLAN.md
+**Last session:** 2026-07-31T15:30:00.000Z
+**Stopped at:** Phase 8 complete (08-11 Task 3 checkpoint approved) — Climate tab ships CHELSA maps and KPIs for all 5 Living Labs
+**Resume file:** none — Phase 8 closed. Next: `/gsd:plan-phase 9` (Chart Data Contract) or `/gsd:execute-phase 10` (two-column comparison view, already planned)

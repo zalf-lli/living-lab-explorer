@@ -413,7 +413,7 @@ dependency.
 Phases 5, 05.1, 6 and 7.
 **Depends on:** Phase 7 (BORIS land value layer - last of the existing map-layer phases; the
 pipeline/layer conventions it establishes are reused here)
-**Plans:** 10/11 plans executed
+**Plans:** 11/11 plans executed
 
 **Planning decisions (resolved during breakdown):**
 
@@ -492,7 +492,7 @@ Plans:
 
 **Wave 8** *(blocked on Wave 7)*
 
-- [ ] 08-11-PLAN.md - Full automated gate, seven cross-file join-key checks, D-01..D-23 evidence
+- [x] 08-11-PLAN.md - Full automated gate, seven cross-file join-key checks, D-01..D-23 evidence
       record, blocking bilingual human verification
 
 ### Phase 9: Chart Data Contract
