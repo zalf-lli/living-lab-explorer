@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: ready_to_plan
-stopped_at: Phase 11 UI-SPEC approved
-last_updated: "2026-08-03T14:10:47.273Z"
+stopped_at: Phase 11 complete (5/5) — ready to discuss Phase 999.1
+last_updated: 2026-08-03T21:06:49.907Z
 progress:
   total_phases: 15
   completed_phases: 11
   total_plans: 68
-  completed_plans: 61
+  completed_plans: 66
   percent: 73
 ---
 
@@ -21,7 +21,7 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 
 **Core value:** A researcher or stakeholder can open the app and immediately see accurate, up-to-date geodata and statistics for any of the five Living Labs without any server infrastructure.
 
-**Current focus:** Phase 11 — wire-chart-json-data-to-chart-ui-components
+**Current focus:** Phase 999.1 — find real data sources for 4 curated destatis kpi fields tha
 
 ## Status
 

@@ -614,7 +614,7 @@ Plans:
 **Goal:** Wire the chart content produced as JSON files in Phase 9 to the chart UI components in the app, so the charts render real data instead of placeholder/legacy sources.
 **Requirements**: TBD (no ROADMAP or REQUIREMENTS.md REQ-IDs; REQUIREMENTS.md maps CHARTS-01..07 to Phase 9. The spec is `11-UI-SPEC.md`'s eight locked decisions, referenced as UI-1..UI-8 in every plan's `ui_decisions` field)
 **Depends on:** Phase 9 (produces the chart data contract and JSON outputs), Phase 10 (comparison layout renders the same chart components in two columns)
-**Plans:** 4/5 plans executed
+**Plans:** 5/5 plans complete
 
 **Context (captured 2026-08-03):**
 
