@@ -151,6 +151,10 @@ All three existing call sites (`LayoutSplit:518`, `LayoutStacked:658`, `Comparis
 - `i18n.js`'s `charts.*` namespace (EN block `i18n.js:132-188`, DE equivalent) — every key in it (`charts.agriculture.bars.winterWheat`, etc.) described a fixed placeholder category set that real, open-ended per-LL data can never match.
 - `i18n.js`'s `barChart.source` key ("Source: placeholder data - {{unit}}") — replaced by reusing `statPanel.sourceLayer`.
 
+### Visual Hierarchy / Focal Point
+
+The bar value (`{pct}%`, `fontWeight: 700, color: C.teal`) is the focal point of every chart row — it is the only bold, colored text in the row, drawing the eye to "how much" before "what" (the category label is deliberately lower-emphasis at `opacity: 0.65`). In `LineChart`, the same role is played by the point value labels (`fontWeight: 700`), with the rank-colored polylines providing secondary shape-based hierarchy. This is a continuation of `BarChart`'s existing emphasis pattern, not a new hierarchy being introduced.
+
 ### Unchanged / not touched
 
 - `LayerTabs.jsx`, `LLMap`, `StatPanel.jsx`, `theme.js` — no changes required by this phase.
@@ -190,6 +194,8 @@ This phase's new/modified elements use a closed **3-size / 2-weight** system (al
 
 Exactly two sizes overlap both roles at 11px (label vs. value) distinguished only by weight (400 vs. 700) — this mirrors `BarChart`'s existing, unchanged row-label/row-value split and is not a new pattern.
 
+**Note on the 10/11/12px spread:** these three sizes sit only 1px apart, which reads as tight in isolation. This is an intentional continuation of the app's existing dense-data-display convention (`BarChart`/`StatPanel` already use this exact 10/11/12px scale elsewhere) rather than a new type scale invented for this phase — distinguishing rows relies on weight and color as much as size.
+
 ---
 
 ## Color
@@ -225,7 +231,7 @@ Zero new hex codes are introduced anywhere in this phase; every color above is e
 | Empty state heading | `chart.emptyTitle`: EN "No chart data yet" / DE "Noch keine Diagrammdaten" (renamed from the old `barChart.compareEmptyTitle` — same wording, now used unconditionally by both chart types, not just the comparison view) |
 | Empty state body | `chart.emptyBody`: EN "This Living Lab does not have chart data for this tab yet." / DE "Fuer dieses Living Lab liegen in diesem Reiter noch keine Diagrammdaten vor." (renamed from `barChart.compareEmptyBody`) |
 | Error state heading | `chart.errorTitle`: EN "Chart data could not be loaded" / DE "Diagrammdaten konnten nicht geladen werden" |
-| Error state body | `chart.errorBody`: EN "Reload the page - if the problem continues, the data source may be temporarily unavailable." / DE "Seite neu laden - falls das Problem bestehen bleibt, ist die Datenquelle moeglicherweise voruebergehend nicht erreichbar." (mirrors the app's one other error-body wording, `statPanel.errorBody`, word-for-word convention) |
+| Error state body | `chart.errorBody`: EN "Reload the page - if the problem continues, the data source may be temporarily unavailable." / DE "Seite neu laden - falls das Problem bestehen bleibt, ist die Datenquelle moeglicherweise voruebergehend nicht erreichbar." (follows the same reload-then-reassure structure as the app's one other error-body wording, `statPanel.errorBody` — not a word-for-word copy; wording differs slightly to fit the chart context) |
 | "Other" bucket category label | `chart.otherCategory`: EN "Other" / DE "Sonstige" — the one synthesized (non-data-sourced) category label; routed through `t()` like every other UI string in this codebase, not hardcoded inline |
 | Source attribution | Reuses existing `statPanel.sourceLayer` ("Source: {{provider}}" / "Quelle: {{provider}}") and `statPanel.viewSource` ("View source" / "Quelle ansehen") verbatim — no new key |
 | Destructive confirmation | n/a — no destructive actions in this phase |
@@ -262,14 +268,14 @@ No shadcn, no component registries, no new npm dependency of any kind (confirmed
 
 ## Checker Sign-Off
 
-- [ ] Dimension 1 Copywriting: PASS
-- [ ] Dimension 2 Visuals: PASS
-- [ ] Dimension 3 Color: PASS
-- [ ] Dimension 4 Typography: PASS
-- [ ] Dimension 5 Spacing: PASS
-- [ ] Dimension 6 Registry Safety: PASS
+- [x] Dimension 1 Copywriting: FLAG (non-blocking — `chart.errorBody` vs `statPanel.errorBody` wording relationship corrected above)
+- [x] Dimension 2 Visuals: FLAG (non-blocking — focal-point statement added above)
+- [x] Dimension 3 Color: PASS
+- [x] Dimension 4 Typography: FLAG (non-blocking — 10/11/12px spread noted as existing convention above)
+- [x] Dimension 5 Spacing: PASS
+- [x] Dimension 6 Registry Safety: PASS
 
-**Approval:** pending
+**Approval:** APPROVED (all FLAGs are non-blocking recommendations, addressed inline above)
 
 ---
 
