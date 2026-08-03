@@ -29,6 +29,7 @@ statistics for any of the five Living Labs — without any server infrastructure
 - ✓ Declarative pipeline layer registry via `sources.yaml` — Phase 3
 - ✓ Static Vite build deployable to GitHub Pages and TYPO3 — Phase 3
 - ✓ Per-source chart data contract (schema + `sources.yaml`/`sync.py` plumbing) plus real computed chart data for all 5 chart-bearing layers across all 5 Living Labs, bilingual human-approved — Phase 9
+- ✓ Chart JSON wired into the actual chart UI (rewritten `BarChart` + new `LineChart`), replacing the placeholder path across all 5 tabs, both languages, all 3 layouts, bilingual human-approved — Phase 11
 
 ### Active
 
@@ -61,8 +62,12 @@ statistics for any of the five Living Labs — without any server infrastructure
   extending the pipeline to handle vector sources.
 - Chart data is source-specific (e.g. % area per soil class for BÜK, % area per crop type
   for landuse). Phase 9 delivered both the schema/plumbing contract and real computed
-  chart-computation scripts for all 5 chart-bearing layers; wiring that JSON into UI chart
-  components is deferred to a later phase (chart data contract only, not rendering).
+  chart-computation scripts for all 5 chart-bearing layers; Phase 11 wired that JSON into
+  the actual `BarChart`/`LineChart` UI components, so every tab renders real per-Living-Lab
+  data instead of the placeholder. Bar colors for the two layers with a closed, static,
+  byte-exact map legend (agriculture, landscape) are matched to that legend; soil (dynamic
+  per-LL legend) and economic (continuous price ramp, no category legend) still use a
+  fixed rank-based palette.
 - The `data-pipeline/R/` directory is a stub; R-based fetchers are out of scope for this milestone.
 
 ## Constraints
