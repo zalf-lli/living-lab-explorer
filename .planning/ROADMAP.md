@@ -500,7 +500,7 @@ Plans:
 **Goal:** Document the chart-type-discriminated output JSON schema (bar and line variants), add optional `chart:` stanza support to `sources.yaml` + `sync.py` so any layer can declare a chart script and have its per-LL output copied to `app/public/data/charts/`, and implement real chart-computation scripts for all 5 map layers so every tab has a real, pipeline-computed summary chart.
 **Requirements**: CHARTS-01, CHARTS-02, CHARTS-03, CHARTS-04, CHARTS-05, CHARTS-06, CHARTS-07
 **Depends on:** Phase 8 (all map layers - protected areas, land cover, BORIS land value, CHELSA climate - must be built first so charts can be produced from the finished maps)
-**Plans:** 0 plans
+**Plans:** 7 plans, 4 waves, 1 checkpoint
 
 **Note:** Formerly numbered Phase 3. Moved to the end of the roadmap (2026-07-27) because chart implementations are meant to summarize the map layers, so the contract should be defined once every map layer exists rather than speculatively up front. **Scope expanded 2026-08-03** (09-CONTEXT.md discussion): originally contract-and-plumbing-only with crop-types as a dry-run validation target; the human decided during discussion to implement real chart computation for all 5 tabs in this phase rather than deferring it to v2. REQUIREMENTS.md updated to match (CHARTS-03..07 added, "Generic chart logic" removed from Out of Scope).
 
@@ -511,9 +511,67 @@ Plans:
 3. All 5 layers (`landuse-croptypes`, `buek250`, `io-lulc-landcover`, `boris`, `chelsa-climate`) have a `chart:` stanza and a real chart-computation script producing valid per-LL chart JSON matching the documented schema
 4. Agriculture, soil, and economic charts show a % composition breakdown (crop type / soil group / usage type) per LL; landscape reuses the existing `land_cover_class_histogram.json`; climate is a `chart_type: "line"` showing % change per variable across the two future horizons
 
+**Planning decisions (resolved during breakdown):**
+
+- **One `compute_*_chart.py` script per layer**, not a shared driver — matching the strong
+  existing one-script-per-data-type precedent (`build_land_cover.py`,
+  `compute_climate_kpis.py`, `compute_protected_area_coverage.py`). A sixth new module,
+  `chart_contract.py`, holds the two envelope writers so the CHARTS-01 schema and CLAUDE.md's
+  `sort_keys=True` rule are satisfied in exactly one place and cannot drift across five layers.
+
+- **D-10 and D-15 conflict and both are honoured.** D-10 locks `_sync_matched_pattern()` as
+  the sync mechanism; D-15 requires naming each missing (layer, Living Lab) file, which a pure
+  glob cannot do. `sync_charts()` therefore runs an explicit per-slug existence pre-check for
+  the naming and still delegates the copy to `_sync_matched_pattern(..., tag="chart")`, so the
+  repo-root-escape guard (`sync.py:337-341`) is inherited rather than re-implemented.
+
+- **D-09's "no new statistical computation" framing was wrong** and is planned as real work:
+  `compute_climate_kpis.py` hardcodes `DELTA_HORIZON = "2071_2100"` and Phase 8's D-21
+  deliberately never opened the near horizon, so the 2041-2070 point exists nowhere on disk.
+  `compute_climate_chart.py` imports `area_weighted_mean()` and computes both horizons itself.
+
+- **Two boundary conventions coexist and the split is deliberate.** Agriculture and landscape
+  use `build_clip_geometry()`'s 2000 m-buffered extent (inherited from Phase 6, so the two
+  raster charts stay comparable); soil and climate use the true unbuffered
+  `data/ll_boundaries.geojson`. Both scripts document the tension inline rather than inheriting
+  it by omission.
+
+- **Agriculture is the only genuinely new pipeline logic** — `landuse-croptypes` is the sole
+  nationally-built raster (`output.pmtiles`, no `pmtiles_pattern`), so it gets its own plan with
+  a dry-run gate on the smallest Living Lab before the full 481 MB five-Living-Lab run.
+
+- Zero new packages. Every dependency (geopandas, rasterio, numpy, pyyaml, pytest) is already
+  pinned in `data-pipeline/requirements.txt`.
+
 Plans:
 
-- [ ] TBD (run /gsd-plan-phase 9 to break down)
+**Wave 1**
+
+- [ ] `09-01-PLAN.md` — `chart_contract.py` bar/line envelope writers; `## Chart data contract`
+      section in `data-pipeline/README.md`; `chart:` stanza bullet in `sources/README.md` (CHARTS-01)
+- [ ] `09-02-PLAN.md` — 5 `chart.script` + 5 `output.chart_pattern` stanzas and 4 climate
+      `label:{en,de}` blocks in `sources.yaml`; `tag` param on `sync_file`/`_sync_matched_pattern`;
+      `sync_charts()` with per-(layer, LL) skip naming (CHARTS-02)
+
+**Wave 2** *(blocked on Wave 1)*
+
+- [ ] `09-03-PLAN.md` — `compute_landscape_chart.py`, `compute_soil_chart.py`,
+      `compute_economic_chart.py` and their 15 chart files (CHARTS-04, CHARTS-05, CHARTS-06)
+- [ ] `09-04-PLAN.md` — `compute_agriculture_chart.py`: per-LL clip + class histogram over the
+      national crop-types raster, dry-run gate then full run, 5 chart files (CHARTS-03)
+- [ ] `09-05-PLAN.md` — `compute_climate_chart.py`: two-horizon percent change per variable,
+      the only `line` variant, 5 chart files (CHARTS-07)
+
+**Wave 3** *(blocked on Wave 2)*
+
+- [ ] `09-06-PLAN.md` — `sync.py` publish of all 25 files to `app/public/data/charts/`, Vite
+      build confirmation, 5 new pytest contract tests (suite 20 -> 25) (CHARTS-01, CHARTS-02)
+
+**Wave 4** *(blocked on Wave 3)*
+
+- [ ] `09-07-PLAN.md` — full automated gate, 7 cross-file join-key checks, chart-script
+      determinism check, D-01..D-16 + CHARTS-01..07 evidence record, blocking bilingual
+      human verification of the computed values (all CHARTS ids)
 
 ### Phase 10: Wire up "Add for comparison" button to a real two-column LL comparison layout
 
