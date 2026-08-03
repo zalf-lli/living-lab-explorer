@@ -121,6 +121,36 @@ working, and real chart JSON files committed and synced to
   (Phase 2 PIPELINE-03 onward). Style should follow
   `test_pipeline_outputs.py`'s existing per-fixture assertion-dense function pattern.
 
+### Envelope field semantics — resolved via RESEARCH.md Open Questions (2026-08-03)
+- **D-13:** `layer_id` in the chart envelope holds the `app_layer` value (e.g. `"agriculture"`,
+  `"climate"`) — matching `LAYERS[].id` in `app/src/data/layers.js`, kept distinct from `source`
+  (D-04, which holds the `sources.yaml` dataset `id`, e.g. `"landuse-croptypes"`).
+- **D-14:** In each `bar` series entry, `value` holds the raw absolute quantity (ha for
+  agriculture/soil/landscape, zone count for economic) and `pct` holds the percentage share of
+  the per-LL total. Both are already computed en route to the percentage in every layer's script,
+  so this is zero extra computation cost.
+- **D-15:** D-11's `[chart] skipped - not yet built` logging must name the specific missing
+  (layer, LL) file, not report an aggregate "no files matched" count. `sync_charts()` explicitly
+  checks each of the 5 LL slugs per layer (reading `data/ll_boundaries.geojson`'s `ll_slug`
+  column, mirroring `conftest.py`'s `LL_SLUGS`) rather than relying solely on
+  `_sync_matched_pattern()`'s pure-glob "no files matched" message.
+
+### Climate scope correction — found during research (2026-08-03)
+- **Correction to D-09:** `compute_climate_kpis.py` / `data/climate_kpis.json` only ever compute
+  the far-horizon (`2071_2100`) delta (`DELTA_HORIZON` hardcoded, near horizon "deliberately never
+  opened" per Phase 8 D-21). D-09 needs **both** horizons, so CHARTS-07 is not a pure JSON-reshape
+  task — `compute_climate_chart.py` must import `area_weighted_mean()` from
+  `compute_climate_kpis.py` and compute both horizon points itself (reading the near-horizon
+  CHELSA rasters directly, already fetched to disk by `fetch_climate.py`). The line-chart's
+  underlying values are still ultimately derived from the same source rasters and the same
+  `change_mode`-aware percent conversion D-09 already specifies — only the "no new statistical
+  computation" framing in the original D-09 text was inaccurate.
+- **D-16:** Climate variable bilingual display names (`gdd`/`bio1`/`bio12`/`bio18` →
+  "Growing Degree Days"/"Wachstumsgradtage" etc.) are added as a new `label: {en, de}` field
+  inside `sources.yaml`'s existing `climate.variables.{id}` block (sibling to the existing `unit`/
+  `delta_unit` keys) — not read from `app/src/i18n.js` (wrong dependency direction: pipeline must
+  not depend on frontend source) and not hardcoded as Python string literals in the chart script.
+
 ### Claude's Discretion
 - Exact key name(s) inside each layer's `chart:` sources.yaml stanza (e.g.
   `chart.script`, `chart.output_pattern`) — follow the established `build.script` /
