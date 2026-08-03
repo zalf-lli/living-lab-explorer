@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: in_progress
-stopped_at: Phase 8 complete (08-11 Task 3 checkpoint approved) — Climate tab ships CHELSA maps and KPIs for all 5 Living Labs; next up is Phase 9 (Chart Data Contract) or Phase 10 (two-column comparison view, already planned)
-last_updated: "2026-07-31T06:05:54.348Z"
+stopped_at: Phase 9 context gathered — scope expanded to real per-tab chart implementations
+last_updated: "2026-08-03T07:59:53.103Z"
 progress:
   total_phases: 14
   completed_phases: 10
   total_plans: 56
-  completed_plans: 53
+  completed_plans: 54
   percent: 71
 ---
 
@@ -51,6 +51,7 @@ lowest-class cells" at every Living Lab's boundary, uniformly-coloured change ma
 "Sources" button, and a broken EnviDat source link) plus one regression discovered mid-fix (the
 first boundary-ring fix made the basemap invisible outside the Living Lab boundary, inconsistent
 with every other tab). All seven issues were root-caused and fixed:
+
 - GDD's ~2,000 `°C·d` figures are correct (an annual sum, not an average) — label clarified with "annual sum" rather than changing any value
 - Every `degC` string was ASCII at the source (`sources.yaml`); fixed there and in every downstream consumer including `destatis_curated_kpis.json`'s hand-maintained unit fields
 - The boundary ring and the basemap-visibility regression both traced to the same shared `clip_buffer_m` pipeline margin; the durable fix moved masking from the frontend (an opacity mask, which cannot hide one layer while leaving another visible on the same pixels) to the pixel level (`build_climate_pmtiles.py` now writes alpha=0 for pixels outside the true, unbuffered Living Lab boundary) — 60 PMTiles rebaked
@@ -331,6 +332,6 @@ Phase 2.2 completed on 2026-04-30 and replaced the shallow German-only soil look
 
 ## Session
 
-**Last session:** 2026-07-31T15:30:00.000Z
-**Stopped at:** Phase 8 complete (08-11 Task 3 checkpoint approved) — Climate tab ships CHELSA maps and KPIs for all 5 Living Labs
-**Resume file:** none — Phase 8 closed. Next: `/gsd:plan-phase 9` (Chart Data Contract) or `/gsd:execute-phase 10` (two-column comparison view, already planned)
+**Last session:** 2026-08-03T07:59:53.073Z
+**Stopped at:** Phase 9 context gathered — scope expanded to real per-tab chart implementations
+**Resume file:** .planning/phases/09-chart-data-contract/09-CONTEXT.md
