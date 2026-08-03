@@ -500,7 +500,7 @@ Plans:
 **Goal:** Document the chart-type-discriminated output JSON schema (bar and line variants), add optional `chart:` stanza support to `sources.yaml` + `sync.py` so any layer can declare a chart script and have its per-LL output copied to `app/public/data/charts/`, and implement real chart-computation scripts for all 5 map layers so every tab has a real, pipeline-computed summary chart.
 **Requirements**: CHARTS-01, CHARTS-02, CHARTS-03, CHARTS-04, CHARTS-05, CHARTS-06, CHARTS-07
 **Depends on:** Phase 8 (all map layers - protected areas, land cover, BORIS land value, CHELSA climate - must be built first so charts can be produced from the finished maps)
-**Plans:** 2/7 plans executed
+**Plans:** 5/7 plans executed
 
 **Note:** Formerly numbered Phase 3. Moved to the end of the roadmap (2026-07-27) because chart implementations are meant to summarize the map layers, so the contract should be defined once every map layer exists rather than speculatively up front. **Scope expanded 2026-08-03** (09-CONTEXT.md discussion): originally contract-and-plumbing-only with crop-types as a dry-run validation target; the human decided during discussion to implement real chart computation for all 5 tabs in this phase rather than deferring it to v2. REQUIREMENTS.md updated to match (CHARTS-03..07 added, "Generic chart logic" removed from Out of Scope).
 
