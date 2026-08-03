@@ -35,10 +35,10 @@ STATIC_DATA_FILES = [
 ]
 
 
-def sync_file(source: Path, destination: Path) -> None:
+def sync_file(source: Path, destination: Path, *, tag: str = "sync") -> None:
     destination.parent.mkdir(parents=True, exist_ok=True)
     shutil.copy2(source, destination)
-    print(f"[sync] {source.relative_to(repo_root())} -> {destination.relative_to(repo_root())}")
+    print(f"[{tag}] {source.relative_to(repo_root())} -> {destination.relative_to(repo_root())}")
 
 
 def generate_landuse_legend() -> None:
@@ -317,7 +317,7 @@ def sync_pmtiles() -> None:
         sync_file(source, resolve(sync_target))
 
 
-def _sync_matched_pattern(pattern: str) -> int:
+def _sync_matched_pattern(pattern: str, *, tag: str = "sync") -> int:
     """Glob a sources.yaml pattern (any number of `{...}` placeholders) and mirror every
     match into app/public/, deriving the destination purely from the match's repo-relative
     path. Returns the number of files synced.
@@ -340,9 +340,9 @@ def _sync_matched_pattern(pattern: str) -> int:
             print(f"[warn] match escapes repo root, skipping: {source}")
             continue
         rel_path = source.relative_to(root)
-        sync_file(source, resolve(Path("app/public") / rel_path))
+        sync_file(source, resolve(Path("app/public") / rel_path), tag=tag)
         synced += 1
-    print(f"[sync] {synced}/{len(matches)} files matched {pattern}")
+    print(f"[{tag}] {synced}/{len(matches)} files matched {pattern}")
     return synced
 
 
@@ -375,6 +375,44 @@ def sync_vector_geojson() -> None:
         _sync_matched_pattern(geojson_pattern)
 
 
+def sync_charts() -> None:
+    """Publish per-(layer, Living Lab) chart JSON files declared via output.chart_pattern
+    (D-10). Like every other sync_* function, this never computes chart data -- it only
+    copies already-produced files (D-11); the five compute_*_chart.py scripts are run by
+    hand, never invoked from here.
+
+    Unlike _sync_matched_pattern()'s pure-glob report (which can only say "found N of
+    however-many"), D-15 requires naming each individually missing (layer, Living Lab)
+    file. So this function first loops the known LL slugs (read from
+    data/ll_boundaries.geojson -- sync.py cannot import the test-only conftest.py) and
+    prints one `[chart] skipped - not yet built: ...` line per missing file, then
+    delegates the actual copy to _sync_matched_pattern(pattern, tag="chart") so the copy
+    path keeps inheriting _pattern_to_glob() and the repo-root-escape guard (D-10).
+    """
+    root = repo_root()
+    boundaries_path = resolve("data/ll_boundaries.geojson")
+    boundaries = json.loads(boundaries_path.read_text(encoding="utf-8"))
+    ll_slugs = sorted(
+        {feature["properties"]["ll_slug"] for feature in boundaries["features"]}
+    )
+    if not ll_slugs:
+        raise RuntimeError(
+            f"No ll_slug values found in {boundaries_path.relative_to(root)}"
+        )
+
+    sources = load_sources()
+    for layer in sources["layers"]:
+        output = layer.get("output", {})
+        pattern = output.get("chart_pattern")
+        if not pattern:
+            continue
+        for slug in ll_slugs:
+            expected = resolve(pattern.format(slug=slug))
+            if not expected.exists():
+                print(f"[chart] skipped - not yet built: {expected.relative_to(root)}")
+        _sync_matched_pattern(pattern, tag="chart")
+
+
 def sync_to_app() -> None:
     write_metadata()
     print("[sync] generated data/ll_metadata.json from data/ll_content.json")
@@ -384,6 +422,7 @@ def sync_to_app() -> None:
     sync_pmtiles()
     sync_pmtiles_per_ll()
     sync_vector_geojson()
+    sync_charts()
     generate_landuse_legend()
     generate_land_cover_legend()
     generate_climate_legend()
