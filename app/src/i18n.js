@@ -34,8 +34,7 @@ const resources = {
       landing: {
         eyebrow: 'Living Labs',
         title: 'Five Regions. Real-World Practice.',
-        body:
-          'In five living labs, we test innovative approaches together with practitioners on the ground. Pick a site on the map to explore its conditions, ambitions and progress.',
+        body: 'In five living labs, we test innovative approaches together with practitioners on the ground. Pick a site on the map to explore its conditions, ambitions and progress.',
         listTitle: 'Living Labs',
       },
       kpi: {
@@ -61,16 +60,19 @@ const resources = {
       },
       statPanel: {
         pendingReviewTitle: 'Pending review',
-        pendingReviewBody: 'Some indicators for this Living Lab are still pending expert review and data verification.',
+        pendingReviewBody:
+          'Some indicators for this Living Lab are still pending expert review and data verification.',
         source: 'Source: Destatis GENESIS-Online, table {{tableId}}, retrieved {{date}}',
-        sourceRegionalstatistik: 'Source: Regionalstatistik.de, table {{tableId}}, retrieved {{date}}',
+        sourceRegionalstatistik:
+          'Source: Regionalstatistik.de, table {{tableId}}, retrieved {{date}}',
         sourceLayer: 'Source: {{provider}}',
         viewSource: 'View source',
         sourcesToggle: 'Sources',
         compareEmptyTitle: 'No KPI data yet',
         compareEmptyBody: 'This Living Lab does not have statistics for this tab yet.',
         errorTitle: 'Statistics are temporarily unavailable.',
-        errorBody: 'Reload the page - if this keeps happening, the data source may be temporarily unreachable.',
+        errorBody:
+          'Reload the page - if this keeps happening, the data source may be temporarily unreachable.',
         byHorizon: 'by {{horizon}}',
       },
       layers: {
@@ -112,7 +114,8 @@ const resources = {
             gdd: 'Heat accumulated above 5 °C over the year - a measure of how much growing season a crop gets.',
             bio1: 'Mean annual air temperature, averaged over the reference period.',
             bio12: 'Total precipitation summed over the year.',
-            bio18: 'Precipitation falling in the warmest three-month quarter - relevant to summer drought stress.',
+            bio18:
+              'Precipitation falling in the warmest three-month quarter - relevant to summer drought stress.',
           },
         },
         soil: {
@@ -129,68 +132,6 @@ const resources = {
           empty: 'No protected areas intersect this Living Lab region.',
         },
       },
-      charts: {
-        agriculture: {
-          title: 'Crop Type Composition',
-          unit: '% area',
-          bars: {
-            winterWheat: 'Winter wheat',
-            maize: 'Maize',
-            winterBarley: 'Winter barley',
-            sugarBeet: 'Sugar beet',
-            otherCrops: 'Other crops',
-          },
-        },
-        climate: {
-          title: 'Mean Monthly Temp.',
-          unit: 'deg C',
-          bars: {
-            jan: 'Jan',
-            mar: 'Mar',
-            may: 'May',
-            jul: 'Jul',
-            sep: 'Sep',
-            nov: 'Nov',
-          },
-        },
-        soil: {
-          title: 'Soil Type Distribution',
-          unit: '% area',
-          bars: {
-            sandyLoam: 'Sandy loam',
-            loam: 'Loam',
-            clayLoam: 'Clay loam',
-            peat: 'Peat',
-            other: 'Other',
-          },
-        },
-        economic: {
-          title: 'Farm Size Distribution',
-          unit: '% farms',
-          bars: {
-            under10: '< 10 ha',
-            from10To50: '10-50 ha',
-            from50To200: '50-200 ha',
-            over200: '> 200 ha',
-          },
-        },
-        landscape: {
-          title: 'Land Cover Distribution',
-          unit: '% area',
-          bars: {
-            cropland: 'Cropland',
-            forest: 'Forest',
-            grassland: 'Grassland',
-            settlement: 'Settlement',
-            water: 'Water',
-          },
-        },
-      },
-      barChart: {
-        source: 'Source: placeholder data - {{unit}}',
-        compareEmptyTitle: 'No chart data yet',
-        compareEmptyBody: 'This Living Lab does not have chart data for this tab yet.',
-      },
       chart: {
         loading: 'Loading chart data...',
         emptyTitle: 'No chart data yet',
@@ -205,7 +146,8 @@ const resources = {
         soilLoading: 'Loading soil polygons for this Living Lab...',
         soilLoadError: 'Soil data could not be loaded for this Living Lab.',
         climateLoading: 'Loading climate layer for this Living Lab...',
-        climateError: 'Climate layer failed to load. Try switching variables or periods, or reload the page.',
+        climateError:
+          'Climate layer failed to load. Try switching variables or periods, or reload the page.',
         economicLoading: 'Loading land value zones for this Living Lab...',
         economicError: 'Land value data could not be loaded for this Living Lab.',
         protectedAreasLoading: 'Loading protected areas for this Living Lab...',
@@ -290,8 +232,7 @@ const resources = {
       landing: {
         eyebrow: 'Reallabore',
         title: 'Fuenf Regionen. Echte Praxis.',
-        body:
-          'In fuenf Reallaboren erproben wir innovative Ansaetze gemeinsam mit Praxisakteuren vor Ort. Waehlen Sie einen Standort auf der Karte, um Rahmenbedingungen, Ziele und Fortschritte zu erkunden.',
+        body: 'In fuenf Reallaboren erproben wir innovative Ansaetze gemeinsam mit Praxisakteuren vor Ort. Waehlen Sie einen Standort auf der Karte, um Rahmenbedingungen, Ziele und Fortschritte zu erkunden.',
         listTitle: 'Reallabore',
       },
       kpi: {
@@ -317,9 +258,11 @@ const resources = {
       },
       statPanel: {
         pendingReviewTitle: 'In Pruefung',
-        pendingReviewBody: 'Einige Indikatoren fuer dieses Living Lab befinden sich noch in der fachlichen Pruefung.',
+        pendingReviewBody:
+          'Einige Indikatoren fuer dieses Living Lab befinden sich noch in der fachlichen Pruefung.',
         source: 'Quelle: Destatis GENESIS-Online, Tabelle {{tableId}}, abgerufen am {{date}}',
-        sourceRegionalstatistik: 'Quelle: Regionalstatistik.de, Tabelle {{tableId}}, abgerufen am {{date}}',
+        sourceRegionalstatistik:
+          'Quelle: Regionalstatistik.de, Tabelle {{tableId}}, abgerufen am {{date}}',
         sourceLayer: 'Quelle: {{provider}}',
         viewSource: 'Quelle ansehen',
         sourcesToggle: 'Quellen',
@@ -327,7 +270,8 @@ const resources = {
         compareEmptyBody:
           'Fuer dieses Living Lab liegen in diesem Reiter noch keine Statistiken vor.',
         errorTitle: 'Statistiken sind voruebergehend nicht verfuegbar.',
-        errorBody: 'Seite neu laden - falls das Problem bestehen bleibt, ist die Datenquelle moeglicherweise voruebergehend nicht erreichbar.',
+        errorBody:
+          'Seite neu laden - falls das Problem bestehen bleibt, ist die Datenquelle moeglicherweise voruebergehend nicht erreichbar.',
         byHorizon: 'bis {{horizon}}',
       },
       layers: {
@@ -369,7 +313,8 @@ const resources = {
             gdd: 'Ueber das Jahr summierte Waerme oberhalb von 5 °C - ein Mass dafuer, wie viel Vegetationszeit eine Kultur erhaelt.',
             bio1: 'Mittlere jaehrliche Lufttemperatur, gemittelt ueber den Referenzzeitraum.',
             bio12: 'Ueber das Jahr summierter Gesamtniederschlag.',
-            bio18: 'Niederschlag im waermsten Vierteljahr - relevant fuer sommerlichen Trockenstress.',
+            bio18:
+              'Niederschlag im waermsten Vierteljahr - relevant fuer sommerlichen Trockenstress.',
           },
         },
         soil: {
@@ -386,69 +331,6 @@ const resources = {
           empty: 'Keine Schutzgebiete schneiden diese Reallabor-Region.',
         },
       },
-      charts: {
-        agriculture: {
-          title: 'Anbauverteilung',
-          unit: '% Flaeche',
-          bars: {
-            winterWheat: 'Winterweizen',
-            maize: 'Mais',
-            winterBarley: 'Wintergerste',
-            sugarBeet: 'Zuckerrueben',
-            otherCrops: 'Sonstige Kulturen',
-          },
-        },
-        climate: {
-          title: 'Mittlere Monatstemperatur',
-          unit: 'Grad C',
-          bars: {
-            jan: 'Jan',
-            mar: 'Mar',
-            may: 'Mai',
-            jul: 'Jul',
-            sep: 'Sep',
-            nov: 'Nov',
-          },
-        },
-        soil: {
-          title: 'Verteilung der Bodentypen',
-          unit: '% Flaeche',
-          bars: {
-            sandyLoam: 'Sandiger Lehm',
-            loam: 'Lehm',
-            clayLoam: 'Toniger Lehm',
-            peat: 'Torf',
-            other: 'Sonstige',
-          },
-        },
-        economic: {
-          title: 'Verteilung der Betriebsgroessen',
-          unit: '% Betriebe',
-          bars: {
-            under10: '< 10 ha',
-            from10To50: '10-50 ha',
-            from50To200: '50-200 ha',
-            over200: '> 200 ha',
-          },
-        },
-        landscape: {
-          title: 'Landbedeckungsverteilung',
-          unit: '% Flaeche',
-          bars: {
-            cropland: 'Ackerland',
-            forest: 'Wald',
-            grassland: 'Gruenland',
-            settlement: 'Siedlung',
-            water: 'Wasser',
-          },
-        },
-      },
-      barChart: {
-        source: 'Quelle: Platzhalterdaten - {{unit}}',
-        compareEmptyTitle: 'Noch keine Diagrammdaten',
-        compareEmptyBody:
-          'Fuer dieses Living Lab liegen in diesem Reiter noch keine Diagrammdaten vor.',
-      },
       chart: {
         loading: 'Diagrammdaten werden geladen...',
         emptyTitle: 'Noch keine Diagrammdaten',
@@ -463,11 +345,14 @@ const resources = {
         soilLoading: 'Bodenpolygone fuer dieses Living Lab werden geladen...',
         soilLoadError: 'Die Bodendaten fuer dieses Living Lab konnten nicht geladen werden.',
         climateLoading: 'Klimaebene fuer dieses Reallabor wird geladen...',
-        climateError: 'Klimaebene konnte nicht geladen werden. Variable oder Zeitraum wechseln oder Seite neu laden.',
+        climateError:
+          'Klimaebene konnte nicht geladen werden. Variable oder Zeitraum wechseln oder Seite neu laden.',
         economicLoading: 'Bodenrichtwertzonen fuer dieses Living Lab werden geladen...',
-        economicError: 'Die Bodenrichtwertdaten fuer dieses Living Lab konnten nicht geladen werden.',
+        economicError:
+          'Die Bodenrichtwertdaten fuer dieses Living Lab konnten nicht geladen werden.',
         protectedAreasLoading: 'Schutzgebiete fuer dieses Living Lab werden geladen...',
-        protectedAreasError: 'Die Schutzgebietsdaten fuer dieses Living Lab konnten nicht geladen werden.',
+        protectedAreasError:
+          'Die Schutzgebietsdaten fuer dieses Living Lab konnten nicht geladen werden.',
         placeholder: 'Interaktive Karte (Leaflet + PMTiles) folgt in Phase 3',
         layerComingSoon: 'Ebene folgt in Kuerze',
         dataUnavailable: 'Daten fuer diese Ebene sind noch nicht verfuegbar.',
@@ -477,7 +362,8 @@ const resources = {
           dataSource: 'Datenebene',
           license: 'Lizenz',
           viewSource: 'Quelle anzeigen',
-          noSource: 'Aktuell ist keine zusaetzliche Ebene aktiv. Es wird die Hintergrundkarte gezeigt.',
+          noSource:
+            'Aktuell ist keine zusaetzliche Ebene aktiv. Es wird die Hintergrundkarte gezeigt.',
         },
         soilTooltip: {
           type: 'Typ',
@@ -511,7 +397,8 @@ const resources = {
         optionADesc: 'Karte links fixiert - Datenbereich scrollt rechts',
         optionBSub: 'Gestapelt',
         optionBDesc: 'Abschnitte in voller Breite - Karte oben, Daten darunter',
-        layerTabsHint: 'Klicken Sie auf die Tabs, um verschiedene sozio-oekologische Merkmale zu erkunden.',
+        layerTabsHint:
+          'Klicken Sie auf die Tabs, um verschiedene sozio-oekologische Merkmale zu erkunden.',
         distributionTitle: '{{layer}} - Verteilung',
         projectionTitle: '{{layer}} - projizierte Aenderung',
         aboutTheme: 'Übersicht',
