@@ -55,7 +55,11 @@ export function buildDisplaySeries(
   const remaining = series.slice(MAX_BARS)
   const otherValue = remaining.reduce((sum, entry) => sum + numberOrZero(entry.value), 0)
   const otherPctRaw = remaining.reduce((sum, entry) => sum + numberOrZero(entry.pct), 0)
-  const otherPct = Math.round(otherPctRaw * 10) / 10
+  // A genuinely non-zero remainder (e.g. a single 0.04% row) can round to a displayed "0%",
+  // which reads as a dropped/broken row next to its non-zero value caption. Floor the display
+  // at 0.1 whenever the true remainder is non-zero, mirroring the pipeline's own
+  // never-display-a-real-row-as-zero convention (compute_agriculture_chart.py).
+  const otherPct = otherPctRaw > 0 ? Math.max(0.1, Math.round(otherPctRaw * 10) / 10) : 0
 
   return [
     ...realRows,

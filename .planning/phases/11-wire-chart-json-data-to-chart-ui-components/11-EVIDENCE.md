@@ -104,7 +104,13 @@ None of these lines are inside any file this phase created (`LineChart.jsx`) or 
 
 ## Human verification (Task 3)
 
-**Round 1 (2026-08-03):** Reviewer reported: bar chart colors did not match the map's legend colors for each layer. Root-caused and fixed as Deviation 4 above (commit `a0b9bed`) — agriculture and landscape bars now resolve their colors from the same static legend LLMap paints from; soil and economic remain rank-colored because no matching real legend exists for either. Awaiting round 2 re-verification.
+**Round 1 (2026-08-03):** Reviewer reported: bar chart colors did not match the map's legend colors for each layer. Root-caused and fixed as Deviation 4 above (commit `a0b9bed`) — agriculture and landscape bars now resolve their colors from the same static legend LLMap paints from; soil and economic remain rank-colored because no matching real legend exists for either.
+
+**Round 2 (2026-08-03):** Reviewer re-verified against the fix and responded **"approved"**. Phase 11 closed.
+
+### Post-approval: code review blocker fixed (CR-01)
+
+The phase-close code review (`11-REVIEW.md`) found one confirmed blocker after human approval: `buildDisplaySeries`'s "Other" bucket percentage (`Math.round(otherPctRaw * 10) / 10`) could round a genuinely non-zero remainder down to a displayed `0`. Reproducible against committed data: `io-lulc-landcover-east-brandenburg.json`'s lone truncated row ("Bare ground", `pct: 0.04`) became the entire "Other" bucket, rendering "Other 0%" next to its real 372 ha value. Fixed by flooring the display at `0.1` whenever the true summed remainder is non-zero (`app/src/lib/chartSeries.js`), mirroring the pipeline's own never-display-a-real-row-as-zero convention. Re-verified against the exact reproducing file plus the pct-total-preserved invariant across all 20 committed bar files; lint/format/build all exit 0.
 
 ---
 
