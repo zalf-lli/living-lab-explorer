@@ -34,6 +34,10 @@ names stay put.
 - Input details: local cache path, optional download URL, CRS, nodata
 - Build settings: target CRS, zoom range, resampling, tile size
 - Output targets: pipeline PMTiles/GeoJSON path and app sync path
+- Chart output: `chart.script` (path to the layer's chart-computation script, e.g.
+  `python/compute_soil_chart.py`) and `output.chart_pattern` (per-Living-Lab chart JSON
+  path, e.g. `data/charts/buek250-{slug}.json`) -- see `data-pipeline/README.md`'s
+  "Chart data contract" section for the JSON shape
 - `app_layer`: the app tab id this layer's data belongs to (see above)
 - Legend rows: `{ value, label.en, label.de, color }` (raster layers only)
 

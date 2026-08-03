@@ -298,6 +298,45 @@ Fallback rules:
 - Features without `GEN_ID` are exported explicitly as `water_area` or `special_area` instead of requiring the app to infer this from null raw fields.
 - English labels come from deterministic normalization rules in [`python/soil_semantics.py`](./python/soil_semantics.py), so translations are repo-tracked and reproducible.
 
+## Chart data contract
+
+Every chart-bearing layer writes one JSON file per (layer, Living Lab) at
+`data/charts/{layer-id}-{slug}.json`, declared in `sources.yaml` as `output.chart_pattern`,
+and synced to `app/public/data/charts/` by `sync.py::sync_charts()`. Chart scripts are run
+manually by a developer, exactly like `build_pmtiles.py` and `build_vector.py`; `sync.py`
+never invokes them, it only copies already-produced files.
+
+`chart_type` discriminates the payload shape. It is an open string at the schema level, not
+a code-enforced enum, but only two values have producers after Phase 9:
+
+- `"bar"` carries `series: [{label:{en,de}, value, pct}]` and is used by the agriculture,
+  soil, landscape and economic tabs.
+- `"line"` carries `x_axis: [{key, label:{en,de}}]` plus `lines: [{label:{en,de}, points:[{x, value}]}]`
+  and is used only by the climate tab.
+
+Shared envelope fields:
+
+- `ll_slug`: the Living Lab identifier.
+- `layer_id`: the `app_layer` tab id this chart belongs to, e.g. `agriculture`.
+- `chart_type`: `"bar"` or `"line"`, see above.
+- `unit`: a nested `{en, de}` pair.
+- `mock`: `true` means synthetic/placeholder values, `false` means real computed values --
+  every file committed in Phase 9 is `false`.
+- `source`: the `sources.yaml` dataset `id` this chart was computed from, e.g.
+  `landuse-croptypes` (kept deliberately distinct from `layer_id`).
+- `generated_at`: a UTC ISO-8601 `Z` timestamp.
+
+In a bar series entry, `value` is the raw absolute quantity and `pct` is that entry's share
+of the per-Living-Lab total. Units per layer: hectares for agriculture, soil and landscape;
+zone count for economic; percent change for climate's line points. For the two
+raster-derived charts (agriculture, landscape), the percentage denominator is the
+classified, non-nodata pixel area -- not the full Living Lab area -- so agriculture
+percentages read as shares of mapped crop area.
+
+Every chart script routes through [`python/chart_contract.py`](./python/chart_contract.py)'s
+`write_bar_chart()` / `write_line_chart()` writers; no chart script may call `json.dumps`
+directly.
+
 ### Full working Windows sequence
 
 If you want the complete flow in one place, this is the sequence that worked:
