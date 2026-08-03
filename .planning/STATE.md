@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: in_progress
-stopped_at: Phase 9 context gathered — scope expanded to real per-tab chart implementations
-last_updated: "2026-08-03T10:10:21.405Z"
+status: ready_to_plan
+stopped_at: Phase 09 complete (7/7) — ready to discuss Phase 10
+last_updated: 2026-08-03T12:53:22.829Z
 progress:
   total_phases: 14
   completed_phases: 10
   total_plans: 63
-  completed_plans: 56
+  completed_plans: 61
   percent: 71
 ---
 
@@ -21,7 +21,7 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 
 **Core value:** A researcher or stakeholder can open the app and immediately see accurate, up-to-date geodata and statistics for any of the five Living Labs without any server infrastructure.
 
-**Current focus:** Phase 09 — chart-data-contract
+**Current focus:** Phase 10 — add for comparison button opens ll menu and switches to two 
 
 ## Status
 
@@ -323,6 +323,7 @@ Phase 2.2 completed on 2026-04-30 and replaced the shallow German-only soil look
 - 2026-07-27: Phase 7 added: "Add BORIS land value maps as spatial layer for socio-economic tab (WFS from Brandenburg and Hessen geoportals)" — incorporates BORIS land-value map data via WFS services from Brandenburg and Hessen (the two Bundesländer covering the 5 Living Labs) for the socio-economic tab
 - 2026-07-27: Phase 3 "Chart Data Contract" removed from its original slot (never started, no directory existed) and re-added as Phase 9 at the end of the roadmap, so chart implementations are defined after all map layers (Phases 5, 5.1, 6, 7) exist for charts to summarize. CHARTS-01/CHARTS-02 traceability in ROADMAP.md and REQUIREMENTS.md updated to point at Phase 9. Phases 4-7 were left unrenumbered since they are already complete/underway with directories and commit history referencing their current numbers.
 - 2026-07-27: Phase 8 added: "Add maps and stats for climate variables using CHELSA data" — climate variable maps plus summary statistics, sourced from CHELSA via the `chelsa_cmip6` Python library (https://gitlabext.wsl.ch/karger/chelsa_cmip6/). Placed in the free slot 8 (vacated when the old Phase 3 moved to 9) rather than appended as Phase 10, so it sits with the other map-layer phases and before the Phase 9 chart contract that summarizes them. Phase 9's "Depends on" updated from Phase 7 to Phase 8 accordingly.
+- 2026-08-03: Phase 11 added: "Wire chart JSON data to chart UI components" — connect the chart content JSON files produced in Phase 9 to the chart UI components in the app. App-side integration only (no new pipeline work); expected to need minimal to no research and a small number of plans.
 
 ### Plan Decisions
 

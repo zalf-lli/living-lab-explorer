@@ -609,6 +609,22 @@ Plans:
 
 - [x] 10-06-PLAN.md — full automated gate, D-01..D-29 evidence table, and blocking bilingual human verification
 
+### Phase 11: Wire chart JSON data to chart UI components
+
+**Goal:** Wire the chart content produced as JSON files in Phase 9 to the chart UI components in the app, so the charts render real data instead of placeholder/legacy sources.
+**Requirements**: TBD
+**Depends on:** Phase 9 (produces the chart data contract and JSON outputs), Phase 10 (comparison layout renders the same chart components in two columns)
+**Plans:** 0 plans
+
+**Context (captured 2026-08-03):**
+
+- Phase 9 delivered the chart data contract and emits chart content as JSON files; this phase is the consumption side
+- Scope is app-side integration only — no new pipeline work
+- Expected to need minimal to no research and a small number of plans
+
+Plans:
+- [ ] TBD (run /gsd:plan-phase 11 to break down)
+
 ## Backlog
 
 ### Phase 999.1: Find real data sources for 4 curated Destatis KPI fields with no Destatis-family source (BACKLOG)

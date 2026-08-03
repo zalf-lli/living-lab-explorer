@@ -17,13 +17,13 @@
 
 ### Chart Data Contract & Implementation (Phase 9)
 
-- [ ] **CHARTS-01**: Chart output JSON schema is documented (in `data-pipeline/README.md`) as chart_type-discriminated: `chart_type: "bar"` uses `{ ll_slug, layer_id, chart_type, unit:{en,de}, series:[{label:{en,de}, value, pct}], mock, source, generated_at }`; `chart_type: "line"` uses `{ ll_slug, layer_id, chart_type, unit:{en,de}, x_axis:[{key,label:{en,de}}], lines:[{label:{en,de}, points:[{x, value}]}], mock, source, generated_at }`
-- [ ] **CHARTS-02**: `sources.yaml` supports an optional `chart:` stanza per layer declaring the chart script path and per-LL output pattern; `sync.py` copies chart output files to `app/public/data/charts/`, logging `[chart]` per file copied or `[chart] skipped - not yet built` if missing
-- [ ] **CHARTS-03**: Agriculture chart (`landuse-croptypes`) — bar chart of % area per crop type per LL. Requires new per-LL clip+histogram pipeline logic (crop types is built as one national raster today, unlike land cover)
-- [ ] **CHARTS-04**: Soil chart (`buek250`) — bar chart of % area per `soil_group_key` per LL, computed via projected-CRS area (Phase 05.1 dissolve→clip→area pattern)
-- [ ] **CHARTS-05**: Landscape chart (`io-lulc-landcover`) — bar chart of % area per land-cover class per LL, computed from the existing per-LL `land_cover_class_histogram.json` (Phase 6)
-- [ ] **CHARTS-06**: Economic chart (`boris`) — bar chart of % of zones per usage-type category per LL, using the existing bilingual usage-type semantic contract (Phase 7)
-- [ ] **CHARTS-07**: Climate chart (`chelsa-climate`) — line chart of % change per variable across the two future horizons (2041-2070, 2071-2100), reshaped from the existing `climate_kpis.json` change figures
+- [x] **CHARTS-01**: Chart output JSON schema is documented (in `data-pipeline/README.md`) as chart_type-discriminated: `chart_type: "bar"` uses `{ ll_slug, layer_id, chart_type, unit:{en,de}, series:[{label:{en,de}, value, pct}], mock, source, generated_at }`; `chart_type: "line"` uses `{ ll_slug, layer_id, chart_type, unit:{en,de}, x_axis:[{key,label:{en,de}}], lines:[{label:{en,de}, points:[{x, value}]}], mock, source, generated_at }`
+- [x] **CHARTS-02**: `sources.yaml` supports an optional `chart:` stanza per layer declaring the chart script path and per-LL output pattern; `sync.py` copies chart output files to `app/public/data/charts/`, logging `[chart]` per file copied or `[chart] skipped - not yet built` if missing
+- [x] **CHARTS-03**: Agriculture chart (`landuse-croptypes`) — bar chart of % area per crop type per LL. Requires new per-LL clip+histogram pipeline logic (crop types is built as one national raster today, unlike land cover)
+- [x] **CHARTS-04**: Soil chart (`buek250`) — bar chart of % area per `soil_group_key` per LL, computed via projected-CRS area (Phase 05.1 dissolve→clip→area pattern)
+- [x] **CHARTS-05**: Landscape chart (`io-lulc-landcover`) — bar chart of % area per land-cover class per LL, computed from the existing per-LL `land_cover_class_histogram.json` (Phase 6)
+- [x] **CHARTS-06**: Economic chart (`boris`) — bar chart of % of zones per usage-type category per LL, using the existing bilingual usage-type semantic contract (Phase 7)
+- [x] **CHARTS-07**: Climate chart (`chelsa-climate`) — line chart of % change per variable across the two future horizons (2041-2070, 2071-2100), reshaped from the existing `climate_kpis.json` change figures
 
 ## v2 Requirements
 
