@@ -109,14 +109,25 @@ def _series_from_histogram(layer: dict, histogram: dict[int, int], slug: str) ->
     total_pixels = sum(histogram.values())
     legend_by_value = {int(entry["value"]): entry["label"] for entry in legend}
 
-    series = [
-        {
-            "label": legend_by_value[value],
-            "value": round(count * pixel_area_ha, 1),
-            "pct": round(count / total_pixels * 100, 1),
-        }
-        for value, count in histogram.items()
-    ]
+    series = []
+    for value, count in histogram.items():
+        pct = round(count / total_pixels * 100, 1)
+        if pct <= 0.0:
+            # A genuinely observed, non-zero-pixel class can still round to 0.0 at
+            # 1-decimal precision when its share is below 0.05% (e.g. a handful of
+            # stray vineyard pixels outside rheingau). Floor the *displayed* pct at
+            # 0.1 so a present class never reads as 0% / absent -- "never drop a
+            # row" (shared_conventions) means never *display* a row as if it were
+            # dropped, either. `value` (hectares) is left untouched; only the
+            # rounded percentage floor is adjusted.
+            pct = 0.1
+        series.append(
+            {
+                "label": legend_by_value[value],
+                "value": round(count * pixel_area_ha, 1),
+                "pct": pct,
+            }
+        )
     series.sort(key=lambda entry: (-entry["pct"], entry["label"]["en"]))
     return series
 
