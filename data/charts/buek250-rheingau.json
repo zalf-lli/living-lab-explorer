@@ -1,0 +1,86 @@
+{
+  "chart_type": "bar",
+  "generated_at": "2026-08-03T10:18:14.064205Z",
+  "layer_id": "soil",
+  "ll_slug": "rheingau",
+  "mock": false,
+  "series": [
+    {
+      "label": {
+        "de": "Braunerden",
+        "en": "Brown soils"
+      },
+      "pct": 66.7,
+      "value": 53924.2
+    },
+    {
+      "label": {
+        "de": "Lessivés",
+        "en": "Luvisols"
+      },
+      "pct": 17.2,
+      "value": 13886.2
+    },
+    {
+      "label": {
+        "de": "Gleye",
+        "en": "Gley soils"
+      },
+      "pct": 5.2,
+      "value": 4182.5
+    },
+    {
+      "label": {
+        "de": "Stauwasserböden",
+        "en": "Stagnic soils"
+      },
+      "pct": 5.0,
+      "value": 4039.4
+    },
+    {
+      "label": {
+        "de": "Ah/C-Böden",
+        "en": "Ah/C soils"
+      },
+      "pct": 4.0,
+      "value": 3243.0
+    },
+    {
+      "label": {
+        "de": "Sonderfläche",
+        "en": "Special area"
+      },
+      "pct": 1.2,
+      "value": 935.7
+    },
+    {
+      "label": {
+        "de": "Auenböden",
+        "en": "Alluvial soils"
+      },
+      "pct": 0.6,
+      "value": 452.4
+    },
+    {
+      "label": {
+        "de": "Podsole",
+        "en": "Podzols"
+      },
+      "pct": 0.3,
+      "value": 202.5
+    },
+    {
+      "label": {
+        "de": "Gewässer",
+        "en": "Water area"
+      },
+      "pct": 0.01,
+      "value": 6.7
+    }
+  ],
+  "source": "buek250",
+  "unit": {
+    "de": "ha",
+    "en": "ha"
+  }
+}

@@ -1,0 +1,110 @@
+{
+  "chart_type": "bar",
+  "generated_at": "2026-08-03T10:18:13.468940Z",
+  "layer_id": "soil",
+  "ll_slug": "hessian-low-mountain",
+  "mock": false,
+  "series": [
+    {
+      "label": {
+        "de": "Braunerden",
+        "en": "Brown soils"
+      },
+      "pct": 54.9,
+      "value": 294618.2
+    },
+    {
+      "label": {
+        "de": "Lessivés",
+        "en": "Luvisols"
+      },
+      "pct": 23.7,
+      "value": 127292.6
+    },
+    {
+      "label": {
+        "de": "Stauwasserböden",
+        "en": "Stagnic soils"
+      },
+      "pct": 10.9,
+      "value": 58696.2
+    },
+    {
+      "label": {
+        "de": "Gleye",
+        "en": "Gley soils"
+      },
+      "pct": 6.4,
+      "value": 34301.5
+    },
+    {
+      "label": {
+        "de": "Auenböden",
+        "en": "Alluvial soils"
+      },
+      "pct": 2.9,
+      "value": 15414.6
+    },
+    {
+      "label": {
+        "de": "Ah/C-Böden",
+        "en": "Ah/C soils"
+      },
+      "pct": 1.0,
+      "value": 5328.6
+    },
+    {
+      "label": {
+        "de": "Gewässer",
+        "en": "Water area"
+      },
+      "pct": 0.1,
+      "value": 599.7
+    },
+    {
+      "label": {
+        "de": "Podsole",
+        "en": "Podzols"
+      },
+      "pct": 0.03,
+      "value": 159.3
+    },
+    {
+      "label": {
+        "de": "Stadtkernbereiche (und/oder Gewerbe- und Industriegebiete): Versiegelte Flächen mit Böden aus anthropogenen Auffüllungen (Kippsubstraten, undifferenziert)",
+        "en": "Stadtkernbereiche (and/oder Gewerbe- and Industriegebiete): sealed surfaces with soils from anthropogenen Auffüllungen (Kippsubstraten, andifferenziert)"
+      },
+      "pct": 0.03,
+      "value": 160.9
+    },
+    {
+      "label": {
+        "de": "Hochmoore",
+        "en": "Raised bogs"
+      },
+      "pct": 0.01,
+      "value": 69.3
+    },
+    {
+      "label": {
+        "de": "Böden der Abgrabungsflächen (Steinbrüche, Gruben) und Aufschüttungen (Halden; Kippsubstrate, undifferenziert)",
+        "en": "Soils der Abgrabungsflächen (Steinbrüche, Gruben) and Aufschüttungen (Halden; Kippsubstrate, andifferenziert)"
+      },
+      "pct": 0.01,
+      "value": 67.1
+    },
+    {
+      "label": {
+        "de": "Sonderfläche",
+        "en": "Special area"
+      },
+      "pct": 0.01,
+      "value": 80.1
+    }
+  ],
+  "source": "buek250",
+  "unit": {
+    "de": "ha",
+    "en": "ha"
+  }
+}
