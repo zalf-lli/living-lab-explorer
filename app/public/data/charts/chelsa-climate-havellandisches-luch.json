@@ -1,0 +1,94 @@
+{
+  "chart_type": "line",
+  "generated_at": "2026-08-03T10:17:23.366533Z",
+  "layer_id": "climate",
+  "lines": [
+    {
+      "label": {
+        "de": "Wachstumsgradtage",
+        "en": "Growing degree days"
+      },
+      "points": [
+        {
+          "value": 32.1,
+          "x": "2041_2070"
+        },
+        {
+          "value": 55.6,
+          "x": "2071_2100"
+        }
+      ]
+    },
+    {
+      "label": {
+        "de": "Jahresmitteltemperatur",
+        "en": "Mean annual temperature"
+      },
+      "points": [
+        {
+          "value": 27.5,
+          "x": "2041_2070"
+        },
+        {
+          "value": 42.5,
+          "x": "2071_2100"
+        }
+      ]
+    },
+    {
+      "label": {
+        "de": "Jahresniederschlag",
+        "en": "Annual precipitation"
+      },
+      "points": [
+        {
+          "value": 1.2,
+          "x": "2041_2070"
+        },
+        {
+          "value": 2.7,
+          "x": "2071_2100"
+        }
+      ]
+    },
+    {
+      "label": {
+        "de": "Niederschlag im waermsten Quartal",
+        "en": "Precipitation of warmest quarter"
+      },
+      "points": [
+        {
+          "value": -4.3,
+          "x": "2041_2070"
+        },
+        {
+          "value": -5.9,
+          "x": "2071_2100"
+        }
+      ]
+    }
+  ],
+  "ll_slug": "havellandisches-luch",
+  "mock": false,
+  "source": "chelsa-climate",
+  "unit": {
+    "de": "%",
+    "en": "%"
+  },
+  "x_axis": [
+    {
+      "key": "2041_2070",
+      "label": {
+        "de": "2041-2070",
+        "en": "2041-2070"
+      }
+    },
+    {
+      "key": "2071_2100",
+      "label": {
+        "de": "2071-2100",
+        "en": "2071-2100"
+      }
+    }
+  ]
+}
