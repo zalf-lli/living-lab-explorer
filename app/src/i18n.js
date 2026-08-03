@@ -191,6 +191,15 @@ const resources = {
         compareEmptyTitle: 'No chart data yet',
         compareEmptyBody: 'This Living Lab does not have chart data for this tab yet.',
       },
+      chart: {
+        loading: 'Loading chart data...',
+        emptyTitle: 'No chart data yet',
+        emptyBody: 'This Living Lab does not have chart data for this tab yet.',
+        errorTitle: 'Chart data could not be loaded',
+        errorBody:
+          'Reload the page - if the problem continues, the data source may be temporarily unavailable.',
+        otherCategory: 'Other',
+      },
       map: {
         loadError: 'Failed to load map data. Check the browser console.',
         soilLoading: 'Loading soil polygons for this Living Lab...',
@@ -246,6 +255,7 @@ const resources = {
         optionBDesc: 'Full-width sections - map then data below',
         layerTabsHint: 'Click the tabs to explore different socio-environmental features.',
         distributionTitle: '{{layer}} - distribution',
+        projectionTitle: '{{layer}} - projected change',
         aboutTheme: 'Overview',
         challenges: 'Challenges',
         compareTitle: 'Compare with another Living Lab',
@@ -439,6 +449,15 @@ const resources = {
         compareEmptyBody:
           'Fuer dieses Living Lab liegen in diesem Reiter noch keine Diagrammdaten vor.',
       },
+      chart: {
+        loading: 'Diagrammdaten werden geladen...',
+        emptyTitle: 'Noch keine Diagrammdaten',
+        emptyBody: 'Fuer dieses Living Lab liegen in diesem Reiter noch keine Diagrammdaten vor.',
+        errorTitle: 'Diagrammdaten konnten nicht geladen werden',
+        errorBody:
+          'Seite neu laden - falls das Problem bestehen bleibt, ist die Datenquelle moeglicherweise voruebergehend nicht erreichbar.',
+        otherCategory: 'Sonstige',
+      },
       map: {
         loadError: 'Kartendaten konnten nicht geladen werden. Bitte Browser-Konsole pruefen.',
         soilLoading: 'Bodenpolygone fuer dieses Living Lab werden geladen...',
@@ -494,6 +513,7 @@ const resources = {
         optionBDesc: 'Abschnitte in voller Breite - Karte oben, Daten darunter',
         layerTabsHint: 'Klicken Sie auf die Tabs, um verschiedene sozio-oekologische Merkmale zu erkunden.',
         distributionTitle: '{{layer}} - Verteilung',
+        projectionTitle: '{{layer}} - projizierte Aenderung',
         aboutTheme: 'Übersicht',
         challenges: 'Herausforderungen',
         compareTitle: 'Mit einem anderen Living Lab vergleichen',
