@@ -78,7 +78,80 @@ export function LineChart({ layer, ll, compact = false, minHeightWhenEmpty }) {
         ))}
       </div>
 
-      <div style={{ position: 'relative', height: compact ? 150 : 200, width: '100%' }} />
+      <div style={{ position: 'relative', height: compact ? 150 : 200, width: '100%' }}>
+        <div
+          style={{
+            position: 'absolute',
+            top: `${yPct(0)}%`,
+            left: 0,
+            right: 0,
+            height: 0,
+            borderTop: `1px dashed ${C.mutedLight}`,
+          }}
+        />
+        <svg
+          viewBox="0 0 100 100"
+          preserveAspectRatio="none"
+          style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
+          aria-hidden="true"
+        >
+          {data.lines.map((line, lineIndex) => {
+            const [p0, p1] = line.points
+            if (!Number.isFinite(p0?.value) || !Number.isFinite(p1?.value)) return null
+            return (
+              <polyline
+                key={`line-${lineIndex}`}
+                points={`25,${yPct(p0.value)} 75,${yPct(p1.value)}`}
+                fill="none"
+                stroke={colorForLine(lineIndex)}
+                strokeWidth={2}
+                vectorEffect="non-scaling-stroke"
+              />
+            )
+          })}
+        </svg>
+        {data.lines.flatMap((line, lineIndex) =>
+          line.points.map((point, pointIndex) => {
+            if (!Number.isFinite(point?.value)) return null
+            const x = pointIndex === 0 ? 25 : 75
+            const y = yPct(point.value)
+            const color = colorForLine(lineIndex)
+            return (
+              <div key={`${lineIndex}-${pointIndex}`}>
+                <div
+                  style={{
+                    position: 'absolute',
+                    left: `${x}%`,
+                    top: `${y}%`,
+                    width: 8,
+                    height: 8,
+                    borderRadius: 4,
+                    background: color,
+                    transform: 'translate(-50%, -50%)',
+                  }}
+                />
+                <div
+                  style={{
+                    position: 'absolute',
+                    left: `${x}%`,
+                    top: `${y}%`,
+                    transform: 'translate(-50%, -140%)',
+                    fontSize: 11,
+                    fontWeight: 700,
+                    color,
+                    whiteSpace: 'nowrap',
+                  }}
+                >
+                  {`${Number(point.value).toLocaleString(locale, {
+                    signDisplay: 'exceptZero',
+                    maximumFractionDigits: 1,
+                  })}${unit}`}
+                </div>
+              </div>
+            )
+          })
+        )}
+      </div>
 
       <div style={{ display: 'flex' }}>
         <div
