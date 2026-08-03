@@ -114,6 +114,12 @@ None - no external service configuration required.
 - Plans 11-02 (`BarChart.jsx` rewrite) and 11-03 (new `LineChart.jsx`) can now run in the same wave: both shared dependencies they need (`useChartData`, `chartSeries.js`, `ChartStates.jsx`, `chart.*`/`projectionTitle` i18n) exist and are committed.
 - No blockers. `app/src/data/chart_data.js` and the dead `charts.*`/`barChart.source` i18n keys remain in place by design - plan 11-04 removes them once nothing references them.
 
+## Self-Check: PASSED
+
+All 4 claimed files verified present (`app/src/hooks/useChartData.js`, `app/src/lib/chartSeries.js`,
+`app/src/components/ChartStates.jsx`, this SUMMARY.md); all 5 claimed commit hashes
+(`df34752`, `9894d01`, `6ad8cf4`, `818aeee`, `bbc8976`) verified present in `git log --oneline --all`.
+
 ---
 *Phase: 11-wire-chart-json-data-to-chart-ui-components*
 *Completed: 2026-08-03*
