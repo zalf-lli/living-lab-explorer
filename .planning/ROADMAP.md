@@ -612,9 +612,9 @@ Plans:
 ### Phase 11: Wire chart JSON data to chart UI components
 
 **Goal:** Wire the chart content produced as JSON files in Phase 9 to the chart UI components in the app, so the charts render real data instead of placeholder/legacy sources.
-**Requirements**: TBD
+**Requirements**: TBD (no ROADMAP or REQUIREMENTS.md REQ-IDs; REQUIREMENTS.md maps CHARTS-01..07 to Phase 9. The spec is `11-UI-SPEC.md`'s eight locked decisions, referenced as UI-1..UI-8 in every plan's `ui_decisions` field)
 **Depends on:** Phase 9 (produces the chart data contract and JSON outputs), Phase 10 (comparison layout renders the same chart components in two columns)
-**Plans:** 0 plans
+**Plans:** 5 plans
 
 **Context (captured 2026-08-03):**
 
@@ -622,8 +622,55 @@ Plans:
 - Scope is app-side integration only — no new pipeline work
 - Expected to need minimal to no research and a small number of plans
 
+**Planning decisions (resolved during breakdown):**
+
+- **Climate needs a second component, not a patched `BarChart`.** Climate is the only `chart_type: "line"`
+  layer (4 variables x 2 future horizons of percent change, values of both signs); the existing bar code
+  path renders 6 fake months and cannot express that shape at all. `LineChart.jsx` is hand-rolled SVG plus
+  absolutely-positioned divs — no charting library is added, per the UI-SPEC.
+
+- **Every real bar file exceeds 6 categories** (landscape 7-8, soil 9-14, agriculture 18, economic 17-31),
+  so the top-6-plus-Other truncation is the production path, not an edge case. It lives in a pure
+  `app/src/lib/chartSeries.js` module rather than inside the component, so a node command can assert the
+  row cap, the preserved pct total and the never-re-sort rule against all 20 real files — the project has
+  no JS test runner, so a node-importable pure module is the only way to get a real automated gate here.
+
+- **Two UI-SPEC statements were wrong against the code and are corrected in the plans.** (a) It assumes
+  every chart call site's card already renders a title; only `LayoutSplit` does, so `11-04` adds title rows
+  to `LayoutStacked` and `ComparisonColumn`. (b) Its defensive climate-colour fallback (compare the
+  translated `CLIMATE_VARIABLES[i].labelKey` against `lines[i].label[lang]`) can never match — the i18n
+  labels are abbreviations ("GDD", "Mean temp.") while the JSON carries full names ("Growing degree days")
+  — so a length-guarded index mapping is the locked behaviour instead.
+
+- **`app/src/i18n.js` is the hot file** and is deliberately split across two waves: additions in `11-01`
+  (wave 1), deletions of the dead `charts.*` / `barChart.*` blocks in `11-04` (wave 3), once nothing
+  references them. Only wave 2 parallelizes (`11-02` BarChart and `11-03` LineChart touch disjoint files).
+
+- Zero new npm packages; zero pipeline files touched (both asserted as gates in `11-05`).
+
 Plans:
-- [ ] TBD (run /gsd:plan-phase 11 to break down)
+
+**Wave 1**
+
+- [ ] `11-01-PLAN.md` — `useChartData` hook (404 = empty), pure `chartSeries.js` truncation + rank palette,
+      shared `ChartStates.jsx` blocks, and the `chart.*` / `llDetail.projectionTitle` i18n additions
+
+**Wave 2** *(blocked on Wave 1)*
+
+- [ ] `11-02-PLAN.md` — `BarChart.jsx` rewrite: real per-Living-Lab data, three async states, top-6 + Other
+      rows with rank colours, value+unit captions, real source footer
+- [ ] `11-03-PLAN.md` — new `LineChart.jsx`: 4 fixed-colour polylines over 2 horizons, zero-inclusive shared
+      scale, dashed zero line, signed percentage labels
+
+**Wave 3** *(blocked on Wave 2)*
+
+- [ ] `11-04-PLAN.md` — three `LLDetail.jsx` call sites branch on `layer === 'climate'` and thread `ll`;
+      titled cards everywhere; `chart_data.js` and the dead `charts.*` / `barChart.*` i18n blocks deleted
+
+**Wave 4** *(blocked on Wave 3)*
+
+- [ ] `11-05-PLAN.md` — full automated gate (lint/format/build, 25-file join-key + contract check,
+      dead-token and scope gates), `11-EVIDENCE.md` for UI-1..UI-8, blocking bilingual human verification
 
 ## Backlog
 
