@@ -11,7 +11,12 @@ const SOIL_LEGEND = [
   { value: 'brown-soils', en: 'Brown soils', de: 'Braunerden', color: '#b88752' },
   { value: 'luvisols', en: 'Luvisols', de: 'Lessives', color: '#c29b68' },
   { value: 'gley-soils', en: 'Gley soils', de: 'Gleye', color: '#a87445' },
-  { value: 'special-areas', en: 'Water / special areas', de: 'Gewaesser / Sonderflaechen', color: '#88bfd9' },
+  {
+    value: 'special-areas',
+    en: 'Water / special areas',
+    de: 'Gewaesser / Sonderflaechen',
+    color: '#88bfd9',
+  },
 ]
 
 // Single source of truth for protected-areas designation palette and labels.
@@ -19,9 +24,33 @@ const SOIL_LEGEND = [
 // LLMap must import this array rather than redeclare any hex code.
 // The value strings must match the pipeline's designation property byte for byte — they are the join key between data, style map, and legend.
 export const PROTECTED_AREAS_LEGEND = [
-  { value: 'Natura 2000 SCI', en: 'Special Conservation Area', de: 'FFH-Gebiete (BSG)', color: '#e6c2e6', strokeColor: '#9966cc', weight: 1.2, fillOpacity: 0.55 },
-  { value: 'Natura 2000 SPA', en: 'Special Protection Area', de: 'Vogelschutzgebiete (VSG)', color: '#fff5b8', strokeColor: '#ffb84d', weight: 1.2, fillOpacity: 0.5 },
-  { value: 'Naturschutzgebiet', en: 'Nature Reserve', de: 'Naturschutzgebiete (NSG)', color: '#c2e6c2', strokeColor: '#66aa66', weight: 1.2, fillOpacity: 0.55 },
+  {
+    value: 'Natura 2000 SCI',
+    en: 'Special Conservation Area',
+    de: 'FFH-Gebiete (BSG)',
+    color: '#e6c2e6',
+    strokeColor: '#9966cc',
+    weight: 1.2,
+    fillOpacity: 0.55,
+  },
+  {
+    value: 'Natura 2000 SPA',
+    en: 'Special Protection Area',
+    de: 'Vogelschutzgebiete (VSG)',
+    color: '#fff5b8',
+    strokeColor: '#ffb84d',
+    weight: 1.2,
+    fillOpacity: 0.5,
+  },
+  {
+    value: 'Naturschutzgebiet',
+    en: 'Nature Reserve',
+    de: 'Naturschutzgebiete (NSG)',
+    color: '#c2e6c2',
+    strokeColor: '#66aa66',
+    weight: 1.2,
+    fillOpacity: 0.55,
+  },
 ]
 
 // Single source of truth for BORIS land-value styling; LLMap must import these rather than redeclare hex codes.
@@ -30,9 +59,19 @@ export const BORIS_RAMP = [C.tealBg, C.teal, C.tealMid, C.tealLight, C.orangeDar
 
 // Sole exception to the zero-new-colours rule: theme.js has no neutral grey.
 // Leaflet canvas cannot render diagonal hatches, so muted fill plus dashed stroke is the locked equivalent.
-export const BORIS_NO_DATA_STYLE = { fillColor: '#d8d8d2', color: '#9a9a90', weight: 0.4, dashArray: '3,3', fillOpacity: 0.55 }
+export const BORIS_NO_DATA_STYLE = {
+  fillColor: '#d8d8d2',
+  color: '#9a9a90',
+  weight: 0.4,
+  dashArray: '3,3',
+  fillOpacity: 0.55,
+}
 
-export const BORIS_VALUE_STYLE_BASE = { color: 'rgba(2,35,34,0.35)', weight: 0.4, fillOpacity: 0.78 }
+export const BORIS_VALUE_STYLE_BASE = {
+  color: 'rgba(2,35,34,0.35)',
+  weight: 0.4,
+  fillOpacity: 0.78,
+}
 export const BORIS_HOVER_STYLE = { fillOpacity: 0.92, weight: 0.7 }
 
 // Single source of truth for the CHELSA climate ramp families; LLMap must import these rather than
@@ -58,6 +97,11 @@ export const LAYERS = [
     type: 'raster',
     pmtilesUrl: 'data/pmtiles/landuse-croptypes.pmtiles',
     legend: LANDUSE_LEGEND,
+    // LANDUSE_LEGEND is a closed, static enum whose `en` values match the chart JSON's
+    // series labels byte-for-byte, and it is what LLMap actually paints - safe for BarChart
+    // to key its bar colours off of (unlike soil, whose displayed legend is built per-LL from
+    // the loaded GeoJSON and does not match this module's static legend array).
+    legendMatchesChartCategories: true,
     available: true,
   },
   {
@@ -94,6 +138,9 @@ export const LAYERS = [
     type: 'raster',
     pmtilesUrlPattern: 'data/pmtiles/land-cover-{slug}.pmtiles',
     legend: LAND_COVER_LEGEND,
+    // Same rationale as agriculture above: LAND_COVER_LEGEND is closed, static, and matches the
+    // chart JSON's series labels byte-for-byte.
+    legendMatchesChartCategories: true,
     available: true,
   },
 ]
@@ -124,14 +171,17 @@ export function resolveLayerAsset(layerId, { slug, variable, period } = {}) {
     if (layer.pmtilesUrlPattern) {
       const values = { slug, variable, period }
       let unresolved = false
-      const resolved = layer.pmtilesUrlPattern.replace(/\{(slug|variable|period)\}/g, (token, key) => {
-        const value = values[key]
-        if (value == null) {
-          unresolved = true
-          return token
+      const resolved = layer.pmtilesUrlPattern.replace(
+        /\{(slug|variable|period)\}/g,
+        (token, key) => {
+          const value = values[key]
+          if (value == null) {
+            unresolved = true
+            return token
+          }
+          return value
         }
-        return value
-      })
+      )
       return unresolved ? null : resolved
     }
     return layer.pmtilesUrl ?? null
@@ -143,7 +193,25 @@ export function resolveLayerAsset(layerId, { slug, variable, period } = {}) {
 }
 
 export const LAYER_COLORS = {
-  agriculture: { arable: '#c2e077', forest: '#276d4e', grassland: '#83d2af', settlement: '#b5ad9e', water: '#8ffffc' },
-  soil: { arable: '#d4b483', forest: '#8a6a3e', grassland: '#c4a870', settlement: '#a09080', water: '#8ffffc' },
-  economic: { arable: '#9bc72d', forest: '#225e43', grassland: '#5ec597', settlement: '#dc4b14', water: '#00b3ad' },
+  agriculture: {
+    arable: '#c2e077',
+    forest: '#276d4e',
+    grassland: '#83d2af',
+    settlement: '#b5ad9e',
+    water: '#8ffffc',
+  },
+  soil: {
+    arable: '#d4b483',
+    forest: '#8a6a3e',
+    grassland: '#c4a870',
+    settlement: '#a09080',
+    water: '#8ffffc',
+  },
+  economic: {
+    arable: '#9bc72d',
+    forest: '#225e43',
+    grassland: '#5ec597',
+    settlement: '#dc4b14',
+    water: '#00b3ad',
+  },
 }

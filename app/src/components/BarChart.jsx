@@ -1,7 +1,9 @@
+import { useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
 import { C } from '../theme.js'
 import { useChartData } from '../hooks/useChartData.js'
 import { buildDisplaySeries } from '../lib/chartSeries.js'
+import { LAYER_INDEX } from '../data/layers.js'
 import { ChartLoading, ChartError, ChartEmpty, ChartSourceFooter } from './ChartStates.jsx'
 
 export function BarChart({ layer, ll, compact = false, minHeightWhenEmpty }) {
@@ -10,6 +12,18 @@ export function BarChart({ layer, ll, compact = false, minHeightWhenEmpty }) {
   const lang = i18n.language?.startsWith('de') ? 'de' : 'en'
   const locale = i18n.language === 'de' ? 'de-DE' : 'en-US'
 
+  // Only layers whose static legend is what LLMap actually paints (agriculture, landscape) get
+  // matched to it - soil's real legend is built dynamically per Living Lab and does not match
+  // this module's static legend array, so it must keep the positional rank colours.
+  const layerConfig = LAYER_INDEX.get(layer)
+  const legendColors = useMemo(
+    () =>
+      layerConfig?.legendMatchesChartCategories && layerConfig.legend
+        ? new Map(layerConfig.legend.map((entry) => [entry.en, entry.color]))
+        : null,
+    [layerConfig]
+  )
+
   if (loading) return <ChartLoading minHeight={minHeightWhenEmpty} />
   if (error) return <ChartError minHeight={minHeightWhenEmpty} />
   if (data == null || !Array.isArray(data.series) || data.series.length === 0) {
@@ -17,7 +31,11 @@ export function BarChart({ layer, ll, compact = false, minHeightWhenEmpty }) {
     return <ChartEmpty minHeight={minHeightWhenEmpty} />
   }
 
-  const rows = buildDisplaySeries(data.series, { lang, otherLabel: t('chart.otherCategory') })
+  const rows = buildDisplaySeries(data.series, {
+    lang,
+    otherLabel: t('chart.otherCategory'),
+    legendColors,
+  })
   const topPct = Math.max(...rows.map((r) => r.pct)) || 1
   const unit = data.unit?.[lang] ?? data.unit?.en ?? ''
 
