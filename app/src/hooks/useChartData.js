@@ -37,9 +37,10 @@ export function useChartData(layer, slug) {
 
   useEffect(() => {
     let cancelled = false
-    if (!isEnabled) return () => {
-      cancelled = true
-    }
+    if (!isEnabled)
+      return () => {
+        cancelled = true
+      }
     const url = 'data/charts/' + source.id + '-' + slug + '.json'
     fetchChart(url)
       .then((data) => {
