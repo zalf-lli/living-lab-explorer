@@ -4,11 +4,11 @@ milestone: v1.0
 milestone_name: milestone
 status: in_progress
 stopped_at: Phase 9 context gathered — scope expanded to real per-tab chart implementations
-last_updated: "2026-08-03T07:59:53.103Z"
+last_updated: "2026-08-03T09:24:04.482Z"
 progress:
   total_phases: 14
   completed_phases: 10
-  total_plans: 56
+  total_plans: 63
   completed_plans: 54
   percent: 71
 ---
@@ -37,7 +37,7 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 | 6 | Add land cover map | Complete (2026-07-26) — 5/5 plans, 4 waves, D-01..D-24 evidence recorded, bilingual checkpoint approved |
 | 7 | Add BORIS land value maps as spatial layer for socio-economic tab | In progress — 8/9 plans complete (07-08 executed 2026-07-28: all five Living Labs fetched, committed, published, and locked behind a fixture regression test) |
 | 8 | Add maps and stats for climate variables using CHELSA data | Complete (2026-07-31) — 11/11 plans, 60 CHELSA PMTiles (4 variables x 3 periods x 5 LLs), D-07 resolved to `gdd5` (static, zero new dependencies), D-12 empirically sequential for all four variables; Task 3 checkpoint approved |
-| 9 | Chart Data Contract | Not planned yet (2026-07-27) |
+| 9 | Chart Data Contract | Planned (2026-08-03) — 7 plans, 4 waves, 1 checkpoint, verified ✓ (0 blockers, 3 warnings) |
 | 10 | Two-column LL comparison view | Planned (2026-07-27) — 6 plans, 5 waves, 1 checkpoint, verified ✓ (0 blockers, 4 warnings) |
 
 ## Active Work
