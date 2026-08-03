@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: ready_to_plan
 stopped_at: Phase 11 UI-SPEC approved
-last_updated: "2026-08-03T14:04:42.058Z"
+last_updated: "2026-08-03T14:10:47.273Z"
 progress:
   total_phases: 15
   completed_phases: 11
@@ -21,7 +21,7 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 
 **Core value:** A researcher or stakeholder can open the app and immediately see accurate, up-to-date geodata and statistics for any of the five Living Labs without any server infrastructure.
 
-**Current focus:** Phase 10 — add for comparison button opens ll menu and switches to two 
+**Current focus:** Phase 11 — wire-chart-json-data-to-chart-ui-components
 
 ## Status
 
