@@ -1,0 +1,118 @@
+{
+  "chart_type": "bar",
+  "generated_at": "2026-08-03T10:18:12.391899Z",
+  "layer_id": "soil",
+  "ll_slug": "havellandisches-luch",
+  "mock": false,
+  "series": [
+    {
+      "label": {
+        "de": "Braunerden",
+        "en": "Brown soils"
+      },
+      "pct": 54.6,
+      "value": 218327.0
+    },
+    {
+      "label": {
+        "de": "Gleye",
+        "en": "Gley soils"
+      },
+      "pct": 20.4,
+      "value": 81347.2
+    },
+    {
+      "label": {
+        "de": "Niedermoore",
+        "en": "Fens"
+      },
+      "pct": 12.5,
+      "value": 49808.7
+    },
+    {
+      "label": {
+        "de": "Ah/C-Böden",
+        "en": "Ah/C soils"
+      },
+      "pct": 5.7,
+      "value": 22809.9
+    },
+    {
+      "label": {
+        "de": "Lessivés",
+        "en": "Luvisols"
+      },
+      "pct": 3.2,
+      "value": 12738.9
+    },
+    {
+      "label": {
+        "de": "Gewässer",
+        "en": "Water area"
+      },
+      "pct": 2.1,
+      "value": 8574.0
+    },
+    {
+      "label": {
+        "de": "Rohböden",
+        "en": "Initial soils"
+      },
+      "pct": 0.5,
+      "value": 2196.7
+    },
+    {
+      "label": {
+        "de": "Podsole",
+        "en": "Podzols"
+      },
+      "pct": 0.3,
+      "value": 1175.2
+    },
+    {
+      "label": {
+        "de": "Sonderfläche",
+        "en": "Special area"
+      },
+      "pct": 0.3,
+      "value": 1191.7
+    },
+    {
+      "label": {
+        "de": "Stauwasserböden",
+        "en": "Stagnic soils"
+      },
+      "pct": 0.3,
+      "value": 1038.6
+    },
+    {
+      "label": {
+        "de": "versiegelte Flächen",
+        "en": "Sealed surfaces"
+      },
+      "pct": 0.1,
+      "value": 419.2
+    },
+    {
+      "label": {
+        "de": "Versiegelte Flächen mit Pararendzinen (und Lockersyroseme) aus Kippsubstraten (Sand, Bauschutt) über Schotter oder Niederungs- oder Flusssand",
+        "en": "Sealed surfaces with Pararendzinen (and loose syroseme) from Kippsubstraten (Sand, Bfromchutt) over Schotter oder Niederungs- oder Flusssand"
+      },
+      "pct": 0.01,
+      "value": 28.9
+    },
+    {
+      "label": {
+        "de": "Auenböden",
+        "en": "Alluvial soils"
+      },
+      "pct": 0.001,
+      "value": 4.8
+    }
+  ],
+  "source": "buek250",
+  "unit": {
+    "de": "ha",
+    "en": "ha"
+  }
+}

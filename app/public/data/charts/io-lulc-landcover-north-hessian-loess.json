@@ -1,0 +1,78 @@
+{
+  "chart_type": "bar",
+  "generated_at": "2026-08-03T10:16:33.243906Z",
+  "layer_id": "landscape",
+  "ll_slug": "north-hessian-loess",
+  "mock": false,
+  "series": [
+    {
+      "label": {
+        "de": "Wald",
+        "en": "Forest"
+      },
+      "pct": 45.4,
+      "value": 130148.2
+    },
+    {
+      "label": {
+        "de": "Ackerland",
+        "en": "Cropland"
+      },
+      "pct": 40.0,
+      "value": 114872.5
+    },
+    {
+      "label": {
+        "de": "Siedlung",
+        "en": "Settlement"
+      },
+      "pct": 8.9,
+      "value": 25475.9
+    },
+    {
+      "label": {
+        "de": "Gruenland",
+        "en": "Grassland"
+      },
+      "pct": 5.2,
+      "value": 14809.7
+    },
+    {
+      "label": {
+        "de": "Wasser",
+        "en": "Water"
+      },
+      "pct": 0.6,
+      "value": 1612.5
+    },
+    {
+      "label": {
+        "de": "Offenboden",
+        "en": "Bare ground"
+      },
+      "pct": 0.01,
+      "value": 35.3
+    },
+    {
+      "label": {
+        "de": "Feuchtgebiet",
+        "en": "Wetland"
+      },
+      "pct": 0.005,
+      "value": 13.4
+    },
+    {
+      "label": {
+        "de": "Wolken",
+        "en": "Clouds"
+      },
+      "pct": 0.0001,
+      "value": 0.4
+    }
+  ],
+  "source": "io-lulc-landcover",
+  "unit": {
+    "de": "ha",
+    "en": "ha"
+  }
+}
