@@ -1,13 +1,4 @@
-import {
-  lazy,
-  startTransition,
-  Suspense,
-  useEffect,
-  useId,
-  useMemo,
-  useRef,
-  useState,
-} from 'react'
+import { lazy, startTransition, Suspense, useEffect, useId, useMemo, useRef, useState } from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { C } from '../theme.js'
@@ -15,6 +6,7 @@ import { LLBadge } from '../components/LLBadge.jsx'
 import { ContactManagerButton } from '../components/ContactManagerButton.jsx'
 import { StatPanel } from '../components/StatPanel.jsx'
 import { BarChart } from '../components/BarChart.jsx'
+import { LineChart } from '../components/LineChart.jsx'
 import { LayerTabs } from '../components/LayerTabs.jsx'
 import { TextBlock } from '../components/TextBlock.jsx'
 import { VariablePicker } from '../components/VariablePicker.jsx'
@@ -512,10 +504,16 @@ function LayoutSplit({
                 letterSpacing: '0.1em',
               }}
             >
-              {t('llDetail.distributionTitle', { layer: t(`layers.${layer}`) })}
+              {t(layer === 'climate' ? 'llDetail.projectionTitle' : 'llDetail.distributionTitle', {
+                layer: t(`layers.${layer}`),
+              })}
             </div>
             <div style={{ padding: '4px 18px 18px' }}>
-              <BarChart layer={layer} />
+              {layer === 'climate' ? (
+                <LineChart layer={layer} ll={ll} />
+              ) : (
+                <BarChart layer={layer} ll={ll} />
+              )}
             </div>
           </div>
 
@@ -654,8 +652,26 @@ function LayoutStacked({
           overflow: 'hidden',
         }}
       >
-        <div style={{ padding: 20 }}>
-          <BarChart layer={layer} />
+        <div
+          style={{
+            padding: '20px 20px 6px',
+            fontSize: 11,
+            fontWeight: 700,
+            color: C.greenMid,
+            textTransform: 'uppercase',
+            letterSpacing: '0.1em',
+          }}
+        >
+          {t(layer === 'climate' ? 'llDetail.projectionTitle' : 'llDetail.distributionTitle', {
+            layer: t(`layers.${layer}`),
+          })}
+        </div>
+        <div style={{ padding: '4px 20px 20px' }}>
+          {layer === 'climate' ? (
+            <LineChart layer={layer} ll={ll} />
+          ) : (
+            <BarChart layer={layer} ll={ll} />
+          )}
         </div>
       </div>
 
@@ -798,8 +814,26 @@ function ComparisonColumn({
           overflow: 'hidden',
         }}
       >
-        <div style={{ padding: 20 }}>
-          <BarChart layer={layer} compact minHeightWhenEmpty={150} />
+        <div
+          style={{
+            padding: '20px 20px 6px',
+            fontSize: 11,
+            fontWeight: 700,
+            color: C.greenMid,
+            textTransform: 'uppercase',
+            letterSpacing: '0.1em',
+          }}
+        >
+          {t(layer === 'climate' ? 'llDetail.projectionTitle' : 'llDetail.distributionTitle', {
+            layer: t(`layers.${layer}`),
+          })}
+        </div>
+        <div style={{ padding: '4px 20px 20px' }}>
+          {layer === 'climate' ? (
+            <LineChart layer={layer} ll={ll} compact minHeightWhenEmpty={150} />
+          ) : (
+            <BarChart layer={layer} ll={ll} compact minHeightWhenEmpty={150} />
+          )}
         </div>
       </div>
 
