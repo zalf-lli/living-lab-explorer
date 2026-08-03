@@ -43,9 +43,17 @@ layers:
       max_zoom: 12
       tile_size: 512
       resampling: nearest
+    chart:
+      # D-05: agriculture bar-chart compute script. D-11: sync.py only ever copies this
+      # script's output, never invokes it -- this path is documentation for a human
+      # running the script by hand.
+      script: python/compute_agriculture_chart.py
     output:
       pmtiles: data/pmtiles/landuse-croptypes.pmtiles
       sync_to: app/public/data/pmtiles/landuse-croptypes.pmtiles
+      # D-10: per-(layer, Living Lab) chart output pattern. Lives under output: (not
+      # chart:) because every other *_pattern key in this file lives under output:.
+      chart_pattern: "data/charts/landuse-croptypes-{slug}.json"
     legend:
       - { value: 11, label: { en: "winter wheat", de: "Winterweizen" }, color: "#c2e077" }
       - { value: 12, label: { en: "winter barley", de: "Wintergerste" }, color: "#9bc72d" }
@@ -110,12 +118,15 @@ layers:
       max_zoom: 12
       tile_size: 512
       resampling: nearest
+    chart:
+      script: python/compute_landscape_chart.py  # D-07
     output:
       # No sync_pattern key here: sync_pmtiles_per_ll() (sync.py) derives each
       # per-LL destination from this pattern's repo-relative glob matches,
       # prefixed with app/public/ -- it does not read a separate sync key.
       pmtiles_pattern: "data/pmtiles/land-cover-{slug}.pmtiles"
       class_histogram: "data/land_cover_class_histogram.json"
+      chart_pattern: "data/charts/io-lulc-landcover-{slug}.json"  # D-10
     legend:
       - { value: 1, label: { en: "Water", de: "Wasser" }, color: "#88bfd9" }
       - { value: 2, label: { en: "Forest", de: "Wald" }, color: "#276d4e" }
@@ -151,6 +162,8 @@ layers:
       crs: "EPSG:25832"
     build:
       script: python/build_vector.py
+    chart:
+      script: python/compute_soil_chart.py  # D-06
     vector:
       gpkg_layer: buek250_mgm_utm_v60_poly
       keep_fields: [SYM_NR, GEN_ID, BEMERKUNG]
@@ -172,6 +185,7 @@ layers:
       output_dir: data/geojson
     output:
       geojson_pattern: "data/geojson/buek250-{slug}.geojson"
+      chart_pattern: "data/charts/buek250-{slug}.json"  # D-10
 
   - id: bfn-schutzgebiete
     app_layer: protected-areas
@@ -246,6 +260,8 @@ layers:
         attribution: "Hessisches Landesamt fuer Bodenmanagement und Geoinformation (HLBG)"
     build:
       script: python/fetch_boris.py
+    chart:
+      script: python/compute_economic_chart.py  # D-08
     wfs:
       bbox_crs: "urn:ogc:def:crs:EPSG::4326"
       count: 5000
@@ -299,6 +315,7 @@ layers:
         translations: "Bilingual EN/DE labels come from deterministic lookup tables in data-pipeline/python/boris_semantics.py; no usage-type filtering occurs (D-05)."
     output:
       geojson_pattern: "data/geojson/boris-{slug}.geojson"
+      chart_pattern: "data/charts/boris-{slug}.json"  # D-10
 
   - id: chelsa-climate
     app_layer: climate
@@ -345,6 +362,8 @@ layers:
       # mm), not a class raster -- nearest-neighbour resampling would introduce blocky
       # artifacts that a class raster's exact-match legend never shows.
       resampling: bilinear
+    chart:
+      script: python/compute_climate_chart.py  # D-09
     climate:
       scenario: ssp370
       reference_period: "1981-2010"
@@ -378,6 +397,15 @@ layers:
           delta_unit:
             en: "°C·d"
             de: "°C·d"
+          # D-16: bilingual chart-legend label, sibling to unit/delta_unit. Deliberately
+          # the long chart-legend name, distinct from app/src/i18n.js's abbreviated
+          # picker labels (GDD, Mean temp., Precipitation, Summer precip.), which are
+          # space-constrained button captions and stay unchanged. The pipeline must
+          # never read app/src/i18n.js (wrong dependency direction -- 09-RESEARCH.md
+          # Pitfall 4).
+          label:
+            en: "Growing degree days"
+            de: "Wachstumsgradtage"
         bio1:
           chelsa_variable: bio1
           family: heat
@@ -389,6 +417,9 @@ layers:
           delta_unit:
             en: "°C"
             de: "°C"
+          label:
+            en: "Mean annual temperature"
+            de: "Jahresmitteltemperatur"
         bio12:
           chelsa_variable: bio12
           family: water
@@ -400,6 +431,9 @@ layers:
           delta_unit:
             en: "%"
             de: "%"
+          label:
+            en: "Annual precipitation"
+            de: "Jahresniederschlag"
         bio18:
           chelsa_variable: bio18
           family: water
@@ -411,6 +445,9 @@ layers:
           delta_unit:
             en: "%"
             de: "%"
+          label:
+            en: "Precipitation of warmest quarter"
+            de: "Niederschlag im waermsten Quartal"
       bbox:
         xmin: 5.5
         ymin: 47.0
@@ -464,3 +501,4 @@ layers:
       # No legend: key on this layer (see below) -- color_breaks is a computed, per-variable,
       # per-mode artifact produced by 08-06's compute_climate_color_breaks.py, not a static
       # value-to-colour list. This is intentional, not a forgotten field.
+      chart_pattern: "data/charts/chelsa-climate-{slug}.json"  # D-10
