@@ -43,9 +43,17 @@ layers:
       max_zoom: 12
       tile_size: 512
       resampling: nearest
+    chart:
+      # D-05: agriculture bar-chart compute script. D-11: sync.py only ever copies this
+      # script's output, never invokes it -- this path is documentation for a human
+      # running the script by hand.
+      script: python/compute_agriculture_chart.py
     output:
       pmtiles: data/pmtiles/landuse-croptypes.pmtiles
       sync_to: app/public/data/pmtiles/landuse-croptypes.pmtiles
+      # D-10: per-(layer, Living Lab) chart output pattern. Lives under output: (not
+      # chart:) because every other *_pattern key in this file lives under output:.
+      chart_pattern: "data/charts/landuse-croptypes-{slug}.json"
     legend:
       - { value: 11, label: { en: "winter wheat", de: "Winterweizen" }, color: "#c2e077" }
       - { value: 12, label: { en: "winter barley", de: "Wintergerste" }, color: "#9bc72d" }
@@ -110,12 +118,15 @@ layers:
       max_zoom: 12
       tile_size: 512
       resampling: nearest
+    chart:
+      script: python/compute_landscape_chart.py  # D-07
     output:
       # No sync_pattern key here: sync_pmtiles_per_ll() (sync.py) derives each
       # per-LL destination from this pattern's repo-relative glob matches,
       # prefixed with app/public/ -- it does not read a separate sync key.
       pmtiles_pattern: "data/pmtiles/land-cover-{slug}.pmtiles"
       class_histogram: "data/land_cover_class_histogram.json"
+      chart_pattern: "data/charts/io-lulc-landcover-{slug}.json"  # D-10
     legend:
       - { value: 1, label: { en: "Water", de: "Wasser" }, color: "#88bfd9" }
       - { value: 2, label: { en: "Forest", de: "Wald" }, color: "#276d4e" }
@@ -151,6 +162,8 @@ layers:
       crs: "EPSG:25832"
     build:
       script: python/build_vector.py
+    chart:
+      script: python/compute_soil_chart.py  # D-06
     vector:
       gpkg_layer: buek250_mgm_utm_v60_poly
       keep_fields: [SYM_NR, GEN_ID, BEMERKUNG]
@@ -172,6 +185,7 @@ layers:
       output_dir: data/geojson
     output:
       geojson_pattern: "data/geojson/buek250-{slug}.geojson"
+      chart_pattern: "data/charts/buek250-{slug}.json"  # D-10
 
   - id: bfn-schutzgebiete
     app_layer: protected-areas
@@ -246,6 +260,8 @@ layers:
         attribution: "Hessisches Landesamt fuer Bodenmanagement und Geoinformation (HLBG)"
     build:
       script: python/fetch_boris.py
+    chart:
+      script: python/compute_economic_chart.py  # D-08
     wfs:
       bbox_crs: "urn:ogc:def:crs:EPSG::4326"
       count: 5000
@@ -299,3 +315,190 @@ layers:
         translations: "Bilingual EN/DE labels come from deterministic lookup tables in data-pipeline/python/boris_semantics.py; no usage-type filtering occurs (D-05)."
     output:
       geojson_pattern: "data/geojson/boris-{slug}.geojson"
+      chart_pattern: "data/charts/boris-{slug}.json"  # D-10
+
+  - id: chelsa-climate
+    app_layer: climate
+    kind: raster
+    # classification: continuous is a new value for this key -- every other layer in this
+    # file uses categorical. The consumer of this value is build_continuous_colormap()
+    # (data-pipeline/python/build_pmtiles.py), not build_colormap(), which only ever
+    # reads a categorical legend list. Do not mistake this for a typo.
+    classification: continuous
+    title:
+      en: "Climate (CHELSA V2.1 / CMIP6)"
+      de: "Klima (CHELSA V2.1 / CMIP6)"
+    description:
+      en: "Present-day (1981-2010) climatologies and CMIP6 SSP3-7.0 future-period changes for four bioclimatic variables, downscaled by CHELSA at 30 arc-second (~1 km) resolution."
+      de: "Aktuelle Klimatologien (1981-2010) und CMIP6-SSP3-7.0-Zukunftsaenderungen fuer vier bioklimatische Variablen, von CHELSA mit 30 Bogensekunden (~1 km) Aufloesung herunterskaliert."
+    source:
+      # provider is the one line actually rendered in the UI (MapInfoControl's InfoRow and
+      # StatPanel's sources panel both show only provider/license/url, no separate
+      # methodology line) -- so the 5-GCM multi-model-mean + SSP3-7.0 pathway note (D-03/D-04)
+      # lives here, not only in the unrendered `dataset` field below, per the human's explicit
+      # request that this be visible wherever the climate source is attributed. Worded to stay
+      # accurate for BOTH modes: the baseline map is a plain 1981-2010 observed climatology
+      # (D-01) with no GCM/SSP involved at all -- only the two Change-mode horizons are the
+      # 5-GCM multi-model mean under SSP3-7.0 (D-02/D-03/D-04). A single unqualified
+      # "SSP3-7.0 pathway" suffix here would misdescribe the Baseline map.
+      provider: "WSL (Swiss Federal Institute for Forest, Snow and Landscape Research) - Baseline: 1981-2010 observed climatology. Change: 5-GCM multi-model mean, SSP3-7.0 pathway"
+      dataset: "CHELSA V2.1 climatologies (bio1, bio12, bio18, gdd5); future-period changes are the mean of 5 downscaled GCMs (gfdl-esm4, ipsl-cm6a-lr, mpi-esm1-2-hr, mri-esm2-0, ukesm1-0-ll) under CMIP6 SSP3-7.0"
+      url: "https://www.envidat.ch/#/metadata/chelsa-climatologies"
+      license: "CC0-1.0 (Creative Commons Zero - No Rights Reserved (CC0 1.0))"
+      attribution: "CHELSA V2.1 (WSL), (c) Dirk Nikolaus Karger, Olaf Conrad, Juergen Boehner et al., DOI 10.16904/envidat.228"
+      citation: "Karger DN. et al. Climatologies at high resolution for the earth's land surface areas, Scientific Data, 4, 170122 (2017), doi:10.1038/sdata.2017.122."
+      # W-07 (08-SPIKE.md, locked 2026-07-30): conservative wording, not the baseline
+      # product's unqualified CC0. Do not assert CC0 for the CMIP6-derived product beyond
+      # what is written here -- the underlying GCM outputs' own WCRP CMIP6 Terms of Use
+      # were not independently re-verified this phase.
+      note: "This EnviDat entry (DOI 10.16904/envidat.228, license CC0-1.0) is the umbrella 'Climatologies at high resolution' dataset page confirmed live at 08-01. The underlying CMIP6 GCM model outputs additionally carry their own WCRP CMIP6 Terms of Use (conventionally CC-BY-4.0-style, naming the modelling centre per GCM), which this phase could not independently re-verify against a live WSL-hosted page. This entry's license/attribution/citation cover the CHELSA V2.1 baseline climatology and derived static files only, not an independently-verified claim about the GCM inputs' own terms."
+    build:
+      script: python/build_climate_pmtiles.py
+      target_crs: "EPSG:3857"
+      min_zoom: 6
+      max_zoom: 12
+      tile_size: 512
+      # bilinear, not nearest: this is a continuous field (temperature/precip degrees or
+      # mm), not a class raster -- nearest-neighbour resampling would introduce blocky
+      # artifacts that a class raster's exact-match legend never shows.
+      resampling: bilinear
+    chart:
+      script: python/compute_climate_chart.py  # D-09
+    climate:
+      scenario: ssp370
+      reference_period: "1981-2010"
+      horizons:
+        "2041_2070": "2041-2070"
+        "2071_2100": "2071-2100"
+      # The five D-04 multi-model-mean member GCMs, in the casing W-06's URL template
+      # requires (GCM_UPPER via .upper(), gcm lowercase, both interpolated from this list).
+      gcms:
+        - gfdl-esm4
+        - ipsl-cm6a-lr
+        - mpi-esm1-2-hr
+        - mri-esm2-0
+        - ukesm1-0-ll
+      # Every entry below assumes one directly-published CHELSA raster per
+      # (variable, period, GCM) -- the W-05 `bio10`-shaped acquisition outcome (locked as
+      # `gdd5` at 08-03). A variable computed by a library call (chelsa_cmip6) or
+      # assembled from twelve monthly grids (the gdd-light path) would need a different
+      # schema and a re-planned acquisition wave; see 08-SPIKE.md's Phase halt guidance.
+      variables:
+        gdd:
+          # chelsa_variable is the token this plan's URL templates interpolate as
+          # {variable}, e.g. CHELSA_gdd5_1981-2010_V.2.1.tif.
+          chelsa_variable: gdd5
+          family: heat
+          change_mode: absolute
+          variable_key: gdd5_degc_days
+          unit:
+            en: "°C·d"
+            de: "°C·d"
+          delta_unit:
+            en: "°C·d"
+            de: "°C·d"
+          # D-16: bilingual chart-legend label, sibling to unit/delta_unit. Deliberately
+          # the long chart-legend name, distinct from app/src/i18n.js's abbreviated
+          # picker labels (GDD, Mean temp., Precipitation, Summer precip.), which are
+          # space-constrained button captions and stay unchanged. The pipeline must
+          # never read app/src/i18n.js (wrong dependency direction -- 09-RESEARCH.md
+          # Pitfall 4).
+          label:
+            en: "Growing degree days"
+            de: "Wachstumsgradtage"
+        bio1:
+          chelsa_variable: bio1
+          family: heat
+          change_mode: absolute
+          variable_key: mean_annual_temp_degc
+          unit:
+            en: "°C"
+            de: "°C"
+          delta_unit:
+            en: "°C"
+            de: "°C"
+          label:
+            en: "Mean annual temperature"
+            de: "Jahresmitteltemperatur"
+        bio12:
+          chelsa_variable: bio12
+          family: water
+          change_mode: percent
+          variable_key: annual_precip_mm
+          unit:
+            en: "mm"
+            de: "mm"
+          delta_unit:
+            en: "%"
+            de: "%"
+          label:
+            en: "Annual precipitation"
+            de: "Jahresniederschlag"
+        bio18:
+          chelsa_variable: bio18
+          family: water
+          change_mode: percent
+          variable_key: warm_quarter_precip_mm
+          unit:
+            en: "mm"
+            de: "mm"
+          delta_unit:
+            en: "%"
+            de: "%"
+          label:
+            en: "Precipitation of warmest quarter"
+            de: "Niederschlag im waermsten Quartal"
+      bbox:
+        xmin: 5.5
+        ymin: 47.0
+        xmax: 15.5
+        ymax: 55.5
+      # W-06 (08-SPIKE.md, locked 2026-07-30): transcribed verbatim, do not re-derive.
+      baseline_url_template: "https://os.zhdk.cloud.switch.ch/chelsav2/GLOBAL/climatologies/1981-2010/bio/CHELSA_{variable}_1981-2010_V.2.1.tif"
+      future_url_template: "https://os.zhdk.cloud.switch.ch/chelsav2/GLOBAL/climatologies/{period}/{GCM_UPPER}/{ssp}/bio/CHELSA_{variable}_{period}_{gcm}_{ssp}_V.2.1.tif"
+      budget:
+        # W-08 (08-SPIKE.md, locked 2026-07-30): 300s/read observed with wide headroom
+        # (measured actual: 7.48s); 5 GiB total transfer, binary convention matching this
+        # phase's own 08-08-PLAN.md committed-footprint cap (209715200 bytes) and
+        # sources.yaml's other max_response_bytes precedents.
+        max_seconds_per_read: 300
+        max_total_transfer_bytes: 5368709120
+      # fetch_climate.py prints the computed sha256 of each derived raster on the first
+      # successful run, exactly as build_land_cover.py does for input.sha256_by_tile --
+      # paste each printed digest here, keyed "{variable}-{period}", to pin it.
+      # Re-pinned 2026-07-30 (plan 08-07): the 08-04-pinned digests below were computed
+      # from rasters written before fetch_climate.py's scale/offset bug fix (raw CHELSA
+      # integers were never converted to physical units, e.g. bio1 read as ~2820 "degC"
+      # instead of ~8.9 degC) -- every digest changed because every raster's byte content
+      # changed. See 08-07-SUMMARY.md Deviations for the full root-cause writeup.
+      sha256_by_derived:
+        "bio1-baseline": "df5e559cec2ed7472726338ecadb583f3d108329dee0ad40503d854d740b8885"
+        "bio1-2041_2070": "bee0ba707c5e2896466aa81a53b677826dbfcb1db0b9a81210298363c4771c8f"
+        "bio1-2071_2100": "bbbcf4320175277b28dbd1b1bbb80d01744cb4304435e11ba3fa26e0082b5416"
+        "bio12-baseline": "83579dfc9b3983940bcf88d4f586192648373f40f904538c61d164ea9fc5f25f"
+        "bio12-2041_2070": "5efa264adc4e57da7f796cc7b879301ecb773077c628d4fca6dffbe78518d680"
+        "bio12-2071_2100": "68591eef691c382faa5d4eb7b4fea25fb012f7e6d9bc3e03e0cecce6c4e82cc0"
+        "bio18-baseline": "4547f16a990d7d89a96f7656b492a47c9d3893083f0a345b7a6d3b43ab6c067d"
+        "bio18-2041_2070": "98bc7717e7a940d23e34005566a97facd749af8d7e58664941ff545b6b179360"
+        "bio18-2071_2100": "440a2495e5de88d1f596447b89b853b8abfd22e01f716bd577b9337b1e1eba3c"
+        "gdd-baseline": "925dcfd95b6b1d1c22978d5eb7aab69b56fb15a67d3a1120cfa936764cd02d03"
+        "gdd-2041_2070": "9d2e168fc896a84a56ae7c0a39a348b7e838ab588096f265f8fd01b0367cca9f"
+        "gdd-2071_2100": "81c5ff7822408dbe5f54bc8449407c23bbb192aed199be34b6ea0061d382294a"
+    input:
+      dir: data/climate_source
+      path_pattern: "data/climate_source/chelsa-{variable}-{period}.tif"
+      cache_dir: data/_cache/chelsa
+      nodata: -9999
+      dtype: float32
+      resolution_deg: 0.0083333
+      crs: "EPSG:4326"
+    output:
+      pmtiles_pattern: "data/pmtiles/climate-{variable}-{period}-{slug}.pmtiles"
+      # No sync_pattern key here: sync_pmtiles_per_ll() (sync.py) derives each per-LL
+      # destination from this pattern's repo-relative glob matches, prefixed with
+      # app/public/ -- it does not read a separate sync key (io-lulc-landcover precedent).
+      color_breaks: "data/climate_color_breaks.json"
+      # No legend: key on this layer (see below) -- color_breaks is a computed, per-variable,
+      # per-mode artifact produced by 08-06's compute_climate_color_breaks.py, not a static
+      # value-to-colour list. This is intentional, not a forgotten field.
+      chart_pattern: "data/charts/chelsa-climate-{slug}.json"  # D-10

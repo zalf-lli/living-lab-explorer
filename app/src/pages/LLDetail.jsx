@@ -4,6 +4,7 @@ import {
   Suspense,
   useEffect,
   useId,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -15,9 +16,12 @@ import { LLBadge } from '../components/LLBadge.jsx'
 import { ContactManagerButton } from '../components/ContactManagerButton.jsx'
 import { StatPanel } from '../components/StatPanel.jsx'
 import { BarChart } from '../components/BarChart.jsx'
+import { LineChart } from '../components/LineChart.jsx'
 import { LayerTabs } from '../components/LayerTabs.jsx'
 import { TextBlock } from '../components/TextBlock.jsx'
+import { VariablePicker } from '../components/VariablePicker.jsx'
 import { LL_ICONS } from '../data/ll_icons.js'
+import { CLIMATE_VARIABLES } from '../data/layers.js'
 
 const LLMap = lazy(() => import('../components/LLMap/index.jsx'))
 
@@ -38,6 +42,11 @@ export function LLDetail({ bySlug, loading }) {
   }
 
   const [layer, setLayer] = useLayerState()
+  const [climateVariable, setClimateVariable, periodMode, setPeriodMode, horizon, setHorizon] =
+    useClimateControlState()
+  // Derived once here (not per layout) so all three layouts and both comparison columns cannot
+  // disagree on which raster/legend/note the active variable+period combination resolves to.
+  const period = periodMode === 'baseline' ? 'baseline' : horizon
 
   const compareSlug = searchParams.get('compare')
   const partnerCandidate = compareSlug ? bySlug?.[compareSlug] : null
@@ -120,7 +129,20 @@ export function LLDetail({ bySlug, loading }) {
       )}
       <div style={{ flex: 1, overflow: 'hidden' }}>
         {isComparing ? (
-          <LayoutCompare key="C" llA={ll} llB={partner} layer={layer} setLayer={setLayer} />
+          <LayoutCompare
+            key="C"
+            llA={ll}
+            llB={partner}
+            layer={layer}
+            setLayer={setLayer}
+            climateVariable={climateVariable}
+            setClimateVariable={setClimateVariable}
+            periodMode={periodMode}
+            setPeriodMode={setPeriodMode}
+            horizon={horizon}
+            setHorizon={setHorizon}
+            period={period}
+          />
         ) : layout === 'A' ? (
           <LayoutSplit
             key="A"
@@ -129,6 +151,13 @@ export function LLDetail({ bySlug, loading }) {
             setLayer={setLayer}
             compareOptions={compareOptions}
             onPickCompare={setCompare}
+            climateVariable={climateVariable}
+            setClimateVariable={setClimateVariable}
+            periodMode={periodMode}
+            setPeriodMode={setPeriodMode}
+            horizon={horizon}
+            setHorizon={setHorizon}
+            period={period}
           />
         ) : (
           <LayoutStacked
@@ -138,6 +167,13 @@ export function LLDetail({ bySlug, loading }) {
             setLayer={setLayer}
             compareOptions={compareOptions}
             onPickCompare={setCompare}
+            climateVariable={climateVariable}
+            setClimateVariable={setClimateVariable}
+            periodMode={periodMode}
+            setPeriodMode={setPeriodMode}
+            horizon={horizon}
+            setHorizon={setHorizon}
+            period={period}
           />
         )}
       </div>
@@ -350,7 +386,35 @@ function useLayerState() {
   return [layer, setLayer]
 }
 
-function LayoutSplit({ ll, layer, setLayer, compareOptions, onPickCompare }) {
+// Climate control state lives once here, beside useLayerState, for the same reason: D-17 requires
+// one shared instance to drive both of Phase 10's comparison columns identically. CLIMATE_VARIABLES
+// is the ordering authority for D-08's default (its first entry is the heat-index/GDD variable).
+// horizon initialises to the far horizon (2071-2100) so the first click on Change lands on the same
+// horizon the KPI tiles report (D-21), keeping the map and the tiles in agreement by default.
+function useClimateControlState() {
+  const [climateVariable, setClimateVariableRaw] = useState(CLIMATE_VARIABLES[0].id)
+  const [periodMode, setPeriodModeRaw] = useState('baseline')
+  const [horizon, setHorizonRaw] = useState('2071_2100')
+  const setClimateVariable = (id) => startTransition(() => setClimateVariableRaw(id))
+  const setPeriodMode = (mode) => startTransition(() => setPeriodModeRaw(mode))
+  const setHorizon = (h) => startTransition(() => setHorizonRaw(h))
+  return [climateVariable, setClimateVariable, periodMode, setPeriodMode, horizon, setHorizon]
+}
+
+function LayoutSplit({
+  ll,
+  layer,
+  setLayer,
+  compareOptions,
+  onPickCompare,
+  climateVariable,
+  setClimateVariable,
+  periodMode,
+  setPeriodMode,
+  horizon,
+  setHorizon,
+  period,
+}) {
   const { t } = useTranslation()
   return (
     <div
@@ -378,13 +442,30 @@ function LayoutSplit({ ll, layer, setLayer, compareOptions, onPickCompare }) {
           }}
         >
           <LayerTabs active={layer} onChange={setLayer} />
+          {layer === 'climate' ? (
+            <VariablePicker
+              variables={CLIMATE_VARIABLES}
+              active={climateVariable}
+              onChange={setClimateVariable}
+            />
+          ) : null}
           <div style={{ fontSize: 11, color: 'rgba(2,35,34,0.55)', marginTop: 6 }}>
             {t('llDetail.layerTabsHint')}
           </div>
         </div>
         <div style={{ flex: 1, minHeight: 0 }}>
           <Suspense fallback={<MapFallback />}>
-            <LLMap ll={ll} layer={layer} height="100%" />
+            <LLMap
+              ll={ll}
+              layer={layer}
+              height="100%"
+              variable={climateVariable}
+              period={period}
+              periodMode={periodMode}
+              horizon={horizon}
+              onPeriodModeChange={setPeriodMode}
+              onHorizonChange={setHorizon}
+            />
           </Suspense>
         </div>
       </div>
@@ -433,10 +514,16 @@ function LayoutSplit({ ll, layer, setLayer, compareOptions, onPickCompare }) {
                 letterSpacing: '0.1em',
               }}
             >
-              {t('llDetail.distributionTitle', { layer: t(`layers.${layer}`) })}
+              {t(layer === 'climate' ? 'llDetail.projectionTitle' : 'llDetail.distributionTitle', {
+                layer: t(`layers.${layer}`),
+              })}
             </div>
             <div style={{ padding: '4px 18px 18px' }}>
-              <BarChart layer={layer} />
+              {layer === 'climate' ? (
+                <LineChart layer={layer} ll={ll} />
+              ) : (
+                <BarChart layer={layer} ll={ll} />
+              )}
             </div>
           </div>
 
@@ -469,7 +556,20 @@ function LayoutSplit({ ll, layer, setLayer, compareOptions, onPickCompare }) {
   )
 }
 
-function LayoutStacked({ ll, layer, setLayer, compareOptions, onPickCompare }) {
+function LayoutStacked({
+  ll,
+  layer,
+  setLayer,
+  compareOptions,
+  onPickCompare,
+  climateVariable,
+  setClimateVariable,
+  periodMode,
+  setPeriodMode,
+  horizon,
+  setHorizon,
+  period,
+}) {
   const { t } = useTranslation()
   return (
     <div style={{ overflowY: 'auto', height: '100%', background: C.bg }}>
@@ -527,12 +627,29 @@ function LayoutStacked({ ll, layer, setLayer, compareOptions, onPickCompare }) {
           }}
         >
           <LayerTabs active={layer} onChange={setLayer} />
+          {layer === 'climate' ? (
+            <VariablePicker
+              variables={CLIMATE_VARIABLES}
+              active={climateVariable}
+              onChange={setClimateVariable}
+            />
+          ) : null}
           <div style={{ fontSize: 11, color: 'rgba(2,35,34,0.55)', marginTop: 6 }}>
             {t('llDetail.layerTabsHint')}
           </div>
         </div>
         <Suspense fallback={<MapFallback />}>
-          <LLMap ll={ll} layer={layer} height={300} />
+          <LLMap
+            ll={ll}
+            layer={layer}
+            height={300}
+            variable={climateVariable}
+            period={period}
+            periodMode={periodMode}
+            horizon={horizon}
+            onPeriodModeChange={setPeriodMode}
+            onHorizonChange={setHorizon}
+          />
         </Suspense>
       </div>
 
@@ -545,8 +662,26 @@ function LayoutStacked({ ll, layer, setLayer, compareOptions, onPickCompare }) {
           overflow: 'hidden',
         }}
       >
-        <div style={{ padding: 20 }}>
-          <BarChart layer={layer} />
+        <div
+          style={{
+            padding: '20px 20px 6px',
+            fontSize: 11,
+            fontWeight: 700,
+            color: C.greenMid,
+            textTransform: 'uppercase',
+            letterSpacing: '0.1em',
+          }}
+        >
+          {t(layer === 'climate' ? 'llDetail.projectionTitle' : 'llDetail.distributionTitle', {
+            layer: t(`layers.${layer}`),
+          })}
+        </div>
+        <div style={{ padding: '4px 20px 20px' }}>
+          {layer === 'climate' ? (
+            <LineChart layer={layer} ll={ll} />
+          ) : (
+            <BarChart layer={layer} ll={ll} />
+          )}
         </div>
       </div>
 
@@ -598,7 +733,16 @@ function LayoutStacked({ ll, layer, setLayer, compareOptions, onPickCompare }) {
 // Compact LayoutStacked (D-16) for one column of the two-column comparison view: accent bar,
 // plain white header (LayoutSplit's chrome, minus ContactManagerButton, D-19), KPIs, map, chart
 // and two stacked text blocks. No LayerTabs (shared, D-07) and no CompareCTA (D-15).
-function ComparisonColumn({ ll, layer }) {
+function ComparisonColumn({
+  ll,
+  layer,
+  climateVariable,
+  period,
+  periodMode,
+  horizon,
+  onPeriodModeChange,
+  onHorizonChange,
+}) {
   const { t } = useTranslation()
   return (
     <div>
@@ -657,7 +801,17 @@ function ComparisonColumn({ ll, layer }) {
         }}
       >
         <Suspense fallback={<MapFallback />}>
-          <LLMap ll={ll} layer={layer} height={300} />
+          <LLMap
+            ll={ll}
+            layer={layer}
+            height={300}
+            variable={climateVariable}
+            period={period}
+            periodMode={periodMode}
+            horizon={horizon}
+            onPeriodModeChange={onPeriodModeChange}
+            onHorizonChange={onHorizonChange}
+          />
         </Suspense>
       </div>
 
@@ -670,8 +824,26 @@ function ComparisonColumn({ ll, layer }) {
           overflow: 'hidden',
         }}
       >
-        <div style={{ padding: 20 }}>
-          <BarChart layer={layer} compact minHeightWhenEmpty={150} />
+        <div
+          style={{
+            padding: '20px 20px 6px',
+            fontSize: 11,
+            fontWeight: 700,
+            color: C.greenMid,
+            textTransform: 'uppercase',
+            letterSpacing: '0.1em',
+          }}
+        >
+          {t(layer === 'climate' ? 'llDetail.projectionTitle' : 'llDetail.distributionTitle', {
+            layer: t(`layers.${layer}`),
+          })}
+        </div>
+        <div style={{ padding: '4px 20px 20px' }}>
+          {layer === 'climate' ? (
+            <LineChart layer={layer} ll={ll} compact minHeightWhenEmpty={150} />
+          ) : (
+            <BarChart layer={layer} ll={ll} compact minHeightWhenEmpty={150} />
+          )}
         </div>
       </div>
 
@@ -716,7 +888,19 @@ function ComparisonColumn({ ll, layer }) {
 // scroll container holding two ComparisonColumn instances side by side. No per-column scrolling,
 // no media query, no CompareCTA/LayoutSwitcher/ContactManagerButton/second LayerTabs anywhere in
 // this tree (D-07, D-15).
-function LayoutCompare({ llA, llB, layer, setLayer }) {
+function LayoutCompare({
+  llA,
+  llB,
+  layer,
+  setLayer,
+  climateVariable,
+  setClimateVariable,
+  periodMode,
+  setPeriodMode,
+  horizon,
+  setHorizon,
+  period,
+}) {
   const { t } = useTranslation()
   return (
     <div
@@ -737,6 +921,14 @@ function LayoutCompare({ llA, llB, layer, setLayer }) {
         }}
       >
         <LayerTabs active={layer} onChange={setLayer} />
+        {layer === 'climate' ? (
+          // D-17: exactly one VariablePicker instance governs both comparison columns below.
+          <VariablePicker
+            variables={CLIMATE_VARIABLES}
+            active={climateVariable}
+            onChange={setClimateVariable}
+          />
+        ) : null}
         <div style={{ fontSize: 11, color: 'rgba(2,35,34,0.55)', marginTop: 6 }}>
           {t('llDetail.layerTabsHint')}
         </div>
@@ -747,10 +939,30 @@ function LayoutCompare({ llA, llB, layer, setLayer }) {
           style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, alignItems: 'start' }}
         >
           <div style={{ borderRight: `1.5px solid ${C.mutedLight}` }}>
-            <ComparisonColumn ll={llA} layer={layer} key={llA.slug} />
+            <ComparisonColumn
+              ll={llA}
+              layer={layer}
+              key={llA.slug}
+              climateVariable={climateVariable}
+              period={period}
+              periodMode={periodMode}
+              horizon={horizon}
+              onPeriodModeChange={setPeriodMode}
+              onHorizonChange={setHorizon}
+            />
           </div>
           <div>
-            <ComparisonColumn ll={llB} layer={layer} key={llB.slug} />
+            <ComparisonColumn
+              ll={llB}
+              layer={layer}
+              key={llB.slug}
+              climateVariable={climateVariable}
+              period={period}
+              periodMode={periodMode}
+              horizon={horizon}
+              onPeriodModeChange={setPeriodMode}
+              onHorizonChange={setHorizon}
+            />
           </div>
         </div>
       </div>
@@ -807,16 +1019,32 @@ function useDismissOnOutside(open, onClose) {
 function ComparePicker({ options, onPick, align = 'right', id }) {
   const { t } = useTranslation()
   const [hoveredSlug, setHoveredSlug] = useState(null)
+  const [placement, setPlacement] = useState('bottom')
+  const panelRef = useRef(null)
   const titleId = `${id}-title`
+
+  // Panel mounts fresh each time it opens (parent renders it conditionally), so measure
+  // against the viewport once on mount and flip upward when there isn't room below —
+  // otherwise the panel can render off-screen and force a page scroll to reach it.
+  useLayoutEffect(() => {
+    const el = panelRef.current
+    if (!el) return
+    const rect = el.getBoundingClientRect()
+    const viewportHeight = window.innerHeight
+    const overflowsBelow = rect.bottom > viewportHeight
+    const fitsAbove = rect.top - rect.height >= 0
+    if (overflowsBelow && fitsAbove) setPlacement('top')
+  }, [])
 
   return (
     <div
+      ref={panelRef}
       id={id}
       role="menu"
       aria-labelledby={titleId}
       style={{
         position: 'absolute',
-        top: 'calc(100% + 8px)',
+        [placement === 'top' ? 'bottom' : 'top']: 'calc(100% + 8px)',
         [align === 'right' ? 'right' : 'left']: 0,
         width: 220,
         background: C.white,

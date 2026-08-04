@@ -1,0 +1,122 @@
+{
+  "chart_type": "bar",
+  "generated_at": "2026-08-04T07:10:53.030053Z",
+  "layer_id": "soil",
+  "ll_slug": "hessian-low-mountain",
+  "mock": false,
+  "series": [
+    {
+      "group_key": "brown-soils",
+      "label": {
+        "de": "Braunerden",
+        "en": "Brown soils"
+      },
+      "pct": 54.9,
+      "value": 294618.2
+    },
+    {
+      "group_key": "luvisols",
+      "label": {
+        "de": "Lessivés",
+        "en": "Luvisols"
+      },
+      "pct": 23.7,
+      "value": 127292.6
+    },
+    {
+      "group_key": "stagnic-soils",
+      "label": {
+        "de": "Stauwasserböden",
+        "en": "Stagnic soils"
+      },
+      "pct": 10.9,
+      "value": 58696.2
+    },
+    {
+      "group_key": "gley-soils",
+      "label": {
+        "de": "Gleye",
+        "en": "Gley soils"
+      },
+      "pct": 6.4,
+      "value": 34301.5
+    },
+    {
+      "group_key": "alluvial-soils",
+      "label": {
+        "de": "Auenböden",
+        "en": "Alluvial soils"
+      },
+      "pct": 2.9,
+      "value": 15414.6
+    },
+    {
+      "group_key": "ah-c-soils",
+      "label": {
+        "de": "Ah/C-Böden",
+        "en": "Ah/C soils"
+      },
+      "pct": 1.0,
+      "value": 5328.6
+    },
+    {
+      "group_key": "water-area",
+      "label": {
+        "de": "Gewässer",
+        "en": "Water area"
+      },
+      "pct": 0.1,
+      "value": 599.7
+    },
+    {
+      "group_key": "podzols",
+      "label": {
+        "de": "Podsole",
+        "en": "Podzols"
+      },
+      "pct": 0.03,
+      "value": 159.3
+    },
+    {
+      "group_key": "stadtkernbereiche-and-oder-gewerbe-and-industriegebiete-sealed-surfaces-with-soils-from-anthropogenen-auff-llungen-kippsubstraten-andifferenziert",
+      "label": {
+        "de": "Stadtkernbereiche (und/oder Gewerbe- und Industriegebiete): Versiegelte Flächen mit Böden aus anthropogenen Auffüllungen (Kippsubstraten, undifferenziert)",
+        "en": "Stadtkernbereiche (and/oder Gewerbe- and Industriegebiete): sealed surfaces with soils from anthropogenen Auffüllungen (Kippsubstraten, andifferenziert)"
+      },
+      "pct": 0.03,
+      "value": 160.9
+    },
+    {
+      "group_key": "raised-bogs",
+      "label": {
+        "de": "Hochmoore",
+        "en": "Raised bogs"
+      },
+      "pct": 0.01,
+      "value": 69.3
+    },
+    {
+      "group_key": "soils-der-abgrabungsfl-chen-steinbr-che-gruben-and-aufsch-ttungen-halden-kippsubstrate-andifferenziert",
+      "label": {
+        "de": "Böden der Abgrabungsflächen (Steinbrüche, Gruben) und Aufschüttungen (Halden; Kippsubstrate, undifferenziert)",
+        "en": "Soils der Abgrabungsflächen (Steinbrüche, Gruben) and Aufschüttungen (Halden; Kippsubstrate, andifferenziert)"
+      },
+      "pct": 0.01,
+      "value": 67.1
+    },
+    {
+      "group_key": "special-area",
+      "label": {
+        "de": "Sonderfläche",
+        "en": "Special area"
+      },
+      "pct": 0.01,
+      "value": 80.1
+    }
+  ],
+  "source": "buek250",
+  "unit": {
+    "de": "ha",
+    "en": "ha"
+  }
+}

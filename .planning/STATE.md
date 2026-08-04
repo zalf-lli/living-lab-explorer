@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: ready_to_plan
-stopped_at: Phase 8 UI-SPEC approved
-last_updated: "2026-07-29T06:50:12.764Z"
+stopped_at: Phase 11 closed out (5/5, bookkeeping reconciled) — ready to discuss Phase 999.1
+last_updated: 2026-08-04T05:20:00.000Z
 progress:
   total_phases: 15
-  completed_phases: 9
-  total_plans: 45
-  completed_plans: 43
-  percent: 60
+  completed_phases: 11
+  total_plans: 68
+  completed_plans: 66
+  percent: 73
 ---
 
 # Project State
@@ -21,7 +21,7 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 
 **Core value:** A researcher or stakeholder can open the app and immediately see accurate, up-to-date geodata and statistics for any of the five Living Labs without any server infrastructure.
 
-**Current focus:** Phase 07 — add-boris-land-value-maps-as-spatial-layer-for-socio-economi
+**Current focus:** Phase 999.1 — find real data sources for 4 curated destatis kpi fields tha
 
 ## Status
 
@@ -36,10 +36,183 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 | 5 | Protected areas as toggleable layer | Planned (2026-07-25) — 4 plans, 3 waves, 2 checkpoints, verified ✓ |
 | 6 | Add land cover map | Complete (2026-07-26) — 5/5 plans, 4 waves, D-01..D-24 evidence recorded, bilingual checkpoint approved |
 | 7 | Add BORIS land value maps as spatial layer for socio-economic tab | In progress — 8/9 plans complete (07-08 executed 2026-07-28: all five Living Labs fetched, committed, published, and locked behind a fixture regression test) |
-| 9 | Chart Data Contract | Not planned yet (2026-07-27) |
-| 10 | Two-column LL comparison view | Planned (2026-07-27) — 6 plans, 5 waves, 1 checkpoint, verified ✓ (0 blockers, 4 warnings) |
+| 8 | Add maps and stats for climate variables using CHELSA data | Complete (2026-07-31) — 11/11 plans, 60 CHELSA PMTiles (4 variables x 3 periods x 5 LLs), D-07 resolved to `gdd5` (static, zero new dependencies), D-12 empirically sequential for all four variables; Task 3 checkpoint approved |
+| 9 | Chart Data Contract | Complete (2026-08-03) — 7/7 plans, goal verification passed 8/8 |
+| 10 | Two-column LL comparison view | Complete (2026-07-28) — 6/6 plans, goal verification passed 29/29 (D-01..D-29) |
+| 11 | Wire chart JSON data to chart UI components | Complete (2026-08-03) — 5/5 plans, goal verification passed 8/8 (UI-1..UI-8), human-verified round 2, code-review blocker CR-01 fixed |
 
 ## Active Work
+
+**Phase 11 is complete and closed (2026-08-03).** All 5 plans executed across 4 waves: `11-01`
+(`useChartData` 404-as-empty fetch hook, pure node-importable `chartSeries.js` truncation + rank
+palette, shared `ChartStates.jsx`, 7 new bilingual i18n keys), `11-02` (`BarChart.jsx` rewritten onto
+real per-Living-Lab data), `11-03` (new hand-rolled-SVG `LineChart.jsx` for the climate tab — no
+charting library added), `11-04` (all three `LLDetail.jsx` call sites branch on `layer === 'climate'`,
+titled cards everywhere, placeholder `chart_data.js` and dead `charts.*`/`barChart.*` i18n deleted),
+`11-05` (full automated gate + `11-EVIDENCE.md` for UI-1..UI-8 + blocking bilingual human verification).
+
+The Task 3 checkpoint took two rounds. Round 1: the reviewer found bar colours didn't match the map's
+own legend. Root cause and fix (`a0b9bed`) were scoped precisely — agriculture and landscape now
+resolve bar colours from the same static `LANDUSE_LEGEND`/`LAND_COVER_LEGEND` arrays `LLMap` paints
+from (gated behind a new `legendMatchesChartCategories` flag in `layers.js`), while soil and economic
+correctly keep the rank palette: soil's real on-map legend is built dynamically per-Living-Lab from a
+GeoJSON-property hash that the static `SOIL_LEGEND` does not reproduce, and economic has no category
+legend at all (only a continuous price ramp). Round 2 approved.
+
+The post-approval code review (`11-REVIEW.md`) found one confirmed blocker, CR-01: `buildDisplaySeries`'s
+"Other" bucket could round a genuinely non-zero remainder down to a displayed `0%` — reproducible
+against committed data (`io-lulc-landcover-east-brandenburg.json`'s lone truncated "Bare ground" row,
+`pct: 0.04`, rendering "Other 0%" beside a real 372 ha value). Fixed in `bc3c1d0` by flooring the
+display at `0.1` whenever the true summed remainder is non-zero, mirroring
+`compute_agriculture_chart.py`'s own never-display-a-real-row-as-zero convention. Goal verification
+passed 8/8 must-haves (`11-VERIFICATION.md`); lint and build re-confirmed clean on the post-fix tree
+(2026-08-04).
+
+**Four code-review findings were left open by design** (quality/robustness, none blocking): WR-01
+(`LineChart`'s per-line colour assignment relies on an unenforced positional contract between
+`compute_climate_chart.py`'s `LINE_VARIABLE_ORDER` and `climate_legend.js`'s `CLIMATE_VARIABLES` —
+the same bug class UAT caught for `BarChart`; the durable fix is stamping a stable `variable` id onto
+each line object in the pipeline), WR-02 (`CHART_RANK_COLORS.length` implicitly coupled to `MAX_BARS`
+with no assertion), WR-03 (locale-derivation duplicated verbatim in both chart components), WR-04
+(the chart contract's `mock` flag is never surfaced in the UI). Plus IN-01..IN-03. WR-01 is the one
+worth scheduling — it needs a pipeline change, so it belongs with the next chart-data phase, not an
+app-side patch. See TODO-02 below.
+
+**Phase 8 is complete (2026-07-31).** `08-11` closed the phase: Task 1 ran the full automated
+gate (31/31 pytest, `sync.py` idempotent, `npm run lint`/`build` clean, seven cross-file join-key
+checks and three regression checks all passing); Task 2 wrote `08-EVIDENCE.md` with a verdict for
+all 23 locked decisions. Task 3's blocking bilingual human-verification checkpoint initially came
+back with 6 reported defects (non-obvious GDD units, `degC` not rendering as `°C`, a false "ring of
+lowest-class cells" at every Living Lab's boundary, uniformly-coloured change maps, a dead KPI-bar
+"Sources" button, and a broken EnviDat source link) plus one regression discovered mid-fix (the
+first boundary-ring fix made the basemap invisible outside the Living Lab boundary, inconsistent
+with every other tab). All seven issues were root-caused and fixed:
+
+- GDD's ~2,000 `°C·d` figures are correct (an annual sum, not an average) — label clarified with "annual sum" rather than changing any value
+- Every `degC` string was ASCII at the source (`sources.yaml`); fixed there and in every downstream consumer including `destatis_curated_kpis.json`'s hand-maintained unit fields
+- The boundary ring and the basemap-visibility regression both traced to the same shared `clip_buffer_m` pipeline margin; the durable fix moved masking from the frontend (an opacity mask, which cannot hide one layer while leaving another visible on the same pixels) to the pixel level (`build_climate_pmtiles.py` now writes alpha=0 for pixels outside the true, unbuffered Living Lab boundary) — 60 PMTiles rebaked
+- Change-mode colour breaks pooled both future horizons into one 4-class scale, spending most of the bin budget separating horizons instead of showing spatial variation (every one of 40 variable/horizon/LL combinations had 43-100% of pixels in one bin); fixed per an explicit human decision to compute breaks per horizon and widen to 5 classes (reversing two previously-locked decisions, both documented in `08-EVIDENCE.md`)
+- The KPI-bar sources button was empty for CHELSA KPIs since they have no `genesisTable`; generalized the fallback to any layer's `LAYER_SOURCE_INDEX` entry
+- The EnviDat URL used a wrong slug; corrected via a live DOI-resolver cross-check, and the source attribution now states Change-mode figures are a 5-GCM multi-model mean under SSP3-7.0 while Baseline is a plain observed climatology (human-requested content addition)
+
+Full debug trail in `.planning/debug/resolved/climate-boundary-na-artifact.md`,
+`.planning/debug/resolved/climate-coarse-change-bins.md`, and
+`.planning/debug/resolved/climate-basemap-hidden-outside-boundary.md`. Task 3 re-verified and
+approved. **Next:** Phase 9 (Chart Data Contract, not yet planned) or Phase 10 (two-column LL
+comparison view, already planned — 6 plans, 5 waves, verified — `/gsd:execute-phase 10`).
+
+**Phase 8, Wave 7 complete (2026-07-31).** `08-10` flipped the Climate tab's `layers.js` entry from
+placeholder to a real three-axis raster (variable x period x Living Lab), lifted
+`useClimateControlState` beside `useLayerState` in `LLDetail.jsx` and threaded it through all three
+layouts (split/stacked/compare), and wired `LLMap`'s `RasterPmtilesLayer` plus a mounted
+`PeriodSwitcher`, unit-aware legend and per-variable note into the map. Five dead
+`legend.climate.{arable,forest,grassland,settlement,water}` i18n keys and `LAYER_COLORS.climate` were
+deleted. Post-merge gates: `npm run lint` and `npm run build` both clean; `python -m pytest
+data-pipeline/tests/` 31/31 passing (no pipeline files touched). No deviations, no checkpoints hit —
+fully autonomous. **Next:** `/gsd:execute-phase 8` (08-11 — phase close-out, blocking bilingual
+human-verify checkpoint).
+
+**Phase 8, Wave 5 complete (2026-07-30).** `08-08` generalized `sync.py`'s per-Living-Lab glob to
+any number of `{...}` placeholders (`_pattern_to_glob()`, shared by `sync_pmtiles_per_ll()` and
+`sync_vector_geojson()`), codegen'd `app/src/data/climate_legend.js` (`CLIMATE_VARIABLES` with `gdd`
+first per D-08, `CLIMATE_LEGEND` unit-aware bilingual bands per D-11, `CLIMATE_RAMP_SHAPE` confirming
+all four variables `sequential` per D-12), and ran the real two-stage 60-file CHELSA PMTiles build.
+Stage 1 (`gdd`, 15 files, chosen as the largest-source variable for a conservative extrapolation)
+measured `S1_BYTES = 6,242,399` bytes; the extrapolated `S1_BYTES * 4 * 2 = 49,939,192` bytes passed
+the `209,715,200`-byte (200 MiB) cap, so Stage 2 (`bio1`, `bio12`, `bio18`, 45 more files) proceeded.
+Final measured two-copy footprint: `49,642,502` bytes (23.7% of cap) — asserted by an automated verify
+command, not reported qualitatively. D-09's shared-across-all-LLs colour scale was spot-checked for
+`gdd`/baseline: every Living Lab's distinct-colour set is a subset of the shared 4-colour scale, no
+Living-Lab-only colour. Two Rule-3 blocking auto-fixes (both environment-only, no git-tracked files):
+re-fetched the 12 gitignored Germany-extent CHELSA source rasters (all sha256 digests matched the
+pinned values exactly) and reused/repaired the Phase 6 short-path venv at `C:\lcvenv` (added the one
+missing `python-dotenv` package) to sidestep the OneDrive-path `MAX_PATH` issue documented in
+`data-pipeline/README.md`. Post-merge gates: `npm run build` clean, `python -m pytest
+data-pipeline/tests/` 30/30 passing. Pre-existing land-cover/crop-types PMTiles unchanged.
+
+**First Phase 8 code review + fix (2026-07-30).** Ran `/gsd:code-review 8` (never previously run for
+this phase) across all 19 non-planning source files touched by Waves 1-5. Found and fixed one real,
+verified bug (CR-01): `fetch_climate.py::_derive_change_field` didn't implement the nodata guard its
+own docstring claimed — baseline pixels use the finite `-9999` sentinel while future pixels can be
+`NaN` (from `_multi_model_mean` when every GCM agreed nodata), so a nodata pixel produced a wrong,
+finite value invisible to every downstream `!= nodata`/`isfinite` filter. Re-running `fetch_climate.py`
+after the fix reproduced 10/12 rasters byte-identically; both `gdd` change periods
+(`2041_2070`, `2071_2100`) changed and their pinned digests in `sources.yaml` were updated. Verified
+blast radius is zero for already-committed artifacts: the affected pixels fall outside all five
+Living Lab clip polygons, so `data/climate_color_breaks.json`, `data/climate_kpis.json`, and all 60
+committed PMTiles (the 10 `gdd` change-mode files rebuilt and byte-compared) are unchanged. Added
+`test_derive_change_field_guards_nodata` as a direct regression test (31/31 passing). Two lower-severity
+findings (WR-01, WR-02) and one info-level note (IN-01) left as-is — see `08-REVIEW.md`. **Next:**
+`/gsd:execute-phase 8 --wave 6` (08-09 — the D-18 KPI manifest swap + `chelsa` `source_host` branch).
+
+**Phase 8, Wave 4 complete (2026-07-30).** 08-06 built the shared cross-Living-Lab colour-break
+machinery (`compute_climate_color_breaks.py` Pass 0 + `build_continuous_colormap()` +
+`build_climate_pmtiles.py` Pass 1) and empirically resolved D-12's diverging-vs-sequential question:
+against real built data, **all four variables (gdd, bio1, bio12, bio18) came back `sequential`** for
+both baseline and change — no variable's five per-LL means crossed zero. This is a legitimate
+empirical result, not a bug, but it differs from earlier docs' assumption that precipitation would
+likely diverge — flag for `08-08`'s legend codegen. 08-07 built `compute_climate_kpis.py` (area-weighted
+zonal mean per Living Lab) and caught a real bug while validating its own plausibility gate: `08-04`'s
+`fetch_climate.py` never applied CHELSA's GDAL scale/offset tags, so every raster held raw scaled
+integers instead of physical units (mean annual temperature was reading ~2820 instead of ~8.9 degC).
+Fixed `_read_window()` to apply each file's own scale/offset, re-ran the full 12-raster acquisition,
+and re-pinned all `sha256_by_derived` digests in `sources.yaml`. Both plans landed on the fix
+independently (08-06's own draft found the same bug) — 08-07's already-merged, already-tested version
+was kept as the single source of truth; 08-06's redispatch reused it rather than re-fixing it. Full
+suite: 30/30 passing. **Next:** `/gsd:execute-phase 8 --wave 5` (08-08 — the real 60-PMTiles build).
+
+**Session note:** the first 08-06 executor attempt stalled mid-run (paused on a background CHELSA
+fetch) and its process was lost across a session boundary before it could finish or write a SUMMARY.
+Its in-progress draft was checkpointed as a WIP commit before being superseded by a clean redispatch;
+that WIP branch has since been deleted after the redispatch completed and merged. No work was lost.
+
+**Phase 8, Wave 2 complete (2026-07-30).** 11 plans across 8 waves fill both halves of
+the Climate tab from CHELSA: the `climate` placeholder in `app/src/data/layers.js:41` becomes a real
+per-LL raster (60 PMTiles = 4 variables x 3 periods x 5 LLs), and the tab's two permanently-null KPI
+slots (`agr_ch4_kt`, `agr_n2o_kt`) are dropped for four CHELSA-derived tiles mirroring the map
+variables.
+
+Research reversed one of the phase's own premises. `08-CONTEXT.md` called `chelsa_cmip6` an unvetted
+GitLab dependency; it is in fact published on PyPI as `chelsa-cmip6==1.4` (the GitLab repo is the dev
+version — user-corrected during planning). It *does* expose `.gdd()` at a 5 degC default matching
+D-06, so GDD is not underivable — but only via a live cloud-compute path adding ~10 heavy
+dependencies (xarray, dask, zarr, gcsfs, netcdf4, esgf-pyclient, google-cloud-storage), and its
+formula sums raw temperatures on days above threshold rather than the textbook `sum(max(T - 5, 0))`.
+A lighter static path research surfaced — pre-built CHELSA CMIP6 GeoTIFFs on WSL's public envicloud,
+fetchable with the already-pinned `rasterio`/`requests`, zero new dependencies — covers bio1/bio12/bio18
+but carries no GDD. Waves 1-2 are therefore a measure-then-decide spike (`08-01`) feeding a blocking
+`checkpoint:decision` (`08-03`), copying Phase 7's `07-03`/`07-05` precedent verbatim.
+
+**The GDD fork resolved to a fourth option nobody had planned for.** `08-01`'s live probe surfaced
+`gdd5` — CHELSA's own directly-published static GDD-above-5degC file — which neither `08-CONTEXT.md`
+nor `08-RESEARCH.md` knew about. At the `08-03` checkpoint (2026-07-30) the human chose `gdd5` over
+`bio10`, `gdd-light`, and `gdd-heavy`. Because `gdd5` uses the same static per-variable acquisition
+shape `08-04` already implements for `bio10`, this does **not** trigger the re-planning halt — no
+`/gsd:plan-phase 8 --gaps` detour is needed, and `08-SPIKE.md` carries `## Phase status` (proceed),
+not `## Phase halt`. W-06 (URL templates), W-07 (provenance text, with an explicit caveat that the
+underlying CMIP6 GCM outputs' own WCRP Terms of Use were not independently re-verified) and W-08
+(300s/read cap, ~5GB total transfer cap, 5degC GDD base) are all locked in `08-SPIKE.md`'s
+`## Locked decisions` section regardless of the W-05 outcome.
+
+**One required fix before Wave 3 runs:** `08-04-PLAN.md`'s Task 1 precondition text only recognizes
+`bio10`/`gdd-light`/`gdd-heavy` as valid W-05 verdicts — it needs a one-line wording update to also
+accept `gdd5`, the actual locked outcome. This was left unfixed by design (out of `08-03`'s declared
+`files_modified` scope) and is flagged in both `08-SPIKE.md`'s `### W-05` subsection and
+`08-03-SUMMARY.md`'s Deviations. `gdd5`'s per-file sizes (452-532MB) are notably larger than
+`bio1`/`bio10`'s (~103MB for the whole 4-variable matrix) and no windowed-read cost has been measured
+for it yet, so `08-04`'s W-08 budget-cap enforcement should be watched closely on first real run.
+
+Two design surfaces have no analog anywhere in the codebase and are planned as real design work:
+D-09's shared-across-all-LLs colour scale (a Pass-0 `compute_climate_color_breaks.py` pooling all five
+LLs' pixels into committed breakpoints before any per-LL bake, plus a `build_continuous_colormap()`
+sibling to `build_colormap()` — no Phase 6/7 precedent, since palette hex is baked into PNG pixels),
+and `StatPanel.jsx`'s D-20 two-line delta tile. D-12's diverging-vs-sequential ramp split is settled
+empirically from the five observed per-LL means, not hardcoded. Two volume gates are binding fail
+assertions, not warnings: `08-04` halts on the W-08 transfer cap, `08-08` on a literal 209,715,200-byte
+committed-footprint cap asserted inside its verify command. Plan-checker passed after one revision
+(the open-fork blocker); decision coverage D-01..D-23 is 23/23. Next: apply the one-line `gdd5`
+precondition fix to `08-04-PLAN.md`, then `/gsd:execute-phase 8 --wave 3` (or `/gsd:execute-phase 8`
+to run all remaining waves).
 
 **Phase 10 is planned and ready to execute (2026-07-27).** 6 plans across 5 waves turn the
 placeholder "Add for comparison" button into a real two-column comparison. The view is a
@@ -154,6 +327,7 @@ Phase 2.2 completed on 2026-04-30 and replaced the shallow German-only soil look
 | 260727-fast | Remove all preliminary-data flags from app UI and pipeline; recast the design-option bar as a subtle "Change layout" switcher | 2026-07-27 | a37a9b4 | (inline) |
 | 260727-fast2 | Remove mock placeholder factsheet fields (soil_climate/description/delineation, EN+DE) from ll_content.json, ll_metadata.json, and fetch_nuts.py | 2026-07-27 | 4069627 | (inline) |
 | 260729-bsg | Wire per-theme narrative text (about + focus) for each layer tab from ll_content.json through generate_metadata.py into TextBlock, across split, stacked and comparison layouts — plumbing shipped, awaiting human authoring of the first real prose (Task 3 checkpoint) | 2026-07-29 | 13d2d20 | [260729-bsg-wire-per-theme-narrative-text-about-focu](./quick/260729-bsg-wire-per-theme-narrative-text-about-focu/) |
+| 260804-acf | Make soil map and legend colours more distinct — replaced an 8-brown hashed palette that produced *identical* colours (3 of 5 legend swatches byte-identical in hessian-low-mountain) with an explicit 12-class palette in a new single-source module, plus an automated ΔE distinctness gate; awaiting human visual verification (Task 3 checkpoint) | 2026-08-04 | aa42a93 | [260804-acf-make-soil-map-and-legend-colours-more-di](./quick/260804-acf-make-soil-map-and-legend-colours-more-di/) |
 
 ## Open Questions (from research)
 
@@ -165,7 +339,9 @@ Phase 2.2 completed on 2026-04-30 and replaced the shallow German-only soil look
 
 | ID | Phase | Item | Status |
 |----|-------|------|--------|
-| TODO-01 | 2.2 | Improve tooltips: fix mixed German/English text, reduce verbosity, improve colour divergence in soil layer legend | open |
+| TODO-01 | 2.2 | Improve tooltips: fix mixed German/English text, reduce verbosity, improve colour divergence in soil layer legend | partial — colour divergence closed by quick task 260804-acf (pending human visual check); tooltip verbosity + mixed-language halves still open |
+| TODO-02 | 11 | WR-01: stamp a stable `variable` id onto each climate chart line in `compute_climate_chart.py` and have `LineChart.jsx` match colours by that id instead of by array position — needs a pipeline change, so schedule with the next chart-data phase | open |
+| TODO-03 | 11 | WR-02/WR-03/WR-04 + IN-01..IN-03 from `11-REVIEW.md`: assert `CHART_RANK_COLORS.length === MAX_BARS`, extract the duplicated locale derivation into a shared helper, surface the contract's `mock` flag in the UI, guard `LineChart`'s 2-point assumption, extend `numberOrZero` to real rows, add coverage for `buildDisplaySeries` | open |
 
 ## Roadmap Evolution
 
@@ -186,6 +362,7 @@ Phase 2.2 completed on 2026-04-30 and replaced the shallow German-only soil look
 - 2026-07-27: Phase 7 added: "Add BORIS land value maps as spatial layer for socio-economic tab (WFS from Brandenburg and Hessen geoportals)" — incorporates BORIS land-value map data via WFS services from Brandenburg and Hessen (the two Bundesländer covering the 5 Living Labs) for the socio-economic tab
 - 2026-07-27: Phase 3 "Chart Data Contract" removed from its original slot (never started, no directory existed) and re-added as Phase 9 at the end of the roadmap, so chart implementations are defined after all map layers (Phases 5, 5.1, 6, 7) exist for charts to summarize. CHARTS-01/CHARTS-02 traceability in ROADMAP.md and REQUIREMENTS.md updated to point at Phase 9. Phases 4-7 were left unrenumbered since they are already complete/underway with directories and commit history referencing their current numbers.
 - 2026-07-27: Phase 8 added: "Add maps and stats for climate variables using CHELSA data" — climate variable maps plus summary statistics, sourced from CHELSA via the `chelsa_cmip6` Python library (https://gitlabext.wsl.ch/karger/chelsa_cmip6/). Placed in the free slot 8 (vacated when the old Phase 3 moved to 9) rather than appended as Phase 10, so it sits with the other map-layer phases and before the Phase 9 chart contract that summarizes them. Phase 9's "Depends on" updated from Phase 7 to Phase 8 accordingly.
+- 2026-08-03: Phase 11 added: "Wire chart JSON data to chart UI components" — connect the chart content JSON files produced in Phase 9 to the chart UI components in the app. App-side integration only (no new pipeline work); expected to need minimal to no research and a small number of plans.
 
 ### Plan Decisions
 
@@ -195,6 +372,6 @@ Phase 2.2 completed on 2026-04-30 and replaced the shallow German-only soil look
 
 ## Session
 
-**Last session:** 2026-07-29T06:50:12.735Z
-**Stopped at:** Phase 8 UI-SPEC approved
-**Resume file:** .planning/phases/08-add-maps-and-stats-for-climate-variables-using-chelsa-data/08-UI-SPEC.md
+**Last session:** 2026-08-04T05:26:55.126Z
+**Stopped at:** Quick task 260804-acf complete (soil palette) — awaiting human visual verification of the new soil colours
+**Resume file:** .planning/quick/260804-acf-make-soil-map-and-legend-colours-more-di/260804-acf-SUMMARY.md

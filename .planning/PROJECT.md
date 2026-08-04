@@ -28,6 +28,8 @@ statistics for any of the five Living Labs — without any server infrastructure
 - ✓ PMTiles raster overlay (landuse / crop types layer) — Phase 3
 - ✓ Declarative pipeline layer registry via `sources.yaml` — Phase 3
 - ✓ Static Vite build deployable to GitHub Pages and TYPO3 — Phase 3
+- ✓ Per-source chart data contract (schema + `sources.yaml`/`sync.py` plumbing) plus real computed chart data for all 5 chart-bearing layers across all 5 Living Labs, bilingual human-approved — Phase 9
+- ✓ Chart JSON wired into the actual chart UI (rewritten `BarChart` + new `LineChart`), replacing the placeholder path across all 5 tabs, both languages, all 3 layouts, bilingual human-approved — Phase 11
 
 ### Active
 
@@ -36,7 +38,6 @@ statistics for any of the five Living Labs — without any server infrastructure
 - [ ] BKG BÜK soil layer processed through the pipeline as a working vector data example
 - [ ] `--all` flag (or equivalent) rebuilds every layer declared in `sources.yaml` in one command
 - [ ] Smoke tests verify pipeline outputs: file existence, correct CRS, non-empty geometry/tiles
-- [ ] Per-source chart data contract defined: interface spec + plumbing for custom logic per layer
 
 ### Out of Scope
 
@@ -59,9 +60,14 @@ statistics for any of the five Living Labs — without any server infrastructure
 - BKG BÜK is a German federal soil classification vector dataset (polygon layer). It requires
   a different pipeline path than raster PMTiles, making it the right forcing function for
   extending the pipeline to handle vector sources.
-- Chart data for Phase 4.3 will be source-specific (e.g. % area per soil class for BÜK,
-  % area per crop type for landuse). A generic pipeline cannot be written until at least one
-  real source is implemented — Phase 4.3 designs the interface, not the implementation.
+- Chart data is source-specific (e.g. % area per soil class for BÜK, % area per crop type
+  for landuse). Phase 9 delivered both the schema/plumbing contract and real computed
+  chart-computation scripts for all 5 chart-bearing layers; Phase 11 wired that JSON into
+  the actual `BarChart`/`LineChart` UI components, so every tab renders real per-Living-Lab
+  data instead of the placeholder. Bar colors for the two layers with a closed, static,
+  byte-exact map legend (agriculture, landscape) are matched to that legend; soil (dynamic
+  per-LL legend) and economic (continuous price ramp, no category legend) still use a
+  fixed rank-based palette.
 - The `data-pipeline/R/` directory is a stub; R-based fetchers are out of scope for this milestone.
 
 ## Constraints
@@ -101,4 +107,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-04-29 after initialization*
+*Last updated: 2026-08-03 after Phase 9 (Chart Data Contract) completion*

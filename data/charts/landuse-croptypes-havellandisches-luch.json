@@ -1,0 +1,158 @@
+{
+  "chart_type": "bar",
+  "generated_at": "2026-08-03T10:19:35.623813Z",
+  "layer_id": "agriculture",
+  "ll_slug": "havellandisches-luch",
+  "mock": false,
+  "series": [
+    {
+      "label": {
+        "de": "Gruenland",
+        "en": "permanent grassland"
+      },
+      "pct": 31.9,
+      "value": 66417.5
+    },
+    {
+      "label": {
+        "de": "Mais",
+        "en": "maize"
+      },
+      "pct": 12.2,
+      "value": 25350.5
+    },
+    {
+      "label": {
+        "de": "Winterroggen",
+        "en": "winter rye"
+      },
+      "pct": 11.6,
+      "value": 24102.0
+    },
+    {
+      "label": {
+        "de": "Klee/Luzerne",
+        "en": "clover/alfalfa"
+      },
+      "pct": 11.1,
+      "value": 23096.6
+    },
+    {
+      "label": {
+        "de": "Wintergerste",
+        "en": "winter barley"
+      },
+      "pct": 6.1,
+      "value": 12602.3
+    },
+    {
+      "label": {
+        "de": "Sommerhafer",
+        "en": "spring oat"
+      },
+      "pct": 5.6,
+      "value": 11573.9
+    },
+    {
+      "label": {
+        "de": "Raps",
+        "en": "rapeseed"
+      },
+      "pct": 5.1,
+      "value": 10543.0
+    },
+    {
+      "label": {
+        "de": "Winterweizen",
+        "en": "winter wheat"
+      },
+      "pct": 4.0,
+      "value": 8284.8
+    },
+    {
+      "label": {
+        "de": "Obst- und Feldgehoelz",
+        "en": "fruit trees and other woody vegetation"
+      },
+      "pct": 3.2,
+      "value": 6655.4
+    },
+    {
+      "label": {
+        "de": "Bohnen/Lupinen/Erbsen",
+        "en": "legumes"
+      },
+      "pct": 2.4,
+      "value": 5014.9
+    },
+    {
+      "label": {
+        "de": "Kartoffeln",
+        "en": "potato"
+      },
+      "pct": 2.1,
+      "value": 4370.7
+    },
+    {
+      "label": {
+        "de": "Sonstiges Wintergetreide",
+        "en": "other winter cereals"
+      },
+      "pct": 1.4,
+      "value": 2828.6
+    },
+    {
+      "label": {
+        "de": "Ackergras",
+        "en": "arable grass"
+      },
+      "pct": 1.2,
+      "value": 2523.6
+    },
+    {
+      "label": {
+        "de": "Sonstige landwirtschaftliche Nutzung",
+        "en": "other agricultural use"
+      },
+      "pct": 1.0,
+      "value": 2150.9
+    },
+    {
+      "label": {
+        "de": "Sommergerste",
+        "en": "spring barley"
+      },
+      "pct": 0.5,
+      "value": 1061.5
+    },
+    {
+      "label": {
+        "de": "Sommerweizen",
+        "en": "spring wheat"
+      },
+      "pct": 0.4,
+      "value": 903.1
+    },
+    {
+      "label": {
+        "de": "Zuckerrueben",
+        "en": "sugar beet"
+      },
+      "pct": 0.4,
+      "value": 736.4
+    },
+    {
+      "label": {
+        "de": "Wein",
+        "en": "vineyard"
+      },
+      "pct": 0.1,
+      "value": 2.7
+    }
+  ],
+  "source": "landuse-croptypes",
+  "unit": {
+    "de": "ha",
+    "en": "ha"
+  }
+}

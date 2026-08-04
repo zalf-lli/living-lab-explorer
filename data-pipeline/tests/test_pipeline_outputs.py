@@ -3,6 +3,7 @@ from __future__ import annotations
 import json
 
 import geopandas as gpd
+import numpy as np
 import pytest
 import yaml
 from shapely.geometry import box
@@ -256,7 +257,7 @@ def test_destatis_curated_kpis_manifest_matches_contract() -> None:
     with path.open("r", encoding="utf-8") as handle:
         data = json.load(handle)
 
-    assert len(data) == 17, f"Expected 17 curated KPI entries, got {len(data)}"
+    assert len(data) == 19, f"Expected 19 curated KPI entries, got {len(data)}"
 
     expected_keys = {
         "tab",
@@ -270,10 +271,11 @@ def test_destatis_curated_kpis_manifest_matches_contract() -> None:
     }
     for entry in data:
         assert set(entry.keys()) == expected_keys, entry
-        # source_host names the upstream source: a Destatis platform, or bfn_wfs for a value
-        # derived from the BfN protected-areas geometry (Phase 05.1), or None for an
+        # source_host names the upstream source: a Destatis platform, bfn_wfs for a value
+        # derived from the BfN protected-areas geometry (Phase 05.1), chelsa for a value
+        # computed from CHELSA climate rasters at build time (Phase 08), or None for an
         # honestly-unresolved slot (D-15) -- never fabricated or omitted (Plan 04-07).
-        assert entry["source_host"] in ("genesis", "regionalstatistik", "bfn_wfs", None), entry
+        assert entry["source_host"] in ("genesis", "regionalstatistik", "bfn_wfs", None, "chelsa"), entry
 
     tab_counts: dict[str, int] = {}
     for entry in data:
@@ -282,7 +284,7 @@ def test_destatis_curated_kpis_manifest_matches_contract() -> None:
     assert tab_counts == {
         "agriculture": 4,
         "soil": 3,
-        "climate": 2,
+        "climate": 4,
         "landscape": 4,
         "economic": 4,
     }
@@ -313,7 +315,7 @@ def test_ll_metadata_kpi_by_tab_contract() -> None:
     expected_tab_counts = {
         "agriculture": 4,
         "soil": 3,
-        "climate": 2,
+        "climate": 4,
         "landscape": 4,
         "economic": 4,
     }
@@ -587,3 +589,341 @@ def test_boris_geojson_fixtures_exist_and_match_contract() -> None:
             f"{path.name}: {size_bytes:,} bytes exceeds the W-01 budget of "
             f"{BORIS_BUDGET_BYTES_PER_LL_PER_COPY:,} bytes (07-SPIKE.md)"
         )
+
+
+def test_climate_kpis_fixture_matches_contract() -> None:
+    """
+    Plan 08-07: climate_kpis.json (produced by compute_climate_kpis.py) exists, carries a
+    chelsa-sourced _meta block with D-21 delta-horizon metadata plus a four-variable
+    manifest, and every LL slug object carries exactly the eight numeric keys (baseline +
+    far-horizon delta per variable, D-19/D-20) implied by that manifest -- mirroring
+    test_destatis_curated_kpis_manifest_matches_contract's shape.
+    """
+    import math
+
+    path = repo_root() / "data" / "climate_kpis.json"
+    assert path.exists(), f"Missing climate_kpis.json (producer: compute_climate_kpis.py): {path}"
+
+    with path.open("r", encoding="utf-8") as handle:
+        data = json.load(handle)
+
+    assert "_meta" in data, "Missing _meta block in climate_kpis.json"
+    meta = data["_meta"]
+    assert meta.get("computed_at"), "Missing _meta.computed_at"
+    assert meta.get("source") == "chelsa", f"Expected _meta.source=='chelsa', got {meta.get('source')!r}"
+    assert meta.get("metric_crs") == "EPSG:25832", f"Expected _meta.metric_crs=='EPSG:25832', got {meta.get('metric_crs')!r}"
+    assert meta.get("input_pattern"), "Missing _meta.input_pattern"
+    assert meta.get("delta_horizon") == "2071_2100", f"Expected _meta.delta_horizon=='2071_2100', got {meta.get('delta_horizon')!r}"
+    assert meta.get("delta_horizon_label") == "2071-2100", (
+        f"Expected _meta.delta_horizon_label=='2071-2100', got {meta.get('delta_horizon_label')!r}"
+    )
+
+    variables = meta.get("variables")
+    assert isinstance(variables, dict), "Missing or malformed _meta.variables block"
+    assert len(variables) == 4, f"Expected exactly 4 entries in _meta.variables, got {len(variables)}"
+
+    variable_keys = set(variables.keys())
+    for variable_key, entry in variables.items():
+        assert entry.get("unit", {}).get("en"), f"{variable_key}: missing non-empty unit.en"
+        assert entry.get("unit", {}).get("de"), f"{variable_key}: missing non-empty unit.de"
+        assert entry.get("delta_unit", {}).get("en"), f"{variable_key}: missing non-empty delta_unit.en"
+        assert entry.get("delta_unit", {}).get("de"), f"{variable_key}: missing non-empty delta_unit.de"
+
+    ll_data = {k: v for k, v in data.items() if k != "_meta"}
+    assert set(ll_data.keys()) == set(LL_SLUGS), (
+        f"Expected LL_SLUGS {set(LL_SLUGS)}, got {set(ll_data.keys())}"
+    )
+
+    # Every slug object's key set must be matched against the manifest's own variable_key
+    # set, so this test cannot silently drift from _meta.variables.
+    expected_keys = variable_keys | {f"{key}_delta" for key in variable_keys}
+    for slug, record in ll_data.items():
+        assert set(record.keys()) == expected_keys, (
+            f"{slug}: expected exactly {sorted(expected_keys)}, got {sorted(record.keys())}"
+        )
+        for key, value in record.items():
+            assert isinstance(value, (int, float)) and not isinstance(value, bool), (
+                f"{slug}.{key}: expected a number, got {type(value)}: {value!r}"
+            )
+            assert math.isfinite(value), f"{slug}.{key}: value is not finite: {value!r}"
+
+
+def test_climate_color_breaks_contract() -> None:
+    """
+    Plan 08-06: enforces the D-09/D-12/D-13 shared-colour-scale contract on
+    data/climate_color_breaks.json via check_color_breaks.check_color_breaks. If the
+    artifact is missing, the producer is compute_climate_color_breaks.py, matching how
+    test_destatis_curated_kpis_manifest_matches_contract names its own producer.
+    """
+    import sys
+
+    sys.path.insert(0, str(repo_root() / "data-pipeline" / "tests"))
+    from check_color_breaks import check_color_breaks
+
+    path = repo_root() / "data" / "climate_color_breaks.json"
+    assert path.exists(), (
+        f"Missing {path} -- run data-pipeline/python/compute_climate_color_breaks.py first"
+    )
+    check_color_breaks(path)
+
+
+def test_derive_change_field_guards_nodata() -> None:
+    """
+    Code review CR-01 (phase 08): fetch_climate._derive_change_field must resolve a pixel
+    to `nodata` -- never a finite-but-wrong value -- whenever its baseline or future input
+    is nodata (the pipeline's finite -9999 sentinel) or NaN (the marker
+    _multi_model_mean leaves when every GCM agreed nodata for a pixel), for both the
+    absolute and percent change_mode branches.
+    """
+    import sys
+
+    sys.path.insert(0, str(repo_root() / "data-pipeline" / "python"))
+    from fetch_climate import _derive_change_field
+
+    nodata = -9999.0
+    # Column order: [normal pixel, nodata baseline, nodata future, NaN future, zero baseline]
+    baseline = np.array([5.0, nodata, 5.0, 5.0, 0.0], dtype=np.float64)
+    future = np.array([8.0, 8.0, nodata, np.nan, 8.0], dtype=np.float64)
+
+    absolute = _derive_change_field(future, baseline, change_mode="absolute", nodata=nodata)
+    assert absolute[0] == pytest.approx(3.0)
+    assert absolute[1] == nodata, f"nodata baseline must resolve to nodata, got {absolute[1]!r}"
+    assert absolute[2] == nodata, f"nodata future must resolve to nodata, got {absolute[2]!r}"
+    assert absolute[3] == nodata, f"NaN future must resolve to nodata, got {absolute[3]!r}"
+
+    percent = _derive_change_field(future, baseline, change_mode="percent", nodata=nodata)
+    assert percent[0] == pytest.approx(60.0)
+    assert percent[1] == nodata, f"nodata baseline must resolve to nodata, got {percent[1]!r}"
+    assert percent[2] == nodata, f"nodata future must resolve to nodata, got {percent[2]!r}"
+    assert percent[3] == nodata, f"NaN future must resolve to nodata, got {percent[3]!r}"
+    assert percent[4] == nodata, f"zero baseline must resolve to nodata, got {percent[4]!r}"
+
+
+# Plan 09-06 D-10/D-16 fixture matrix: the five chart-bearing layer ids in this file's
+# own declared id order, sibling to BORIS_BUDGET_BYTES_PER_LL_PER_COPY above.
+CHART_LAYER_IDS = [
+    "landuse-croptypes",
+    "io-lulc-landcover",
+    "buek250",
+    "boris",
+    "chelsa-climate",
+]
+
+BAR_CHART_LAYER_IDS = ["landuse-croptypes", "io-lulc-landcover", "buek250", "boris"]
+
+BAR_CHART_ENVELOPE_KEYS = {
+    "ll_slug", "layer_id", "chart_type", "unit", "series", "mock", "source", "generated_at",
+}
+
+LINE_CHART_ENVELOPE_KEYS = {
+    "ll_slug", "layer_id", "chart_type", "unit", "x_axis", "lines", "mock", "source", "generated_at",
+}
+
+
+def test_chart_stanzas_declared() -> None:
+    """
+    Plan 09-06: locks the five chart.script / output.chart_pattern declarations plan
+    09-02 added to sources.yaml, transcribed from that plan's own interface table.
+    Also guards that bfn-schutzgebiete -- the one vector layer with no chart tab --
+    never gains a chart stanza by accident.
+    """
+    expectations = {
+        "landuse-croptypes": (
+            "python/compute_agriculture_chart.py",
+            "data/charts/landuse-croptypes-{slug}.json",
+        ),
+        "io-lulc-landcover": (
+            "python/compute_landscape_chart.py",
+            "data/charts/io-lulc-landcover-{slug}.json",
+        ),
+        "buek250": (
+            "python/compute_soil_chart.py",
+            "data/charts/buek250-{slug}.json",
+        ),
+        "boris": (
+            "python/compute_economic_chart.py",
+            "data/charts/boris-{slug}.json",
+        ),
+        "chelsa-climate": (
+            "python/compute_climate_chart.py",
+            "data/charts/chelsa-climate-{slug}.json",
+        ),
+    }
+    assert set(expectations) == set(CHART_LAYER_IDS)
+
+    for layer_id, (script, pattern) in expectations.items():
+        layer = get_layer(layer_id)
+        assert layer["chart"]["script"] == script, layer_id
+        assert layer["output"]["chart_pattern"] == pattern, layer_id
+
+    protected_areas = get_layer("bfn-schutzgebiete")
+    assert "chart" not in protected_areas, "bfn-schutzgebiete must not declare a chart stanza"
+    assert "chart_pattern" not in protected_areas.get("output", {}), (
+        "bfn-schutzgebiete must not declare output.chart_pattern"
+    )
+
+
+def test_climate_variable_chart_labels_declared() -> None:
+    """
+    Plan 09-06: locks D-16's pipeline-owned bilingual chart-legend names together with
+    the Phase 8 D-08 gdd-first variable ordering -- both read from the same
+    sources.yaml climate.variables block that compute_climate_chart.py consumes.
+    """
+    layer = get_layer("chelsa-climate")
+    variables = layer["climate"]["variables"]
+    assert list(variables.keys()) == ["gdd", "bio1", "bio12", "bio18"]
+
+    for variable_id, entry in variables.items():
+        label = entry.get("label")
+        assert label is not None, f"{variable_id}: missing label block"
+        assert label.get("en"), f"{variable_id}: missing non-empty label.en"
+        assert label.get("de"), f"{variable_id}: missing non-empty label.de"
+
+
+def test_bar_chart_fixtures_exist_and_match_contract() -> None:
+    """
+    Plan 09-06: for each of the four bar chart_type layers, locks the envelope shape,
+    the join-key coupling of layer_id to sources.yaml's own app_layer value (not a
+    hardcoded string), and the plausibility guard that series pct values sum to
+    roughly 100.
+
+    Deviation from the plan's literal "pct > 0" wording: several boris economic
+    fixtures carry real, legitimate categories with only 1-7 zones out of thousands,
+    which round to 0.0 at one decimal place (e.g. boris-east-brandenburg.json's
+    "Campsite" category: value=1, pct=0.0). Asserting pct > 0 would fail on correct,
+    already-committed data, so this test asserts pct >= 0 instead; value > 0 still
+    holds everywhere (every category has at least one real underlying unit). See
+    09-06-SUMMARY.md Deviations for the full investigation.
+    """
+    for layer_id in BAR_CHART_LAYER_IDS:
+        layer = get_layer(layer_id)
+        pattern = layer["output"]["chart_pattern"]
+        expected_layer_id = layer["app_layer"]
+
+        for slug in LL_SLUGS:
+            path = repo_root() / pattern.format(slug=slug)
+            assert path.exists(), f"Missing chart fixture: {path}"
+
+            with path.open("r", encoding="utf-8") as handle:
+                data = json.load(handle)
+
+            assert set(data.keys()) == BAR_CHART_ENVELOPE_KEYS, (
+                f"{path.name}: expected exactly {sorted(BAR_CHART_ENVELOPE_KEYS)}, "
+                f"got {sorted(data.keys())}"
+            )
+            assert data["chart_type"] == "bar", path.name
+            assert data["ll_slug"] == slug, path.name
+            assert data["source"] == layer_id, path.name
+            assert data["layer_id"] == expected_layer_id, (
+                f"{path.name}: expected layer_id {expected_layer_id!r} (sources.yaml "
+                f"app_layer), got {data['layer_id']!r}"
+            )
+            assert data["mock"] is False, path.name
+            assert set(data["unit"]) == {"en", "de"}, path.name
+
+            series = data["series"]
+            assert len(series) > 0, f"{path.name}: series is empty"
+
+            pct_sum = 0.0
+            for entry in series:
+                label = entry["label"]
+                assert set(label) == {"en", "de"}, f"{path.name}: label key set {sorted(label)}"
+                assert label["en"], f"{path.name}: empty label.en"
+                assert label["de"], f"{path.name}: empty label.de"
+
+                value = entry["value"]
+                assert isinstance(value, (int, float)) and not isinstance(value, bool), (
+                    f"{path.name}: value must be int/float, got {type(value)}"
+                )
+                assert value > 0, f"{path.name}: value must be > 0, got {value}"
+
+                pct = entry["pct"]
+                assert isinstance(pct, (int, float)) and not isinstance(pct, bool), (
+                    f"{path.name}: pct must be int/float, got {type(pct)}"
+                )
+                assert pct >= 0, f"{path.name}: pct must be >= 0, got {pct}"
+                pct_sum += pct
+
+            assert 95.0 <= pct_sum <= 105.0, (
+                f"{path.name}: series pct values should sum near 100, got {pct_sum}"
+            )
+
+
+def test_climate_chart_fixtures_exist_and_match_line_contract() -> None:
+    """
+    Plan 09-06: locks the line chart_type envelope for chelsa-climate, proving no
+    'series' key leaked into this variant, and that both horizons (in x_axis order)
+    and all four variables (in D-08 gdd-first order) are present with numeric points.
+    """
+    layer = get_layer("chelsa-climate")
+    pattern = layer["output"]["chart_pattern"]
+
+    for slug in LL_SLUGS:
+        path = repo_root() / pattern.format(slug=slug)
+        assert path.exists(), f"Missing chart fixture: {path}"
+
+        with path.open("r", encoding="utf-8") as handle:
+            data = json.load(handle)
+
+        assert set(data.keys()) == LINE_CHART_ENVELOPE_KEYS, (
+            f"{path.name}: expected exactly {sorted(LINE_CHART_ENVELOPE_KEYS)}, "
+            f"got {sorted(data.keys())}"
+        )
+        assert data["chart_type"] == "line", path.name
+        assert data["layer_id"] == "climate", path.name
+        assert data["source"] == "chelsa-climate", path.name
+        assert data["mock"] is False, path.name
+        assert set(data["unit"]) == {"en", "de"}, path.name
+
+        x_axis = data["x_axis"]
+        x_axis_keys = [entry["key"] for entry in x_axis]
+        assert x_axis_keys == ["2041_2070", "2071_2100"], (
+            f"{path.name}: unexpected x_axis key order {x_axis_keys}"
+        )
+        for entry in x_axis:
+            assert set(entry["label"]) == {"en", "de"}, f"{path.name}: x_axis label key set"
+
+        lines = data["lines"]
+        assert len(lines) == 4, f"{path.name}: expected exactly 4 lines, got {len(lines)}"
+        for line in lines:
+            label = line["label"]
+            assert set(label) == {"en", "de"}, f"{path.name}: line label key set"
+            assert label["en"], f"{path.name}: empty line label.en"
+            assert label["de"], f"{path.name}: empty line label.de"
+
+            points = line["points"]
+            assert len(points) == 2, f"{path.name}: expected exactly 2 points, got {len(points)}"
+            point_x_values = [point["x"] for point in points]
+            assert point_x_values == ["2041_2070", "2071_2100"], (
+                f"{path.name}: unexpected point x order {point_x_values}"
+            )
+            for point in points:
+                assert isinstance(point["value"], (int, float)) and not isinstance(point["value"], bool), (
+                    f"{path.name}: point value must be numeric, got {type(point['value'])}"
+                )
+
+
+def test_chart_fixtures_published_to_app_public() -> None:
+    """
+    Plan 09-06: locks the sync_charts() publish step -- every committed data/charts/
+    source has a byte-identical published copy under app/public/data/charts/, and the
+    published directory holds exactly the 25 files this contract defines (no orphans
+    left behind by a renamed pattern).
+    """
+    published_dir = repo_root() / "app" / "public" / "data" / "charts"
+
+    for layer_id in CHART_LAYER_IDS:
+        pattern = get_layer(layer_id)["output"]["chart_pattern"]
+        for slug in LL_SLUGS:
+            source_path = repo_root() / pattern.format(slug=slug)
+            published_path = published_dir / source_path.name
+            assert published_path.exists(), f"Missing published chart fixture: {published_path}"
+            assert published_path.read_bytes() == source_path.read_bytes(), (
+                f"{published_path.name}: published copy is not byte-identical to {source_path}"
+            )
+
+    published_files = sorted(published_dir.glob("*.json"))
+    assert len(published_files) == 25, (
+        f"Expected exactly 25 published chart files, got {len(published_files)}: "
+        f"{[p.name for p in published_files]}"
+    )

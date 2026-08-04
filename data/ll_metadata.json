@@ -7,23 +7,23 @@
       "name": "Ost-Brandenburg",
       "narrative": {
         "agriculture": {
-          "about": "",
-          "challenges": ""
+          "about": "Hauptanbauprodukte: Wintergetreide, Mais für Silage/Energie, Winterraps; sonstige Landnutzung: Gartenbau sowie Saatgut- und Pflanzenanbau in geringem Umfang; Dauergrünland. Tierhaltung: Geflügel ist am weitesten verbreitet; Schweine, Rinder, Schafe und Ziegen sind rückläufig.",
+          "challenges": "Steigender Bewässerungsbedarf und Wettbewerb um knappe Wasserressourcen. Geringere Ernteerträge und geringere Ertragssicherheit angesichts zunehmender klimatischer Belastungen. Hoher Anpassungsdruck auf die Landwirte, der neue Anbaumethoden und Investitionen erfordert. Wettbewerb um Flächen zwischen der Landwirtschaft und dem Ausbau erneuerbarer Energien. Rückgang der Vielfalt im Viehbestand (Schweine, Rinder, Schafe, Ziegen). Begrenzte Gartenbau- und Spezialkulturanbauaktivitäten (geringe Diversifizierung). Ausgewogenes Verhältnis zwischen ökologischen und konventionellen Anbaumethoden bei gleichbleibender Produktivität."
         },
         "climate": {
-          "about": "",
-          "challenges": ""
+          "about": "Seit 1881 ist ein anhaltender Erwärmungstrend zu beobachten: Anstieg der Jahresdurchschnittstemperatur um bisher +1,3 °C. Kurzfristige Klimaprognosen (2021–2050): Weitere Erwärmung um +1,1 bis +1,5 °C. Verschiebung der Klimaextreme: Mehr heiße Sommertage, weniger Frosttage, Hagel und Stürme; im Osten Brandenburgs wird aufgrund eines stärkeren kontinentalen Einflusses mit einer Zunahme von Frühjahrsdürren gerechnet.",
+          "challenges": "Hohe Anfälligkeit für Dürre aufgrund der begrenzten Wasserrückhaltefähigkeit des Bodens."
         },
         "economic": {
-          "about": "",
-          "challenges": ""
+          "about": "Höhere Bevölkerungsdichte und Beschäftigungszahlen in der Nähe von Berlin; Pendlerströme vorwiegend von der Ostgrenze in Richtung Berlin; geringe Bevölkerungsdichte, alternde Bevölkerung und Abwanderung junger Menschen verringern das Angebot an Arbeitskräften. Beschäftigungsstruktur: Vorwiegend Dienstleistungen (Tourismus, Gesundheitswesen, Sozialwesen), gefolgt von verarbeitendem Gewerbe und Handwerk; die Landwirtschaft beschäftigt trotz großer Landflächen nur eine geringe Anzahl von Menschen. Wirtschaftszentren: Die Tesla-Gigafactory und der Flughafen Berlin-Brandenburg (LOS) ziehen Unternehmen an; der Großraum Berlin bietet Marktchancen. Wachstumstrends: Es wird mit einer Zunahme der gewerblichen Entwicklung und der Beschäftigung gerechnet. Tourismus: Getrieben durch Naturparks, Schutzgebiete und Kurorte.",
+          "challenges": "Die Landwirtschaft und die damit verbundenen Branchen tragen nur in begrenztem Umfang zur regionalen Wertschöpfung bei. Die schwachen lokalen Verarbeitungs- und Wertschöpfungsstrukturen schränken die regionale wirtschaftliche Integration ein, und viele Gebiete waren mit einem Rückgang traditioneller Produktions- und Industriestandorte konfrontiert. Der Fachkräftemangel wird durch die Konkurrenz mit dem dynamischen Arbeitsmarkt Berlins noch verschärft."
         },
         "landscape": {
-          "about": "",
-          "challenges": ""
+          "about": "Eine durch mehrere Vergletscherungen der Eiszeit geprägte Tieflandregion. Geringe Höhenunterschiede mit überwiegend flachem Gelände, wobei der Oderbruch ein breites, durch Gletscherschmelzwasser geformtes Flusstal darstellt.",
+          "challenges": "Rückgang der Artenvielfalt in Agrarlandschaften (z. B. Austrocknung von Laichhabitaten für Amphibien). Landbesitz: Ein Großteil der landwirtschaftlichen Flächen befindet sich nicht im Besitz der Landwirte."
         },
         "soil": {
-          "about": "",
+          "about": "Es überwiegen sandige und lehmig-sandige Böden („Märkischer Sand“) mit geringer natürlicher Fruchtbarkeit. Müncheberger Bodenbewertung: Überwiegend sehr geringe bis geringe Bodenqualität (unter 50 Punkten); Böden mittlerer Qualität nur in bestimmten Auengebieten (z. B. im Oderbruch). Hohe räumliche Heterogenität der Bodenqualität innerhalb einzelner Felder aufgrund der glazialen Landschaftsbildung",
           "challenges": ""
         }
       },
@@ -34,23 +34,23 @@
       "name": "East Brandenburg",
       "narrative": {
         "agriculture": {
-          "about": "",
-          "challenges": ""
+          "about": "Main crops: winter grain, maize for silage/energy, winter rapeseed, Other land uses: horticulture and seed/plant cultivation minimal; permanent grassland. Animal husbandry: poultry most common; pigs, cattle, sheep, goats declining.",
+          "challenges": "Greater irrigation demand and competition for scarce water resources. Reduced crop productivity and stability under intensifying climate stress. High adaptation pressure on farmers, requiring new practices and investments. Competition for land between agriculture and renewable energy expansion. Decline in livestock diversity (pigs, cattle, sheep, goats). Limited horticulture and specialized crop production (low diversification). Balancing organic and conventional farming practices while maintaining productivity."
         },
         "climate": {
-          "about": "",
-          "challenges": ""
+          "about": "Continuous warming trend observed since 1881: +1.3 °C increase in mean annual temperature to date. Short-term climate projections (2021–2050): Additional warming of +1.1 to +1.5 °C. Shift in climate extremes: More hot summer days, Fewer frost days, hail and storm, spring drought increases expected in eastern Brandenburg due to stronger continental influence",
+          "challenges": "High drought vulnerability due to limited soil water retention capability"
         },
         "economic": {
-          "about": "",
-          "challenges": ""
+          "about": "Higher population density and employment near Berlin; commuter flows mainly from eastern border toward Berlin, Low population density, aging population, and outmigration of young people reduce workforce availability. Employment structure: Predominantly services (tourism, healthcare, social services), followed by manufacturing/trades; agriculture employs only a small number of people despite large land areas. Economic hubs: Tesla Gigafactory and Berlin-Brandenburg Airport (LOS) attract businesses; Berlin metro area provides market opportunities. Growth trends: Commercial development and employment expected to increase. Tourism: Driven by nature parks, protected areas, and spa towns.",
+          "challenges": "Agriculture and peripheral industries generate limited regional value creation. Weak local processing and value-adding facilities limits regional economic integration, many areas faced a decline of traditional manufacturing and industrial sites. Skilled labor shortage (Fachkräftemangel) compounded by competition with Berlin’s dynamic job market"
         },
         "landscape": {
-          "about": "",
-          "challenges": ""
+          "about": "Lowland region shaped by multiple ice age glaciations. Minimal elevation differences with predominantly flat terrain with Oderbruch as a wide river valley shaped by glacial meltwater",
+          "challenges": "Biodiversity decline in agricultural landscapes (e.g., drying of breeding habitats for amphibians). Land ownership: much farmland not owned by farmers."
         },
         "soil": {
-          "about": "",
+          "about": "Dominated by sandy and loamy-sandy soils ('Märkischer Sand') with low natural fertility. Müncheberger Soil Rating: Mostly very low to low soil quality (below 50 points); medium-quality soils only in specific floodplain regions (e.g., Oderbruch). High spatial heterogeneity of soil quality within single fields due to glacial landscape formation",
           "challenges": ""
         }
       },
@@ -102,24 +102,68 @@
       ],
       "climate": [
         {
-          "genesisTable": null,
-          "key": "agr_ch4_kt",
-          "sourceHost": null,
-          "unit": {
-            "de": "kt CO2aeq",
-            "en": "kt CO2eq"
+          "delta": 1143.0,
+          "deltaHorizon": "2071-2100",
+          "deltaUnit": {
+            "de": "°C·d",
+            "en": "°C·d"
           },
-          "value": null
+          "genesisTable": null,
+          "key": "gdd5_degc_days",
+          "sourceHost": "chelsa",
+          "unit": {
+            "de": "°C·d",
+            "en": "°C·d"
+          },
+          "value": 2026.0
         },
         {
-          "genesisTable": null,
-          "key": "agr_n2o_kt",
-          "sourceHost": null,
-          "unit": {
-            "de": "kt CO2aeq",
-            "en": "kt CO2eq"
+          "delta": 4.1,
+          "deltaHorizon": "2071-2100",
+          "deltaUnit": {
+            "de": "°C",
+            "en": "°C"
           },
-          "value": null
+          "genesisTable": null,
+          "key": "mean_annual_temp_degc",
+          "sourceHost": "chelsa",
+          "unit": {
+            "de": "°C",
+            "en": "°C"
+          },
+          "value": 9.4
+        },
+        {
+          "delta": 3.0,
+          "deltaHorizon": "2071-2100",
+          "deltaUnit": {
+            "de": "%",
+            "en": "%"
+          },
+          "genesisTable": null,
+          "key": "annual_precip_mm",
+          "sourceHost": "chelsa",
+          "unit": {
+            "de": "mm",
+            "en": "mm"
+          },
+          "value": 599.0
+        },
+        {
+          "delta": -5.3,
+          "deltaHorizon": "2071-2100",
+          "deltaUnit": {
+            "de": "%",
+            "en": "%"
+          },
+          "genesisTable": null,
+          "key": "warm_quarter_precip_mm",
+          "sourceHost": "chelsa",
+          "unit": {
+            "de": "mm",
+            "en": "mm"
+          },
+          "value": 189.0
         }
       ],
       "economic": [
@@ -246,48 +290,48 @@
     "narrativeByTab": {
       "agriculture": {
         "about": {
-          "de": null,
-          "en": null
+          "de": "Hauptanbauprodukte: Wintergetreide, Mais für Silage/Energie, Winterraps; sonstige Landnutzung: Gartenbau sowie Saatgut- und Pflanzenanbau in geringem Umfang; Dauergrünland. Tierhaltung: Geflügel ist am weitesten verbreitet; Schweine, Rinder, Schafe und Ziegen sind rückläufig.",
+          "en": "Main crops: winter grain, maize for silage/energy, winter rapeseed, Other land uses: horticulture and seed/plant cultivation minimal; permanent grassland. Animal husbandry: poultry most common; pigs, cattle, sheep, goats declining."
         },
         "challenges": {
-          "de": null,
-          "en": null
+          "de": "Steigender Bewässerungsbedarf und Wettbewerb um knappe Wasserressourcen. Geringere Ernteerträge und geringere Ertragssicherheit angesichts zunehmender klimatischer Belastungen. Hoher Anpassungsdruck auf die Landwirte, der neue Anbaumethoden und Investitionen erfordert. Wettbewerb um Flächen zwischen der Landwirtschaft und dem Ausbau erneuerbarer Energien. Rückgang der Vielfalt im Viehbestand (Schweine, Rinder, Schafe, Ziegen). Begrenzte Gartenbau- und Spezialkulturanbauaktivitäten (geringe Diversifizierung). Ausgewogenes Verhältnis zwischen ökologischen und konventionellen Anbaumethoden bei gleichbleibender Produktivität.",
+          "en": "Greater irrigation demand and competition for scarce water resources. Reduced crop productivity and stability under intensifying climate stress. High adaptation pressure on farmers, requiring new practices and investments. Competition for land between agriculture and renewable energy expansion. Decline in livestock diversity (pigs, cattle, sheep, goats). Limited horticulture and specialized crop production (low diversification). Balancing organic and conventional farming practices while maintaining productivity."
         }
       },
       "climate": {
         "about": {
-          "de": null,
-          "en": null
+          "de": "Seit 1881 ist ein anhaltender Erwärmungstrend zu beobachten: Anstieg der Jahresdurchschnittstemperatur um bisher +1,3 °C. Kurzfristige Klimaprognosen (2021–2050): Weitere Erwärmung um +1,1 bis +1,5 °C. Verschiebung der Klimaextreme: Mehr heiße Sommertage, weniger Frosttage, Hagel und Stürme; im Osten Brandenburgs wird aufgrund eines stärkeren kontinentalen Einflusses mit einer Zunahme von Frühjahrsdürren gerechnet.",
+          "en": "Continuous warming trend observed since 1881: +1.3 °C increase in mean annual temperature to date. Short-term climate projections (2021–2050): Additional warming of +1.1 to +1.5 °C. Shift in climate extremes: More hot summer days, Fewer frost days, hail and storm, spring drought increases expected in eastern Brandenburg due to stronger continental influence"
         },
         "challenges": {
-          "de": null,
-          "en": null
+          "de": "Hohe Anfälligkeit für Dürre aufgrund der begrenzten Wasserrückhaltefähigkeit des Bodens.",
+          "en": "High drought vulnerability due to limited soil water retention capability"
         }
       },
       "economic": {
         "about": {
-          "de": null,
-          "en": null
+          "de": "Höhere Bevölkerungsdichte und Beschäftigungszahlen in der Nähe von Berlin; Pendlerströme vorwiegend von der Ostgrenze in Richtung Berlin; geringe Bevölkerungsdichte, alternde Bevölkerung und Abwanderung junger Menschen verringern das Angebot an Arbeitskräften. Beschäftigungsstruktur: Vorwiegend Dienstleistungen (Tourismus, Gesundheitswesen, Sozialwesen), gefolgt von verarbeitendem Gewerbe und Handwerk; die Landwirtschaft beschäftigt trotz großer Landflächen nur eine geringe Anzahl von Menschen. Wirtschaftszentren: Die Tesla-Gigafactory und der Flughafen Berlin-Brandenburg (LOS) ziehen Unternehmen an; der Großraum Berlin bietet Marktchancen. Wachstumstrends: Es wird mit einer Zunahme der gewerblichen Entwicklung und der Beschäftigung gerechnet. Tourismus: Getrieben durch Naturparks, Schutzgebiete und Kurorte.",
+          "en": "Higher population density and employment near Berlin; commuter flows mainly from eastern border toward Berlin, Low population density, aging population, and outmigration of young people reduce workforce availability. Employment structure: Predominantly services (tourism, healthcare, social services), followed by manufacturing/trades; agriculture employs only a small number of people despite large land areas. Economic hubs: Tesla Gigafactory and Berlin-Brandenburg Airport (LOS) attract businesses; Berlin metro area provides market opportunities. Growth trends: Commercial development and employment expected to increase. Tourism: Driven by nature parks, protected areas, and spa towns."
         },
         "challenges": {
-          "de": null,
-          "en": null
+          "de": "Die Landwirtschaft und die damit verbundenen Branchen tragen nur in begrenztem Umfang zur regionalen Wertschöpfung bei. Die schwachen lokalen Verarbeitungs- und Wertschöpfungsstrukturen schränken die regionale wirtschaftliche Integration ein, und viele Gebiete waren mit einem Rückgang traditioneller Produktions- und Industriestandorte konfrontiert. Der Fachkräftemangel wird durch die Konkurrenz mit dem dynamischen Arbeitsmarkt Berlins noch verschärft.",
+          "en": "Agriculture and peripheral industries generate limited regional value creation. Weak local processing and value-adding facilities limits regional economic integration, many areas faced a decline of traditional manufacturing and industrial sites. Skilled labor shortage (Fachkräftemangel) compounded by competition with Berlin’s dynamic job market"
         }
       },
       "landscape": {
         "about": {
-          "de": null,
-          "en": null
+          "de": "Eine durch mehrere Vergletscherungen der Eiszeit geprägte Tieflandregion. Geringe Höhenunterschiede mit überwiegend flachem Gelände, wobei der Oderbruch ein breites, durch Gletscherschmelzwasser geformtes Flusstal darstellt.",
+          "en": "Lowland region shaped by multiple ice age glaciations. Minimal elevation differences with predominantly flat terrain with Oderbruch as a wide river valley shaped by glacial meltwater"
         },
         "challenges": {
-          "de": null,
-          "en": null
+          "de": "Rückgang der Artenvielfalt in Agrarlandschaften (z. B. Austrocknung von Laichhabitaten für Amphibien). Landbesitz: Ein Großteil der landwirtschaftlichen Flächen befindet sich nicht im Besitz der Landwirte.",
+          "en": "Biodiversity decline in agricultural landscapes (e.g., drying of breeding habitats for amphibians). Land ownership: much farmland not owned by farmers."
         }
       },
       "soil": {
         "about": {
-          "de": null,
-          "en": null
+          "de": "Es überwiegen sandige und lehmig-sandige Böden („Märkischer Sand“) mit geringer natürlicher Fruchtbarkeit. Müncheberger Bodenbewertung: Überwiegend sehr geringe bis geringe Bodenqualität (unter 50 Punkten); Böden mittlerer Qualität nur in bestimmten Auengebieten (z. B. im Oderbruch). Hohe räumliche Heterogenität der Bodenqualität innerhalb einzelner Felder aufgrund der glazialen Landschaftsbildung",
+          "en": "Dominated by sandy and loamy-sandy soils ('Märkischer Sand') with low natural fertility. Müncheberger Soil Rating: Mostly very low to low soil quality (below 50 points); medium-quality soils only in specific floodplain regions (e.g., Oderbruch). High spatial heterogeneity of soil quality within single fields due to glacial landscape formation"
         },
         "challenges": {
           "de": null,
@@ -318,15 +362,15 @@
       "name": "Havelländisches Luch",
       "narrative": {
         "agriculture": {
-          "about": "",
-          "challenges": ""
+          "about": "Landwirtschaft und Viehzucht prägen weite Teile des Havellands. Über 80 % der landwirtschaftlichen Nutzfläche werden von Betrieben bewirtschaftet, die jeweils mehr als 100 ha Ackerland besitzen. Kleinbetriebe machen lediglich 3,6 % der Fläche aus. Aufgrund des hohen Grünlandanteils in der Region sind Rinder-, Pferde- und Schafzucht von besonderer Bedeutung. Es wird eine große Vielfalt an Kulturpflanzen angebaut, von Roggen und Gerste bis hin zu Mais, Kartoffeln, hochwertigem Weizen und Rüben. Teile der Havelländischen Luch sind aufgrund ihrer Nähe zum Grundwasser zudem für den Ackerbau attraktiv.",
+          "challenges": "Die Landwirtschaft im Landkreis Havelland ist durch die Lage und die Bodenverhältnisse (Feuchtgebiete, überwiegender Grünlandanteil, unterschiedliche Bodenqualität) geprägt und unterliegt gleichzeitig wachsenden externen Anforderungen (Tierschutz, Biodiversität, Umweltschutz, Wirtschaftlichkeit, Klimawandel sowie im Osten der Region: Flächennutzungsdruck durch konkurrierende Landnutzer). Die Kombination verschiedener Nutzungsformen (Ackerland, Grünland, Tierhaltung) und die Abstimmung mit Wasser-, Boden- und Naturschutzverbänden machen die Situation komplex. Anforderungen an die Wasserwirtschaft stehen im Widerspruch zu veralteter Wasserregulierungstechnik."
         },
         "climate": {
-          "about": "",
-          "challenges": ""
+          "about": "Der Landkreis Havelland wird nach wie vor als Teil der nordostdeutschen Tiefebene angesehen, die von maritimen Einflüssen geprägt ist. Die Sommer sind relativ warm, und die Niederschlagsmengen im Sommer liegen mit 250–350 mm etwas höher als im Rest des Jahres. Im Winter, der im Durchschnitt als mild bis mäßig kalt einzustufen ist, gibt es mehr Tage mit Niederschlag als im Sommer, allerdings bei geringeren Gesamtniederschlagsmengen.",
+          "challenges": "Aufgrund der zunehmenden Verdunstung verschlechtert sich der klimatische Wasserhaushalt im betrachteten Gebiet insgesamt. Dies macht sich insbesondere im Sommer bemerkbar und ist eine Entwicklung, die in Zukunft zunehmend an Bedeutung gewinnen wird."
         },
         "economic": {
-          "about": "",
+          "about": "Die sozioökonomische Lage der Region Havelland wird stark durch ihre Nähe zu Berlin geprägt, wobei sich der östliche Teil der Region, der in der Nähe der Hauptstadt liegt, deutlich vom ländlichen westlichen Teil unterscheidet. Die Bevölkerungs- und Bebauungsdichte ist im Osten wesentlich höher. Die Städte Falkensee und Nauen, die in der Nähe von Berlin liegen, sind in den letzten Jahren rasant gewachsen, und der Landkreis gehört hinsichtlich der positiven Wanderungsbilanz zu den 15 führenden in Deutschland. Auch die meisten Industrieunternehmen (insbesondere im Logistiksektor) sind im Osten des Kreises angesiedelt. Die Bedeutung des Tourismus (insbesondere des Wassertourismus) hat in letzter Zeit zugenommen. Die Arbeitslosenquote ist im Vergleich zum Rest des Landes relativ niedrig. Die Haushaltseinkommen gehören jedoch zu den niedrigsten in Deutschland.",
           "challenges": ""
         },
         "landscape": {
@@ -334,7 +378,7 @@
           "challenges": ""
         },
         "soil": {
-          "about": "",
+          "about": "Havelland gehört zur norddeutschen Tiefebene und verfügt über sandige Schwemmlandböden. Die Qualität der Ackerböden nimmt von Westen nach Osten zu.",
           "challenges": ""
         }
       },
@@ -413,24 +457,68 @@
       ],
       "climate": [
         {
-          "genesisTable": null,
-          "key": "agr_ch4_kt",
-          "sourceHost": null,
-          "unit": {
-            "de": "kt CO2aeq",
-            "en": "kt CO2eq"
+          "delta": 1154.0,
+          "deltaHorizon": "2071-2100",
+          "deltaUnit": {
+            "de": "°C·d",
+            "en": "°C·d"
           },
-          "value": null
+          "genesisTable": null,
+          "key": "gdd5_degc_days",
+          "sourceHost": "chelsa",
+          "unit": {
+            "de": "°C·d",
+            "en": "°C·d"
+          },
+          "value": 2075.0
         },
         {
-          "genesisTable": null,
-          "key": "agr_n2o_kt",
-          "sourceHost": null,
-          "unit": {
-            "de": "kt CO2aeq",
-            "en": "kt CO2eq"
+          "delta": 4.1,
+          "deltaHorizon": "2071-2100",
+          "deltaUnit": {
+            "de": "°C",
+            "en": "°C"
           },
-          "value": null
+          "genesisTable": null,
+          "key": "mean_annual_temp_degc",
+          "sourceHost": "chelsa",
+          "unit": {
+            "de": "°C",
+            "en": "°C"
+          },
+          "value": 9.6
+        },
+        {
+          "delta": 2.7,
+          "deltaHorizon": "2071-2100",
+          "deltaUnit": {
+            "de": "%",
+            "en": "%"
+          },
+          "genesisTable": null,
+          "key": "annual_precip_mm",
+          "sourceHost": "chelsa",
+          "unit": {
+            "de": "mm",
+            "en": "mm"
+          },
+          "value": 595.0
+        },
+        {
+          "delta": -5.9,
+          "deltaHorizon": "2071-2100",
+          "deltaUnit": {
+            "de": "%",
+            "en": "%"
+          },
+          "genesisTable": null,
+          "key": "warm_quarter_precip_mm",
+          "sourceHost": "chelsa",
+          "unit": {
+            "de": "mm",
+            "en": "mm"
+          },
+          "value": 186.0
         }
       ],
       "economic": [
@@ -557,27 +645,27 @@
     "narrativeByTab": {
       "agriculture": {
         "about": {
-          "de": null,
+          "de": "Landwirtschaft und Viehzucht prägen weite Teile des Havellands. Über 80 % der landwirtschaftlichen Nutzfläche werden von Betrieben bewirtschaftet, die jeweils mehr als 100 ha Ackerland besitzen. Kleinbetriebe machen lediglich 3,6 % der Fläche aus. Aufgrund des hohen Grünlandanteils in der Region sind Rinder-, Pferde- und Schafzucht von besonderer Bedeutung. Es wird eine große Vielfalt an Kulturpflanzen angebaut, von Roggen und Gerste bis hin zu Mais, Kartoffeln, hochwertigem Weizen und Rüben. Teile der Havelländischen Luch sind aufgrund ihrer Nähe zum Grundwasser zudem für den Ackerbau attraktiv.",
           "en": "Agriculture and livestock farming characterise large areas of the Havelland region. Over 80% of agricultural land is farmed by businesses, who own more than 100 ha farmland each. Small businesses account for just 3.6% of the area. Due to the high proportion of grassland in the region, cattle, horse and sheep farming are particularly important. A wide variety of crops are grown, from rye and barley to maize, potatoes, high-quality wheat and beet. Parts of the Havelländische Luch are also attractive for arable farming due to their proximity to groundwater."
         },
         "challenges": {
-          "de": null,
+          "de": "Die Landwirtschaft im Landkreis Havelland ist durch die Lage und die Bodenverhältnisse (Feuchtgebiete, überwiegender Grünlandanteil, unterschiedliche Bodenqualität) geprägt und unterliegt gleichzeitig wachsenden externen Anforderungen (Tierschutz, Biodiversität, Umweltschutz, Wirtschaftlichkeit, Klimawandel sowie im Osten der Region: Flächennutzungsdruck durch konkurrierende Landnutzer). Die Kombination verschiedener Nutzungsformen (Ackerland, Grünland, Tierhaltung) und die Abstimmung mit Wasser-, Boden- und Naturschutzverbänden machen die Situation komplex. Anforderungen an die Wasserwirtschaft stehen im Widerspruch zu veralteter Wasserregulierungstechnik.",
           "en": "Agriculture in the Havelland district is characterised by location and land conditions (wetlands, predominance of grassland, varying soil quality) and is simultaneously subject to growing external demands (animal welfare, biodiversity, environmental protection, economic efficiency, climate change, and in the east of the region: land use pressure from competing land users). The combination of different uses (arable land, grassland, animal husbandry) and coordination with water/soil/nature conservation associations make the situation complex. Water management requirements clash with outdated water regulation technology."
         }
       },
       "climate": {
         "about": {
-          "de": null,
+          "de": "Der Landkreis Havelland wird nach wie vor als Teil der nordostdeutschen Tiefebene angesehen, die von maritimen Einflüssen geprägt ist. Die Sommer sind relativ warm, und die Niederschlagsmengen im Sommer liegen mit 250–350 mm etwas höher als im Rest des Jahres. Im Winter, der im Durchschnitt als mild bis mäßig kalt einzustufen ist, gibt es mehr Tage mit Niederschlag als im Sommer, allerdings bei geringeren Gesamtniederschlagsmengen.",
           "en": "The Havelland district is still considered part of the North-East German lowlands, with influences of maritime climates. Summers are relatively warm, and summer precipitation levels of 250-350 mm are slightly higher than during the rest of the year. In winter, which can be considered mild to moderately cold on average, there are more days with precipitation than in summer, but with lower total precipitation levels."
         },
         "challenges": {
-          "de": null,
+          "de": "Aufgrund der zunehmenden Verdunstung verschlechtert sich der klimatische Wasserhaushalt im betrachteten Gebiet insgesamt. Dies macht sich insbesondere im Sommer bemerkbar und ist eine Entwicklung, die in Zukunft zunehmend an Bedeutung gewinnen wird.",
           "en": "Due to increasing evaporation, the climatic water balance in the area under consideration is generally deteriorating. This is particularly evident in summer and is a development that will become increasingly significant in the future."
         }
       },
       "economic": {
         "about": {
-          "de": null,
+          "de": "Die sozioökonomische Lage der Region Havelland wird stark durch ihre Nähe zu Berlin geprägt, wobei sich der östliche Teil der Region, der in der Nähe der Hauptstadt liegt, deutlich vom ländlichen westlichen Teil unterscheidet. Die Bevölkerungs- und Bebauungsdichte ist im Osten wesentlich höher. Die Städte Falkensee und Nauen, die in der Nähe von Berlin liegen, sind in den letzten Jahren rasant gewachsen, und der Landkreis gehört hinsichtlich der positiven Wanderungsbilanz zu den 15 führenden in Deutschland. Auch die meisten Industrieunternehmen (insbesondere im Logistiksektor) sind im Osten des Kreises angesiedelt. Die Bedeutung des Tourismus (insbesondere des Wassertourismus) hat in letzter Zeit zugenommen. Die Arbeitslosenquote ist im Vergleich zum Rest des Landes relativ niedrig. Die Haushaltseinkommen gehören jedoch zu den niedrigsten in Deutschland.",
           "en": "The socio-economic situation of the Havelland region is strongly influenced by its proximity to Berlin, with the eastern part of the region, which is close to the city, differing significantly from the rural western part. The population and building density is much higher in the east. The towns of Falkensee and Nauen, which are close to Berlin, have grown rapidly in recent years, and the district is among the top 15 in Germany in terms of positive net migration. Most industrial companies (especially in the logistics sector) are also located in the east of the district. The importance of tourism (especially water tourism) has increased recently. The unemployment rate is relatively low compared to the rest of the state. However, household incomes are among the lowest in Germany."
         },
         "challenges": {
@@ -597,7 +685,7 @@
       },
       "soil": {
         "about": {
-          "de": null,
+          "de": "Havelland gehört zur norddeutschen Tiefebene und verfügt über sandige Schwemmlandböden. Die Qualität der Ackerböden nimmt von Westen nach Osten zu.",
           "en": "Havelland is classified as part of the North German inland lowlands and has sandy, diluvial soils. The quality of the arable soil increases from west to east."
         },
         "challenges": {
@@ -627,24 +715,24 @@
       "name": "Hessisches Mittelgebirge",
       "narrative": {
         "agriculture": {
-          "about": "",
-          "challenges": ""
+          "about": "Vergleichsweise hohe Viehbesatzdichte. Hoher Anteil an Grünland. Hoher Waldanteil. Relativ kleine Betriebs- und Feldgrößen.",
+          "challenges": "Futtermittelproduktion problematisch (Boden für den Anbau ungeeignet), daher vorwiegend Grünlandwirtschaft. Rückgang in der Milchviehhaltung (-6 % Milchkühe, -14 % Betriebe). Konkurrenz um Flächen durch die Energieerzeugung (Windkraft, Photovoltaik)."
         },
         "climate": {
-          "about": "",
+          "about": "Der vorherrschenden Windrichtung ausgesetzt, Hangniederschläge, niedrigere Temperaturen im Vergleich zur Ebene.",
           "challenges": ""
         },
         "economic": {
-          "about": "",
-          "challenges": ""
+          "about": "Randgebiete – große Entfernungen zu regionalen Zentren. Bevölkerungsstruktur: Rückgang, Überalterung. Vergleichsweise geringes verfügbares Haushaltseinkommen.",
+          "challenges": "Die Absatzmärkte für Produkte (Milch, Fleisch usw.) liegen weit entfernt, es gibt weniger Möglichkeiten für den Direktvertrieb, und die Entfernungen zu Schlachthöfen und Verarbeitungsbetrieben sind groß. Es herrscht Arbeitskräftemangel aufgrund von Abwanderung und einer alternden Bevölkerung."
         },
         "landscape": {
-          "about": "",
+          "about": "Niedriggebirgsregionen in 400–1000 m Höhe mit hoher Reliefenergie.",
           "challenges": ""
         },
         "soil": {
-          "about": "",
-          "challenges": ""
+          "about": "Die Bodenarten sind sehr unterschiedlich: podzolische Braunböden mit geringer Basensättigung, roter Sandstein, Braunböden mit hoher bis mittlerer Basensättigung, Pseudogley, Parabraunböden aus Löss mit hoher Basensättigung, Rendzina auf kalkhaltigen Standorten (lokal begrenzt).",
+          "challenges": "Bodenerosion bei starken Regenfällen."
         }
       },
       "tagline": "Integrierte Pflanze-Tier-Agrarsysteme"
@@ -654,24 +742,24 @@
       "name": "Hessian Low Mountain Range",
       "narrative": {
         "agriculture": {
-          "about": "",
-          "challenges": ""
+          "about": "Comparatively high livestock density. High proportion of grassland. High proportion of forest. Relatively small farm sizes and field sizes",
+          "challenges": "Feed production problematic (soil unsuitable for cultivation), therefore predominantly grassland farming. Decline in dairy farming (-6% dairy cows, -14% farms). Competition for land with energy production (wind power, photovoltaics)"
         },
         "climate": {
-          "about": "",
+          "about": "Exposed to the prevailing wind direction, slope rainfall, lower temperatures compared to the plains.",
           "challenges": ""
         },
         "economic": {
-          "about": "",
-          "challenges": ""
+          "about": "Peripheral areas – long distances to regional centres. Population structure: decline, ageing. Comparatively low disposable household income.",
+          "challenges": "Sales market for products (milk, meat, etc.) located far away, lower direct marketing opportunities, Long distances to slaughterhouses and processing companies. Shortage of workers due to migration and ageing population."
         },
         "landscape": {
-          "about": "",
+          "about": "Low mountain regions 400-1000 m altitude with high relief energy.",
           "challenges": ""
         },
         "soil": {
-          "about": "",
-          "challenges": ""
+          "about": "Soil types are highly variable: Podzolic brown soils with low base saturation, red sandstone, brown soils with high to medium base saturation, pseudogley, parabraun soils from loess with high base saturation, rendzina on calcareous sites (locally limited).",
+          "challenges": "Soil erosion during heavy rainfall"
         }
       },
       "tagline": "Integrated plant-animal agricultural systems"
@@ -722,24 +810,68 @@
       ],
       "climate": [
         {
-          "genesisTable": null,
-          "key": "agr_ch4_kt",
-          "sourceHost": null,
-          "unit": {
-            "de": "kt CO2aeq",
-            "en": "kt CO2eq"
+          "delta": 1091.0,
+          "deltaHorizon": "2071-2100",
+          "deltaUnit": {
+            "de": "°C·d",
+            "en": "°C·d"
           },
-          "value": null
+          "genesisTable": null,
+          "key": "gdd5_degc_days",
+          "sourceHost": "chelsa",
+          "unit": {
+            "de": "°C·d",
+            "en": "°C·d"
+          },
+          "value": 1802.0
         },
         {
-          "genesisTable": null,
-          "key": "agr_n2o_kt",
-          "sourceHost": null,
-          "unit": {
-            "de": "kt CO2aeq",
-            "en": "kt CO2eq"
+          "delta": 3.9,
+          "deltaHorizon": "2071-2100",
+          "deltaUnit": {
+            "de": "°C",
+            "en": "°C"
           },
-          "value": null
+          "genesisTable": null,
+          "key": "mean_annual_temp_degc",
+          "sourceHost": "chelsa",
+          "unit": {
+            "de": "°C",
+            "en": "°C"
+          },
+          "value": 8.7
+        },
+        {
+          "delta": 2.9,
+          "deltaHorizon": "2071-2100",
+          "deltaUnit": {
+            "de": "%",
+            "en": "%"
+          },
+          "genesisTable": null,
+          "key": "annual_precip_mm",
+          "sourceHost": "chelsa",
+          "unit": {
+            "de": "mm",
+            "en": "mm"
+          },
+          "value": 862.0
+        },
+        {
+          "delta": -8.6,
+          "deltaHorizon": "2071-2100",
+          "deltaUnit": {
+            "de": "%",
+            "en": "%"
+          },
+          "genesisTable": null,
+          "key": "warm_quarter_precip_mm",
+          "sourceHost": "chelsa",
+          "unit": {
+            "de": "mm",
+            "en": "mm"
+          },
+          "value": 220.0
         }
       ],
       "economic": [
@@ -866,18 +998,18 @@
     "narrativeByTab": {
       "agriculture": {
         "about": {
-          "de": null,
-          "en": null
+          "de": "Vergleichsweise hohe Viehbesatzdichte. Hoher Anteil an Grünland. Hoher Waldanteil. Relativ kleine Betriebs- und Feldgrößen.",
+          "en": "Comparatively high livestock density. High proportion of grassland. High proportion of forest. Relatively small farm sizes and field sizes"
         },
         "challenges": {
-          "de": null,
-          "en": null
+          "de": "Futtermittelproduktion problematisch (Boden für den Anbau ungeeignet), daher vorwiegend Grünlandwirtschaft. Rückgang in der Milchviehhaltung (-6 % Milchkühe, -14 % Betriebe). Konkurrenz um Flächen durch die Energieerzeugung (Windkraft, Photovoltaik).",
+          "en": "Feed production problematic (soil unsuitable for cultivation), therefore predominantly grassland farming. Decline in dairy farming (-6% dairy cows, -14% farms). Competition for land with energy production (wind power, photovoltaics)"
         }
       },
       "climate": {
         "about": {
-          "de": null,
-          "en": null
+          "de": "Der vorherrschenden Windrichtung ausgesetzt, Hangniederschläge, niedrigere Temperaturen im Vergleich zur Ebene.",
+          "en": "Exposed to the prevailing wind direction, slope rainfall, lower temperatures compared to the plains."
         },
         "challenges": {
           "de": null,
@@ -886,18 +1018,18 @@
       },
       "economic": {
         "about": {
-          "de": null,
-          "en": null
+          "de": "Randgebiete – große Entfernungen zu regionalen Zentren. Bevölkerungsstruktur: Rückgang, Überalterung. Vergleichsweise geringes verfügbares Haushaltseinkommen.",
+          "en": "Peripheral areas – long distances to regional centres. Population structure: decline, ageing. Comparatively low disposable household income."
         },
         "challenges": {
-          "de": null,
-          "en": null
+          "de": "Die Absatzmärkte für Produkte (Milch, Fleisch usw.) liegen weit entfernt, es gibt weniger Möglichkeiten für den Direktvertrieb, und die Entfernungen zu Schlachthöfen und Verarbeitungsbetrieben sind groß. Es herrscht Arbeitskräftemangel aufgrund von Abwanderung und einer alternden Bevölkerung.",
+          "en": "Sales market for products (milk, meat, etc.) located far away, lower direct marketing opportunities, Long distances to slaughterhouses and processing companies. Shortage of workers due to migration and ageing population."
         }
       },
       "landscape": {
         "about": {
-          "de": null,
-          "en": null
+          "de": "Niedriggebirgsregionen in 400–1000 m Höhe mit hoher Reliefenergie.",
+          "en": "Low mountain regions 400-1000 m altitude with high relief energy."
         },
         "challenges": {
           "de": null,
@@ -906,12 +1038,12 @@
       },
       "soil": {
         "about": {
-          "de": null,
-          "en": null
+          "de": "Die Bodenarten sind sehr unterschiedlich: podzolische Braunböden mit geringer Basensättigung, roter Sandstein, Braunböden mit hoher bis mittlerer Basensättigung, Pseudogley, Parabraunböden aus Löss mit hoher Basensättigung, Rendzina auf kalkhaltigen Standorten (lokal begrenzt).",
+          "en": "Soil types are highly variable: Podzolic brown soils with low base saturation, red sandstone, brown soils with high to medium base saturation, pseudogley, parabraun soils from loess with high base saturation, rendzina on calcareous sites (locally limited)."
         },
         "challenges": {
-          "de": null,
-          "en": null
+          "de": "Bodenerosion bei starken Regenfällen.",
+          "en": "Soil erosion during heavy rainfall"
         }
       }
     },
@@ -939,24 +1071,24 @@
       "name": "Nordhessische Lössebene",
       "narrative": {
         "agriculture": {
-          "about": "",
-          "challenges": ""
+          "about": "Die Landwirtschaft ist kleinstrukturiert und getreidebetont: Winterweizen, Wintergerste und Winterraps bilden das Grundgerüst der Fruchtfolge, Getreide steht auf rund zwei Dritteln der Ackerfläche, daneben Feldfutterbau, Ölfrüchte und ein wachsendes Spektrum an Nischenkulturen – beim Hanfanbau ist der Werra-Meißner-Kreis hessenweit führend. Der Ökolandbau ist ungewöhnlich stark und hat sich zwischen 2009 und 2019 nahezu verdoppelt: Im Werra-Meißner-Kreis wirtschaften 12 % der Betriebe auf 14,4 % der landwirtschaftlichen Nutzfläche ökologisch, deutlich über dem Bundeswert; getragen wird dies vom Fachbereich Ökologische Agrarwissenschaften der Universität Kassel in Witzenhausen – dem weltweit ersten seiner Art –, der Staatsdomäne Frankenhausen und der Ökolandbau-Modellregion Nordhessen. Die Nutztierdichte ist vergleichsweise gering und rückläufig: Die Milchviehhaltung geht stark zurück, während Mutterkühe, Schafe, Pferde und Geflügel zulegen. Rund ein Drittel der Ackerflächen und über die Hälfte des Grünlands werden über Agrarumweltmaßnahmen oder ökologisch bewirtschaftet.",
+          "challenges": "Die Gewinne lagen in den meisten der letzten Jahre unter dem langjährigen Mittel, sodass viele Betriebe von der Substanz gelebt haben; Haupterwerbsbetriebe verschwinden schneller als Nebenerwerbsbetriebe, und die Hofnachfolge ist häufig ungeklärt. Der Einbruch der Milchviehhaltung – 54 % der Milchviehbetriebe und ein Viertel der Kühe in zehn Jahren – entzieht der Region Wertschöpfung und zugleich die Beweidung, die das Grünland offen hält. Die Ausdehnung des Ökolandbaus stößt an eine Nachfragegrenze: Für mehrere Ökoprodukte sind die Erzeugerpreise zu niedrig, sodass sich der Trend ohne die Erschließung regionaler Absatzmärkte wie des Ballungsraums Kassel umkehren könnte. Enge Getreidefruchtfolgen erhöhen den Pflanzenschutzaufwand und mindern Humusgehalte und Artenvielfalt, während weiterhin Flächen an Straßen- und Logistikbau verloren gehen."
         },
         "climate": {
-          "about": "",
-          "challenges": ""
+          "about": "Die Becken liegen im Regenschatten der umgebenden Mittelgebirge und sind ausgesprochen trocken: 500–600 mm Jahresniederschlag im Kasseler Becken und in den Lössbörden stehen 800–900 mm auf den Höhen von Habichtswald, Kaufunger Wald und Meißner gegenüber. Die Jahresmitteltemperatur liegt in den Beckenlagen bei knapp 9,5 °C und in den Höhenlagen deutlich darunter, wo die Vegetationsperiode später beginnt. Die Jahresmitteltemperatur in Hessen stieg von 8,2 °C (1961–1990) auf 9,3 °C (1991–2020); die Niederschläge verteilen sich recht gleichmäßig über das Jahr mit einem leichten Sommermaximum.",
+          "challenges": "Was früher vorausgesetzt werden konnte – im Großen und Ganzen ausreichender Niederschlag –, ist unkalkulierbar geworden; das Dürrejahr 2018 markiert den Wendepunkt, und Land- wie Forstwirtschaft stehen vor der Aufgabe, ihre Anbau- und Bestandssysteme umfassend neu zu gestalten. Die geringen Niederschläge in den Becken lassen zusammen mit steigender Verdunstung kaum Puffer, und auf den flachgründigen Böden außerhalb der Lössgebiete schlagen Trockenperioden schnell auf die Erträge durch. Die zunehmende Ertragsunsicherheit verändert die Betriebsstrategien: Einnahmen aus Agrarumweltmaßnahmen sind inzwischen besser kalkulierbar als die Ernte selbst."
         },
         "economic": {
-          "about": "",
-          "challenges": ""
+          "about": "In den beiden Landkreisen leben rund 330.000 Menschen – etwa 230.000 im Landkreis Kassel und 100.000 im Werra-Meißner-Kreis –, die die Stadt Kassel umschließen, ohne sie einzubeziehen: die einzige Großstadt Nordhessens und zugleich dessen Markt- und Versorgungszentrum. Der Raum Kassel wird von der Mobilitätswirtschaft geprägt: Das Volkswagen-Komponentenwerk in Baunatal ist mit rund 16.500 Beschäftigten der größte Arbeitgeber Nordhessens, daneben stehen Bahntechnik, Logistik, Umwelt- und Energietechnik sowie die Universität Kassel. Der Werra-Meißner-Kreis ist ländlicher und kleinteiliger strukturiert, mit Automobilzulieferern, Werkzeug- und Formenbau, Kunststoff- und Papierverarbeitung und Feuerfestindustrie sowie Gesundheit und Wellness, Logistik und ökologischer Landwirtschaft. Der Tourismus stützt sich auf Fachwerkstädte, den Reinhardswald und den Geo-Naturpark Frau-Holle-Land.",
+          "challenges": "Als ehemaliges Zonenrandgebiet trägt der Werra-Meißner-Kreis eine anhaltende Strukturschwäche: Die Beschäftigungsbasis ist geschrumpft, die Bevölkerung geht seit den 1970er Jahren zurück, und Alterung wie Abwanderung werden durch die Entfernung zu größeren Zentren verstärkt. Fachkräfte sind knapp, die Hofnachfolge häufig ungeklärt. Die Wertschöpfungskette für Lebensmittel ist auf der Abnehmerseite stark konzentriert, sodass wenig Verarbeitungswertschöpfung in der Region bleibt; regionale und ökologische Vermarktungsinitiativen – Feierabendmärkte, Schulcatering, regionale Biomarken – setzen genau hier an. Der nahe Ballungsraum Kassel ist der naheliegende Absatzmarkt dafür, wird aber noch nicht ausgeschöpft."
         },
         "landscape": {
-          "about": "",
-          "challenges": ""
+          "about": "Ein Mosaik aus fruchtbaren Lössbecken und bewaldeten Mittelgebirgen. Offene, großflächige Agrarlandschaften prägen das Kasseler Becken, die Hofgeismarer Senke, das Wolfhager Becken, das Werratal und die Lichtenauer Hochfläche, gerahmt von Reinhardswald, Habichtswald, Kaufunger Wald, dem Hohen Meißner (754 m) sowie Ringgau und Stölzinger Gebirge. Der Waldanteil liegt im Landkreis Kassel bei knapp 40 %, und die Werra durchzieht den östlichen Teil der Region. Der Naturpark Habichtswald und der Geo-Naturpark Frau-Holle-Land – mit über 200 Geotopen und als einer von 30 Biodiversitäts-Hotspots Deutschlands – ergänzen zusammen mit historischen Fachwerkstädten eine vielschichtige Kulturlandschaft.",
+          "challenges": "Die kleinstrukturierte Agrarlandschaft mit ihrem großen Artenspektrum ist eine der eigentlichen Stärken der Region, hängt aber an einer fortgesetzten Beweidung und extensiven Nutzung, die ökonomisch nicht ausreichend honoriert wird; wo sie endet, gehen offenes Grünland und seine naturnahen Lebensräume verloren. Infrastruktur beansprucht fortlaufend landwirtschaftliche Flächen – Autobahnbau und ein geplantes Logistikgebiet verursachten den Großteil der rund 560 ha, die dem Werra-Meißner-Kreis in zehn Jahren verloren gingen, und eine geplante Erdkabeltrasse würde jahrelange Bewirtschaftungsbehinderungen hinzufügen. Auf dem Ackerland mindern enge Fruchtfolgen die strukturelle Vielfalt, und die Rückkehr des Wolfes sorgt bei den Weidetierhaltern für zusätzliche Verunsicherung."
         },
         "soil": {
-          "about": "",
-          "challenges": ""
+          "about": "Der Löss ist die prägende Ressource der Region. In den Becken – dem Kasseler Becken, der Hofgeismarer Senke und dem Werratal – ist aus entkalktem Löss Parabraunerde mit hoher Wasser- und Nährstoffspeicherfähigkeit hervorgegangen, mit Bodenzahlen um 70–80 von maximal 100 und damit zu den besten Ackerböden Hessens zählend. Außerhalb der Lössdecke wechselt das Bild auf kurzer Distanz: Braunerden aus Buntsandstein sind sandig, sauer und überwiegend bewaldet, flachgründige Rendzinen auf Muschelkalk sind trocken, Böden aus Basaltverwitterung auf Habichtswald und Meißner sind steinig, aber nährstoffreich, und Auenlehme begleiten Werra und Fulda.",
+          "challenges": "Die Lössböden werden seit Jahrhunderten ackerbaulich genutzt und sind bereits erosionsbedingt gekappt; im welligen Gelände verlagert Starkregen Bodenmaterial hangabwärts, weshalb Erosionsschutz- und Gewässerrandstreifen fester Bestandteil des Agrarumweltprogramms sind. Außerhalb der Lössbecken ist das Ertragspotenzial gering, und die flachgründigen Böden speichern wenig Wasser, sodass sie in Trockenjahren zuerst leiden. Getreidebetonte Fruchtfolgen mindern die Humusgehalte, während die geringe Nutztierdichte der Region nur wenig Wirtschaftsdünger zum Humusaufbau verfügbar macht."
         }
       },
       "tagline": "Intensivierter ökologischer Landbau"
@@ -966,24 +1098,24 @@
       "name": "North Hessian Loess Plain",
       "narrative": {
         "agriculture": {
-          "about": "",
-          "challenges": ""
+          "about": "Farming is small-structured and cereal-dominated: winter wheat, winter barley and winter rape form the backbone of the rotation, with cereals on around two thirds of the arable area, alongside fodder cropping, oilseeds and a widening range of niche crops — the Werra-Meißner-Kreis is Hesse's leading hemp-growing district. Organic farming is unusually strong and nearly doubled between 2009 and 2019, reaching 12% of farms and 14.4% of the agricultural area in the Werra-Meißner-Kreis, well above the national level; it is anchored by the University of Kassel's Faculty of Organic Agricultural Sciences in Witzenhausen — the first of its kind worldwide — the state domain Frankenhausen and the Ökolandbau-Modellregion Nordhessen. Livestock density is comparatively low and falling, with dairy in sharp retreat while suckler cows, sheep, horses and poultry gain ground. Roughly a third of the arable land and more than half of the grassland is under agri-environment contracts or organic management.",
+          "challenges": "Profits have been below the long-run average in most recent years, so many farms have been living off their substance; full-time holdings are disappearing faster than part-time ones and succession is often unresolved. The collapse of dairy — 54% of dairy holdings and a quarter of the cows lost in ten years — strips value creation out of the region and removes the grazing that keeps grassland open. Organic expansion has hit a demand ceiling: producer prices for several organic products are too low, so the trend could reverse unless regional outlets such as the Kassel conurbation are opened up. Narrow cereal rotations raise pesticide use and depress humus and biodiversity, while farmland continues to be lost to road and logistics construction."
         },
         "climate": {
-          "about": "",
-          "challenges": ""
+          "about": "The basins lie in the rain shadow of the surrounding uplands and are markedly dry: 500–600 mm of annual precipitation in the Kassel basin and the loess Börde areas, against 800–900 mm on the heights of the Habichtswald, Kaufunger Wald and Meißner. The annual mean is close to 9.5 °C in the lowland basins and distinctly cooler at altitude, where the growing season starts later. Hesse's annual mean temperature rose from 8.2 °C in 1961–1990 to 9.3 °C in 1991–2020, and precipitation is spread fairly evenly through the year with a slight summer maximum.",
+          "challenges": "Rainfall that could once be taken for granted has become incalculable; the drought of 2018 marked the turning point, and both farming and forestry now face redesigning their cropping and stand systems around it. Low precipitation in the basins combined with rising evaporation leaves little buffer, and on the shallow soils outside the loess areas dry spells cut into yields quickly. Growing yield uncertainty is itself shifting farm strategy: agri-environment payments have become a more predictable source of income than the harvest."
         },
         "economic": {
-          "about": "",
-          "challenges": ""
+          "about": "Around 330,000 people live in the two districts — some 230,000 in Landkreis Kassel and 100,000 in the Werra-Meißner-Kreis — which surround, but do not include, the city of Kassel, North Hesse's only large city and its market and service centre. The Kassel area is driven by the mobility industry: the Volkswagen component plant at Baunatal is the largest employer in North Hesse with some 16,500 staff, alongside rail technology, logistics, environmental and energy technology and the University of Kassel. The Werra-Meißner-Kreis is more rural and industrially finer-grained, with automotive suppliers, tool and mould making, plastics and paper processing and refractories, plus health and wellness, logistics and organic agriculture. Tourism builds on half-timbered towns, the Reinhardswald and the Geo-Naturpark Frau-Holle-Land.",
+          "challenges": "As a former border region, the Werra-Meißner-Kreis carries long-standing structural weakness: its employment base has shrunk, the population has been declining since the 1970s, and ageing and out-migration are reinforced by the distance to larger centres. Skilled labour is scarce and farm succession frequently unclear. The food value chain is highly concentrated on the buyer side, so little processing value stays in the region; regional and organic marketing initiatives — farmers' evening markets, school catering, regional organic brands — are being built precisely to recapture it. The nearby Kassel conurbation is the obvious market for these products but is not yet fully tapped."
         },
         "landscape": {
-          "about": "",
-          "challenges": ""
+          "about": "A mosaic of fertile loess basins and wooded uplands. Open, large-field farmland fills the Kassel basin, the Hofgeismar depression, the Wolfhagen basin, the Werra valley and the Lichtenau plateau, framed by the Reinhardswald, the Habichtswald, the Kaufunger Wald, the Hoher Meißner (754 m) and the Ringgau and Stölzinger uplands. Forest covers close to 40% of Landkreis Kassel, and the Werra winds through the eastern part of the region. The Naturpark Habichtswald and the Geo-Naturpark Frau-Holle-Land — with more than 200 geotopes and counting as one of Germany's 30 biodiversity hotspots — together with historic half-timbered towns give the region a strongly layered cultural landscape.",
+          "challenges": "The small-structured farmland with its wide species spectrum is one of the region's real assets, but it depends on continued grazing and extensive use that is not adequately rewarded economically; where it stops, open grassland and its semi-natural habitats are lost. Infrastructure steadily consumes farmland — motorway construction and a planned logistics site alone drove most of the roughly 560 ha of agricultural area lost in the Werra-Meißner-Kreis over ten years, and a planned high-voltage cable corridor would add years of disruption. On the arable land, narrow rotations reduce structural diversity, and the returning wolf adds uncertainty for grazing livestock keepers."
         },
         "soil": {
-          "about": "",
-          "challenges": ""
+          "about": "Loess is the region's defining resource. In the basins — the Kassel basin, the Hofgeismar depression and the Werra valley — decalcified loess has weathered into Parabraunerden with high water and nutrient storage capacity and soil ratings around 70–80 of a possible 100, among the best arable soils in Hesse. Away from the loess cover the picture changes over short distances: brown soils on Bunter sandstone are sandy, acid and largely under forest, shallow rendzinas on Muschelkalk are dry, basalt-derived soils on the Habichtswald and Meißner are stony but nutrient-rich, and alluvial loams line the Werra and Fulda valleys.",
+          "challenges": "The loess soils have been cultivated for centuries and are already truncated by erosion; on undulating terrain heavy rain moves soil off the slopes, which is why erosion-control and buffer strips are a standing element of the agri-environment programme. Outside the loess basins yield potential is low, and the shallow soils store little water, so they are the first to suffer in dry years. Cereal-dominated rotations depress humus content, while the region's low livestock density means little farmyard manure is available to rebuild it."
         }
       },
       "tagline": "Intensified organic farming"
@@ -1034,24 +1166,68 @@
       ],
       "climate": [
         {
-          "genesisTable": null,
-          "key": "agr_ch4_kt",
-          "sourceHost": null,
-          "unit": {
-            "de": "kt CO2aeq",
-            "en": "kt CO2eq"
+          "delta": 1076.0,
+          "deltaHorizon": "2071-2100",
+          "deltaUnit": {
+            "de": "°C·d",
+            "en": "°C·d"
           },
-          "value": null
+          "genesisTable": null,
+          "key": "gdd5_degc_days",
+          "sourceHost": "chelsa",
+          "unit": {
+            "de": "°C·d",
+            "en": "°C·d"
+          },
+          "value": 1735.0
         },
         {
-          "genesisTable": null,
-          "key": "agr_n2o_kt",
-          "sourceHost": null,
-          "unit": {
-            "de": "kt CO2aeq",
-            "en": "kt CO2eq"
+          "delta": 3.9,
+          "deltaHorizon": "2071-2100",
+          "deltaUnit": {
+            "de": "°C",
+            "en": "°C"
           },
-          "value": null
+          "genesisTable": null,
+          "key": "mean_annual_temp_degc",
+          "sourceHost": "chelsa",
+          "unit": {
+            "de": "°C",
+            "en": "°C"
+          },
+          "value": 8.5
+        },
+        {
+          "delta": 2.3,
+          "deltaHorizon": "2071-2100",
+          "deltaUnit": {
+            "de": "%",
+            "en": "%"
+          },
+          "genesisTable": null,
+          "key": "annual_precip_mm",
+          "sourceHost": "chelsa",
+          "unit": {
+            "de": "mm",
+            "en": "mm"
+          },
+          "value": 805.0
+        },
+        {
+          "delta": -8.7,
+          "deltaHorizon": "2071-2100",
+          "deltaUnit": {
+            "de": "%",
+            "en": "%"
+          },
+          "genesisTable": null,
+          "key": "warm_quarter_precip_mm",
+          "sourceHost": "chelsa",
+          "unit": {
+            "de": "mm",
+            "en": "mm"
+          },
+          "value": 227.0
         }
       ],
       "economic": [
@@ -1178,52 +1354,52 @@
     "narrativeByTab": {
       "agriculture": {
         "about": {
-          "de": null,
-          "en": null
+          "de": "Die Landwirtschaft ist kleinstrukturiert und getreidebetont: Winterweizen, Wintergerste und Winterraps bilden das Grundgerüst der Fruchtfolge, Getreide steht auf rund zwei Dritteln der Ackerfläche, daneben Feldfutterbau, Ölfrüchte und ein wachsendes Spektrum an Nischenkulturen – beim Hanfanbau ist der Werra-Meißner-Kreis hessenweit führend. Der Ökolandbau ist ungewöhnlich stark und hat sich zwischen 2009 und 2019 nahezu verdoppelt: Im Werra-Meißner-Kreis wirtschaften 12 % der Betriebe auf 14,4 % der landwirtschaftlichen Nutzfläche ökologisch, deutlich über dem Bundeswert; getragen wird dies vom Fachbereich Ökologische Agrarwissenschaften der Universität Kassel in Witzenhausen – dem weltweit ersten seiner Art –, der Staatsdomäne Frankenhausen und der Ökolandbau-Modellregion Nordhessen. Die Nutztierdichte ist vergleichsweise gering und rückläufig: Die Milchviehhaltung geht stark zurück, während Mutterkühe, Schafe, Pferde und Geflügel zulegen. Rund ein Drittel der Ackerflächen und über die Hälfte des Grünlands werden über Agrarumweltmaßnahmen oder ökologisch bewirtschaftet.",
+          "en": "Farming is small-structured and cereal-dominated: winter wheat, winter barley and winter rape form the backbone of the rotation, with cereals on around two thirds of the arable area, alongside fodder cropping, oilseeds and a widening range of niche crops — the Werra-Meißner-Kreis is Hesse's leading hemp-growing district. Organic farming is unusually strong and nearly doubled between 2009 and 2019, reaching 12% of farms and 14.4% of the agricultural area in the Werra-Meißner-Kreis, well above the national level; it is anchored by the University of Kassel's Faculty of Organic Agricultural Sciences in Witzenhausen — the first of its kind worldwide — the state domain Frankenhausen and the Ökolandbau-Modellregion Nordhessen. Livestock density is comparatively low and falling, with dairy in sharp retreat while suckler cows, sheep, horses and poultry gain ground. Roughly a third of the arable land and more than half of the grassland is under agri-environment contracts or organic management."
         },
         "challenges": {
-          "de": null,
-          "en": null
+          "de": "Die Gewinne lagen in den meisten der letzten Jahre unter dem langjährigen Mittel, sodass viele Betriebe von der Substanz gelebt haben; Haupterwerbsbetriebe verschwinden schneller als Nebenerwerbsbetriebe, und die Hofnachfolge ist häufig ungeklärt. Der Einbruch der Milchviehhaltung – 54 % der Milchviehbetriebe und ein Viertel der Kühe in zehn Jahren – entzieht der Region Wertschöpfung und zugleich die Beweidung, die das Grünland offen hält. Die Ausdehnung des Ökolandbaus stößt an eine Nachfragegrenze: Für mehrere Ökoprodukte sind die Erzeugerpreise zu niedrig, sodass sich der Trend ohne die Erschließung regionaler Absatzmärkte wie des Ballungsraums Kassel umkehren könnte. Enge Getreidefruchtfolgen erhöhen den Pflanzenschutzaufwand und mindern Humusgehalte und Artenvielfalt, während weiterhin Flächen an Straßen- und Logistikbau verloren gehen.",
+          "en": "Profits have been below the long-run average in most recent years, so many farms have been living off their substance; full-time holdings are disappearing faster than part-time ones and succession is often unresolved. The collapse of dairy — 54% of dairy holdings and a quarter of the cows lost in ten years — strips value creation out of the region and removes the grazing that keeps grassland open. Organic expansion has hit a demand ceiling: producer prices for several organic products are too low, so the trend could reverse unless regional outlets such as the Kassel conurbation are opened up. Narrow cereal rotations raise pesticide use and depress humus and biodiversity, while farmland continues to be lost to road and logistics construction."
         }
       },
       "climate": {
         "about": {
-          "de": null,
-          "en": null
+          "de": "Die Becken liegen im Regenschatten der umgebenden Mittelgebirge und sind ausgesprochen trocken: 500–600 mm Jahresniederschlag im Kasseler Becken und in den Lössbörden stehen 800–900 mm auf den Höhen von Habichtswald, Kaufunger Wald und Meißner gegenüber. Die Jahresmitteltemperatur liegt in den Beckenlagen bei knapp 9,5 °C und in den Höhenlagen deutlich darunter, wo die Vegetationsperiode später beginnt. Die Jahresmitteltemperatur in Hessen stieg von 8,2 °C (1961–1990) auf 9,3 °C (1991–2020); die Niederschläge verteilen sich recht gleichmäßig über das Jahr mit einem leichten Sommermaximum.",
+          "en": "The basins lie in the rain shadow of the surrounding uplands and are markedly dry: 500–600 mm of annual precipitation in the Kassel basin and the loess Börde areas, against 800–900 mm on the heights of the Habichtswald, Kaufunger Wald and Meißner. The annual mean is close to 9.5 °C in the lowland basins and distinctly cooler at altitude, where the growing season starts later. Hesse's annual mean temperature rose from 8.2 °C in 1961–1990 to 9.3 °C in 1991–2020, and precipitation is spread fairly evenly through the year with a slight summer maximum."
         },
         "challenges": {
-          "de": null,
-          "en": null
+          "de": "Was früher vorausgesetzt werden konnte – im Großen und Ganzen ausreichender Niederschlag –, ist unkalkulierbar geworden; das Dürrejahr 2018 markiert den Wendepunkt, und Land- wie Forstwirtschaft stehen vor der Aufgabe, ihre Anbau- und Bestandssysteme umfassend neu zu gestalten. Die geringen Niederschläge in den Becken lassen zusammen mit steigender Verdunstung kaum Puffer, und auf den flachgründigen Böden außerhalb der Lössgebiete schlagen Trockenperioden schnell auf die Erträge durch. Die zunehmende Ertragsunsicherheit verändert die Betriebsstrategien: Einnahmen aus Agrarumweltmaßnahmen sind inzwischen besser kalkulierbar als die Ernte selbst.",
+          "en": "Rainfall that could once be taken for granted has become incalculable; the drought of 2018 marked the turning point, and both farming and forestry now face redesigning their cropping and stand systems around it. Low precipitation in the basins combined with rising evaporation leaves little buffer, and on the shallow soils outside the loess areas dry spells cut into yields quickly. Growing yield uncertainty is itself shifting farm strategy: agri-environment payments have become a more predictable source of income than the harvest."
         }
       },
       "economic": {
         "about": {
-          "de": null,
-          "en": null
+          "de": "In den beiden Landkreisen leben rund 330.000 Menschen – etwa 230.000 im Landkreis Kassel und 100.000 im Werra-Meißner-Kreis –, die die Stadt Kassel umschließen, ohne sie einzubeziehen: die einzige Großstadt Nordhessens und zugleich dessen Markt- und Versorgungszentrum. Der Raum Kassel wird von der Mobilitätswirtschaft geprägt: Das Volkswagen-Komponentenwerk in Baunatal ist mit rund 16.500 Beschäftigten der größte Arbeitgeber Nordhessens, daneben stehen Bahntechnik, Logistik, Umwelt- und Energietechnik sowie die Universität Kassel. Der Werra-Meißner-Kreis ist ländlicher und kleinteiliger strukturiert, mit Automobilzulieferern, Werkzeug- und Formenbau, Kunststoff- und Papierverarbeitung und Feuerfestindustrie sowie Gesundheit und Wellness, Logistik und ökologischer Landwirtschaft. Der Tourismus stützt sich auf Fachwerkstädte, den Reinhardswald und den Geo-Naturpark Frau-Holle-Land.",
+          "en": "Around 330,000 people live in the two districts — some 230,000 in Landkreis Kassel and 100,000 in the Werra-Meißner-Kreis — which surround, but do not include, the city of Kassel, North Hesse's only large city and its market and service centre. The Kassel area is driven by the mobility industry: the Volkswagen component plant at Baunatal is the largest employer in North Hesse with some 16,500 staff, alongside rail technology, logistics, environmental and energy technology and the University of Kassel. The Werra-Meißner-Kreis is more rural and industrially finer-grained, with automotive suppliers, tool and mould making, plastics and paper processing and refractories, plus health and wellness, logistics and organic agriculture. Tourism builds on half-timbered towns, the Reinhardswald and the Geo-Naturpark Frau-Holle-Land."
         },
         "challenges": {
-          "de": null,
-          "en": null
+          "de": "Als ehemaliges Zonenrandgebiet trägt der Werra-Meißner-Kreis eine anhaltende Strukturschwäche: Die Beschäftigungsbasis ist geschrumpft, die Bevölkerung geht seit den 1970er Jahren zurück, und Alterung wie Abwanderung werden durch die Entfernung zu größeren Zentren verstärkt. Fachkräfte sind knapp, die Hofnachfolge häufig ungeklärt. Die Wertschöpfungskette für Lebensmittel ist auf der Abnehmerseite stark konzentriert, sodass wenig Verarbeitungswertschöpfung in der Region bleibt; regionale und ökologische Vermarktungsinitiativen – Feierabendmärkte, Schulcatering, regionale Biomarken – setzen genau hier an. Der nahe Ballungsraum Kassel ist der naheliegende Absatzmarkt dafür, wird aber noch nicht ausgeschöpft.",
+          "en": "As a former border region, the Werra-Meißner-Kreis carries long-standing structural weakness: its employment base has shrunk, the population has been declining since the 1970s, and ageing and out-migration are reinforced by the distance to larger centres. Skilled labour is scarce and farm succession frequently unclear. The food value chain is highly concentrated on the buyer side, so little processing value stays in the region; regional and organic marketing initiatives — farmers' evening markets, school catering, regional organic brands — are being built precisely to recapture it. The nearby Kassel conurbation is the obvious market for these products but is not yet fully tapped."
         }
       },
       "landscape": {
         "about": {
-          "de": null,
-          "en": null
+          "de": "Ein Mosaik aus fruchtbaren Lössbecken und bewaldeten Mittelgebirgen. Offene, großflächige Agrarlandschaften prägen das Kasseler Becken, die Hofgeismarer Senke, das Wolfhager Becken, das Werratal und die Lichtenauer Hochfläche, gerahmt von Reinhardswald, Habichtswald, Kaufunger Wald, dem Hohen Meißner (754 m) sowie Ringgau und Stölzinger Gebirge. Der Waldanteil liegt im Landkreis Kassel bei knapp 40 %, und die Werra durchzieht den östlichen Teil der Region. Der Naturpark Habichtswald und der Geo-Naturpark Frau-Holle-Land – mit über 200 Geotopen und als einer von 30 Biodiversitäts-Hotspots Deutschlands – ergänzen zusammen mit historischen Fachwerkstädten eine vielschichtige Kulturlandschaft.",
+          "en": "A mosaic of fertile loess basins and wooded uplands. Open, large-field farmland fills the Kassel basin, the Hofgeismar depression, the Wolfhagen basin, the Werra valley and the Lichtenau plateau, framed by the Reinhardswald, the Habichtswald, the Kaufunger Wald, the Hoher Meißner (754 m) and the Ringgau and Stölzinger uplands. Forest covers close to 40% of Landkreis Kassel, and the Werra winds through the eastern part of the region. The Naturpark Habichtswald and the Geo-Naturpark Frau-Holle-Land — with more than 200 geotopes and counting as one of Germany's 30 biodiversity hotspots — together with historic half-timbered towns give the region a strongly layered cultural landscape."
         },
         "challenges": {
-          "de": null,
-          "en": null
+          "de": "Die kleinstrukturierte Agrarlandschaft mit ihrem großen Artenspektrum ist eine der eigentlichen Stärken der Region, hängt aber an einer fortgesetzten Beweidung und extensiven Nutzung, die ökonomisch nicht ausreichend honoriert wird; wo sie endet, gehen offenes Grünland und seine naturnahen Lebensräume verloren. Infrastruktur beansprucht fortlaufend landwirtschaftliche Flächen – Autobahnbau und ein geplantes Logistikgebiet verursachten den Großteil der rund 560 ha, die dem Werra-Meißner-Kreis in zehn Jahren verloren gingen, und eine geplante Erdkabeltrasse würde jahrelange Bewirtschaftungsbehinderungen hinzufügen. Auf dem Ackerland mindern enge Fruchtfolgen die strukturelle Vielfalt, und die Rückkehr des Wolfes sorgt bei den Weidetierhaltern für zusätzliche Verunsicherung.",
+          "en": "The small-structured farmland with its wide species spectrum is one of the region's real assets, but it depends on continued grazing and extensive use that is not adequately rewarded economically; where it stops, open grassland and its semi-natural habitats are lost. Infrastructure steadily consumes farmland — motorway construction and a planned logistics site alone drove most of the roughly 560 ha of agricultural area lost in the Werra-Meißner-Kreis over ten years, and a planned high-voltage cable corridor would add years of disruption. On the arable land, narrow rotations reduce structural diversity, and the returning wolf adds uncertainty for grazing livestock keepers."
         }
       },
       "soil": {
         "about": {
-          "de": null,
-          "en": null
+          "de": "Der Löss ist die prägende Ressource der Region. In den Becken – dem Kasseler Becken, der Hofgeismarer Senke und dem Werratal – ist aus entkalktem Löss Parabraunerde mit hoher Wasser- und Nährstoffspeicherfähigkeit hervorgegangen, mit Bodenzahlen um 70–80 von maximal 100 und damit zu den besten Ackerböden Hessens zählend. Außerhalb der Lössdecke wechselt das Bild auf kurzer Distanz: Braunerden aus Buntsandstein sind sandig, sauer und überwiegend bewaldet, flachgründige Rendzinen auf Muschelkalk sind trocken, Böden aus Basaltverwitterung auf Habichtswald und Meißner sind steinig, aber nährstoffreich, und Auenlehme begleiten Werra und Fulda.",
+          "en": "Loess is the region's defining resource. In the basins — the Kassel basin, the Hofgeismar depression and the Werra valley — decalcified loess has weathered into Parabraunerden with high water and nutrient storage capacity and soil ratings around 70–80 of a possible 100, among the best arable soils in Hesse. Away from the loess cover the picture changes over short distances: brown soils on Bunter sandstone are sandy, acid and largely under forest, shallow rendzinas on Muschelkalk are dry, basalt-derived soils on the Habichtswald and Meißner are stony but nutrient-rich, and alluvial loams line the Werra and Fulda valleys."
         },
         "challenges": {
-          "de": null,
-          "en": null
+          "de": "Die Lössböden werden seit Jahrhunderten ackerbaulich genutzt und sind bereits erosionsbedingt gekappt; im welligen Gelände verlagert Starkregen Bodenmaterial hangabwärts, weshalb Erosionsschutz- und Gewässerrandstreifen fester Bestandteil des Agrarumweltprogramms sind. Außerhalb der Lössbecken ist das Ertragspotenzial gering, und die flachgründigen Böden speichern wenig Wasser, sodass sie in Trockenjahren zuerst leiden. Getreidebetonte Fruchtfolgen mindern die Humusgehalte, während die geringe Nutztierdichte der Region nur wenig Wirtschaftsdünger zum Humusaufbau verfügbar macht.",
+          "en": "The loess soils have been cultivated for centuries and are already truncated by erosion; on undulating terrain heavy rain moves soil off the slopes, which is why erosion-control and buffer strips are a standing element of the agri-environment programme. Outside the loess basins yield potential is low, and the shallow soils store little water, so they are the first to suffer in dry years. Cereal-dominated rotations depress humus content, while the region's low livestock density means little farmyard manure is available to rebuild it."
         }
       }
     },
@@ -1248,24 +1424,24 @@
       "name": "Rheingau",
       "narrative": {
         "agriculture": {
-          "about": "",
-          "challenges": ""
+          "about": "Der Weinbau prägt die Region: Rund 2.700 ha Rebfläche machen 14 % der landwirtschaftlichen Nutzfläche des Kreises aus, davon etwa 85 % Riesling und 11 % Spätburgunder, bewirtschaftet von rund 280 Haupterwerbswinzern – überwiegend kleine Familienbetriebe neben historischen Einrichtungen wie Kloster Eberbach. Ackerland nimmt 55 % und Dauergrünland 31 % der rund 19.700 ha ein, die von etwa 620 Betrieben bewirtschaftet werden. Außerhalb der Weinberge sind Getreidebau, Schweinemast und Pensionspferdehaltung die wichtigsten Betriebszweige; rund 13 % der Betriebe wirtschaften ökologisch.",
+          "challenges": "Der deutsche Weinbau steckt in einer strukturellen Absatzkrise: Die Fassweinpreise liegen unter den Produktionskosten, die Nachfrage nach alkoholischen Getränken geht seit Jahren zurück, und Handelshemmnisse erschweren den Export. Der Steillagenweinbau ist sehr arbeitsintensiv und qualifizierte Saisonkräfte sind schwer zu finden, sodass steigende Löhne, Energiekosten und bürokratische Auflagen dort am stärksten wirken, wo der Landschaftswert am größten ist. Spätfrost, Hagel, Starkregen und Trockenheit erhöhen das Risiko jedes Jahrgangs, und die dichten Trauben des Rieslings bleiben anfällig für Pilzkrankheiten und Schädlinge. Kleine, stark parzellierte Betriebe erschweren Mechanisierung und Hofnachfolge."
         },
         "climate": {
-          "about": "",
-          "challenges": ""
+          "about": "Nach Norden durch den Taunuskamm vor kühlen Winden geschützt und vom Rhein begünstigt, der Wärme speichert und Licht auf die südexponierten Hänge reflektiert, zählt der Rheingau zu den mildesten Regionen Deutschlands: Die Jahresmitteltemperatur liegt bei rund 10,5 °C; milde Winter, warme Sommer und Herbstnebel begünstigen eine späte Traubenreife. Mit etwa 500–550 mm Jahresniederschlag ist die Region für deutsche Verhältnisse niederschlagsarm. Die Jahresmitteltemperatur in Hessen stieg von 8,2 °C (1961–1990) auf 9,3 °C (1991–2020); das Rhein-Main-Gebiet gehört zu den wärmsten Landesteilen.",
+          "challenges": "Die Erwärmung bringt den Riesling an seine Komfortgrenze: früherer Austrieb und frühere Reife, höhere Zucker- und Alkoholgehalte sowie sinkende Säure gefährden den filigranen Stil, für den die Region bekannt ist. Der frühere Austrieb erhöht zugleich das Spätfrostrisiko, und mehr heiße Tage führen zu Sonnenbrand an den Trauben. Das Klima verschiebt sich hin zu einem Wechsel aus längeren Trockenperioden und Starkregen, sodass sich die klimatische Wasserbilanz im Sommer verschlechtert und der Bewässerungsbedarf auf den flachgründigen Hangböden steigt."
         },
         "economic": {
-          "about": "",
-          "challenges": ""
+          "about": "Im Kreis leben rund 185.700 Menschen bei einer Bevölkerungsdichte von 113 Einwohnern je km², am nordwestlichen Rand der Metropolregion Frankfurt/Rhein-Main. Die Wirtschaft ist mittelständisch geprägt, mit High-Tech-Betrieben in der Informations- und Kommunikationstechnik, Sensorik, Mess- und Regeltechnik sowie Medizin-, Oberflächen- und Umwelttechnik; rund 46.000 sozialversicherungspflichtig Beschäftigte am Arbeitsort und etwa 8.000 Unternehmen stehen einem Auspendlerüberschuss gegenüber, vor allem in Richtung Wiesbaden, Mainz und Frankfurt. Wein und Tourismus sind die prägenden Branchen: rund 240.000 Gästeankünfte und 701.000 Übernachtungen (2021) sowie starke Tagesgästeströme, angezogen von Riesling, Rheinromantik und Veranstaltungen wie dem Rheingau Musik Festival.",
+          "challenges": "Ganze Ortschaften hängen wirtschaftlich, sozial und kulturell am Wein: Verschwinden die Betriebe, bleiben nicht nur verbuschte Hänge, sondern auch leere Dörfer, geschlossene Straußwirtschaften und ein geschwächtes touristisches Angebot. Sinkende Weinpreise und steigende Kosten drücken die Margen, und die Betriebe konkurrieren mit dem weit größeren Arbeitsmarkt Rhein-Main um Fachkräfte, was zugleich Boden- und Wohnkosten treibt. Der Tourismus ist stark saison- und witterungsabhängig, und die peripheren Gemeinden im Taunus und in den Wispertälern liegen deutlich weiter von Zentren und Versorgungseinrichtungen entfernt als die Orte entlang der Rheinachse."
         },
         "landscape": {
-          "about": "",
-          "challenges": ""
+          "about": "Ein west-östlich verlaufendes Band zwischen Rhein und Taunus mit südexponierten Hängen und Flussterrassen, auf denen Steillagen- und Terrassenweinbau unterhalb des bewaldeten Rheingaugebirges liegt. Der Waldanteil beträgt rund 56 % der Kreisfläche – deutlich über dem hessischen Durchschnitt –, und der etwa 21.000 ha große Hinterlandswald ist das größte zusammenhängende Waldgebiet Hessens. Der untere Rheingau von Rüdesheim bis Lorchhausen gehört zum UNESCO-Welterbe „Oberes Mittelrheintal“; mit dem Limes liegt ein zweites Welterbe im Kreis. Der Naturpark Rhein-Taunus, die Täler von Wisper, Aar und Wörsbach, Klöster wie Eberbach und historische Weinorte ergänzen eine vielschichtige Kulturlandschaft.",
+          "challenges": "Steillagen und Terrassen lassen sich nur mit hohem Handarbeitsaufwand bewirtschaften; wird die Nutzung aufgegeben, gehen mit der Verbuschung sowohl die Terrassenkulturlandschaft als auch ihre trockenwarmen Lebensräume verloren. Denkmal- und Landschaftsschutz setzen neuer Infrastruktur enge Grenzen, während zugleich Flächen für erneuerbare Energien und Siedlungsentwicklung nachgefragt werden. Die kleinteilige Parzellierung erschwert die Flurneuordnung, und in den Wäldern zeigt sich zunehmender Trockenstress."
         },
         "soil": {
-          "about": "",
-          "challenges": ""
+          "about": "Die Böden wechseln auf kurzer Distanz. Tiefgründiger, fruchtbarer Löss und Lösslehm bedecken die flacheren Unterhänge und die Ebene am Rhein, Taunusquarzit prägt die höheren Lagen des mittleren und östlichen Rheingaus sowie den Raum Lorch, und Phyllit und Hunsrückschiefer tragen die Weinberge von Rüdesheim, Assmannshausen, Kiedrich, Martinsthal und Rauenthal. Unter der Lössdecke liegt meist schwach entkalkter Löss über tiefgründig verwittertem Phyllit-Saprolith. Die steinigen Hangböden sind flachgründig und speichern wenig Wasser, während die Lössböden der Ebene zu den ertragreichsten Ackerböden der Region zählen.",
+          "challenges": "Starkregen führt auf den Steillagen zu Bodenerosion, insbesondere bei Rebzeilen in der Falllinie und offen gehaltenem Boden. Wärmere Böden mineralisieren schneller, sodass Humus gerade dort verloren geht, wo er für Wasserspeicherung und Nährstoffversorgung am wichtigsten ist. Befahrung verdichtet die Böden, und Nährstoffausträge ins Grundwasser bleiben in den Dauerkulturgebieten ein Thema."
         }
       },
       "tagline": "Multifunktionale und klimaresiliente Weinbausysteme"
@@ -1275,24 +1451,24 @@
       "name": "Rheingau",
       "narrative": {
         "agriculture": {
-          "about": "",
-          "challenges": ""
+          "about": "Viticulture defines the region: around 2,700 ha of vines make up 14% of the district's agricultural area, roughly 85% Riesling and 11% Pinot Noir, worked by some 280 full-time growers — mostly small family estates alongside historic institutions such as Kloster Eberbach. Arable land accounts for 55% and permanent grassland for 31% of the roughly 19,700 ha farmed by about 620 holdings. Outside the vineyards the main branches are cereal-based arable farming, pig fattening and livery horse keeping; around 13% of farms are managed organically.",
+          "challenges": "German wine is in a structural market crisis: bulk wine prices have fallen below production costs, domestic demand for alcoholic drinks keeps declining, and trade barriers make exports harder. Steep-slope viticulture is highly labour-intensive and qualified seasonal workers are scarce, so rising wages, energy costs and regulatory burden bite hardest exactly where the landscape value is greatest. Late frost, hail, heavy rain and drought increase the risk of every vintage, and the dense clusters of Riesling remain vulnerable to fungal disease and pests. Small, fragmented holdings limit mechanisation and make succession increasingly uncertain."
         },
         "climate": {
-          "about": "",
-          "challenges": ""
+          "about": "Sheltered from northerly winds by the Taunus ridge and favoured by the Rhine, which stores heat and reflects light onto the south-facing slopes, the Rheingau is one of the mildest parts of Germany: an annual mean of about 10.5 °C, mild winters, warm summers and autumn mists that favour late ripening. With roughly 500–550 mm of annual precipitation it is dry by German standards. Hesse's annual mean temperature rose from 8.2 °C (1961–1990) to 9.3 °C (1991–2020), and the Rhine-Main area is among the warmest parts of the state.",
+          "challenges": "Warming is pushing Riesling towards its comfort limit: earlier budburst and ripening, higher sugar and alcohol levels and falling acidity threaten the filigree style the region is known for. Earlier budburst also raises exposure to late frost, while more hot days bring sunburn on the grapes. The climate is shifting towards an alternation of longer dry spells and heavy rainfall, so the climatic water balance deteriorates in summer and irrigation demand grows on the shallow slope soils."
         },
         "economic": {
-          "about": "",
-          "challenges": ""
+          "about": "About 185,700 people live in the district at 113 inhabitants per km², on the north-western edge of the Frankfurt/Rhine-Main metropolitan region. The economy is dominated by small and medium-sized firms, including high-tech in information and communication technology, sensor and control engineering, medical, surface and environmental technology; some 46,000 jobs and 8,000 registered businesses stand against a net outflow of commuters, mainly towards Wiesbaden, Mainz and Frankfurt. Wine and tourism are the signature sectors: around 240,000 arrivals and 701,000 overnight stays (2021) plus strong day-visitor flows, drawn by Riesling, Rhine romanticism and events such as the Rheingau Musik Festival.",
+          "challenges": "Whole villages depend economically, socially and culturally on wine: if estates disappear, the result is not only scrubbed-over slopes but empty villages, closed wine taverns and a weakened tourism offer. Falling wine prices and rising costs squeeze margins, and businesses compete for skilled labour with the far larger Rhine-Main job market, which also drives up land and housing costs. Tourism is strongly seasonal and weather-dependent, and the peripheral communities in the Taunus and the Wisper valleys are much further from centres and services than the settlements along the Rhine axis."
         },
         "landscape": {
-          "about": "",
-          "challenges": ""
+          "about": "An east–west band between the Rhine and the Taunus, with south-facing slopes and river terraces carrying steep-slope and terraced vineyards below the wooded Rheingaugebirge. Forest covers about 56% of the district — well above the Hessian average — and the roughly 21,000 ha Hinterlandswald is the largest contiguous forest area in Hesse. The lower Rheingau from Rüdesheim to Lorchhausen belongs to the UNESCO World Heritage site 'Upper Middle Rhine Valley', with the Limes as a second World Heritage site in the district. The Rhein-Taunus Nature Park, the Wisper, Aar and Wörsbach valleys, monasteries such as Kloster Eberbach and historic wine villages complete a densely layered cultural landscape.",
+          "challenges": "Steep slopes and terraces can only be worked with high manual effort; where cultivation is abandoned, scrub encroachment erases both the terraced cultural landscape and the dry, warm habitats it carries. Heritage and scenic protection set narrow limits for new infrastructure, while land is simultaneously sought for renewable energy and settlement growth. Small, fragmented parcels make land consolidation difficult, and drought stress is increasingly visible in the forests."
         },
         "soil": {
-          "about": "",
-          "challenges": ""
+          "about": "Soils change over very short distances. Deep, fertile loess and loess loam cover the gentler lower slopes and the plain near the Rhine, Taunus quartzite dominates the higher sites of the central and eastern Rheingau and the Lorch area, and phyllite and Hunsrück slate carry the vineyards of Rüdesheim, Assmannshausen, Kiedrich, Martinsthal and Rauenthal. Beneath the loess cover, weakly leached loess typically overlies deeply weathered phyllite saprolite. The stony slope soils are shallow with low water storage capacity, while the loess soils of the plain are among the most productive arable soils in the region.",
+          "challenges": "Heavy rainfall causes soil erosion on the steep slopes, particularly where rows run downslope and the ground is kept bare. Warmer soils mineralise organic matter faster, so humus is lost just where it matters most for water retention and nutrient supply. Machinery traffic compacts the soil, and nutrient leaching into groundwater remains a concern in the permanent-crop areas."
         }
       },
       "tagline": "Multifunctional and climate-resilient viticulture systems"
@@ -1343,24 +1519,68 @@
       ],
       "climate": [
         {
-          "genesisTable": null,
-          "key": "agr_ch4_kt",
-          "sourceHost": null,
-          "unit": {
-            "de": "kt CO2aeq",
-            "en": "kt CO2eq"
+          "delta": 1112.0,
+          "deltaHorizon": "2071-2100",
+          "deltaUnit": {
+            "de": "°C·d",
+            "en": "°C·d"
           },
-          "value": null
+          "genesisTable": null,
+          "key": "gdd5_degc_days",
+          "sourceHost": "chelsa",
+          "unit": {
+            "de": "°C·d",
+            "en": "°C·d"
+          },
+          "value": 1834.0
         },
         {
-          "genesisTable": null,
-          "key": "agr_n2o_kt",
-          "sourceHost": null,
-          "unit": {
-            "de": "kt CO2aeq",
-            "en": "kt CO2eq"
+          "delta": 3.9,
+          "deltaHorizon": "2071-2100",
+          "deltaUnit": {
+            "de": "°C",
+            "en": "°C"
           },
-          "value": null
+          "genesisTable": null,
+          "key": "mean_annual_temp_degc",
+          "sourceHost": "chelsa",
+          "unit": {
+            "de": "°C",
+            "en": "°C"
+          },
+          "value": 8.9
+        },
+        {
+          "delta": 1.9,
+          "deltaHorizon": "2071-2100",
+          "deltaUnit": {
+            "de": "%",
+            "en": "%"
+          },
+          "genesisTable": null,
+          "key": "annual_precip_mm",
+          "sourceHost": "chelsa",
+          "unit": {
+            "de": "mm",
+            "en": "mm"
+          },
+          "value": 726.0
+        },
+        {
+          "delta": -9.8,
+          "deltaHorizon": "2071-2100",
+          "deltaUnit": {
+            "de": "%",
+            "en": "%"
+          },
+          "genesisTable": null,
+          "key": "warm_quarter_precip_mm",
+          "sourceHost": "chelsa",
+          "unit": {
+            "de": "mm",
+            "en": "mm"
+          },
+          "value": 199.0
         }
       ],
       "economic": [
@@ -1487,52 +1707,52 @@
     "narrativeByTab": {
       "agriculture": {
         "about": {
-          "de": null,
-          "en": null
+          "de": "Der Weinbau prägt die Region: Rund 2.700 ha Rebfläche machen 14 % der landwirtschaftlichen Nutzfläche des Kreises aus, davon etwa 85 % Riesling und 11 % Spätburgunder, bewirtschaftet von rund 280 Haupterwerbswinzern – überwiegend kleine Familienbetriebe neben historischen Einrichtungen wie Kloster Eberbach. Ackerland nimmt 55 % und Dauergrünland 31 % der rund 19.700 ha ein, die von etwa 620 Betrieben bewirtschaftet werden. Außerhalb der Weinberge sind Getreidebau, Schweinemast und Pensionspferdehaltung die wichtigsten Betriebszweige; rund 13 % der Betriebe wirtschaften ökologisch.",
+          "en": "Viticulture defines the region: around 2,700 ha of vines make up 14% of the district's agricultural area, roughly 85% Riesling and 11% Pinot Noir, worked by some 280 full-time growers — mostly small family estates alongside historic institutions such as Kloster Eberbach. Arable land accounts for 55% and permanent grassland for 31% of the roughly 19,700 ha farmed by about 620 holdings. Outside the vineyards the main branches are cereal-based arable farming, pig fattening and livery horse keeping; around 13% of farms are managed organically."
         },
         "challenges": {
-          "de": null,
-          "en": null
+          "de": "Der deutsche Weinbau steckt in einer strukturellen Absatzkrise: Die Fassweinpreise liegen unter den Produktionskosten, die Nachfrage nach alkoholischen Getränken geht seit Jahren zurück, und Handelshemmnisse erschweren den Export. Der Steillagenweinbau ist sehr arbeitsintensiv und qualifizierte Saisonkräfte sind schwer zu finden, sodass steigende Löhne, Energiekosten und bürokratische Auflagen dort am stärksten wirken, wo der Landschaftswert am größten ist. Spätfrost, Hagel, Starkregen und Trockenheit erhöhen das Risiko jedes Jahrgangs, und die dichten Trauben des Rieslings bleiben anfällig für Pilzkrankheiten und Schädlinge. Kleine, stark parzellierte Betriebe erschweren Mechanisierung und Hofnachfolge.",
+          "en": "German wine is in a structural market crisis: bulk wine prices have fallen below production costs, domestic demand for alcoholic drinks keeps declining, and trade barriers make exports harder. Steep-slope viticulture is highly labour-intensive and qualified seasonal workers are scarce, so rising wages, energy costs and regulatory burden bite hardest exactly where the landscape value is greatest. Late frost, hail, heavy rain and drought increase the risk of every vintage, and the dense clusters of Riesling remain vulnerable to fungal disease and pests. Small, fragmented holdings limit mechanisation and make succession increasingly uncertain."
         }
       },
       "climate": {
         "about": {
-          "de": null,
-          "en": null
+          "de": "Nach Norden durch den Taunuskamm vor kühlen Winden geschützt und vom Rhein begünstigt, der Wärme speichert und Licht auf die südexponierten Hänge reflektiert, zählt der Rheingau zu den mildesten Regionen Deutschlands: Die Jahresmitteltemperatur liegt bei rund 10,5 °C; milde Winter, warme Sommer und Herbstnebel begünstigen eine späte Traubenreife. Mit etwa 500–550 mm Jahresniederschlag ist die Region für deutsche Verhältnisse niederschlagsarm. Die Jahresmitteltemperatur in Hessen stieg von 8,2 °C (1961–1990) auf 9,3 °C (1991–2020); das Rhein-Main-Gebiet gehört zu den wärmsten Landesteilen.",
+          "en": "Sheltered from northerly winds by the Taunus ridge and favoured by the Rhine, which stores heat and reflects light onto the south-facing slopes, the Rheingau is one of the mildest parts of Germany: an annual mean of about 10.5 °C, mild winters, warm summers and autumn mists that favour late ripening. With roughly 500–550 mm of annual precipitation it is dry by German standards. Hesse's annual mean temperature rose from 8.2 °C (1961–1990) to 9.3 °C (1991–2020), and the Rhine-Main area is among the warmest parts of the state."
         },
         "challenges": {
-          "de": null,
-          "en": null
+          "de": "Die Erwärmung bringt den Riesling an seine Komfortgrenze: früherer Austrieb und frühere Reife, höhere Zucker- und Alkoholgehalte sowie sinkende Säure gefährden den filigranen Stil, für den die Region bekannt ist. Der frühere Austrieb erhöht zugleich das Spätfrostrisiko, und mehr heiße Tage führen zu Sonnenbrand an den Trauben. Das Klima verschiebt sich hin zu einem Wechsel aus längeren Trockenperioden und Starkregen, sodass sich die klimatische Wasserbilanz im Sommer verschlechtert und der Bewässerungsbedarf auf den flachgründigen Hangböden steigt.",
+          "en": "Warming is pushing Riesling towards its comfort limit: earlier budburst and ripening, higher sugar and alcohol levels and falling acidity threaten the filigree style the region is known for. Earlier budburst also raises exposure to late frost, while more hot days bring sunburn on the grapes. The climate is shifting towards an alternation of longer dry spells and heavy rainfall, so the climatic water balance deteriorates in summer and irrigation demand grows on the shallow slope soils."
         }
       },
       "economic": {
         "about": {
-          "de": null,
-          "en": null
+          "de": "Im Kreis leben rund 185.700 Menschen bei einer Bevölkerungsdichte von 113 Einwohnern je km², am nordwestlichen Rand der Metropolregion Frankfurt/Rhein-Main. Die Wirtschaft ist mittelständisch geprägt, mit High-Tech-Betrieben in der Informations- und Kommunikationstechnik, Sensorik, Mess- und Regeltechnik sowie Medizin-, Oberflächen- und Umwelttechnik; rund 46.000 sozialversicherungspflichtig Beschäftigte am Arbeitsort und etwa 8.000 Unternehmen stehen einem Auspendlerüberschuss gegenüber, vor allem in Richtung Wiesbaden, Mainz und Frankfurt. Wein und Tourismus sind die prägenden Branchen: rund 240.000 Gästeankünfte und 701.000 Übernachtungen (2021) sowie starke Tagesgästeströme, angezogen von Riesling, Rheinromantik und Veranstaltungen wie dem Rheingau Musik Festival.",
+          "en": "About 185,700 people live in the district at 113 inhabitants per km², on the north-western edge of the Frankfurt/Rhine-Main metropolitan region. The economy is dominated by small and medium-sized firms, including high-tech in information and communication technology, sensor and control engineering, medical, surface and environmental technology; some 46,000 jobs and 8,000 registered businesses stand against a net outflow of commuters, mainly towards Wiesbaden, Mainz and Frankfurt. Wine and tourism are the signature sectors: around 240,000 arrivals and 701,000 overnight stays (2021) plus strong day-visitor flows, drawn by Riesling, Rhine romanticism and events such as the Rheingau Musik Festival."
         },
         "challenges": {
-          "de": null,
-          "en": null
+          "de": "Ganze Ortschaften hängen wirtschaftlich, sozial und kulturell am Wein: Verschwinden die Betriebe, bleiben nicht nur verbuschte Hänge, sondern auch leere Dörfer, geschlossene Straußwirtschaften und ein geschwächtes touristisches Angebot. Sinkende Weinpreise und steigende Kosten drücken die Margen, und die Betriebe konkurrieren mit dem weit größeren Arbeitsmarkt Rhein-Main um Fachkräfte, was zugleich Boden- und Wohnkosten treibt. Der Tourismus ist stark saison- und witterungsabhängig, und die peripheren Gemeinden im Taunus und in den Wispertälern liegen deutlich weiter von Zentren und Versorgungseinrichtungen entfernt als die Orte entlang der Rheinachse.",
+          "en": "Whole villages depend economically, socially and culturally on wine: if estates disappear, the result is not only scrubbed-over slopes but empty villages, closed wine taverns and a weakened tourism offer. Falling wine prices and rising costs squeeze margins, and businesses compete for skilled labour with the far larger Rhine-Main job market, which also drives up land and housing costs. Tourism is strongly seasonal and weather-dependent, and the peripheral communities in the Taunus and the Wisper valleys are much further from centres and services than the settlements along the Rhine axis."
         }
       },
       "landscape": {
         "about": {
-          "de": null,
-          "en": null
+          "de": "Ein west-östlich verlaufendes Band zwischen Rhein und Taunus mit südexponierten Hängen und Flussterrassen, auf denen Steillagen- und Terrassenweinbau unterhalb des bewaldeten Rheingaugebirges liegt. Der Waldanteil beträgt rund 56 % der Kreisfläche – deutlich über dem hessischen Durchschnitt –, und der etwa 21.000 ha große Hinterlandswald ist das größte zusammenhängende Waldgebiet Hessens. Der untere Rheingau von Rüdesheim bis Lorchhausen gehört zum UNESCO-Welterbe „Oberes Mittelrheintal“; mit dem Limes liegt ein zweites Welterbe im Kreis. Der Naturpark Rhein-Taunus, die Täler von Wisper, Aar und Wörsbach, Klöster wie Eberbach und historische Weinorte ergänzen eine vielschichtige Kulturlandschaft.",
+          "en": "An east–west band between the Rhine and the Taunus, with south-facing slopes and river terraces carrying steep-slope and terraced vineyards below the wooded Rheingaugebirge. Forest covers about 56% of the district — well above the Hessian average — and the roughly 21,000 ha Hinterlandswald is the largest contiguous forest area in Hesse. The lower Rheingau from Rüdesheim to Lorchhausen belongs to the UNESCO World Heritage site 'Upper Middle Rhine Valley', with the Limes as a second World Heritage site in the district. The Rhein-Taunus Nature Park, the Wisper, Aar and Wörsbach valleys, monasteries such as Kloster Eberbach and historic wine villages complete a densely layered cultural landscape."
         },
         "challenges": {
-          "de": null,
-          "en": null
+          "de": "Steillagen und Terrassen lassen sich nur mit hohem Handarbeitsaufwand bewirtschaften; wird die Nutzung aufgegeben, gehen mit der Verbuschung sowohl die Terrassenkulturlandschaft als auch ihre trockenwarmen Lebensräume verloren. Denkmal- und Landschaftsschutz setzen neuer Infrastruktur enge Grenzen, während zugleich Flächen für erneuerbare Energien und Siedlungsentwicklung nachgefragt werden. Die kleinteilige Parzellierung erschwert die Flurneuordnung, und in den Wäldern zeigt sich zunehmender Trockenstress.",
+          "en": "Steep slopes and terraces can only be worked with high manual effort; where cultivation is abandoned, scrub encroachment erases both the terraced cultural landscape and the dry, warm habitats it carries. Heritage and scenic protection set narrow limits for new infrastructure, while land is simultaneously sought for renewable energy and settlement growth. Small, fragmented parcels make land consolidation difficult, and drought stress is increasingly visible in the forests."
         }
       },
       "soil": {
         "about": {
-          "de": null,
-          "en": null
+          "de": "Die Böden wechseln auf kurzer Distanz. Tiefgründiger, fruchtbarer Löss und Lösslehm bedecken die flacheren Unterhänge und die Ebene am Rhein, Taunusquarzit prägt die höheren Lagen des mittleren und östlichen Rheingaus sowie den Raum Lorch, und Phyllit und Hunsrückschiefer tragen die Weinberge von Rüdesheim, Assmannshausen, Kiedrich, Martinsthal und Rauenthal. Unter der Lössdecke liegt meist schwach entkalkter Löss über tiefgründig verwittertem Phyllit-Saprolith. Die steinigen Hangböden sind flachgründig und speichern wenig Wasser, während die Lössböden der Ebene zu den ertragreichsten Ackerböden der Region zählen.",
+          "en": "Soils change over very short distances. Deep, fertile loess and loess loam cover the gentler lower slopes and the plain near the Rhine, Taunus quartzite dominates the higher sites of the central and eastern Rheingau and the Lorch area, and phyllite and Hunsrück slate carry the vineyards of Rüdesheim, Assmannshausen, Kiedrich, Martinsthal and Rauenthal. Beneath the loess cover, weakly leached loess typically overlies deeply weathered phyllite saprolite. The stony slope soils are shallow with low water storage capacity, while the loess soils of the plain are among the most productive arable soils in the region."
         },
         "challenges": {
-          "de": null,
-          "en": null
+          "de": "Starkregen führt auf den Steillagen zu Bodenerosion, insbesondere bei Rebzeilen in der Falllinie und offen gehaltenem Boden. Wärmere Böden mineralisieren schneller, sodass Humus gerade dort verloren geht, wo er für Wasserspeicherung und Nährstoffversorgung am wichtigsten ist. Befahrung verdichtet die Böden, und Nährstoffausträge ins Grundwasser bleiben in den Dauerkulturgebieten ein Thema.",
+          "en": "Heavy rainfall causes soil erosion on the steep slopes, particularly where rows run downslope and the ground is kept bare. Warmer soils mineralise organic matter faster, so humus is lost just where it matters most for water retention and nutrient supply. Machinery traffic compacts the soil, and nutrient leaching into groundwater remains a concern in the permanent-crop areas."
         }
       }
     },

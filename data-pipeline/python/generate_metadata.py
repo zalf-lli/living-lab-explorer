@@ -20,6 +20,7 @@ DESTATIS_LL_FILE = DATA / "destatis_ll.json"
 CURATED_KPIS_FILE = DATA / "destatis_curated_kpis.json"
 DESTATIS_META_FILE = DATA / "destatis_meta.json"
 PROTECTED_AREA_KPIS_FILE = DATA / "protected_area_kpis.json"
+CLIMATE_KPIS_FILE = DATA / "climate_kpis.json"
 
 # Layer tab ids that can carry authored narrative text (mirrors app/src/data/layers.js
 # LAYERS[].id). "protected-areas" is an OVERLAYS entry, never a tab, and gets no slot.
@@ -47,36 +48,60 @@ def _deep_merge(computed: object, authored: object) -> object:
     return deepcopy(authored)
 
 
-def _build_kpi_by_tab(slug: str, destatis_ll: dict, curated_kpis: list, protected_area_kpis: dict | None = None) -> dict:
+def _build_kpi_by_tab(
+    slug: str,
+    destatis_ll: dict,
+    curated_kpis: list,
+    protected_area_kpis: dict | None = None,
+    climate_kpis: dict | None = None,
+) -> dict:
     """Build the kpiByTab field for a single LL's computed metadata record.
 
     For KPIs sourced from protected area data (source_host: bfn_wfs), prefer values from
-    protected_area_kpis over destatis_ll.
+    protected_area_kpis over destatis_ll. For KPIs computed from CHELSA climate rasters
+    (source_host: chelsa), prefer values from climate_kpis over destatis_ll, and thread
+    each entry's baseline-to-far-horizon delta, delta unit and horizon label alongside it.
     """
     if protected_area_kpis is None:
         protected_area_kpis = {}
+    if climate_kpis is None:
+        climate_kpis = {}
 
     by_tab: dict[str, list] = {}
     slug_protected = protected_area_kpis.get(slug, {})
+    slug_climate = climate_kpis.get(slug, {})
+    climate_meta_variables = climate_kpis.get("_meta", {}).get("variables", {})
+    climate_delta_horizon = climate_kpis.get("_meta", {}).get("delta_horizon_label")
 
     for entry in curated_kpis:
         tab = entry["tab"]
         variable_key = entry["variable_key"]
-        # Use protected area KPIs if source is bfn_wfs, otherwise use destatis_ll
-        if entry.get("source_host") == "bfn_wfs":
+        source_host = entry.get("source_host")
+        # Use protected area KPIs if source is bfn_wfs, computed climate KPIs if source is
+        # chelsa, otherwise fall through to destatis_ll exactly as today.
+        if source_host == "bfn_wfs":
             value = slug_protected.get(variable_key)
+        elif source_host == "chelsa":
+            value = slug_climate.get(variable_key)
         else:
             value = destatis_ll.get(slug, {}).get(variable_key)
 
-        by_tab.setdefault(tab, []).append(
-            {
-                "key": variable_key,
-                "value": value,
-                "unit": {"en": entry["unit_en"], "de": entry["unit_de"]},
-                "genesisTable": entry["genesis_table"],
-                "sourceHost": entry.get("source_host"),
-            }
-        )
+        record = {
+            "key": variable_key,
+            "value": value,
+            "unit": {"en": entry["unit_en"], "de": entry["unit_de"]},
+            "genesisTable": entry["genesis_table"],
+            "sourceHost": source_host,
+        }
+
+        if source_host == "chelsa":
+            variable_meta = climate_meta_variables.get(variable_key)
+            delta_unit = variable_meta.get("delta_unit") if variable_meta else None
+            record["delta"] = slug_climate.get(f"{variable_key}_delta")
+            record["deltaUnit"] = delta_unit
+            record["deltaHorizon"] = climate_delta_horizon
+
+        by_tab.setdefault(tab, []).append(record)
     return by_tab
 
 
@@ -119,6 +144,7 @@ def _build_computed_record(
     curated_kpis: list,
     destatis_meta: dict,
     protected_area_kpis: dict | None = None,
+    climate_kpis: dict | None = None,
 ) -> dict:
     manager = authored.get("manager") or {}
     return {
@@ -129,7 +155,7 @@ def _build_computed_record(
         "manager": {"name": manager.get("name", ""), "email": manager.get("email", "")},
         "contact": manager.get("email") or authored.get("contact", ""),
         "nuts3": authored.get("nuts3", []),
-        "kpiByTab": _build_kpi_by_tab(slug, destatis_ll, curated_kpis, protected_area_kpis),
+        "kpiByTab": _build_kpi_by_tab(slug, destatis_ll, curated_kpis, protected_area_kpis, climate_kpis),
         "narrativeByTab": _build_narrative_by_tab(authored),
         "destatisRetrievedAt": destatis_meta.get("fetched_at"),
     }
@@ -141,9 +167,12 @@ def build_metadata(ll_content: dict[str, dict] | None = None) -> dict[str, dict]
     curated_kpis = _load_json_or_empty(CURATED_KPIS_FILE) or []
     destatis_meta = _load_json_or_empty(DESTATIS_META_FILE)
     protected_area_kpis = _load_json_or_empty(PROTECTED_AREA_KPIS_FILE)
+    climate_kpis = _load_json_or_empty(CLIMATE_KPIS_FILE)
     metadata: dict[str, dict] = {}
     for slug, authored in content.items():
-        computed = _build_computed_record(slug, authored, destatis_ll, curated_kpis, destatis_meta, protected_area_kpis)
+        computed = _build_computed_record(
+            slug, authored, destatis_ll, curated_kpis, destatis_meta, protected_area_kpis, climate_kpis
+        )
         metadata[slug] = _deep_merge(computed, authored)
     return metadata
 

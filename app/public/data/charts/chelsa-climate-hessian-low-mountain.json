@@ -1,0 +1,94 @@
+{
+  "chart_type": "line",
+  "generated_at": "2026-08-03T10:17:29.554878Z",
+  "layer_id": "climate",
+  "lines": [
+    {
+      "label": {
+        "de": "Wachstumsgradtage",
+        "en": "Growing degree days"
+      },
+      "points": [
+        {
+          "value": 34.6,
+          "x": "2041_2070"
+        },
+        {
+          "value": 60.5,
+          "x": "2071_2100"
+        }
+      ]
+    },
+    {
+      "label": {
+        "de": "Jahresmitteltemperatur",
+        "en": "Mean annual temperature"
+      },
+      "points": [
+        {
+          "value": 28.2,
+          "x": "2041_2070"
+        },
+        {
+          "value": 45.0,
+          "x": "2071_2100"
+        }
+      ]
+    },
+    {
+      "label": {
+        "de": "Jahresniederschlag",
+        "en": "Annual precipitation"
+      },
+      "points": [
+        {
+          "value": 1.4,
+          "x": "2041_2070"
+        },
+        {
+          "value": 2.9,
+          "x": "2071_2100"
+        }
+      ]
+    },
+    {
+      "label": {
+        "de": "Niederschlag im waermsten Quartal",
+        "en": "Precipitation of warmest quarter"
+      },
+      "points": [
+        {
+          "value": -5.7,
+          "x": "2041_2070"
+        },
+        {
+          "value": -8.6,
+          "x": "2071_2100"
+        }
+      ]
+    }
+  ],
+  "ll_slug": "hessian-low-mountain",
+  "mock": false,
+  "source": "chelsa-climate",
+  "unit": {
+    "de": "%",
+    "en": "%"
+  },
+  "x_axis": [
+    {
+      "key": "2041_2070",
+      "label": {
+        "de": "2041-2070",
+        "en": "2041-2070"
+      }
+    },
+    {
+      "key": "2071_2100",
+      "label": {
+        "de": "2071-2100",
+        "en": "2071-2100"
+      }
+    }
+  ]
+}

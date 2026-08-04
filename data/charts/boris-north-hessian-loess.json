@@ -1,0 +1,262 @@
+{
+  "chart_type": "bar",
+  "generated_at": "2026-08-03T10:19:42.289959Z",
+  "layer_id": "economic",
+  "ll_slug": "north-hessian-loess",
+  "mock": false,
+  "series": [
+    {
+      "label": {
+        "de": "forstwirtschaftliche Fl.",
+        "en": "Forestry land"
+      },
+      "pct": 12.8,
+      "value": 443
+    },
+    {
+      "label": {
+        "de": "Wohnbauflaeche",
+        "en": "Residential building land"
+      },
+      "pct": 12.5,
+      "value": 434
+    },
+    {
+      "label": {
+        "de": "Acker",
+        "en": "Arable land"
+      },
+      "pct": 12.2,
+      "value": 423
+    },
+    {
+      "label": {
+        "de": "Gruenland",
+        "en": "Grassland"
+      },
+      "pct": 12.0,
+      "value": 416
+    },
+    {
+      "label": {
+        "de": "allgemeines Wohngebiet",
+        "en": "General residential area"
+      },
+      "pct": 8.2,
+      "value": 284
+    },
+    {
+      "label": {
+        "de": "gemischte Baufl.",
+        "en": "Mixed building land"
+      },
+      "pct": 7.0,
+      "value": 243
+    },
+    {
+      "label": {
+        "de": "Freizeitgartenfl.",
+        "en": "Recreational garden"
+      },
+      "pct": 6.8,
+      "value": 237
+    },
+    {
+      "label": {
+        "de": "Kleingartenfl.",
+        "en": "Allotment garden"
+      },
+      "pct": 5.8,
+      "value": 202
+    },
+    {
+      "label": {
+        "de": "Dorfgebiet",
+        "en": "Village area"
+      },
+      "pct": 4.2,
+      "value": 147
+    },
+    {
+      "label": {
+        "de": "Mischgebiet",
+        "en": "Mixed-use area"
+      },
+      "pct": 3.8,
+      "value": 132
+    },
+    {
+      "label": {
+        "de": "gewerbliche Baufl.",
+        "en": "Commercial building land"
+      },
+      "pct": 3.2,
+      "value": 111
+    },
+    {
+      "label": {
+        "de": "Gewerbegebiet",
+        "en": "Commercial area"
+      },
+      "pct": 2.9,
+      "value": 102
+    },
+    {
+      "label": {
+        "de": "sonstige Sondergebiete",
+        "en": "Other special-purpose area"
+      },
+      "pct": 1.7,
+      "value": 60
+    },
+    {
+      "label": {
+        "de": "reines Wohngebiet",
+        "en": "Pure residential area"
+      },
+      "pct": 1.2,
+      "value": 42
+    },
+    {
+      "label": {
+        "de": "Sonderbaufl.",
+        "en": "Special-purpose building land"
+      },
+      "pct": 1.1,
+      "value": 38
+    },
+    {
+      "label": {
+        "de": "Sondergebiet fuer Erholung",
+        "en": "Special recreation area"
+      },
+      "pct": 0.7,
+      "value": 25
+    },
+    {
+      "label": {
+        "de": "Sportfl.",
+        "en": "Sports facility"
+      },
+      "pct": 0.7,
+      "value": 24
+    },
+    {
+      "label": {
+        "de": "Kerngebiet",
+        "en": "Core/urban-centre area"
+      },
+      "pct": 0.5,
+      "value": 17
+    },
+    {
+      "label": {
+        "de": "Sondernutzungsfl.",
+        "en": "Special-use area"
+      },
+      "pct": 0.5,
+      "value": 19
+    },
+    {
+      "label": {
+        "de": "Industriegebiet",
+        "en": "Industrial area"
+      },
+      "pct": 0.3,
+      "value": 12
+    },
+    {
+      "label": {
+        "de": "Baufl. fuer Gemeinbedarf",
+        "en": "Public-facility building land"
+      },
+      "pct": 0.3,
+      "value": 11
+    },
+    {
+      "label": {
+        "de": "Kleinsiedlungsgebiet",
+        "en": "Small-holdings settlement area"
+      },
+      "pct": 0.3,
+      "value": 9
+    },
+    {
+      "label": {
+        "de": "Gemeinbedarfsfl., kein Bauland",
+        "en": "Public-facility land (non-buildable)"
+      },
+      "pct": 0.2,
+      "value": 8
+    },
+    {
+      "label": {
+        "de": "Flughafen, Flugplaetze",
+        "en": "Airport / airfield"
+      },
+      "pct": 0.1,
+      "value": 2
+    },
+    {
+      "label": {
+        "de": "Campingplatz",
+        "en": "Campsite"
+      },
+      "pct": 0.1,
+      "value": 4
+    },
+    {
+      "label": {
+        "de": "Friedhof",
+        "en": "Cemetery"
+      },
+      "pct": 0.1,
+      "value": 2
+    },
+    {
+      "label": {
+        "de": "private Gruenfl.",
+        "en": "Private green space"
+      },
+      "pct": 0.1,
+      "value": 4
+    },
+    {
+      "label": {
+        "de": "besonderes Wohngebiet",
+        "en": "Special residential area"
+      },
+      "pct": 0.1,
+      "value": 5
+    },
+    {
+      "label": {
+        "de": "Nicht zugeordneter Nutzungstyp",
+        "en": "Unmapped usage type"
+      },
+      "pct": 0.1,
+      "value": 2
+    },
+    {
+      "label": {
+        "de": "Erwerbsgartenbaufl.",
+        "en": "Commercial horticulture"
+      },
+      "pct": 0.0,
+      "value": 1
+    },
+    {
+      "label": {
+        "de": "Lagerfl.",
+        "en": "Storage area"
+      },
+      "pct": 0.0,
+      "value": 1
+    }
+  ],
+  "source": "boris",
+  "unit": {
+    "de": "Zonen",
+    "en": "zones"
+  }
+}

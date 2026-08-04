@@ -8,6 +8,7 @@
     "dev": "vite",
     "build": "vite build",
     "lint": "eslint .",
+    "check:soil-palette": "node scripts/check_soil_palette.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "preview": "vite preview",

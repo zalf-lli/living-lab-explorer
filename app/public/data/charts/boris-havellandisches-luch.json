@@ -1,0 +1,238 @@
+{
+  "chart_type": "bar",
+  "generated_at": "2026-08-03T10:19:41.133002Z",
+  "layer_id": "economic",
+  "ll_slug": "havellandisches-luch",
+  "mock": false,
+  "series": [
+    {
+      "label": {
+        "de": "Wohnbauflaeche",
+        "en": "Residential building land"
+      },
+      "pct": 25.2,
+      "value": 4695
+    },
+    {
+      "label": {
+        "de": "gemischte Baufl.",
+        "en": "Mixed building land"
+      },
+      "pct": 16.6,
+      "value": 3086
+    },
+    {
+      "label": {
+        "de": "Dorfgebiet",
+        "en": "Village area"
+      },
+      "pct": 16.3,
+      "value": 3044
+    },
+    {
+      "label": {
+        "de": "allgemeines Wohngebiet",
+        "en": "General residential area"
+      },
+      "pct": 8.2,
+      "value": 1529
+    },
+    {
+      "label": {
+        "de": "Sondergebiet fuer Erholung",
+        "en": "Special recreation area"
+      },
+      "pct": 7.9,
+      "value": 1478
+    },
+    {
+      "label": {
+        "de": "gewerbliche Baufl.",
+        "en": "Commercial building land"
+      },
+      "pct": 5.8,
+      "value": 1081
+    },
+    {
+      "label": {
+        "de": "Acker",
+        "en": "Arable land"
+      },
+      "pct": 3.7,
+      "value": 684
+    },
+    {
+      "label": {
+        "de": "forstwirtschaftliche Fl.",
+        "en": "Forestry land"
+      },
+      "pct": 3.7,
+      "value": 682
+    },
+    {
+      "label": {
+        "de": "Gruenland",
+        "en": "Grassland"
+      },
+      "pct": 3.7,
+      "value": 687
+    },
+    {
+      "label": {
+        "de": "Gewerbegebiet",
+        "en": "Commercial area"
+      },
+      "pct": 2.1,
+      "value": 400
+    },
+    {
+      "label": {
+        "de": "Mischgebiet",
+        "en": "Mixed-use area"
+      },
+      "pct": 2.0,
+      "value": 370
+    },
+    {
+      "label": {
+        "de": "reines Wohngebiet",
+        "en": "Pure residential area"
+      },
+      "pct": 1.3,
+      "value": 247
+    },
+    {
+      "label": {
+        "de": "Industriegebiet",
+        "en": "Industrial area"
+      },
+      "pct": 0.9,
+      "value": 174
+    },
+    {
+      "label": {
+        "de": "sonstige Sondergebiete",
+        "en": "Other special-purpose area"
+      },
+      "pct": 0.8,
+      "value": 149
+    },
+    {
+      "label": {
+        "de": "Kerngebiet",
+        "en": "Core/urban-centre area"
+      },
+      "pct": 0.5,
+      "value": 86
+    },
+    {
+      "label": {
+        "de": "Freizeitgartenfl.",
+        "en": "Recreational garden"
+      },
+      "pct": 0.4,
+      "value": 70
+    },
+    {
+      "label": {
+        "de": "Baufl. fuer Gemeinbedarf",
+        "en": "Public-facility building land"
+      },
+      "pct": 0.3,
+      "value": 49
+    },
+    {
+      "label": {
+        "de": "private Gruenfl.",
+        "en": "Private green space"
+      },
+      "pct": 0.2,
+      "value": 40
+    },
+    {
+      "label": {
+        "de": "Gemeinbedarfsfl., kein Bauland",
+        "en": "Public-facility land (non-buildable)"
+      },
+      "pct": 0.1,
+      "value": 15
+    },
+    {
+      "label": {
+        "de": "Kleinsiedlungsgebiet",
+        "en": "Small-holdings settlement area"
+      },
+      "pct": 0.1,
+      "value": 16
+    },
+    {
+      "label": {
+        "de": "Sonderbaufl.",
+        "en": "Special-purpose building land"
+      },
+      "pct": 0.1,
+      "value": 13
+    },
+    {
+      "label": {
+        "de": "Urbanes Gebiet",
+        "en": "Urban area"
+      },
+      "pct": 0.1,
+      "value": 10
+    },
+    {
+      "label": {
+        "de": "Doerfliches Wohngebiet",
+        "en": "Village residential area"
+      },
+      "pct": 0.1,
+      "value": 10
+    },
+    {
+      "label": {
+        "de": "Flughafen, Flugplaetze",
+        "en": "Airport / airfield"
+      },
+      "pct": 0.0,
+      "value": 5
+    },
+    {
+      "label": {
+        "de": "sonstige private Fl.",
+        "en": "Other private land"
+      },
+      "pct": 0.0,
+      "value": 7
+    },
+    {
+      "label": {
+        "de": "besonderes Wohngebiet",
+        "en": "Special residential area"
+      },
+      "pct": 0.0,
+      "value": 6
+    },
+    {
+      "label": {
+        "de": "Sondernutzungsfl.",
+        "en": "Special-use area"
+      },
+      "pct": 0.0,
+      "value": 5
+    },
+    {
+      "label": {
+        "de": "Lagerfl.",
+        "en": "Storage area"
+      },
+      "pct": 0.0,
+      "value": 6
+    }
+  ],
+  "source": "boris",
+  "unit": {
+    "de": "Zonen",
+    "en": "zones"
+  }
+}

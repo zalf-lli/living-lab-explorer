@@ -1,0 +1,140 @@
+{
+  "chart_type": "bar",
+  "generated_at": "2026-08-04T07:10:51.693288Z",
+  "layer_id": "soil",
+  "ll_slug": "east-brandenburg",
+  "mock": false,
+  "series": [
+    {
+      "group_key": "brown-soils",
+      "label": {
+        "de": "Braunerden",
+        "en": "Brown soils"
+      },
+      "pct": 57.4,
+      "value": 426595.3
+    },
+    {
+      "group_key": "gley-soils",
+      "label": {
+        "de": "Gleye",
+        "en": "Gley soils"
+      },
+      "pct": 14.9,
+      "value": 110816.4
+    },
+    {
+      "group_key": "luvisols",
+      "label": {
+        "de": "Lessivés",
+        "en": "Luvisols"
+      },
+      "pct": 6.6,
+      "value": 48956.4
+    },
+    {
+      "group_key": "fens",
+      "label": {
+        "de": "Niedermoore",
+        "en": "Fens"
+      },
+      "pct": 6.1,
+      "value": 45543.8
+    },
+    {
+      "group_key": "ah-c-soils",
+      "label": {
+        "de": "Ah/C-Böden",
+        "en": "Ah/C soils"
+      },
+      "pct": 4.5,
+      "value": 33247.3
+    },
+    {
+      "group_key": "stagnic-soils",
+      "label": {
+        "de": "Stauwasserböden",
+        "en": "Stagnic soils"
+      },
+      "pct": 4.5,
+      "value": 33587.8
+    },
+    {
+      "group_key": "initial-soils",
+      "label": {
+        "de": "Rohböden",
+        "en": "Initial soils"
+      },
+      "pct": 2.3,
+      "value": 17237.4
+    },
+    {
+      "group_key": "water-area",
+      "label": {
+        "de": "Gewässer",
+        "en": "Water area"
+      },
+      "pct": 2.2,
+      "value": 16585.8
+    },
+    {
+      "group_key": "sealed-surfaces",
+      "label": {
+        "de": "versiegelte Flächen",
+        "en": "Sealed surfaces"
+      },
+      "pct": 0.7,
+      "value": 5457.4
+    },
+    {
+      "group_key": "special-area",
+      "label": {
+        "de": "Sonderfläche",
+        "en": "Special area"
+      },
+      "pct": 0.4,
+      "value": 2753.5
+    },
+    {
+      "group_key": "podzols",
+      "label": {
+        "de": "Podsole",
+        "en": "Podzols"
+      },
+      "pct": 0.3,
+      "value": 2128.7
+    },
+    {
+      "group_key": "sealed-surfaces-with-pararendzinen-and-loose-syroseme-from-kippsubstraten-sand-bfromchutt-over-schotter-oder-niederungs-oder-flusssand",
+      "label": {
+        "de": "Versiegelte Flächen mit Pararendzinen (und Lockersyroseme) aus Kippsubstraten (Sand, Bauschutt) über Schotter oder Niederungs- oder Flusssand",
+        "en": "Sealed surfaces with Pararendzinen (and loose syroseme) from Kippsubstraten (Sand, Bfromchutt) over Schotter oder Niederungs- oder Flusssand"
+      },
+      "pct": 0.05,
+      "value": 335.1
+    },
+    {
+      "group_key": "bergbau-tagebau-in-betrieb",
+      "label": {
+        "de": "Bergbau/Tagebau (in Betrieb)",
+        "en": "Bergbau/Tagebau (in Betrieb)"
+      },
+      "pct": 0.03,
+      "value": 205.8
+    },
+    {
+      "group_key": "alluvial-soils",
+      "label": {
+        "de": "Auenböden",
+        "en": "Alluvial soils"
+      },
+      "pct": 0.01,
+      "value": 77.8
+    }
+  ],
+  "source": "buek250",
+  "unit": {
+    "de": "ha",
+    "en": "ha"
+  }
+}

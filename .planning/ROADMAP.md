@@ -402,33 +402,176 @@ Plans:
 
 ### Phase 8: Add maps and stats for climate variables using CHELSA data
 
-**Goal:** [To be planned] — add climate variable maps and summary statistics to the app, sourced from CHELSA (accessed via the `chelsa_cmip6` Python library: https://gitlabext.wsl.ch/karger/chelsa_cmip6/).
-**Requirements**: TBD
-**Depends on:** Phase 7 (BORIS land value layer — last of the existing map-layer phases; the pipeline/layer conventions it establishes are reused here)
-**Plans:** 0 plans
+**Goal:** Living Lab visitors open the Climate tab and see a CHELSA-derived ~1 km climate raster for
+their region - one of four variables, shown either as the 1981-2010 baseline or as projected change
+under SSP3-7.0 across two future horizons - on a colour scale shared by all five Living Labs, with
+four KPI tiles beneath it reporting each variable's baseline value plus its 2071-2100 change. Built
+offline from static CHELSA/CMIP6 files and shipped as 60 per-Living-Lab PMTiles, with no runtime API
+dependency.
+**Requirements**: D-01 .. D-23 (from 08-CONTEXT.md) plus W-05 .. W-08 (Wave-2 decisions taken at the
+08-03 checkpoint). Phase 8 has no REQUIREMENTS.md IDs; the CONTEXT decisions are the spec, as in
+Phases 5, 05.1, 6 and 7.
+**Depends on:** Phase 7 (BORIS land value layer - last of the existing map-layer phases; the
+pipeline/layer conventions it establishes are reused here)
+**Plans:** 11/11 plans executed
+
+**Planning decisions (resolved during breakdown):**
+
+- **D-07 (GDD) is a live two-path decision, not a yes/no.** Research reversed 08-CONTEXT.md's premise:
+  `chelsa-cmip6==1.4` is on PyPI and does expose a `.gdd()` method with a 5 degC default matching D-06,
+  but only through a live cloud-compute path adding ~10 heavy dependencies, and its formula sums raw
+  temperatures on days above threshold rather than the textbook `sum(max(T - 5, 0))`. A lighter static
+  path (pre-built CHELSA CMIP6 GeoTIFFs on WSL's envicloud, zero new dependencies) covers bio1/bio12/bio18
+  but carries no GDD. Waves 1-2 are therefore a measure-then-decide spike (`08-01`) feeding a blocking
+  `checkpoint:decision` (`08-03`), copying the Phase 7 `07-03`/`07-05` precedent verbatim.
+
+- **D-09's shared colour scale needs a two-pass build with no Phase 6/7 precedent.** `build_colormap()`
+  takes an a-priori categorical dict; climate's mapping is computed. `compute_climate_color_breaks.py`
+  pools all five Living Labs' pixels into one committed breakpoint set before any per-LL bake, and
+  `build_continuous_colormap()` becomes a sibling to `build_colormap()`.
+
+- **D-12 is settled empirically, not assumed.** The Pass-0 script derives the diverging-vs-sequential
+  verdict from the five observed per-Living-Lab means and records them alongside it for audit.
+
+- **`sync.py::sync_pmtiles_per_ll()` needs a real code change.** Its `.replace("{slug}", "*")` handles
+  one placeholder; the climate pattern carries three.
+
+- **Two surfaces have no analog:** `StatPanel.jsx`'s D-20 delta row and `sources.yaml`'s
+  variable x period x GCM-crossed input block. Both are planned as design work, not copy-paste.
+
+- **D-18 is a same-commit requirement.** The manifest edit, both locked `tab_counts` dicts, the
+  `source_host` allow-list and the two dead i18n labels land together (Phase 05.1 D-05 discipline).
+
+- Zero new packages under the recommended static path.
 
 Plans:
 
-- [ ] TBD (run /gsd-plan-phase 8 to break down)
+**Wave 1**
+
+- [x] 08-01-PLAN.md - `probe_chelsa.py` spike: future-period URL structure, static monthly `tas`,
+      CMIP6 product licence, five-GCM grid alignment, windowed-read cost, `08-SPIKE.md`
+- [x] 08-02-PLAN.md - Frontend contracts: climate ramp exports, three-placeholder `resolveLayerAsset`,
+      `StatPanel.jsx` two-line delta tile
+
+**Wave 2** *(blocked on Wave 1)*
+
+- [x] 08-03-PLAN.md - **Blocking checkpoint:decision** — W-05 locked as `gdd5` (CHELSA's own static
+      GDD-above-5degC file, discovered mid-spike; not one of the plan's original three options), W-06
+      URL templates, W-07 provenance text, W-08 acquisition budget cap all locked. `08-SPIKE.md`
+      carries `## Phase status` (proceed) — no re-planning halt.
+
+**Wave 3** *(blocked on Wave 2)*
+
+- [x] 08-04-PLAN.md - `sources.yaml` `chelsa-climate` entry, `fetch_climate.py` windowed acquisition +
+      five-GCM mean + family-aware change fields, twelve gitignored rasters. **Required pre-check:**
+      Task 1's precondition text only recognizes `bio10`/`gdd-light`/`gdd-heavy` as valid W-05
+      verdicts and needs a one-line wording update to also accept the actual locked outcome, `gdd5`,
+      before this plan executes (flagged in `08-03-SUMMARY.md` Deviations).
+- [x] 08-05-PLAN.md - Full bilingual climate i18n block, `VariablePicker.jsx`, `PeriodSwitcher.jsx`
+
+**Wave 4** *(blocked on Wave 3)*
+
+- [x] 08-06-PLAN.md - Pass-0 `compute_climate_color_breaks.py`, `build_continuous_colormap()`,
+      Pass-1 `build_climate_pmtiles.py`, breaks contract test
+- [x] 08-07-PLAN.md - `compute_climate_kpis.py` area-weighted zonal mean, `data/climate_kpis.json`
+
+**Wave 5** *(blocked on Wave 4)*
+
+- [x] 08-08-PLAN.md - Multi-placeholder sync glob, `generate_climate_legend()` codegen, the 60-file
+      build run and publish
+
+**Wave 6** *(blocked on Wave 5)*
+
+- [x] 08-09-PLAN.md - D-18 manifest swap + both `tab_counts` dicts + allow-list + dead i18n labels,
+      `chelsa` `source_host` branch with delta threading, regenerated metadata (one commit)
+
+**Wave 7** *(blocked on Wave 6)*
+
+- [x] 08-10-PLAN.md - `layers.js` climate raster entry, `useClimateControlState` lift and threading,
+      `LLMap` raster/legend/note/badge wiring, dead placeholder legend removal
+
+**Wave 8** *(blocked on Wave 7)*
+
+- [x] 08-11-PLAN.md - Full automated gate, seven cross-file join-key checks, D-01..D-23 evidence
+      record, blocking bilingual human verification
 
 ### Phase 9: Chart Data Contract
 
-**Goal:** Document the chart output JSON schema and add optional `chart:` stanza support to `sources.yaml` + `sync.py` so any layer can declare a chart script and have its output copied to `app/public/data/charts/`.
-**Requirements**: CHARTS-01, CHARTS-02
+**Goal:** Document the chart-type-discriminated output JSON schema (bar and line variants), add optional `chart:` stanza support to `sources.yaml` + `sync.py` so any layer can declare a chart script and have its per-LL output copied to `app/public/data/charts/`, and implement real chart-computation scripts for all 5 map layers so every tab has a real, pipeline-computed summary chart.
+**Requirements**: CHARTS-01, CHARTS-02, CHARTS-03, CHARTS-04, CHARTS-05, CHARTS-06, CHARTS-07
 **Depends on:** Phase 8 (all map layers - protected areas, land cover, BORIS land value, CHELSA climate - must be built first so charts can be produced from the finished maps)
-**Plans:** 0 plans
+**Plans:** 7/7 plans complete
 
-**Note:** Formerly numbered Phase 3. Moved to the end of the roadmap (2026-07-27) because chart implementations are meant to summarize the map layers, so the contract should be defined once every map layer exists rather than speculatively up front.
+**Note:** Formerly numbered Phase 3. Moved to the end of the roadmap (2026-07-27) because chart implementations are meant to summarize the map layers, so the contract should be defined once every map layer exists rather than speculatively up front. **Scope expanded 2026-08-03** (09-CONTEXT.md discussion): originally contract-and-plumbing-only with crop-types as a dry-run validation target; the human decided during discussion to implement real chart computation for all 5 tabs in this phase rather than deferring it to v2. REQUIREMENTS.md updated to match (CHARTS-03..07 added, "Generic chart logic" removed from Out of Scope).
 
 **Success criteria:**
 
-1. The chart JSON schema is documented (shape, field names, types, bilingual label convention) in a location a future implementer can find without reading source code
-2. A `sources.yaml` entry with a `chart:` stanza passes `sync.py` without errors; `sync.py` logs a `[chart]` line and copies the output file if it exists, or logs `[chart] skipped - not yet built` if it doesn't
-3. The crop-types layer (existing) can be given a `chart:` stanza as a dry-run validation without writing any chart computation code
+1. The chart JSON schema is documented (shape, field names, types, bilingual label convention) in `data-pipeline/README.md`, covering both the `bar` shape (`series:[{label,value,pct}]`) and the `line` shape (`x_axis` + `lines:[{label,points:[{x,value}]}]`)
+2. A `sources.yaml` entry with a `chart:` stanza passes `sync.py` without errors; `sync.py` logs a `[chart]` line and copies each per-LL output file if it exists, or logs `[chart] skipped - not yet built` if it doesn't
+3. All 5 layers (`landuse-croptypes`, `buek250`, `io-lulc-landcover`, `boris`, `chelsa-climate`) have a `chart:` stanza and a real chart-computation script producing valid per-LL chart JSON matching the documented schema
+4. Agriculture, soil, and economic charts show a % composition breakdown (crop type / soil group / usage type) per LL; landscape reuses the existing `land_cover_class_histogram.json`; climate is a `chart_type: "line"` showing % change per variable across the two future horizons
+
+**Planning decisions (resolved during breakdown):**
+
+- **One `compute_*_chart.py` script per layer**, not a shared driver — matching the strong
+  existing one-script-per-data-type precedent (`build_land_cover.py`,
+  `compute_climate_kpis.py`, `compute_protected_area_coverage.py`). A sixth new module,
+  `chart_contract.py`, holds the two envelope writers so the CHARTS-01 schema and CLAUDE.md's
+  `sort_keys=True` rule are satisfied in exactly one place and cannot drift across five layers.
+
+- **D-10 and D-15 conflict and both are honoured.** D-10 locks `_sync_matched_pattern()` as
+  the sync mechanism; D-15 requires naming each missing (layer, Living Lab) file, which a pure
+  glob cannot do. `sync_charts()` therefore runs an explicit per-slug existence pre-check for
+  the naming and still delegates the copy to `_sync_matched_pattern(..., tag="chart")`, so the
+  repo-root-escape guard (`sync.py:337-341`) is inherited rather than re-implemented.
+
+- **D-09's "no new statistical computation" framing was wrong** and is planned as real work:
+  `compute_climate_kpis.py` hardcodes `DELTA_HORIZON = "2071_2100"` and Phase 8's D-21
+  deliberately never opened the near horizon, so the 2041-2070 point exists nowhere on disk.
+  `compute_climate_chart.py` imports `area_weighted_mean()` and computes both horizons itself.
+
+- **Two boundary conventions coexist and the split is deliberate.** Agriculture and landscape
+  use `build_clip_geometry()`'s 2000 m-buffered extent (inherited from Phase 6, so the two
+  raster charts stay comparable); soil and climate use the true unbuffered
+  `data/ll_boundaries.geojson`. Both scripts document the tension inline rather than inheriting
+  it by omission.
+
+- **Agriculture is the only genuinely new pipeline logic** — `landuse-croptypes` is the sole
+  nationally-built raster (`output.pmtiles`, no `pmtiles_pattern`), so it gets its own plan with
+  a dry-run gate on the smallest Living Lab before the full 481 MB five-Living-Lab run.
+
+- Zero new packages. Every dependency (geopandas, rasterio, numpy, pyyaml, pytest) is already
+  pinned in `data-pipeline/requirements.txt`.
 
 Plans:
 
-- [ ] TBD (run /gsd-plan-phase 9 to break down)
+**Wave 1**
+
+- [ ] `09-01-PLAN.md` — `chart_contract.py` bar/line envelope writers; `## Chart data contract`
+      section in `data-pipeline/README.md`; `chart:` stanza bullet in `sources/README.md` (CHARTS-01)
+- [ ] `09-02-PLAN.md` — 5 `chart.script` + 5 `output.chart_pattern` stanzas and 4 climate
+      `label:{en,de}` blocks in `sources.yaml`; `tag` param on `sync_file`/`_sync_matched_pattern`;
+      `sync_charts()` with per-(layer, LL) skip naming (CHARTS-02)
+
+**Wave 2** *(blocked on Wave 1)*
+
+- [ ] `09-03-PLAN.md` — `compute_landscape_chart.py`, `compute_soil_chart.py`,
+      `compute_economic_chart.py` and their 15 chart files (CHARTS-04, CHARTS-05, CHARTS-06)
+- [ ] `09-04-PLAN.md` — `compute_agriculture_chart.py`: per-LL clip + class histogram over the
+      national crop-types raster, dry-run gate then full run, 5 chart files (CHARTS-03)
+- [ ] `09-05-PLAN.md` — `compute_climate_chart.py`: two-horizon percent change per variable,
+      the only `line` variant, 5 chart files (CHARTS-07)
+
+**Wave 3** *(blocked on Wave 2)*
+
+- [ ] `09-06-PLAN.md` — `sync.py` publish of all 25 files to `app/public/data/charts/`, Vite
+      build confirmation, 5 new pytest contract tests (suite 20 -> 25) (CHARTS-01, CHARTS-02)
+
+**Wave 4** *(blocked on Wave 3)*
+
+- [ ] `09-07-PLAN.md` — full automated gate, 7 cross-file join-key checks, chart-script
+      determinism check, D-01..D-16 + CHARTS-01..07 evidence record, blocking bilingual
+      human verification of the computed values (all CHARTS ids)
 
 ### Phase 10: Wire up "Add for comparison" button to a real two-column LL comparison layout
 
@@ -465,6 +608,69 @@ Plans:
 **Wave 5** *(blocked on Wave 4 completion)*
 
 - [x] 10-06-PLAN.md — full automated gate, D-01..D-29 evidence table, and blocking bilingual human verification
+
+### Phase 11: Wire chart JSON data to chart UI components
+
+**Goal:** Wire the chart content produced as JSON files in Phase 9 to the chart UI components in the app, so the charts render real data instead of placeholder/legacy sources.
+**Requirements**: TBD (no ROADMAP or REQUIREMENTS.md REQ-IDs; REQUIREMENTS.md maps CHARTS-01..07 to Phase 9. The spec is `11-UI-SPEC.md`'s eight locked decisions, referenced as UI-1..UI-8 in every plan's `ui_decisions` field)
+**Depends on:** Phase 9 (produces the chart data contract and JSON outputs), Phase 10 (comparison layout renders the same chart components in two columns)
+**Plans:** 5/5 plans complete
+
+**Context (captured 2026-08-03):**
+
+- Phase 9 delivered the chart data contract and emits chart content as JSON files; this phase is the consumption side
+- Scope is app-side integration only — no new pipeline work
+- Expected to need minimal to no research and a small number of plans
+
+**Planning decisions (resolved during breakdown):**
+
+- **Climate needs a second component, not a patched `BarChart`.** Climate is the only `chart_type: "line"`
+  layer (4 variables x 2 future horizons of percent change, values of both signs); the existing bar code
+  path renders 6 fake months and cannot express that shape at all. `LineChart.jsx` is hand-rolled SVG plus
+  absolutely-positioned divs — no charting library is added, per the UI-SPEC.
+
+- **Every real bar file exceeds 6 categories** (landscape 7-8, soil 9-14, agriculture 18, economic 17-31),
+  so the top-6-plus-Other truncation is the production path, not an edge case. It lives in a pure
+  `app/src/lib/chartSeries.js` module rather than inside the component, so a node command can assert the
+  row cap, the preserved pct total and the never-re-sort rule against all 20 real files — the project has
+  no JS test runner, so a node-importable pure module is the only way to get a real automated gate here.
+
+- **Two UI-SPEC statements were wrong against the code and are corrected in the plans.** (a) It assumes
+  every chart call site's card already renders a title; only `LayoutSplit` does, so `11-04` adds title rows
+  to `LayoutStacked` and `ComparisonColumn`. (b) Its defensive climate-colour fallback (compare the
+  translated `CLIMATE_VARIABLES[i].labelKey` against `lines[i].label[lang]`) can never match — the i18n
+  labels are abbreviations ("GDD", "Mean temp.") while the JSON carries full names ("Growing degree days")
+  — so a length-guarded index mapping is the locked behaviour instead.
+
+- **`app/src/i18n.js` is the hot file** and is deliberately split across two waves: additions in `11-01`
+  (wave 1), deletions of the dead `charts.*` / `barChart.*` blocks in `11-04` (wave 3), once nothing
+  references them. Only wave 2 parallelizes (`11-02` BarChart and `11-03` LineChart touch disjoint files).
+
+- Zero new npm packages; zero pipeline files touched (both asserted as gates in `11-05`).
+
+Plans:
+
+**Wave 1**
+
+- [x] `11-01-PLAN.md` — `useChartData` hook (404 = empty), pure `chartSeries.js` truncation + rank palette,
+      shared `ChartStates.jsx` blocks, and the `chart.*` / `llDetail.projectionTitle` i18n additions
+
+**Wave 2** *(blocked on Wave 1)*
+
+- [x] `11-02-PLAN.md` — `BarChart.jsx` rewrite: real per-Living-Lab data, three async states, top-6 + Other
+      rows with rank colours, value+unit captions, real source footer
+- [x] `11-03-PLAN.md` — new `LineChart.jsx`: 4 fixed-colour polylines over 2 horizons, zero-inclusive shared
+      scale, dashed zero line, signed percentage labels
+
+**Wave 3** *(blocked on Wave 2)*
+
+- [x] `11-04-PLAN.md` — three `LLDetail.jsx` call sites branch on `layer === 'climate'` and thread `ll`;
+      titled cards everywhere; `chart_data.js` and the dead `charts.*` / `barChart.*` i18n blocks deleted
+
+**Wave 4** *(blocked on Wave 3)*
+
+- [x] `11-05-PLAN.md` — full automated gate (lint/format/build, 25-file join-key + contract check,
+      dead-token and scope gates), `11-EVIDENCE.md` for UI-1..UI-8, blocking bilingual human verification
 
 ## Backlog
 

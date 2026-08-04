@@ -1,0 +1,95 @@
+{
+  "chart_type": "bar",
+  "generated_at": "2026-08-04T07:10:53.354780Z",
+  "layer_id": "soil",
+  "ll_slug": "rheingau",
+  "mock": false,
+  "series": [
+    {
+      "group_key": "brown-soils",
+      "label": {
+        "de": "Braunerden",
+        "en": "Brown soils"
+      },
+      "pct": 66.7,
+      "value": 53924.2
+    },
+    {
+      "group_key": "luvisols",
+      "label": {
+        "de": "Lessivés",
+        "en": "Luvisols"
+      },
+      "pct": 17.2,
+      "value": 13886.2
+    },
+    {
+      "group_key": "gley-soils",
+      "label": {
+        "de": "Gleye",
+        "en": "Gley soils"
+      },
+      "pct": 5.2,
+      "value": 4182.5
+    },
+    {
+      "group_key": "stagnic-soils",
+      "label": {
+        "de": "Stauwasserböden",
+        "en": "Stagnic soils"
+      },
+      "pct": 5.0,
+      "value": 4039.4
+    },
+    {
+      "group_key": "ah-c-soils",
+      "label": {
+        "de": "Ah/C-Böden",
+        "en": "Ah/C soils"
+      },
+      "pct": 4.0,
+      "value": 3243.0
+    },
+    {
+      "group_key": "special-area",
+      "label": {
+        "de": "Sonderfläche",
+        "en": "Special area"
+      },
+      "pct": 1.2,
+      "value": 935.7
+    },
+    {
+      "group_key": "alluvial-soils",
+      "label": {
+        "de": "Auenböden",
+        "en": "Alluvial soils"
+      },
+      "pct": 0.6,
+      "value": 452.4
+    },
+    {
+      "group_key": "podzols",
+      "label": {
+        "de": "Podsole",
+        "en": "Podzols"
+      },
+      "pct": 0.3,
+      "value": 202.5
+    },
+    {
+      "group_key": "water-area",
+      "label": {
+        "de": "Gewässer",
+        "en": "Water area"
+      },
+      "pct": 0.01,
+      "value": 6.7
+    }
+  ],
+  "source": "buek250",
+  "unit": {
+    "de": "ha",
+    "en": "ha"
+  }
+}

@@ -1,0 +1,131 @@
+{
+  "chart_type": "bar",
+  "generated_at": "2026-08-04T07:10:52.299931Z",
+  "layer_id": "soil",
+  "ll_slug": "havellandisches-luch",
+  "mock": false,
+  "series": [
+    {
+      "group_key": "brown-soils",
+      "label": {
+        "de": "Braunerden",
+        "en": "Brown soils"
+      },
+      "pct": 54.6,
+      "value": 218327.0
+    },
+    {
+      "group_key": "gley-soils",
+      "label": {
+        "de": "Gleye",
+        "en": "Gley soils"
+      },
+      "pct": 20.4,
+      "value": 81347.2
+    },
+    {
+      "group_key": "fens",
+      "label": {
+        "de": "Niedermoore",
+        "en": "Fens"
+      },
+      "pct": 12.5,
+      "value": 49808.7
+    },
+    {
+      "group_key": "ah-c-soils",
+      "label": {
+        "de": "Ah/C-Böden",
+        "en": "Ah/C soils"
+      },
+      "pct": 5.7,
+      "value": 22809.9
+    },
+    {
+      "group_key": "luvisols",
+      "label": {
+        "de": "Lessivés",
+        "en": "Luvisols"
+      },
+      "pct": 3.2,
+      "value": 12738.9
+    },
+    {
+      "group_key": "water-area",
+      "label": {
+        "de": "Gewässer",
+        "en": "Water area"
+      },
+      "pct": 2.1,
+      "value": 8574.0
+    },
+    {
+      "group_key": "initial-soils",
+      "label": {
+        "de": "Rohböden",
+        "en": "Initial soils"
+      },
+      "pct": 0.5,
+      "value": 2196.7
+    },
+    {
+      "group_key": "podzols",
+      "label": {
+        "de": "Podsole",
+        "en": "Podzols"
+      },
+      "pct": 0.3,
+      "value": 1175.2
+    },
+    {
+      "group_key": "special-area",
+      "label": {
+        "de": "Sonderfläche",
+        "en": "Special area"
+      },
+      "pct": 0.3,
+      "value": 1191.7
+    },
+    {
+      "group_key": "stagnic-soils",
+      "label": {
+        "de": "Stauwasserböden",
+        "en": "Stagnic soils"
+      },
+      "pct": 0.3,
+      "value": 1038.6
+    },
+    {
+      "group_key": "sealed-surfaces",
+      "label": {
+        "de": "versiegelte Flächen",
+        "en": "Sealed surfaces"
+      },
+      "pct": 0.1,
+      "value": 419.2
+    },
+    {
+      "group_key": "sealed-surfaces-with-pararendzinen-and-loose-syroseme-from-kippsubstraten-sand-bfromchutt-over-schotter-oder-niederungs-oder-flusssand",
+      "label": {
+        "de": "Versiegelte Flächen mit Pararendzinen (und Lockersyroseme) aus Kippsubstraten (Sand, Bauschutt) über Schotter oder Niederungs- oder Flusssand",
+        "en": "Sealed surfaces with Pararendzinen (and loose syroseme) from Kippsubstraten (Sand, Bfromchutt) over Schotter oder Niederungs- oder Flusssand"
+      },
+      "pct": 0.01,
+      "value": 28.9
+    },
+    {
+      "group_key": "alluvial-soils",
+      "label": {
+        "de": "Auenböden",
+        "en": "Alluvial soils"
+      },
+      "pct": 0.001,
+      "value": 4.8
+    }
+  ],
+  "source": "buek250",
+  "unit": {
+    "de": "ha",
+    "en": "ha"
+  }
+}

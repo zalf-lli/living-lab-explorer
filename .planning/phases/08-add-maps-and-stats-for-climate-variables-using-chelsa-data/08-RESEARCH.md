@@ -550,6 +550,19 @@ an existing one.
 
 ## Open Questions
 
+**(DEFERRED BY DESIGN — RESOLVED IN-PLAN, NOT PRE-RESOLVED)** All four questions below are
+deliberately left open by this research document and answered by executable plan work instead,
+mirroring the Phase 7 `07-03`/`07-05` measure-then-decide precedent. They are not research gaps:
+
+- **Q1** (future-period URL structure) — resolved by `08-01` into `08-SPIKE.md` as **W-01**.
+- **Q2** (future-period monthly `tas` availability) — resolved by `08-01` into `08-SPIKE.md` as **W-02**.
+- **Q3** (GDD via `chelsa-cmip6` versus the `bio10` fallback) — resolved by `08-03`, the blocking
+  `checkpoint:decision`, into `08-SPIKE.md`'s `## Locked decisions` as **W-05**. Deliberately not
+  answered here: D-07 named it "the one research-gated decision in the phase" and a human, not
+  this document, picks the outcome.
+- **Q4** (CMIP6-derived product licence) — resolved by `08-01` into `08-SPIKE.md` as **W-03**, and
+  signed off by a human at `08-03` as **W-07** before any `sources.yaml` provenance text is written.
+
 1. **What is the exact envicloud (or equivalent) URL structure for future-period (2041-2070,
    2071-2100), per-GCM, per-SSP CHELSA bio1/bio12/bio18(/bio10) GeoTIFFs?**
    - What we know: the baseline (1981-2010) bio and ncdf paths are confirmed live

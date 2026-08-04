@@ -34,18 +34,83 @@ def build_colormap(layer: dict, nodata: int | float | None) -> dict[int, tuple[i
     return cmap
 
 
-def build_clip_geometry(layer: dict, source_crs, slug: str | None = None) -> object:
+def build_continuous_colormap(breaks: list, colors: list):
+    """Continuous sibling to build_colormap(): keys a numeric *range* to a colour instead
+    of an exact class value to a colour.
+
+    `build_colormap()` takes a fixed {value: RGBA} dict built directly from sources.yaml's
+    static `legend` block -- known a-priori because every categorical layer's class set is
+    declared, not computed. This function exists because a continuous layer's mapping
+    (Phase 8's CHELSA climate variables) is a *computed* artifact: `breaks` and `colors`
+    must both come from `data/climate_color_breaks.json` -- a Pass-0 build artifact written
+    by `compute_climate_color_breaks.py` -- never from sources.yaml directly (D-09).
+
+    `breaks` must be strictly increasing (N+1 boundary values); `len(colors)` must equal
+    `len(breaks) - 1` (one colour per band). Raises `ValueError` naming the offending input
+    if either invariant is violated.
+
+    Returns a `classify(values, nodata_mask)` callable: given a float array of pixel values
+    and a boolean nodata mask of the same shape, it returns a `(4, height, width)` uint8
+    RGBA array, vectorised with `numpy.digitize` against the interior breaks (the same
+    boolean-mask RGBA assignment pattern `build_paletted_geotiff`'s bake loop already uses).
+    A value below the first break clamps into the first band; a value above the last break
+    clamps into the last band, so a Living Lab's extreme pixel sitting marginally outside
+    the pooled percentile range renders saturated rather than transparent. Every nodata or
+    non-finite pixel gets RGBA (0, 0, 0, 0).
+    """
+    if len(colors) != len(breaks) - 1:
+        raise ValueError(
+            f"build_continuous_colormap: len(colors)={len(colors)} must equal "
+            f"len(breaks)-1={len(breaks) - 1} (breaks={breaks!r}, colors={colors!r})"
+        )
+    for index in range(1, len(breaks)):
+        if not breaks[index] > breaks[index - 1]:
+            raise ValueError(
+                f"build_continuous_colormap: breaks must be strictly increasing, "
+                f"got {breaks!r} (failed at index {index})"
+            )
+
+    rgba_stops = [hex_to_rgba(color) for color in colors]
+    interior_breaks = breaks[1:-1]
+
+    def classify(values, nodata_mask):
+        import numpy as np
+
+        band_index = np.digitize(values, interior_breaks)  # 0 .. len(colors) - 1, clamped
+        rgba = np.zeros((4,) + values.shape, dtype=np.uint8)
+        invalid = nodata_mask | ~np.isfinite(values)
+        for band, color in enumerate(rgba_stops):
+            band_mask = (band_index == band) & ~invalid
+            if not np.any(band_mask):
+                continue
+            rgba[0][band_mask] = color[0]
+            rgba[1][band_mask] = color[1]
+            rgba[2][band_mask] = color[2]
+            rgba[3][band_mask] = color[3]
+        return rgba
+
+    return classify
+
+
+def build_clip_geometry(
+    layer: dict, source_crs, slug: str | None = None, buffer_m: float | None = None
+) -> object:
+    """Returns the (buffered, by default) clip geometry for `layer`/`slug`, reprojected to
+    `source_crs`. `buffer_m` overrides the layer's configured `defaults.clip_buffer_m` --
+    pass `0` to get the TRUE (unbuffered) Living Lab boundary in the same source, e.g. to
+    build an alpha mask that hides a raster's buffer-margin pixels without touching the
+    buffered crop extent itself (climate-basemap-hidden-outside-boundary debug fix)."""
     import geopandas as gpd
 
     defaults = layer["defaults"]
     clip_path = resolve(defaults["clip_to"])
-    clip_buffer_m = defaults.get("clip_buffer_m", 0)
+    effective_buffer_m = defaults.get("clip_buffer_m", 0) if buffer_m is None else buffer_m
     gdf = gpd.read_file(clip_path)
     if slug is not None:
         gdf = gdf[gdf["ll_slug"] == slug]
         # CLAUDE.md rule: assert non-empty to catch silent clip failures
         assert len(gdf) > 0, f"No features in {clip_path} with ll_slug={slug!r}"
-    buffered = gdf.to_crs("EPSG:3857").geometry.union_all().buffer(clip_buffer_m)
+    buffered = gdf.to_crs("EPSG:3857").geometry.union_all().buffer(effective_buffer_m)
     clip_geom = gpd.GeoSeries([buffered], crs="EPSG:3857").to_crs(source_crs).iloc[0]
     return clip_geom
 

@@ -1,0 +1,70 @@
+{
+  "chart_type": "bar",
+  "generated_at": "2026-08-03T10:16:33.255476Z",
+  "layer_id": "landscape",
+  "ll_slug": "rheingau",
+  "mock": false,
+  "series": [
+    {
+      "label": {
+        "de": "Wald",
+        "en": "Forest"
+      },
+      "pct": 60.4,
+      "value": 62369.0
+    },
+    {
+      "label": {
+        "de": "Ackerland",
+        "en": "Cropland"
+      },
+      "pct": 24.5,
+      "value": 25319.4
+    },
+    {
+      "label": {
+        "de": "Siedlung",
+        "en": "Settlement"
+      },
+      "pct": 8.2,
+      "value": 8475.0
+    },
+    {
+      "label": {
+        "de": "Gruenland",
+        "en": "Grassland"
+      },
+      "pct": 4.5,
+      "value": 4698.5
+    },
+    {
+      "label": {
+        "de": "Wasser",
+        "en": "Water"
+      },
+      "pct": 2.3,
+      "value": 2380.5
+    },
+    {
+      "label": {
+        "de": "Offenboden",
+        "en": "Bare ground"
+      },
+      "pct": 0.01,
+      "value": 15.0
+    },
+    {
+      "label": {
+        "de": "Feuchtgebiet",
+        "en": "Wetland"
+      },
+      "pct": 0.01,
+      "value": 7.0
+    }
+  ],
+  "source": "io-lulc-landcover",
+  "unit": {
+    "de": "ha",
+    "en": "ha"
+  }
+}

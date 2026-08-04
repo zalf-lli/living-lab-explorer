@@ -10,14 +10,25 @@ import {
   BORIS_NO_DATA_STYLE,
   BORIS_RAMP,
   BORIS_VALUE_STYLE_BASE,
+  CLIMATE_LEGEND,
+  CLIMATE_VARIABLES,
   LAYER_INDEX,
   PROTECTED_AREAS_LEGEND,
   resolveLayerAsset,
 } from '../../data/layers.js'
 import { LAYER_SOURCE_INDEX } from '../../data/layer_sources.js'
+import {
+  getSoilColor,
+  SOIL_SPECIAL_STROKE,
+  SOIL_UNIT_STROKE,
+  SOIL_WATER_FILL,
+  SOIL_WATER_STROKE,
+  SOIL_SPECIAL_FILL,
+} from '../../data/soil_legend.js'
 import { buildMaskFeature } from '../../lib/buildMaskGeometry.js'
 import { C } from '../../theme.js'
 import { MapLegend } from '../MapLegend.jsx'
+import { PeriodSwitcher } from '../PeriodSwitcher.jsx'
 
 const MAP_STYLE = { width: '100%', height: '100%' }
 const TILE_SUBDOMAINS = ['a', 'b', 'c', 'd']
@@ -30,23 +41,33 @@ const BASEMAP_SOURCE = {
   license: 'ODbL / CC BY 3.0',
 }
 
+// Every raster layer's clip_buffer_m margin (data-pipeline/sources/sources.yaml) is now
+// made transparent at bake time for pixels outside the TRUE (unbuffered) Living Lab
+// boundary (climate-basemap-hidden-outside-boundary debug fix, build_climate_pmtiles.py's
+// build_climate_tif()), so this single shared mask only ever needs to dim the basemap for
+// geographic context outside the boundary -- it never has to hide leftover layer data,
+// for climate or any other layer. An earlier climate-only opaque variant of this mask
+// (removed) fixed the climate-boundary-na-artifact ring but, because the mask sits above
+// both the raster and the basemap (they share Leaflet's default tilePane), it also hid the
+// basemap outside the boundary -- inconsistent with every other tab. See
+// .planning/debug/resolved/climate-boundary-na-artifact.md and
+// .planning/debug/resolved/climate-basemap-hidden-outside-boundary.md.
 const MASK_STYLE = {
   fillColor: '#ffffff',
   fillOpacity: 0.6,
   stroke: false,
   interactive: false,
 }
-const SOIL_PALETTE = ['#b88752', '#c29b68', '#a87445', '#d0b385', '#8f6136', '#c98b5e', '#aa7c57', '#bfa07a']
 const SOIL_SPECIAL_STYLE = {
-  color: '#4f89a3',
+  color: SOIL_WATER_STROKE,
   weight: 0.8,
-  fillColor: '#88bfd9',
+  fillColor: SOIL_WATER_FILL,
   fillOpacity: 0.7,
 }
 const SOIL_STRUCTURAL_STYLE = {
-  color: '#768a8f',
+  color: SOIL_SPECIAL_STROKE,
   weight: 0.7,
-  fillColor: '#c6d2d5',
+  fillColor: SOIL_SPECIAL_FILL,
   fillOpacity: 0.65,
 }
 
@@ -143,38 +164,53 @@ function getBounds(featureLike) {
   return bounds.isValid() ? bounds : null
 }
 
-function RasterPmtilesLayer({ layerId, slug }) {
+// T-08-06/T-08-21: variable and period are interpolated into the fetched asset path, so an
+// unresolvable combination (resolveLayerAsset returns null) renders no overlay and reports the
+// error status rather than issuing a request for an unresolved-brace URL. T-08-11: exactly one
+// overlay is ever in flight -- the caller's remount key (see the raster mount point below) tears
+// this component down before the next combination mounts, so overlapping tile requests cannot
+// occur here. A `cancelled` flag guards against a stale header-read resolution updating state (or
+// adding an overlay) after a variable/period change has already torn this effect down -- with
+// three axes (layer, variable, period) changing independently this is a real race, not a
+// theoretical one.
+function RasterPmtilesLayer({ layerId, slug, variable, period, onStatus }) {
   const map = useMap()
-  const layerUrl = resolveLayerAsset(layerId, { slug })
+  const layerUrl = resolveLayerAsset(layerId, { slug, variable, period })
 
   useEffect(() => {
-    if (!layerUrl) return undefined
-    const overlay = leafletRasterLayer(getPmtiles(layerUrl), {
-      opacity: 0.85,
-    })
-    overlay.addTo(map)
-    return () => {
-      map.removeLayer(overlay)
+    if (!layerUrl) {
+      onStatus?.({ loading: false, error: true })
+      return undefined
     }
-  }, [layerUrl, map])
+    let cancelled = false
+    let overlay = null
+    onStatus?.({ loading: true, error: false })
+    const pmtiles = getPmtiles(layerUrl)
+    pmtiles
+      .getHeader()
+      .then(() => {
+        if (cancelled) return
+        overlay = leafletRasterLayer(pmtiles, { opacity: 0.85 })
+        overlay.addTo(map)
+        onStatus?.({ loading: false, error: false })
+      })
+      .catch(() => {
+        if (cancelled) return
+        onStatus?.({ loading: false, error: true })
+      })
+    return () => {
+      cancelled = true
+      if (overlay) map.removeLayer(overlay)
+    }
+  }, [layerUrl, map, variable, period]) // eslint-disable-line react-hooks/exhaustive-deps
 
   return null
-}
-
-function hashSoilKey(value) {
-  return String(value)
-    .split('')
-    .reduce((acc, char) => acc * 31 + char.charCodeAt(0), 7)
 }
 
 function getSemanticSoilKey(props) {
   if (props.feature_kind === 'water_area') return 'water-area'
   if (props.feature_kind === 'special_area') return 'special-area'
   return props.soil_group_key || props.parent_material_code || props.SYM_NR || props.GEN_ID || 'soil-unit'
-}
-
-function getSoilColor(groupKey) {
-  return SOIL_PALETTE[Math.abs(hashSoilKey(groupKey)) % SOIL_PALETTE.length]
 }
 
 function getLocalizedValue(props, key, lang) {
@@ -190,7 +226,7 @@ function getSoilStyle(feature) {
   if (props.feature_kind === 'special_area') return SOIL_STRUCTURAL_STYLE
   const color = getSoilColor(getSemanticSoilKey(props))
   return {
-    color: '#6e4d31',
+    color: SOIL_UNIT_STROKE,
     weight: 0.6,
     fillColor: color,
     fillOpacity: 0.7,
@@ -882,10 +918,21 @@ function EconomicLayer({ collection, buckets, slugKey, t, lang }) {
   return null
 }
 
-export default function LLMap({ ll, layer, height = 300 }) {
+export default function LLMap({
+  ll,
+  layer,
+  height = 300,
+  variable = null,
+  period = null,
+  periodMode = 'baseline',
+  horizon = '2071_2100',
+  onPeriodModeChange = () => {},
+  onHorizonChange = () => {},
+}) {
   const { t, i18n } = useTranslation()
   const layerConfig = LAYER_INDEX.get(layer)
   const { data, loading, error } = useGeoJSON('data/ll_boundaries.geojson')
+  const [climateState, setClimateState] = useState({ loading: false, error: false })
   const soilUrl = useMemo(
     () => (layer === 'soil' ? resolveLayerAsset(layer, { slug: ll.slug }) : null),
     [layer, ll.slug],
@@ -931,6 +978,21 @@ export default function LLMap({ ll, layer, height = 300 }) {
   const economicLegendEntries = useMemo(
     () => buildEconomicLegendEntries(economicFeatureCollection, economicBuckets),
     [economicFeatureCollection, economicBuckets],
+  )
+
+  // D-11/D-12: 08-08's pipeline codegen already baked unit-aware labels and the empirically-derived
+  // ramp shape into CLIMATE_LEGEND's band strings/colours, so this component performs no number
+  // formatting and no unit logic of its own -- it only selects which precomputed band array is active.
+  // Change mode carries a separate band array per horizon (climate-coarse-change-bins debug fix,
+  // 2026-07-31): the two future horizons no longer share one pooled scale (reversed 08-EVIDENCE.md
+  // deviation #2), so the active horizon token selects which of CLIMATE_LEGEND[variable].change's
+  // two per-horizon band arrays is shown, exactly mirroring how the PMTiles pixels were classified.
+  const climateLegendEntries = useMemo(
+    () =>
+      periodMode === 'baseline'
+        ? CLIMATE_LEGEND[variable]?.baseline ?? null
+        : CLIMATE_LEGEND[variable]?.change?.[horizon] ?? null,
+    [variable, periodMode, horizon],
   )
 
   const bounds = useMemo(() => (boundaryFeature ? getBounds(boundaryFeature) : null), [boundaryFeature])
@@ -983,7 +1045,18 @@ export default function LLMap({ ll, layer, height = 300 }) {
             url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
           />
           {layerConfig?.type === 'raster' ? (
-            <RasterPmtilesLayer layerId={layer} slug={ll.slug} key={`${layer}-${ll.slug}`} />
+            <RasterPmtilesLayer
+              layerId={layer}
+              slug={ll.slug}
+              variable={layer === 'climate' ? variable : null}
+              period={layer === 'climate' ? period : null}
+              onStatus={layer === 'climate' ? setClimateState : undefined}
+              key={
+                layer === 'climate'
+                  ? `${layer}-${ll.slug}-${variable}-${period}`
+                  : `${layer}-${ll.slug}`
+              }
+            />
           ) : null}
           {layer === 'soil' && soilFeatureCollection ? (
             <GeoJSON
@@ -1002,7 +1075,13 @@ export default function LLMap({ ll, layer, height = 300 }) {
               lang={lang}
             />
           ) : null}
-          {maskFeature ? <GeoJSON key={`mask-${ll.slug}`} data={maskFeature} style={MASK_STYLE} /> : null}
+          {maskFeature ? (
+            <GeoJSON
+              key={`mask-${ll.slug}`}
+              data={maskFeature}
+              style={MASK_STYLE}
+            />
+          ) : null}
           <GeoJSON key={`outline-${ll.slug}-${outlineColor}`} data={boundaryFeature} style={outlineStyle} />
           {showProtectedAreas && protectedAreasFeatureCollection ? (
             <ProtectedAreasLayer collection={protectedAreasFeatureCollection} slugKey={ll.slug} t={t} lang={lang} />
@@ -1016,6 +1095,12 @@ export default function LLMap({ ll, layer, height = 300 }) {
         {layer === 'economic' && economicState.error ? (
           <SoilStatusBadge tone="error" message={t('map.economicError')} />
         ) : null}
+        {layer === 'climate' && climateState.loading ? (
+          <SoilStatusBadge message={t('map.climateLoading')} />
+        ) : null}
+        {layer === 'climate' && climateState.error ? (
+          <SoilStatusBadge tone="error" message={t('map.climateError')} />
+        ) : null}
         {showProtectedAreas && protectedAreasState.loading ? (
           <div style={statusBadgeStyle('info', 48)}>{t('map.protectedAreasLoading')}</div>
         ) : null}
@@ -1024,18 +1109,41 @@ export default function LLMap({ ll, layer, height = 300 }) {
         ) : null}
         {layerConfig?.available ? null : <ComingSoonBadge style={{ ...statusBadgeStyle('info', 48) }} />}
         <ProtectedAreasToggle active={showProtectedAreas} onToggle={() => setShowProtectedAreas((v) => !v)} />
+        {layer === 'climate' ? (
+          // D-15/D-16/D-17: attached to the map (not the layer-tabs row), offset below
+          // ProtectedAreasToggle's own top-right slot so the two absolutely-positioned controls
+          // never overlap. State is entirely owned by LLDetail (D-17) -- this instance only forwards.
+          <PeriodSwitcher
+            mode={periodMode}
+            horizon={horizon}
+            onModeChange={onPeriodModeChange}
+            onHorizonChange={onHorizonChange}
+            horizons={['2041_2070', '2071_2100']}
+            style={{ position: 'absolute', top: 56, right: 12, zIndex: 500 }}
+          />
+        ) : null}
         <MapInfoControl layer={layer} slug={ll.slug} overlayIds={showProtectedAreas ? ['protected-areas'] : []} />
       </div>
       <div style={{ padding: '10px 16px', borderTop: `1px solid ${C.mutedLight}`, background: C.bg }}>
         <MapLegend
           layer={layer}
-          entries={layer === 'soil' ? soilLegendEntries : layer === 'economic' ? economicLegendEntries : null}
+          entries={
+            layer === 'soil'
+              ? soilLegendEntries
+              : layer === 'economic'
+                ? economicLegendEntries
+                : layer === 'climate'
+                  ? climateLegendEntries
+                  : null
+          }
           note={
             layer === 'soil'
               ? t('legend.soil.note')
               : layer === 'economic'
                 ? t('legend.economic.note')
-                : null
+                : layer === 'climate'
+                  ? t(CLIMATE_VARIABLES.find((v) => v.id === variable)?.legendNoteKey)
+                  : null
           }
         />
         {layer === 'economic' && economicFeatureCollection && !economicLegendEntries?.length ? (

@@ -113,6 +113,24 @@ export const LAYER_SOURCES = [
       "havellandisches-luch": "bb",
       "east-brandenburg": "bb"
     }
+  },
+  {
+    "id": "chelsa-climate",
+    "appLayer": "climate",
+    "title": {
+      "en": "Climate (CHELSA V2.1 / CMIP6)",
+      "de": "Klima (CHELSA V2.1 / CMIP6)"
+    },
+    "description": {
+      "en": "Present-day (1981-2010) climatologies and CMIP6 SSP3-7.0 future-period changes for four bioclimatic variables, downscaled by CHELSA at 30 arc-second (~1 km) resolution.",
+      "de": "Aktuelle Klimatologien (1981-2010) und CMIP6-SSP3-7.0-Zukunftsaenderungen fuer vier bioklimatische Variablen, von CHELSA mit 30 Bogensekunden (~1 km) Aufloesung herunterskaliert."
+    },
+    "provider": "WSL (Swiss Federal Institute for Forest, Snow and Landscape Research) - Baseline: 1981-2010 observed climatology. Change: 5-GCM multi-model mean, SSP3-7.0 pathway",
+    "dataset": "CHELSA V2.1 climatologies (bio1, bio12, bio18, gdd5); future-period changes are the mean of 5 downscaled GCMs (gfdl-esm4, ipsl-cm6a-lr, mpi-esm1-2-hr, mri-esm2-0, ukesm1-0-ll) under CMIP6 SSP3-7.0",
+    "url": "https://www.envidat.ch/#/metadata/chelsa-climatologies",
+    "license": "CC0-1.0 (Creative Commons Zero - No Rights Reserved (CC0 1.0))",
+    "attribution": "CHELSA V2.1 (WSL), (c) Dirk Nikolaus Karger, Olaf Conrad, Juergen Boehner et al., DOI 10.16904/envidat.228",
+    "citation": "Karger DN. et al. Climatologies at high resolution for the earth's land surface areas, Scientific Data, 4, 170122 (2017), doi:10.1038/sdata.2017.122."
   }
 ]
 

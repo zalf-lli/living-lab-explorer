@@ -1,0 +1,70 @@
+{
+  "chart_type": "bar",
+  "generated_at": "2026-08-03T10:16:33.216889Z",
+  "layer_id": "landscape",
+  "ll_slug": "east-brandenburg",
+  "mock": false,
+  "series": [
+    {
+      "label": {
+        "de": "Wald",
+        "en": "Forest"
+      },
+      "pct": 43.6,
+      "value": 374172.0
+    },
+    {
+      "label": {
+        "de": "Ackerland",
+        "en": "Cropland"
+      },
+      "pct": 39.6,
+      "value": 340018.5
+    },
+    {
+      "label": {
+        "de": "Siedlung",
+        "en": "Settlement"
+      },
+      "pct": 7.6,
+      "value": 65607.3
+    },
+    {
+      "label": {
+        "de": "Gruenland",
+        "en": "Grassland"
+      },
+      "pct": 5.4,
+      "value": 46596.2
+    },
+    {
+      "label": {
+        "de": "Wasser",
+        "en": "Water"
+      },
+      "pct": 3.5,
+      "value": 30154.6
+    },
+    {
+      "label": {
+        "de": "Feuchtgebiet",
+        "en": "Wetland"
+      },
+      "pct": 0.2,
+      "value": 1440.8
+    },
+    {
+      "label": {
+        "de": "Offenboden",
+        "en": "Bare ground"
+      },
+      "pct": 0.04,
+      "value": 372.0
+    }
+  ],
+  "source": "io-lulc-landcover",
+  "unit": {
+    "de": "ha",
+    "en": "ha"
+  }
+}
