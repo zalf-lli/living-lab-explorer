@@ -17,6 +17,14 @@ import {
   resolveLayerAsset,
 } from '../../data/layers.js'
 import { LAYER_SOURCE_INDEX } from '../../data/layer_sources.js'
+import {
+  getSoilColor,
+  SOIL_SPECIAL_STROKE,
+  SOIL_UNIT_STROKE,
+  SOIL_WATER_FILL,
+  SOIL_WATER_STROKE,
+  SOIL_SPECIAL_FILL,
+} from '../../data/soil_legend.js'
 import { buildMaskFeature } from '../../lib/buildMaskGeometry.js'
 import { C } from '../../theme.js'
 import { MapLegend } from '../MapLegend.jsx'
@@ -50,17 +58,16 @@ const MASK_STYLE = {
   stroke: false,
   interactive: false,
 }
-const SOIL_PALETTE = ['#b88752', '#c29b68', '#a87445', '#d0b385', '#8f6136', '#c98b5e', '#aa7c57', '#bfa07a']
 const SOIL_SPECIAL_STYLE = {
-  color: '#4f89a3',
+  color: SOIL_WATER_STROKE,
   weight: 0.8,
-  fillColor: '#88bfd9',
+  fillColor: SOIL_WATER_FILL,
   fillOpacity: 0.7,
 }
 const SOIL_STRUCTURAL_STYLE = {
-  color: '#768a8f',
+  color: SOIL_SPECIAL_STROKE,
   weight: 0.7,
-  fillColor: '#c6d2d5',
+  fillColor: SOIL_SPECIAL_FILL,
   fillOpacity: 0.65,
 }
 
@@ -200,20 +207,10 @@ function RasterPmtilesLayer({ layerId, slug, variable, period, onStatus }) {
   return null
 }
 
-function hashSoilKey(value) {
-  return String(value)
-    .split('')
-    .reduce((acc, char) => acc * 31 + char.charCodeAt(0), 7)
-}
-
 function getSemanticSoilKey(props) {
   if (props.feature_kind === 'water_area') return 'water-area'
   if (props.feature_kind === 'special_area') return 'special-area'
   return props.soil_group_key || props.parent_material_code || props.SYM_NR || props.GEN_ID || 'soil-unit'
-}
-
-function getSoilColor(groupKey) {
-  return SOIL_PALETTE[Math.abs(hashSoilKey(groupKey)) % SOIL_PALETTE.length]
 }
 
 function getLocalizedValue(props, key, lang) {
@@ -229,7 +226,7 @@ function getSoilStyle(feature) {
   if (props.feature_kind === 'special_area') return SOIL_STRUCTURAL_STYLE
   const color = getSoilColor(getSemanticSoilKey(props))
   return {
-    color: '#6e4d31',
+    color: SOIL_UNIT_STROKE,
     weight: 0.6,
     fillColor: color,
     fillOpacity: 0.7,

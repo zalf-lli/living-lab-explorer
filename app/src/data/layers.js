@@ -1,21 +1,25 @@
 import { LANDUSE_LEGEND } from './landuse_legend.js'
 import { LAND_COVER_LEGEND } from './land_cover_legend.js'
 import { CLIMATE_VARIABLES, CLIMATE_LEGEND } from './climate_legend.js'
+import { SOIL_GROUP_COLORS, SOIL_WATER_FILL } from './soil_legend.js'
 import { C } from '../theme.js'
 
 // Re-exported so layers.js stays the single module the map layer configuration is read from;
 // components should not import climate_legend.js directly from two places.
 export { CLIMATE_VARIABLES, CLIMATE_LEGEND }
 
+// Pre-load fallback legend shown while the soil GeoJSON is still fetching (MapLegend reads
+// cfg.legend when the dynamic soilLegendEntries is null). Colours are derived from
+// soil_legend.js rather than duplicated as literals, so this cannot drift from the map fill.
 const SOIL_LEGEND = [
-  { value: 'brown-soils', en: 'Brown soils', de: 'Braunerden', color: '#b88752' },
-  { value: 'luvisols', en: 'Luvisols', de: 'Lessives', color: '#c29b68' },
-  { value: 'gley-soils', en: 'Gley soils', de: 'Gleye', color: '#a87445' },
+  { value: 'brown-soils', en: 'Brown soils', de: 'Braunerden', color: SOIL_GROUP_COLORS['brown-soils'] },
+  { value: 'luvisols', en: 'Luvisols', de: 'Lessivés', color: SOIL_GROUP_COLORS['luvisols'] },
+  { value: 'gley-soils', en: 'Gley soils', de: 'Gleye', color: SOIL_GROUP_COLORS['gley-soils'] },
   {
     value: 'special-areas',
     en: 'Water / special areas',
-    de: 'Gewaesser / Sonderflaechen',
-    color: '#88bfd9',
+    de: 'Gewässer / Sonderflächen',
+    color: SOIL_WATER_FILL,
   },
 ]
 
