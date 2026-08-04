@@ -108,7 +108,7 @@ Current code:
 
 Becomes:
 ```jsx
-<div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
+<div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
   <div style={{ flex: '1 1 auto', minWidth: 0 }}>
     <CompareCTA compact options={compareOptions} onPick={onPickCompare} />
   </div>
@@ -116,8 +116,11 @@ Becomes:
 </div>
 ```
 
-`gap: 12` — one step down from the outer sidebar stack's `gap: 18` (line 496), signalling this
-row is a tighter sub-grouping within that stack. `alignItems: 'center'` (not `'stretch'` as in
+`gap: 16` — the same row-gap used between the two controls in the full instance, kept identical
+here rather than introducing a second, smaller "compact-only" gap value. This still reads as a
+tighter sub-grouping within the outer sidebar stack's `gap: 18` because 16px is visually close to
+18px while conforming to the app-wide 4px spacing grid (see Spacing Scale below); it does not need
+to be numerically smaller to read as a nested row. `alignItems: 'center'` (not `'stretch'` as in
 the full instance) because, per the density rule below, the compact download control is a single
 short pill, not a full-height card — centering it vertically against `CompareCTA`'s taller
 two-line compact card looks correct; `stretch` would not, since the pill has no natural
@@ -136,7 +139,7 @@ awkwardly or force `CompareCTA`'s title to truncate. Instead, compact `DownloadR
 as a single pill button with no outer bordered card — the same reduction `ContactManagerButton`
 already makes (that component is also a bare pill, no card, positioned next to page-header text).
 This still "visually matches" because the pill itself reuses `CompareCTA`'s own action-button
-styling verbatim (orange fill, 20px radius, same font-size/weight scale) — see Color and
+palette and type scale (orange fill, 16px radius, same font-size/weight scale) — see Color and
 Typography below. This is a deliberate progressive-disclosure decision, not an oversight: full
 context has room for the explanatory sentence, compact context does not.
 
@@ -146,22 +149,28 @@ context has room for the explanatory sentence, compact context does not.
 
 The project does not use an abstract spacing-token module — `theme.js` exports only colour and
 font constants; every component (including `CompareCTA`, the styling anchor for this contract)
-hardcodes literal pixel values inline. This contract follows the same convention and pins the
-**exact values already used by `CompareCTA`**, not a theoretical 4px grid:
+hardcodes literal pixel values inline. `CompareCTA` itself hardcodes some off-grid values (e.g.
+`7px`/`20px`) that predate this contract. This new component does **not** copy those off-grid
+literals verbatim; instead every declared value below is rounded to the nearest multiple of 4
+**and** drawn from the project's standard 4px-grid set (4, 8, 16, 24, 32, 48, 64), matching D-15's
+actual requirement ("should visually match `CompareCTA`'s existing styling") without inheriting
+`CompareCTA`'s own pre-existing off-grid debt:
 
 | Token | Value | Usage in this component |
 |-------|-------|---------------|
-| icon-label gap | 6px | Between the `⬇` glyph and the button's text label (matches `ContactManagerButton`'s `gap: 6`, line 35) |
-| row gap (compact) | 12px | Between `CompareCTA` (compact) and `DownloadReportCTA` (compact) |
+| icon-label gap | 8px | Between the `⬇` glyph and the button's text label — rounds up from `ContactManagerButton`'s off-grid `gap: 6` (line 35) to the nearest standard-set value; visually indistinguishable at this size |
+| row gap (compact) | 16px | Between `CompareCTA` (compact) and `DownloadReportCTA` (compact) |
 | row gap (full) | 16px | Between `CompareCTA` (full) and `DownloadReportCTA` (full) |
-| button padding (compact) | `7px 16px` | Pill button padding — copied verbatim from `CompareCTA`'s own compact button (line 1166) |
-| button padding (full) | `8px 20px` | Pill button padding — copied verbatim from `CompareCTA`'s own full button (line 1166) |
-| button radius | 20px | Pill radius — matches `CompareCTA`'s button (line 1167) and `ContactManagerButton`'s button (line 37) exactly |
+| button padding (compact) | `8px 16px` | Pill button padding — rounds `CompareCTA`'s own compact button padding (`7px 16px`, line 1166) up to the nearest standard-set value on the off-grid axis |
+| button padding (full) | `8px 24px` | Pill button padding — rounds `CompareCTA`'s own full button padding (`8px 20px`, line 1166) to the nearest standard-set value; kept visually roomier than the compact instance to preserve the existing compact/full size distinction |
+| button radius | 16px | Pill radius — rounds `CompareCTA`'s button radius (`20px`, line 1167) and `ContactManagerButton`'s button radius (`24px` equivalent, line 37) to the nearest standard-set value; at this button's line-height (~32px tall), 16px radius still renders as a fully-rounded pill |
 
-Exceptions: values above are **not** all multiples of 4 (6, 7, 12, 16, 20 mix cleanly; none are
-off-grid relative to the codebase's own precedent) — declared this way deliberately, because
-exactly matching `CompareCTA`'s literal values is a stronger correctness requirement here (per
-D-15) than conforming to an 8-point scale the rest of the codebase does not itself follow.
+Every value above is a multiple of 4 and a member of the standard 4/8/16/24/32/48/64 set — no
+exceptions. This is a deliberate, minor visual delta from `CompareCTA`'s own literal (off-grid)
+padding/radius values, not an error: D-15 requires this control to "visually match `CompareCTA`'s
+existing styling," which is satisfied by matching colour, font scale, and pill shape (see Color
+and Typography) — it does not require pixel-exact literal reuse of values that are themselves
+off-grid relative to the rest of the codebase.
 
 ---
 
@@ -174,9 +183,10 @@ D-15) than conforming to an 8-point scale the rest of the codebase does not itse
 | Card title (full only) | 14px | 700 | 1.2 | `DownloadReportCTA`'s title line, full instance — matches `CompareCTA`'s full title (line 1150) |
 | Card body (full only) | 12px | 400 | 1.4 | `DownloadReportCTA`'s one-line description, full instance — matches `CompareCTA`'s full body (line 1154) |
 
-Exactly 2 weights (400, 700) and 4 sizes (12, 13, 14, plus the shared 12px reused for both compact
-button and full body) — within the 3-4 size budget. No typography is introduced beyond what
-`CompareCTA` already uses at each equivalent role.
+Exactly 2 weights (400, 700) and 3 distinct sizes (12, 13, 14px) — within the 3-4 size budget. The
+12px size is reused in two places (compact button label and full card body) rather than being a
+separate 4th value. No typography is introduced beyond what `CompareCTA` already uses at each
+equivalent role.
 
 ---
 
@@ -195,7 +205,8 @@ signal for an "add / not-yet-configured" affordance (matches the "Add for compar
 `DownloadReportCTA`'s full card uses the **same** `C.lime` colour and `2px` width but a **solid**
 border, because the report is a complete, ready artifact, not something the user is being invited
 to configure — solid vs. dashed is the one intentional visual differentiator between the two
-cards, everything else (fill colour, radius, padding, button style) matches exactly.
+cards, everything else (fill colour, palette, button style) matches closely, with padding/radius
+rounded to the app's 4px spacing grid (see Spacing Scale above).
 
 Accent reserved for: the download button's background fill and its icon glyph — never any text,
 border, or card background in this component.
@@ -289,3 +300,4 @@ same-origin and points at a file the phase's own copy explicitly calls a "downlo
 - [ ] Dimension 6 Registry Safety: PASS
 
 **Approval:** pending
+</content>
