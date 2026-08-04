@@ -1,4 +1,14 @@
-import { lazy, startTransition, Suspense, useEffect, useId, useMemo, useRef, useState } from 'react'
+import {
+  lazy,
+  startTransition,
+  Suspense,
+  useEffect,
+  useId,
+  useLayoutEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react'
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { C } from '../theme.js'
@@ -1009,16 +1019,32 @@ function useDismissOnOutside(open, onClose) {
 function ComparePicker({ options, onPick, align = 'right', id }) {
   const { t } = useTranslation()
   const [hoveredSlug, setHoveredSlug] = useState(null)
+  const [placement, setPlacement] = useState('bottom')
+  const panelRef = useRef(null)
   const titleId = `${id}-title`
+
+  // Panel mounts fresh each time it opens (parent renders it conditionally), so measure
+  // against the viewport once on mount and flip upward when there isn't room below —
+  // otherwise the panel can render off-screen and force a page scroll to reach it.
+  useLayoutEffect(() => {
+    const el = panelRef.current
+    if (!el) return
+    const rect = el.getBoundingClientRect()
+    const viewportHeight = window.innerHeight
+    const overflowsBelow = rect.bottom > viewportHeight
+    const fitsAbove = rect.top - rect.height >= 0
+    if (overflowsBelow && fitsAbove) setPlacement('top')
+  }, [])
 
   return (
     <div
+      ref={panelRef}
       id={id}
       role="menu"
       aria-labelledby={titleId}
       style={{
         position: 'absolute',
-        top: 'calc(100% + 8px)',
+        [placement === 'top' ? 'bottom' : 'top']: 'calc(100% + 8px)',
         [align === 'right' ? 'right' : 'left']: 0,
         width: 220,
         background: C.white,
