@@ -327,6 +327,7 @@ Phase 2.2 completed on 2026-04-30 and replaced the shallow German-only soil look
 | 260727-fast | Remove all preliminary-data flags from app UI and pipeline; recast the design-option bar as a subtle "Change layout" switcher | 2026-07-27 | a37a9b4 | (inline) |
 | 260727-fast2 | Remove mock placeholder factsheet fields (soil_climate/description/delineation, EN+DE) from ll_content.json, ll_metadata.json, and fetch_nuts.py | 2026-07-27 | 4069627 | (inline) |
 | 260729-bsg | Wire per-theme narrative text (about + focus) for each layer tab from ll_content.json through generate_metadata.py into TextBlock, across split, stacked and comparison layouts — plumbing shipped, awaiting human authoring of the first real prose (Task 3 checkpoint) | 2026-07-29 | 13d2d20 | [260729-bsg-wire-per-theme-narrative-text-about-focu](./quick/260729-bsg-wire-per-theme-narrative-text-about-focu/) |
+| 260804-acf | Make soil map and legend colours more distinct — replaced an 8-brown hashed palette that produced *identical* colours (3 of 5 legend swatches byte-identical in hessian-low-mountain) with an explicit 12-class palette in a new single-source module, plus an automated ΔE distinctness gate; awaiting human visual verification (Task 3 checkpoint) | 2026-08-04 | aa42a93 | [260804-acf-make-soil-map-and-legend-colours-more-di](./quick/260804-acf-make-soil-map-and-legend-colours-more-di/) |
 
 ## Open Questions (from research)
 
@@ -338,7 +339,7 @@ Phase 2.2 completed on 2026-04-30 and replaced the shallow German-only soil look
 
 | ID | Phase | Item | Status |
 |----|-------|------|--------|
-| TODO-01 | 2.2 | Improve tooltips: fix mixed German/English text, reduce verbosity, improve colour divergence in soil layer legend | open |
+| TODO-01 | 2.2 | Improve tooltips: fix mixed German/English text, reduce verbosity, improve colour divergence in soil layer legend | partial — colour divergence closed by quick task 260804-acf (pending human visual check); tooltip verbosity + mixed-language halves still open |
 | TODO-02 | 11 | WR-01: stamp a stable `variable` id onto each climate chart line in `compute_climate_chart.py` and have `LineChart.jsx` match colours by that id instead of by array position — needs a pipeline change, so schedule with the next chart-data phase | open |
 | TODO-03 | 11 | WR-02/WR-03/WR-04 + IN-01..IN-03 from `11-REVIEW.md`: assert `CHART_RANK_COLORS.length === MAX_BARS`, extract the duplicated locale derivation into a shared helper, surface the contract's `mock` flag in the UI, guard `LineChart`'s 2-point assumption, extend `numberOrZero` to real rows, add coverage for `buildDisplaySeries` | open |
 
@@ -371,6 +372,6 @@ Phase 2.2 completed on 2026-04-30 and replaced the shallow German-only soil look
 
 ## Session
 
-**Last session:** 2026-08-03T13:37:17.240Z
-**Stopped at:** Phase 11 UI-SPEC approved
-**Resume file:** .planning/phases/11-wire-chart-json-data-to-chart-ui-components/11-UI-SPEC.md
+**Last session:** 2026-08-04T05:26:55.126Z
+**Stopped at:** Quick task 260804-acf complete (soil palette) — awaiting human visual verification of the new soil colours
+**Resume file:** .planning/quick/260804-acf-make-soil-map-and-legend-colours-more-di/260804-acf-SUMMARY.md
