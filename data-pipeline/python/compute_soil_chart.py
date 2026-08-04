@@ -92,8 +92,13 @@ def series_for_slug(layer: dict, slug: str) -> list[dict]:
         labels[group_key] = {"en": first["soil_group_en"], "de": first["soil_group_de"]}
 
     total = sum(areas.values())
+    # `group_key` is the same stable identifier the map styles polygons by, carried through to
+    # the chart so the app can colour each bar with that group's exact map colour instead of a
+    # positional palette. Do not drop it and do not match on `label.en` instead -- the English
+    # group labels are free text and several are long machine-translated strings.
     series = [
         {
+            "group_key": key,
             "label": labels[key],
             "value": round(value, 1),
             "pct": _round_pct(value / total * 100),

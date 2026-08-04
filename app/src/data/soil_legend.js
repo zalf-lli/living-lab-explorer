@@ -64,11 +64,18 @@ function fnv1aHash(value) {
   return hash >>> 0
 }
 
-// Resolves a soil group key to its colour. Known named groups (Tier 1) return their
-// exact colour; anything else is indexed into the Tier 2 fallback palette by an FNV-1a
-// hash. Uses an own-property check so a crafted key such as `constructor` or
-// `__proto__` cannot resolve to a prototype member (T-acf-01).
+// Resolves a soil group key to its colour. Total over every key the pipeline emits:
+// the two non-soil sentinels (`water-area` / `special-area`, which both the GeoJSON's
+// soil_group_key and the bar chart's group_key use) map to the Tier 3 fills; known named
+// groups (Tier 1) return their exact colour; anything else is indexed into the Tier 2
+// fallback palette by an FNV-1a hash. Uses an own-property check so a crafted key such as
+// `constructor` or `__proto__` cannot resolve to a prototype member (T-acf-01).
+//
+// Being total matters for the soil bar chart: it colours bars by group_key through this
+// same function, so a bar and its map polygon are guaranteed the identical hex.
 export function getSoilColor(groupKey) {
+  if (groupKey === 'water-area') return SOIL_WATER_FILL
+  if (groupKey === 'special-area') return SOIL_SPECIAL_FILL
   if (Object.prototype.hasOwnProperty.call(SOIL_GROUP_COLORS, groupKey)) {
     return SOIL_GROUP_COLORS[groupKey]
   }

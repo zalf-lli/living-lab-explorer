@@ -19,11 +19,16 @@ function numberOrZero(n) {
 // Never re-sorts - the pipeline guarantees series arrives pre-sorted descending by pct
 // (tie-broken by English label), and the client must preserve the incoming order exactly (UI-3).
 //
-// `legendColors`, when passed, is a Map<englishLabel, hexColor> built from a layer's own map
-// legend (e.g. LANDUSE_LEGEND, LAND_COVER_LEGEND) - only pass one when that legend's colours are
-// the actual colours rendered on the map for every category, so a bar and its map category read
-// as the same colour. Categories with no legend entry, and layers with no legendColors at all,
-// fall back to the positional CHART_RANK_COLORS.
+// `legendColors`, when passed, is a Map<key, hexColor> built from a layer's own map legend (e.g.
+// LANDUSE_LEGEND, LAND_COVER_LEGEND) - only pass one when that legend's colours are the actual
+// colours rendered on the map for every category, so a bar and its map category read as the same
+// colour. Categories with no legend entry, and layers with no legendColors at all, fall back to
+// the positional CHART_RANK_COLORS.
+//
+// Lookup prefers the series entry's stable `group_key` when the pipeline stamps one (soil does),
+// and only then falls back to the English label. Keying on an id rather than free text is what
+// keeps a bar and its map polygon in lockstep - several soil group labels are long
+// machine-translated strings that would be brittle to match on.
 export function buildDisplaySeries(
   series,
   { lang = 'en', otherLabel = 'Other', legendColors = null } = {}
@@ -32,7 +37,9 @@ export function buildDisplaySeries(
 
   const resolveLabel = (entry) => entry.label?.[lang] ?? entry.label?.en ?? ''
   const resolveColor = (entry, index) =>
-    legendColors?.get(entry.label?.en) ?? CHART_RANK_COLORS[index]
+    (entry.group_key != null ? legendColors?.get(entry.group_key) : undefined) ??
+    legendColors?.get(entry.label?.en) ??
+    CHART_RANK_COLORS[index]
 
   if (series.length <= MAX_BARS) {
     return series.map((entry, index) => ({

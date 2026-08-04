@@ -1,11 +1,12 @@
 {
   "chart_type": "bar",
-  "generated_at": "2026-08-03T10:18:13.903068Z",
+  "generated_at": "2026-08-04T07:10:53.242197Z",
   "layer_id": "soil",
   "ll_slug": "north-hessian-loess",
   "mock": false,
   "series": [
     {
+      "group_key": "brown-soils",
       "label": {
         "de": "Braunerden",
         "en": "Brown soils"
@@ -14,6 +15,7 @@
       "value": 96191.5
     },
     {
+      "group_key": "luvisols",
       "label": {
         "de": "Lessivés",
         "en": "Luvisols"
@@ -22,6 +24,7 @@
       "value": 51798.3
     },
     {
+      "group_key": "ah-c-soils",
       "label": {
         "de": "Ah/C-Böden",
         "en": "Ah/C soils"
@@ -30,6 +33,7 @@
       "value": 33557.8
     },
     {
+      "group_key": "stagnic-soils",
       "label": {
         "de": "Stauwasserböden",
         "en": "Stagnic soils"
@@ -38,6 +42,7 @@
       "value": 28136.0
     },
     {
+      "group_key": "alluvial-soils",
       "label": {
         "de": "Auenböden",
         "en": "Alluvial soils"
@@ -46,6 +51,7 @@
       "value": 10990.0
     },
     {
+      "group_key": "gley-soils",
       "label": {
         "de": "Gleye",
         "en": "Gley soils"
@@ -54,6 +60,7 @@
       "value": 8351.8
     },
     {
+      "group_key": "pelosols",
       "label": {
         "de": "Pelosole",
         "en": "Pelosols"
@@ -62,6 +69,7 @@
       "value": 1594.0
     },
     {
+      "group_key": "special-area",
       "label": {
         "de": "Sonderfläche",
         "en": "Special area"
@@ -70,6 +78,7 @@
       "value": 419.9
     },
     {
+      "group_key": "soils-der-abgrabungsfl-chen-steinbr-che-gruben-and-aufsch-ttungen-halden-kippsubstrate-andifferenziert",
       "label": {
         "de": "Böden der Abgrabungsflächen (Steinbrüche, Gruben) und Aufschüttungen (Halden; Kippsubstrate, undifferenziert)",
         "en": "Soils der Abgrabungsflächen (Steinbrüche, Gruben) and Aufschüttungen (Halden; Kippsubstrate, andifferenziert)"
@@ -78,6 +87,7 @@
       "value": 117.4
     },
     {
+      "group_key": "water-area",
       "label": {
         "de": "Gewässer",
         "en": "Water area"
@@ -86,6 +96,7 @@
       "value": 242.3
     },
     {
+      "group_key": "stadtkernbereiche-and-oder-gewerbe-and-industriegebiete-sealed-surfaces-with-soils-from-anthropogenen-auff-llungen-kippsubstraten-andifferenziert",
       "label": {
         "de": "Stadtkernbereiche (und/oder Gewerbe- und Industriegebiete): Versiegelte Flächen mit Böden aus anthropogenen Auffüllungen (Kippsubstraten, undifferenziert)",
         "en": "Stadtkernbereiche (and/oder Gewerbe- and Industriegebiete): sealed surfaces with soils from anthropogenen Auffüllungen (Kippsubstraten, andifferenziert)"
@@ -94,6 +105,7 @@
       "value": 69.9
     },
     {
+      "group_key": "raised-bogs",
       "label": {
         "de": "Hochmoore",
         "en": "Raised bogs"

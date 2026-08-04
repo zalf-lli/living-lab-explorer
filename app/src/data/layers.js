@@ -126,6 +126,12 @@ export const LAYERS = [
     geojsonPathPattern: 'data/geojson/buek250-{slug}.geojson',
     legend: SOIL_LEGEND,
     legendNoteKey: 'legend.soil.note',
+    // Soil's on-map legend is built dynamically per Living Lab, so it cannot be matched to the
+    // static `legend` array above the way agriculture and landscape are (legendMatchesChartCategories).
+    // Instead the bar chart resolves each bar's colour from the shared soil palette by the
+    // `group_key` that compute_soil_chart.py stamps onto every series entry - the same key LLMap
+    // styles polygons by, so bar and polygon are guaranteed the identical hex.
+    chartColorsFromSoilPalette: true,
     available: true,
   },
   {
