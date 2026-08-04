@@ -1,35 +1,21 @@
 {
   "version": "1.0",
-  "timestamp": "2026-08-03T21:13:12.893Z",
-  "phase": "999.1",
-  "phase_name": "find-real-data-sources-for-4-curated-destatis-kpi-fields-tha",
-  "phase_dir": ".planning/phases/999.1-find-real-data-sources-for-4-curated-destatis-kpi-fields-tha",
+  "timestamp": "2026-08-04T14:04:09.707Z",
+  "source": "auto-postool",
+  "partial": true,
+  "phase": null,
+  "phase_name": null,
+  "phase_dir": null,
   "plan": null,
   "task": null,
   "total_tasks": null,
-  "status": "phase_boundary",
+  "status": "auto-checkpoint",
   "completed_tasks": [],
   "remaining_tasks": [],
   "blockers": [],
   "human_actions_pending": [],
-  "decisions": [
-    {
-      "decision": "Phase 11 executed via /gsd:execute-phase across 4 waves (11-01 through 11-05), each worktree-isolated except the final checkpoint plan which ran sequentially on main.",
-      "rationale": "Standard GSD wave execution; 11-05 is a blocking human-verify checkpoint plan best run directly on main so the user can npm run dev against the real result.",
-      "phase": "11"
-    },
-    {
-      "decision": "BarChart bar colors are matched to the real map legend (LANDUSE_LEGEND, LAND_COVER_LEGEND) only for agriculture and landscape, not soil or economic.",
-      "rationale": "Human verification (checkpoint round 1) found bar colors didn't match the map. Root cause: agriculture/landscape have closed, static, byte-exact legends that are literally what LLMap paints; soil's real legend is built dynamically per-LL via a hash function the static SOIL_LEGEND doesn't reproduce (would be misleading if matched); economic has no category legend at all (continuous price ramp). Fix scoped precisely to the two layers where it's actually correct.",
-      "phase": "11"
-    },
-    {
-      "decision": "Other-bucket display pct floored at 0.1 when the true summed remainder is non-zero.",
-      "rationale": "Code review (CR-01, confirmed blocker) found Math.round could display a real non-zero remainder as '0%' (reproduced against io-lulc-landcover-east-brandenburg.json's 0.04% Bare-ground row). Fixed to mirror the pipeline's own never-display-a-real-row-as-zero convention.",
-      "phase": "11"
-    }
-  ],
+  "decisions": [],
   "uncommitted_files": [],
-  "next_action": "Run /gsd:discuss-phase 999.1 to gather context before planning (no CONTEXT.md exists yet for this phase).",
-  "context_notes": "Phase 11 is fully complete and closed: all 5 plans executed, phase-goal verification passed 8/8 must-haves, code review's one confirmed blocker fixed and re-verified, ROADMAP/STATE/REQUIREMENTS/PROJECT.md all updated, everything committed. STATE.md's Current focus already points to Phase 999.1 (status: ready_to_plan) but no CONTEXT.md or PLAN.md exists for it yet — this is a clean phase-boundary pause, not a mid-task interruption. The user asked to pause work right after phase 11 closed; nothing is in flight."
+  "next_action": null,
+  "context_notes": ""
 }

@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: ready_to_plan
-stopped_at: Phase 12 context gathered
-last_updated: "2026-08-04T12:24:31.971Z"
+stopped_at: Phase 12 UI-SPEC approved
+last_updated: "2026-08-04T13:43:21.555Z"
 progress:
   total_phases: 16
   completed_phases: 12
@@ -373,6 +373,6 @@ Phase 2.2 completed on 2026-04-30 and replaced the shallow German-only soil look
 
 ## Session
 
-**Last session:** 2026-08-04T12:24:31.933Z
-**Stopped at:** Phase 12 context gathered
-**Resume file:** .planning/phases/12-export-a-pdf-of-the-content-for-a-given-living-lab/12-CONTEXT.md
+**Last session:** 2026-08-04T13:43:21.488Z
+**Stopped at:** Phase 12 UI-SPEC approved
+**Resume file:** .planning/phases/12-export-a-pdf-of-the-content-for-a-given-living-lab/12-UI-SPEC.md

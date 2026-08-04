@@ -29,7 +29,7 @@
       },
       "tagline": "Multifunktionale und vielfältige Ackerbausysteme"
     },
-    "destatisRetrievedAt": "2026-07-25",
+    "destatisRetrievedAt": "2026-08-04",
     "en": {
       "name": "East Brandenburg",
       "narrative": {
@@ -384,7 +384,7 @@
       },
       "tagline": "Klimaschutz und Grünlandnutzung in Niedermoorregionen"
     },
-    "destatisRetrievedAt": "2026-07-25",
+    "destatisRetrievedAt": "2026-08-04",
     "en": {
       "name": "Havelländisches Luch",
       "narrative": {
@@ -422,7 +422,7 @@
             "de": "ha",
             "en": "ha"
           },
-          "value": 108058.0
+          "value": 58936.0
         },
         {
           "genesisTable": "41141-04-02-4",
@@ -432,7 +432,7 @@
             "de": "Anzahl",
             "en": "count"
           },
-          "value": 696.0
+          "value": 355.0
         },
         {
           "genesisTable": "41141-04-02-4",
@@ -442,7 +442,7 @@
             "de": "ha",
             "en": "ha"
           },
-          "value": 230.75
+          "value": 252.0
         },
         {
           "genesisTable": "41141-04-02-4",
@@ -452,12 +452,12 @@
             "de": "%",
             "en": "%"
           },
-          "value": 22.6
+          "value": 14.1
         }
       ],
       "climate": [
         {
-          "delta": 1154.0,
+          "delta": 1139.0,
           "deltaHorizon": "2071-2100",
           "deltaUnit": {
             "de": "°C·d",
@@ -470,10 +470,10 @@
             "de": "°C·d",
             "en": "°C·d"
           },
-          "value": 2075.0
+          "value": 2033.0
         },
         {
-          "delta": 4.1,
+          "delta": 4.0,
           "deltaHorizon": "2071-2100",
           "deltaUnit": {
             "de": "°C",
@@ -486,10 +486,10 @@
             "de": "°C",
             "en": "°C"
           },
-          "value": 9.6
+          "value": 9.5
         },
         {
-          "delta": 2.7,
+          "delta": 2.6,
           "deltaHorizon": "2071-2100",
           "deltaUnit": {
             "de": "%",
@@ -502,10 +502,10 @@
             "de": "mm",
             "en": "mm"
           },
-          "value": 595.0
+          "value": 584.0
         },
         {
-          "delta": -5.9,
+          "delta": -6.4,
           "deltaHorizon": "2071-2100",
           "deltaUnit": {
             "de": "%",
@@ -518,7 +518,7 @@
             "de": "mm",
             "en": "mm"
           },
-          "value": 186.0
+          "value": 181.0
         }
       ],
       "economic": [
@@ -530,7 +530,7 @@
             "de": "Personen",
             "en": "persons"
           },
-          "value": 347383.0
+          "value": 169721.0
         },
         {
           "genesisTable": "82000-01-01-4",
@@ -540,7 +540,7 @@
             "de": "EUR",
             "en": "EUR"
           },
-          "value": 36548.5
+          "value": 25724.0
         },
         {
           "genesisTable": "13211-02-05-4",
@@ -550,7 +550,7 @@
             "de": "%",
             "en": "%"
           },
-          "value": 5.35
+          "value": 6.7
         },
         {
           "genesisTable": "82000-07-01-4",
@@ -560,7 +560,7 @@
             "de": "EUR",
             "en": "EUR"
           },
-          "value": 26849.0
+          "value": 26615.0
         }
       ],
       "landscape": [
@@ -572,7 +572,7 @@
             "de": "ha",
             "en": "ha"
           },
-          "value": 146778.0
+          "value": 44150.0
         },
         {
           "genesisTable": null,
@@ -582,7 +582,7 @@
             "de": "ha",
             "en": "ha"
           },
-          "value": 122606.0
+          "value": 66311.2
         },
         {
           "genesisTable": null,
@@ -592,7 +592,7 @@
             "de": "ha",
             "en": "ha"
           },
-          "value": 41800.8
+          "value": 21153.0
         },
         {
           "genesisTable": "33111-01-02-4",
@@ -602,7 +602,7 @@
             "de": "%",
             "en": "%"
           },
-          "value": 10.9
+          "value": 11.0
         }
       ],
       "soil": [
@@ -634,7 +634,7 @@
             "de": "1000 cbm",
             "en": "1000 m3"
           },
-          "value": 4893.0
+          "value": 956.0
         }
       ]
     },
@@ -696,7 +696,6 @@
     },
     "num": "02",
     "nuts3": [
-      "DE406",
       "DE408"
     ],
     "order": 2,
@@ -737,7 +736,7 @@
       },
       "tagline": "Integrierte Pflanze-Tier-Agrarsysteme"
     },
-    "destatisRetrievedAt": "2026-07-25",
+    "destatisRetrievedAt": "2026-08-04",
     "en": {
       "name": "Hessian Low Mountain Range",
       "narrative": {
@@ -1093,7 +1092,7 @@
       },
       "tagline": "Intensivierter ökologischer Landbau"
     },
-    "destatisRetrievedAt": "2026-07-25",
+    "destatisRetrievedAt": "2026-08-04",
     "en": {
       "name": "North Hessian Loess Plain",
       "narrative": {
@@ -1446,7 +1445,7 @@
       },
       "tagline": "Multifunktionale und klimaresiliente Weinbausysteme"
     },
-    "destatisRetrievedAt": "2026-07-25",
+    "destatisRetrievedAt": "2026-08-04",
     "en": {
       "name": "Rheingau",
       "narrative": {

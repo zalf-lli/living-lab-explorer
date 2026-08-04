@@ -50,7 +50,7 @@ if not USERNAME or not PASSWORD:
 
 LL_NUTS3: dict[str, list[str]] = {
     "east-brandenburg":     ["DE409", "DE40A", "DE40B", "DE40C"],
-    "havellandisches-luch": ["DE406", "DE408"],
+    "havellandisches-luch": ["DE408"],
     "north-hessian-loess":  ["DE734", "DE737"],
     "hessian-low-mountain": ["DE721", "DE722", "DE723", "DE724", "DE725"],
     "rheingau":             ["DE71D"],
@@ -68,7 +68,6 @@ NUTS3_TO_AGS: dict[str, str] = {
     "DE40A": "12065",  # Oberhavel, Landkreis
     "DE40B": "12066",  # Oberspreewald-Lausitz, Landkreis
     "DE40C": "12067",  # Oder-Spree, Landkreis
-    "DE406": "12061",  # Dahme-Spreewald, Landkreis
     "DE408": "12063",  # Havelland, Landkreis
     "DE734": "06633",  # Kassel, Landkreis
     "DE737": "06636",  # Werra-Meissner-Kreis

@@ -684,6 +684,16 @@ Plans:
 
 - [ ] TBD (promote with /gsd:review-backlog when ready)
 
+### Phase 12: Export a PDF of the content for a given Living Lab
+
+**Goal:** [To be planned]
+**Requirements**: TBD
+**Depends on:** Phase 11
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 12 to break down)
+
 ---
 
 *Created: 2026-04-29*

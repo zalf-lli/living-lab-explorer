@@ -17,8 +17,6 @@ statistics_code;statistics_label;time_code;time_label;time;1_variable_code;1_var
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;BNZAT6;Bodennutzungsarten;BNZAT-23;Dauergrünland;6824;ha;FLC004;Fläche
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;BNZAT6;Bodennutzungsarten;BNZAT-22;Dauerkulturen;17;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;BNZAT6;Bodennutzungsarten;BNZAT-22;Dauerkulturen;650;ha;FLC004;Fläche
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;BNZAT6;Bodennutzungsarten;BNZAT-22;Dauerkulturen;18;Anzahl;BTR010;Landwirtschaftliche Betriebe
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;BNZAT6;Bodennutzungsarten;BNZAT-22;Dauerkulturen;344;ha;FLC004;Fläche
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;BNZAT6;Bodennutzungsarten;BNZAT-21;Ackerland insgesamt;441;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;BNZAT6;Bodennutzungsarten;BNZAT-21;Ackerland insgesamt;21464;ha;FLC004;Fläche
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;BNZAT6;Bodennutzungsarten;BNZAT-22;Dauerkulturen;13;Anzahl;BTR010;Landwirtschaftliche Betriebe
@@ -109,12 +107,6 @@ statistics_code;statistics_label;time_code;time_label;time;1_variable_code;1_var
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;BNZAT6;Bodennutzungsarten;BNZAT-23;Dauergrünland;22400;ha;FLC004;Fläche
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;BNZAT6;Bodennutzungsarten;BNZAT-22;Dauerkulturen;18;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;BNZAT6;Bodennutzungsarten;BNZAT-22;Dauerkulturen;93;ha;FLC004;Fläche
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;BNZAT6;Bodennutzungsarten;BNZAT-22;Dauerkulturen;20;Anzahl;BTR010;Landwirtschaftliche Betriebe
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;BNZAT6;Bodennutzungsarten;BNZAT-22;Dauerkulturen;435;ha;FLC004;Fläche
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;BNZAT6;Bodennutzungsarten;BNZAT-23;Dauergrünland;302;Anzahl;BTR010;Landwirtschaftliche Betriebe
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;BNZAT6;Bodennutzungsarten;BNZAT-23;Dauergrünland;21889;ha;FLC004;Fläche
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;BNZAT6;Bodennutzungsarten;BNZAT-21;Ackerland insgesamt;252;Anzahl;BTR010;Landwirtschaftliche Betriebe
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;BNZAT6;Bodennutzungsarten;BNZAT-21;Ackerland insgesamt;49122;ha;FLC004;Fläche
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;BNZAT6;Bodennutzungsarten;BNZAT-22;Dauerkulturen;23;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;BNZAT6;Bodennutzungsarten;BNZAT-22;Dauerkulturen;61;ha;FLC004;Fläche
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;BNZAT6;Bodennutzungsarten;BNZAT-21;Ackerland insgesamt;388;Anzahl;BTR010;Landwirtschaftliche Betriebe
@@ -131,8 +123,6 @@ statistics_code;statistics_label;time_code;time_label;time;1_variable_code;1_var
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;BNZAT6;Bodennutzungsarten;BNZAT-22;Dauerkulturen;56;ha;FLC004;Fläche
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;BNZAT6;Bodennutzungsarten;BNZAT-21;Ackerland insgesamt;728;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;BNZAT6;Bodennutzungsarten;BNZAT-21;Ackerland insgesamt;38309;ha;FLC004;Fläche
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;BNZAT6;Bodennutzungsarten;BNZAT-22;Dauerkulturen;21;Anzahl;BTR010;Landwirtschaftliche Betriebe
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;BNZAT6;Bodennutzungsarten;BNZAT-22;Dauerkulturen;75;ha;FLC004;Fläche
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;BNZAT6;Bodennutzungsarten;BNZAT-23;Dauergrünland;270;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;BNZAT6;Bodennutzungsarten;BNZAT-23;Dauergrünland;8202;ha;FLC004;Fläche
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;BNZAT6;Bodennutzungsarten;BNZAT-23;Dauergrünland;323;Anzahl;BTR010;Landwirtschaftliche Betriebe
@@ -189,8 +179,6 @@ statistics_code;statistics_label;time_code;time_label;time;1_variable_code;1_var
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;BNZAT6;Bodennutzungsarten;BNZAT-21;Ackerland insgesamt;45024;ha;FLC004;Fläche
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;BNZAT6;Bodennutzungsarten;BNZAT-23;Dauergrünland;314;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;BNZAT6;Bodennutzungsarten;BNZAT-23;Dauergrünland;5830;ha;FLC004;Fläche
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;BNZAT6;Bodennutzungsarten;BNZAT-21;Ackerland insgesamt;257;Anzahl;BTR010;Landwirtschaftliche Betriebe
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;BNZAT6;Bodennutzungsarten;BNZAT-21;Ackerland insgesamt;50451;ha;FLC004;Fläche
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;BNZAT6;Bodennutzungsarten;BNZAT-21;Ackerland insgesamt;282;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;BNZAT6;Bodennutzungsarten;BNZAT-21;Ackerland insgesamt;10851;ha;FLC004;Fläche
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;BNZAT6;Bodennutzungsarten;BNZAT-21;Ackerland insgesamt;280;Anzahl;BTR010;Landwirtschaftliche Betriebe
@@ -199,12 +187,6 @@ statistics_code;statistics_label;time_code;time_label;time;1_variable_code;1_var
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;BNZAT6;Bodennutzungsarten;BNZAT-22;Dauerkulturen;479;ha;FLC004;Fläche
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;BNZAT6;Bodennutzungsarten;BNZAT-23;Dauergrünland;358;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;BNZAT6;Bodennutzungsarten;BNZAT-23;Dauergrünland;22041;ha;FLC004;Fläche
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;BNZAT6;Bodennutzungsarten;BNZAT-23;Dauergrünland;304;Anzahl;BTR010;Landwirtschaftliche Betriebe
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;BNZAT6;Bodennutzungsarten;BNZAT-23;Dauergrünland;20408;ha;FLC004;Fläche
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;BNZAT6;Bodennutzungsarten;BNZAT-21;Ackerland insgesamt;281;Anzahl;BTR010;Landwirtschaftliche Betriebe
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;BNZAT6;Bodennutzungsarten;BNZAT-21;Ackerland insgesamt;51180;ha;FLC004;Fläche
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;BNZAT6;Bodennutzungsarten;BNZAT-23;Dauergrünland;300;Anzahl;BTR010;Landwirtschaftliche Betriebe
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;BNZAT6;Bodennutzungsarten;BNZAT-23;Dauergrünland;21030;ha;FLC004;Fläche
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;BNZAT6;Bodennutzungsarten;BNZAT-23;Dauergrünland;372;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;BNZAT6;Bodennutzungsarten;BNZAT-23;Dauergrünland;22310;ha;FLC004;Fläche
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;BNZAT6;Bodennutzungsarten;BNZAT-22;Dauerkulturen;307;Anzahl;BTR010;Landwirtschaftliche Betriebe
@@ -257,8 +239,6 @@ statistics_code;statistics_label;time_code;time_label;time;1_variable_code;1_var
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;;;;;50326;ha;FLC017;Landwirtschaftlich genutzte Fläche
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;;;;;593;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;;;;;34898;ha;FLC017;Landwirtschaftlich genutzte Fläche
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;;;;;362;Anzahl;BTR010;Landwirtschaftliche Betriebe
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;;;;;71674;ha;FLC017;Landwirtschaftlich genutzte Fläche
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;;;;;718;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;;;;;18858;ha;FLC017;Landwirtschaftlich genutzte Fläche
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;;;;;199;Anzahl;BTR010;Landwirtschaftliche Betriebe
@@ -285,8 +265,6 @@ statistics_code;statistics_label;time_code;time_label;time;1_variable_code;1_var
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;;;;;32903;ha;FLC017;Landwirtschaftlich genutzte Fläche
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;;;;;454;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;;;;;126305;ha;FLC017;Landwirtschaftlich genutzte Fläche
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;;;;;339;Anzahl;BTR010;Landwirtschaftliche Betriebe
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;;;;;71835;ha;FLC017;Landwirtschaftlich genutzte Fläche
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;;;;;637;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;;;;;33676;ha;FLC017;Landwirtschaftlich genutzte Fläche
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;;;;;189;Anzahl;BTR010;Landwirtschaftliche Betriebe
@@ -305,8 +283,6 @@ statistics_code;statistics_label;time_code;time_label;time;1_variable_code;1_var
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;;;;;49137;ha;FLC017;Landwirtschaftlich genutzte Fläche
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;;;;;1287;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;;;;;63636;ha;FLC017;Landwirtschaftlich genutzte Fläche
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;;;;;341;Anzahl;BTR010;Landwirtschaftliche Betriebe
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12061;Dahme-Spreewald, Landkreis;;;;;71448;ha;FLC017;Landwirtschaftlich genutzte Fläche
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;;;;;573;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;;;;;32076;ha;FLC017;Landwirtschaftlich genutzte Fläche
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;;;;;584;Anzahl;BTR010;Landwirtschaftliche Betriebe

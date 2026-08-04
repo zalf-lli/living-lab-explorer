@@ -1,25 +1,33 @@
 {
   "chart_type": "bar",
-  "generated_at": "2026-08-03T10:16:33.220269Z",
+  "generated_at": "2026-08-04T12:07:26.125573Z",
   "layer_id": "landscape",
   "ll_slug": "havellandisches-luch",
   "mock": false,
   "series": [
     {
       "label": {
-        "de": "Wald",
-        "en": "Forest"
-      },
-      "pct": 43.1,
-      "value": 207719.6
-    },
-    {
-      "label": {
         "de": "Ackerland",
         "en": "Cropland"
       },
-      "pct": 39.5,
-      "value": 190278.1
+      "pct": 51.7,
+      "value": 107175.2
+    },
+    {
+      "label": {
+        "de": "Wald",
+        "en": "Forest"
+      },
+      "pct": 30.7,
+      "value": 63624.8
+    },
+    {
+      "label": {
+        "de": "Gruenland",
+        "en": "Grassland"
+      },
+      "pct": 7.9,
+      "value": 16461.5
     },
     {
       "label": {
@@ -27,47 +35,31 @@
         "en": "Settlement"
       },
       "pct": 7.3,
-      "value": 35335.1
-    },
-    {
-      "label": {
-        "de": "Gruenland",
-        "en": "Grassland"
-      },
-      "pct": 7.2,
-      "value": 34519.6
+      "value": 15227.1
     },
     {
       "label": {
         "de": "Wasser",
         "en": "Water"
       },
-      "pct": 2.6,
-      "value": 12682.7
+      "pct": 2.0,
+      "value": 4056.0
     },
     {
       "label": {
         "de": "Feuchtgebiet",
         "en": "Wetland"
       },
-      "pct": 0.2,
-      "value": 1166.6
+      "pct": 0.3,
+      "value": 660.8
     },
     {
       "label": {
         "de": "Offenboden",
         "en": "Bare ground"
       },
-      "pct": 0.04,
-      "value": 189.1
-    },
-    {
-      "label": {
-        "de": "Wolken",
-        "en": "Clouds"
-      },
-      "pct": 0.0003,
-      "value": 1.3
+      "pct": 0.002,
+      "value": 4.0
     }
   ],
   "source": "io-lulc-landcover",
