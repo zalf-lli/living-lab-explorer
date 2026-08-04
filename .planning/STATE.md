@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: ready_to_plan
-stopped_at: Phase 11 complete (5/5) — ready to discuss Phase 999.1
-last_updated: 2026-08-03T21:06:49.907Z
+stopped_at: Phase 11 closed out (5/5, bookkeeping reconciled) — ready to discuss Phase 999.1
+last_updated: 2026-08-04T05:20:00.000Z
 progress:
   total_phases: 15
   completed_phases: 11
@@ -37,10 +37,46 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 | 6 | Add land cover map | Complete (2026-07-26) — 5/5 plans, 4 waves, D-01..D-24 evidence recorded, bilingual checkpoint approved |
 | 7 | Add BORIS land value maps as spatial layer for socio-economic tab | In progress — 8/9 plans complete (07-08 executed 2026-07-28: all five Living Labs fetched, committed, published, and locked behind a fixture regression test) |
 | 8 | Add maps and stats for climate variables using CHELSA data | Complete (2026-07-31) — 11/11 plans, 60 CHELSA PMTiles (4 variables x 3 periods x 5 LLs), D-07 resolved to `gdd5` (static, zero new dependencies), D-12 empirically sequential for all four variables; Task 3 checkpoint approved |
-| 9 | Chart Data Contract | Planned (2026-08-03) — 7 plans, 4 waves, 1 checkpoint, verified ✓ (0 blockers, 3 warnings) |
-| 10 | Two-column LL comparison view | Planned (2026-07-27) — 6 plans, 5 waves, 1 checkpoint, verified ✓ (0 blockers, 4 warnings) |
+| 9 | Chart Data Contract | Complete (2026-08-03) — 7/7 plans, goal verification passed 8/8 |
+| 10 | Two-column LL comparison view | Complete (2026-07-28) — 6/6 plans, goal verification passed 29/29 (D-01..D-29) |
+| 11 | Wire chart JSON data to chart UI components | Complete (2026-08-03) — 5/5 plans, goal verification passed 8/8 (UI-1..UI-8), human-verified round 2, code-review blocker CR-01 fixed |
 
 ## Active Work
+
+**Phase 11 is complete and closed (2026-08-03).** All 5 plans executed across 4 waves: `11-01`
+(`useChartData` 404-as-empty fetch hook, pure node-importable `chartSeries.js` truncation + rank
+palette, shared `ChartStates.jsx`, 7 new bilingual i18n keys), `11-02` (`BarChart.jsx` rewritten onto
+real per-Living-Lab data), `11-03` (new hand-rolled-SVG `LineChart.jsx` for the climate tab — no
+charting library added), `11-04` (all three `LLDetail.jsx` call sites branch on `layer === 'climate'`,
+titled cards everywhere, placeholder `chart_data.js` and dead `charts.*`/`barChart.*` i18n deleted),
+`11-05` (full automated gate + `11-EVIDENCE.md` for UI-1..UI-8 + blocking bilingual human verification).
+
+The Task 3 checkpoint took two rounds. Round 1: the reviewer found bar colours didn't match the map's
+own legend. Root cause and fix (`a0b9bed`) were scoped precisely — agriculture and landscape now
+resolve bar colours from the same static `LANDUSE_LEGEND`/`LAND_COVER_LEGEND` arrays `LLMap` paints
+from (gated behind a new `legendMatchesChartCategories` flag in `layers.js`), while soil and economic
+correctly keep the rank palette: soil's real on-map legend is built dynamically per-Living-Lab from a
+GeoJSON-property hash that the static `SOIL_LEGEND` does not reproduce, and economic has no category
+legend at all (only a continuous price ramp). Round 2 approved.
+
+The post-approval code review (`11-REVIEW.md`) found one confirmed blocker, CR-01: `buildDisplaySeries`'s
+"Other" bucket could round a genuinely non-zero remainder down to a displayed `0%` — reproducible
+against committed data (`io-lulc-landcover-east-brandenburg.json`'s lone truncated "Bare ground" row,
+`pct: 0.04`, rendering "Other 0%" beside a real 372 ha value). Fixed in `bc3c1d0` by flooring the
+display at `0.1` whenever the true summed remainder is non-zero, mirroring
+`compute_agriculture_chart.py`'s own never-display-a-real-row-as-zero convention. Goal verification
+passed 8/8 must-haves (`11-VERIFICATION.md`); lint and build re-confirmed clean on the post-fix tree
+(2026-08-04).
+
+**Four code-review findings were left open by design** (quality/robustness, none blocking): WR-01
+(`LineChart`'s per-line colour assignment relies on an unenforced positional contract between
+`compute_climate_chart.py`'s `LINE_VARIABLE_ORDER` and `climate_legend.js`'s `CLIMATE_VARIABLES` —
+the same bug class UAT caught for `BarChart`; the durable fix is stamping a stable `variable` id onto
+each line object in the pipeline), WR-02 (`CHART_RANK_COLORS.length` implicitly coupled to `MAX_BARS`
+with no assertion), WR-03 (locale-derivation duplicated verbatim in both chart components), WR-04
+(the chart contract's `mock` flag is never surfaced in the UI). Plus IN-01..IN-03. WR-01 is the one
+worth scheduling — it needs a pipeline change, so it belongs with the next chart-data phase, not an
+app-side patch. See TODO-02 below.
 
 **Phase 8 is complete (2026-07-31).** `08-11` closed the phase: Task 1 ran the full automated
 gate (31/31 pytest, `sync.py` idempotent, `npm run lint`/`build` clean, seven cross-file join-key
@@ -303,6 +339,8 @@ Phase 2.2 completed on 2026-04-30 and replaced the shallow German-only soil look
 | ID | Phase | Item | Status |
 |----|-------|------|--------|
 | TODO-01 | 2.2 | Improve tooltips: fix mixed German/English text, reduce verbosity, improve colour divergence in soil layer legend | open |
+| TODO-02 | 11 | WR-01: stamp a stable `variable` id onto each climate chart line in `compute_climate_chart.py` and have `LineChart.jsx` match colours by that id instead of by array position — needs a pipeline change, so schedule with the next chart-data phase | open |
+| TODO-03 | 11 | WR-02/WR-03/WR-04 + IN-01..IN-03 from `11-REVIEW.md`: assert `CHART_RANK_COLORS.length === MAX_BARS`, extract the duplicated locale derivation into a shared helper, surface the contract's `mock` flag in the UI, guard `LineChart`'s 2-point assumption, extend `numberOrZero` to real rows, add coverage for `buildDisplaySeries` | open |
 
 ## Roadmap Evolution
 

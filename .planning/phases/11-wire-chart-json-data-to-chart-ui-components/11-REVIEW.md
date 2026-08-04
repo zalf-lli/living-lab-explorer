@@ -17,7 +17,12 @@ findings:
   warning: 4
   info: 3
   total: 8
-status: issues_found
+status: resolved
+resolution:
+  resolved: 2026-08-03T23:07:00Z
+  critical_fixed: 1
+  deferred: 7
+  deferred_tracked_as: STATE.md TODO-02 (WR-01), TODO-03 (WR-02..WR-04, IN-01..IN-03)
 ---
 
 # Phase 11: Code Review Report
@@ -186,6 +191,25 @@ coverage.
 
 ---
 
+## Resolution (phase close-out)
+
+| ID | Severity | Disposition | Evidence |
+|----|----------|-------------|----------|
+| CR-01 | Critical | **Fixed** | `bc3c1d0` — `fix(11-05): floor Other-bucket display pct at 0.1 to avoid a misleading 0% row`. `buildDisplaySeries` now applies `otherPctRaw > 0 ? Math.max(0.1, ...)`, exactly the fix proposed above. Re-verified against the reproducing file (`io-lulc-landcover-east-brandenburg.json`) plus the pct-total-preserved invariant across all 20 committed bar files; recorded in `11-EVIDENCE.md` under "Post-approval: code review blocker fixed (CR-01)". |
+| WR-01 | Warning | **Deferred** — STATE.md TODO-02 | The durable fix is to stamp a stable `variable` id onto each line in `compute_climate_chart.py` and match by it. That is a pipeline change, and Phase 11's scope is app-side only (`zero pipeline files touched` is an asserted gate in `11-05`). Fixing it here would have broken the phase's own scope gate, so it is scheduled with the next chart-data phase instead. |
+| WR-02 | Warning | **Deferred** — STATE.md TODO-03 | Latent only; `CHART_RANK_COLORS.length === MAX_BARS === 6` holds today. |
+| WR-03 | Warning | **Deferred** — STATE.md TODO-03 | Safe today: `i18n.js`'s `normalizeLanguage`/`supportedLngs` guarantee `i18n.language` is exactly `'en'` or `'de'`. |
+| WR-04 | Warning | **Deferred** — STATE.md TODO-03 | Dormant: no committed chart JSON carries `mock: true`. |
+| IN-01 | Info | **Deferred** — STATE.md TODO-03 | Schema-drift guard; the 2-point contract holds across all 5 committed climate files. |
+| IN-02 | Info | **Deferred** — STATE.md TODO-03 | Defense-in-depth; the pipeline is documented to guarantee valid row values. |
+| IN-03 | Info | **Deferred** — STATE.md TODO-03 | The project has no JS test runner; `11-05`'s node contract check against all 25 real files is the current gate. |
+
+**Post-fix gates re-confirmed 2026-08-04:** `npm run lint` exits 0, `npm run build` succeeds
+(126 modules, 4 assets) on the tree that includes `bc3c1d0`.
+
+---
+
 _Reviewed: 2026-08-03T00:00:00Z_
 _Reviewer: Claude (gsd-code-reviewer)_
 _Depth: standard_
+_Resolved: 2026-08-03T23:07:00Z — 1 critical fixed, 7 deferred with tracking_

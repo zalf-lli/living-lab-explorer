@@ -652,24 +652,24 @@ Plans:
 
 **Wave 1**
 
-- [ ] `11-01-PLAN.md` — `useChartData` hook (404 = empty), pure `chartSeries.js` truncation + rank palette,
+- [x] `11-01-PLAN.md` — `useChartData` hook (404 = empty), pure `chartSeries.js` truncation + rank palette,
       shared `ChartStates.jsx` blocks, and the `chart.*` / `llDetail.projectionTitle` i18n additions
 
 **Wave 2** *(blocked on Wave 1)*
 
-- [ ] `11-02-PLAN.md` — `BarChart.jsx` rewrite: real per-Living-Lab data, three async states, top-6 + Other
+- [x] `11-02-PLAN.md` — `BarChart.jsx` rewrite: real per-Living-Lab data, three async states, top-6 + Other
       rows with rank colours, value+unit captions, real source footer
-- [ ] `11-03-PLAN.md` — new `LineChart.jsx`: 4 fixed-colour polylines over 2 horizons, zero-inclusive shared
+- [x] `11-03-PLAN.md` — new `LineChart.jsx`: 4 fixed-colour polylines over 2 horizons, zero-inclusive shared
       scale, dashed zero line, signed percentage labels
 
 **Wave 3** *(blocked on Wave 2)*
 
-- [ ] `11-04-PLAN.md` — three `LLDetail.jsx` call sites branch on `layer === 'climate'` and thread `ll`;
+- [x] `11-04-PLAN.md` — three `LLDetail.jsx` call sites branch on `layer === 'climate'` and thread `ll`;
       titled cards everywhere; `chart_data.js` and the dead `charts.*` / `barChart.*` i18n blocks deleted
 
 **Wave 4** *(blocked on Wave 3)*
 
-- [ ] `11-05-PLAN.md` — full automated gate (lint/format/build, 25-file join-key + contract check,
+- [x] `11-05-PLAN.md` — full automated gate (lint/format/build, 25-file join-key + contract check,
       dead-token and scope gates), `11-EVIDENCE.md` for UI-1..UI-8, blocking bilingual human verification
 
 ## Backlog
