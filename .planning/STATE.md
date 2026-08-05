@@ -4,11 +4,11 @@ milestone: v1.0
 milestone_name: milestone
 status: ready_to_plan
 stopped_at: Phase 12 UI-SPEC approved
-last_updated: "2026-08-04T13:43:21.555Z"
+last_updated: "2026-08-05T06:27:55.736Z"
 progress:
   total_phases: 16
   completed_phases: 12
-  total_plans: 68
+  total_plans: 80
   completed_plans: 66
   percent: 75
 ---
@@ -21,7 +21,7 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 
 **Core value:** A researcher or stakeholder can open the app and immediately see accurate, up-to-date geodata and statistics for any of the five Living Labs without any server infrastructure.
 
-**Current focus:** Phase 999.1 — find real data sources for 4 curated destatis kpi fields tha
+**Current focus:** Phase 12 — export-a-pdf-of-the-content-for-a-given-living-lab
 
 ## Status
 
