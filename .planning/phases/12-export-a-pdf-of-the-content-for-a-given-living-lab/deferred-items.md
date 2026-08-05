@@ -25,3 +25,16 @@ changes. Pre-existing warnings, linting errors, or failures in unrelated files a
 
 **Recommended next step:** Resolve as part of the existing TODO-01 / `260804-acf` follow-up, not
 as part of Phase 12.
+
+## 12-03: same `check:soil-palette` failure recurs (still pre-existing, still out of scope)
+
+**Found during:** 12-03 Task 2 verification (`npm run check:soil-palette` is one of Task 2's
+listed acceptance criteria).
+
+**Failure:** identical to the 12-01 entry above — `havellandisches-luch` legend ΔE76 19.0 < 20.
+
+**Why deferred, not fixed:** 12-03's `files_modified` list is
+`app/src/components/DownloadReportCTA.jsx`, `app/src/pages/LLDetail.jsx` — neither touches
+`app/src/data/soil_legend.js` or any `app/public/data/geojson/*` fixture; `git diff --stat` between
+this plan's base commit and its final commit confirms zero changes to either. Same pre-existing,
+already-tracked condition (TODO-01 / `260804-acf`), not a regression introduced by 12-03.

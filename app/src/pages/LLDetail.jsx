@@ -12,8 +12,10 @@ import {
 import { useNavigate, useParams, useSearchParams } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { C } from '../theme.js'
+import { normalizeLanguage } from '../i18n.js'
 import { LLBadge } from '../components/LLBadge.jsx'
 import { ContactManagerButton } from '../components/ContactManagerButton.jsx'
+import { DownloadReportCTA } from '../components/DownloadReportCTA.jsx'
 import { StatPanel } from '../components/StatPanel.jsx'
 import { BarChart } from '../components/BarChart.jsx'
 import { LineChart } from '../components/LineChart.jsx'
@@ -415,7 +417,8 @@ function LayoutSplit({
   setHorizon,
   period,
 }) {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+  const lang = normalizeLanguage(i18n.resolvedLanguage)
   return (
     <div
       style={{
@@ -549,7 +552,12 @@ function LayoutSplit({
             </div>
           </div>
 
-          <CompareCTA compact options={compareOptions} onPick={onPickCompare} />
+          <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
+            <div style={{ flex: '1 1 auto', minWidth: 0 }}>
+              <CompareCTA compact options={compareOptions} onPick={onPickCompare} />
+            </div>
+            <DownloadReportCTA compact ll={ll} lang={lang} />
+          </div>
         </div>
       </div>
     </div>
@@ -570,7 +578,8 @@ function LayoutStacked({
   setHorizon,
   period,
 }) {
-  const { t } = useTranslation()
+  const { t, i18n } = useTranslation()
+  const lang = normalizeLanguage(i18n.resolvedLanguage)
   return (
     <div style={{ overflowY: 'auto', height: '100%', background: C.bg }}>
       <div
@@ -723,8 +732,13 @@ function LayoutStacked({
         </div>
       </div>
 
-      <div style={{ padding: '16px 32px 32px' }}>
-        <CompareCTA options={compareOptions} onPick={onPickCompare} />
+      <div style={{ padding: '16px 32px 32px', display: 'flex', gap: 16, alignItems: 'stretch' }}>
+        <div style={{ flex: '1 1 auto', minWidth: 0 }}>
+          <CompareCTA options={compareOptions} onPick={onPickCompare} />
+        </div>
+        <div style={{ flexShrink: 0 }}>
+          <DownloadReportCTA ll={ll} lang={lang} />
+        </div>
       </div>
     </div>
   )
