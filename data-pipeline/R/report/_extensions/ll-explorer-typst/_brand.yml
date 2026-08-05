@@ -1,0 +1,97 @@
+# Base brand for the LL-Explorer PDF report extension (D-08).
+#
+# This file is the SHARED TEMPLATE the five per-Living-Lab brand files under brands/ are
+# generated from (Task 2, D-07). It is not itself used by any real render -- render_reports.py
+# always selects one of the five generated per-LL files -- but it defines the full set of
+# colour and typography keys every per-LL file must also carry (RESEARCH.md Pitfall 4: each
+# per-LL override must be a FULL copy, never a sparse one, because Quarto's document-level
+# brand: key replaces the extension brand wholesale rather than merging field by field).
+#
+# Every colour below is copied verbatim from data/report_tokens.json's `theme` object (the
+# app's own "Zukunft Land" / LL-Explorer palette, exported from app/src/theme.js by plan 12-04)
+# -- no hex value here is retyped or invented.
+meta:
+  name:
+    short: LL-Explorer
+    full: Living Lab Explorer
+  link:
+    home: https://github.com/iat-dml/living-lab-explorer
+
+logo:
+  images:
+    logo-ll-explorer:
+      path: assets/zukunft-land-logo.svg
+      alt: "Zukunft Land -- Living Lab Explorer"
+  medium: logo-ll-explorer
+  large: logo-ll-explorer
+  small: logo-ll-explorer
+
+color:
+  palette:
+    # Reserved override slots (Task 2): render_reports.py's brand generator only ever
+    # touches these three keys per Living Lab, from ll_metadata.json's own color /
+    # colorDark / outlineColor fields. Every other key below is the shared app-wide
+    # palette and stays identical across all six files.
+    ll-primary: "#005754" # theme.teal -- base-brand default; overridden per LL (ll.color)
+    ll-primary-dark: "#00413f" # theme.tealBg -- overridden per LL (ll.colorDark)
+    ll-outline: "#005754" # theme.teal -- overridden per LL (ll.outlineColor)
+    orange: "#eb5b25" # theme.orange
+    orange-dark: "#dc4b14" # theme.orangeDark
+    orange-deep: "#bb3f11" # theme.orangeDeep
+    teal: "#005754" # theme.teal
+    teal-light: "#00b3ad" # theme.tealLight
+    teal-mid: "#008581" # theme.tealMid
+    teal-bg: "#00413f" # theme.tealBg
+    green: "#225e43" # theme.green
+    green-mid: "#359269" # theme.greenMid
+    green-light: "#5ec597" # theme.greenLight
+    lime: "#c2e077" # theme.lime
+    lime-dark: "#9bc72d" # theme.limeDark
+    lime-pale: "#f2f8e2" # theme.limePale
+    white: "#ffffff" # theme.white
+    black: "#022322" # theme.black
+    bg: "#f9fef9" # theme.bg
+    surface: "#e5f5ee" # theme.surface
+    surface-dark: "#bce9d2" # theme.surfaceDark
+    gray-light: "#e5f5ee" # theme.surface, reused as a neutral light fill (table zebra, rules)
+  foreground: black
+  background: white
+  primary: ll-primary
+  secondary: ll-primary-dark
+  tertiary: orange
+  success: green
+  info: teal-light
+  warning: lime-dark
+  danger: orange-dark
+  light: bg
+  dark: ll-primary-dark
+
+typography:
+  fonts:
+    # Satoshi is a Fontshare webfont the browser loads via CSS (app/index.html) -- it is
+    # not guaranteed to be installed as a system font on the machine running `quarto render`.
+    # A single font name here (not a comma-separated fallback string) lets
+    # typst-template.typ build a real Typst font ARRAY with a Typst-available fallback
+    # chain (Segoe UI / Arial / sans-serif) -- see that file's `ll-font` binding.
+    - family: "Satoshi"
+      source: system
+  base:
+    family: "Satoshi"
+    weight: 400
+    size: 10pt
+    line-height: 1.5
+  headings:
+    family: "Satoshi"
+    weight: 700
+    color: ll-primary
+    line-height: 1.25
+  monospace:
+    family: "Satoshi"
+    weight: 400
+    size: 0.9em
+  monospace-inline:
+    background-color: gray-light
+  link:
+    color: primary
+    weight: 700
+    decoration: underline
