@@ -686,13 +686,28 @@ Plans:
 
 ### Phase 12: Export a PDF of the content for a given Living Lab
 
-**Goal:** [To be planned]
-**Requirements**: TBD
+**Goal:** Every Living Lab has a downloadable, brand-styled PDF report — one per language — built
+offline in the data pipeline with Quarto + Typst + R, covering all five tabs (KPIs, maps, charts and
+narrative), published as a static file and reachable from a download control on the detail page.
+**Requirements**: None in REQUIREMENTS.md (phase added ad hoc 2026-04-29, after the v1 requirement
+set was written). The 22 locked decisions D-01..D-22 in `12-CONTEXT.md` plus `12-UI-SPEC.md` serve as
+this phase's requirement set; every plan's `requirements` field carries the D-IDs it implements.
 **Depends on:** Phase 11
-**Plans:** 0 plans
+**Plans:** 12 plans across 7 waves (3 blocking human checkpoints)
 
 Plans:
-- [ ] TBD (run /gsd-plan-phase 12 to break down)
+- [ ] 12-01-PLAN.md — Extract i18n resources into a node-importable module, add the download/report i18n keys, add the report-availability hook
+- [ ] 12-02-PLAN.md — R/Quarto toolchain discovery, CLAUDE.md external-CLI update, renv init behind a CRAN legitimacy checkpoint
+- [ ] 12-03-PLAN.md — DownloadReportCTA component and both LLDetail call sites, per the locked UI-SPEC
+- [ ] 12-04-PLAN.md — Node bridge exporting the app's palettes, chart display palette and both translation objects to data/report_tokens.json
+- [ ] 12-05-PLAN.md — Vendored ll-explorer-typst Quarto extension, five per-LL brand files, parameterized template.qmd, render_reports.py driver
+- [ ] 12-06-PLAN.md — theme_llexplorer.R: shared ggplot theme, palette/string/brand accessors, boundary loader, map legend helper
+- [ ] 12-07-PLAN.md — sections.R: KPI tables, narrative accessors, and charts re-plotted from the committed chart JSON
+- [ ] 12-08-PLAN.md — maps_vector.R: soil and land-value choropleths with the app's own per-LL legends, plus the cover locator map
+- [ ] 12-09-PLAN.md — maps_raster.R: crop-type, land-cover and the eight-panel climate grid from the source GeoTIFFs
+- [ ] 12-10-PLAN.md — Full template assembly, the real ten-PDF render, size budget, and a content review checkpoint
+- [ ] 12-11-PLAN.md — sync_reports() publishing to app/public, plus existence/validity/parity/budget pytest gates
+- [ ] 12-12-PLAN.md — Full automated gate, D-01..D-22 evidence record, PROJECT.md scope correction, end-to-end bilingual sign-off
 
 ---
 
