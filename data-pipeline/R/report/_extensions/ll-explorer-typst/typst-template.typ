@@ -30,11 +30,15 @@ $else$
 #let _cover-img = none
 $endif$
 
+// A custom `generated` metadata key, not Pandoc's reserved `date:` -- Quarto special-cases
+// `date:` (its own date-parsing/localization pass silently drops a plain `--metadata date:...`
+// CLI override, confirmed live during Task 3 render-driver development), while a project-
+// defined key like `generated` passes through `--metadata generated:...` unmodified.
 #let content = doc => {
   ll-report(
     title: "$title$",
     subtitle: "$subtitle$",
-    date: "$date$",
+    date: "$generated$",
     font: ll-font,
     lang: "$lang$",
     primary: ll-primary,

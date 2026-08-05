@@ -1,7 +1,7 @@
 ---
 title: "Living Lab report"
 subtitle: "Full data report"
-date: ""
+generated: ""
 lang: "en"
 params:
   slug: "rheingau"

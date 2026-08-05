@@ -85,9 +85,15 @@
       )
     }
   )
-  counter(page).update(0)
 }
 
+// Uses here().page() (the absolute physical page number) rather than a manually-reset
+// counter(page) value -- a counter(page).update(0) reset immediately after the cover page()
+// call was tried first but produced an inconsistent off-by-one between the header and footer
+// contexts (confirmed live: the footer read 0 on the first content page while the header's
+// own counter read correctly detected "first content page"). here().page() sidesteps that
+// entirely: the cover is always physical page 1 (no footer/header -- see ll-report-cover's
+// own footer: none / header: none), so the first content page is always physical page 2.
 #let ll-report-header(
   title: "",
   date: "",
@@ -95,9 +101,9 @@
   primary: ll-primary-default,
   primary-dark: ll-primary-dark-default,
 ) = context {
-  let page-num = counter(page).get().first()
+  let page-num = here().page()
 
-  if page-num == 1 {
+  if page-num == 2 {
     place(top + left, dy: -3.95cm,
       line(length: 100%, stroke: 0.6pt + ll-lime)
     )
@@ -123,7 +129,7 @@
 }
 
 #let ll-report-footer(font: "Segoe UI") = context {
-  let page-num = counter(page).get().first()
+  let page-num = here().page()
 
   align(center, {
     line(length: 40%, stroke: 0.5pt + ll-gray-light)
