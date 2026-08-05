@@ -693,15 +693,15 @@ narrative), published as a static file and reachable from a download control on 
 set was written). The 22 locked decisions D-01..D-22 in `12-CONTEXT.md` plus `12-UI-SPEC.md` serve as
 this phase's requirement set; every plan's `requirements` field carries the D-IDs it implements.
 **Depends on:** Phase 11
-**Plans:** 4/12 plans executed
+**Plans:** 6/12 plans executed
 
 Plans:
 - [x] 12-01-PLAN.md — Extract i18n resources into a node-importable module, add the download/report i18n keys, add the report-availability hook
 - [x] 12-02-PLAN.md — R/Quarto toolchain discovery, CLAUDE.md external-CLI update, renv init behind a CRAN legitimacy checkpoint
 - [x] 12-03-PLAN.md — DownloadReportCTA component and both LLDetail call sites, per the locked UI-SPEC
 - [x] 12-04-PLAN.md — Node bridge exporting the app's palettes, chart display palette and both translation objects to data/report_tokens.json
-- [ ] 12-05-PLAN.md — Vendored ll-explorer-typst Quarto extension, five per-LL brand files, parameterized template.qmd, render_reports.py driver
-- [ ] 12-06-PLAN.md — theme_llexplorer.R: shared ggplot theme, palette/string/brand accessors, boundary loader, map legend helper
+- [x] 12-05-PLAN.md — Vendored ll-explorer-typst Quarto extension, five per-LL brand files, parameterized template.qmd, render_reports.py driver
+- [x] 12-06-PLAN.md — theme_llexplorer.R: shared ggplot theme, palette/string/brand accessors, boundary loader, map legend helper
 - [ ] 12-07-PLAN.md — sections.R: KPI tables, narrative accessors, and charts re-plotted from the committed chart JSON
 - [ ] 12-08-PLAN.md — maps_vector.R: soil and land-value choropleths with the app's own per-LL legends, plus the cover locator map
 - [ ] 12-09-PLAN.md — maps_raster.R: crop-type, land-cover and the eight-panel climate grid from the source GeoTIFFs
