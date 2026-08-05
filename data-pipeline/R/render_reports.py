@@ -44,13 +44,38 @@ def load_report_tokens() -> dict:
     return json.loads(resolve("data/report_tokens.json").read_text(encoding="utf-8"))
 
 
+def primary_font_family(report_tokens: dict) -> str:
+    """Extracts the single primary font name from report_tokens.json's `font` field
+    (e.g. "'Satoshi', system-ui, sans-serif" -> "Satoshi") for the `--metadata font-family:`
+    override -- typst-template.typ wraps this in its own Typst-side fallback array
+    (Segoe UI / Arial), so only the primary name is needed here."""
+    raw = report_tokens["font"].split(",")[0].strip()
+    return raw.strip("'\"")
+
+
 def cover_metadata(slug: str, lang: str, *, ll_metadata: dict, report_tokens: dict) -> dict[str, str]:
-    """Resolves the cover-page title/subtitle/generated-date strings for one (slug, lang)
-    render -- the Living Lab's own localized name (title), report_tokens.json's report.subtitle
-    (subtitle), and report.generated with {{date}} substituted for today's date (generated).
-    Threaded into `quarto render` as plain-string --metadata overrides (D-16, D-11): unlike
-    the `brand:` object field (Task 2's Open Question 3 finding), simple string metadata DOES
-    thread through this CLI flag correctly -- confirmed live.
+    """Resolves every plain-string `--metadata` override for one (slug, lang) render: the
+    cover-page title/subtitle/generated-date strings (D-11, D-16), and the two brand accent
+    colours plus font family (D-07/D-08).
+
+    All of these are threaded via `--metadata key:value` CLI overrides, confirmed live to
+    reach the compiled Typst source's `$key$` substitutions correctly for PLAIN top-level
+    string metadata. Two related but fundamentally different failure modes were found and
+    ruled out during this plan's execution, both now avoided here:
+
+    - `--metadata brand:<path>` (an OBJECT-shaped override) does not thread into Quarto's
+      brand resolution at all (Task 2's Open Question 3 finding; the working mechanism for
+      that specific field is a document-level `brand:` YAML key, done separately by
+      render_one()'s temp-doc materialization).
+    - `$if(brand-color)$`/`brand-color.<name>` -- the Pandoc template-variable indirection
+      typst-template.typ tried first for reading the *resolved* brand's colours -- silently
+      evaluates false inside a template-partials-contributed file specifically (Quarto's own
+      `#let brand-color = (...)` binding is spliced into the compiled .typ SOURCE AFTER this
+      partial's own code runs, even though the brand itself resolved correctly elsewhere in
+      the same file). Caught by decompressing two different Living Labs' rendered PDF content
+      streams and finding byte-identical, always-default fill colours in both. The colours
+      computed here bypass that indirection entirely: they are resolved directly from
+      ll_metadata.json in Python and passed as plain strings, which DOES work.
     """
     if slug not in ll_metadata:
         raise RuntimeError(f"Unknown Living Lab slug '{slug}' in ll_metadata.json")
@@ -60,11 +85,18 @@ def cover_metadata(slug: str, lang: str, *, ll_metadata: dict, report_tokens: di
     today = datetime.date.today().isoformat()
     generated = strings["generated"].replace("{{date}}", today)
 
+    # Hex digits WITHOUT the leading "#" -- pandoc's Typst writer auto-escapes a literal "#"
+    # found inside substituted --metadata text to "\#" (Typst's code-mode marker), which
+    # broke rgb(...)'s hex-string parsing when tried with the "#" included here. The "#" is
+    # supplied by typst-template.typ's own literal Typst source instead (never substituted).
     return {
         "title": ll[lang]["name"],
         "subtitle": strings["subtitle"],
         "generated": generated,
         "lang": lang,
+        "primary": ll["color"].lstrip("#"),
+        "primary-dark": ll["colorDark"].lstrip("#"),
+        "font-family": primary_font_family(report_tokens),
     }
 
 
@@ -136,10 +168,13 @@ def render_one(
     # document's own frontmatter, which still produces a PDF (the extension's one
     # contributed format's default output).
     #
-    # title/subtitle/generated/lang are plain string --metadata overrides (unlike `brand:`,
-    # confirmed live to thread through correctly) -- these localize the cover banner to the
-    # Living Lab's own name and the render's language, so the German renders don't show an
-    # English cover title/subtitle (D-16).
+    # title/subtitle/generated/lang/primary/primary-dark/font-family are all plain string
+    # --metadata overrides (unlike `brand:`, an object field -- see cover_metadata()'s
+    # docstring for the two distinct failure modes this sidesteps). Confirmed live to thread
+    # through to the compiled Typst source's `$key$` substitutions correctly. primary/
+    # primary-dark are what actually makes each Living Lab's PDF carry its own accent colour
+    # (D-07/D-08) -- title/subtitle/generated/lang additionally avoid English leakage on the
+    # German renders (D-16).
     args = [
         toolchain["quarto"],
         "render",
@@ -156,6 +191,12 @@ def render_one(
         f"generated:{cover['generated']}",
         "--metadata",
         f"lang:{cover['lang']}",
+        "--metadata",
+        f"primary:{cover['primary']}",
+        "--metadata",
+        f"primary-dark:{cover['primary-dark']}",
+        "--metadata",
+        f"font-family:{cover['font-family']}",
         "--output",
         output_name,
     ]
