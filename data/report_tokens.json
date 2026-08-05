@@ -1,0 +1,1109 @@
+{
+  "chart": {
+    "maxBars": 6,
+    "otherColor": "#d8d8d2",
+    "rankColors": [
+      "#9bc72d",
+      "#005754",
+      "#359269",
+      "#eb5b25",
+      "#008581",
+      "#c2e077"
+    ]
+  },
+  "font": "'Satoshi', system-ui, sans-serif",
+  "palettes": {
+    "agriculture": [
+      {
+        "color": "#c2e077",
+        "de": "Winterweizen",
+        "en": "winter wheat",
+        "value": 11
+      },
+      {
+        "color": "#9bc72d",
+        "de": "Wintergerste",
+        "en": "winter barley",
+        "value": 12
+      },
+      {
+        "color": "#5ec597",
+        "de": "Winterroggen",
+        "en": "winter rye",
+        "value": 13
+      },
+      {
+        "color": "#359269",
+        "de": "Sonstiges Wintergetreide",
+        "en": "other winter cereals",
+        "value": 14
+      },
+      {
+        "color": "#225e43",
+        "de": "Sommerweizen",
+        "en": "spring wheat",
+        "value": 21
+      },
+      {
+        "color": "#00b3ad",
+        "de": "Sommergerste",
+        "en": "spring barley",
+        "value": 22
+      },
+      {
+        "color": "#008581",
+        "de": "Sommerhafer",
+        "en": "spring oat",
+        "value": 23
+      },
+      {
+        "color": "#005754",
+        "de": "Mais",
+        "en": "maize",
+        "value": 30
+      },
+      {
+        "color": "#eb5b25",
+        "de": "Bohnen/Lupinen/Erbsen",
+        "en": "legumes",
+        "value": 40
+      },
+      {
+        "color": "#dc4b14",
+        "de": "Kartoffeln",
+        "en": "potato",
+        "value": 50
+      },
+      {
+        "color": "#bb3f11",
+        "de": "Zuckerrueben",
+        "en": "sugar beet",
+        "value": 60
+      },
+      {
+        "color": "#fce3da",
+        "de": "Raps",
+        "en": "rapeseed",
+        "value": 71
+      },
+      {
+        "color": "#83d2af",
+        "de": "Klee/Luzerne",
+        "en": "clover/alfalfa",
+        "value": 81
+      },
+      {
+        "color": "#c3e9d8",
+        "de": "Ackergras",
+        "en": "arable grass",
+        "value": 82
+      },
+      {
+        "color": "#bce9d2",
+        "de": "Gruenland",
+        "en": "permanent grassland",
+        "value": 83
+      },
+      {
+        "color": "#e5f5ee",
+        "de": "Wein",
+        "en": "vineyard",
+        "value": 90
+      },
+      {
+        "color": "#8ffffc",
+        "de": "Obst- und Feldgehoelz",
+        "en": "fruit trees and other woody vegetation",
+        "value": 100
+      },
+      {
+        "color": "#66d1ff",
+        "de": "Hopfen",
+        "en": "hops",
+        "value": 110
+      },
+      {
+        "color": "#3da5d9",
+        "de": "Sonstige landwirtschaftliche Nutzung",
+        "en": "other agricultural use",
+        "value": 111
+      }
+    ],
+    "climate": {
+      "legend": {
+        "bio1": {
+          "baseline": [
+            {
+              "color": "#fce3da",
+              "de": "< 8,8 °C",
+              "en": "< 8.8 °C",
+              "value": "b0"
+            },
+            {
+              "color": "#eb5b25",
+              "de": "8,8 – 9,2 °C",
+              "en": "8.8 – 9.2 °C",
+              "value": "b1"
+            },
+            {
+              "color": "#dc4b14",
+              "de": "9,2 – 9,4 °C",
+              "en": "9.2 – 9.4 °C",
+              "value": "b2"
+            },
+            {
+              "color": "#bb3f11",
+              "de": "> 9,4 °C",
+              "en": "> 9.4 °C",
+              "value": "b3"
+            }
+          ],
+          "change": {
+            "2041_2070": [
+              {
+                "color": "#fce3da",
+                "de": "< +2,5 °C",
+                "en": "< +2.5 °C",
+                "value": "b0"
+              },
+              {
+                "color": "#eb5b25",
+                "de": "+2,5 – +2,6 °C",
+                "en": "+2.5 – +2.6 °C",
+                "value": "b1"
+              },
+              {
+                "color": "#dc4b14",
+                "de": "+2,6 – +2,7 °C",
+                "en": "+2.6 – +2.7 °C",
+                "value": "b2"
+              },
+              {
+                "color": "#bb3f11",
+                "de": "+2,7 – +2,8 °C",
+                "en": "+2.7 – +2.8 °C",
+                "value": "b3"
+              },
+              {
+                "color": "#9f350e",
+                "de": "> +2,8 °C",
+                "en": "> +2.8 °C",
+                "value": "b4"
+              }
+            ],
+            "2071_2100": [
+              {
+                "color": "#fce3da",
+                "de": "< +3,9 °C",
+                "en": "< +3.9 °C",
+                "value": "b0"
+              },
+              {
+                "color": "#eb5b25",
+                "de": "+3,9 – +4,0 °C",
+                "en": "+3.9 – +4.0 °C",
+                "value": "b1"
+              },
+              {
+                "color": "#dc4b14",
+                "de": "+4,0 – +4,1 °C",
+                "en": "+4.0 – +4.1 °C",
+                "value": "b2"
+              },
+              {
+                "color": "#bb3f11",
+                "de": "+4,1 – +4,2 °C",
+                "en": "+4.1 – +4.2 °C",
+                "value": "b3"
+              },
+              {
+                "color": "#9f350e",
+                "de": "> +4,2 °C",
+                "en": "> +4.2 °C",
+                "value": "b4"
+              }
+            ]
+          }
+        },
+        "bio12": {
+          "baseline": [
+            {
+              "color": "#00b3ad",
+              "de": "< 595,0 mm",
+              "en": "< 595.0 mm",
+              "value": "b0"
+            },
+            {
+              "color": "#008581",
+              "de": "595,0 – 644,0 mm",
+              "en": "595.0 – 644.0 mm",
+              "value": "b1"
+            },
+            {
+              "color": "#005754",
+              "de": "644,0 – 804,0 mm",
+              "en": "644.0 – 804.0 mm",
+              "value": "b2"
+            },
+            {
+              "color": "#00413f",
+              "de": "> 804,0 mm",
+              "en": "> 804.0 mm",
+              "value": "b3"
+            }
+          ],
+          "change": {
+            "2041_2070": [
+              {
+                "color": "#00b3ad",
+                "de": "< +1,0 %",
+                "en": "< +1.0 %",
+                "value": "b0"
+              },
+              {
+                "color": "#008581",
+                "de": "+1,0 – +1,5 %",
+                "en": "+1.0 – +1.5 %",
+                "value": "b1"
+              },
+              {
+                "color": "#005754",
+                "de": "+1,5 – +2,0 %",
+                "en": "+1.5 – +2.0 %",
+                "value": "b2"
+              },
+              {
+                "color": "#00413f",
+                "de": "+2,0 – +2,5 %",
+                "en": "+2.0 – +2.5 %",
+                "value": "b3"
+              },
+              {
+                "color": "#00312f",
+                "de": "> +2,5 %",
+                "en": "> +2.5 %",
+                "value": "b4"
+              }
+            ],
+            "2071_2100": [
+              {
+                "color": "#00b3ad",
+                "de": "< +2,5 %",
+                "en": "< +2.5 %",
+                "value": "b0"
+              },
+              {
+                "color": "#008581",
+                "de": "+2,5 – +3,0 %",
+                "en": "+2.5 – +3.0 %",
+                "value": "b1"
+              },
+              {
+                "color": "#005754",
+                "de": "+3,0 – +3,5 %",
+                "en": "+3.0 – +3.5 %",
+                "value": "b2"
+              },
+              {
+                "color": "#00413f",
+                "de": "+3,5 – +4,0 %",
+                "en": "+3.5 – +4.0 %",
+                "value": "b3"
+              },
+              {
+                "color": "#00312f",
+                "de": "> +4,0 %",
+                "en": "> +4.0 %",
+                "value": "b4"
+              }
+            ]
+          }
+        },
+        "bio18": {
+          "baseline": [
+            {
+              "color": "#00b3ad",
+              "de": "< 184,0 mm",
+              "en": "< 184.0 mm",
+              "value": "b0"
+            },
+            {
+              "color": "#008581",
+              "de": "184,0 – 196,0 mm",
+              "en": "184.0 – 196.0 mm",
+              "value": "b1"
+            },
+            {
+              "color": "#005754",
+              "de": "196,0 – 216,0 mm",
+              "en": "196.0 – 216.0 mm",
+              "value": "b2"
+            },
+            {
+              "color": "#00413f",
+              "de": "> 216,0 mm",
+              "en": "> 216.0 mm",
+              "value": "b3"
+            }
+          ],
+          "change": {
+            "2041_2070": [
+              {
+                "color": "#00b3ad",
+                "de": "< -5,5 %",
+                "en": "< -5.5 %",
+                "value": "b0"
+              },
+              {
+                "color": "#008581",
+                "de": "-5,5 – -5,0 %",
+                "en": "-5.5 – -5.0 %",
+                "value": "b1"
+              },
+              {
+                "color": "#005754",
+                "de": "-5,0 – -4,5 %",
+                "en": "-5.0 – -4.5 %",
+                "value": "b2"
+              },
+              {
+                "color": "#00413f",
+                "de": "-4,5 – -4,0 %",
+                "en": "-4.5 – -4.0 %",
+                "value": "b3"
+              },
+              {
+                "color": "#00312f",
+                "de": "> -4,0 %",
+                "en": "> -4.0 %",
+                "value": "b4"
+              }
+            ],
+            "2071_2100": [
+              {
+                "color": "#00b3ad",
+                "de": "< -8,5 %",
+                "en": "< -8.5 %",
+                "value": "b0"
+              },
+              {
+                "color": "#008581",
+                "de": "-8,5 – -8,0 %",
+                "en": "-8.5 – -8.0 %",
+                "value": "b1"
+              },
+              {
+                "color": "#005754",
+                "de": "-8,0 – -5,5 %",
+                "en": "-8.0 – -5.5 %",
+                "value": "b2"
+              },
+              {
+                "color": "#00413f",
+                "de": "-5,5 – -5,0 %",
+                "en": "-5.5 – -5.0 %",
+                "value": "b3"
+              },
+              {
+                "color": "#00312f",
+                "de": "> -5,0 %",
+                "en": "> -5.0 %",
+                "value": "b4"
+              }
+            ]
+          }
+        },
+        "gdd": {
+          "baseline": [
+            {
+              "color": "#fce3da",
+              "de": "< 1801,0 °C·d",
+              "en": "< 1801.0 °C·d",
+              "value": "b0"
+            },
+            {
+              "color": "#eb5b25",
+              "de": "1801,0 – 1962,0 °C·d",
+              "en": "1801.0 – 1962.0 °C·d",
+              "value": "b1"
+            },
+            {
+              "color": "#dc4b14",
+              "de": "1962,0 – 2043,0 °C·d",
+              "en": "1962.0 – 2043.0 °C·d",
+              "value": "b2"
+            },
+            {
+              "color": "#bb3f11",
+              "de": "> 2043,0 °C·d",
+              "en": "> 2043.0 °C·d",
+              "value": "b3"
+            }
+          ],
+          "change": {
+            "2041_2070": [
+              {
+                "color": "#fce3da",
+                "de": "< +619,0 °C·d",
+                "en": "< +619.0 °C·d",
+                "value": "b0"
+              },
+              {
+                "color": "#eb5b25",
+                "de": "+619,0 – +634,0 °C·d",
+                "en": "+619.0 – +634.0 °C·d",
+                "value": "b1"
+              },
+              {
+                "color": "#dc4b14",
+                "de": "+634,0 – +650,0 °C·d",
+                "en": "+634.0 – +650.0 °C·d",
+                "value": "b2"
+              },
+              {
+                "color": "#bb3f11",
+                "de": "+650,0 – +670,0 °C·d",
+                "en": "+650.0 – +670.0 °C·d",
+                "value": "b3"
+              },
+              {
+                "color": "#9f350e",
+                "de": "> +670,0 °C·d",
+                "en": "> +670.0 °C·d",
+                "value": "b4"
+              }
+            ],
+            "2071_2100": [
+              {
+                "color": "#fce3da",
+                "de": "< +1082,0 °C·d",
+                "en": "< +1082.0 °C·d",
+                "value": "b0"
+              },
+              {
+                "color": "#eb5b25",
+                "de": "+1082,0 – +1107,0 °C·d",
+                "en": "+1082.0 – +1107.0 °C·d",
+                "value": "b1"
+              },
+              {
+                "color": "#dc4b14",
+                "de": "+1107,0 – +1133,0 °C·d",
+                "en": "+1107.0 – +1133.0 °C·d",
+                "value": "b2"
+              },
+              {
+                "color": "#bb3f11",
+                "de": "+1133,0 – +1153,0 °C·d",
+                "en": "+1133.0 – +1153.0 °C·d",
+                "value": "b3"
+              },
+              {
+                "color": "#9f350e",
+                "de": "> +1153,0 °C·d",
+                "en": "> +1153.0 °C·d",
+                "value": "b4"
+              }
+            ]
+          }
+        }
+      },
+      "variables": [
+        {
+          "deltaUnit": {
+            "de": "°C·d",
+            "en": "°C·d"
+          },
+          "family": "heat",
+          "id": "gdd",
+          "labelKey": "climate.variable.gdd",
+          "legendNoteKey": "legend.climate.note.gdd",
+          "unit": {
+            "de": "°C·d",
+            "en": "°C·d"
+          }
+        },
+        {
+          "deltaUnit": {
+            "de": "°C",
+            "en": "°C"
+          },
+          "family": "heat",
+          "id": "bio1",
+          "labelKey": "climate.variable.bio1",
+          "legendNoteKey": "legend.climate.note.bio1",
+          "unit": {
+            "de": "°C",
+            "en": "°C"
+          }
+        },
+        {
+          "deltaUnit": {
+            "de": "%",
+            "en": "%"
+          },
+          "family": "water",
+          "id": "bio12",
+          "labelKey": "climate.variable.bio12",
+          "legendNoteKey": "legend.climate.note.bio12",
+          "unit": {
+            "de": "mm",
+            "en": "mm"
+          }
+        },
+        {
+          "deltaUnit": {
+            "de": "%",
+            "en": "%"
+          },
+          "family": "water",
+          "id": "bio18",
+          "labelKey": "climate.variable.bio18",
+          "legendNoteKey": "legend.climate.note.bio18",
+          "unit": {
+            "de": "mm",
+            "en": "mm"
+          }
+        }
+      ]
+    },
+    "economic": {
+      "bucketCount": 6,
+      "noDataFill": "#d8d8d2",
+      "ramp": [
+        "#00413f",
+        "#005754",
+        "#008581",
+        "#00b3ad",
+        "#dc4b14",
+        "#eb5b25"
+      ]
+    },
+    "landscape": [
+      {
+        "color": "#88bfd9",
+        "de": "Wasser",
+        "en": "Water",
+        "value": 1
+      },
+      {
+        "color": "#276d4e",
+        "de": "Wald",
+        "en": "Forest",
+        "value": 2
+      },
+      {
+        "color": "#4f89a3",
+        "de": "Feuchtgebiet",
+        "en": "Wetland",
+        "value": 4
+      },
+      {
+        "color": "#c2e077",
+        "de": "Ackerland",
+        "en": "Cropland",
+        "value": 5
+      },
+      {
+        "color": "#b5ad9e",
+        "de": "Siedlung",
+        "en": "Settlement",
+        "value": 7
+      },
+      {
+        "color": "#d0b385",
+        "de": "Offenboden",
+        "en": "Bare ground",
+        "value": 8
+      },
+      {
+        "color": "#c6d2d5",
+        "de": "Wolken",
+        "en": "Clouds",
+        "value": 10
+      },
+      {
+        "color": "#83d2af",
+        "de": "Gruenland",
+        "en": "Grassland",
+        "value": 11
+      }
+    ],
+    "soil": {
+      "fallback": [
+        "#6E4B4B",
+        "#7F9E5C",
+        "#8E6E4E",
+        "#D4A6C8",
+        "#4F6B4A"
+      ],
+      "groups": {
+        "ah-c-soils": "#EFE0A2",
+        "alluvial-soils": "#009E73",
+        "brown-soils": "#8C4A16",
+        "fens": "#41382B",
+        "gley-soils": "#0072B2",
+        "initial-soils": "#C9A063",
+        "luvisols": "#E69F00",
+        "pelosols": "#B5453C",
+        "podzols": "#8C8FA8",
+        "raised-bogs": "#6B4B7A",
+        "sealed-surfaces": "#4E545C",
+        "stagnic-soils": "#A97FCB"
+      },
+      "specialFill": "#C9C9C9",
+      "specialStroke": "#8A8A8A",
+      "unitStroke": "#3F3F3F",
+      "waterFill": "#88BFD9",
+      "waterStroke": "#4F89A3"
+    }
+  },
+  "strings": {
+    "de": {
+      "app": {
+        "metadataErrorTitle": "Living-Lab-Metadaten konnten nicht geladen werden."
+      },
+      "chart": {
+        "emptyBody": "Fuer dieses Living Lab liegen in diesem Reiter noch keine Diagrammdaten vor.",
+        "emptyTitle": "Noch keine Diagrammdaten",
+        "errorBody": "Seite neu laden - falls das Problem bestehen bleibt, ist die Datenquelle moeglicherweise voruebergehend nicht erreichbar.",
+        "errorTitle": "Diagrammdaten konnten nicht geladen werden",
+        "loading": "Diagrammdaten werden geladen...",
+        "otherCategory": "Sonstige"
+      },
+      "climate": {
+        "period": {
+          "baseline": "Basiswert",
+          "baselineHint": "Klimanormalperiode 1981-2010",
+          "change": "Aenderung",
+          "changeHint": "Projizierte Aenderung unter SSP3-7.0",
+          "h2041_2070": "2041-2070",
+          "h2071_2100": "2071-2100",
+          "rowLabel": "Zeitraum"
+        },
+        "variable": {
+          "bio1": "Mitteltemp.",
+          "bio12": "Niederschlag",
+          "bio18": "Sommerniederschlag",
+          "gdd": "GDD"
+        },
+        "variableRowLabel": "Klimavariable"
+      },
+      "common": {
+        "language": "Sprache",
+        "loading": "Wird geladen...",
+        "loadingMap": "Karte wird geladen..."
+      },
+      "header": {
+        "title": "Reallabore Explorer"
+      },
+      "kpi": {
+        "annual_precip_mm": "Jahresniederschlag",
+        "farm_avg_size_ha": "Durchschnittliche Betriebsgroesse",
+        "farms_count": "Anzahl Betriebe",
+        "forest_area_ha": "Waldflaeche",
+        "gdd5_degc_days": "Waermesumme, Jahressumme (Basis 5 °C)",
+        "gdp_per_capita_eur": "Bruttoinlandsprodukt je Einwohner",
+        "groundwater_abstraction_1000m3": "Grundwasserentnahme (nichtoeffentliche Versorgung)",
+        "household_income_eur": "Verfuegbares Einkommen je Einwohner",
+        "land_area_cropland_ha": "Ackerland",
+        "mean_annual_temp_degc": "Mittlere Jahrestemperatur",
+        "n_surplus_kg_ha": "Stickstoffueberschuss",
+        "natura2000_ha": "Natura-2000-Flaeche",
+        "nature_reserves_ha": "Naturschutzgebietsflaeche",
+        "organic_pct": "Anteil oekologischer Landbau",
+        "p_surplus_kg_ha": "Phosphorueberschuss",
+        "population_total": "Bevoelkerung insgesamt",
+        "sealed_surface_pct": "Anteil versiegelter Flaeche",
+        "unemployment_rate_pct": "Arbeitslosenquote",
+        "warm_quarter_precip_mm": "Niederschlag des waermsten Vierteljahres"
+      },
+      "landing": {
+        "body": "In fuenf Reallaboren erproben wir innovative Ansaetze gemeinsam mit Praxisakteuren vor Ort. Waehlen Sie einen Standort auf der Karte, um Rahmenbedingungen, Ziele und Fortschritte zu erkunden.",
+        "eyebrow": "Reallabore",
+        "listTitle": "Reallabore",
+        "title": "Fuenf Regionen. Echte Praxis."
+      },
+      "layers": {
+        "agriculture": "Landwirtschaft",
+        "climate": "Klima",
+        "economic": "Soziooekonomie",
+        "landscape": "Landschaft",
+        "protectedAreas": "Schutzgebiete",
+        "soil": "Boden"
+      },
+      "legend": {
+        "agriculture": {
+          "arable": "Ackerland",
+          "forest": "Wald",
+          "grassland": "Gruenland",
+          "settlement": "Siedlung",
+          "water": "Wasser"
+        },
+        "climate": {
+          "note": {
+            "bio1": "Mittlere jaehrliche Lufttemperatur, gemittelt ueber den Referenzzeitraum.",
+            "bio12": "Ueber das Jahr summierter Gesamtniederschlag.",
+            "bio18": "Niederschlag im waermsten Vierteljahr - relevant fuer sommerlichen Trockenstress.",
+            "gdd": "Ueber das Jahr summierte Waerme oberhalb von 5 °C - ein Mass dafuer, wie viel Vegetationszeit eine Kultur erhaelt."
+          }
+        },
+        "economic": {
+          "empty": "Keine Bodenrichtwertzonen sind fuer dieses Living Lab verfuegbar.",
+          "note": "Die Farbskala bezieht sich nur auf dieses Living Lab und ist nicht mit anderen Living Labs vergleichbar."
+        },
+        "protectedAreas": {
+          "empty": "Keine Schutzgebiete schneiden diese Reallabor-Region.",
+          "note": "Schutzgebiete, die diese Reallabor-Region schneiden. Es werden vollstaendige Polygongrenzen gezeigt, daher reichen Gebiete ueber den Regionsumriss hinaus und Ueberlagerungen sind moeglich. Quelle: BfN (FFH und Vogelschutz 2019, Naturschutzgebiete 2023) - nicht fuer Planungszwecke geeignet."
+        },
+        "soil": {
+          "note": "Die Legende zeigt die dominanten Bodengruppen dieses Living Labs; Farben folgen der semantischen Hauptgruppe, waehrend Detailangaben erst im Tooltip erscheinen.",
+          "soilPolygons": "BUEK-Bodenpolygone",
+          "specialAreas": "Gewaesser / Sonderflaechen"
+        }
+      },
+      "llDetail": {
+        "aboutTheme": "Übersicht",
+        "challenges": "Herausforderungen",
+        "changeLayout": "Layout wechseln",
+        "compareAction": "Vergleichen",
+        "compareBody": "Sekundaere Funktion - zwei Living Labs fuer einen Seitenvergleich auswaehlen",
+        "compareChangePartnerAria": "Vergleichspartner aendern",
+        "compareCompactAction": "Zum Vergleich hinzufuegen",
+        "compareCompactTitle": "Mit einem anderen Living Lab vergleichen?",
+        "compareExit": "✕ Vergleich beenden",
+        "comparePickerTitle": "Vergleichen mit",
+        "comparePrefix": "Vergleich:",
+        "compareSwap": "⇄ Seiten tauschen",
+        "compareSwapAria": "Vergleichsseiten tauschen",
+        "compareTitle": "Mit einem anderen Living Lab vergleichen",
+        "contactManager": "Regionales Netzwerkmanagement kontaktieren",
+        "contactManagerSubject": "Anfrage zum Reallabor {{name}}",
+        "distributionTitle": "{{layer}} - Verteilung",
+        "downloadReportAction": "PDF herunterladen",
+        "downloadReportAria": "PDF-Bericht für {{name}} herunterladen",
+        "downloadReportBody": "Alle Kennzahlen, Karten und Diagramme für dieses Living Lab in einem PDF-Dokument",
+        "downloadReportCompactAction": "PDF",
+        "downloadReportTitle": "Gesamten Bericht herunterladen",
+        "layerTabsHint": "Klicken Sie auf die Tabs, um verschiedene sozio-oekologische Merkmale zu erkunden.",
+        "loading": "Living Lab wird geladen...",
+        "optionADesc": "Karte links fixiert - Datenbereich scrollt rechts",
+        "optionASub": "Geteilter Bildschirm",
+        "optionBDesc": "Abschnitte in voller Breite - Karte oben, Daten darunter",
+        "optionBSub": "Gestapelt",
+        "projectionTitle": "{{layer}} - projizierte Aenderung",
+        "unknown": "Unbekanntes Living Lab: \"{{slug}}\""
+      },
+      "map": {
+        "climateError": "Klimaebene konnte nicht geladen werden. Variable oder Zeitraum wechseln oder Seite neu laden.",
+        "climateLoading": "Klimaebene fuer dieses Reallabor wird geladen...",
+        "dataUnavailable": "Daten fuer diese Ebene sind noch nicht verfuegbar.",
+        "economicError": "Die Bodenrichtwertdaten fuer dieses Living Lab konnten nicht geladen werden.",
+        "economicLoading": "Bodenrichtwertzonen fuer dieses Living Lab werden geladen...",
+        "economicTooltip": {
+          "historical": "(historisch)",
+          "noCurrentValue": "Kein aktueller Wert",
+          "usageType": "Nutzungsart",
+          "valuationDate": "Stichtag"
+        },
+        "info": {
+          "basemap": "Hintergrundkarte",
+          "dataSource": "Datenebene",
+          "license": "Lizenz",
+          "noSource": "Aktuell ist keine zusaetzliche Ebene aktiv. Es wird die Hintergrundkarte gezeigt.",
+          "tooltip": "Kartenquellen & Nachweise",
+          "viewSource": "Quelle anzeigen"
+        },
+        "layerComingSoon": "Ebene folgt in Kuerze",
+        "loadError": "Kartendaten konnten nicht geladen werden. Bitte Browser-Konsole pruefen.",
+        "placeholder": "Interaktive Karte (Leaflet + PMTiles) folgt in Phase 3",
+        "protectedAreasError": "Die Schutzgebietsdaten fuer dieses Living Lab konnten nicht geladen werden.",
+        "protectedAreasLoading": "Schutzgebiete fuer dieses Living Lab werden geladen...",
+        "protectedAreasTooltip": {
+          "area": "Flaeche",
+          "areaUnit": "ha",
+          "authority": "Behoerde",
+          "designation": "Schutzgebietstyp",
+          "established": "Eingerichtet"
+        },
+        "soilLoadError": "Die Bodendaten fuer dieses Living Lab konnten nicht geladen werden.",
+        "soilLoading": "Bodenpolygone fuer dieses Living Lab werden geladen...",
+        "soilTooltip": {
+          "group": "Gruppe",
+          "legendUnit": "Detaileinheit",
+          "parentMaterial": "Ausgangsmaterial",
+          "profile": "Profil",
+          "secondaryType": "Sekundaerer Bodentyp",
+          "specialArea": "Sonderflaeche",
+          "type": "Typ",
+          "waterArea": "Gewaesser"
+        }
+      },
+      "report": {
+        "basemapCredit": "Hintergrundkarte: {{credit}}",
+        "chartHeading": "Diagramm",
+        "contents": "Inhalt",
+        "documentTitle": "Living-Lab-Bericht",
+        "generated": "Erstellt am {{date}}",
+        "kpiHeading": "Kennzahlen",
+        "locatorCaption": "Lage in Deutschland",
+        "mapHeading": "Karte",
+        "noData": "Keine Daten verfügbar",
+        "regions": "NUTS-3-Regionen",
+        "subtitle": "Gesamtdatenbericht"
+      },
+      "statPanel": {
+        "byHorizon": "bis {{horizon}}",
+        "compareEmptyBody": "Fuer dieses Living Lab liegen in diesem Reiter noch keine Statistiken vor.",
+        "compareEmptyTitle": "Noch keine KPI-Daten",
+        "errorBody": "Seite neu laden - falls das Problem bestehen bleibt, ist die Datenquelle moeglicherweise voruebergehend nicht erreichbar.",
+        "errorTitle": "Statistiken sind voruebergehend nicht verfuegbar.",
+        "pendingReviewBody": "Einige Indikatoren fuer dieses Living Lab befinden sich noch in der fachlichen Pruefung.",
+        "pendingReviewTitle": "In Pruefung",
+        "source": "Quelle: Destatis GENESIS-Online, Tabelle {{tableId}}, abgerufen am {{date}}",
+        "sourceLayer": "Quelle: {{provider}}",
+        "sourceRegionalstatistik": "Quelle: Regionalstatistik.de, Tabelle {{tableId}}, abgerufen am {{date}}",
+        "sourcesToggle": "Quellen",
+        "viewSource": "Quelle ansehen"
+      }
+    },
+    "en": {
+      "app": {
+        "metadataErrorTitle": "Failed to load Living Lab metadata."
+      },
+      "chart": {
+        "emptyBody": "This Living Lab does not have chart data for this tab yet.",
+        "emptyTitle": "No chart data yet",
+        "errorBody": "Reload the page - if the problem continues, the data source may be temporarily unavailable.",
+        "errorTitle": "Chart data could not be loaded",
+        "loading": "Loading chart data...",
+        "otherCategory": "Other"
+      },
+      "climate": {
+        "period": {
+          "baseline": "Baseline",
+          "baselineHint": "1981-2010 climatological normal",
+          "change": "Change",
+          "changeHint": "Projected change under SSP3-7.0",
+          "h2041_2070": "2041-2070",
+          "h2071_2100": "2071-2100",
+          "rowLabel": "Time period"
+        },
+        "variable": {
+          "bio1": "Mean temp.",
+          "bio12": "Precipitation",
+          "bio18": "Summer precip.",
+          "gdd": "GDD"
+        },
+        "variableRowLabel": "Climate variable"
+      },
+      "common": {
+        "language": "Language",
+        "loading": "Loading...",
+        "loadingMap": "Loading map..."
+      },
+      "header": {
+        "title": "Living Lab Explorer"
+      },
+      "kpi": {
+        "annual_precip_mm": "Annual precipitation",
+        "farm_avg_size_ha": "Average farm size",
+        "farms_count": "Number of farms",
+        "forest_area_ha": "Forest area",
+        "gdd5_degc_days": "Growing degree days, annual sum (base 5 °C)",
+        "gdp_per_capita_eur": "GDP per capita",
+        "groundwater_abstraction_1000m3": "Groundwater abstraction (non-public supply)",
+        "household_income_eur": "Disposable household income per capita",
+        "land_area_cropland_ha": "Cropland area",
+        "mean_annual_temp_degc": "Mean annual temperature",
+        "n_surplus_kg_ha": "Nitrogen surplus",
+        "natura2000_ha": "Natura 2000 area",
+        "nature_reserves_ha": "Nature reserves area",
+        "organic_pct": "Share of organic farming",
+        "p_surplus_kg_ha": "Phosphorus surplus",
+        "population_total": "Total population",
+        "sealed_surface_pct": "Share of sealed surface",
+        "unemployment_rate_pct": "Unemployment rate",
+        "warm_quarter_precip_mm": "Precipitation of warmest quarter"
+      },
+      "landing": {
+        "body": "In five living labs, we test innovative approaches together with practitioners on the ground. Pick a site on the map to explore its conditions, ambitions and progress.",
+        "eyebrow": "Living Labs",
+        "listTitle": "Living Labs",
+        "title": "Five Regions. Real-World Practice."
+      },
+      "layers": {
+        "agriculture": "Agriculture",
+        "climate": "Climate",
+        "economic": "Socio-economic",
+        "landscape": "Landscape",
+        "protectedAreas": "Protected Areas",
+        "soil": "Soil"
+      },
+      "legend": {
+        "agriculture": {
+          "arable": "Arable",
+          "forest": "Forest",
+          "grassland": "Grassland",
+          "settlement": "Settlement",
+          "water": "Water"
+        },
+        "climate": {
+          "note": {
+            "bio1": "Mean annual air temperature, averaged over the reference period.",
+            "bio12": "Total precipitation summed over the year.",
+            "bio18": "Precipitation falling in the warmest three-month quarter - relevant to summer drought stress.",
+            "gdd": "Heat accumulated above 5 °C over the year - a measure of how much growing season a crop gets."
+          }
+        },
+        "economic": {
+          "empty": "No land value zones are available for this Living Lab.",
+          "note": "Colors are scaled to this Living Lab's own value range and are not comparable across the five Living Labs."
+        },
+        "protectedAreas": {
+          "empty": "No protected areas intersect this Living Lab region.",
+          "note": "Conservation sites intersecting this Living Lab region. Full polygon boundaries are shown, so sites extend beyond the region outline and designations may overlap. Source: BfN (FFH and bird sanctuaries 2019, nature reserves 2023) - not suitable for planning purposes."
+        },
+        "soil": {
+          "note": "Legend shows the dominant semantic soil groups for this Living Lab; raw BUEK IDs stay in the data only as provenance.",
+          "soilPolygons": "BUEK soil polygons",
+          "specialAreas": "Water / special areas"
+        }
+      },
+      "llDetail": {
+        "aboutTheme": "Overview",
+        "challenges": "Challenges",
+        "changeLayout": "Change layout",
+        "compareAction": "Compare",
+        "compareBody": "Secondary feature - select any two LLs to view side-by-side metrics",
+        "compareChangePartnerAria": "Change comparison partner",
+        "compareCompactAction": "Add for comparison",
+        "compareCompactTitle": "Want to compare with another Living Lab?",
+        "compareExit": "✕ Exit comparison",
+        "comparePickerTitle": "Compare with",
+        "comparePrefix": "Comparing",
+        "compareSwap": "⇄ Swap sides",
+        "compareSwapAria": "Swap comparison sides",
+        "compareTitle": "Compare with another Living Lab",
+        "contactManager": "Contact Regional Network Manager",
+        "contactManagerSubject": "Enquiry about Living Lab {{name}}",
+        "distributionTitle": "{{layer}} - distribution",
+        "downloadReportAction": "Download PDF",
+        "downloadReportAria": "Download the {{name}} PDF report",
+        "downloadReportBody": "Every KPI, map and chart for this Living Lab in one PDF document",
+        "downloadReportCompactAction": "PDF",
+        "downloadReportTitle": "Download the full report",
+        "layerTabsHint": "Click the tabs to explore different socio-environmental features.",
+        "loading": "Loading Living Lab...",
+        "optionADesc": "Map fixed left - data panel scrolls right",
+        "optionASub": "Split screen",
+        "optionBDesc": "Full-width sections - map then data below",
+        "optionBSub": "Stacked",
+        "projectionTitle": "{{layer}} - projected change",
+        "unknown": "Unknown Living Lab: \"{{slug}}\""
+      },
+      "map": {
+        "climateError": "Climate layer failed to load. Try switching variables or periods, or reload the page.",
+        "climateLoading": "Loading climate layer for this Living Lab...",
+        "dataUnavailable": "Data for this tab is not available yet.",
+        "economicError": "Land value data could not be loaded for this Living Lab.",
+        "economicLoading": "Loading land value zones for this Living Lab...",
+        "economicTooltip": {
+          "historical": "(historical)",
+          "noCurrentValue": "No current value",
+          "usageType": "Usage type",
+          "valuationDate": "Valuation date"
+        },
+        "info": {
+          "basemap": "Basemap",
+          "dataSource": "Data layer",
+          "license": "License",
+          "noSource": "No additional layer is currently active. Basemap data shown above.",
+          "tooltip": "Map sources & attribution",
+          "viewSource": "View source"
+        },
+        "layerComingSoon": "Layer coming soon",
+        "loadError": "Failed to load map data. Check the browser console.",
+        "placeholder": "Interactive map (Leaflet + PMTiles) lands in Phase 3",
+        "protectedAreasError": "Protected areas data could not be loaded for this Living Lab.",
+        "protectedAreasLoading": "Loading protected areas for this Living Lab...",
+        "protectedAreasTooltip": {
+          "area": "Area",
+          "areaUnit": "ha",
+          "authority": "Authority",
+          "designation": "Designation",
+          "established": "Established"
+        },
+        "soilLoadError": "Soil data could not be loaded for this Living Lab.",
+        "soilLoading": "Loading soil polygons for this Living Lab...",
+        "soilTooltip": {
+          "group": "Group",
+          "legendUnit": "Detailed unit",
+          "parentMaterial": "Parent material",
+          "profile": "Profile",
+          "secondaryType": "Secondary soil type",
+          "specialArea": "Special area",
+          "type": "Type",
+          "waterArea": "Water area"
+        }
+      },
+      "report": {
+        "basemapCredit": "Basemap: {{credit}}",
+        "chartHeading": "Chart",
+        "contents": "Contents",
+        "documentTitle": "Living Lab report",
+        "generated": "Generated {{date}}",
+        "kpiHeading": "Key figures",
+        "locatorCaption": "Location within Germany",
+        "mapHeading": "Map",
+        "noData": "No data available",
+        "regions": "NUTS-3 regions",
+        "subtitle": "Full data report"
+      },
+      "statPanel": {
+        "byHorizon": "by {{horizon}}",
+        "compareEmptyBody": "This Living Lab does not have statistics for this tab yet.",
+        "compareEmptyTitle": "No KPI data yet",
+        "errorBody": "Reload the page - if this keeps happening, the data source may be temporarily unreachable.",
+        "errorTitle": "Statistics are temporarily unavailable.",
+        "pendingReviewBody": "Some indicators for this Living Lab are still pending expert review and data verification.",
+        "pendingReviewTitle": "Pending review",
+        "source": "Source: Destatis GENESIS-Online, table {{tableId}}, retrieved {{date}}",
+        "sourceLayer": "Source: {{provider}}",
+        "sourceRegionalstatistik": "Source: Regionalstatistik.de, table {{tableId}}, retrieved {{date}}",
+        "sourcesToggle": "Sources",
+        "viewSource": "View source"
+      }
+    }
+  },
+  "theme": {
+    "badgeBg": "#1e5238",
+    "badgeBgActive": "#34916b",
+    "bg": "#f9fef9",
+    "black": "#022322",
+    "darkBg": "#00413f",
+    "green": "#225e43",
+    "greenLight": "#5ec597",
+    "greenMid": "#359269",
+    "lime": "#c2e077",
+    "limeDark": "#9bc72d",
+    "limePale": "#f2f8e2",
+    "muted": "#83d2af",
+    "mutedLight": "#c3e9d8",
+    "mutedPale": "#e5f5ee",
+    "orange": "#eb5b25",
+    "orangeDark": "#dc4b14",
+    "orangeDeep": "#bb3f11",
+    "orangeDeepest": "#9f350e",
+    "orangeGhost": "#fce3da",
+    "surface": "#e5f5ee",
+    "surfaceDark": "#bce9d2",
+    "surfaceMid": "#daf1e7",
+    "teal": "#005754",
+    "tealBg": "#00413f",
+    "tealDeepest": "#00312f",
+    "tealLight": "#00b3ad",
+    "tealMid": "#008581",
+    "white": "#ffffff"
+  }
+}

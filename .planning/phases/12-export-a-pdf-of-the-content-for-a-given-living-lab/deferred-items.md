@@ -38,3 +38,22 @@ listed acceptance criteria).
 `app/src/data/soil_legend.js` or any `app/public/data/geojson/*` fixture; `git diff --stat` between
 this plan's base commit and its final commit confirms zero changes to either. Same pre-existing,
 already-tracked condition (TODO-01 / `260804-acf`), not a regression introduced by 12-03.
+
+## 12-04: `npm run check:soil-palette` failure recurs (same pre-existing condition)
+
+**Found during:** 12-04's overall `<verification>` block, which also lists `check:soil-palette`
+as a gate (`cd app && npm run lint`, `npm run build` and `npm run check:soil-palette` all exit 0).
+
+**Failure:** identical to the 12-01 entry above --
+`havellandisches-luch: legend minimum pairwise ΔE76 is 19.0, expected >= 20`.
+
+**Why deferred, not fixed:** 12-04's `files_modified` list (`app/scripts/export_report_tokens.mjs`,
+`app/package.json`, `data/report_tokens.json`, `data-pipeline/tests/test_report_tokens.py`) never
+touches `app/src/data/soil_legend.js` or any `buek250-*.geojson` fixture. `npm run lint` and
+`npm run build` both pass clean; only this pre-existing, already-tracked soil-palette condition
+fails. Confirmed to be the exact same failure already logged under 12-01 above -- not a new
+regression, and not caused by this plan's report-tokens work (the report tokens bundle imports
+`soil_legend.js`'s raw exports unmodified for R to reimplement the same colour resolution, so it
+carries the same colours through faithfully, whatever they are).
+
+**Recommended next step:** unchanged from the 12-01 entry -- resolve via TODO-01 / `260804-acf`.
