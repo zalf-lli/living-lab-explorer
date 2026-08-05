@@ -1,0 +1,67 @@
+# generated from _brand.yml + ll_metadata.json['hessian-low-mountain'] by data-pipeline/R/report/generate_brands.py -- do not hand-edit.
+# Regenerate via render_reports.py (D-04) or `python data-pipeline/R/report/generate_brands.py`.
+meta:
+  name:
+    short: LL-Explorer
+    full: Living Lab Explorer
+  link:
+    home: https://github.com/iat-dml/living-lab-explorer
+color:
+  palette:
+    ll-primary: '#5ec597'
+    ll-primary-dark: '#276d4e'
+    ll-outline: '#9bc72d'
+    orange: '#eb5b25'
+    orange-dark: '#dc4b14'
+    orange-deep: '#bb3f11'
+    teal: '#005754'
+    teal-light: '#00b3ad'
+    teal-mid: '#008581'
+    teal-bg: '#00413f'
+    green: '#225e43'
+    green-mid: '#359269'
+    green-light: '#5ec597'
+    lime: '#c2e077'
+    lime-dark: '#9bc72d'
+    lime-pale: '#f2f8e2'
+    white: '#ffffff'
+    black: '#022322'
+    bg: '#f9fef9'
+    surface: '#e5f5ee'
+    surface-dark: '#bce9d2'
+    gray-light: '#e5f5ee'
+  foreground: black
+  background: white
+  primary: ll-primary
+  secondary: ll-primary-dark
+  tertiary: orange
+  success: green
+  info: teal-light
+  warning: lime-dark
+  danger: orange-dark
+  light: bg
+  dark: ll-primary-dark
+typography:
+  fonts:
+  - family: Satoshi
+    source: system
+  base:
+    family: Satoshi
+    weight: 400
+    size: 10pt
+    line-height: 1.5
+  headings:
+    family: Satoshi
+    weight: 700
+    color: ll-primary
+    line-height: 1.25
+  monospace:
+    family: Satoshi
+    weight: 400
+    size: 0.9em
+  monospace-inline:
+    background-color: gray-light
+  link:
+    color: primary
+    weight: 700
+    decoration: underline

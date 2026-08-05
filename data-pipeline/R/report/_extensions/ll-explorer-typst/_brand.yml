@@ -17,14 +17,13 @@ meta:
   link:
     home: https://github.com/iat-dml/living-lab-explorer
 
-logo:
-  images:
-    logo-ll-explorer:
-      path: assets/zukunft-land-logo.svg
-      alt: "Zukunft Land -- Living Lab Explorer"
-  medium: logo-ll-explorer
-  large: logo-ll-explorer
-  small: logo-ll-explorer
+# Deliberately no logo: block here (unlike upstream). Quarto's Typst format auto-inserts a
+# brand logo.small/medium/large as a #set page(background: image(...)) watermark on EVERY
+# page -- discovered live during this plan's Task 2 render (a per-LL brands/<slug>.yml's
+# relative logo path also breaks, since it lives one directory level deeper than this file).
+# The cover page already places the project's own logo explicitly and only once
+# (ll-explorer-theme.typ's ll-logo-path, resolved from the extension root, independent of
+# whichever brand file is active) -- a second, automatic per-page watermark is not wanted.
 
 color:
   palette:
