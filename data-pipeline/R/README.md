@@ -67,3 +67,19 @@ renv::restore()
 
 This installs every package pinned in `renv.lock` at its exact recorded version — no manual
 `install.packages()` follow-up is needed.
+
+## Verification
+
+Every plain-Rscript gate this phase produces, in the order the phase's plans introduce them.
+Each is self-contained (no shared test runner, no `testthat` — matching
+`app/scripts/check_soil_palette.mjs`'s standalone-gate precedent) and prints one summary line
+per subject, then `OK`, exiting non-zero on failure. This section is owned by plan `12-06`, so
+the sibling plans that add the three not-yet-existing gates below do not each have to edit this
+same file.
+
+| Gate | Command | What it checks |
+|------|---------|-----------------|
+| `test_theme_llexplorer.R` | `Rscript data-pipeline/R/tests/test_theme_llexplorer.R` | Every export of `theme_llexplorer.R` against the real committed data: `ll_lab`/`ll_brand`/`ll_boundary`/`ll_str` for all five Living Labs (both languages), the three failure modes (unknown slug, unknown string key, unsupported language) all `stop()`, and the report token bundle's palette entry counts. |
+| `test_sections.R` | `Rscript data-pipeline/R/tests/test_sections.R` | *(arrives in plan 12-07)* — the per-tab section-building functions that assemble KPI grids, narrative text and chart figures from the chart-JSON contract and `ll_metadata.json`. |
+| `test_maps_vector.R` | `Rscript data-pipeline/R/tests/test_maps_vector.R` | *(arrives in plan 12-08)* — the boundary-outline thematic maps (soil, economic) built from committed vector GeoJSON. |
+| `test_maps_raster.R` | `Rscript data-pipeline/R/tests/test_maps_raster.R` | *(arrives in plan 12-09)* — the raster thematic maps (agriculture, landscape, climate). Additionally requires the gitignored source rasters to be present locally; not runnable from a clean checkout alone. |
