@@ -1,0 +1,97 @@
+---
+title: "Living Lab report"
+subtitle: "Full data report"
+generated: ""
+lang: "en"
+params:
+  slug: "rheingau"
+  lang: "en"
+format:
+  ll-explorer-typst-typst: default
+execute:
+  echo: false
+  warning: false
+  message: false
+  fig-format: png
+  fig-dpi: 150
+---
+
+```{r setup}
+#| include: false
+library(jsonlite)
+
+# Resolves data-file paths relative to the repository root, never to R's own current
+# working directory (which Quarto may point at the document's folder, not the caller's
+# shell location): primarily the LL_REPO_ROOT env var render_reports.py always sets
+# (D-04/Task 3), with a defensive fallback via knitr::current_input() for standalone
+# `quarto render` invocations (e.g. an IDE's own Render button) where LL_REPO_ROOT is
+# not set. No working-directory query or mutation of any kind appears in this document.
+resolve_repo_root <- function() {
+  env_root <- Sys.getenv("LL_REPO_ROOT", unset = "")
+  if (nzchar(env_root)) {
+    return(normalizePath(env_root, mustWork = TRUE))
+  }
+
+  doc_path <- knitr::current_input(dir = TRUE)
+  if (is.null(doc_path) || !nzchar(doc_path)) {
+    stop(
+      "Could not resolve the repository root: LL_REPO_ROOT is unset and ",
+      "knitr::current_input() returned no document path. Set LL_REPO_ROOT explicitly ",
+      "(render_reports.py always sets this for real renders)."
+    )
+  }
+  # template.qmd lives at <repo_root>/data-pipeline/R/report/template.qmd
+  candidate <- normalizePath(file.path(dirname(doc_path), "..", "..", ".."), mustWork = TRUE)
+  marker <- file.path(candidate, "CLAUDE.md")
+  if (!file.exists(marker)) {
+    stop(
+      "Could not resolve the repository root from the document path (", doc_path, "). ",
+      "Set LL_REPO_ROOT explicitly."
+    )
+  }
+  candidate
+}
+
+repo_root <- resolve_repo_root()
+
+# D-06/A4: read the already-published, already-merged runtime artifacts -- the same files
+# the web app itself reads -- never data/ll_content.json (human-owned source) directly.
+ll_metadata <- fromJSON(
+  file.path(repo_root, "app", "public", "data", "ll_metadata.json"),
+  simplifyVector = TRUE
+)
+report_tokens <- fromJSON(
+  file.path(repo_root, "data", "report_tokens.json"),
+  simplifyVector = TRUE
+)
+
+slug <- params$slug
+lang <- params$lang
+
+if (!slug %in% names(ll_metadata)) {
+  stop(
+    "Unknown Living Lab slug '", slug, "'. Known slugs: ",
+    paste(names(ll_metadata), collapse = ", ")
+  )
+}
+if (!lang %in% c("en", "de")) {
+  stop("Unknown language '", lang, "'. Expected 'en' or 'de'.")
+}
+
+ll <- ll_metadata[[slug]]
+ll_lang <- ll[[lang]]
+strings <- report_tokens$strings[[lang]]$report
+
+ll_name <- ll_lang$name
+ll_tagline <- ll_lang$tagline
+ll_region <- ll$region[[lang]]
+ll_nuts3 <- ll$nuts3
+```
+
+# `r ll_name`
+
+`r ll_tagline`
+
+**`r ll_region`**
+
+**`r strings$regions`:** `r paste(ll_nuts3, collapse = ", ")`
