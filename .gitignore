@@ -35,6 +35,14 @@ _site/
 /.quarto/
 **/*.quarto_ipynb
 
+# R report toolchain (renv runtime, never committed). renv.lock IS the
+# committed artifact — it pins exact package versions; only the local
+# library/staging directories it manages are ignored.
+data-pipeline/R/renv/library
+data-pipeline/R/renv/staging
+data-pipeline/R/renv/local
+data-pipeline/R/renv/sandbox
+
 # Editor / tooling
 *.log
 .vscode/*
