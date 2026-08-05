@@ -250,3 +250,168 @@ LL_FIG <- list(
   height_chart = 3.2,
   dpi = 150
 )
+
+# --- Font resolution ----------------------------------------------------------
+
+# ll_tokens()$font is a CSS font-family stack ("'Satoshi', system-ui,
+# sans-serif"); this resolves the first family and, when the systemfonts
+# package is available, confirms it is actually registered on the render
+# machine before handing it to ggplot2. Never lets a missing font abort a
+# render (D-22's brief: this module must degrade gracefully on any machine
+# it is copied to) — falls back to "sans" whenever the requested family
+# cannot be confirmed.
+.ll_resolve_font_family <- function() {
+  font_css <- ll_tokens()$font
+  first <- strsplit(font_css, ",", fixed = TRUE)[[1]][1]
+  first <- trimws(first)
+  first <- gsub("^['\"]|['\"]$", "", first)
+  if (!nzchar(first)) {
+    return("sans")
+  }
+
+  if (requireNamespace("systemfonts", quietly = TRUE)) {
+    resolved_path <- tryCatch(
+      suppressWarnings({
+        if (exists("match_fonts", where = asNamespace("systemfonts"), mode = "function")) {
+          systemfonts::match_fonts(first)$path[[1]]
+        } else {
+          systemfonts::match_font(first)$path
+        }
+      }),
+      error = function(e) NULL
+    )
+    if (!is.null(resolved_path) && nzchar(resolved_path) && file.exists(resolved_path)) {
+      return(first)
+    }
+    return("sans")
+  }
+
+  # systemfonts is not on this machine (it is not pinned in renv.lock):
+  # fall back to a simple postscriptFonts()-style guard.
+  registered <- tryCatch(names(grDevices::postscriptFonts()), error = function(e) character(0))
+  if (first %in% registered) {
+    return(first)
+  }
+  "sans"
+}
+
+# --- ggplot2 themes -------------------------------------------------------------
+
+#' The branded ggplot2 theme for report charts.
+#'
+#' Built on `theme_minimal()`. Colours come from `ll_tokens()$theme`: muted
+#' greys for axis text and gridlines, the green family for titles. Font
+#' comes from `ll_tokens()$font`'s first family, resolved via
+#' `.ll_resolve_font_family()` (falls back to "sans" rather than aborting).
+#'
+#' @param base_size numeric(1) base font size in points.
+#' @return a ggplot2 theme object.
+theme_ll_base <- function(base_size = 9) {
+  tk <- ll_tokens()$theme
+  font_family <- .ll_resolve_font_family()
+  ggplot2::theme_minimal(base_size = base_size, base_family = font_family) +
+    ggplot2::theme(
+      text = ggplot2::element_text(colour = tk$black),
+      plot.title = ggplot2::element_text(colour = tk$green, face = "bold", size = base_size * 1.15),
+      plot.subtitle = ggplot2::element_text(colour = tk$greenMid, size = base_size),
+      axis.title = ggplot2::element_text(colour = tk$black, size = base_size * 0.85),
+      axis.text = ggplot2::element_text(colour = tk$muted, size = base_size * 0.8),
+      axis.ticks = ggplot2::element_blank(),
+      panel.grid.major = ggplot2::element_line(colour = tk$mutedPale, linewidth = 0.3),
+      panel.grid.minor = ggplot2::element_blank(),
+      legend.title = ggplot2::element_text(colour = tk$black, size = base_size * 0.85),
+      legend.text = ggplot2::element_text(colour = tk$black, size = base_size * 0.8),
+      plot.background = ggplot2::element_rect(fill = tk$bg, colour = NA),
+      panel.background = ggplot2::element_rect(fill = tk$bg, colour = NA)
+    )
+}
+
+#' The branded ggplot2 theme for report maps.
+#'
+#' No axis text, no axis ticks, no axis titles, no panel grid, no panel
+#' border, a transparent panel background, legend on the right with a small
+#' key size, and a legend title in the same type scale as `theme_ll_base()`'s
+#' axis titles.
+#'
+#' @param base_size numeric(1) base font size in points.
+#' @return a ggplot2 theme object.
+theme_ll_map <- function(base_size = 8) {
+  tk <- ll_tokens()$theme
+  font_family <- .ll_resolve_font_family()
+  ggplot2::theme_minimal(base_size = base_size, base_family = font_family) +
+    ggplot2::theme(
+      axis.text = ggplot2::element_blank(),
+      axis.title = ggplot2::element_blank(),
+      axis.ticks = ggplot2::element_blank(),
+      panel.grid = ggplot2::element_blank(),
+      panel.grid.major = ggplot2::element_blank(),
+      panel.grid.minor = ggplot2::element_blank(),
+      panel.border = ggplot2::element_blank(),
+      panel.background = ggplot2::element_rect(fill = "transparent", colour = NA),
+      plot.background = ggplot2::element_rect(fill = "transparent", colour = NA),
+      legend.position = "right",
+      legend.key.size = grid::unit(0.35, "cm"),
+      legend.title = ggplot2::element_text(colour = tk$black, size = base_size * 0.85),
+      legend.text = ggplot2::element_text(colour = tk$black, size = base_size * 0.75)
+    )
+}
+
+# --- Map legend helpers ---------------------------------------------------------
+
+#' Normalize a legend entry set into a two-column data.frame.
+#'
+#' @param entries either a data.frame with `label`/`color` columns, or a
+#'   named character vector of colours (names become labels).
+#' @return data.frame(label=character, color=character), order preserved.
+#'   Preserving order matters: several palettes in this project are ordered
+#'   ramps (e.g. `palettes.economic.ramp`, low-to-high) and re-sorting them
+#'   would misrepresent the data.
+ll_legend_df <- function(entries) {
+  if (is.data.frame(entries)) {
+    if (!all(c("label", "color") %in% names(entries))) {
+      stop("ll_legend_df(): data.frame input must have 'label' and 'color' columns.")
+    }
+    return(data.frame(
+      label = as.character(entries$label),
+      color = as.character(entries$color),
+      stringsAsFactors = FALSE
+    ))
+  }
+  if (is.character(entries) && !is.null(names(entries))) {
+    return(data.frame(
+      label = names(entries),
+      color = unname(entries),
+      stringsAsFactors = FALSE
+    ))
+  }
+  stop(
+    "ll_legend_df(): entries must be a data.frame with label/color columns, ",
+    "or a named character vector of colours."
+  )
+}
+
+#' Build a discrete fill scale (plus legend guide) from a legend entry set.
+#'
+#' @param entries anything `ll_legend_df()` accepts.
+#' @param title character(1) or NULL, the legend title.
+#' @return a list of ggplot2 components, addable to a plot with `+`:
+#'   a `scale_fill_manual()` whose `values` are `entries$color` named by
+#'   `entries$label`, with `limits`/`breaks` set to `entries$label` so every
+#'   legend row appears in the given order even when a class is absent from
+#'   the visible extent (otherwise ggplot2 silently drops classes that do
+#'   not occur in one Living Lab's clip, and the legend would stop matching
+#'   the web app's — T-12-28-adjacent correctness requirement, D-13), plus a
+#'   `guides()` call applying `title` and a single-column legend.
+ll_discrete_map_scale <- function(entries, title = NULL) {
+  legend_df <- ll_legend_df(entries)
+  values <- stats::setNames(legend_df$color, legend_df$label)
+  list(
+    ggplot2::scale_fill_manual(
+      values = values,
+      limits = legend_df$label,
+      breaks = legend_df$label,
+      name = title
+    ),
+    ggplot2::guides(fill = ggplot2::guide_legend(title = title, ncol = 1))
+  )
+}
