@@ -232,3 +232,114 @@ ll_clip_raster <- function(path, slug, nodata = NULL) {
 
   masked
 }
+
+# --- Categorical maps (crop types, land cover) -------------------------------
+
+#' Shared builder for a single-band categorical raster map with a complete,
+#' order-preserving legend.
+#'
+#' Converts the clipped raster to a categorical layer keyed on `palette`'s
+#' `value` column, plots it with `tidyterra::geom_spatraster()`, and applies
+#' `ll_discrete_map_scale()` against the *full* palette (not just the classes
+#' present in this Living Lab's extent) -- this is what keeps every legend
+#' row visible per D-13; a Living Lab with none of one class should still
+#' show that the class exists and what colour it would be. Overlays the
+#' Living Lab boundary as an unfilled outline in its own brand colour; no
+#' basemap tiles (D-14).
+#'
+#' @param path character(1) absolute path to the source raster.
+#' @param slug character(1) Living Lab slug.
+#' @param lang character(1) `"en"` or `"de"`.
+#' @param palette data.frame with `value`, `color`, `en`, `de` columns (the
+#'   shape `ll_tokens()$palettes$agriculture` / `$landscape` are parsed into).
+#' @param nodata numeric(1) or NULL, passed through to `ll_clip_raster()`.
+#' @param legend_title character(1) legend title.
+#' @param legend_ncol integer(1) number of legend columns.
+#' @return a ggplot2 object.
+.ll_categorical_raster_map <- function(path, slug, lang, palette, nodata,
+                                        legend_title, legend_ncol = 1) {
+  clipped <- ll_clip_raster(path, slug, nodata = nodata)
+
+  labels <- palette[[lang]]
+  legend_df <- data.frame(label = labels, color = palette$color, stringsAsFactors = FALSE)
+  levels(clipped) <- data.frame(id = palette$value, category = labels)
+
+  boundary <- ll_boundary(slug)
+  brand <- ll_brand(slug)
+
+  plot <- ggplot2::ggplot() +
+    tidyterra::geom_spatraster(data = clipped) +
+    ggplot2::geom_sf(data = boundary, fill = NA, color = brand$outlineColor, linewidth = 0.4) +
+    ll_discrete_map_scale(legend_df, title = legend_title) +
+    theme_ll_map()
+
+  if (legend_ncol != 1) {
+    plot <- plot + ggplot2::guides(fill = ggplot2::guide_legend(title = legend_title, ncol = legend_ncol))
+  }
+  plot
+}
+
+#' The crop-type map (Agriculture tab).
+#'
+#' Reads `data/croptypes_2024.tif`, paints each pixel by
+#' `ll_tokens()$palettes$agriculture` (19 classes), and shows all 19 legend
+#' rows regardless of which occur in `slug`'s extent. The legend is laid out
+#' in two columns (recorded in the plan's SUMMARY) -- a single column of 19
+#' rows does not sit comfortably beside an A4-width map.
+#'
+#' @param slug character(1) Living Lab slug.
+#' @param lang character(1) `"en"` or `"de"`.
+#' @return a ggplot2 object.
+ll_map_agriculture <- function(slug, lang) {
+  layer <- .ll_layer_by_id(.ll_sources_yaml()$layers, "landuse-croptypes")
+  path <- file.path(ll_repo_root(), layer$input$path)
+  .ll_check_sources_present(
+    path, "python data-pipeline/python/build_pmtiles.py --layer landuse-croptypes"
+  )
+
+  palette <- ll_tokens()$palettes$agriculture
+  .ll_categorical_raster_map(
+    path, slug, lang,
+    palette = palette,
+    nodata = layer$input$nodata,
+    legend_title = ll_str("layers.agriculture", lang),
+    legend_ncol = 2
+  )
+}
+
+#' The land-cover map (Landscape tab).
+#'
+#' Reads `data/io_lulc_<tile>_2024.tif`, where `<tile>` is resolved for
+#' `slug` from sources.yaml's `io-lulc-landcover` `input.tiles` map, and
+#' paints each pixel by `ll_tokens()$palettes$landscape`. Every present-day
+#' committed `data/report_tokens.json` carries 8 landscape classes (not the
+#' 9 an earlier draft of this plan's interface block described -- see this
+#' plan's SUMMARY for the same trust-the-real-file precedent plan 12-06
+#' already recorded for this exact palette).
+#'
+#' @param slug character(1) Living Lab slug.
+#' @param lang character(1) `"en"` or `"de"`.
+#' @return a ggplot2 object.
+ll_map_landscape <- function(slug, lang) {
+  layer <- .ll_layer_by_id(.ll_sources_yaml()$layers, "io-lulc-landcover")
+  tile <- layer$input$tiles[[slug]]
+  if (is.null(tile)) {
+    stop(
+      "ll_map_landscape(): no source tile mapped for slug '", slug,
+      "' in sources.yaml's io-lulc-landcover input.tiles."
+    )
+  }
+  path <- .ll_resolve_pattern(layer$input$path_pattern, tile = tile)
+  .ll_check_sources_present(
+    path, paste0("python data-pipeline/python/build_land_cover.py --slug ", slug)
+  )
+
+  palette <- ll_tokens()$palettes$landscape
+  .ll_categorical_raster_map(
+    path, slug, lang,
+    palette = palette,
+    nodata = layer$input$nodata,
+    legend_title = ll_str("layers.landscape", lang),
+    legend_ncol = 1
+  )
+}
