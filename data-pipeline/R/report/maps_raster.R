@@ -343,3 +343,157 @@ ll_map_landscape <- function(slug, lang) {
     legend_ncol = 1
   )
 }
+
+# --- Climate grid (eight panels) ---------------------------------------------
+
+#' Bin a continuous clipped raster into the fixed cross-Living-Lab colour
+#' classes from one `data/climate_color_breaks.json` breaks/colors block.
+#'
+#' Mirrors `build_continuous_colormap()` (data-pipeline/python/build_pmtiles.py):
+#' `breaks` is a strictly increasing vector of N+1 boundary values and
+#' `colors` has N entries, one per band. Only the *interior* breaks (all but
+#' the first and last boundary) are used as bin edges -- a value below the
+#' first interior break clamps into the first band, a value above the last
+#' interior break clamps into the last band, exactly matching the pipeline's
+#' own baked-pixel classification so the printed map and the app's PMTiles
+#' agree on what each colour means.
+#'
+#' @param clipped a `terra::SpatRaster`, continuous values.
+#' @param breaks numeric vector, length N+1.
+#' @param colors character vector, length N, `#rrggbb` hex strings.
+#' @return list(raster = categorical SpatRaster, legend_df = data.frame(label, color)).
+.ll_bin_continuous_raster <- function(clipped, breaks, colors) {
+  if (length(colors) != length(breaks) - 1) {
+    stop(
+      ".ll_bin_continuous_raster(): length(colors) must equal length(breaks) - 1."
+    )
+  }
+
+  interior <- breaks[2:(length(breaks) - 1)]
+  n_bands <- length(colors)
+
+  reclass <- matrix(nrow = n_bands, ncol = 3)
+  for (i in seq_len(n_bands)) {
+    from_value <- if (i == 1) -Inf else interior[i - 1]
+    to_value <- if (i == n_bands) Inf else interior[i]
+    reclass[i, ] <- c(from_value, to_value, i)
+  }
+  binned <- terra::classify(clipped, reclass, include.lowest = TRUE)
+
+  format_break <- function(value) sprintf("%.1f", value)
+  band_labels <- character(n_bands)
+  for (i in seq_len(n_bands)) {
+    if (i == 1) {
+      band_labels[i] <- paste0("< ", format_break(interior[1]))
+    } else if (i == n_bands) {
+      band_labels[i] <- paste0("> ", format_break(interior[length(interior)]))
+    } else {
+      band_labels[i] <- paste0(format_break(interior[i - 1]), " - ", format_break(interior[i]))
+    }
+  }
+
+  levels(binned) <- data.frame(id = seq_len(n_bands), category = band_labels)
+  list(
+    raster = binned,
+    legend_df = data.frame(label = band_labels, color = colors, stringsAsFactors = FALSE)
+  )
+}
+
+#' Resolve the breaks/colors/unit block for one (variable, period) pair.
+#'
+#' `"baseline"` is a single flat block; the far-horizon token resolves under
+#' `change` (Phase 8's per-horizon colour-break fix: each horizon carries its
+#' own block, not a pooled one).
+.ll_climate_block <- function(color_breaks, variable_id, period_token) {
+  variable_breaks <- color_breaks[[variable_id]]
+  if (identical(period_token, "baseline")) {
+    return(variable_breaks$baseline)
+  }
+  variable_breaks$change[[period_token]]
+}
+
+#' One climate-grid panel: one variable, one period.
+.ll_climate_panel <- function(slug, lang, variable_id, period_token, color_breaks, path_pattern) {
+  path <- .ll_resolve_pattern(path_pattern, variable = variable_id, period = period_token)
+  clipped <- ll_clip_raster(path, slug)
+
+  block <- .ll_climate_block(color_breaks, variable_id, period_token)
+  binned <- .ll_bin_continuous_raster(clipped, block$breaks, block$colors)
+
+  boundary <- ll_boundary(slug)
+  brand <- ll_brand(slug)
+
+  variable_label <- ll_str(paste0("climate.variable.", variable_id), lang)
+  period_label <- if (identical(period_token, "baseline")) {
+    ll_str("climate.period.baseline", lang)
+  } else {
+    ll_str("climate.period.h2071_2100", lang)
+  }
+
+  ggplot2::ggplot() +
+    tidyterra::geom_spatraster(data = binned$raster) +
+    ggplot2::geom_sf(data = boundary, fill = NA, color = brand$outlineColor, linewidth = 0.3) +
+    ll_discrete_map_scale(binned$legend_df, title = block$unit[[lang]]) +
+    ggplot2::labs(title = variable_label, subtitle = period_label) +
+    theme_ll_map(base_size = 7)
+}
+
+#' The climate section's eight-panel grid.
+#'
+#' Exactly eight panels: for each of the four variables in
+#' `ll_tokens()$palettes$climate$variables` order (`gdd` first, D-08), one
+#' baseline panel and one far-horizon (2071-2100) change panel (D-12 -- the
+#' 2041-2070 horizon is never used here, only by the line chart). Breaks and
+#' colours come from the committed `data/climate_color_breaks.json` (08-06's
+#' Pass-0 output, the fixed cross-Living-Lab scale) -- never recomputed or
+#' retyped here, so the same colour means the same value in every Living
+#' Lab's report. Panels are arranged two-per-row (baseline beside its own
+#' change panel), four rows, one row per variable -- the layout choice
+#' recorded in this plan's SUMMARY -- so each panel's individual legend
+#' (D-13: every static map carries its own legend, since units and scales
+#' differ panel to panel) stays legible at print size. Each variable's
+#' explanatory note is appended beneath the grid as a caption.
+#'
+#' @param slug character(1) Living Lab slug.
+#' @param lang character(1) `"en"` or `"de"`.
+#' @return a `patchwork` object, 8 panels.
+ll_map_climate_grid <- function(slug, lang) {
+  layer <- .ll_layer_by_id(.ll_sources_yaml()$layers, "chelsa-climate")
+  variable_ids <- ll_tokens()$palettes$climate$variables$id
+  period_tokens <- c("baseline", "2071_2100")
+
+  needed_paths <- character(0)
+  for (variable_id in variable_ids) {
+    for (period_token in period_tokens) {
+      needed_paths <- c(
+        needed_paths,
+        .ll_resolve_pattern(layer$input$path_pattern, variable = variable_id, period = period_token)
+      )
+    }
+  }
+  .ll_check_sources_present(needed_paths, "python data-pipeline/python/fetch_climate.py")
+
+  # Load data/climate_color_breaks.json (08-06's Pass-0 output) once -- the
+  # fixed, shared cross-Living-Lab breaks and colours every panel classifies
+  # against; never recomputed per Living Lab (D-09).
+  color_breaks_path <- file.path(ll_repo_root(), layer$output$color_breaks)
+  color_breaks <- jsonlite::fromJSON(color_breaks_path, simplifyVector = TRUE)
+
+  panels <- list()
+  for (variable_id in variable_ids) {
+    for (period_token in period_tokens) {
+      panels[[length(panels) + 1]] <- .ll_climate_panel(
+        slug, lang, variable_id, period_token, color_breaks, layer$input$path_pattern
+      )
+    }
+  }
+
+  notes <- vapply(
+    variable_ids,
+    function(variable_id) ll_str(paste0("legend.climate.note.", variable_id), lang),
+    character(1)
+  )
+
+  combined <- patchwork::wrap_plots(panels, ncol = 2, nrow = 4)
+  combined + patchwork::plot_annotation(caption = paste(notes, collapse = "\n"))
+}
