@@ -36,7 +36,8 @@ This project uses the Get Shit Done planning system:
 - Static-only hosting: must work at any sub-path (`base: './'` in `vite.config.js`)
 - Python 3.12 required on Windows (geospatial wheel compatibility)
 - No TypeScript, no CSS frameworks, no SSR
-- External CLI deps: `pmtiles`, `rio` (must be on PATH or set `PMTILES_BIN`)
+- External CLI deps: `pmtiles`, `rio`, `quarto`, `R` (must be on PATH or set `PMTILES_BIN`,
+  `QUARTO_BIN`, `R_HOME` respectively — R is commonly installed but absent from PATH on Windows)
 
 ## Critical Rules (from research)
 
@@ -63,4 +64,5 @@ pip install -r requirements.txt
 python sync.py                            # copy data + codegen JS files
 python python/fetch_nuts.py              # refresh LL boundaries + metadata
 python python/build_pmtiles.py --layer landuse-croptypes  # rebuild raster layer
+python R/render_reports.py                # render per-LL PDF reports (manual, not in sync.py)
 ```

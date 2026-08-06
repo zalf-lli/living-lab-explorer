@@ -51,7 +51,7 @@
   "havellandisches-luch": {
     "slug": "havellandisches-luch",
     "manager": { "name": "Sebastian Rogga", "email": "Sebastian.Rogga@zalf.de" },
-    "nuts3": ["DE406", "DE408"],
+    "nuts3": ["DE408"],
     "num": "02",
     "order": 2,
     "region": { "en": "Brandenburg", "de": "Brandenburg" },

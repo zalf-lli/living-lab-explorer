@@ -1,6 +1,6 @@
 {
   "chart_type": "bar",
-  "generated_at": "2026-08-04T07:10:52.299931Z",
+  "generated_at": "2026-08-04T12:11:38.636114Z",
   "layer_id": "soil",
   "ll_slug": "havellandisches-luch",
   "mock": false,
@@ -11,8 +11,8 @@
         "de": "Braunerden",
         "en": "Brown soils"
       },
-      "pct": 54.6,
-      "value": 218327.0
+      "pct": 46.1,
+      "value": 79431.1
     },
     {
       "group_key": "gley-soils",
@@ -20,8 +20,8 @@
         "de": "Gleye",
         "en": "Gley soils"
       },
-      "pct": 20.4,
-      "value": 81347.2
+      "pct": 27.5,
+      "value": 47361.8
     },
     {
       "group_key": "fens",
@@ -29,8 +29,8 @@
         "de": "Niedermoore",
         "en": "Fens"
       },
-      "pct": 12.5,
-      "value": 49808.7
+      "pct": 16.0,
+      "value": 27528.4
     },
     {
       "group_key": "ah-c-soils",
@@ -38,8 +38,8 @@
         "de": "Ah/C-Böden",
         "en": "Ah/C soils"
       },
-      "pct": 5.7,
-      "value": 22809.9
+      "pct": 6.0,
+      "value": 10403.8
     },
     {
       "group_key": "luvisols",
@@ -47,8 +47,8 @@
         "de": "Lessivés",
         "en": "Luvisols"
       },
-      "pct": 3.2,
-      "value": 12738.9
+      "pct": 2.1,
+      "value": 3638.6
     },
     {
       "group_key": "water-area",
@@ -56,17 +56,8 @@
         "de": "Gewässer",
         "en": "Water area"
       },
-      "pct": 2.1,
-      "value": 8574.0
-    },
-    {
-      "group_key": "initial-soils",
-      "label": {
-        "de": "Rohböden",
-        "en": "Initial soils"
-      },
-      "pct": 0.5,
-      "value": 2196.7
+      "pct": 1.1,
+      "value": 1913.4
     },
     {
       "group_key": "podzols",
@@ -74,8 +65,8 @@
         "de": "Podsole",
         "en": "Podzols"
       },
-      "pct": 0.3,
-      "value": 1175.2
+      "pct": 0.5,
+      "value": 867.1
     },
     {
       "group_key": "special-area",
@@ -83,8 +74,17 @@
         "de": "Sonderfläche",
         "en": "Special area"
       },
-      "pct": 0.3,
-      "value": 1191.7
+      "pct": 0.5,
+      "value": 883.1
+    },
+    {
+      "group_key": "initial-soils",
+      "label": {
+        "de": "Rohböden",
+        "en": "Initial soils"
+      },
+      "pct": 0.1,
+      "value": 139.5
     },
     {
       "group_key": "stagnic-soils",
@@ -92,8 +92,8 @@
         "de": "Stauwasserböden",
         "en": "Stagnic soils"
       },
-      "pct": 0.3,
-      "value": 1038.6
+      "pct": 0.04,
+      "value": 71.8
     },
     {
       "group_key": "sealed-surfaces",
@@ -101,17 +101,8 @@
         "de": "versiegelte Flächen",
         "en": "Sealed surfaces"
       },
-      "pct": 0.1,
-      "value": 419.2
-    },
-    {
-      "group_key": "sealed-surfaces-with-pararendzinen-and-loose-syroseme-from-kippsubstraten-sand-bfromchutt-over-schotter-oder-niederungs-oder-flusssand",
-      "label": {
-        "de": "Versiegelte Flächen mit Pararendzinen (und Lockersyroseme) aus Kippsubstraten (Sand, Bauschutt) über Schotter oder Niederungs- oder Flusssand",
-        "en": "Sealed surfaces with Pararendzinen (and loose syroseme) from Kippsubstraten (Sand, Bfromchutt) over Schotter oder Niederungs- oder Flusssand"
-      },
-      "pct": 0.01,
-      "value": 28.9
+      "pct": 0.03,
+      "value": 50.3
     },
     {
       "group_key": "alluvial-soils",
@@ -119,8 +110,8 @@
         "de": "Auenböden",
         "en": "Alluvial soils"
       },
-      "pct": 0.001,
-      "value": 4.8
+      "pct": 1e-05,
+      "value": 0.0
     }
   ],
   "source": "buek250",

@@ -12,7 +12,7 @@ from conftest import LL_SLUGS, repo_root
 
 # Must match fetch_destatis.py's ALL_NUTS3 / LL_NUTS3.
 DESTATIS_ALL_NUTS3 = [
-    "DE409", "DE40A", "DE40B", "DE40C", "DE406", "DE408", "DE734", "DE737",
+    "DE409", "DE40A", "DE40B", "DE40C", "DE408", "DE734", "DE737",
     "DE721", "DE722", "DE723", "DE724", "DE725", "DE71D",
 ]
 
@@ -791,9 +791,16 @@ def test_bar_chart_fixtures_exist_and_match_contract() -> None:
     fixtures carry real, legitimate categories with only 1-7 zones out of thousands,
     which round to 0.0 at one decimal place (e.g. boris-east-brandenburg.json's
     "Campsite" category: value=1, pct=0.0). Asserting pct > 0 would fail on correct,
-    already-committed data, so this test asserts pct >= 0 instead; value > 0 still
-    holds everywhere (every category has at least one real underlying unit). See
+    already-committed data, so this test asserts pct >= 0 instead. See
     09-06-SUMMARY.md Deviations for the full investigation.
+
+    Same relaxation extends to value: compute_soil_chart.py deliberately never drops a
+    dissolved soil group regardless of area (see its "never drop a row" docstring), so a
+    group whose remaining area after a boundary edit is a boundary-adjacent sliver can
+    round to 0.0 ha at one decimal place (e.g. buek250-havellandisches-luch.json's
+    "Alluvial soils" category after the 2026-08-04 nuts3 boundary shrink: pct=1e-05,
+    value=0.0). Asserting value > 0 would fail on correct, already-committed data, so
+    this test asserts value >= 0 instead.
     """
     for layer_id in BAR_CHART_LAYER_IDS:
         layer = get_layer(layer_id)
@@ -835,7 +842,7 @@ def test_bar_chart_fixtures_exist_and_match_contract() -> None:
                 assert isinstance(value, (int, float)) and not isinstance(value, bool), (
                     f"{path.name}: value must be int/float, got {type(value)}"
                 )
-                assert value > 0, f"{path.name}: value must be > 0, got {value}"
+                assert value >= 0, f"{path.name}: value must be >= 0, got {value}"
 
                 pct = entry["pct"]
                 assert isinstance(pct, (int, float)) and not isinstance(pct, bool), (

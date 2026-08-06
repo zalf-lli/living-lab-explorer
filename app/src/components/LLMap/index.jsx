@@ -188,9 +188,13 @@ function RasterPmtilesLayer({ layerId, slug, variable, period, onStatus }) {
     const pmtiles = getPmtiles(layerUrl)
     pmtiles
       .getHeader()
-      .then(() => {
+      .then((header) => {
         if (cancelled) return
-        overlay = leafletRasterLayer(pmtiles, { opacity: 0.85 })
+        // Match the soil/socio-economic vector overlays, which have no zoom ceiling: without
+        // maxNativeZoom, Leaflet stops requesting tiles once the map zooms past this archive's
+        // native depth and the raster silently disappears. Clamping to header.maxZoom keeps the
+        // deepest available tile visible (auto-scaled) at higher zooms instead.
+        overlay = leafletRasterLayer(pmtiles, { opacity: 0.85, maxNativeZoom: header.maxZoom })
         overlay.addTo(map)
         onStatus?.({ loading: false, error: false })
       })

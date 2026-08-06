@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "computed_at": "2026-07-31T11:54:29.867596Z",
+    "computed_at": "2026-08-04T12:24:38.776491Z",
     "delta_horizon": "2071_2100",
     "delta_horizon_label": "2071-2100",
     "input_pattern": "data/climate_source/chelsa-{variable}-{period}.tif",
@@ -60,14 +60,14 @@
     "warm_quarter_precip_mm_delta": -5.3
   },
   "havellandisches-luch": {
-    "annual_precip_mm": 595.0,
-    "annual_precip_mm_delta": 2.7,
-    "gdd5_degc_days": 2075.0,
-    "gdd5_degc_days_delta": 1154.0,
-    "mean_annual_temp_degc": 9.6,
-    "mean_annual_temp_degc_delta": 4.1,
-    "warm_quarter_precip_mm": 186.0,
-    "warm_quarter_precip_mm_delta": -5.9
+    "annual_precip_mm": 584.0,
+    "annual_precip_mm_delta": 2.6,
+    "gdd5_degc_days": 2033.0,
+    "gdd5_degc_days_delta": 1139.0,
+    "mean_annual_temp_degc": 9.5,
+    "mean_annual_temp_degc_delta": 4.0,
+    "warm_quarter_precip_mm": 181.0,
+    "warm_quarter_precip_mm_delta": -6.4
   },
   "hessian-low-mountain": {
     "annual_precip_mm": 862.0,

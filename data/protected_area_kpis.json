@@ -1,6 +1,6 @@
 {
   "_meta": {
-    "computed_at": "2026-07-26T12:46:54.281591Z",
+    "computed_at": "2026-08-04T12:13:58.339142Z",
     "input_pattern": "data/geojson/protected-areas-{slug}.geojson",
     "metric_crs": "EPSG:25832",
     "source": "bfn_wfs"
@@ -14,12 +14,12 @@
     "nature_reserves_source_sum_ha": 79486.20000000001
   },
   "havellandisches-luch": {
-    "natura2000_feature_count": 141,
-    "natura2000_ha": 122606.0,
-    "natura2000_source_sum_ha": 320625.0,
-    "nature_reserves_feature_count": 116,
-    "nature_reserves_ha": 41800.8,
-    "nature_reserves_source_sum_ha": 55396.6
+    "natura2000_feature_count": 50,
+    "natura2000_ha": 66311.2,
+    "natura2000_source_sum_ha": 169029.0,
+    "nature_reserves_feature_count": 28,
+    "nature_reserves_ha": 21153.0,
+    "nature_reserves_source_sum_ha": 23847.300000000003
   },
   "hessian-low-mountain": {
     "natura2000_feature_count": 173,

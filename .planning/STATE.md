@@ -3,14 +3,14 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: ready_to_plan
-stopped_at: Phase 11 closed out (5/5, bookkeeping reconciled) — ready to discuss Phase 999.1
-last_updated: 2026-08-04T05:20:00.000Z
+stopped_at: Phase 12 UI-SPEC approved
+last_updated: "2026-08-05T10:21:48.727Z"
 progress:
-  total_phases: 15
-  completed_phases: 11
-  total_plans: 68
-  completed_plans: 66
-  percent: 73
+  total_phases: 16
+  completed_phases: 12
+  total_plans: 80
+  completed_plans: 68
+  percent: 75
 ---
 
 # Project State
@@ -21,7 +21,7 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 
 **Core value:** A researcher or stakeholder can open the app and immediately see accurate, up-to-date geodata and statistics for any of the five Living Labs without any server infrastructure.
 
-**Current focus:** Phase 999.1 — find real data sources for 4 curated destatis kpi fields tha
+**Current focus:** Phase 12 — export-a-pdf-of-the-content-for-a-given-living-lab
 
 ## Status
 
@@ -363,6 +363,7 @@ Phase 2.2 completed on 2026-04-30 and replaced the shallow German-only soil look
 - 2026-07-27: Phase 3 "Chart Data Contract" removed from its original slot (never started, no directory existed) and re-added as Phase 9 at the end of the roadmap, so chart implementations are defined after all map layers (Phases 5, 5.1, 6, 7) exist for charts to summarize. CHARTS-01/CHARTS-02 traceability in ROADMAP.md and REQUIREMENTS.md updated to point at Phase 9. Phases 4-7 were left unrenumbered since they are already complete/underway with directories and commit history referencing their current numbers.
 - 2026-07-27: Phase 8 added: "Add maps and stats for climate variables using CHELSA data" — climate variable maps plus summary statistics, sourced from CHELSA via the `chelsa_cmip6` Python library (https://gitlabext.wsl.ch/karger/chelsa_cmip6/). Placed in the free slot 8 (vacated when the old Phase 3 moved to 9) rather than appended as Phase 10, so it sits with the other map-layer phases and before the Phase 9 chart contract that summarizes them. Phase 9's "Depends on" updated from Phase 7 to Phase 8 accordingly.
 - 2026-08-03: Phase 11 added: "Wire chart JSON data to chart UI components" — connect the chart content JSON files produced in Phase 9 to the chart UI components in the app. App-side integration only (no new pipeline work); expected to need minimal to no research and a small number of plans.
+- 2026-08-04: Phase 12 added: "Export a PDF of the content for a given Living Lab" — added at the end of the roadmap as planned work, not urgent mid-milestone insertion.
 
 ### Plan Decisions
 
@@ -372,6 +373,6 @@ Phase 2.2 completed on 2026-04-30 and replaced the shallow German-only soil look
 
 ## Session
 
-**Last session:** 2026-08-04T05:26:55.126Z
-**Stopped at:** Quick task 260804-acf complete (soil palette) — awaiting human visual verification of the new soil colours
-**Resume file:** .planning/quick/260804-acf-make-soil-map-and-legend-colours-more-di/260804-acf-SUMMARY.md
+**Last session:** 2026-08-04T13:43:21.488Z
+**Stopped at:** Phase 12 UI-SPEC approved
+**Resume file:** .planning/phases/12-export-a-pdf-of-the-content-for-a-given-living-lab/12-UI-SPEC.md

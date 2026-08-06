@@ -1,7 +1,7 @@
 {
   "_meta": {
     "clip_to": "data/nuts3_ll.geojson",
-    "computed_at": "2026-07-31T11:53:05.186951Z",
+    "computed_at": "2026-08-04T12:22:11.552402Z",
     "input_pattern": "data/climate_source/chelsa-{variable}-{period}.tif",
     "slugs": [
       "east-brandenburg",
@@ -16,9 +16,9 @@
     "baseline": {
       "breaks": [
         6.2,
-        8.9,
+        8.8,
+        9.2,
         9.4,
-        9.6,
         10.4
       ],
       "colors": [
@@ -29,7 +29,7 @@
       ],
       "per_ll_means": {
         "east-brandenburg": 9.354461882122507,
-        "havellandisches-luch": 9.5793638058281,
+        "havellandisches-luch": 9.487848792245558,
         "hessian-low-mountain": 8.705233892253933,
         "north-hessian-loess": 8.515730430203432,
         "rheingau": 8.946568868694941
@@ -59,7 +59,7 @@
         ],
         "per_ll_means": {
           "east-brandenburg": 2.6696451115990736,
-          "havellandisches-luch": 2.635566559510448,
+          "havellandisches-luch": 2.596379580771812,
           "hessian-low-mountain": 2.4559205731983638,
           "north-hessian-loess": 2.4797845036712682,
           "rheingau": 2.4680954756753355
@@ -88,7 +88,7 @@
         ],
         "per_ll_means": {
           "east-brandenburg": 4.110399328248118,
-          "havellandisches-luch": 4.076300695466312,
+          "havellandisches-luch": 4.022289508798655,
           "hessian-low-mountain": 3.926307186402795,
           "north-hessian-loess": 3.929853479509702,
           "rheingau": 3.928662402306191
@@ -106,8 +106,8 @@
       "breaks": [
         515.0,
         595.0,
-        623.0,
-        788.0,
+        644.0,
+        804.0,
         1329.0
       ],
       "colors": [
@@ -118,7 +118,7 @@
       ],
       "per_ll_means": {
         "east-brandenburg": 599.8552113609077,
-        "havellandisches-luch": 595.6322818484327,
+        "havellandisches-luch": 584.6279275768161,
         "hessian-low-mountain": 864.075304734044,
         "north-hessian-loess": 804.949001671421,
         "rheingau": 726.7422667758966
@@ -148,7 +148,7 @@
         ],
         "per_ll_means": {
           "east-brandenburg": 1.4188475224630854,
-          "havellandisches-luch": 1.2209293078805923,
+          "havellandisches-luch": 1.2017339416969486,
           "hessian-low-mountain": 1.4219781167509276,
           "north-hessian-loess": 0.6836053743692616,
           "rheingau": 0.9926869544533579
@@ -177,7 +177,7 @@
         ],
         "per_ll_means": {
           "east-brandenburg": 2.99134824687528,
-          "havellandisches-luch": 2.7205810446335565,
+          "havellandisches-luch": 2.5620457262348055,
           "hessian-low-mountain": 2.843086674649002,
           "north-hessian-loess": 2.3142482229097006,
           "rheingau": 1.8941410165530186
@@ -194,9 +194,9 @@
     "baseline": {
       "breaks": [
         155.0,
-        185.0,
-        192.0,
-        212.0,
+        184.0,
+        196.0,
+        216.0,
         297.0
       ],
       "colors": [
@@ -207,7 +207,7 @@
       ],
       "per_ll_means": {
         "east-brandenburg": 189.00721393964486,
-        "havellandisches-luch": 185.75793383875904,
+        "havellandisches-luch": 181.43360359015398,
         "hessian-low-mountain": 220.93766112904157,
         "north-hessian-loess": 226.4594595376267,
         "rheingau": 199.4523123310076
@@ -237,7 +237,7 @@
         ],
         "per_ll_means": {
           "east-brandenburg": -4.43188261744261,
-          "havellandisches-luch": -4.279785438620783,
+          "havellandisches-luch": -4.600711735284843,
           "hessian-low-mountain": -5.727070525212301,
           "north-hessian-loess": -5.555311113211654,
           "rheingau": -6.857036937237497
@@ -266,7 +266,7 @@
         ],
         "per_ll_means": {
           "east-brandenburg": -5.27431441863927,
-          "havellandisches-luch": -5.9038202212709585,
+          "havellandisches-luch": -6.364141536560713,
           "hessian-low-mountain": -8.587982301888799,
           "north-hessian-loess": -8.68129283374031,
           "rheingau": -9.810526955489316
@@ -283,9 +283,9 @@
     "baseline": {
       "breaks": [
         1154.0,
-        1827.0,
-        1996.0,
-        2066.0,
+        1801.0,
+        1962.0,
+        2043.0,
         2284.0
       ],
       "colors": [
@@ -296,7 +296,7 @@
       ],
       "per_ll_means": {
         "east-brandenburg": 2025.696946947004,
-        "havellandisches-luch": 2073.0391332325657,
+        "havellandisches-luch": 2033.0731225044437,
         "hessian-low-mountain": 1797.1671764996656,
         "north-hessian-loess": 1737.8724602862858,
         "rheingau": 1846.2133276136522
@@ -311,10 +311,10 @@
       "2041_2070": {
         "breaks": [
           551.0,
-          621.0,
-          638.0,
-          654.0,
-          675.0,
+          619.0,
+          634.0,
+          650.0,
+          670.0,
           698.0
         ],
         "colors": [
@@ -326,7 +326,7 @@
         ],
         "per_ll_means": {
           "east-brandenburg": 661.2541361378903,
-          "havellandisches-luch": 665.1862526651829,
+          "havellandisches-luch": 653.83200053591,
           "hessian-low-mountain": 622.9088054498739,
           "north-hessian-loess": 618.4386559482851,
           "rheingau": 638.6664118830805
@@ -340,10 +340,10 @@
       "2071_2100": {
         "breaks": [
           946.0,
-          1086.0,
-          1114.0,
-          1139.0,
-          1161.0,
+          1082.0,
+          1107.0,
+          1133.0,
+          1153.0,
           1209.0
         ],
         "colors": [
@@ -355,7 +355,7 @@
         ],
         "per_ll_means": {
           "east-brandenburg": 1142.6638958416438,
-          "havellandisches-luch": 1153.9054777061021,
+          "havellandisches-luch": 1138.8880526731216,
           "hessian-low-mountain": 1089.470105131306,
           "north-hessian-loess": 1076.9650175724323,
           "rheingau": 1114.0224072168503
