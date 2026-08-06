@@ -284,11 +284,16 @@
     columns: (1fr,) * columns,
     column-gutter: 0.4cm,
     row-gutter: 0.4cm,
+    // Direct field access (not `.at(key, default: ...)`) is deliberate: a missing or
+    // misnamed key in an emitted item dictionary (e.g. sections.R's ll_kpi_typst() emitting
+    // "labl:" instead of "label:") must fail this compile loudly, not silently degrade to an
+    // empty box -- Task 4's gate mutation-tests exactly this by breaking one key name and
+    // confirming the real Typst compile step fails.
     ..items.map(item => ll-status-box(
-      label: item.at("label", default: ""),
-      value: item.at("value", default: ""),
-      unit: item.at("unit", default: ""),
-      note: item.at("note", default: ""),
+      label: item.label,
+      value: item.value,
+      unit: item.unit,
+      note: item.note,
       accent: accent,
       font: font,
     ))
