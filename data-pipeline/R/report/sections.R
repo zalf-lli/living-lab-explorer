@@ -231,3 +231,69 @@ ll_narrative <- function(slug, tab, slot, lang) {
   }
   text
 }
+
+# --- Task 2: Typst status-box emitter ------------------------------------------
+
+#' Escape a string for safe interpolation inside a Typst string literal.
+#'
+#' A correctly escaped Typst string literal is inert -- `#`, `$`, `*` and `_` inside one are
+#' ordinary characters, never markup -- so escaping backslash, double-quote and newline is the
+#' whole defence (T-12-34). Applied to every one of `label`/`value`/`unit`/`note` without
+#' exception before they are interpolated into the `#ll-kpi-grid(...)` call this module emits.
+#'
+#' @param x character(1).
+#' @return character(1), safe to wrap in `"..."` as a literal Typst string.
+.ll_typst_escape <- function(x) {
+  x <- gsub("\\\\", "\\\\\\\\", x)
+  x <- gsub("\"", "\\\\\"", x)
+  x <- gsub("\r\n|\r|\n", "\\\\n", x)
+  x
+}
+
+#' Render one `ll_kpi_df()` row into a Typst dictionary literal string, e.g.
+#' `(label: "...", value: "...", unit: "...", note: "...")`.
+#'
+#' @param row a one-row data.frame slice of `ll_kpi_df()`'s output.
+#' @return character(1).
+.ll_kpi_item_typst <- function(row) {
+  sprintf(
+    '(label: "%s", value: "%s", unit: "%s", note: "%s")',
+    .ll_typst_escape(row$label),
+    .ll_typst_escape(row$value),
+    .ll_typst_escape(row$unit),
+    .ll_typst_escape(row$note)
+  )
+}
+
+#' A complete Typst call rendering a Living Lab tab's KPI slots as a status-box grid.
+#'
+#' @param slug character(1) Living Lab slug.
+#' @param tab character(1), one of `LL_TAB_ORDER`.
+#' @param lang character(1), `"en"` or `"de"`.
+#' @param columns integer(1), number of grid columns (default 3, matching every curated tab's
+#'   at-most-four KPI slots comfortably within A4's content width).
+#' @param fence logical(1); when TRUE (the default), wraps the emitted `#ll-kpi-grid(...)` call
+#'   in a ` ```{=typst} ` / ` ``` ` raw-block fence, which `template.qmd` `cat()`s from an
+#'   `asis` chunk (plan 12-10). When FALSE, returns the bare call -- what Task 4's gate feeds
+#'   directly to a real Typst compile.
+#' @return character(1).
+#'
+#' Emits every interpolated string as an escaped Typst string literal (see
+#' `.ll_typst_escape()`); never emits a hex colour -- the accent is resolved once in
+#' `typst-template.typ` from the active render's brand and threaded through `ll-kpi-grid`'s
+#' `accent` parameter, so this function cannot disagree with the cover page's colour (T-12-35).
+ll_kpi_typst <- function(slug, tab, lang, columns = 3, fence = TRUE) {
+  df <- ll_kpi_df(slug, tab, lang)
+  items <- vapply(seq_len(nrow(df)), function(i) .ll_kpi_item_typst(df[i, , drop = FALSE]), character(1))
+  # Trailing comma is required so a single-item list is still parsed as a Typst array
+  # literal rather than a parenthesized dictionary expression.
+  call <- sprintf(
+    "#ll-kpi-grid(items: (%s,), columns: %d)",
+    paste(items, collapse = ", "),
+    as.integer(columns)
+  )
+  if (isTRUE(fence)) {
+    return(paste0("```{=typst}\n", call, "\n```"))
+  }
+  call
+}
