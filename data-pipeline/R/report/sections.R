@@ -297,3 +297,384 @@ ll_kpi_typst <- function(slug, tab, lang, columns = 3, fence = TRUE) {
   }
   call
 }
+
+# --- Task 3: Chart builders re-plotting the committed chart JSON contract -------
+#
+# D-06: every chart here re-plots app/public/data/charts/<layer>-<slug>.json -- the exact
+# committed contract app/src/components/BarChart.jsx and LineChart.jsx already draw from --
+# so the PDF and the live site can never disagree on a series, an order or a colour. No
+# statistic is computed here that the pipeline's compute_*_chart.py scripts did not already
+# compute.
+
+#' Resolve the chart JSON path for one (tab)'s chart, for a given slug.
+.ll_chart_path <- function(slug, tab) {
+  layer_id <- LL_TAB_CHART_LAYER[[tab]]
+  if (is.null(layer_id)) {
+    stop("ll_chart(): no chart layer mapping for tab '", tab, "'.")
+  }
+  file.path(ll_repo_root(), "app", "public", "data", "charts", paste0(layer_id, "-", slug, ".json"))
+}
+
+#' Resolve one bilingual top-level scalar object (e.g. a chart's `unit` field: `{en:, de:}`),
+#' as opposed to `.ll_bilingual_col()`'s per-row nested-data.frame column shape.
+.ll_bilingual_scalar <- function(obj, lang) {
+  if (is.null(obj) || !(lang %in% names(obj))) {
+    return(NA_character_)
+  }
+  value <- obj[[lang]]
+  if (is.null(value) || length(value) != 1) NA_character_ else as.character(value)
+}
+
+# The two tabs whose static map legend is byte-identical to its chart's bar categories
+# (layers.js's `legendMatchesChartCategories: true`) -- their bar colours resolve from
+# ll_tokens()$palettes[[tab]], matched by English label, exactly mirroring BarChart.jsx.
+.LL_CHART_LEGEND_TABS <- c("agriculture", "landscape")
+
+# --- Soil palette: FNV-1a hash port (Task 3) ------------------------------------
+
+#' 32-bit FNV-1a hash, ported byte-for-byte from app/src/data/soil_legend.js::fnv1aHash() --
+#' offset basis 0x811c9dc5 (2166136261), prime 0x01000193 (16777619), unsigned after every
+#' step. Multiplication by the prime is decomposed as `hash*2^24 + hash*403` (0x01000193 =
+#' 2^24 + 403) because a direct `hash * 16777619` can exceed 2^53 and lose precision as an
+#' IEEE-754 double; `(hash mod 2^8) * 2^24` is the exact value of `(hash * 2^24) mod 2^32`
+#' (bits of `hash` at position >= 8, multiplied by 2^24, land at bit position >= 32 and are
+#' dropped by the final mod anyway), and both terms stay well under 2^53.
+#'
+#' @param value character(1) or coercible to one.
+#' @return numeric(1), an integer-valued double in `[0, 2^32)`.
+.ll_fnv1a_hash <- function(value) {
+  codes <- utf8ToInt(enc2utf8(as.character(value)))
+  hash <- 2166136261
+  for (code in codes) {
+    hash_signed <- if (hash >= 2^31) hash - 2^32 else hash
+    xored_signed <- bitwXor(as.integer(hash_signed), as.integer(code))
+    hash <- if (xored_signed < 0) xored_signed + 2^32 else xored_signed
+    term1 <- (hash %% 256) * 16777216
+    term2 <- hash * 403
+    hash <- (term1 + term2) %% 4294967296
+  }
+  hash
+}
+
+#' Resolve one soil `group_key`'s colour through the shared soil palette's three tiers,
+#' exactly mirroring `app/src/data/soil_legend.js::getSoilColor()`: the two non-soil
+#' sentinels first, then the named Tier-1 groups, then an FNV-1a-hashed index into the
+#' ordered Tier-2 fallback array.
+#'
+#' @param group_key character(1).
+#' @return character(1), a `#rrggbb` hex string.
+ll_soil_color <- function(group_key) {
+  soil <- ll_tokens()$palettes$soil
+  if (identical(group_key, "water-area")) {
+    return(soil$waterFill)
+  }
+  if (identical(group_key, "special-area")) {
+    return(soil$specialFill)
+  }
+  groups <- soil$groups
+  if (!is.null(groups) && group_key %in% names(groups)) {
+    return(groups[[group_key]])
+  }
+  fallback <- soil$fallback
+  idx <- (.ll_fnv1a_hash(group_key) %% length(fallback)) + 1
+  fallback[[idx]]
+}
+
+# --- Bar-chart colour resolution and truncation (Task 3) ------------------------
+
+#' Build a per-row colour resolver function for one bar-chart tab, matching
+#' `BarChart.jsx`'s three-way branch (legend-matched palette / soil palette / rank palette).
+#'
+#' @param tab character(1).
+#' @param series the chart's `series` data.frame (used only to build the label->colour
+#'   lookup for the two legend-matched tabs).
+#' @return function(row, i) -> character(1) hex colour, where `row` is a one-row slice of
+#'   `series` and `i` is that row's 1-based position.
+.ll_bar_color_resolver <- function(tab, series) {
+  if (tab %in% .LL_CHART_LEGEND_TABS) {
+    palette <- ll_tokens()$palettes[[tab]]
+    lookup <- stats::setNames(palette$color, palette$en)
+    function(row, i) {
+      key <- row$label$en[1]
+      color <- lookup[[key]]
+      if (is.null(color) || is.na(color)) {
+        stop("ll_chart(): no '", tab, "' legend colour found for category '", key, "'.")
+      }
+      color
+    }
+  } else if (identical(tab, "soil")) {
+    function(row, i) {
+      key <- row$group_key[1]
+      if (is.null(key) || is.na(key)) {
+        stop("ll_chart(): soil chart series row has no group_key; cannot resolve colour.")
+      }
+      ll_soil_color(key)
+    }
+  } else {
+    rank_colors <- ll_tokens()$chart$rankColors
+    function(row, i) {
+      idx <- ((i - 1) %% length(rank_colors)) + 1
+      rank_colors[[idx]]
+    }
+  }
+}
+
+#' Truncate a chart's `series` to at most `ll_tokens()$chart$maxBars` real rows plus an
+#' "Other" aggregate row, exactly mirroring `app/src/lib/chartSeries.js::buildDisplaySeries()`
+#' -- same truncation threshold (read from the same bridged token, never re-picked), same
+#' Other-bucket aggregation, and the same CR-01 floor (a genuinely non-zero remainder is never
+#' displayed as 0%). Never re-sorts -- `series` arrives pre-sorted from the pipeline.
+#'
+#' @param series the chart's `series` data.frame.
+#' @param lang character(1).
+#' @param other_label character(1), the localized "Other" bucket label.
+#' @param color_for_row function(row, i) -> character(1), as returned by
+#'   `.ll_bar_color_resolver()`.
+#' @return data.frame(label=, value=, pct=, color=, is_other=).
+.ll_build_display_series <- function(series, lang, other_label, color_for_row) {
+  n <- nrow(series)
+  max_bars <- ll_tokens()$chart$maxBars
+  label_col <- if (lang %in% names(series$label)) series$label[[lang]] else series$label[["en"]]
+
+  if (n <= max_bars) {
+    colors <- vapply(seq_len(n), function(i) color_for_row(series[i, , drop = FALSE], i), character(1))
+    return(data.frame(
+      label = label_col, value = series$value, pct = series$pct,
+      color = colors, is_other = FALSE, stringsAsFactors = FALSE
+    ))
+  }
+
+  real_idx <- seq_len(max_bars)
+  colors <- vapply(real_idx, function(i) color_for_row(series[i, , drop = FALSE], i), character(1))
+  real_rows <- data.frame(
+    label = label_col[real_idx], value = series$value[real_idx], pct = series$pct[real_idx],
+    color = colors, is_other = FALSE, stringsAsFactors = FALSE
+  )
+
+  remaining_idx <- seq(max_bars + 1, n)
+  other_value <- sum(series$value[remaining_idx], na.rm = TRUE)
+  other_pct_raw <- sum(series$pct[remaining_idx], na.rm = TRUE)
+  other_pct <- if (other_pct_raw > 0) max(0.1, round(other_pct_raw, 1)) else 0
+
+  rbind(
+    real_rows,
+    data.frame(
+      label = other_label, value = other_value, pct = other_pct,
+      color = ll_tokens()$chart$otherColor, is_other = TRUE, stringsAsFactors = FALSE
+    )
+  )
+}
+
+# --- Climate line-colour resolution (Task 3) -------------------------------------
+
+# Fixed correspondence between each canonical climate variable id (as ordered in
+# ll_tokens()$palettes$climate$variables -- Phase 8 D-08's locked "gdd first" order) and the
+# KPI key sources.yaml curates for it (the same four keys every kpiByTab$climate row carries).
+# Used only to build a CANDIDATE label to test a chart line's own English label against
+# (.ll_resolve_climate_line_variable() below) -- the match is decided by that label
+# comparison, not by this table's order or by the line's position in `chart$lines`, so this
+# stays a genuine label match rather than reproducing LineChart.jsx's WR-01 positional
+# coupling (STATE.md TODO-02).
+.LL_CLIMATE_VARIABLE_KPI_KEY <- c(
+  gdd = "gdd5_degc_days",
+  bio1 = "mean_annual_temp_degc",
+  bio12 = "annual_precip_mm",
+  bio18 = "warm_quarter_precip_mm"
+)
+
+# Per-variable line colour, ported from LineChart.jsx's CLIMATE_LINE_COLORS -- same four
+# theme tokens (C.orange/C.orangeDeep/C.teal/C.tealMid), resolved here from
+# ll_tokens()$theme rather than a re-picked hex.
+.LL_CLIMATE_LINE_COLOR_TOKEN <- c(gdd = "orange", bio1 = "orangeDeep", bio12 = "teal", bio18 = "tealMid")
+
+#' Resolve which canonical climate variable id a chart line belongs to, by matching its
+#' English label against the English label of each candidate KPI (the KPI whose `key`
+#' `.LL_CLIMATE_VARIABLE_KPI_KEY` associates with that variable id, resolved fresh for this
+#' `slug` via `ll_kpi_df()`'s own accessor rather than a hardcoded label string) -- a real
+#' text comparison, not a lookup by the line's position in `chart$lines`.
+#'
+#' @param line_label_en character(1), a chart line's English label.
+#' @param slug character(1) Living Lab slug (its own `kpiByTab$climate` rows supply the
+#'   candidate labels to match against).
+#' @return character(1), one of `names(.LL_CLIMATE_VARIABLE_KPI_KEY)`.
+.ll_resolve_climate_line_variable <- function(line_label_en, slug) {
+  kpi_rows <- ll_lab(slug)$kpiByTab$climate
+  variables <- ll_tokens()$palettes$climate$variables
+  for (i in seq_len(nrow(variables))) {
+    var_id <- variables$id[i]
+    kpi_key <- .LL_CLIMATE_VARIABLE_KPI_KEY[[var_id]]
+    if (is.null(kpi_key)) next
+    match_idx <- which(kpi_rows$key == kpi_key)
+    if (length(match_idx) != 1) next
+    kpi_label_en <- ll_str(paste0("kpi.", kpi_key), "en")
+    if (identical(kpi_label_en, line_label_en) || startsWith(kpi_label_en, line_label_en)) {
+      return(var_id)
+    }
+  }
+  stop(
+    "ll_chart(): could not resolve a climate variable id for chart line label '",
+    line_label_en, "' (slug '", slug, "'). Known variable ids: ",
+    paste(names(.LL_CLIMATE_VARIABLE_KPI_KEY), collapse = ", ")
+  )
+}
+
+# --- Mock-data caption (Task 3) --------------------------------------------------
+
+# STATE.md TODO-03/WR-04: the live app never surfaces a chart's `mock` flag; a printed report
+# is exactly the artifact where an unlabelled placeholder is most likely to be mistaken for a
+# real measurement (T-12-30). No committed chart JSON currently sets `mock: true` (verified by
+# direct scan of app/public/data/charts/*.json during this plan's execution), so this is
+# defensive, not yet exercised by real data -- but the caption text still needs to exist for
+# the day a mock chart is committed. This plan's declared files_modified does not include
+# report_tokens.json/i18n_resources.js, so this one narrow, presentation-only bilingual pair
+# is kept local to this module rather than threading a new key through the token-export
+# pipeline (see this plan's SUMMARY.md for the full deviation note).
+.LL_MOCK_CAPTION <- c(
+  en = "Placeholder data - not yet based on real measurements.",
+  de = "Platzhalterdaten - noch nicht auf echten Messungen basierend."
+)
+
+#' Build the caption text for one chart figure: the chart's `source` field, plus the mock-data
+#' marker when `chart$mock` is TRUE.
+#'
+#' @return character(1) or NULL when there is nothing to caption.
+.ll_chart_caption <- function(chart, lang) {
+  parts <- character(0)
+  if (!is.null(chart$source) && length(chart$source) == 1 && nzchar(chart$source)) {
+    parts <- c(parts, chart$source)
+  }
+  if (isTRUE(chart$mock)) {
+    parts <- c(parts, .LL_MOCK_CAPTION[[lang]])
+  }
+  if (length(parts) == 0) {
+    return(NULL)
+  }
+  paste(parts, collapse = " - ")
+}
+
+# --- Bar and line chart builders (Task 3) -----------------------------------------
+
+#' Build a horizontal bar chart from a chart JSON's `series`, reproducing `BarChart.jsx`'s
+#' truncation, "Other" bucket and colour resolution exactly.
+.ll_bar_chart <- function(chart, tab, lang) {
+  series <- chart$series
+  other_label <- ll_str("chart.otherCategory", lang)
+  resolver <- .ll_bar_color_resolver(tab, series)
+  display <- .ll_build_display_series(series, lang, other_label, resolver)
+
+  # First row on top when flipped to horizontal -- ggplot2 draws factor levels bottom-to-top.
+  display$label <- factor(display$label, levels = rev(display$label))
+
+  unit <- .ll_bilingual_scalar(chart$unit, lang)
+  if (is.na(unit)) unit <- ""
+  display$value_label <- vapply(
+    display$value,
+    function(v) trimws(paste(.ll_format_number(v, lang), unit)),
+    character(1)
+  )
+
+  bg <- ll_tokens()$theme$bg
+
+  ggplot2::ggplot(display, ggplot2::aes(x = .data$label, y = .data$pct, fill = .data$label)) +
+    ggplot2::geom_col(width = 0.7) +
+    ggplot2::geom_text(
+      ggplot2::aes(label = .data$value_label),
+      hjust = -0.08, size = 2.6, colour = ll_tokens()$theme$black
+    ) +
+    ggplot2::coord_flip(clip = "off") +
+    ggplot2::scale_fill_manual(values = stats::setNames(display$color, display$label), guide = "none") +
+    ggplot2::scale_y_continuous(
+      expand = ggplot2::expansion(mult = c(0, 0.28)),
+      labels = NULL
+    ) +
+    ggplot2::labs(x = NULL, y = NULL, caption = .ll_chart_caption(chart, lang)) +
+    theme_ll_base() +
+    ggplot2::theme(
+      panel.grid.major.y = ggplot2::element_blank(),
+      panel.grid.minor = ggplot2::element_blank(),
+      axis.text.y = ggplot2::element_text(hjust = 1),
+      plot.background = ggplot2::element_rect(fill = bg, colour = NA)
+    )
+}
+
+#' Build a two-point-per-line chart from a chart JSON's `lines`, colouring each line by
+#' matching its English label to a canonical climate variable id (never by array position --
+#' see `.ll_resolve_climate_line_variable()`).
+.ll_line_chart <- function(chart, slug, lang) {
+  lines <- chart$lines
+  x_axis <- chart$x_axis
+  x_labels <- if (lang %in% names(x_axis$label)) x_axis$label[[lang]] else x_axis$label[["en"]]
+
+  row_list <- vector("list", 0)
+  for (i in seq_len(nrow(lines))) {
+    line_label_en <- lines$label$en[i]
+    line_label <- if (lang %in% names(lines$label)) lines$label[[lang]][i] else line_label_en
+    var_id <- .ll_resolve_climate_line_variable(line_label_en, slug)
+    color <- ll_tokens()$theme[[.LL_CLIMATE_LINE_COLOR_TOKEN[[var_id]]]]
+
+    points <- lines$points[[i]]
+    for (j in seq_len(nrow(points))) {
+      x_key <- points$x[j]
+      x_idx <- match(x_key, x_axis$key)
+      x_label <- if (is.na(x_idx)) x_key else x_labels[x_idx]
+      x_order <- if (is.na(x_idx)) j else x_idx
+      row_list[[length(row_list) + 1]] <- data.frame(
+        line = line_label, x = x_label, x_order = x_order,
+        value = points$value[j], color = color, stringsAsFactors = FALSE
+      )
+    }
+  }
+  df <- do.call(rbind, row_list)
+  df$line <- factor(df$line, levels = unique(df$line))
+  df$x <- factor(df$x, levels = x_labels[order(unique(df$x_order))])
+
+  color_values <- stats::setNames(
+    df$color[!duplicated(df$line)],
+    as.character(df$line[!duplicated(df$line)])
+  )
+  unit <- .ll_bilingual_scalar(chart$unit, lang)
+  if (is.na(unit)) unit <- ""
+
+  bg <- ll_tokens()$theme$bg
+
+  ggplot2::ggplot(df, ggplot2::aes(
+    x = .data$x, y = .data$value, group = .data$line, colour = .data$line
+  )) +
+    ggplot2::geom_hline(yintercept = 0, colour = ll_tokens()$theme$mutedPale, linewidth = 0.3) +
+    ggplot2::geom_line(linewidth = 0.9) +
+    ggplot2::geom_point(size = 1.8) +
+    ggplot2::scale_colour_manual(values = color_values, guide = ggplot2::guide_legend(title = NULL)) +
+    ggplot2::labs(x = NULL, y = unit, caption = .ll_chart_caption(chart, lang)) +
+    theme_ll_base() +
+    ggplot2::theme(plot.background = ggplot2::element_rect(fill = bg, colour = NA))
+}
+
+#' A tab's chart, re-plotted from the committed chart JSON contract -- `ggplot` object, or
+#' NULL when no chart file exists yet for this (slug, tab) (the same "not yet built"
+#' tolerance `useChartData` gives the web app; `template.qmd` then omits the chart block).
+#'
+#' @param slug character(1) Living Lab slug.
+#' @param tab character(1), one of `LL_TAB_ORDER`.
+#' @param lang character(1), `"en"` or `"de"`.
+#' @return a ggplot2 object, or NULL.
+ll_chart <- function(slug, tab, lang) {
+  if (!identical(lang, "en") && !identical(lang, "de")) {
+    stop("ll_chart(): unsupported lang '", lang, "'; must be 'en' or 'de'.")
+  }
+  chart_path <- .ll_chart_path(slug, tab)
+  if (!file.exists(chart_path)) {
+    return(NULL)
+  }
+  chart <- jsonlite::fromJSON(chart_path, simplifyVector = TRUE)
+
+  if (identical(chart$chart_type, "bar")) {
+    return(.ll_bar_chart(chart, tab, lang))
+  }
+  if (identical(chart$chart_type, "line")) {
+    return(.ll_line_chart(chart, slug, lang))
+  }
+  stop(
+    "ll_chart(): unknown chart_type '", chart$chart_type, "' for slug '", slug,
+    "', tab '", tab, "' (", chart_path, ")."
+  )
+}
