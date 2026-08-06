@@ -213,3 +213,89 @@
 // kept as simple, upstream-shaped exports for future in-body use by plans 12-06..12-10.
 #let accent(body) = text(fill: ll-orange, weight: "bold", body)
 #let accent-upper(body) = text(fill: ll-primary-default, weight: "bold", upper(body))
+
+// --- KPI status boxes (plan 12-07 Task 2) ---------------------------------------
+//
+// D-06's "no statistic is recomputed in R" pairs with a presentation requirement: KPIs read
+// as branded two-part status boxes -- a brand-accent-filled label band over a white value
+// body -- rather than a bordered table row, mirroring StatPanel.jsx's on-screen tile far more
+// closely than `set table` would. `accent` is a PARAMETER here for the exact D-07/D-08 reason
+// given at the top of this file: typst-template.typ rebinds it to the active render's
+// ll-primary, so two Living Labs' PDFs visibly differ in this component's fill colour even
+// though both import the identical module.
+
+// A single indicator: an accent-filled label band (white bold text, centred) stacked directly
+// (spacing: 0pt) on a white value body (a thin ll-gray-light stroke so the box still reads as
+// one unit against the page's ll-bg) carrying the formatted value, its unit, and -- only when
+// non-empty -- a smaller third line for the climate delta note. Both boxes share `width`; the
+// value body additionally takes a fixed `height` so a row of these boxes stays aligned even
+// when one label is long enough to wrap the label band taller than its neighbours.
+#let ll-status-box(
+  label: "",
+  value: "",
+  unit: "",
+  note: "",
+  accent: ll-primary-default,
+  font: "Segoe UI",
+  width: 100%,
+) = {
+  stack(
+    dir: ttb,
+    spacing: 0pt,
+    box(width: width, fill: accent, inset: (x: 6pt, y: 5pt), {
+      align(center + horizon,
+        text(font: font, size: 7.5pt, weight: "bold", fill: ll-white, upper(label))
+      )
+    }),
+    box(
+      width: width,
+      height: 2.5cm,
+      fill: ll-white,
+      stroke: 0.5pt + ll-gray-light,
+      inset: 6pt,
+      {
+        align(center + horizon, {
+          stack(
+            dir: ttb,
+            spacing: 3pt,
+            [
+              #text(font: font, size: 14pt, weight: "bold", fill: ll-black, value)
+              #if unit != "" {
+                text(font: font, size: 9pt, fill: ll-black, " " + unit)
+              }
+            ],
+            if note != "" {
+              text(font: font, size: 8pt, fill: ll-black.lighten(35%), note)
+            },
+          )
+        })
+      }
+    ),
+  )
+}
+
+// A grid of `ll-status-box` calls, one per item dictionary (`label`/`value`/`unit`/`note`
+// keys), threading `accent`/`font` through every box. `columns` equal `1fr` tracks with a
+// small gutter -- three across fits A4's 17.34cm content width comfortably (~5.5cm per box at
+// a 0.4cm gutter), and every tab has at most four curated KPI slots, so no tab produces a
+// lonely single-box row wider than a page.
+#let ll-kpi-grid(items: (), columns: 3, accent: ll-primary-default, font: "Segoe UI") = {
+  grid(
+    columns: (1fr,) * columns,
+    column-gutter: 0.4cm,
+    row-gutter: 0.4cm,
+    // Direct field access (not `.at(key, default: ...)`) is deliberate: a missing or
+    // misnamed key in an emitted item dictionary (e.g. sections.R's ll_kpi_typst() emitting
+    // "labl:" instead of "label:") must fail this compile loudly, not silently degrade to an
+    // empty box -- Task 4's gate mutation-tests exactly this by breaking one key name and
+    // confirming the real Typst compile step fails.
+    ..items.map(item => ll-status-box(
+      label: item.label,
+      value: item.value,
+      unit: item.unit,
+      note: item.note,
+      accent: accent,
+      font: font,
+    ))
+  )
+}
