@@ -270,8 +270,12 @@ ll_narrative <- function(slug, tab, slot, lang) {
 #' @param slug character(1) Living Lab slug.
 #' @param tab character(1), one of `LL_TAB_ORDER`.
 #' @param lang character(1), `"en"` or `"de"`.
-#' @param columns integer(1), number of grid columns (default 3, matching every curated tab's
-#'   at-most-four KPI slots comfortably within A4's content width).
+#' @param columns integer(1) or NULL (the default). NULL resolves to `nrow(ll_kpi_df(...))` --
+#'   one column per real KPI slot -- so a tab's boxes always fill exactly one row instead of
+#'   wrapping a lonely single box onto a second row when a fixed column count does not evenly
+#'   divide the slot count (a hardcoded 3 columns against this project's real four-KPI tabs
+#'   left a stranded fourth box alone on its own row -- the plan 12-10 checkpoint's Defect 4).
+#'   An explicit integer still overrides this when a caller wants a fixed layout.
 #' @param fence logical(1); when TRUE (the default), wraps the emitted `#ll-kpi-grid(...)` call
 #'   in a ` ```{=typst} ` / ` ``` ` raw-block fence, which `template.qmd` `cat()`s from an
 #'   `asis` chunk (plan 12-10). When FALSE, returns the bare call -- what Task 4's gate feeds
@@ -282,8 +286,11 @@ ll_narrative <- function(slug, tab, slot, lang) {
 #' `.ll_typst_escape()`); never emits a hex colour -- the accent is resolved once in
 #' `typst-template.typ` from the active render's brand and threaded through `ll-kpi-grid`'s
 #' `accent` parameter, so this function cannot disagree with the cover page's colour (T-12-35).
-ll_kpi_typst <- function(slug, tab, lang, columns = 3, fence = TRUE) {
+ll_kpi_typst <- function(slug, tab, lang, columns = NULL, fence = TRUE) {
   df <- ll_kpi_df(slug, tab, lang)
+  if (is.null(columns)) {
+    columns <- nrow(df)
+  }
   items <- vapply(seq_len(nrow(df)), function(i) .ll_kpi_item_typst(df[i, , drop = FALSE]), character(1))
   # Trailing comma is required so a single-item list is still parsed as a Typst array
   # literal rather than a parenthesized dictionary expression.
@@ -573,8 +580,9 @@ ll_soil_color <- function(group_key) {
     character(1)
   )
 
-  bg <- ll_tokens()$theme$bg
-
+  # Plan 12-10 checkpoint Defect 8: no chart-specific gridline/background overrides here --
+  # `theme_ll_base()` already blanks every gridline and keeps both background layers
+  # transparent, so this chart never re-introduces either.
   ggplot2::ggplot(display, ggplot2::aes(x = .data$label, y = .data$pct, fill = .data$label)) +
     ggplot2::geom_col(width = 0.7) +
     ggplot2::geom_text(
@@ -590,10 +598,7 @@ ll_soil_color <- function(group_key) {
     ggplot2::labs(x = NULL, y = NULL, caption = .ll_chart_caption(chart, lang)) +
     theme_ll_base() +
     ggplot2::theme(
-      panel.grid.major.y = ggplot2::element_blank(),
-      panel.grid.minor = ggplot2::element_blank(),
-      axis.text.y = ggplot2::element_text(hjust = 1),
-      plot.background = ggplot2::element_rect(fill = bg, colour = NA)
+      axis.text.y = ggplot2::element_text(hjust = 1)
     )
 }
 
@@ -635,8 +640,10 @@ ll_soil_color <- function(group_key) {
   unit <- .ll_bilingual_scalar(chart$unit, lang)
   if (is.na(unit)) unit <- ""
 
-  bg <- ll_tokens()$theme$bg
-
+  # Plan 12-10 checkpoint Defect 8: no chart-specific gridline/background overrides here --
+  # `theme_ll_base()` already blanks every gridline and keeps both background layers
+  # transparent. The zero-reference line below is a data element (an explicit y = 0 marker),
+  # not a gridline, so it is kept.
   ggplot2::ggplot(df, ggplot2::aes(
     x = .data$x, y = .data$value, group = .data$line, colour = .data$line
   )) +
@@ -645,8 +652,7 @@ ll_soil_color <- function(group_key) {
     ggplot2::geom_point(size = 1.8) +
     ggplot2::scale_colour_manual(values = color_values, guide = ggplot2::guide_legend(title = NULL)) +
     ggplot2::labs(x = NULL, y = unit, caption = .ll_chart_caption(chart, lang)) +
-    theme_ll_base() +
-    ggplot2::theme(plot.background = ggplot2::element_rect(fill = bg, colour = NA))
+    theme_ll_base()
 }
 
 #' A tab's chart, re-plotted from the committed chart JSON contract -- `ggplot` object, or

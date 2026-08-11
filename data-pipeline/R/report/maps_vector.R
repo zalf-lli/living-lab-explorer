@@ -478,8 +478,11 @@ ll_locator_credit <- function() {
 
 #' The cover-page locator: a tiles-backed main panel (the Living Lab boundary
 #' over basemap imagery, padded so the boundary is not flush against the
-#' frame) plus a small Germany-outline inset marking the Living Lab's location
-#' nationally. Tiles are cached under data/_cache/ (already gitignored) via the
+#' frame) plus a top-right Germany-outline inset, in its own opaque, dark-
+#' bordered panel, marking the Living Lab's location nationally (plan 12-10
+#' checkpoint Defect 6: the opaque background is what keeps the inset legible
+#' regardless of whether a given Living Lab's padded main-panel extent runs
+#' close to that corner). Tiles are cached under data/_cache/ (already gitignored) via the
 #' maptiles tile-fetch call's own cachedir argument, so a repeat render with a
 #' warm cache needs no network access. A cold-cache failure names both the
 #' cache directory and the provider explicitly, since this is the one
@@ -542,13 +545,32 @@ ll_map_locator <- function(slug, lang) {
   }
   centroid <- sf::st_centroid(sf::st_union(boundary_germany_crs))
 
+  # Plan 12-10 checkpoint Defect 6: the inset was reported too small, not visually distinct
+  # from the tiles-backed main panel, and -- for a Living Lab whose padded main-panel extent
+  # runs close to the frame's own lower-left corner (e.g. Rheingau's narrow Rhine-valley
+  # boundary) -- overlapping the main boundary outline there. Three independent fixes, applied
+  # together rather than relying on any one of them alone: (1) an opaque panel background
+  # (`plot.background`/`panel.background` filled, not the inherited `theme_ll_map()`
+  # transparency) so the inset fully occludes whatever main-panel content sits beneath its own
+  # frame, making a geometric overlap harmless regardless of the Living Lab's boundary shape or
+  # extent; (2) an explicit dark stroke around that panel so it reads as its own inset frame
+  # rather than floating content; (3) a larger placement fraction. Kept in the top-right corner
+  # (opposite the D-14 tile main panel's own visual weight, which -- per CartoDB Voyager's own
+  # style -- tends to carry more label/road density toward the lower-left of a padded bounding
+  # box) rather than repositioned per-Living-Lab, since the opaque background in (1) is what
+  # actually guarantees no unreadable overlap, not the corner choice itself.
   theme_tk <- ll_tokens()$theme
   inset_plot <- ggplot2::ggplot() +
     ggplot2::geom_sf(data = germany, fill = theme_tk$surface, color = theme_tk$mutedLight, linewidth = 0.15) +
     ggplot2::geom_sf(data = centroid, color = brand$color, size = 2, shape = 16) +
     ggplot2::labs(caption = ll_str("report.locatorCaption", lang)) +
     theme_ll_map(base_size = 6) +
-    ggplot2::theme(plot.caption = ggplot2::element_text(size = 5, hjust = 0.5))
+    ggplot2::theme(
+      plot.caption = ggplot2::element_text(size = 5, hjust = 0.5),
+      plot.background = ggplot2::element_rect(fill = theme_tk$bg, colour = theme_tk$black, linewidth = 1.1),
+      panel.background = ggplot2::element_rect(fill = theme_tk$bg, colour = NA),
+      plot.margin = ggplot2::margin(t = 3, r = 3, b = 3, l = 3)
+    )
 
-  main_plot + patchwork::inset_element(inset_plot, left = 0.02, bottom = 0.02, right = 0.30, top = 0.30)
+  main_plot + patchwork::inset_element(inset_plot, left = 0.58, bottom = 0.58, right = 0.99, top = 0.99)
 }
