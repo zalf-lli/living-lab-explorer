@@ -195,11 +195,16 @@ def test_report_tokens_strings_cover_report_namespace() -> None:
         "kpiHeading",
         "mapHeading",
         "chartHeading",
+        # Checkpoint review round 2 (plan 12-10), Defect 4: specific, source-aware figure
+        # captions -- added alongside the pre-existing generic mapHeading/chartHeading pair
+        # above (still used elsewhere), not as a replacement for them.
+        "mapCaption",
+        "chartCaption",
         "generated",
         "basemapCredit",
         "noData",
     }
-    assert len(expected_report_keys) == 11
+    assert len(expected_report_keys) == 13
     assert set(strings["en"]["report"]) == expected_report_keys
     assert set(strings["de"]["report"]) == expected_report_keys
     for lang in ("en", "de"):
