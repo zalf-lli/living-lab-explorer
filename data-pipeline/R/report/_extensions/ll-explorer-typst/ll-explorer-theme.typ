@@ -230,6 +230,14 @@
 // non-empty -- a smaller third line for the climate delta note. Both boxes share `width`; the
 // value body additionally takes a fixed `height` so a row of these boxes stays aligned even
 // when one label is long enough to wrap the label band taller than its neighbours.
+// Plan 12-10 checkpoint Defect 4: the label band and value body were sized generously enough
+// (2.5cm fixed value-body height, 6pt insets, 14pt value text) that four boxes across a row
+// (this project's real per-tab KPI count -- see ll_kpi_typst()'s own now-dynamic `columns`
+// default in sections.R) crowded past a comfortable width; a fixed 3-column caller-side
+// default then left a fourth box stranded alone on its own row. Both sides of that fix work
+// together: sections.R now sizes `columns` to the real KPI count per tab, and this box's own
+// footprint is trimmed (smaller fixed height, tighter insets, slightly smaller value text) so
+// four boxes at one-quarter width still read comfortably on one row.
 #let ll-status-box(
   label: "",
   value: "",
@@ -242,30 +250,30 @@
   stack(
     dir: ttb,
     spacing: 0pt,
-    box(width: width, fill: accent, inset: (x: 6pt, y: 5pt), {
+    box(width: width, fill: accent, inset: (x: 5pt, y: 4pt), {
       align(center + horizon,
-        text(font: font, size: 7.5pt, weight: "bold", fill: ll-white, upper(label))
+        text(font: font, size: 7pt, weight: "bold", fill: ll-white, upper(label))
       )
     }),
     box(
       width: width,
-      height: 2.5cm,
+      height: 2.0cm,
       fill: ll-white,
       stroke: 0.5pt + ll-gray-light,
-      inset: 6pt,
+      inset: 5pt,
       {
         align(center + horizon, {
           stack(
             dir: ttb,
-            spacing: 3pt,
+            spacing: 2pt,
             [
-              #text(font: font, size: 14pt, weight: "bold", fill: ll-black, value)
+              #text(font: font, size: 12pt, weight: "bold", fill: ll-black, value)
               #if unit != "" {
-                text(font: font, size: 9pt, fill: ll-black, " " + unit)
+                text(font: font, size: 8pt, fill: ll-black, " " + unit)
               }
             ],
             if note != "" {
-              text(font: font, size: 8pt, fill: ll-black.lighten(35%), note)
+              text(font: font, size: 7pt, fill: ll-black.lighten(35%), note)
             },
           )
         })
@@ -276,9 +284,11 @@
 
 // A grid of `ll-status-box` calls, one per item dictionary (`label`/`value`/`unit`/`note`
 // keys), threading `accent`/`font` through every box. `columns` equal `1fr` tracks with a
-// small gutter -- three across fits A4's 17.34cm content width comfortably (~5.5cm per box at
-// a 0.4cm gutter), and every tab has at most four curated KPI slots, so no tab produces a
-// lonely single-box row wider than a page.
+// small gutter -- sections.R's `ll_kpi_typst()` now defaults `columns` to the real per-tab KPI
+// count (this project's tabs carry 3 or 4 slots), so every tab's boxes fill exactly one row --
+// four across is roughly 4cm per box at a 0.4cm gutter, still comfortable at this component's
+// trimmed footprint (see `ll-status-box`'s own Defect 4 note) -- rather than a fixed column
+// count stranding a lonely box on its own row when it does not evenly divide the slot count.
 #let ll-kpi-grid(items: (), columns: 3, accent: ll-primary-default, font: "Segoe UI") = {
   grid(
     columns: (1fr,) * columns,
