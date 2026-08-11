@@ -34,6 +34,13 @@ STATIC_DATA_FILES = [
     "data/ll_boundaries.geojson",
 ]
 
+# D-05/D-20: one PDF per (Living Lab, language) -- 5 LLs x 2 langs = 10 files. A report
+# spans all 5 tabs in one document, so it has no natural per-layer home in sources.yaml's
+# layers: schema the way a chart_pattern does (RESEARCH.md Open Question 2); it lives as a
+# standalone module-level constant instead, mirroring sync_charts()'s own pattern variable.
+REPORT_PATTERN = "data/reports/report-{slug}-{lang}.pdf"
+REPORT_LANGS = ("en", "de")
+
 
 def sync_file(source: Path, destination: Path, *, tag: str = "sync") -> None:
     destination.parent.mkdir(parents=True, exist_ok=True)
@@ -413,6 +420,43 @@ def sync_charts() -> None:
         _sync_matched_pattern(pattern, tag="chart")
 
 
+def sync_reports() -> None:
+    """Publish the ten committed per-(Living Lab, language) PDF reports declared by the
+    module-level REPORT_PATTERN to app/public/data/reports/ (D-05).
+
+    Reports are rendered by hand via a manual R render driver (data-pipeline/R/), run by a
+    developer the same way build_pmtiles.py/build_vector.py are today -- this function only
+    ever copies already-produced files and never invokes the renderer itself (D-04). The
+    pattern lives here as a module constant rather than in sources.yaml because
+    a report spans all five tabs in one document and has no natural per-layer home in that
+    file's layers: schema (RESEARCH.md Open Question 2).
+
+    Like sync_charts(), _pattern_to_glob() already tolerates any number of `{...}`
+    placeholders -- it was built for climate's three -- so REPORT_PATTERN's two
+    placeholders (slug, lang) glob-match with zero changes to that shared helper. Mirrors
+    sync_charts()'s own shape: first name each individually missing (slug, lang) file (the
+    D-20 log line), then delegate the actual copy to _sync_matched_pattern so the copy path
+    keeps inheriting the repo-root-escape guard every other sync_* function relies on.
+    """
+    root = repo_root()
+    boundaries_path = resolve("data/ll_boundaries.geojson")
+    boundaries = json.loads(boundaries_path.read_text(encoding="utf-8"))
+    ll_slugs = sorted(
+        {feature["properties"]["ll_slug"] for feature in boundaries["features"]}
+    )
+    if not ll_slugs:
+        raise RuntimeError(
+            f"No ll_slug values found in {boundaries_path.relative_to(root)}"
+        )
+
+    for slug in ll_slugs:
+        for lang in REPORT_LANGS:
+            expected = resolve(REPORT_PATTERN.format(slug=slug, lang=lang))
+            if not expected.exists():
+                print(f"[report] skipped - not yet built: {expected.relative_to(root)}")
+    _sync_matched_pattern(REPORT_PATTERN, tag="report")
+
+
 def sync_to_app() -> None:
     write_metadata()
     print("[sync] generated data/ll_metadata.json from data/ll_content.json")
@@ -423,6 +467,7 @@ def sync_to_app() -> None:
     sync_pmtiles_per_ll()
     sync_vector_geojson()
     sync_charts()
+    sync_reports()
     generate_landuse_legend()
     generate_land_cover_legend()
     generate_climate_legend()
