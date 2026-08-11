@@ -32,6 +32,9 @@ key-files:
     - data-pipeline/R/theme_llexplorer.R
     - data-pipeline/R/report/maps_raster.R
     - data-pipeline/R/report/maps_vector.R
+    - app/src/i18n_resources.js
+    - data/report_tokens.json
+    - data-pipeline/tests/test_report_tokens.py
     - data/reports/report-east-brandenburg-en.pdf
     - data/reports/report-east-brandenburg-de.pdf
     - data/reports/report-havellandisches-luch-en.pdf
@@ -51,15 +54,18 @@ decisions:
   - "Checkpoint review round 1: fig-dpi raised again, 180 to 300 (LL_FIG$dpi kept in sync) -- the human reviewer found every map/chart blurry at 180dpi; the committed ten-file total at that dpi was ~13% of the 50 MiB budget, leaving ample headroom for 300dpi's roughly (300/180)^2 ~= 2.8x theoretical per-image byte increase (measured actual increase across the ten-file re-render was smaller, ~1.85x, due to PNG compression)."
   - "Checkpoint review round 1: the dark-grey background behind every raster map was scale_fill_manual()'s own default na.value (a mid-grey), not a theme_ll_map() background setting (already transparent) -- fixed once in ll_discrete_map_scale() (na.value = \"transparent\") rather than per raster-map caller."
   - "Checkpoint review round 1: terra::terraOptions(progress = 0) added at the top of theme_llexplorer.R (guarded by requireNamespace(), since this module's own D-22 contract is 'no side effects beyond definitions' for projects that reuse it without any raster maps) -- terra's own ASCII progress bar is raw stdout, not an R condition, so execute: warning/message: false never suppressed it; it was captured as literal chunk text and rendered as repeated dashed/pipe bands under east-brandenburg's larger-extent raster maps. Placed in theme_llexplorer.R, not maps_raster.R (where the artifact was first found), because ll_map_locator() (maps_vector.R) also plots a terra-backed SpatRaster and theme_llexplorer.R is the one module every other report module sources first."
+  - "Checkpoint review round 2: the KPI label band was given its own fixed height (ll-status-box-label-height, 1.0cm, clip: true) rather than a larger shared box height or a smaller font -- keeps the value body's own already-tuned 2.0cm height untouched and only changes the one element (the label band) that was actually variable-height."
+  - "Checkpoint review round 2: ll_map_locator()'s Germany-overview panel moved from patchwork::inset_element() (round 1's own fix, an overlay) to patchwork::wrap_plots(list(main_plot, germany_plot), ncol = 2, widths = c(1, 0.3)) -- a genuine side-by-side layout, not merely a larger/more-opaque inset. Plain `main_plot + germany_plot` composition was tried first and failed live ('Can't add germany_plot to a <ggplot> object', this project's ggplot2 version routing `+` through its own S7 dispatch before patchwork's operator sees it) -- wrap_plots() is used instead, the same mechanism ll_map_climate_grid() already relies on for its own 8-panel composition."
+  - "Checkpoint review round 2: figure captions are built from sources.yaml's existing title/label fields (never invented text) via the same .ll_sources_yaml()/.ll_layer_by_id() accessors maps_raster.R already defines, rather than a new BibTeX/Quarto @citation system -- the fuller citation approach was explicitly deferred by the checkpoint's own decision. The two new i18n keys (report.mapCaption/chartCaption) follow this project's existing report_tokens.json bridge convention (edit app/src/i18n_resources.js, re-run app/scripts/export_report_tokens.mjs) rather than a new Python-side codegen bridge, since an R-side yaml reader already exists and needed no new dependency."
 requirements-completed: [D-01, D-05, D-09, D-10, D-11, D-12, D-13, D-14]
 metrics:
-  duration: "~50min of active plan work (excluding the earlier read/research phase), most of it the real ten-file render; checkpoint review round 1 added roughly another 2h (investigation, nine fixes, four R gates, two ten-file renders)"
+  duration: "~50min of active plan work (excluding the earlier read/research phase), most of it the real ten-file render; checkpoint review round 1 added roughly another 2h (investigation, nine fixes, four R gates, two ten-file renders); checkpoint review round 2 added roughly another 1.5h (four fixes, one missing raster source download, four R gates, a third ten-file render)"
   completed: 2026-08-11
 ---
 
 # Phase 12 Plan 10: Assemble the full report and produce the ten committed PDFs Summary
 
-**`template.qmd` extended from a title page into the complete five-tab document, a real binding size-budget assertion added to `render_reports.py`, all ten Living-Lab/language PDFs rendered and committed, then -- after a first blocking checkpoint review returned nine concrete defects -- every defect fixed, independently re-verified, and all ten PDFs re-rendered at a total of 12,588,463 bytes, still 24% of the 50 MiB total budget this plan locks.**
+**`template.qmd` extended from a title page into the complete five-tab document, a real binding size-budget assertion added to `render_reports.py`, all ten Living-Lab/language PDFs rendered and committed, then -- after two blocking checkpoint review rounds (nine defects, then four more) -- every defect fixed, independently re-verified, and all ten PDFs re-rendered a third time at a total of 12,311,180 bytes, still ~23% of the 50 MiB total budget this plan locks.**
 
 ## What Was Built
 
@@ -367,29 +373,161 @@ now produce zero `|---...-|` artifact text.
 ## Self-Check
 
 - `data-pipeline/R/report/template.qmd` exists, contains the five-section body, and contains
-  four `{{< pagebreak >}}` occurrences (one between each pair of adjacent sections): FOUND
+  five `{{< pagebreak >}}` occurrences (four between adjacent sections plus one new occurrence
+  right after the cover page, round 2 Defect 2): FOUND
 - `data-pipeline/R/render_reports.py` contains `enforce_report_budget`: FOUND
-- `data-pipeline/R/report/_extensions/ll-explorer-typst/ll-explorer-theme.typ` contains the
-  trimmed `ll-status-box` (`height: 2.0cm`): FOUND
+- `data-pipeline/R/report/_extensions/ll-explorer-typst/ll-explorer-theme.typ` contains
+  `ll-status-box-label-height` (round 2 Defect 1's fixed label-band height): FOUND
+- `data-pipeline/R/report/maps_vector.R` contains `patchwork::wrap_plots(list(main_plot,
+  germany_plot)` (round 2 Defect 3's side-by-side locator layout) and no longer contains
+  `patchwork::inset_element`: FOUND
+- `data-pipeline/R/report/template.qmd` contains `.ll_report_map_caption` and
+  `.ll_report_chart_caption` (round 2 Defect 4's caption helpers): FOUND
+- `app/src/i18n_resources.js` contains `mapCaption` and `chartCaption` under both `en.report`
+  and `de.report`: FOUND
 - `data-pipeline/R/theme_llexplorer.R` contains `terra::terraOptions(progress = 0)` and
   `dpi = 300`: FOUND
-- `data/reports/report-east-brandenburg-en.pdf` exists, 969,291 bytes: FOUND
-- `data/reports/report-rheingau-de.pdf` exists, 1,228,991 bytes: FOUND
+- `data/reports/report-east-brandenburg-en.pdf` exists, 1,013,635 bytes: FOUND
+- `data/reports/report-rheingau-de.pdf` exists, 1,270,572 bytes: FOUND
 - All ten `data/reports/report-*-*.pdf` files exist: FOUND (10/10)
 - Commit `5393acf` (Task 1) exists in git log: FOUND
 - Commit `e90c878` (Task 2) exists in git log: FOUND
-- Commits `b4816d0`, `db1e78b`, `b7a32ba`, `ba1eb83`, `34da449` (this round's five fix commits)
+- Commits `b4816d0`, `db1e78b`, `b7a32ba`, `ba1eb83`, `34da449` (round 1's five fix commits)
   exist in git log: FOUND
-- Commit `528cb09` (this round's full re-render) exists in git log: FOUND
+- Commit `528cb09` (round 1's full re-render) exists in git log: FOUND
+- Commits `afa581c`, `ffe2d32`, `0e618ef`, `7e8da95` (round 2's four fix commits) exist in git
+  log: FOUND
+- Commit `1b445d2` (round 2's full re-render) exists in git log: FOUND
 
 ## Self-Check: PASSED
 
-## Next: Task 3 (blocking human-verify checkpoint, round 2)
+## Checkpoint Review Round 2 -- Defects Fixed
+
+Task 3's second blocking `checkpoint:human-verify` review returned four more concrete defects.
+All four are fixed, independently re-verified against real rendered output, and the full
+ten-file set re-rendered so every committed PDF reflects every fix consistently. Task 3 is
+presented again below for a fresh review -- none of this round's fixes were self-approved.
+
+**1. KPI status box height fixed regardless of title wrap** (commit `afa581c`) --
+`ll-status-box`'s label band (`ll-explorer-theme.typ`) had no fixed height, only the value body
+did (`height: 2.0cm`); a title long enough to wrap onto two lines (common for German labels,
+e.g. "DURCHSCHNITTLICHE BETRIEBSGROESSE" or "GRUNDWASSERENTNAHME (NICHTOEFFENTLICHE
+VERSORGUNG)") made that one box taller than its one-line-title neighbours in the same row, so a
+row of three or four boxes no longer shared one common bottom edge. Gave the label band its own
+fixed height (`ll-status-box-label-height`, 1.0cm, `clip: true`) so every box in a row is now
+exactly `label-height + 2.0cm` tall regardless of its own label's length. Verified live on
+`report-east-brandenburg-de.pdf` page 8 (soil tab, 3 KPIs, one two-line German label) and
+`report-havellandisches-luch-de.pdf` page 3 (agriculture tab, 4 KPIs, two two-line German
+labels): every box in each row is now visually the same height (screenshot-inspected both).
+
+**2. Pagebreak between the cover page and the first tab section** (commit `ffe2d32`) -- the
+Agriculture section previously continued on the same physical page as the cover-page
+continuation (region, NUTS-3, locator map, basemap credit) whenever there was room; a single
+`{{< pagebreak >}}` inserted right after the basemap-credit line now forces it onto its own
+page, matching the four pagebreaks round 1 already added between the five tab sections
+themselves. Verified live: `report-havellandisches-luch-en.pdf`'s page-by-page extracted text
+now shows the cover-page continuation (region/NUTS-3/locator/basemap credit) ending cleanly on
+page 2, with "Agriculture" starting fresh on page 3.
+
+**3. Locator maps placed side by side instead of an inset overlay** (commit `0e618ef`) --
+round 1's fix enlarged, opaque-backgrounded and bordered the Germany-overview panel to stop it
+overlapping the main tiles-backed panel's own content, but it was still a
+`patchwork::inset_element()` placed on top of the main panel -- an inset, however large or
+opaque, still reads as one map placed over another rather than two maps shown together.
+Replaced with `patchwork::wrap_plots(list(main_plot, germany_plot), ncol = 2, widths = c(1,
+0.3))`: main locator on the left, Germany overview to its right at exactly 30% of the main
+panel's own rendered width (patchwork's relative-weight column scaling). A plain `main_plot +
+germany_plot` was tried first and raised `Can't add 'germany_plot' to a <ggplot> object` --
+this project's ggplot2 version dispatches `+` on two plain ggplot objects through ggplot2's own
+S7 method system before patchwork's operator ever sees it -- so `wrap_plots()` is used instead,
+matching `ll_map_climate_grid()`'s own existing multi-panel composition style. Verified live on
+both `report-havellandisches-luch-en.pdf` (single-part boundary) and
+`report-east-brandenburg-en.pdf` (large, four-NUTS3-part disjoint boundary, round 1's own
+hardest overlap case) -- both now show two clearly separate panels, main map left, Germany
+overview right, no overlap possible by construction (screenshot-inspected both).
+
+**4. Specific, source-aware figure captions** (commit `7e8da95`) -- every map/chart figure's
+caption was still the generic `report.mapHeading`/`report.chartHeading` text round 1 wired into
+Quarto's native figure-caption mechanism ("Map"/"Chart" in English, "Karte"/"Diagramm" in
+German) rather than naming what the figure shows or where its data comes from. Added two new
+bilingual i18n keys (`report.mapCaption`, `report.chartCaption`) to `app/src/i18n_resources.js`
+and re-exported `data/report_tokens.json`; added three new R helpers to `template.qmd`'s setup
+chunk (`.ll_report_source_text`, `.ll_report_map_caption`, `.ll_report_chart_caption`) that read
+`data-pipeline/sources/sources.yaml`'s own `title` (and, for climate, per-variable `label`)
+fields through the `.ll_sources_yaml()`/`.ll_layer_by_id()` accessors `maps_raster.R` already
+defines -- no source text is invented anywhere. Charts reuse the same source-text fragment as
+their tab's map (chart and map re-plot/re-paint the same sources.yaml layer). The climate tab's
+one eight-panel figure names all four CHELSA variables explicitly via
+`chelsa-climate.climate.variables.*.label` rather than a single generic theme name. Deliberately
+plain text interpolated through `ll_str()`, never a BibTeX/Quarto `@citation` system -- that
+fuller approach was explicitly deferred by the checkpoint's own decision, and no `.bib` file or
+`@`-syntax was added. Verified live: `report-havellandisches-luch-de.pdf` page 3's caption reads
+"Abbildung 1: Karte zu Landwirtschaft im Living Lab Havelländisches Luch (Daten: Anbaukulturen
+(DLR, 2024))"; `report-east-brandenburg-de.pdf` page 8's caption reads "Abbildung 5: Karte zu
+Boden im Living Lab Ost-Brandenburg (Daten: Bodenuebersichtskarte (BUEK250))" (both
+screenshot-inspected) -- specific to the Living Lab, the tab, and its real data source, and
+neither introduces an `@` character (re-confirmed programmatically across all ten re-rendered
+PDFs, see Re-verification below).
+
+### A fifth, incidental fix: a missing source raster
+
+While re-rendering, `data/io_lulc_32U_2024.tif` (the western Living Labs' land-cover source
+tile -- rheingau, hessian-low-mountain, north-hessian-loess) was found absent from this
+worktree's `data/` directory (a gitignored, rebuildable pipeline intermediate never committed,
+per this project's standing convention). Re-downloaded from
+`sources.yaml`'s own pinned `download_url_pattern`
+(`https://io-10m-annual-lulc.s3.us-west-2.amazonaws.com/32U_2024.tif`) and its SHA-256 verified
+byte-for-byte against `sources.yaml`'s own pinned `sha256_by_tile."32U"` value before use. This
+is environment setup, not a code change -- no commit corresponds to it, and no plan file
+declares it, since the file is gitignored infrastructure this worktree simply needed to
+populate once before any full render (western and eastern source rasters are otherwise present
+in the parent checkout this worktree was created from).
+
+### Re-verification after all four fixes (full ten-file re-render, commit `1b445d2`)
+
+- `python data-pipeline/R/render_reports.py` (full run, all 10) -- exits 0, prints
+  `[report] budget OK: every file <= 8388608 bytes, committed total <= 52428800 bytes`. PASS.
+- `python -c "...assert len(f)==10; ...; assert t <= 52428800; print('OK', len(f), t)"` -- prints
+  `OK 10 12311180` (12,311,180 bytes total, still ~23% of the 50 MiB budget; largest single file
+  `report-hessian-low-mountain-en.pdf` at 1,520,283 bytes, ~18% of the 8 MiB per-file cap).
+  PASS.
+- All ten files independently re-checked (a standalone R script, not reused from any earlier
+  round): page count >= 6, all five English section headings present in the English files' text,
+  no `@` character anywhere in any of the ten files' extracted text, each Living Lab's en/de pair
+  differs in extracted text, every German file contains `Kennzahlen`. PASS (10/10).
+- `grep -c "results='asis'" data-pipeline/R/report/template.qmd` -- still returns 1 (the shared
+  KPI-grid chunk-option template; untouched by this round). PASS.
+- `grep -Ec "fig-width: [0-9]|fig-height: [0-9]"` -- still returns 0 (every figure chunk sizes
+  via `!expr LL_FIG$...`; the new `fig-cap` helper calls introduce no numeric literal either).
+  PASS.
+- `grep -c "{{< pagebreak >}}"` -- now returns 5 (was 4 before this round). PASS.
+- No terra progress-bar artifact text (`grepl('----', ...)`) in `report-east-brandenburg-en.pdf`
+  (round 1's own hardest case for that regression): FALSE, confirmed still absent. PASS.
+- `python -m pytest data-pipeline/tests/ -q` -- 38/38 collected tests relevant to this project's
+  own code pass; one additional pre-existing failure
+  (`test_pipeline_outputs.py::test_derive_change_field_guards_nodata`, a bare
+  `ModuleNotFoundError: No module named 'rasterio'` at import time in
+  `data-pipeline/python/fetch_climate.py`) is a pre-existing environment gap in this fresh
+  worktree (no `data-pipeline/.venv`, and the system Python has no `rasterio` installed either --
+  confirmed via `pip show rasterio`), unrelated to any file this round modifies; logged to
+  `deferred-items.md` per the scope-boundary rule rather than fixed (installing a package is
+  outside this executor's auto-fix authority). `test_report_tokens.py`'s own pinned
+  `expected_report_keys` set was updated (11 -> 13 keys) to include the two new
+  `mapCaption`/`chartCaption` keys this round adds -- a direct, expected consequence of Defect
+  4's own i18n additions, not a regression. PASS (with the one unrelated, deferred exception
+  documented above).
+- All four R gates re-run after every fix and again after the full re-render:
+  `test_theme_llexplorer.R`, `test_sections.R`, `test_maps_vector.R`, `test_maps_raster.R` --
+  each prints its own per-Living-Lab summary line and `OK`, exit 0. PASS.
+- `git status --porcelain data/reports/` -- ten files modified (re-rendered), none added or
+  removed; `git check-ignore -q data/reports` still exits 1 (not ignored). PASS.
+
+## Next: Task 3 (blocking human-verify checkpoint, round 3)
 
 Tasks 1 and 2 remain complete and committed. Task 3's first review round returned nine concrete
-defects; all nine are now fixed, committed atomically, and independently re-verified end to end
-against the real re-rendered output (not assumed from partial output or from the fix commits'
-own diffs alone). Task 3 is a blocking `checkpoint:human-verify` gate and is presented again below
+defects (all fixed and re-verified, see "Checkpoint Review Round 1" above); its second review
+round returned four more concrete defects (all fixed and re-verified, see "Checkpoint Review
+Round 2" above). Task 3 is a blocking `checkpoint:human-verify` gate and is presented again below
 for a fresh bilingual visual review -- not something this executor resolves, and not self-approved
 by this round's own extensive automated re-verification. See the orchestrator-facing checkpoint
 report for the full state, including what changed since the last review.
