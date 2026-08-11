@@ -13,7 +13,7 @@ execute:
   warning: false
   message: false
   fig-format: png
-  fig-dpi: 180
+  fig-dpi: 300
 ---
 
 ```{r setup}
@@ -157,11 +157,11 @@ ll_map_locator(slug, lang)
 cat(ll_kpi_typst(slug, "agriculture", lang))
 ```
 
-## `r ll_str("report.mapHeading", lang)`
-
 ```{r}
+#| label: fig-map-agriculture
 #| fig-width: !expr LL_FIG$width_full
 #| fig-height: !expr LL_FIG$height_map
+#| fig-cap: !expr ll_str("report.mapHeading", lang)
 ll_map_agriculture(slug, lang)
 ```
 
@@ -170,11 +170,11 @@ ll_map_agriculture(slug, lang)
 chart_agriculture <- ll_chart(slug, "agriculture", lang)
 ```
 
-`r if (!is.null(chart_agriculture)) paste0("\n## ", ll_str("report.chartHeading", lang), "\n") else ""`
-
 ```{r}
+#| label: fig-chart-agriculture
 #| fig-width: !expr LL_FIG$width_full
 #| fig-height: !expr LL_FIG$height_chart
+#| fig-cap: !expr if (!is.null(chart_agriculture)) ll_str("report.chartHeading", lang) else NULL
 if (!is.null(chart_agriculture)) chart_agriculture
 ```
 
@@ -188,6 +188,8 @@ narr_challenges_agriculture <- ll_narrative(slug, "agriculture", "challenges", l
 
 `r narrative_block(ll_str("llDetail.challenges", lang), narr_challenges_agriculture)`
 
+{{< pagebreak >}}
+
 # `r ll_str("layers.climate", lang)`
 
 ## `r ll_str("report.kpiHeading", lang)`
@@ -197,11 +199,11 @@ narr_challenges_agriculture <- ll_narrative(slug, "agriculture", "challenges", l
 cat(ll_kpi_typst(slug, "climate", lang))
 ```
 
-## `r ll_str("report.mapHeading", lang)`
-
 ```{r}
+#| label: fig-map-climate
 #| fig-width: !expr LL_FIG$width_full
 #| fig-height: !expr LL_FIG$height_map * 2
+#| fig-cap: !expr ll_str("report.mapHeading", lang)
 # D-12: the climate grid is an eight-panel composition needing roughly a full page --
 # double LL_FIG's usual map height rather than a new hardcoded literal.
 ll_map_climate_grid(slug, lang)
@@ -212,11 +214,11 @@ ll_map_climate_grid(slug, lang)
 chart_climate <- ll_chart(slug, "climate", lang)
 ```
 
-`r if (!is.null(chart_climate)) paste0("\n## ", ll_str("report.chartHeading", lang), "\n") else ""`
-
 ```{r}
+#| label: fig-chart-climate
 #| fig-width: !expr LL_FIG$width_full
 #| fig-height: !expr LL_FIG$height_chart
+#| fig-cap: !expr if (!is.null(chart_climate)) ll_str("report.chartHeading", lang) else NULL
 if (!is.null(chart_climate)) chart_climate
 ```
 
@@ -230,6 +232,8 @@ narr_challenges_climate <- ll_narrative(slug, "climate", "challenges", lang)
 
 `r narrative_block(ll_str("llDetail.challenges", lang), narr_challenges_climate)`
 
+{{< pagebreak >}}
+
 # `r ll_str("layers.soil", lang)`
 
 ## `r ll_str("report.kpiHeading", lang)`
@@ -239,11 +243,11 @@ narr_challenges_climate <- ll_narrative(slug, "climate", "challenges", lang)
 cat(ll_kpi_typst(slug, "soil", lang))
 ```
 
-## `r ll_str("report.mapHeading", lang)`
-
 ```{r}
+#| label: fig-map-soil
 #| fig-width: !expr LL_FIG$width_full
 #| fig-height: !expr LL_FIG$height_map
+#| fig-cap: !expr ll_str("report.mapHeading", lang)
 ll_map_soil(slug, lang)
 ```
 
@@ -252,11 +256,11 @@ ll_map_soil(slug, lang)
 chart_soil <- ll_chart(slug, "soil", lang)
 ```
 
-`r if (!is.null(chart_soil)) paste0("\n## ", ll_str("report.chartHeading", lang), "\n") else ""`
-
 ```{r}
+#| label: fig-chart-soil
 #| fig-width: !expr LL_FIG$width_full
 #| fig-height: !expr LL_FIG$height_chart
+#| fig-cap: !expr if (!is.null(chart_soil)) ll_str("report.chartHeading", lang) else NULL
 if (!is.null(chart_soil)) chart_soil
 ```
 
@@ -270,6 +274,8 @@ narr_challenges_soil <- ll_narrative(slug, "soil", "challenges", lang)
 
 `r narrative_block(ll_str("llDetail.challenges", lang), narr_challenges_soil)`
 
+{{< pagebreak >}}
+
 # `r ll_str("layers.economic", lang)`
 
 ## `r ll_str("report.kpiHeading", lang)`
@@ -279,11 +285,11 @@ narr_challenges_soil <- ll_narrative(slug, "soil", "challenges", lang)
 cat(ll_kpi_typst(slug, "economic", lang))
 ```
 
-## `r ll_str("report.mapHeading", lang)`
-
 ```{r}
+#| label: fig-map-economic
 #| fig-width: !expr LL_FIG$width_full
 #| fig-height: !expr LL_FIG$height_map
+#| fig-cap: !expr ll_str("report.mapHeading", lang)
 ll_map_economic(slug, lang)
 ```
 
@@ -292,11 +298,11 @@ ll_map_economic(slug, lang)
 chart_economic <- ll_chart(slug, "economic", lang)
 ```
 
-`r if (!is.null(chart_economic)) paste0("\n## ", ll_str("report.chartHeading", lang), "\n") else ""`
-
 ```{r}
+#| label: fig-chart-economic
 #| fig-width: !expr LL_FIG$width_full
 #| fig-height: !expr LL_FIG$height_chart
+#| fig-cap: !expr if (!is.null(chart_economic)) ll_str("report.chartHeading", lang) else NULL
 if (!is.null(chart_economic)) chart_economic
 ```
 
@@ -310,6 +316,8 @@ narr_challenges_economic <- ll_narrative(slug, "economic", "challenges", lang)
 
 `r narrative_block(ll_str("llDetail.challenges", lang), narr_challenges_economic)`
 
+{{< pagebreak >}}
+
 # `r ll_str("layers.landscape", lang)`
 
 ## `r ll_str("report.kpiHeading", lang)`
@@ -319,11 +327,11 @@ narr_challenges_economic <- ll_narrative(slug, "economic", "challenges", lang)
 cat(ll_kpi_typst(slug, "landscape", lang))
 ```
 
-## `r ll_str("report.mapHeading", lang)`
-
 ```{r}
+#| label: fig-map-landscape
 #| fig-width: !expr LL_FIG$width_full
 #| fig-height: !expr LL_FIG$height_map
+#| fig-cap: !expr ll_str("report.mapHeading", lang)
 ll_map_landscape(slug, lang)
 ```
 
@@ -332,11 +340,11 @@ ll_map_landscape(slug, lang)
 chart_landscape <- ll_chart(slug, "landscape", lang)
 ```
 
-`r if (!is.null(chart_landscape)) paste0("\n## ", ll_str("report.chartHeading", lang), "\n") else ""`
-
 ```{r}
+#| label: fig-chart-landscape
 #| fig-width: !expr LL_FIG$width_full
 #| fig-height: !expr LL_FIG$height_chart
+#| fig-cap: !expr if (!is.null(chart_landscape)) ll_str("report.chartHeading", lang) else NULL
 if (!is.null(chart_landscape)) chart_landscape
 ```
 
