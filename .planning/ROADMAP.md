@@ -693,7 +693,7 @@ narrative), published as a static file and reachable from a download control on 
 set was written). The 22 locked decisions D-01..D-22 in `12-CONTEXT.md` plus `12-UI-SPEC.md` serve as
 this phase's requirement set; every plan's `requirements` field carries the D-IDs it implements.
 **Depends on:** Phase 11
-**Plans:** 10/12 plans executed
+**Plans:** 11/12 plans executed
 
 Plans:
 - [x] 12-01-PLAN.md — Extract i18n resources into a node-importable module, add the download/report i18n keys, add the report-availability hook
@@ -706,7 +706,7 @@ Plans:
 - [x] 12-08-PLAN.md — maps_vector.R: soil and land-value choropleths with the app's own per-LL legends, plus the cover locator map
 - [x] 12-09-PLAN.md — maps_raster.R: crop-type, land-cover and the eight-panel climate grid from the source GeoTIFFs
 - [x] 12-10-PLAN.md — Full template assembly, the real ten-PDF render, size budget, and a content review checkpoint
-- [ ] 12-11-PLAN.md — sync_reports() publishing to app/public, plus existence/validity/parity/budget pytest gates
+- [x] 12-11-PLAN.md — sync_reports() publishing to app/public, plus existence/validity/parity/budget pytest gates
 - [ ] 12-12-PLAN.md — Full automated gate, D-01..D-22 evidence record, PROJECT.md scope correction, end-to-end bilingual sign-off
 
 ---
