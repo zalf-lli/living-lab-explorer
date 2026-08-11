@@ -522,12 +522,18 @@ in the parent checkout this worktree was created from).
 - `git status --porcelain data/reports/` -- ten files modified (re-rendered), none added or
   removed; `git check-ignore -q data/reports` still exits 1 (not ignored). PASS.
 
-## Next: Task 3 (blocking human-verify checkpoint, round 3)
+## Task 3 -- Bilingual content review of the ten reports (round 3): APPROVED
 
-Tasks 1 and 2 remain complete and committed. Task 3's first review round returned nine concrete
-defects (all fixed and re-verified, see "Checkpoint Review Round 1" above); its second review
-round returned four more concrete defects (all fixed and re-verified, see "Checkpoint Review
-Round 2" above). Task 3 is a blocking `checkpoint:human-verify` gate and is presented again below
-for a fresh bilingual visual review -- not something this executor resolves, and not self-approved
-by this round's own extensive automated re-verification. See the orchestrator-facing checkpoint
-report for the full state, including what changed since the last review.
+The human reviewed the round-2 re-render and responded: **"there are some remaining defects
+and/or changes I want to make but these would be best planned and inserted as a new phase in the
+overall plan. for now consider it approved."**
+
+Verdict: **approved**. Any further polish items are explicitly deferred to a new, separately
+planned phase rather than a fourth round of checkpoint fixes on this plan -- the human's own
+stated preference, not an executor judgment call. No further changes were made to `template.qmd`,
+`sections.R`, `maps_vector.R`, `maps_raster.R`, `theme_llexplorer.R`, or the ten PDFs as part of
+this approval; the round-2 re-render (commit `1b445d2`) is the final, approved state of this
+plan's artifacts.
+
+Plan 12-10 is complete: Tasks 1, 2, and 3 all done, ten budget-compliant bilingual reports
+committed under `data/reports/`, human sign-off recorded.
