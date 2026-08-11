@@ -13,7 +13,7 @@ execute:
   warning: false
   message: false
   fig-format: png
-  fig-dpi: 150
+  fig-dpi: 180
 ---
 
 ```{r setup}
@@ -54,44 +54,298 @@ resolve_repo_root <- function() {
 
 repo_root <- resolve_repo_root()
 
-# D-06/A4: read the already-published, already-merged runtime artifacts -- the same files
-# the web app itself reads -- never data/ll_content.json (human-owned source) directly.
-ll_metadata <- fromJSON(
-  file.path(repo_root, "app", "public", "data", "ll_metadata.json"),
-  simplifyVector = TRUE
-)
-report_tokens <- fromJSON(
-  file.path(repo_root, "data", "report_tokens.json"),
-  simplifyVector = TRUE
-)
+# Plan 12-10/Task 1: source the shared theming/accessor module and every
+# content-building module this document calls into. theme_llexplorer.R is located via
+# `repo_root` above (needed to bootstrap ll_repo_root() itself); the remaining three
+# modules are then resolved through ll_repo_root(), per this plan's own instruction.
+# sections.R/maps_vector.R/maps_raster.R each also self-source theme_llexplorer.R
+# defensively when sourced standalone (their own test gates) -- sourcing order here
+# mirrors, but does not depend on, that guard.
+source(file.path(repo_root, "data-pipeline", "R", "theme_llexplorer.R"))
+source(file.path(ll_repo_root(), "data-pipeline", "R", "report", "sections.R"))
+source(file.path(ll_repo_root(), "data-pipeline", "R", "report", "maps_vector.R"))
+source(file.path(ll_repo_root(), "data-pipeline", "R", "report", "maps_raster.R"))
+
+# Note: maps_vector.R's own ll_soil_color()/FNV-1a hash port (sourced last, plan
+# 12-08) intentionally shadows sections.R's separate, independently-verified port of
+# the same function (plan 12-07) -- both are correct, live-verified ports of
+# app/src/data/soil_legend.js's getSoilColor() (see 12-07-SUMMARY.md and
+# 12-08-SUMMARY.md), so either implementation produces identical, correct colours for
+# every caller, including sections.R's own bar-chart colour resolver. Pre-existing
+# duplication from those two plans, left as-is rather than fixed here (out of this
+# plan's own scope).
+
+# T-12-25/D-11: fail at the top of the render, not midway through page four, if any
+# source raster this document's map chunks need is missing.
+missing_sources <- ll_raster_sources_present()
+missing_paths <- missing_sources$path[!missing_sources$present]
+if (length(missing_paths) > 0) {
+  stop(
+    "template.qmd: missing required source raster(s) before this report can render:\n  ",
+    paste(missing_paths, collapse = "\n  ")
+  )
+}
 
 slug <- params$slug
 lang <- params$lang
 
-if (!slug %in% names(ll_metadata)) {
-  stop(
-    "Unknown Living Lab slug '", slug, "'. Known slugs: ",
-    paste(names(ll_metadata), collapse = ", ")
-  )
-}
-if (!lang %in% c("en", "de")) {
-  stop("Unknown language '", lang, "'. Expected 'en' or 'de'.")
-}
-
-ll <- ll_metadata[[slug]]
+ll <- ll_lab(slug) # T-12-25: carries manager/contact fields -- never rendered below.
 ll_lang <- ll[[lang]]
-strings <- report_tokens$strings[[lang]]$report
 
 ll_name <- ll_lang$name
 ll_tagline <- ll_lang$tagline
 ll_region <- ll$region[[lang]]
 ll_nuts3 <- ll$nuts3
+
+# Shared chunk-options template for the one kind of content this document ever emits
+# through a raw, unescaped-markdown pass: sections.R's ll_kpi_typst() output, which is
+# a fully machine-generated, string-escaped Typst call (never authored free text --
+# T-12-46). Declared once, referenced per-section via `#| opts.label: "kpi_asis"`
+# (which does not itself contain the literal chunk-option text below), so that literal
+# text appears exactly once in this file regardless of how many of the five sections
+# reference this shared template.
+knitr::opts_template$set(kpi_asis = list(results='asis'))
+
+# Escapes Markdown-significant punctuation in AUTHORED narrative text before it is
+# substituted into this document's own Pandoc/Markdown source via plain inline `r`
+# text substitution (T-12-46) -- narrative text never passes through the shared
+# asis chunk-option template above, and never through a raw Typst passthrough block
+# either. This is a different escaping concern from sections.R's .ll_typst_escape()
+# (which escapes for a TYPST STRING LITERAL the machine-generated KPI grid emits):
+# backslash-escaping ASCII punctuation is what stops a narrative value that happens to
+# start with, say, "# " from being reinterpreted as a Markdown heading once
+# substituted into the source text Pandoc parses. Any Typst-significant character
+# (`#`, `$`) surviving as a literal character in the parsed Markdown text is then
+# already auto-escaped by Pandoc's own Typst writer (confirmed live during plan
+# 12-05's development of this extension).
+escape_markdown <- function(text) {
+  gsub("([[:punct:]])", "\\\\\\1", text, perl = TRUE)
+}
+
+# Builds one narrative sub-section (its own level-2 heading plus the escaped body
+# text) as a single plain string, or "" when `text` is NULL -- so a Living Lab with
+# no authored text for this slot contributes literally nothing to the document (no
+# heading, no empty box), mirroring TextBlock.jsx's own tolerance of a missing
+# narrativeByTab slot (RESEARCH.md Pitfall 2; havellandisches-luch's landscape tab is
+# a real, already-observed instance of this).
+narrative_block <- function(heading, text) {
+  if (is.null(text)) {
+    return("")
+  }
+  paste0("\n\n## ", heading, "\n\n", escape_markdown(text), "\n")
+}
 ```
 
-# `r ll_name`
+`r ll_region`
 
-`r ll_tagline`
+**`r ll_str("report.regions", lang)`:** `r paste(ll_nuts3, collapse = ", ")`
 
-**`r ll_region`**
+```{r}
+#| fig-width: !expr LL_FIG$width_full
+#| fig-height: !expr LL_FIG$height_map
+ll_map_locator(slug, lang)
+```
 
-**`r strings$regions`:** `r paste(ll_nuts3, collapse = ", ")`
+`r ll_str("report.basemapCredit", lang, list(credit = ll_locator_credit()))`
+
+# `r ll_str("layers.agriculture", lang)`
+
+## `r ll_str("report.kpiHeading", lang)`
+
+```{r}
+#| opts.label: "kpi_asis"
+cat(ll_kpi_typst(slug, "agriculture", lang))
+```
+
+## `r ll_str("report.mapHeading", lang)`
+
+```{r}
+#| fig-width: !expr LL_FIG$width_full
+#| fig-height: !expr LL_FIG$height_map
+ll_map_agriculture(slug, lang)
+```
+
+```{r}
+#| include: false
+chart_agriculture <- ll_chart(slug, "agriculture", lang)
+```
+
+`r if (!is.null(chart_agriculture)) paste0("\n## ", ll_str("report.chartHeading", lang), "\n") else ""`
+
+```{r}
+#| fig-width: !expr LL_FIG$width_full
+#| fig-height: !expr LL_FIG$height_chart
+if (!is.null(chart_agriculture)) chart_agriculture
+```
+
+```{r}
+#| include: false
+narr_about_agriculture <- ll_narrative(slug, "agriculture", "about", lang)
+narr_challenges_agriculture <- ll_narrative(slug, "agriculture", "challenges", lang)
+```
+
+`r narrative_block(ll_str("llDetail.aboutTheme", lang, list(layer = ll_str("layers.agriculture", lang))), narr_about_agriculture)`
+
+`r narrative_block(ll_str("llDetail.challenges", lang), narr_challenges_agriculture)`
+
+# `r ll_str("layers.climate", lang)`
+
+## `r ll_str("report.kpiHeading", lang)`
+
+```{r}
+#| opts.label: "kpi_asis"
+cat(ll_kpi_typst(slug, "climate", lang))
+```
+
+## `r ll_str("report.mapHeading", lang)`
+
+```{r}
+#| fig-width: !expr LL_FIG$width_full
+#| fig-height: !expr LL_FIG$height_map * 2
+# D-12: the climate grid is an eight-panel composition needing roughly a full page --
+# double LL_FIG's usual map height rather than a new hardcoded literal.
+ll_map_climate_grid(slug, lang)
+```
+
+```{r}
+#| include: false
+chart_climate <- ll_chart(slug, "climate", lang)
+```
+
+`r if (!is.null(chart_climate)) paste0("\n## ", ll_str("report.chartHeading", lang), "\n") else ""`
+
+```{r}
+#| fig-width: !expr LL_FIG$width_full
+#| fig-height: !expr LL_FIG$height_chart
+if (!is.null(chart_climate)) chart_climate
+```
+
+```{r}
+#| include: false
+narr_about_climate <- ll_narrative(slug, "climate", "about", lang)
+narr_challenges_climate <- ll_narrative(slug, "climate", "challenges", lang)
+```
+
+`r narrative_block(ll_str("llDetail.aboutTheme", lang, list(layer = ll_str("layers.climate", lang))), narr_about_climate)`
+
+`r narrative_block(ll_str("llDetail.challenges", lang), narr_challenges_climate)`
+
+# `r ll_str("layers.soil", lang)`
+
+## `r ll_str("report.kpiHeading", lang)`
+
+```{r}
+#| opts.label: "kpi_asis"
+cat(ll_kpi_typst(slug, "soil", lang))
+```
+
+## `r ll_str("report.mapHeading", lang)`
+
+```{r}
+#| fig-width: !expr LL_FIG$width_full
+#| fig-height: !expr LL_FIG$height_map
+ll_map_soil(slug, lang)
+```
+
+```{r}
+#| include: false
+chart_soil <- ll_chart(slug, "soil", lang)
+```
+
+`r if (!is.null(chart_soil)) paste0("\n## ", ll_str("report.chartHeading", lang), "\n") else ""`
+
+```{r}
+#| fig-width: !expr LL_FIG$width_full
+#| fig-height: !expr LL_FIG$height_chart
+if (!is.null(chart_soil)) chart_soil
+```
+
+```{r}
+#| include: false
+narr_about_soil <- ll_narrative(slug, "soil", "about", lang)
+narr_challenges_soil <- ll_narrative(slug, "soil", "challenges", lang)
+```
+
+`r narrative_block(ll_str("llDetail.aboutTheme", lang, list(layer = ll_str("layers.soil", lang))), narr_about_soil)`
+
+`r narrative_block(ll_str("llDetail.challenges", lang), narr_challenges_soil)`
+
+# `r ll_str("layers.economic", lang)`
+
+## `r ll_str("report.kpiHeading", lang)`
+
+```{r}
+#| opts.label: "kpi_asis"
+cat(ll_kpi_typst(slug, "economic", lang))
+```
+
+## `r ll_str("report.mapHeading", lang)`
+
+```{r}
+#| fig-width: !expr LL_FIG$width_full
+#| fig-height: !expr LL_FIG$height_map
+ll_map_economic(slug, lang)
+```
+
+```{r}
+#| include: false
+chart_economic <- ll_chart(slug, "economic", lang)
+```
+
+`r if (!is.null(chart_economic)) paste0("\n## ", ll_str("report.chartHeading", lang), "\n") else ""`
+
+```{r}
+#| fig-width: !expr LL_FIG$width_full
+#| fig-height: !expr LL_FIG$height_chart
+if (!is.null(chart_economic)) chart_economic
+```
+
+```{r}
+#| include: false
+narr_about_economic <- ll_narrative(slug, "economic", "about", lang)
+narr_challenges_economic <- ll_narrative(slug, "economic", "challenges", lang)
+```
+
+`r narrative_block(ll_str("llDetail.aboutTheme", lang, list(layer = ll_str("layers.economic", lang))), narr_about_economic)`
+
+`r narrative_block(ll_str("llDetail.challenges", lang), narr_challenges_economic)`
+
+# `r ll_str("layers.landscape", lang)`
+
+## `r ll_str("report.kpiHeading", lang)`
+
+```{r}
+#| opts.label: "kpi_asis"
+cat(ll_kpi_typst(slug, "landscape", lang))
+```
+
+## `r ll_str("report.mapHeading", lang)`
+
+```{r}
+#| fig-width: !expr LL_FIG$width_full
+#| fig-height: !expr LL_FIG$height_map
+ll_map_landscape(slug, lang)
+```
+
+```{r}
+#| include: false
+chart_landscape <- ll_chart(slug, "landscape", lang)
+```
+
+`r if (!is.null(chart_landscape)) paste0("\n## ", ll_str("report.chartHeading", lang), "\n") else ""`
+
+```{r}
+#| fig-width: !expr LL_FIG$width_full
+#| fig-height: !expr LL_FIG$height_chart
+if (!is.null(chart_landscape)) chart_landscape
+```
+
+```{r}
+#| include: false
+narr_about_landscape <- ll_narrative(slug, "landscape", "about", lang)
+narr_challenges_landscape <- ll_narrative(slug, "landscape", "challenges", lang)
+```
+
+`r narrative_block(ll_str("llDetail.aboutTheme", lang, list(layer = ll_str("layers.landscape", lang))), narr_about_landscape)`
+
+`r narrative_block(ll_str("llDetail.challenges", lang), narr_challenges_landscape)`
