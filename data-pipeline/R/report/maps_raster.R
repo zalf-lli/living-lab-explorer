@@ -59,6 +59,15 @@ if (!exists("ll_repo_root", mode = "function")) {
   source(.ll_maps_raster_theme_path)
 }
 
+# Plan 12-10 checkpoint Defect 9: the global `terra::terraOptions(progress = 0)` call that
+# silences terra's own stdout progress bar (see theme_llexplorer.R for the full explanation)
+# lives there, not here, precisely because it must apply before ANY terra-backed raster is
+# plotted through this render -- including maps_vector.R's `ll_map_locator()`, whose basemap
+# tiles are a `SpatRaster` plotted via `tidyterra::geom_spatraster_rgb()`, sourced and rendered
+# before this file in template.qmd's own setup-chunk ordering. theme_llexplorer.R is the one
+# module every one of this project's report modules sources first (directly or transitively),
+# so it is the only reliable single place to set a session-wide terra option.
+
 # --- sources.yaml access ---------------------------------------------------
 # Every path this module reads is resolved from the declarative manifest at
 # data-pipeline/sources/sources.yaml, never hardcoded -- so a future change
@@ -246,6 +255,15 @@ ll_clip_raster <- function(path, slug, nodata = NULL) {
 #' show that the class exists and what colour it would be. Overlays the
 #' Living Lab boundary as an unfilled outline in its own brand colour; no
 #' basemap tiles (D-14).
+#'
+#' Plan 12-10 checkpoint Defect 7/8: `ll_clip_raster()` masks every cell outside the true
+#' Living Lab boundary to `NA` (no margin, per this file's own header note); those `NA` cells
+#' are what previously rendered as a solid dark grey background around every raster map --
+#' `scale_fill_manual()`'s own default `na.value` is a mid-grey, not a theme background
+#' setting (`theme_ll_map()`'s panel/plot backgrounds were already transparent). Fixed once,
+#' centrally, in `ll_discrete_map_scale()` (`theme_llexplorer.R`), which this function and
+#' `.ll_climate_panel()` below both build their legend scale from, rather than duplicated here
+#' per caller.
 #'
 #' @param path character(1) absolute path to the source raster.
 #' @param slug character(1) Living Lab slug.
