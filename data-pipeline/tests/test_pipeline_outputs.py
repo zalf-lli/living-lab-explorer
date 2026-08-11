@@ -934,3 +934,136 @@ def test_chart_fixtures_published_to_app_public() -> None:
         f"Expected exactly 25 published chart files, got {len(published_files)}: "
         f"{[p.name for p in published_files]}"
     )
+
+
+# Plan 12-11 D-21: report size budget constants. Figures are this plan's own decision
+# (locked by plan 12-10's committed content, not a CONTEXT.md-locked figure) -- sibling in
+# spirit to BORIS_BUDGET_BYTES_PER_LL_PER_COPY above, which is a locked-decision figure;
+# these are a planner decision instead.
+REPORT_LANGS = ("en", "de")
+REPORT_BUDGET_BYTES_PER_FILE = 8_388_608
+REPORT_BUDGET_BYTES_SOURCE_TOTAL = 52_428_800
+REPORT_BUDGET_BYTES_TWO_COPY_TOTAL = 104_857_600
+
+
+def test_report_fixtures_exist_and_are_well_formed_pdfs() -> None:
+    """
+    Plan 12-11 D-21: the ten committed (5 LLs x 2 langs) report PDFs each exist under
+    data/reports/ and are well-formed PDFs (start with the %PDF- magic bytes). Reads
+    committed files only -- no render invocation, matching D-04/D-21's clean-state
+    contract.
+    """
+    reports_dir = repo_root() / "data" / "reports"
+    for slug in LL_SLUGS:
+        for lang in REPORT_LANGS:
+            path = reports_dir / f"report-{slug}-{lang}.pdf"
+            assert path.exists(), f"Missing report fixture: {path}"
+            with path.open("rb") as handle:
+                header = handle.read(5)
+            assert header == b"%PDF-", f"{path.name}: not a well-formed PDF (bad magic bytes)"
+
+
+def test_report_fixtures_published_to_app_public() -> None:
+    """
+    Plan 12-11: mirrors test_chart_fixtures_published_to_app_public() for sync_reports()'s
+    publish step -- every committed data/reports/ source has a byte-identical published
+    copy under app/public/data/reports/, and the published directory holds exactly ten
+    .pdf files so a renamed pattern cannot leave orphans behind.
+
+    Also locks T-12-55: the published filenames must exactly match what
+    useReportAvailability constructs for each (slug, lang) pair -- a single character of
+    drift (a different transliteration, an uppercase letter, a `_` instead of `-`) would
+    silently disable the download control instead of failing the suite.
+    """
+    published_dir = repo_root() / "app" / "public" / "data" / "reports"
+
+    for slug in LL_SLUGS:
+        for lang in REPORT_LANGS:
+            source_path = repo_root() / "data" / "reports" / f"report-{slug}-{lang}.pdf"
+            published_path = published_dir / source_path.name
+            assert published_path.exists(), f"Missing published report fixture: {published_path}"
+            assert published_path.read_bytes() == source_path.read_bytes(), (
+                f"{published_path.name}: published copy is not byte-identical to {source_path}"
+            )
+
+    published_files = sorted(published_dir.glob("*.pdf"))
+    assert len(published_files) == 10, (
+        f"Expected exactly 10 published report files, got {len(published_files)}: "
+        f"{[p.name for p in published_files]}"
+    )
+
+    # T-12-55: expected filename set (derived from LL_SLUGS) must exactly match what is
+    # actually published -- catches filename drift that would silently hide the app's
+    # download control (D-18's fail-closed behaviour) instead of failing this test.
+    expected_names = {f"report-{slug}-{lang}.pdf" for slug in LL_SLUGS for lang in REPORT_LANGS}
+    actual_names = {p.name for p in published_files}
+    assert expected_names == actual_names, (
+        f"Published report filenames do not match the expected (slug, lang) set: "
+        f"missing={expected_names - actual_names}, unexpected={actual_names - expected_names}"
+    )
+
+
+def test_report_sizes_within_budget() -> None:
+    """
+    Plan 12-11: no single committed or published report exceeds
+    REPORT_BUDGET_BYTES_PER_FILE, the ten committed sources together total at most
+    REPORT_BUDGET_BYTES_SOURCE_TOTAL, and source plus published together total at most
+    REPORT_BUDGET_BYTES_TWO_COPY_TOTAL. Failure messages list every offending filename
+    with its size (Phase 7/Phase 8 actionable-budget-failure precedent).
+    """
+    source_dir = repo_root() / "data" / "reports"
+    published_dir = repo_root() / "app" / "public" / "data" / "reports"
+
+    source_paths = [
+        source_dir / f"report-{slug}-{lang}.pdf" for slug in LL_SLUGS for lang in REPORT_LANGS
+    ]
+    published_paths = [published_dir / p.name for p in source_paths]
+
+    all_paths = source_paths + published_paths
+    oversized = [
+        (p, p.stat().st_size) for p in all_paths if p.exists() and p.stat().st_size > REPORT_BUDGET_BYTES_PER_FILE
+    ]
+    assert not oversized, (
+        f"Report(s) exceed the {REPORT_BUDGET_BYTES_PER_FILE:,}-byte per-file cap: "
+        + ", ".join(f"{p}: {size:,} bytes" for p, size in oversized)
+    )
+
+    source_total = sum(p.stat().st_size for p in source_paths if p.exists())
+    assert source_total <= REPORT_BUDGET_BYTES_SOURCE_TOTAL, (
+        f"Committed data/reports/ total {source_total:,} bytes exceeds the "
+        f"{REPORT_BUDGET_BYTES_SOURCE_TOTAL:,}-byte source-total budget: "
+        + ", ".join(f"{p.name}: {p.stat().st_size:,} bytes" for p in source_paths if p.exists())
+    )
+
+    two_copy_total = source_total + sum(p.stat().st_size for p in published_paths if p.exists())
+    assert two_copy_total <= REPORT_BUDGET_BYTES_TWO_COPY_TOTAL, (
+        f"Source + published report total {two_copy_total:,} bytes exceeds the "
+        f"{REPORT_BUDGET_BYTES_TWO_COPY_TOTAL:,}-byte two-copy budget: "
+        + ", ".join(
+            f"{p.name}: {p.stat().st_size:,} bytes"
+            for p in all_paths
+            if p.exists()
+        )
+    )
+
+
+def test_report_pattern_declared_in_sync() -> None:
+    """
+    Plan 12-11: locks RESEARCH.md Open Question 2's resolution -- REPORT_PATTERN lives as
+    a module-level constant in sync.py (not a sources.yaml `reports:` stanza), and
+    sync_to_app() actually calls sync_reports(). A later refactor moving the pattern into
+    sources.yaml must update this test deliberately, which is the point.
+    """
+    import inspect
+    import sys
+
+    sys.path.insert(0, str(repo_root() / "data-pipeline"))
+    import sync
+
+    assert sync.REPORT_PATTERN == "data/reports/report-{slug}-{lang}.pdf", (
+        f"Unexpected REPORT_PATTERN: {sync.REPORT_PATTERN!r}"
+    )
+    source_text = inspect.getsource(sync.sync_to_app)
+    assert "sync_reports()" in source_text, (
+        "sync_to_app() does not call sync_reports()"
+    )
