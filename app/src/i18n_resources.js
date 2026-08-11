@@ -97,6 +97,13 @@ export const resources = {
         kpiHeading: 'Key figures',
         mapHeading: 'Map',
         chartHeading: 'Chart',
+        // Checkpoint review round 2, Defect 4: specific, source-aware figure captions
+        // (replacing the generic mapHeading/chartHeading text above wherever a figure needs
+        // its own caption) -- {{layer}} is the tab's own display name, {{ll}} the Living Lab's
+        // localized name, {{source}} a fragment pulled directly from
+        // data-pipeline/sources/sources.yaml (see template.qmd's .ll_report_source_text()).
+        mapCaption: 'Map showing {{layer}} in the {{ll}} Living Lab (Data: {{source}})',
+        chartCaption: 'Chart showing {{layer}} in the {{ll}} Living Lab (Data: {{source}})',
         generated: 'Generated {{date}}',
         basemapCredit: 'Basemap: {{credit}}',
         noData: 'No data available',
@@ -314,6 +321,8 @@ export const resources = {
         kpiHeading: 'Kennzahlen',
         mapHeading: 'Karte',
         chartHeading: 'Diagramm',
+        mapCaption: 'Karte zu {{layer}} im Living Lab {{ll}} (Daten: {{source}})',
+        chartCaption: 'Diagramm zu {{layer}} im Living Lab {{ll}} (Daten: {{source}})',
         generated: 'Erstellt am {{date}}',
         basemapCredit: 'Hintergrundkarte: {{credit}}',
         noData: 'Keine Daten verfügbar',

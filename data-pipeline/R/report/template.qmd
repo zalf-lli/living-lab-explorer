@@ -134,6 +134,68 @@ narrative_block <- function(heading, text) {
   }
   paste0("\n\n## ", heading, "\n\n", escape_markdown(text), "\n")
 }
+
+# Checkpoint review round 2, Defect 4: specific, source-aware figure captions, replacing round
+# 1's generic "report.mapHeading"/"report.chartHeading" fig-cap text (literally "Map"/"Chart"
+# in English). Every fragment below is read directly from data-pipeline/sources/sources.yaml
+# via the `.ll_sources_yaml()`/`.ll_layer_by_id()` accessors maps_raster.R already defines
+# (sourced above) -- no source text is invented, and this stays plain-text/bilingual via
+# `ll_str()`, never a BibTeX/Quarto `@citation` system (explicitly deferred by the checkpoint's
+# own decision; a literal "@" character anywhere in a rendered report also remains forbidden by
+# this plan's own Task 1 acceptance criteria).
+
+#' The short "data source" fragment for one tab, resolved from its dispatched sources.yaml
+#' layer entry (`LL_TAB_CHART_LAYER`'s own tab -> layer-id mapping -- the same mapping
+#' `ll_chart()` already uses, so a caption can never name a different layer than the one that
+#' actually produced the figure). Every tab but climate uses that layer's own bilingual `title`
+#' field, already a concise "<what> (<source>, <year>)" string sources.yaml's own authors wrote
+#' for on-screen display (e.g. "Crop types (DLR, 2024)" -- see app/src/data/layer_sources.js,
+#' generated from the same manifest). The climate tab names all four bioclimatic variables
+#' explicitly, via `chelsa-climate.climate.variables.*.label`, since its one eight-panel figure
+#' spans all four variables rather than a single theme.
+.ll_report_source_text <- function(tab, lang) {
+  layer_id <- LL_TAB_CHART_LAYER[[tab]]
+  layer <- .ll_layer_by_id(.ll_sources_yaml()$layers, layer_id)
+  if (identical(tab, "climate")) {
+    variables <- layer$climate$variables
+    labels <- vapply(names(variables), function(id) variables[[id]]$label[[lang]], character(1))
+    return(paste0(layer$title[[lang]], ": ", paste(labels, collapse = ", ")))
+  }
+  layer$title[[lang]]
+}
+
+#' The figure caption for one tab's map, e.g. "Map showing Agriculture in the East Brandenburg
+#' Living Lab (Data: Crop types (DLR, 2024))" -- specific to this Living Lab and this map's own
+#' data source, never round 1's generic "Map".
+.ll_report_map_caption <- function(slug, tab, lang) {
+  ll_str(
+    "report.mapCaption", lang,
+    vars = list(
+      layer = ll_str(paste0("layers.", tab), lang),
+      ll = ll_lab(slug)[[lang]]$name,
+      source = .ll_report_source_text(tab, lang)
+    )
+  )
+}
+
+#' The figure caption for one tab's chart -- reuses the same data-source fragment as that tab's
+#' map (chart and map both re-plot/re-paint the same sources.yaml layer per this plan's own
+#' Task interfaces block), or NULL when the tab has no chart (mirrors this document's existing
+#' conditional-figure behaviour: the whole chart block is already omitted when `has_chart` is
+#' FALSE, so its caption must be too).
+.ll_report_chart_caption <- function(slug, tab, lang, has_chart) {
+  if (!isTRUE(has_chart)) {
+    return(NULL)
+  }
+  ll_str(
+    "report.chartCaption", lang,
+    vars = list(
+      layer = ll_str(paste0("layers.", tab), lang),
+      ll = ll_lab(slug)[[lang]]$name,
+      source = .ll_report_source_text(tab, lang)
+    )
+  )
+}
 ```
 
 `r ll_region`
@@ -163,7 +225,7 @@ cat(ll_kpi_typst(slug, "agriculture", lang))
 #| label: fig-map-agriculture
 #| fig-width: !expr LL_FIG$width_full
 #| fig-height: !expr LL_FIG$height_map
-#| fig-cap: !expr ll_str("report.mapHeading", lang)
+#| fig-cap: !expr .ll_report_map_caption(slug, "agriculture", lang)
 ll_map_agriculture(slug, lang)
 ```
 
@@ -176,7 +238,7 @@ chart_agriculture <- ll_chart(slug, "agriculture", lang)
 #| label: fig-chart-agriculture
 #| fig-width: !expr LL_FIG$width_full
 #| fig-height: !expr LL_FIG$height_chart
-#| fig-cap: !expr if (!is.null(chart_agriculture)) ll_str("report.chartHeading", lang) else NULL
+#| fig-cap: !expr .ll_report_chart_caption(slug, "agriculture", lang, !is.null(chart_agriculture))
 if (!is.null(chart_agriculture)) chart_agriculture
 ```
 
@@ -205,7 +267,7 @@ cat(ll_kpi_typst(slug, "climate", lang))
 #| label: fig-map-climate
 #| fig-width: !expr LL_FIG$width_full
 #| fig-height: !expr LL_FIG$height_map * 2
-#| fig-cap: !expr ll_str("report.mapHeading", lang)
+#| fig-cap: !expr .ll_report_map_caption(slug, "climate", lang)
 # D-12: the climate grid is an eight-panel composition needing roughly a full page --
 # double LL_FIG's usual map height rather than a new hardcoded literal.
 ll_map_climate_grid(slug, lang)
@@ -220,7 +282,7 @@ chart_climate <- ll_chart(slug, "climate", lang)
 #| label: fig-chart-climate
 #| fig-width: !expr LL_FIG$width_full
 #| fig-height: !expr LL_FIG$height_chart
-#| fig-cap: !expr if (!is.null(chart_climate)) ll_str("report.chartHeading", lang) else NULL
+#| fig-cap: !expr .ll_report_chart_caption(slug, "climate", lang, !is.null(chart_climate))
 if (!is.null(chart_climate)) chart_climate
 ```
 
@@ -249,7 +311,7 @@ cat(ll_kpi_typst(slug, "soil", lang))
 #| label: fig-map-soil
 #| fig-width: !expr LL_FIG$width_full
 #| fig-height: !expr LL_FIG$height_map
-#| fig-cap: !expr ll_str("report.mapHeading", lang)
+#| fig-cap: !expr .ll_report_map_caption(slug, "soil", lang)
 ll_map_soil(slug, lang)
 ```
 
@@ -262,7 +324,7 @@ chart_soil <- ll_chart(slug, "soil", lang)
 #| label: fig-chart-soil
 #| fig-width: !expr LL_FIG$width_full
 #| fig-height: !expr LL_FIG$height_chart
-#| fig-cap: !expr if (!is.null(chart_soil)) ll_str("report.chartHeading", lang) else NULL
+#| fig-cap: !expr .ll_report_chart_caption(slug, "soil", lang, !is.null(chart_soil))
 if (!is.null(chart_soil)) chart_soil
 ```
 
@@ -291,7 +353,7 @@ cat(ll_kpi_typst(slug, "economic", lang))
 #| label: fig-map-economic
 #| fig-width: !expr LL_FIG$width_full
 #| fig-height: !expr LL_FIG$height_map
-#| fig-cap: !expr ll_str("report.mapHeading", lang)
+#| fig-cap: !expr .ll_report_map_caption(slug, "economic", lang)
 ll_map_economic(slug, lang)
 ```
 
@@ -304,7 +366,7 @@ chart_economic <- ll_chart(slug, "economic", lang)
 #| label: fig-chart-economic
 #| fig-width: !expr LL_FIG$width_full
 #| fig-height: !expr LL_FIG$height_chart
-#| fig-cap: !expr if (!is.null(chart_economic)) ll_str("report.chartHeading", lang) else NULL
+#| fig-cap: !expr .ll_report_chart_caption(slug, "economic", lang, !is.null(chart_economic))
 if (!is.null(chart_economic)) chart_economic
 ```
 
@@ -333,7 +395,7 @@ cat(ll_kpi_typst(slug, "landscape", lang))
 #| label: fig-map-landscape
 #| fig-width: !expr LL_FIG$width_full
 #| fig-height: !expr LL_FIG$height_map
-#| fig-cap: !expr ll_str("report.mapHeading", lang)
+#| fig-cap: !expr .ll_report_map_caption(slug, "landscape", lang)
 ll_map_landscape(slug, lang)
 ```
 
@@ -346,7 +408,7 @@ chart_landscape <- ll_chart(slug, "landscape", lang)
 #| label: fig-chart-landscape
 #| fig-width: !expr LL_FIG$width_full
 #| fig-height: !expr LL_FIG$height_chart
-#| fig-cap: !expr if (!is.null(chart_landscape)) ll_str("report.chartHeading", lang) else NULL
+#| fig-cap: !expr .ll_report_chart_caption(slug, "landscape", lang, !is.null(chart_landscape))
 if (!is.null(chart_landscape)) chart_landscape
 ```
 
