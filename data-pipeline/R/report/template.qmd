@@ -148,6 +148,8 @@ ll_map_locator(slug, lang)
 
 `r ll_str("report.basemapCredit", lang, list(credit = ll_locator_credit()))`
 
+{{< pagebreak >}}
+
 # `r ll_str("layers.agriculture", lang)`
 
 ## `r ll_str("report.kpiHeading", lang)`
