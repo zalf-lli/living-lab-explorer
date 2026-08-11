@@ -238,6 +238,18 @@
 // together: sections.R now sizes `columns` to the real KPI count per tab, and this box's own
 // footprint is trimmed (smaller fixed height, tighter insets, slightly smaller value text) so
 // four boxes at one-quarter width still read comfortably on one row.
+//
+// Checkpoint review round 2 Defect 1: the label band itself had no fixed height, only the
+// value body did (`height: 2.0cm` below) -- a label long enough to wrap onto two lines (e.g. a
+// German KPI label) made that one box's overall height (label band + value body) taller than
+// its one-line-title neighbours in the same row, so a row of four boxes no longer shared one
+// common bottom edge. Fixed by giving the label band its own fixed `height` (`clip: true` so a
+// label that would need a third line is clipped rather than silently growing the box again),
+// with `align(center + horizon, ...)` (already in place) centring either a one-line or a
+// wrapped two-line label within that fixed height -- every box in a row is now exactly
+// `LL-STATUS-BOX-LABEL-HEIGHT + 2.0cm` tall regardless of its own label's length.
+#let ll-status-box-label-height = 1.0cm
+
 #let ll-status-box(
   label: "",
   value: "",
@@ -250,11 +262,18 @@
   stack(
     dir: ttb,
     spacing: 0pt,
-    box(width: width, fill: accent, inset: (x: 5pt, y: 4pt), {
-      align(center + horizon,
-        text(font: font, size: 7pt, weight: "bold", fill: ll-white, upper(label))
-      )
-    }),
+    box(
+      width: width,
+      height: ll-status-box-label-height,
+      fill: accent,
+      inset: (x: 5pt, y: 3pt),
+      clip: true,
+      {
+        align(center + horizon,
+          text(font: font, size: 7pt, weight: "bold", fill: ll-white, upper(label))
+        )
+      }
+    ),
     box(
       width: width,
       height: 2.0cm,
