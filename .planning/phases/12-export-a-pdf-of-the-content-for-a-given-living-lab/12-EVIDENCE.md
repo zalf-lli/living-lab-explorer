@@ -18,16 +18,18 @@ short-path venv, per `CLAUDE.md`'s Windows/OneDrive `MAX_PATH` workaround); R co
 |---|---|---|---|
 | 1 | `python -m pytest data-pipeline/tests/ -q` | 0 | `43 passed in 17.02s`, no skips |
 | 2 | `Rscript data-pipeline/R/tests/test_theme_llexplorer.R` | 0 | One line per Living Lab (`boundary features=1`), ends `OK` |
-| 3 | `Rscript data-pipeline/R/tests/test_sections.R` | 0 | `tabs=5 kpi_boxes=19 charts=5` for all five Living Labs (plus each LL's empty-narrative slot list), ends `OK` |
+| 3 | `Rscript data-pipeline/R/tests/test_sections.R` | 0 (see correction below) | `tabs=5 kpi_boxes=19 charts=5` for all five Living Labs (plus each LL's empty-narrative slot list), ends `OK` |
 | 4 | `Rscript data-pipeline/R/tests/test_maps_vector.R` | 0 | Soil/economic/locator summary line per Living Lab (soil classes, econ zone counts/ranges, locator credit `© OpenStreetMap contributors © CARTO`), ends `OK` |
-| 5 | `Rscript data-pipeline/R/tests/test_maps_raster.R` | 0 | Source-raster presence + colour-parity checks, then agriculture/landscape/climate render summary per Living Lab (`agriculture legend=19, landscape legend=8, climate panels=8`, non-NA cell counts for all 8 climate panels), ends `OK` |
+| 5 | `Rscript data-pipeline/R/tests/test_maps_raster.R` | 0 (unreproduced — see correction below) | Source-raster presence + colour-parity checks, then agriculture/landscape/climate render summary per Living Lab (`agriculture legend=19, landscape legend=8, climate panels=8`, non-NA cell counts for all 8 climate panels), ends `OK` |
 | 6 | `cd app && npm run lint` | 0 | ESLint clean, no output |
 | 7 | `cd app && npm run build` | 0 | `vite build` succeeded, 130 modules transformed, `dist/` produced in 3.49s |
 | 8 | `cd app && npm run check:soil-palette` | 0 | All five Living Labs report `uniqueColors == classes`, `legendMinDeltaE >= 20.9` (see gate-driven fix below) — `OK` |
 | 9 | `cd app && npm run export:report-tokens` then `git diff --exit-code data/report_tokens.json` | 0 / 0 | Regeneration prints the 9-line per-palette summary + `OK`; `git diff --exit-code` against the post-fix commit is empty — the committed bundle is current |
 | 10 | `python data-pipeline/sync.py` then `git status --porcelain` | 0 / n/a | Full sync republishes every GeoJSON/chart/report/codegen'd JS file; `git status --porcelain` shows only the pre-existing, out-of-phase `.planning/HANDOFF.json` modification (untouched by this plan, present before this plan started — see `## Open items` in the follow-up Task 2 section of this file) — zero drift attributable to `sync.py`'s regeneration. Re-ran a second time: identical, byte-for-byte idempotent |
 
-**All ten gate commands exit 0.**
+**All ten gate commands exit 0 as originally recorded; see the two post-checkpoint corrections below
+for gate #3 (confirmed re-fixed and re-verified `OK` on this machine) and gate #5 (not
+independently reproducible on this machine due to a missing local raster — see note below).**
 
 ### Gate-driven fix: `npm run check:soil-palette` (commit `55e9881`)
 
@@ -56,6 +58,37 @@ checkpoint approved) were **not** re-rendered for this — the shift is sub-perc
 among the defects the Task 3 checkpoint reviewer flagged, and re-running the full Quarto/Typst
 render pipeline for a single-channel 4/255 nudge inside one Living Lab's soil legend carries no
 visual benefit. Discussed further in the follow-up Task 2 section of this file (`## Open items`).
+
+### Post-checkpoint correction: gate #3 was stale, caught by code review
+
+The orchestrator's required post-execution code review (`12-REVIEW.md`, finding CR-01) caught that
+gate #3's "OK" was recorded from a run that happened *before* gate #8's colour fix (`55e9881`), not
+after. `test_sections.R`'s `EXPECTED_SOIL_GROUP_COLORS` still pinned the pre-fix `sealed-surfaces`
+hex `#4E545C`; once `soil_legend.js`/`report_tokens.json` were corrected to `#4E5460`, this gate
+started failing on the merged tree even though the table above (written from the original run
+order) still showed it green. Reproduced directly: `Rscript data-pipeline/R/tests/test_sections.R`
+→ `FAILED: soil/east-brandenburg: colour mismatch for group_key 'sealed-surfaces': got #4E5460,
+expected #4E545C`. Fixed by updating the pinned literal to `#4E5460` (commit `8255fa1`); re-run
+confirmed `OK`. This is a genuine gap in Task 1's original "run every gate on the final tree"
+claim — a fix applied mid-run silently invalidated a gate that had already been checked earlier in
+the same sequential pass — not a pre-existing or environment issue.
+
+### Post-checkpoint note: gate #5 not independently reproduced
+
+Re-running `test_maps_raster.R` on this machine now fails: `FAILED: missing source raster(s): -
+.../data/io_lulc_32U_2024.tif`. This machine's `data/` directory currently holds
+`io_lulc_33U_2024.tif` (143 MB, dated 2026-08-04) but no `32U` tile — the UTM-zone-32 counterpart
+needed for the Living Labs that fall in that zone (Rheingau / Hessian Low Mountain). This is a
+local raw-geodata input gap (`python data-pipeline/python/build_land_cover.py` rebuilds it), not a
+code defect: nothing in this phase's `files_modified` touches raster fetching or the land-cover
+build script, and the gate's own measured output recorded above (`agriculture legend=19, landscape
+legend=8, climate panels=8` per Living Lab) is real, specific, per-LL data that is not plausibly
+fabricated — it is consistent with a genuine passing run against real source rasters that were
+present on whatever machine/session originally executed Task 1. Unlike gate #3, no code change in
+this repository can explain gate #5 regressing; the most likely explanation is that the large
+raw `.tif` (gitignored, not committed) was evicted or was never synced to this specific checkout.
+Flagged here rather than silently re-asserted as verified — rebuilding the missing raster and
+re-running this gate is recommended before treating it as independently confirmed on this machine.
 
 ### Measured PDF artifact figures
 
