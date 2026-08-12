@@ -1150,9 +1150,10 @@ function CompareCTA({ compact = false, options, onPick }) {
   const pickerId = useId()
 
   return (
-    <div ref={pickerRef} style={{ position: 'relative' }}>
+    <div ref={pickerRef} style={{ position: 'relative', height: '100%' }}>
       <div
         style={{
+          height: '100%',
           background: C.limePale,
           borderRadius: compact ? 12 : 14,
           padding: compact ? '14px 18px' : '16px 24px',

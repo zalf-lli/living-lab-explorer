@@ -228,4 +228,12 @@ pre-existing debts this phase deliberately did not fix:
    `i18n_resources.js`'s now-unused `downloadReportCompactAction` key was removed from both locales.
    `npm run lint` and `npm run build` both exit 0 on the result. 12-UI-SPEC.md's compact-instance
    section is now historical (documents a decision this plan reversed), not a description of the
-   shipped component.
+   shipped component. A second round of feedback noted the two cards in `LayoutSplit`'s row (the
+   now-full `DownloadReportCTA` next to the still-compact `CompareCTA`) were visibly mismatched in
+   height, since `CompareCTA`'s compact card renders only one text line against the two-line full
+   card. Fixed by giving `CompareCTA`'s rendered card `height: '100%'` so it stretches to match its
+   flex-row sibling (the row already used `alignItems: 'stretch'`); the card's own existing
+   `alignItems: 'center'` then centers the shorter compact content vertically within the taller box.
+   Applies to both
+   `CompareCTA` call sites (compact and full) since it is one shared component; the full instance in
+   `LayoutStacked` was already the same height as its sibling, so this is a no-op there.
