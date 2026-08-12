@@ -480,13 +480,29 @@ Declared values (all multiples of 4px, drawn from the app-wide 4/8/16/24/32/48/6
 | md | 16px | Partner/project card padding (horizontal); right-side tab `paddingLeft` |
 | lg | 24px | Map-to-panel gap; Partners-section-to-Projects-section gap |
 
-**Exception:** the marker's `2px` border is a visual-weight value (matches Leaflet's own default
-marker border thickness convention, and halving it to a nominal "1px" would read as a hairline, not
-a filled dot) rather than a spacing/layout dimension, so it is exempted from the 4px-grid rule the
-same way `DownloadReportCTA`'s button-radius rounding exercise (Phase 12 UI-SPEC) treated icon-scale
-details as a separate concern from layout spacing. Every other dimension in this document — including
-every JSX code sample above — already lands exactly on the 4/8/16/24/32/48/64 grid; there is no
-rounding or adjustment left for the executor to perform.
+**Exceptions (two, both named and justified — see below):**
+
+1. The marker's `2px` border is a visual-weight value (matches Leaflet's own default marker border
+   thickness convention, and halving it to a nominal "1px" would read as a hairline, not a filled
+   dot) rather than a spacing/layout dimension, so it is exempted from the 4px-grid rule the same way
+   `DownloadReportCTA`'s button-radius rounding exercise (Phase 12 UI-SPEC) treated icon-scale
+   details as a separate concern from layout spacing.
+2. The new right-side tab button's own `padding: '9px 16px'` shorthand (see the `LayerTabs.jsx` JSX
+   sample above) is inherited **verbatim** from the existing thematic tab pill's own `padding: '9px
+   16px'` in `app/src/components/LayerTabs.jsx` line 23 — it is not a new or independently-chosen
+   value. It is copied as-is specifically to preserve pixel-exact vertical alignment between the new
+   button and the 5 existing tab pills sharing the same tab-strip row: rounding it down to a
+   grid-exact `8px 16px` would shift the new button's baseline by 1px relative to the tabs it sits
+   beside in the same row, reintroducing the exact visual misalignment the shared-row layout (D-04)
+   is designed to avoid. It is exempted from the 4px grid the same way the marker border above is
+   exempted, for the same category of reason: matching an existing, already-shipped pixel value
+   takes priority over strict grid conformance for this one non-layout dimension. The button's other
+   dimensions — `marginLeft: 8`, `paddingLeft: 16` — are new values introduced by this phase and are
+   both grid-exact, not exceptions.
+
+Every other dimension in this document — including every JSX code sample above — lands exactly on
+the 4/8/16/24/32/48/64 grid. There are now two named, justified exceptions (marker border, tab
+button vertical padding) and zero unexplained off-grid literals left for the executor to resolve.
 
 ---
 
