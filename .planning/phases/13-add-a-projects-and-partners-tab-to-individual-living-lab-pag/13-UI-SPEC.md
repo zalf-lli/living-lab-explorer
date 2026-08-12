@@ -480,7 +480,7 @@ Declared values (all multiples of 4px, drawn from the app-wide 4/8/16/24/32/48/6
 | md | 16px | Partner/project card padding (horizontal); right-side tab `paddingLeft` |
 | lg | 24px | Map-to-panel gap; Partners-section-to-Projects-section gap |
 
-**Exceptions (two, both named and justified — see below):**
+**Exceptions (three, all named and justified — see below):**
 
 1. The marker's `2px` border is a visual-weight value (matches Leaflet's own default marker border
    thickness convention, and halving it to a nominal "1px" would read as a hairline, not a filled
@@ -499,10 +499,24 @@ Declared values (all multiples of 4px, drawn from the app-wide 4/8/16/24/32/48/6
    takes priority over strict grid conformance for this one non-layout dimension. The button's other
    dimensions — `marginLeft: 8`, `paddingLeft: 16` — are new values introduced by this phase and are
    both grid-exact, not exceptions.
+3. The new right-side tab button's own `marginBottom: -2` (see the `LayerTabs.jsx` JSX sample above)
+   is inherited **verbatim** from the existing thematic tab pill's own `marginBottom: -2` in
+   `app/src/components/LayerTabs.jsx` line 39 — it is not a new or independently-chosen value, and
+   like exception 2 it exists to preserve pixel-exact alignment rather than to express spacing. All
+   6 tab buttons (5 existing thematic pills plus this new one) share the same row and the same
+   `2px solid` `borderBottom` on their parent `<div>`; each button's own `2.5px` active/transparent
+   `borderBottom` sits half a pixel proud of that parent border, and `marginBottom: -2` is the
+   existing, already-shipped correction that pulls each button's underline back up so it renders
+   flush with the parent divider instead of appearing as a doubled or offset line. Copying this
+   value onto the new button keeps its underline pixel-aligned with the other 5 tabs' underlines,
+   which all share that same `border-bottom` row — rounding it to a grid-exact `0` would reintroduce
+   a visible seam between the new button and its neighbors, the same category of regression
+   exception 2 is written to avoid.
 
 Every other dimension in this document — including every JSX code sample above — lands exactly on
-the 4/8/16/24/32/48/64 grid. There are now two named, justified exceptions (marker border, tab
-button vertical padding) and zero unexplained off-grid literals left for the executor to resolve.
+the 4/8/16/24/32/48/64 grid. There are now three named, justified exceptions (marker border,
+tab-button padding, tab-button `marginBottom`) and zero unexplained off-grid literals left for the
+executor to resolve.
 
 ---
 
