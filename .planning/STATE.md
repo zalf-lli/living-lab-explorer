@@ -4,13 +4,13 @@ milestone: v1.0
 milestone_name: milestone
 status: ready_to_plan
 stopped_at: Phase 12 UI-SPEC approved
-last_updated: "2026-08-06T07:52:33.573Z"
+last_updated: "2026-08-12T05:21:46.604Z"
 progress:
-  total_phases: 16
+  total_phases: 17
   completed_phases: 12
   total_plans: 80
-  completed_plans: 72
-  percent: 75
+  completed_plans: 77
+  percent: 71
 ---
 
 # Project State
@@ -364,6 +364,7 @@ Phase 2.2 completed on 2026-04-30 and replaced the shallow German-only soil look
 - 2026-07-27: Phase 8 added: "Add maps and stats for climate variables using CHELSA data" — climate variable maps plus summary statistics, sourced from CHELSA via the `chelsa_cmip6` Python library (https://gitlabext.wsl.ch/karger/chelsa_cmip6/). Placed in the free slot 8 (vacated when the old Phase 3 moved to 9) rather than appended as Phase 10, so it sits with the other map-layer phases and before the Phase 9 chart contract that summarizes them. Phase 9's "Depends on" updated from Phase 7 to Phase 8 accordingly.
 - 2026-08-03: Phase 11 added: "Wire chart JSON data to chart UI components" — connect the chart content JSON files produced in Phase 9 to the chart UI components in the app. App-side integration only (no new pipeline work); expected to need minimal to no research and a small number of plans.
 - 2026-08-04: Phase 12 added: "Export a PDF of the content for a given Living Lab" — added at the end of the roadmap as planned work, not urgent mid-milestone insertion.
+- 2026-08-11: Phase 13 added: "Add a Projects and Partners tab to individual Living Lab pages, showing the base map with LL boundary and partner point locations, plus a partner and research project overview panel" — added at the end of the roadmap as planned work.
 
 ### Plan Decisions
 

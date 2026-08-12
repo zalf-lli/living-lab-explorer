@@ -693,7 +693,7 @@ narrative), published as a static file and reachable from a download control on 
 set was written). The 22 locked decisions D-01..D-22 in `12-CONTEXT.md` plus `12-UI-SPEC.md` serve as
 this phase's requirement set; every plan's `requirements` field carries the D-IDs it implements.
 **Depends on:** Phase 11
-**Plans:** 11/12 plans executed
+**Plans:** 12/12 plans complete
 
 Plans:
 - [x] 12-01-PLAN.md — Extract i18n resources into a node-importable module, add the download/report i18n keys, add the report-availability hook
@@ -707,7 +707,17 @@ Plans:
 - [x] 12-09-PLAN.md — maps_raster.R: crop-type, land-cover and the eight-panel climate grid from the source GeoTIFFs
 - [x] 12-10-PLAN.md — Full template assembly, the real ten-PDF render, size budget, and a content review checkpoint
 - [x] 12-11-PLAN.md — sync_reports() publishing to app/public, plus existence/validity/parity/budget pytest gates
-- [ ] 12-12-PLAN.md — Full automated gate, D-01..D-22 evidence record, PROJECT.md scope correction, end-to-end bilingual sign-off
+- [x] 12-12-PLAN.md — Full automated gate, D-01..D-22 evidence record, PROJECT.md scope correction, end-to-end bilingual sign-off
+
+### Phase 13: Add a Projects and Partners tab to individual Living Lab pages, showing the base map with LL boundary and partner point locations, plus a partner and research project overview panel
+
+**Goal:** [To be planned]
+**Requirements**: TBD
+**Depends on:** Phase 12
+**Plans:** 0 plans
+
+Plans:
+- [ ] TBD (run /gsd-plan-phase 13 to break down)
 
 ---
 
