@@ -28,7 +28,7 @@ export const SOIL_GROUP_COLORS = Object.freeze({
   podzols: '#8C8FA8',
   pelosols: '#B5453C',
   'raised-bogs': '#6B4B7A',
-  'sealed-surfaces': '#4E545C',
+  'sealed-surfaces': '#4E5460',
 })
 
 // Tier 2: fallback palette for unnamed / future keys (the long free-text-derived
