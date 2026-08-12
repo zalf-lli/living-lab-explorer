@@ -109,7 +109,7 @@ Decisions section. Verdict is `met`, `met with deviation`, or `not met`.
 | D-12 | Climate section: baseline + one change map per variable (2071-2100 far horizon), 8 maps total | Met | `ll_map_climate_grid()` builds exactly 8 panels (4 variables x baseline/2071_2100); `grep -c "2041_2070" data-pipeline/R/report/maps_raster.R` returns 0 — the mid-horizon never appears (12-09) |
 | D-13 | Every static map carries its own legend, drawn from the same class/colour data the web app's `MapLegend` reads (correctness requirement for soil/BORIS's per-LL dynamic legends) | Met | `ll_map_soil()`/`ll_map_economic()` port `buildSoilLegendEntries()`/`buildEconomicLegendEntries()` verbatim, verified per-LL against real fixture data (12-08); `ll_discrete_map_scale()`'s explicit `limits`/`breaks` keep every legend row visible even when a class is locally absent (12-06, verified live for agriculture's 19-vs-17-present case, 12-09) |
 | D-14 | Cover page gets one richer locator map (LL boundary + Germany inset, basemap tiles); the 5 thematic maps stay boundary-outline-only, no basemap | Met | `ll_map_locator()` is the only `get_tiles` call site in the whole R report module (`grep -c "get_tiles" data-pipeline/R/report/maps_vector.R` returns 1, 12-08); `ll_map_agriculture`/`ll_map_landscape`/`ll_map_soil`/`ll_map_economic`/`ll_map_climate_grid` never call it |
-| D-15 | Download control is a new section right of `CompareCTA`, `CompareCTA` shrinks leftward | Met | `LLDetail.jsx`'s `LayoutStacked`/`LayoutSplit`: `CompareCTA` wrapped in `flex: '1 1 auto', minWidth: 0`, `DownloadReportCTA` sibling with `flexShrink: 0` (compact) — exactly 2 occurrences of that wrapper pattern (12-03) |
+| D-15 | Download control is a new section right of `CompareCTA`, `CompareCTA` shrinks leftward | Met with deviation | `LLDetail.jsx`'s `LayoutStacked`/`LayoutSplit`: `CompareCTA` wrapped in `flex: '1 1 auto', minWidth: 0`, `DownloadReportCTA` sibling with `flexShrink: 0` — exactly 2 occurrences of that wrapper pattern (12-03). Placement/shrink behavior unchanged; the compact/full density distinction UI-SPEC originally specified for the two instances was reversed post-checkpoint — see Open items #7 |
 | D-16 | Download control always points at the report matching the site's current language toggle, one link | Met | `DownloadReportCTA`'s `href`/`download` derive from `lang = normalizeLanguage(i18n.resolvedLanguage)`, single anchor, no dual EN/DE links (12-03) |
 | D-17 | Download section hides during comparison mode, alongside `CompareCTA` | Met | `ComparisonColumn` never imports `CompareCTA` or `DownloadReportCTA` (confirmed by direct read and grep, 12-03) — hides structurally, no extra conditional needed |
 | D-18 | Missing report file: whole download section omitted, not disabled/greyed-out | Met | `DownloadReportCTA` returns `null` before any JSX construction when `useReportAvailability` resolves `false` (12-01, 12-03); UI-SPEC's `checking`/`available`/`unavailable` three-state contract implemented exactly |
@@ -218,3 +218,14 @@ pre-existing debts this phase deliberately did not fix:
    R's soil-colour port against the live `getSoilColor()` JS export directly (not a pinned literal),
    so it already reflects this plan's `sealed-surfaces` fix with no further action needed; recorded
    here only to make explicit that no follow-up is required.
+7. **Task 3 checkpoint feedback reversed the compact/full density distinction** — 12-UI-SPEC.md
+   (lines 129-144) deliberately specified `LayoutSplit`'s `DownloadReportCTA` as a bare pill (no
+   card, no body text) to preserve density next to `CompareCTA`'s own compact card. During the Task
+   3 human verification pass, the reviewer rejected that look and asked for the same full card
+   (title + body + button) in both layouts. `DownloadReportCTA.jsx`'s `compact` prop and its
+   conditional branch were removed (dead code once no caller passed `compact: true`);
+   `LLDetail.jsx`'s `LayoutSplit` call site (previously line 559) now renders the full instance;
+   `i18n_resources.js`'s now-unused `downloadReportCompactAction` key was removed from both locales.
+   `npm run lint` and `npm run build` both exit 0 on the result. 12-UI-SPEC.md's compact-instance
+   section is now historical (documents a decision this plan reversed), not a description of the
+   shipped component.

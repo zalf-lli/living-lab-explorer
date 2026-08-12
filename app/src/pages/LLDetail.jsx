@@ -552,11 +552,13 @@ function LayoutSplit({
             </div>
           </div>
 
-          <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
+          <div style={{ display: 'flex', gap: 16, alignItems: 'stretch' }}>
             <div style={{ flex: '1 1 auto', minWidth: 0 }}>
               <CompareCTA compact options={compareOptions} onPick={onPickCompare} />
             </div>
-            <DownloadReportCTA compact ll={ll} lang={lang} />
+            <div style={{ flexShrink: 0 }}>
+              <DownloadReportCTA ll={ll} lang={lang} />
+            </div>
           </div>
         </div>
       </div>

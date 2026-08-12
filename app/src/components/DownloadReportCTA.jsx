@@ -2,16 +2,18 @@
 // toggle), D-17 (hides during comparison mode, structurally, via not being rendered inside
 // ComparisonColumn), D-18 (whole section omitted -- not disabled -- when the file 404s).
 // See 12-UI-SPEC.md for the full locked visual/interaction contract this component implements
-// literally. In particular: the full-instance card border is intentionally solid, unlike
-// CompareCTA's own "add / not-yet-configured" affordance border style, because a report is a
-// finished artifact -- and useReportAvailability's `checking` state renders optimistically as
-// `available` (not a loading/hidden state). Neither of these should be "corrected" to match
-// CompareCTA's own styling.
+// literally, EXCEPT the compact/bare-pill LayoutSplit instance the spec originally called for --
+// post-checkpoint human feedback (12-12 Task 3) rejected that density difference, so LayoutSplit
+// now renders the same full card as LayoutStacked. In particular: the card border is intentionally
+// solid, unlike CompareCTA's own "add / not-yet-configured" affordance border style, because a
+// report is a finished artifact -- and useReportAvailability's `checking` state renders
+// optimistically as `available` (not a loading/hidden state). Neither of these should be
+// "corrected" to match CompareCTA's own styling.
 import { useTranslation } from 'react-i18next'
 import { C } from '../theme.js'
 import { useReportAvailability } from '../hooks/useReportAvailability.js'
 
-export function DownloadReportCTA({ compact = false, ll, lang }) {
+export function DownloadReportCTA({ ll, lang }) {
   const { t } = useTranslation()
   const available = useReportAvailability(ll.slug, lang)
   if (!available) return null
@@ -19,9 +21,7 @@ export function DownloadReportCTA({ compact = false, ll, lang }) {
   const href = `data/reports/report-${ll.slug}-${lang}.pdf`
   const filename = `report-${ll.slug}-${lang}.pdf`
   const ariaLabel = t('llDetail.downloadReportAria', { name: ll.name })
-  const actionLabel = compact
-    ? t('llDetail.downloadReportCompactAction')
-    : t('llDetail.downloadReportAction')
+  const actionLabel = t('llDetail.downloadReportAction')
 
   const anchor = (
     <a
@@ -33,12 +33,12 @@ export function DownloadReportCTA({ compact = false, ll, lang }) {
         display: 'inline-flex',
         alignItems: 'center',
         gap: 8,
-        padding: compact ? '8px 16px' : '8px 24px',
+        padding: '8px 24px',
         borderRadius: 16,
         background: C.orange,
         color: C.white,
         border: 'none',
-        fontSize: compact ? 12 : 13,
+        fontSize: 13,
         fontWeight: 700,
         lineHeight: 1.2,
         textDecoration: 'none',
@@ -49,8 +49,6 @@ export function DownloadReportCTA({ compact = false, ll, lang }) {
       {actionLabel}
     </a>
   )
-
-  if (compact) return anchor
 
   return (
     <div

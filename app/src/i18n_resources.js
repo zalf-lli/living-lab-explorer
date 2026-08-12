@@ -215,7 +215,6 @@ export const resources = {
         downloadReportTitle: 'Download the full report',
         downloadReportBody: 'Every KPI, map and chart for this Living Lab in one PDF document',
         downloadReportAction: 'Download PDF',
-        downloadReportCompactAction: 'PDF',
         downloadReportAria: 'Download the {{name}} PDF report',
         comparePrefix: 'Comparing',
         comparePickerTitle: 'Compare with',
@@ -439,7 +438,6 @@ export const resources = {
         downloadReportBody:
           'Alle Kennzahlen, Karten und Diagramme für dieses Living Lab in einem PDF-Dokument',
         downloadReportAction: 'PDF herunterladen',
-        downloadReportCompactAction: 'PDF',
         downloadReportAria: 'PDF-Bericht für {{name}} herunterladen',
         comparePrefix: 'Vergleich:',
         comparePickerTitle: 'Vergleichen mit',
