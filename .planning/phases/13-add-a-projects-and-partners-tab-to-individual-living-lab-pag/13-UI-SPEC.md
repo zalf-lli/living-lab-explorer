@@ -299,7 +299,7 @@ function PartnerMarker({ partner }) {
       }}
       alt={partner.website ? t('partnersTab.markerAria', { name: partner.name }) : partner.name}
     >
-      <Tooltip direction="top" offset={[0, -10]}>{partner.name}</Tooltip>
+      <Tooltip direction="top" offset={[0, -12]}>{partner.name}</Tooltip>
     </Marker>
   )
 }
