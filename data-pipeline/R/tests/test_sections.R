@@ -62,7 +62,7 @@ EXPECTED_SOIL_GROUP_COLORS <- c(
   "ah-c-soils" = "#EFE0A2", "alluvial-soils" = "#009E73", "brown-soils" = "#8C4A16",
   "fens" = "#41382B", "gley-soils" = "#0072B2", "initial-soils" = "#C9A063",
   "luvisols" = "#E69F00", "pelosols" = "#B5453C", "podzols" = "#8C8FA8",
-  "raised-bogs" = "#6B4B7A", "sealed-surfaces" = "#4E545C", "stagnic-soils" = "#A97FCB"
+  "raised-bogs" = "#6B4B7A", "sealed-surfaces" = "#4E5460", "stagnic-soils" = "#A97FCB"
 )
 EXPECTED_SOIL_FALLBACK <- c("#6E4B4B", "#7F9E5C", "#8E6E4E", "#D4A6C8", "#4F6B4A")
 EXPECTED_SOIL_WATER_FILL <- "#88BFD9"
