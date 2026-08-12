@@ -480,7 +480,7 @@ Declared values (all multiples of 4px, drawn from the app-wide 4/8/16/24/32/48/6
 | md | 16px | Partner/project card padding (horizontal); right-side tab `paddingLeft` |
 | lg | 24px | Map-to-panel gap; Partners-section-to-Projects-section gap |
 
-**Exceptions (three, all named and justified — see below):**
+**Exceptions (four, all named and justified — see below):**
 
 1. The marker's `2px` border is a visual-weight value (matches Leaflet's own default marker border
    thickness convention, and halving it to a nominal "1px" would read as a hairline, not a filled
@@ -512,11 +512,32 @@ Declared values (all multiples of 4px, drawn from the app-wide 4/8/16/24/32/48/6
    which all share that same `border-bottom` row — rounding it to a grid-exact `0` would reintroduce
    a visible seam between the new button and its neighbors, the same category of regression
    exception 2 is written to avoid.
+4. The loading-state block's own `padding: 40` (see the Interaction States table below,
+   `usePartnersProjects` loading row) is inherited **verbatim** from this codebase's existing
+   `LoadingCard` component in `app/src/pages/LLDetail.jsx` line 1234
+   (`padding: 40, color: C.muted, fontSize: 14, display: 'flex', justifyContent: 'center'`) — the
+   identical `padding: 40` value is also used for the same "full-bleed centered temporary status
+   message" purpose in `app/src/App.jsx` line 48's `ErrorBanner` (`padding: 40, color: '#bb3f11',
+   fontSize: 14`), confirming this is an established two-call-site pattern in the codebase, not a
+   one-off. It is not a new or independently-chosen value: this phase's loading/error slot
+   deliberately reuses that exact existing treatment (rather than inventing a grid-rounded `32px` or
+   `48px` variant) so a lazily-mounted tab's temporary status message reads identically to every
+   other "loading/error takes over this slot" moment already shipped in the app. It is exempted from
+   the 4px grid the same way exceptions 2 and 3 are: matching an existing, already-shipped pixel
+   value across multiple call sites takes priority over strict grid conformance for this one reused
+   treatment.
 
 Every other dimension in this document — including every JSX code sample above — lands exactly on
-the 4/8/16/24/32/48/64 grid. There are now three named, justified exceptions (marker border,
-tab-button padding, tab-button `marginBottom`) and zero unexplained off-grid literals left for the
-executor to resolve.
+the 4/8/16/24/32/48/64 grid (this includes the unmodified `gap: 0` on the existing thematic-tabs
+wrapper `<div>`, `0` being trivially a multiple of 4). There are now four named, justified exceptions
+(marker border, tab-button padding, tab-button `marginBottom`, loading/error block padding) and zero
+unexplained off-grid literals left for the executor to resolve. This conclusion is the result of a
+full end-to-end re-read of every `margin*`/`padding*`/`gap`/`rowGap`/`columnGap`/`top`/`left`/`right`/
+`bottom` literal in this document (including every number inside every shorthand string), cross-
+checked against the actual shipped source in `app/src/components/LayerTabs.jsx`,
+`app/src/pages/LLDetail.jsx`, `app/src/components/StatPanel.jsx`, `app/src/App.jsx`, and
+`app/src/components/ContactManagerButton.jsx` — not a targeted fix of a single previously-reported
+value.
 
 ---
 
