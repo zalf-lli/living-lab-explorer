@@ -68,7 +68,13 @@ statistics for any of the five Living Labs — without any server infrastructure
   byte-exact map legend (agriculture, landscape) are matched to that legend; soil (dynamic
   per-LL legend) and economic (continuous price ramp, no category legend) still use a
   fixed rank-based palette.
-- The `data-pipeline/R/` directory is a stub; R-based fetchers are out of scope for this milestone.
+- The `data-pipeline/R/` directory holds the offline PDF report pipeline (Quarto, Typst and R) —
+  activated in Phase 12 (D-03) to render one branded per-Living-Lab, per-language PDF report from
+  the app's own existing data, published by `sync.py` alongside every other pipeline output. This
+  supersedes the prior milestone note that the directory was a stub. R-based data-acquisition
+  *fetchers* remain excluded from this milestone; only the R-based report renderer is in scope.
+  `quarto` and `R` are now external CLI dependencies alongside `pmtiles` and `rio` (see
+  `CLAUDE.md`'s "External CLI deps" line).
 
 ## Constraints
 
