@@ -215,6 +215,12 @@ narrow 42% sidebar sized for a tall map plus `LayerTabs`, not for two-section li
 potentially many partner/project cards — stacking avoids squeezing card text into a narrow column.
 `gap: 24px` (`lg` token) between the map and the panel.
 
+**Visual anchor:** the map is the primary visual anchor for this screen — it renders first,
+full-width, at the top of the stack, and establishes the Living Lab's geographic context (boundary +
+partner locations) before any text. `PartnersOverviewPanel` is secondary: read top-to-bottom below
+the map as supporting detail once that geographic context is set, not competing with it for
+attention.
+
 ---
 
 ## `PartnersMap` Component
@@ -344,7 +350,7 @@ above every `BarChart`/`LineChart` card in `LLDetail.jsx` (`fontSize: 11, fontWe
 C.greenMid, textTransform: 'uppercase', letterSpacing: '0.1em'`) — no new heading style is invented:
 
 ```jsx
-<div style={{ fontSize: 11, fontWeight: 700, color: C.greenMid, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 10 }}>
+<div style={{ fontSize: 11, fontWeight: 700, color: C.greenMid, textTransform: 'uppercase', letterSpacing: '0.1em', marginBottom: 8 }}>
   {t('partnersTab.partnersHeading')}
 </div>
 ```
@@ -352,7 +358,7 @@ C.greenMid, textTransform: 'uppercase', letterSpacing: '0.1em'`) — no new head
 ### Partner cards (grid)
 
 ```jsx
-<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 12 }}>
+<div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))', gap: 8 }}>
   {partners.map((p) => <PartnerCard key={p.id ?? p.name} partner={p} />)}
 </div>
 ```
@@ -365,28 +371,30 @@ because partner counts vary per Living Lab and this component must read correctl
 Each `PartnerCard`:
 
 ```jsx
-<div style={{ background: C.white, borderRadius: 8, padding: '12px 16px', border: `1px solid ${C.mutedLight}` }}>
+<div style={{ background: C.white, borderRadius: 8, padding: '8px 16px', border: `1px solid ${C.mutedLight}` }}>
   <div style={{ fontSize: 14, fontWeight: 700, color: C.teal, lineHeight: 1.3 }}>{partner.name}</div>
   {partner.type ? (
-    <div style={{ fontSize: 12, fontWeight: 400, color: C.greenMid, lineHeight: 1.4, marginTop: 2 }}>{partner.type}</div>
+    <div style={{ fontSize: 12, fontWeight: 400, color: C.greenMid, lineHeight: 1.4, marginTop: 4 }}>{partner.type}</div>
   ) : null}
   {partner.location ? (
     <div style={{ fontSize: 12, fontWeight: 400, color: C.muted, lineHeight: 1.4, marginTop: 4 }}>{partner.location}</div>
   ) : null}
   {partner.website ? (
     <a href={partner.website} target="_blank" rel="noopener noreferrer"
-       style={{ display: 'inline-block', fontSize: 12, fontWeight: 700, color: C.orange, textDecoration: 'none', marginTop: 6 }}>
+       style={{ display: 'inline-block', fontSize: 12, fontWeight: 700, color: C.orange, textDecoration: 'none', marginTop: 8 }}>
       {t('partnersTab.visitWebsite')} <span aria-hidden="true">↗</span>
     </a>
   ) : null}
 </div>
 ```
 
-Card chrome (`border: 1px solid C.mutedLight`, `borderRadius: 8`, `padding: '12px 16px'`, `background:
-C.white`) is copied verbatim from `StatPanel`'s own KPI tile — the established "small data card"
-visual language in this codebase, reused rather than reinvented. `↗` is `aria-hidden` (matches
-`ContactManagerButton`'s `<span aria-hidden="true">✉</span>` pattern) — the visible link text
-already announces the action.
+Card chrome (`border: 1px solid C.mutedLight`, `borderRadius: 8`, `background: C.white`) matches
+`StatPanel`'s own KPI tile — the established "small data card" visual language in this codebase,
+reused rather than reinvented — with padding set to `'8px 16px'` rather than `StatPanel`'s own
+`'12px 16px'`: `StatPanel`'s literal predates this project's 4/8/16/24/32/48/64 spacing-grid
+convention and is not copied verbatim here, so every dimension in this card lands exactly on the
+grid. `↗` is `aria-hidden` (matches `ContactManagerButton`'s `<span aria-hidden="true">✉</span>`
+pattern) — the visible link text already announces the action.
 
 ### Project list
 
@@ -394,7 +402,7 @@ Projects render as a vertical list, not a grid (project summaries are longer-for
 metadata, so a single column reads better):
 
 ```jsx
-<div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
+<div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
   {projects.map((p) => <ProjectCard key={p.id ?? p.title} project={p} lang={lang} />)}
 </div>
 ```
@@ -402,7 +410,7 @@ metadata, so a single column reads better):
 Each `ProjectCard`:
 
 ```jsx
-<div style={{ background: C.white, borderRadius: 8, padding: '12px 16px', border: `1px solid ${C.mutedLight}` }}>
+<div style={{ background: C.white, borderRadius: 8, padding: '8px 16px', border: `1px solid ${C.mutedLight}` }}>
   <div style={{ fontSize: 14, fontWeight: 700, color: C.teal, lineHeight: 1.3 }}>{project.title}</div>
   {project.summary?.[lang] ? (
     <div style={{ fontSize: 12, fontWeight: 400, color: C.muted, lineHeight: 1.4, marginTop: 4 }}>{project.summary[lang]}</div>
@@ -444,7 +452,7 @@ is empty — **the section itself stays visible** (heading + empty state), never
 
 ```jsx
 {partners.length === 0 ? (
-  <div style={{ background: C.white, borderRadius: 8, padding: '12px 16px', border: `1px dashed ${C.mutedLight}` }}>
+  <div style={{ background: C.white, borderRadius: 8, padding: '8px 16px', border: `1px dashed ${C.mutedLight}` }}>
     <div style={{ fontSize: 12, fontWeight: 400, color: C.muted, lineHeight: 1.4 }}>
       {t('partnersTab.partnersEmpty')}
     </div>
@@ -467,23 +475,18 @@ Declared values (all multiples of 4px, drawn from the app-wide 4/8/16/24/32/48/6
 
 | Token | Value | Usage in this phase |
 |-------|-------|---------------------|
-| xs | 4px | Marker icon border width rounds to nearest visual weight (2px is below the grid but matches Leaflet's own default marker border convention — see Exceptions) |
-| sm | 8px | Section heading bottom margin (rounds up from the 10px used in the JSX example above — see Exceptions); tab-group divider `marginLeft`; project card meta-row gap |
+| xs | 4px | Partner/project card meta-line top margins (`type`, `location`, project `summary` rows) |
+| sm | 8px | Section heading bottom margin; tab-group divider `marginLeft`; partner card grid `gap`; project list `gap`; card vertical padding (top/bottom); "Visit website" link top margin; project card meta-row `gap` and top margin |
 | md | 16px | Partner/project card padding (horizontal); right-side tab `paddingLeft` |
 | lg | 24px | Map-to-panel gap; Partners-section-to-Projects-section gap |
-| — | 12px | Partner/project card grid gap and card padding (vertical) — see Exceptions |
 
-**Exceptions (both inherited from direct precedent already accepted in this codebase, not new
-debt):** `12px` gaps/padding and the section heading's `10px` bottom margin match `StatPanel`'s own
-`gap: 8`/`padding: '12px 16px'` KPI tile precedent almost exactly; the executor should round the
-heading's `marginBottom` to **8px** (not 10px) and the card grid `gap`/vertical padding to
-**8px**/**16px** respectively to land exactly on the 4px grid with zero exceptions, rather than
-copying the illustrative JSX literals above verbatim. The marker's `2px` border is the one true
-exception: it is a visual-weight value (matches Leaflet's own default marker border thickness
-convention, and halving it to a nominal "1px" would read as a hairline, not a filled dot) rather
-than a spacing/layout dimension, so it is exempted from the 4px-grid rule the same way `DownloadReportCTA`'s
-button-radius rounding exercise (Phase 12 UI-SPEC) treated icon-scale details as a separate concern
-from layout spacing.
+**Exception:** the marker's `2px` border is a visual-weight value (matches Leaflet's own default
+marker border thickness convention, and halving it to a nominal "1px" would read as a hairline, not
+a filled dot) rather than a spacing/layout dimension, so it is exempted from the 4px-grid rule the
+same way `DownloadReportCTA`'s button-radius rounding exercise (Phase 12 UI-SPEC) treated icon-scale
+details as a separate concern from layout spacing. Every other dimension in this document — including
+every JSX code sample above — already lands exactly on the 4/8/16/24/32/48/64 grid; there is no
+rounding or adjustment left for the executor to perform.
 
 ---
 
