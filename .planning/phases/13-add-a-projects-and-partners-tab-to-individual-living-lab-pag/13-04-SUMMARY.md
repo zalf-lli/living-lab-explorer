@@ -80,6 +80,13 @@ None — plan executed exactly as written. The only judgment call made during ex
 
 `PartnersOverviewPanel` is ready for plan 13-05 to compose inside `PartnersProjectsTab` alongside `PartnersMap` (13-03). No blockers. `git diff --name-only` against the wave-2 base commit lists exactly `app/src/components/PartnersOverviewPanel.jsx`, matching the plan's `<verification>` requirement.
 
+## Self-Check: PASSED
+
+- FOUND: app/src/components/PartnersOverviewPanel.jsx
+- FOUND commit f0acee9 (Task 1)
+- FOUND commit 68a8854 (Task 2)
+- FOUND commit 19e5539 (SUMMARY.md)
+
 ---
 *Phase: 13-add-a-projects-and-partners-tab-to-individual-living-lab-pag*
 *Completed: 2026-08-13*
