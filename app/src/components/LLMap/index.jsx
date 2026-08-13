@@ -26,6 +26,7 @@ import {
   SOIL_SPECIAL_FILL,
 } from '../../data/soil_legend.js'
 import { buildMaskFeature } from '../../lib/buildMaskGeometry.js'
+import { selectBoundary, getBounds } from '../../lib/llBoundary.js'
 import { C } from '../../theme.js'
 import { MapLegend } from '../MapLegend.jsx'
 import { PeriodSwitcher } from '../PeriodSwitcher.jsx'
@@ -151,17 +152,6 @@ function getPmtiles(url) {
     PMTILES_CACHE.set(url, new PMTiles(url))
   }
   return PMTILES_CACHE.get(url)
-}
-
-function selectBoundary(collections, slug) {
-  const source = Array.isArray(collections) ? collections[0] : null
-  if (!source?.features?.length) return null
-  return source.features.find((f) => f.properties?.ll_slug === slug) ?? null
-}
-
-function getBounds(featureLike) {
-  const bounds = L.geoJSON(featureLike).getBounds()
-  return bounds.isValid() ? bounds : null
 }
 
 // T-08-06/T-08-21: variable and period are interpolated into the fetched asset path, so an
