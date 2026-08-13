@@ -69,6 +69,19 @@ export const resources = {
         economic: 'Socio-economic',
         landscape: 'Landscape',
         protectedAreas: 'Protected Areas',
+        partners: 'Partners & Projects',
+      },
+      partnersTab: {
+        partnersHeading: 'Partners',
+        projectsHeading: 'Projects',
+        partnersEmpty: 'No partners listed yet.',
+        projectsEmpty: 'No projects listed yet.',
+        visitWebsite: 'Visit website',
+        projectPartnerLabel: 'Partner:',
+        markerAria: "Open {{name}}'s website",
+        loadErrorTitle: 'Partner and project data is temporarily unavailable.',
+        loadErrorBody:
+          'Reload the page - if this keeps happening, the data source may be temporarily unreachable.',
       },
       climate: {
         variableRowLabel: 'Climate variable',
@@ -292,6 +305,19 @@ export const resources = {
         economic: 'Soziooekonomie',
         landscape: 'Landschaft',
         protectedAreas: 'Schutzgebiete',
+        partners: 'Partner & Projekte',
+      },
+      partnersTab: {
+        partnersHeading: 'Partner',
+        projectsHeading: 'Projekte',
+        partnersEmpty: 'Noch keine Partner gelistet.',
+        projectsEmpty: 'Noch keine Projekte gelistet.',
+        visitWebsite: 'Website besuchen',
+        projectPartnerLabel: 'Partner:',
+        markerAria: 'Website von {{name}} oeffnen',
+        loadErrorTitle: 'Partner- und Projektdaten sind voruebergehend nicht verfuegbar.',
+        loadErrorBody:
+          'Seite neu laden - falls das Problem bestehen bleibt, ist die Datenquelle moeglicherweise voruebergehend nicht erreichbar.',
       },
       climate: {
         variableRowLabel: 'Klimavariable',
@@ -435,8 +461,7 @@ export const resources = {
         compareAction: 'Vergleichen',
         compareCompactAction: 'Zum Vergleich hinzufuegen',
         downloadReportTitle: 'Bericht herunterladen',
-        downloadReportBody:
-          'Alle Kennzahlen, Karten und Diagramme zu diesem Living Lab als PDF',
+        downloadReportBody: 'Alle Kennzahlen, Karten und Diagramme zu diesem Living Lab als PDF',
         downloadReportAction: 'Herunterladen',
         downloadReportAria: 'PDF-Bericht für {{name}} herunterladen',
         comparePrefix: 'Vergleich:',
