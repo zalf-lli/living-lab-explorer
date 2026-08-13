@@ -62,6 +62,7 @@ repo_root <- resolve_repo_root()
 # defensively when sourced standalone (their own test gates) -- sourcing order here
 # mirrors, but does not depend on, that guard.
 source(file.path(repo_root, "data-pipeline", "R", "theme_llexplorer.R"))
+source(file.path(ll_repo_root(), "data-pipeline", "R", "report", "legend_bars.R"))
 source(file.path(ll_repo_root(), "data-pipeline", "R", "report", "sections.R"))
 source(file.path(ll_repo_root(), "data-pipeline", "R", "report", "maps_vector.R"))
 source(file.path(ll_repo_root(), "data-pipeline", "R", "report", "maps_raster.R"))
@@ -196,6 +197,22 @@ narrative_block <- function(heading, text) {
     )
   )
 }
+
+#' The cover locator's figure caption: names both panels and carries the basemap provider's
+#' required attribution. The credit used to be printed as its own paragraph under the figure and
+#' the "Location within Germany" label drawn inside the smaller panel; both now live here, so the
+#' locator is captioned exactly the way every other map in this document is -- one `fig-cap` on
+#' the chunk -- and neither panel carries in-plot text that would make it a different height from
+#' its neighbour.
+.ll_report_locator_caption <- function(slug, lang) {
+  ll_str(
+    "report.locatorFigCaption", lang,
+    vars = list(
+      ll = ll_lab(slug)[[lang]]$name,
+      credit = ll_str("report.basemapCredit", lang, vars = list(credit = ll_locator_credit()))
+    )
+  )
+}
 ```
 
 `r ll_region`
@@ -203,12 +220,15 @@ narrative_block <- function(heading, text) {
 **`r ll_str("report.regions", lang)`:** `r paste(ll_nuts3, collapse = ", ")`
 
 ```{r}
+#| label: fig-locator
 #| fig-width: !expr LL_FIG$width_full
-#| fig-height: !expr LL_FIG$height_map
+#| fig-height: !expr ll_map_locator_height(slug)
+#| fig-cap: !expr .ll_report_locator_caption(slug, lang)
+# Height is solved per Living Lab from its own boundary's aspect ratio (the five range from
+# markedly taller-than-wide to markedly wider-than-tall), so the map fills the figure instead
+# of floating in it -- see .mv_locator_layout() in maps_vector.R.
 ll_map_locator(slug, lang)
 ```
-
-`r ll_str("report.basemapCredit", lang, list(credit = ll_locator_credit()))`
 
 {{< pagebreak >}}
 
@@ -224,22 +244,12 @@ cat(ll_kpi_typst(slug, "agriculture", lang))
 ```{r}
 #| label: fig-map-agriculture
 #| fig-width: !expr LL_FIG$width_full
-#| fig-height: !expr LL_FIG$height_map
+#| fig-height: !expr ll_map_agriculture_height(slug)
 #| fig-cap: !expr .ll_report_map_caption(slug, "agriculture", lang)
+# This map's legend is a bar legend: every class's row is a bar scaled to its share of the
+# Living Lab, replacing what used to be a colour key here plus a separate area bar chart below.
+# The chart's own figure is gone with it -- the two said the same thing twice.
 ll_map_agriculture(slug, lang)
-```
-
-```{r}
-#| include: false
-chart_agriculture <- ll_chart(slug, "agriculture", lang)
-```
-
-```{r}
-#| label: fig-chart-agriculture
-#| fig-width: !expr LL_FIG$width_full
-#| fig-height: !expr LL_FIG$height_chart
-#| fig-cap: !expr .ll_report_chart_caption(slug, "agriculture", lang, !is.null(chart_agriculture))
-if (!is.null(chart_agriculture)) chart_agriculture
 ```
 
 ```{r}
@@ -266,10 +276,11 @@ cat(ll_kpi_typst(slug, "climate", lang))
 ```{r}
 #| label: fig-map-climate
 #| fig-width: !expr LL_FIG$width_full
-#| fig-height: !expr LL_FIG$height_map * 2
+#| fig-height: !expr ll_map_climate_grid_height(slug)
 #| fig-cap: !expr .ll_report_map_caption(slug, "climate", lang)
-# D-12: the climate grid is an eight-panel composition needing roughly a full page --
-# double LL_FIG's usual map height rather than a new hardcoded literal.
+# D-12: the climate grid is an eight-panel composition needing roughly a full page. Its exact
+# height is solved from this Living Lab's boundary shape and its panels' own legend row counts
+# (ll_map_climate_grid_height()), rather than assumed as a multiple of LL_FIG$height_map.
 ll_map_climate_grid(slug, lang)
 ```
 
@@ -310,22 +321,11 @@ cat(ll_kpi_typst(slug, "soil", lang))
 ```{r}
 #| label: fig-map-soil
 #| fig-width: !expr LL_FIG$width_full
-#| fig-height: !expr LL_FIG$height_map
+#| fig-height: !expr ll_map_soil_height(slug, lang)
 #| fig-cap: !expr .ll_report_map_caption(slug, "soil", lang)
+# Bar legend, as for the crop-type map above: the separate soil-area bar chart that used to
+# follow this figure is now the legend's own bars.
 ll_map_soil(slug, lang)
-```
-
-```{r}
-#| include: false
-chart_soil <- ll_chart(slug, "soil", lang)
-```
-
-```{r}
-#| label: fig-chart-soil
-#| fig-width: !expr LL_FIG$width_full
-#| fig-height: !expr LL_FIG$height_chart
-#| fig-cap: !expr .ll_report_chart_caption(slug, "soil", lang, !is.null(chart_soil))
-if (!is.null(chart_soil)) chart_soil
 ```
 
 ```{r}
@@ -394,22 +394,11 @@ cat(ll_kpi_typst(slug, "landscape", lang))
 ```{r}
 #| label: fig-map-landscape
 #| fig-width: !expr LL_FIG$width_full
-#| fig-height: !expr LL_FIG$height_map
+#| fig-height: !expr ll_map_landscape_height(slug)
 #| fig-cap: !expr .ll_report_map_caption(slug, "landscape", lang)
+# Bar legend, as for the crop-type and soil maps: the separate land-cover area bar chart that
+# used to follow this figure is now the legend's own bars.
 ll_map_landscape(slug, lang)
-```
-
-```{r}
-#| include: false
-chart_landscape <- ll_chart(slug, "landscape", lang)
-```
-
-```{r}
-#| label: fig-chart-landscape
-#| fig-width: !expr LL_FIG$width_full
-#| fig-height: !expr LL_FIG$height_chart
-#| fig-cap: !expr .ll_report_chart_caption(slug, "landscape", lang, !is.null(chart_landscape))
-if (!is.null(chart_landscape)) chart_landscape
 ```
 
 ```{r}

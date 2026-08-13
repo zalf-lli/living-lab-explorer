@@ -46,6 +46,30 @@ LIVING_LABS <- c(
   "north-hessian-loess", "rheingau"
 )
 
+# A bar legend is only a legend if its bars mean something: every share must be a
+# real percentage, the rows must be ranked largest-first (that ranking is what
+# replaced the separate area bar chart), and the shares must account for
+# essentially the whole Living Lab -- these two palettes cover every pixel, so a
+# total far from 100% means classes were dropped or double-counted in the join
+# between the palette and the committed chart JSON.
+.check_bar_shares <- function(entries, label) {
+  if (any(!is.finite(entries$pct)) || any(entries$pct < 0) || any(entries$pct > 100)) {
+    fail(paste0(label, ": bar legend has a share outside 0-100"))
+    return(invisible(NULL))
+  }
+  if (is.unsorted(rev(entries$pct))) {
+    fail(paste0(
+      label, ": bar legend rows are not ranked largest-share-first: ",
+      paste(round(entries$pct, 2), collapse = ", ")
+    ))
+  }
+  total <- sum(entries$pct)
+  if (abs(total - 100) > 1) {
+    fail(paste0(label, ": bar legend shares total ", round(total, 2), "%, expected ~100%"))
+  }
+  invisible(NULL)
+}
+
 # --- Step 0: every required source raster must be present before anything --
 # --- else runs -- a missing raster here is where a developer on a fresh -----
 # --- machine discovers what needs rebuilding, with the exact command. ------
@@ -141,22 +165,49 @@ for (slug in LIVING_LABS) {
   non_na_counts <- character(0)
 
   for (lang in c("en", "de")) {
+    # Legend row counts are asserted on the bar-legend entry table each map is
+    # built from, not by introspecting the rendered object: since these maps
+    # became map+legend patchwork composites, the fill scale a ggplot_build()
+    # would reach is the map panel's own painting scale, which is not the legend.
+    # The entry table IS the legend, so this checks the thing that matters and
+    # additionally checks each row's bar length.
+    entries_ag <- tryCatch(ll_categorical_legend_entries(slug, "agriculture", lang), error = function(e) {
+      fail(paste0(slug, "/", lang, ": ll_categorical_legend_entries('agriculture') failed: ", conditionMessage(e)))
+      NULL
+    })
+    if (!is.null(entries_ag)) {
+      if (nrow(entries_ag) != 19) {
+        fail(paste0(slug, "/", lang, ": agriculture legend has ", nrow(entries_ag), " rows, expected 19"))
+      }
+      .check_bar_shares(entries_ag, paste0(slug, "/", lang, ": agriculture"))
+      legend_rows_ag <- nrow(entries_ag)
+    }
+
     p_ag <- tryCatch(ll_map_agriculture(slug, lang), error = function(e) {
       fail(paste0(slug, "/", lang, ": ll_map_agriculture() failed: ", conditionMessage(e)))
       NULL
     })
     if (!is.null(p_ag)) {
       f <- tempfile(fileext = ".png")
-      ggsave(f, p_ag, width = LL_FIG$width_full, height = LL_FIG$height_map, dpi = LL_FIG$dpi)
+      ggsave(f, p_ag, width = LL_FIG$width_full, height = ll_map_agriculture_height(slug), dpi = LL_FIG$dpi)
       if (file.size(f) <= 5000) {
         fail(paste0(slug, "/", lang, ": ll_map_agriculture() PNG is suspiciously small"))
       }
-      built <- ggplot_build(p_ag)
-      labs <- built$plot$scales$scales[[1]]$get_limits()
-      if (length(labs) != 19) {
-        fail(paste0(slug, "/", lang, ": agriculture legend has ", length(labs), " rows, expected 19"))
+    }
+
+    # Real committed data/report_tokens.json carries 8 landscape classes, not the
+    # 9 an earlier draft of this plan's interface block described (plan 12-06
+    # recorded the same trust-the-real-file deviation for this exact palette).
+    entries_lc <- tryCatch(ll_categorical_legend_entries(slug, "landscape", lang), error = function(e) {
+      fail(paste0(slug, "/", lang, ": ll_categorical_legend_entries('landscape') failed: ", conditionMessage(e)))
+      NULL
+    })
+    if (!is.null(entries_lc)) {
+      if (nrow(entries_lc) != 8) {
+        fail(paste0(slug, "/", lang, ": landscape legend has ", nrow(entries_lc), " rows, expected 8"))
       }
-      legend_rows_ag <- length(labs)
+      .check_bar_shares(entries_lc, paste0(slug, "/", lang, ": landscape"))
+      legend_rows_lc <- nrow(entries_lc)
     }
 
     p_lc <- tryCatch(ll_map_landscape(slug, lang), error = function(e) {
@@ -165,20 +216,10 @@ for (slug in LIVING_LABS) {
     })
     if (!is.null(p_lc)) {
       f <- tempfile(fileext = ".png")
-      ggsave(f, p_lc, width = LL_FIG$width_full, height = LL_FIG$height_map, dpi = LL_FIG$dpi)
+      ggsave(f, p_lc, width = LL_FIG$width_full, height = ll_map_landscape_height(slug), dpi = LL_FIG$dpi)
       if (file.size(f) <= 5000) {
         fail(paste0(slug, "/", lang, ": ll_map_landscape() PNG is suspiciously small"))
       }
-      built <- ggplot_build(p_lc)
-      labs <- built$plot$scales$scales[[1]]$get_limits()
-      # Real committed data/report_tokens.json carries 8 landscape classes,
-      # not the 9 an earlier draft of this plan's interface block described
-      # (plan 12-06 recorded the same trust-the-real-file deviation for this
-      # exact palette).
-      if (length(labs) != 8) {
-        fail(paste0(slug, "/", lang, ": landscape legend has ", length(labs), " rows, expected 8"))
-      }
-      legend_rows_lc <- length(labs)
     }
 
     p_cl <- tryCatch(ll_map_climate_grid(slug, lang), error = function(e) {
@@ -187,14 +228,15 @@ for (slug in LIVING_LABS) {
     })
     if (!is.null(p_cl)) {
       f <- tempfile(fileext = ".png")
-      ggsave(f, p_cl, width = LL_FIG$width_full, height = LL_FIG$width_full * 1.3, dpi = LL_FIG$dpi)
+      ggsave(f, p_cl, width = LL_FIG$width_full, height = ll_map_climate_grid_height(slug), dpi = LL_FIG$dpi)
       if (file.size(f) <= 20000) {
         fail(paste0(slug, "/", lang, ": ll_map_climate_grid() PNG is suspiciously small"))
       }
-      if (length(p_cl) != 8) {
-        fail(paste0(slug, "/", lang, ": climate grid has ", length(p_cl), " panels, expected 8"))
+      # 8 maps, each beside its own bar legend, laid out on one flat 4x4 grid.
+      if (length(p_cl) != 16) {
+        fail(paste0(slug, "/", lang, ": climate grid has ", length(p_cl), " cells, expected 16"))
       }
-      panel_count <- length(p_cl)
+      panel_count <- length(p_cl) / 2
     }
   }
 

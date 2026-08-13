@@ -190,7 +190,9 @@ def test_report_tokens_strings_cover_report_namespace() -> None:
         "documentTitle",
         "subtitle",
         "regions",
-        "locatorCaption",
+        # Replaced the former `locatorCaption` when the cover locator's in-plot panel text
+        # became a real Quarto figure caption (see i18n_resources.js for the full note).
+        "locatorFigCaption",
         "contents",
         "kpiHeading",
         "mapHeading",

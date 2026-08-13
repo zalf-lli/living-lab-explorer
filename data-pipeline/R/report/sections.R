@@ -33,62 +33,10 @@ if (!exists("ll_lab") || !exists("ll_str") || !exists("ll_tokens")) {
   source(normalizePath(.sections_theme_path, winslash = "/", mustWork = TRUE))
 }
 
-# --- Locale-aware number formatting (mirrors StatPanel.jsx's Number(x).toLocaleString(locale)) --
-
-#' Group an unsigned, no-decimal digit string into thousands, e.g. "186050" -> "186,050".
-#'
-#' @param int_str character(1) of digits only (no sign, no decimal point).
-#' @param mark character(1) grouping separator.
-#' @return character(1).
-.ll_group_thousands <- function(int_str, mark) {
-  n <- nchar(int_str)
-  if (n <= 3) {
-    return(int_str)
-  }
-  rev_chars <- rev(strsplit(int_str, "", fixed = TRUE)[[1]])
-  groups <- split(rev_chars, ceiling(seq_along(rev_chars) / 3))
-  grouped <- vapply(groups, function(g) paste(rev(g), collapse = ""), character(1))
-  paste(rev(grouped), collapse = mark)
-}
-
-#' Format a number exactly the way StatPanel.jsx's `Number(x).toLocaleString(locale)` does:
-#' `de-DE` groups with "." and uses "," as the decimal mark, `en-US` the reverse; at most 3
-#' fraction digits, trailing zeros trimmed (JS's default `toLocaleString()` has no
-#' `minimumFractionDigits` floor either).
-#'
-#' @param x numeric(1), never NA (callers route NA to `ll_str("report.noData", lang)` instead).
-#' @param lang character(1), `"en"` or `"de"`.
-#' @param signed logical(1); when TRUE, mirrors `signDisplay: 'exceptZero'` -- a leading `+` on
-#'   every non-zero positive value, `-` on negatives (already produced unconditionally), nothing
-#'   on exactly zero. Used for the climate KPI delta line.
-#' @return character(1).
-.ll_format_number <- function(x, lang, signed = FALSE) {
-  stopifnot(is.numeric(x), length(x) == 1, !is.na(x))
-  big_mark <- if (identical(lang, "de")) "." else ","
-  decimal_mark <- if (identical(lang, "de")) "," else "."
-
-  rounded <- round(x, 3)
-  neg <- rounded < 0
-  magnitude <- abs(rounded)
-
-  raw <- formatC(magnitude, format = "f", digits = 3)
-  parts <- strsplit(raw, ".", fixed = TRUE)[[1]]
-  int_part <- parts[1]
-  frac_part <- if (length(parts) > 1) parts[2] else ""
-  frac_part <- sub("0+$", "", frac_part)
-
-  result <- .ll_group_thousands(int_part, big_mark)
-  if (nzchar(frac_part)) {
-    result <- paste0(result, decimal_mark, frac_part)
-  }
-
-  if (neg) {
-    result <- paste0("-", result)
-  } else if (signed && rounded != 0) {
-    result <- paste0("+", result)
-  }
-  result
-}
+# Locale-aware number formatting (StatPanel.jsx's Number(x).toLocaleString(locale)) moved to
+# theme_llexplorer.R as ll_format_number() when legend_bars.R's per-bar value labels became a
+# second caller -- one shared implementation rather than two copies drifting apart. Sourced
+# above; called unqualified below, exactly as ll_str()/ll_tokens() already are.
 
 # --- Task 1: KPI data accessor and narrative accessors --------------------------
 
@@ -160,7 +108,7 @@ ll_kpi_df <- function(slug, tab, lang) {
     if (is.na(raw_value)) {
       value[i] <- ll_str("report.noData", lang)
     } else {
-      value[i] <- .ll_format_number(raw_value, lang)
+      value[i] <- ll_format_number(raw_value, lang)
     }
 
     row_note <- ""
@@ -173,7 +121,7 @@ ll_kpi_df <- function(slug, tab, lang) {
         }
         horizon <- if ("deltaHorizon" %in% names(rows)) rows$deltaHorizon[i] else NA_character_
         horizon_str <- if (is.na(horizon)) "" else horizon
-        delta_str <- .ll_format_number(delta_val, lang, signed = TRUE)
+        delta_str <- ll_format_number(delta_val, lang, signed = TRUE)
         row_note <- trimws(paste(
           delta_str, delta_unit_val,
           ll_str("statPanel.byHorizon", lang, vars = list(horizon = horizon_str))
@@ -576,7 +524,7 @@ ll_soil_color <- function(group_key) {
   if (is.na(unit)) unit <- ""
   display$value_label <- vapply(
     display$value,
-    function(v) trimws(paste(.ll_format_number(v, lang), unit)),
+    function(v) trimws(paste(ll_format_number(v, lang), unit)),
     character(1)
   )
 

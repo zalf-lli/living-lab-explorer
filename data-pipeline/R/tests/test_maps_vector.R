@@ -57,9 +57,9 @@ run_node_parity <- function(mode, slug) {
   jsonlite::fromJSON(paste(out, collapse = "\n"))
 }
 
-render_and_check_size <- function(plot_obj, min_bytes, label) {
+render_and_check_size <- function(plot_obj, min_bytes, label, height = LL_FIG$height_map) {
   f <- tempfile(fileext = ".png")
-  ggplot2::ggsave(f, plot_obj, width = LL_FIG$width_full, height = LL_FIG$height_map, dpi = LL_FIG$dpi)
+  ggplot2::ggsave(f, plot_obj, width = LL_FIG$width_full, height = height, dpi = LL_FIG$dpi)
   size <- file.size(f)
   if (size <= min_bytes) {
     fail(paste0(label, ": PNG is implausibly small (", size, " bytes, expected > ", min_bytes, ")"))
@@ -80,14 +80,49 @@ for (slug in LIVING_LABS) {
   })
   if (!is.null(soil_plot_en)) {
     stopifnot(inherits(soil_plot_en, "ggplot"))
-    render_and_check_size(soil_plot_en, 5000, paste0(slug, ": ll_map_soil('en')"))
+    soil_height <- ll_map_soil_height(slug, "en")
+    render_and_check_size(soil_plot_en, 5000, paste0(slug, ": ll_map_soil('en')"), soil_height)
 
     soil_plot_de <- tryCatch(ll_map_soil(slug, "de"), error = function(e) {
       fail(paste0(slug, ": ll_map_soil('de') failed: ", conditionMessage(e)))
       NULL
     })
     if (!is.null(soil_plot_de)) {
-      render_and_check_size(soil_plot_de, 5000, paste0(slug, ": ll_map_soil('de')"))
+      render_and_check_size(soil_plot_de, 5000, paste0(slug, ": ll_map_soil('de')"), soil_height)
+    }
+
+    # The bar legend adds an area to every legend row and an "Other" row covering
+    # the classes the map paints but the legend does not name (see
+    # ll_soil_bar_legend_entries()). Checked here because those two things are
+    # what make the bars honest: every named row must have found its area in the
+    # committed chart JSON, and the rows together must account for the whole
+    # Living Lab.
+    bar_entries <- tryCatch(ll_soil_bar_legend_entries(slug, "en"), error = function(e) {
+      fail(paste0(slug, ": ll_soil_bar_legend_entries() failed: ", conditionMessage(e)))
+      NULL
+    })
+    if (!is.null(bar_entries)) {
+      unmatched <- bar_entries$label[bar_entries$value == 0 & bar_entries$key != "__other__"]
+      if (length(unmatched) > 0) {
+        fail(paste0(
+          slug, ": soil bar legend rows with no area in the committed chart JSON: ",
+          paste(unmatched, collapse = ", ")
+        ))
+      }
+      total <- sum(bar_entries$pct)
+      if (abs(total - 100) > 1) {
+        fail(paste0(slug, ": soil bar legend shares total ", round(total, 2), "%, expected ~100%"))
+      }
+      # The "Other" row is only emitted when the map really does paint classes the
+      # legend does not name, so its absence is legitimate -- but when it exists
+      # it must be the last row, after the pinned water/special rows.
+      if ("__other__" %in% bar_entries$key &&
+            !identical(bar_entries$key[nrow(bar_entries)], "__other__")) {
+        fail(paste0(
+          slug, ": soil bar legend's 'Other' row is not last (tail: ",
+          paste(utils::tail(bar_entries$key, 3), collapse = ", "), ")"
+        ))
+      }
     }
 
     r_entries_en <- ll_soil_legend_entries(slug, "en")
@@ -191,24 +226,62 @@ if (!is.na(credit) && (!is.character(credit) || !nzchar(credit))) {
 }
 
 for (slug in LIVING_LABS) {
+  # The layout is solved per Living Lab from its own boundary shape, so it is
+  # asserted per Living Lab too: a height inside the declared bounds, and a
+  # five-column split whose two panels plus their padding account for exactly the
+  # figure width (this is what keeps the two maps from drifting apart with a wide
+  # empty channel between them).
+  layout <- tryCatch(.mv_locator_layout(slug), error = function(e) {
+    fail(paste0(slug, ": .mv_locator_layout() failed: ", conditionMessage(e)))
+    NULL
+  })
+  locator_height <- LL_FIG$height_map
+  if (!is.null(layout)) {
+    locator_height <- layout$height
+    if (layout$height < .MV_LOCATOR_HEIGHT_MIN - 1e-9 ||
+          layout$height > .MV_LOCATOR_HEIGHT_MAX + 1e-9) {
+      fail(paste0(slug, ": locator height ", round(layout$height, 3), " is outside its bounds"))
+    }
+    if (abs(sum(layout$widths) - LL_FIG$width_full) > 1e-9) {
+      fail(paste0(
+        slug, ": locator column widths total ", round(sum(layout$widths), 4),
+        ", expected ", LL_FIG$width_full
+      ))
+    }
+    germany_ratio <- layout$widths[4] / layout$widths[2]
+    if (abs(germany_ratio - .MV_LOCATOR_GERMANY_RATIO) > 1e-9) {
+      fail(paste0(
+        slug, ": locator Germany panel is ", round(germany_ratio, 4),
+        " of the main panel's width, expected ", .MV_LOCATOR_GERMANY_RATIO
+      ))
+    }
+  }
+
   locator_plot_en <- tryCatch(ll_map_locator(slug, "en"), error = function(e) {
     fail(paste0(slug, ": ll_map_locator('en') failed: ", conditionMessage(e)))
     NULL
   })
   if (!is.null(locator_plot_en)) {
-    render_and_check_size(locator_plot_en, 10000, paste0(slug, ": ll_map_locator('en')"))
+    render_and_check_size(
+      locator_plot_en, 10000, paste0(slug, ": ll_map_locator('en')"), locator_height
+    )
 
     locator_plot_de <- tryCatch(ll_map_locator(slug, "de"), error = function(e) {
       fail(paste0(slug, ": ll_map_locator('de') failed: ", conditionMessage(e)))
       NULL
     })
     if (!is.null(locator_plot_de)) {
-      render_and_check_size(locator_plot_de, 10000, paste0(slug, ": ll_map_locator('de')"))
+      render_and_check_size(
+        locator_plot_de, 10000, paste0(slug, ": ll_map_locator('de')"), locator_height
+      )
     }
   }
   summary_lines <- c(
     summary_lines,
-    paste0(slug, " (locator): credit=", if (is.na(credit)) "MISSING" else credit)
+    paste0(
+      slug, " (locator): credit=", if (is.na(credit)) "MISSING" else credit,
+      " height=", if (is.null(layout)) "n/a" else round(layout$height, 2)
+    )
   )
 }
 

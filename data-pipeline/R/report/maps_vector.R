@@ -38,6 +38,10 @@ if (is.null(.mv_source_file) || !nzchar(.mv_source_file)) {
 }
 .mv_module_dir <- dirname(normalizePath(.mv_source_file, winslash = "/", mustWork = TRUE))
 source(normalizePath(file.path(.mv_module_dir, "..", "theme_llexplorer.R"), winslash = "/", mustWork = TRUE))
+# The soil map draws its legend as a bar legend (one bar per class, scaled to its
+# share of the Living Lab); the locator borrows the same module's boundary-aspect
+# helper to size its two panels. See legend_bars.R.
+source(normalizePath(file.path(.mv_module_dir, "legend_bars.R"), winslash = "/", mustWork = TRUE))
 
 # --- Shared truthiness helper (JS-style falsy: NA/NULL, "", 0 are all falsy) --
 # Used to port getSemanticSoilKey()'s `a || b || c || d || 'fallback'` chain,
@@ -55,7 +59,17 @@ source(normalizePath(file.path(.mv_module_dir, "..", "theme_llexplorer.R"), wins
 # Task 1: soil choropleth (ll_map_soil) + its dynamic per-Living-Lab legend
 # =================================================================================
 
+# Cached per slug in theme_llexplorer.R's own module-local cache environment: one
+# soil map now reads this GeoJSON from three call sites (the choropleth itself,
+# its legend rows, and the figure-height helper), and east-brandenburg's file is
+# large enough that re-parsing it three times per render is a visible cost. The
+# cache key includes the slug, so a render covering several Living Labs is still
+# correct. Same rationale as ll_tokens()/ll_meta()'s caching there.
 .mv_read_soil_raw <- function(slug) {
+  cache_key <- paste0("soil_sf_", slug)
+  if (!is.null(.ll_cache[[cache_key]])) {
+    return(.ll_cache[[cache_key]])
+  }
   path <- file.path(
     ll_repo_root(), "app", "public", "data", "geojson", paste0("buek250-", slug, ".geojson")
   )
@@ -66,6 +80,7 @@ source(normalizePath(file.path(.mv_module_dir, "..", "theme_llexplorer.R"), wins
   if (nrow(soil_sf) == 0) {
     stop("maps_vector.R: soil GeoJSON '", path, "' has zero features.")
   }
+  .ll_cache[[cache_key]] <- soil_sf
   soil_sf
 }
 
@@ -225,14 +240,47 @@ ll_soil_legend_entries <- function(slug, lang) {
   data.frame(key = key_out, label = label_out, color = color_out, stringsAsFactors = FALSE)
 }
 
+#' The soil map's bar-legend rows: `ll_soil_legend_entries()`'s dynamic rows,
+#' joined to the mapped area the pipeline already published per soil group in
+#' `app/public/data/charts/buek250-<slug>.json`, then ranked by that area.
+#'
+#' Two shape decisions specific to this legend:
+#'
+#'  * Water and special areas stay pinned to the bottom however large they are.
+#'    They are appended categories in `buildSoilLegendEntries()`, not ranked
+#'    ones, and re-ranking them into the middle of the soil groups would imply a
+#'    comparison the app's own legend never makes.
+#'  * A trailing "Other" row accounts for everything the map paints but the
+#'    legend does not name. The soil choropleth colours every class present (up
+#'    to fourteen in east-brandenburg) while its legend names at most seven, so
+#'    without this row the bars would visibly fail to account for the map. The
+#'    row is added here only -- never inside `ll_soil_legend_entries()`, whose
+#'    row set is asserted against the browser's own in test_maps_vector.R.
+#'
+#' Note that the five named rows are still SELECTED by feature count (the app's
+#' locked contract) and only ORDERED by area here, so a Living Lab can show a
+#' small-area group ahead of a larger one that did not make the top five.
+#'
+#' @return `ll_bar_legend_entries()` output.
+ll_soil_bar_legend_entries <- function(slug, lang) {
+  ll_bar_legend_entries(
+    ll_soil_legend_entries(slug, lang),
+    ll_class_area_df(slug, "soil", lang),
+    lang,
+    sort_by_area = TRUE,
+    pin_last = c("water-area", "special-area"),
+    other_label = ll_str("chart.otherCategory", lang)
+  )
+}
+
 #' The soil choropleth: every polygon painted by its resolved colour (all
 #' classes, not just the five legend rows), with a per-Living-Lab dynamic
-#' legend restricted to the dominant five plus water/special. No basemap
-#' tiles (D-14). CRS is aligned explicitly before overlaying the boundary and
-#' the result asserted non-empty, per CLAUDE.md's standing BUEK-vector-data
-#' discipline.
+#' bar legend restricted to the dominant five plus water/special (plus the
+#' "Other" row documented above). No basemap tiles (D-14). CRS is aligned
+#' explicitly before overlaying the boundary and the result asserted non-empty,
+#' per CLAUDE.md's standing BUEK-vector-data discipline.
 #'
-#' @return a ggplot2 object.
+#' @return a patchwork object (map panel + bar-legend panel).
 ll_map_soil <- function(slug, lang) {
   soil_sf <- .mv_read_soil_raw(slug)
   props <- sf::st_drop_geometry(soil_sf)
@@ -268,7 +316,7 @@ ll_map_soil <- function(slug, lang) {
   title <- ll_str("layers.soil", lang)
   note <- ll_str("legend.soil.note", lang)
 
-  ggplot2::ggplot() +
+  map_plot <- ggplot2::ggplot() +
     ggplot2::geom_sf(
       data = soil_sf,
       ggplot2::aes(fill = semantic_key, color = stroke_color),
@@ -282,10 +330,26 @@ ll_map_soil <- function(slug, lang) {
       labels = legend_entries$label,
       name = title
     ) +
-    ggplot2::guides(fill = ggplot2::guide_legend(title = title, ncol = 1)) +
+    # The bar legend beside the map replaces this scale's own key legend; the
+    # scale itself still paints every class.
+    ggplot2::guides(fill = "none") +
     ggplot2::geom_sf(data = boundary, fill = NA, color = brand$outlineColor, linewidth = 0.9) +
-    ggplot2::labs(caption = note) +
     theme_ll_map()
+
+  bar_entries <- ll_soil_bar_legend_entries(slug, lang)
+  ll_map_with_bar_legend(
+    map_plot,
+    ll_bar_legend(bar_entries, title = title),
+    ll_bar_legend_layout(slug, nrow(bar_entries)),
+    caption = note
+  )
+}
+
+#' The figure height, in inches, `ll_map_soil(slug, ...)` should be rendered at
+#' for this Living Lab's boundary shape and its own legend's row count. Read by
+#' template.qmd's chunk options.
+ll_map_soil_height <- function(slug, lang) {
+  ll_bar_legend_layout(slug, nrow(ll_soil_bar_legend_entries(slug, lang)))$height
 }
 
 # =================================================================================
@@ -469,6 +533,22 @@ ll_map_economic <- function(slug, lang) {
 .MV_LOCATOR_ZOOM <- 10
 .MV_LOCATOR_PAD_M <- 4000
 
+# The Germany overview panel's width, as a fraction of the main panel's own
+# rendered width (plan 12-10 checkpoint round 2, Defect 3 -- kept at that
+# decision's 0.3, nudged to 0.32 so the national outline stays legible at print
+# size for the narrowest Living Lab).
+.MV_LOCATOR_GERMANY_RATIO <- 0.32
+# Breathing room between the two panels, in inches. Small and explicit: the
+# previous layout let patchwork distribute all leftover width between them,
+# which is what produced the wide empty channel down the middle of the figure.
+.MV_LOCATOR_GAP_IN <- 0.12
+# Height bounds for the composed figure, in inches. The ceiling is generous
+# because this is the only figure on the cover page, and it is what a tall
+# Living Lab (east-brandenburg's boundary is half again as tall as it is wide)
+# spends to keep its map from shrinking into the middle of an empty row.
+.MV_LOCATOR_HEIGHT_MIN <- 2.2
+.MV_LOCATOR_HEIGHT_MAX <- 5.0
+
 #' The tile provider's required attribution string for the cover-page locator.
 #' Returned as a function (not baked into the plot) so plan 12-10 can print it
 #' in the document's text flow via ll_str("report.basemapCredit", ...).
@@ -476,14 +556,82 @@ ll_locator_credit <- function() {
   maptiles::get_credit(.MV_LOCATOR_PROVIDER)
 }
 
+#' The padded bounding box the locator's main panel is drawn to, in EPSG:3857.
+#'
+#' Factored out of `ll_map_locator()` so `ll_map_locator_height()` can size the
+#' figure from exactly the same extent the map is drawn to, without fetching a
+#' single tile.
+.mv_locator_bbox <- function(slug) {
+  boundary_3857 <- sf::st_transform(ll_boundary(slug), 3857)
+  if (nrow(boundary_3857) == 0) {
+    stop("ll_map_locator(): boundary for slug '", slug, "' is empty after CRS alignment.")
+  }
+  buffered <- sf::st_buffer(sf::st_union(boundary_3857), .MV_LOCATOR_PAD_M)
+  bbox_sfc <- sf::st_as_sfc(sf::st_bbox(buffered))
+  sf::st_crs(bbox_sfc) <- 3857
+  list(boundary = boundary_3857, bbox = sf::st_bbox(buffered), bbox_sfc = bbox_sfc)
+}
+
+#' Solve the locator's figure height and its five column weights.
+#'
+#' The two panels are locked to their own data aspect ratios, and the five
+#' Living Labs' boundaries range from 0.63 (tall) to 1.67 (wide), so a fixed
+#' column split necessarily strands one shape or the other. This picks the height
+#' at which the main panel exactly fills the width available to it, clamps that
+#' to the cover page's vertical budget, and then splits the row as
+#' `[pad | main | gap | Germany | pad]` -- explicit outer padding, so whatever
+#' width the pair cannot use ends up symmetrically outside them rather than as a
+#' single wide channel between them (the gap this replaces).
+#'
+#' @return list(height=, widths=) with `widths` the five-element weighting
+#'   `patchwork::wrap_plots()` takes, matching the spacer/panel/spacer cells
+#'   `ll_map_locator()` builds.
+.mv_locator_layout <- function(slug, total_width = LL_FIG$width_full) {
+  bbox <- .mv_locator_bbox(slug)$bbox
+  aspect <- as.numeric((bbox[["xmax"]] - bbox[["xmin"]]) / (bbox[["ymax"]] - bbox[["ymin"]]))
+
+  usable <- total_width - .MV_LOCATOR_GAP_IN
+  main_width_max <- usable / (1 + .MV_LOCATOR_GERMANY_RATIO)
+  height <- min(
+    max(main_width_max / aspect, .MV_LOCATOR_HEIGHT_MIN),
+    .MV_LOCATOR_HEIGHT_MAX
+  )
+  main_width <- min(aspect * height, main_width_max)
+  germany_width <- main_width * .MV_LOCATOR_GERMANY_RATIO
+  pad <- max(0, (usable - main_width - germany_width) / 2)
+
+  list(
+    height = height,
+    widths = c(pad, main_width, .MV_LOCATOR_GAP_IN, germany_width, pad)
+  )
+}
+
+#' The figure height, in inches, `ll_map_locator(slug, ...)` should be rendered
+#' at for this Living Lab's boundary shape. Read by template.qmd's chunk options;
+#' never fetches tiles.
+ll_map_locator_height <- function(slug) {
+  .mv_locator_layout(slug)$height
+}
+
 #' The cover-page locator: a tiles-backed main panel (the Living Lab boundary
 #' over basemap imagery, padded so the boundary is not flush against the
-#' frame) placed side by side with a Germany-outline panel, in its own
-#' opaque, dark-bordered frame, marking the Living Lab's location nationally
-#' (plan 12-10 checkpoint round 2 Defect 3: an inset/overlay -- however large
-#' or opaque -- reads as a map placed on top of another map; a reader asked
-#' for two maps placed next to each other instead, main locator on the left,
-#' the Germany overview to its right at 30% of the main map's own width).
+#' frame) placed side by side with a Germany-outline panel marking the Living
+#' Lab's location nationally (plan 12-10 checkpoint round 2 Defect 3: an
+#' inset/overlay -- however large or opaque -- reads as a map placed on top of
+#' another map; a reader asked for two maps placed next to each other instead,
+#' main locator on the left, the Germany overview to its right at a fraction of
+#' the main map's own width).
+#'
+#' Both panels are sized from the Living Lab's own boundary aspect ratio (see
+#' `.mv_locator_layout()`) and share one hairline frame treatment, replacing the
+#' earlier arrangement where the two panels were different heights, separated by
+#' a wide empty channel, and only one of them carried a (heavy, black) border.
+#' The panel that used to carry an in-plot "Location within Germany" caption now
+#' carries no text at all: identifying the two panels is the figure caption's job
+#' (`report.locatorFigCaption`, set on the chunk in template.qmd like every other
+#' map's caption), and an in-plot caption on one panel of a two-panel row also
+#' shortened that panel against its neighbour.
+#'
 #' Tiles are cached under data/_cache/ (already gitignored) via the
 #' maptiles tile-fetch call's own cachedir argument, so a repeat render with a
 #' warm cache needs no network access. A cold-cache failure names both the
@@ -495,14 +643,11 @@ ll_map_locator <- function(slug, lang) {
   root <- ll_repo_root()
   boundary <- ll_boundary(slug)
   brand <- ll_brand(slug)
+  theme_tk <- ll_tokens()$theme
 
-  boundary_3857 <- sf::st_transform(boundary, 3857)
-  if (nrow(boundary_3857) == 0) {
-    stop("ll_map_locator(): boundary for slug '", slug, "' is empty after CRS alignment.")
-  }
-  buffered <- sf::st_buffer(sf::st_union(boundary_3857), .MV_LOCATOR_PAD_M)
-  bbox_sfc <- sf::st_as_sfc(sf::st_bbox(buffered))
-  sf::st_crs(bbox_sfc) <- 3857
+  extent <- .mv_locator_bbox(slug)
+  boundary_3857 <- extent$boundary
+  bbox_sfc <- extent$bbox_sfc
 
   cachedir <- file.path(root, "data", "_cache")
   if (!dir.exists(cachedir)) {
@@ -531,10 +676,16 @@ ll_map_locator <- function(slug, lang) {
     }
   )
 
+  # `expand = FALSE` so the drawn extent is exactly the padded bounding box
+  # `.mv_locator_layout()` measured -- with ggplot2's default 5% expansion the
+  # panel is slightly larger than the box the layout solved for, and the panel
+  # would no longer land flush inside its column.
   main_plot <- ggplot2::ggplot() +
     tidyterra::geom_spatraster_rgb(data = tiles, maxcell = Inf) +
     ggplot2::geom_sf(data = boundary_3857, fill = NA, color = brand$outlineColor, linewidth = 1.1) +
-    theme_ll_map()
+    ggplot2::coord_sf(expand = FALSE) +
+    theme_ll_map() +
+    .mv_locator_panel_theme(theme_tk)
 
   germany_path <- file.path(root, "data", "nuts1_de.geojson")
   germany <- sf::st_read(germany_path, quiet = TRUE)
@@ -551,35 +702,51 @@ ll_map_locator <- function(slug, lang) {
   # (`patchwork::inset_element()`) to stop it overlapping the main panel's own content for a
   # narrow-shaped Living Lab (e.g. Rheingau's Rhine-valley boundary). Checkpoint round 2 Defect
   # 3 replaced that positioning entirely: an inset -- however large or opaque -- still reads as
-  # one map placed on top of another, not two maps shown together. This panel is now laid out
-  # side by side with `main_plot` instead (via `patchwork::plot_layout()` below), so the two
-  # maps never occupy the same physical space regardless of either Living Lab's boundary shape.
-  # Round 1's opaque background and dark border are kept (not superseded) -- they are what
-  # makes this panel read as its own distinct, self-contained map next to the tiles-backed main
-  # panel, exactly the framing a reader would expect of two maps placed side by side.
-  theme_tk <- ll_tokens()$theme
+  # one map placed on top of another, not two maps shown together. This panel is laid out side
+  # by side with `main_plot` instead, so the two maps never occupy the same physical space
+  # regardless of either Living Lab's boundary shape. Round 1's heavy black frame around this
+  # one panel is gone: both panels now share the same hairline frame
+  # (`.mv_locator_panel_theme()`), which is what makes them read as a matched pair rather than
+  # as a boxed inset parked next to an unboxed map.
   germany_plot <- ggplot2::ggplot() +
     ggplot2::geom_sf(data = germany, fill = theme_tk$surface, color = theme_tk$mutedLight, linewidth = 0.15) +
-    ggplot2::geom_sf(data = centroid, color = brand$color, size = 2, shape = 16) +
-    ggplot2::labs(caption = ll_str("report.locatorCaption", lang)) +
+    # Shape 21 with a white stroke: the locator dot has to stay findable against
+    # both the pale national fill and any state outline it happens to land on.
+    ggplot2::geom_sf(
+      data = centroid, fill = brand$color, colour = theme_tk$bg,
+      size = 2.1, stroke = 0.6, shape = 21
+    ) +
+    ggplot2::coord_sf(expand = FALSE) +
     theme_ll_map(base_size = 6) +
-    ggplot2::theme(
-      plot.caption = ggplot2::element_text(size = 5, hjust = 0.5),
-      plot.background = ggplot2::element_rect(fill = theme_tk$bg, colour = theme_tk$black, linewidth = 1.1),
-      panel.background = ggplot2::element_rect(fill = theme_tk$bg, colour = NA),
-      plot.margin = ggplot2::margin(t = 3, r = 3, b = 3, l = 3)
-    )
+    .mv_locator_panel_theme(theme_tk)
 
   # `patchwork::wrap_plots()` (not the bare `+` operator -- this project's ggplot2 version
   # dispatches `+` on two plain ggplot objects through ggplot2's own S7 method system before
   # patchwork's operator ever sees it, confirmed live: `main_plot + germany_plot` raised
   # "Can't add `germany_plot` to a <ggplot> object" here, the same reason
-  # `ll_map_climate_grid()` below already uses `wrap_plots()` for its own multi-panel
-  # composition rather than repeated `+`). `widths = c(1, 0.3)`: patchwork scales column widths
-  # by these relative weights, so the Germany panel's rendered width is exactly 0.3/1 = 30% of
-  # the main panel's own rendered width -- this plan's own Defect 3 sizing requirement -- not
-  # merely 30% of the combined figure's total width. `ncol = 2` (rather than patchwork's
-  # default near-square auto-grid for two plots) is what forces the single-row, side-by-side
-  # arrangement Defect 3 asks for.
-  patchwork::wrap_plots(list(main_plot, germany_plot), ncol = 2, widths = c(1, 0.3))
+  # `ll_map_climate_grid()` already uses `wrap_plots()` for its own multi-panel composition
+  # rather than repeated `+`). The three `plot_spacer()` cells are the explicit
+  # [pad | main | gap | Germany | pad] layout `.mv_locator_layout()` solves for: patchwork
+  # normalizes column weights to fill the figure width whatever they are, so leftover width
+  # has to be given to real (empty) columns to end up anywhere other than between the panels.
+  layout <- .mv_locator_layout(slug)
+  patchwork::wrap_plots(
+    list(
+      patchwork::plot_spacer(), main_plot, patchwork::plot_spacer(),
+      germany_plot, patchwork::plot_spacer()
+    ),
+    ncol = 5, widths = layout$widths
+  )
+}
+
+#' The frame both locator panels share: a hairline border in the theme's own
+#' muted grey and a transparent fill, so a basemap-backed panel and a vector
+#' outline panel read as two views of the same figure.
+.mv_locator_panel_theme <- function(theme_tk) {
+  ggplot2::theme(
+    panel.border = ggplot2::element_rect(
+      fill = NA, colour = theme_tk$mutedLight, linewidth = 0.4
+    ),
+    plot.margin = ggplot2::margin(t = 1, r = 1, b = 1, l = 1)
+  )
 }

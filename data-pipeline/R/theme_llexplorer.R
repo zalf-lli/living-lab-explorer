@@ -240,6 +240,67 @@ ll_boundary <- function(slug) {
   result
 }
 
+# --- Locale-aware number formatting ---------------------------------------------
+# Lives here, in the one module every report module sources, because two of them
+# now need it: sections.R's KPI/chart value strings and legend_bars.R's per-bar
+# value labels. Both must format a number exactly the way the live site's
+# StatPanel.jsx does, so the PDF and the browser never disagree on a separator.
+
+#' Group an unsigned, no-decimal digit string into thousands, e.g. "186050" -> "186,050".
+#'
+#' @param int_str character(1) of digits only (no sign, no decimal point).
+#' @param mark character(1) grouping separator.
+#' @return character(1).
+.ll_group_thousands <- function(int_str, mark) {
+  n <- nchar(int_str)
+  if (n <= 3) {
+    return(int_str)
+  }
+  rev_chars <- rev(strsplit(int_str, "", fixed = TRUE)[[1]])
+  groups <- split(rev_chars, ceiling(seq_along(rev_chars) / 3))
+  grouped <- vapply(groups, function(g) paste(rev(g), collapse = ""), character(1))
+  paste(rev(grouped), collapse = mark)
+}
+
+#' Format a number exactly the way StatPanel.jsx's `Number(x).toLocaleString(locale)` does:
+#' `de-DE` groups with "." and uses "," as the decimal mark, `en-US` the reverse; at most 3
+#' fraction digits, trailing zeros trimmed (JS's default `toLocaleString()` has no
+#' `minimumFractionDigits` floor either).
+#'
+#' @param x numeric(1), never NA (callers route NA to `ll_str("report.noData", lang)` instead).
+#' @param lang character(1), `"en"` or `"de"`.
+#' @param signed logical(1); when TRUE, mirrors `signDisplay: 'exceptZero'` -- a leading `+` on
+#'   every non-zero positive value, `-` on negatives (already produced unconditionally), nothing
+#'   on exactly zero. Used for the climate KPI delta line.
+#' @return character(1).
+ll_format_number <- function(x, lang, signed = FALSE) {
+  stopifnot(is.numeric(x), length(x) == 1, !is.na(x))
+  big_mark <- if (identical(lang, "de")) "." else ","
+  decimal_mark <- if (identical(lang, "de")) "," else "."
+
+  rounded <- round(x, 3)
+  neg <- rounded < 0
+  magnitude <- abs(rounded)
+
+  raw <- formatC(magnitude, format = "f", digits = 3)
+  parts <- strsplit(raw, ".", fixed = TRUE)[[1]]
+  int_part <- parts[1]
+  frac_part <- if (length(parts) > 1) parts[2] else ""
+  frac_part <- sub("0+$", "", frac_part)
+
+  result <- .ll_group_thousands(int_part, big_mark)
+  if (nzchar(frac_part)) {
+    result <- paste0(result, decimal_mark, frac_part)
+  }
+
+  if (neg) {
+    result <- paste0("-", result)
+  } else if (signed && rounded != 0) {
+    result <- paste0("+", result)
+  }
+  result
+}
+
 # --- Report-wide layout constants ----------------------------------------------
 
 # D-11 requires all five tabs; D-11 does not specify a section order. This

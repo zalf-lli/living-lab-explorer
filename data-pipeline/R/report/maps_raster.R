@@ -59,6 +59,24 @@ if (!exists("ll_repo_root", mode = "function")) {
   source(.ll_maps_raster_theme_path)
 }
 
+# Every map in this file draws its legend as a bar legend (one bar per class,
+# scaled to that class's share of the Living Lab) rather than as a plain colour
+# key -- see legend_bars.R for the component and for the per-Living-Lab layout
+# maths. Sourced the same defensive way as theme_llexplorer.R above, so this
+# module still works when its own test gate sources it standalone.
+if (!exists("ll_bar_legend", mode = "function")) {
+  if (is.null(.ll_maps_raster_source_file) || !nzchar(.ll_maps_raster_source_file)) {
+    stop(
+      "data-pipeline/R/report/maps_raster.R: could not determine this file's ",
+      "own source location to find legend_bars.R."
+    )
+  }
+  source(normalizePath(
+    file.path(dirname(.ll_maps_raster_source_file), "legend_bars.R"),
+    winslash = "/", mustWork = TRUE
+  ))
+}
+
 # Plan 12-10 checkpoint Defect 9: the global `terra::terraOptions(progress = 0)` call that
 # silences terra's own stdout progress bar (see theme_llexplorer.R for the full explanation)
 # lives there, not here, precisely because it must apply before ANY terra-backed raster is
@@ -244,17 +262,44 @@ ll_clip_raster <- function(path, slug, nodata = NULL) {
 
 # --- Categorical maps (crop types, land cover) -------------------------------
 
+#' The bar-legend rows for one categorical raster map, in largest-share-first order.
+#'
+#' Joins the *full* palette (not just the classes present in this Living Lab's
+#' extent -- D-13) to the class areas the pipeline already published in
+#' `app/public/data/charts/<layer>-<slug>.json`. The two palettes this covers are
+#' `legendMatchesChartCategories` layers in `app/src/data/layers.js`, meaning
+#' their chart categories and their map legend are the same set of classes by
+#' construction, so the English label is a sound join key -- the same one
+#' `BarChart.jsx` uses to colour those charts' bars from the map palette.
+#'
+#' @param slug character(1) Living Lab slug.
+#' @param tab character(1), `"agriculture"` or `"landscape"`.
+#' @param lang character(1) `"en"` or `"de"`.
+#' @return `ll_bar_legend_entries()` output: one row per palette class.
+ll_categorical_legend_entries <- function(slug, tab, lang) {
+  palette <- ll_tokens()$palettes[[tab]]
+  legend_df <- data.frame(
+    key = palette$en, label = palette[[lang]], color = palette$color,
+    stringsAsFactors = FALSE
+  )
+  ll_bar_legend_entries(legend_df, ll_class_area_df(slug, tab, lang), lang, sort_by_area = TRUE)
+}
+
 #' Shared builder for a single-band categorical raster map with a complete,
-#' order-preserving legend.
+#' order-preserving bar legend.
 #'
 #' Converts the clipped raster to a categorical layer keyed on `palette`'s
 #' `value` column, plots it with `tidyterra::geom_spatraster()`, and applies
 #' `ll_discrete_map_scale()` against the *full* palette (not just the classes
 #' present in this Living Lab's extent) -- this is what keeps every legend
 #' row visible per D-13; a Living Lab with none of one class should still
-#' show that the class exists and what colour it would be. Overlays the
-#' Living Lab boundary as an unfilled outline in its own brand colour; no
-#' basemap tiles (D-14).
+#' show that the class exists and what colour it would be (as a zero-length bar
+#' beside its swatch). Overlays the Living Lab boundary as an unfilled outline in
+#' its own brand colour; no basemap tiles (D-14).
+#'
+#' The scale's own key legend is suppressed (`guides(fill = "none")`) because the
+#' bar legend beside the map replaces it -- the scale is still built from the full
+#' palette, since it is what paints the pixels and what supplies `na.value`.
 #'
 #' Plan 12-10 checkpoint Defect 7/8: `ll_clip_raster()` masks every cell outside the true
 #' Living Lab boundary to `NA` (no margin, per this file's own header note); those `NA` cells
@@ -272,10 +317,10 @@ ll_clip_raster <- function(path, slug, nodata = NULL) {
 #'   shape `ll_tokens()$palettes$agriculture` / `$landscape` are parsed into).
 #' @param nodata numeric(1) or NULL, passed through to `ll_clip_raster()`.
 #' @param legend_title character(1) legend title.
-#' @param legend_ncol integer(1) number of legend columns.
-#' @return a ggplot2 object.
+#' @param entries `ll_categorical_legend_entries()` output for this (slug, tab).
+#' @return a patchwork object (map panel + bar-legend panel).
 .ll_categorical_raster_map <- function(path, slug, lang, palette, nodata,
-                                        legend_title, legend_ncol = 1) {
+                                        legend_title, entries) {
   clipped <- ll_clip_raster(path, slug, nodata = nodata)
 
   labels <- palette[[lang]]
@@ -285,29 +330,33 @@ ll_clip_raster <- function(path, slug, nodata = NULL) {
   boundary <- ll_boundary(slug)
   brand <- ll_brand(slug)
 
-  plot <- ggplot2::ggplot() +
+  map_plot <- ggplot2::ggplot() +
     tidyterra::geom_spatraster(data = clipped) +
     ggplot2::geom_sf(data = boundary, fill = NA, color = brand$outlineColor, linewidth = 0.4) +
     ll_discrete_map_scale(legend_df, title = legend_title) +
+    ggplot2::guides(fill = "none") +
     theme_ll_map()
 
-  if (legend_ncol != 1) {
-    plot <- plot + ggplot2::guides(fill = ggplot2::guide_legend(title = legend_title, ncol = legend_ncol))
-  }
-  plot
+  ll_map_with_bar_legend(
+    map_plot,
+    ll_bar_legend(entries, title = legend_title),
+    ll_bar_legend_layout(slug, nrow(entries))
+  )
 }
 
 #' The crop-type map (Agriculture tab).
 #'
 #' Reads `data/croptypes_2024.tif`, paints each pixel by
 #' `ll_tokens()$palettes$agriculture` (19 classes), and shows all 19 legend
-#' rows regardless of which occur in `slug`'s extent. The legend is laid out
-#' in two columns (recorded in the plan's SUMMARY) -- a single column of 19
-#' rows does not sit comfortably beside an A4-width map.
+#' rows regardless of which occur in `slug`'s extent -- now as a bar legend
+#' ordered by cropped area, which is what lets a single column of 19 rows sit
+#' comfortably beside an A4-width map (the earlier two-column key legend existed
+#' only because 19 stacked colour swatches were unreadable; bars carry their own
+#' ranking, so the reader no longer has to scan the whole list).
 #'
 #' @param slug character(1) Living Lab slug.
 #' @param lang character(1) `"en"` or `"de"`.
-#' @return a ggplot2 object.
+#' @return a patchwork object (map panel + bar-legend panel).
 ll_map_agriculture <- function(slug, lang) {
   layer <- .ll_layer_by_id(.ll_sources_yaml()$layers, "landuse-croptypes")
   path <- file.path(ll_repo_root(), layer$input$path)
@@ -315,14 +364,20 @@ ll_map_agriculture <- function(slug, lang) {
     path, "python data-pipeline/python/build_pmtiles.py --layer landuse-croptypes"
   )
 
-  palette <- ll_tokens()$palettes$agriculture
   .ll_categorical_raster_map(
     path, slug, lang,
-    palette = palette,
+    palette = ll_tokens()$palettes$agriculture,
     nodata = layer$input$nodata,
     legend_title = ll_str("layers.agriculture", lang),
-    legend_ncol = 2
+    entries = ll_categorical_legend_entries(slug, "agriculture", lang)
   )
+}
+
+#' The figure height, in inches, `ll_map_agriculture(slug, ...)` should be
+#' rendered at so its map panel fills its own column for this Living Lab's
+#' boundary shape. Read by template.qmd's chunk options.
+ll_map_agriculture_height <- function(slug) {
+  ll_bar_legend_layout(slug, nrow(ll_tokens()$palettes$agriculture))$height
 }
 
 #' The land-cover map (Landscape tab).
@@ -337,7 +392,7 @@ ll_map_agriculture <- function(slug, lang) {
 #'
 #' @param slug character(1) Living Lab slug.
 #' @param lang character(1) `"en"` or `"de"`.
-#' @return a ggplot2 object.
+#' @return a patchwork object (map panel + bar-legend panel).
 ll_map_landscape <- function(slug, lang) {
   layer <- .ll_layer_by_id(.ll_sources_yaml()$layers, "io-lulc-landcover")
   tile <- layer$input$tiles[[slug]]
@@ -352,14 +407,19 @@ ll_map_landscape <- function(slug, lang) {
     path, paste0("python data-pipeline/python/build_land_cover.py --slug ", slug)
   )
 
-  palette <- ll_tokens()$palettes$landscape
   .ll_categorical_raster_map(
     path, slug, lang,
-    palette = palette,
+    palette = ll_tokens()$palettes$landscape,
     nodata = layer$input$nodata,
     legend_title = ll_str("layers.landscape", lang),
-    legend_ncol = 1
+    entries = ll_categorical_legend_entries(slug, "landscape", lang)
   )
+}
+
+#' The figure height, in inches, `ll_map_landscape(slug, ...)` should be rendered
+#' at for this Living Lab's boundary shape. Read by template.qmd's chunk options.
+ll_map_landscape_height <- function(slug) {
+  ll_bar_legend_layout(slug, nrow(ll_tokens()$palettes$landscape))$height
 }
 
 # --- Climate grid (eight panels) ---------------------------------------------
@@ -430,7 +490,37 @@ ll_map_landscape <- function(slug, lang) {
   variable_breaks$change[[period_token]]
 }
 
+#' The share of a climate panel's mapped cells falling in each colour band.
+#'
+#' The one place in this report where a bar length is computed in R rather than
+#' read from a published artifact (D-06/T-12-25). It is a deliberate, narrow
+#' exception: no pipeline script publishes a per-band cell distribution for the
+#' climate rasters (`chelsa-climate-<slug>.json` is the projected-change line
+#' chart, an entirely different statistic), and what this counts is not an
+#' independent statistic at all but a tally of the very pixels the panel beside it
+#' has already drawn, in the very bands `.ll_bin_continuous_raster()` assigned
+#' them from the committed `data/climate_color_breaks.json`. It cannot disagree
+#' with the map because it is a count of the map.
+#'
+#' @param binned a categorical `terra::SpatRaster` from `.ll_bin_continuous_raster()`.
+#' @param legend_df that function's `legend_df` (label/color, in band order).
+#' @return numeric vector of percentages, one per `legend_df` row, summing to 100
+#'   over the bands that occur (a band with no cells gets 0).
+.ll_climate_band_shares <- function(binned, legend_df) {
+  frequencies <- terra::freq(binned)
+  total <- sum(frequencies$count)
+  if (!is.finite(total) || total <= 0) {
+    return(rep(0, nrow(legend_df)))
+  }
+  idx <- match(legend_df$label, as.character(frequencies$value))
+  ifelse(is.na(idx), 0, frequencies$count[idx] / total * 100)
+}
+
 #' One climate-grid panel: one variable, one period.
+#'
+#' @return list(map=, legend=, rows=) -- the map panel, its bar legend, and the
+#'   legend's row count, kept separate so `ll_map_climate_grid()` can lay all
+#'   sixteen pieces out on one aligned grid rather than nest eight sub-layouts.
 .ll_climate_panel <- function(slug, lang, variable_id, period_token, color_breaks, path_pattern) {
   path <- .ll_resolve_pattern(path_pattern, variable = variable_id, period = period_token)
   clipped <- ll_clip_raster(path, slug)
@@ -448,12 +538,30 @@ ll_map_landscape <- function(slug, lang) {
     ll_str("climate.period.h2071_2100", lang)
   }
 
-  ggplot2::ggplot() +
+  map_plot <- ggplot2::ggplot() +
     tidyterra::geom_spatraster(data = binned$raster) +
     ggplot2::geom_sf(data = boundary, fill = NA, color = brand$outlineColor, linewidth = 0.3) +
     ll_discrete_map_scale(binned$legend_df, title = block$unit[[lang]]) +
+    ggplot2::guides(fill = "none") +
     ggplot2::labs(title = variable_label, subtitle = period_label) +
     theme_ll_map(base_size = 7)
+
+  # `sort_by_area = FALSE`: these bands are an ordinal low-to-high scale, so they
+  # keep their break order. Ranking them by share -- as the categorical maps'
+  # legends are ranked -- would destroy the one thing a reader reads off a
+  # continuous legend, which is where a colour sits on the scale.
+  legend_df <- binned$legend_df
+  legend_df$key <- legend_df$label
+  legend_df$pct <- .ll_climate_band_shares(binned$raster, binned$legend_df)
+  entries <- ll_bar_legend_entries(legend_df, NULL, lang, sort_by_area = FALSE)
+
+  list(
+    map = map_plot,
+    legend = ll_bar_legend(
+      entries, title = block$unit[[lang]], base_size = 7, label_width = 14
+    ),
+    rows = nrow(entries)
+  )
 }
 
 #' The climate section's eight-panel grid.
@@ -472,9 +580,19 @@ ll_map_landscape <- function(slug, lang) {
 #' differ panel to panel) stays legible at print size. Each variable's
 #' explanatory note is appended beneath the grid as a caption.
 #'
+#' Every panel's legend is a bar legend, so each colour band also shows what
+#' share of the Living Lab falls in it -- which is what makes the baseline and
+#' change panels of one row directly comparable at a glance, rather than only
+#' through their colours.
+#'
+#' Laid out as a single 4-column x 4-row grid of sixteen plots (map, legend, map,
+#' legend per row) rather than as four rows of two nested map+legend composites:
+#' one flat grid is what makes patchwork align every panel's plot area across
+#' rows, so the eight maps are all rendered at exactly the same size.
+#'
 #' @param slug character(1) Living Lab slug.
 #' @param lang character(1) `"en"` or `"de"`.
-#' @return a `patchwork` object, 8 panels.
+#' @return a `patchwork` object, 8 map panels each beside its own bar legend.
 ll_map_climate_grid <- function(slug, lang) {
   layer <- .ll_layer_by_id(.ll_sources_yaml()$layers, "chelsa-climate")
   variable_ids <- ll_tokens()$palettes$climate$variables$id
@@ -512,6 +630,67 @@ ll_map_climate_grid <- function(slug, lang) {
     character(1)
   )
 
-  combined <- patchwork::wrap_plots(panels, ncol = 2, nrow = 4)
-  combined + patchwork::plot_annotation(caption = paste(notes, collapse = "\n"))
+  # One column split for all eight panels, solved against the tallest legend in
+  # the grid -- a per-panel split would make otherwise-identical maps different
+  # sizes from row to row.
+  layout <- .ll_climate_grid_layout(slug, panels)
+  cells <- list()
+  for (panel in panels) {
+    cells[[length(cells) + 1]] <- panel$map
+    cells[[length(cells) + 1]] <- panel$legend
+  }
+
+  combined <- patchwork::wrap_plots(
+    cells, ncol = 4, nrow = 4, widths = rep(layout$widths, 2)
+  )
+  combined + patchwork::plot_annotation(
+    caption = paste(notes, collapse = "\n"),
+    theme = ggplot2::theme(
+      plot.caption = ggplot2::element_text(
+        colour = ll_tokens()$theme$green, size = 6, hjust = 0,
+        margin = ggplot2::margin(t = 4)
+      )
+    )
+  )
+}
+
+#' The map/legend column split and per-row height shared by every panel of one
+#' Living Lab's climate grid.
+.ll_climate_grid_layout <- function(slug, panels) {
+  max_rows <- max(vapply(panels, function(p) p$rows, integer(1)))
+  ll_bar_legend_layout(
+    slug, max_rows,
+    total_width = LL_FIG$width_full / 2,
+    spec = LL_BAR_LEGEND_PANEL,
+    extra_height = LL_BAR_LEGEND_PANEL$title
+  )
+}
+
+#' The figure height, in inches, `ll_map_climate_grid(slug, ...)` should be
+#' rendered at: four panel rows sized for this Living Lab's boundary shape, plus
+#' room for the four-line explanatory caption beneath the grid. Read by
+#' template.qmd's chunk options.
+#'
+#' Builds only the panel geometry it needs -- the legend row count per panel --
+#' by asking `.ll_bin_continuous_raster()` for each block's band count directly,
+#' rather than rendering all eight panels a second time just to measure them.
+ll_map_climate_grid_height <- function(slug) {
+  layer <- .ll_layer_by_id(.ll_sources_yaml()$layers, "chelsa-climate")
+  color_breaks <- jsonlite::fromJSON(
+    file.path(ll_repo_root(), layer$output$color_breaks), simplifyVector = TRUE
+  )
+  max_rows <- 0L
+  for (variable_id in ll_tokens()$palettes$climate$variables$id) {
+    for (period_token in c("baseline", "2071_2100")) {
+      block <- .ll_climate_block(color_breaks, variable_id, period_token)
+      max_rows <- max(max_rows, length(block$colors))
+    }
+  }
+  layout <- ll_bar_legend_layout(
+    slug, max_rows,
+    total_width = LL_FIG$width_full / 2,
+    spec = LL_BAR_LEGEND_PANEL,
+    extra_height = LL_BAR_LEGEND_PANEL$title
+  )
+  4 * layout$height + LL_BAR_LEGEND_PANEL$header
 }

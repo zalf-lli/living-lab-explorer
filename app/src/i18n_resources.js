@@ -105,7 +105,13 @@ export const resources = {
         documentTitle: 'Living Lab report',
         subtitle: 'Full data report',
         regions: 'NUTS-3 regions',
-        locatorCaption: 'Location within Germany',
+        // The cover locator's figure caption. Replaces the former `locatorCaption`, which was
+        // drawn as text inside the smaller of the locator's two panels: that made one panel of a
+        // side-by-side pair shorter than the other, and left the figure as the only map in the
+        // report without a real Quarto fig-cap. {{credit}} receives the already-formatted
+        // `basemapCredit` string, so the provider attribution stays in exactly one place.
+        locatorFigCaption:
+          'The {{ll}} Living Lab: study region (left) and its location within Germany (right). {{credit}}',
         contents: 'Contents',
         kpiHeading: 'Key figures',
         mapHeading: 'Map',
@@ -341,7 +347,8 @@ export const resources = {
         documentTitle: 'Living-Lab-Bericht',
         subtitle: 'Gesamtdatenbericht',
         regions: 'NUTS-3-Regionen',
-        locatorCaption: 'Lage in Deutschland',
+        locatorFigCaption:
+          'Das Living Lab {{ll}}: Untersuchungsgebiet (links) und seine Lage in Deutschland (rechts). {{credit}}',
         contents: 'Inhalt',
         kpiHeading: 'Kennzahlen',
         mapHeading: 'Karte',
