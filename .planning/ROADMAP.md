@@ -450,6 +450,7 @@ Plans:
 
 - [x] 08-01-PLAN.md - `probe_chelsa.py` spike: future-period URL structure, static monthly `tas`,
       CMIP6 product licence, five-GCM grid alignment, windowed-read cost, `08-SPIKE.md`
+
 - [x] 08-02-PLAN.md - Frontend contracts: climate ramp exports, three-placeholder `resolveLayerAsset`,
       `StatPanel.jsx` two-line delta tile
 
@@ -467,12 +468,14 @@ Plans:
       Task 1's precondition text only recognizes `bio10`/`gdd-light`/`gdd-heavy` as valid W-05
       verdicts and needs a one-line wording update to also accept the actual locked outcome, `gdd5`,
       before this plan executes (flagged in `08-03-SUMMARY.md` Deviations).
+
 - [x] 08-05-PLAN.md - Full bilingual climate i18n block, `VariablePicker.jsx`, `PeriodSwitcher.jsx`
 
 **Wave 4** *(blocked on Wave 3)*
 
 - [x] 08-06-PLAN.md - Pass-0 `compute_climate_color_breaks.py`, `build_continuous_colormap()`,
       Pass-1 `build_climate_pmtiles.py`, breaks contract test
+
 - [x] 08-07-PLAN.md - `compute_climate_kpis.py` area-weighted zonal mean, `data/climate_kpis.json`
 
 **Wave 5** *(blocked on Wave 4)*
@@ -549,6 +552,7 @@ Plans:
 
 - [ ] `09-01-PLAN.md` — `chart_contract.py` bar/line envelope writers; `## Chart data contract`
       section in `data-pipeline/README.md`; `chart:` stanza bullet in `sources/README.md` (CHARTS-01)
+
 - [ ] `09-02-PLAN.md` — 5 `chart.script` + 5 `output.chart_pattern` stanzas and 4 climate
       `label:{en,de}` blocks in `sources.yaml`; `tag` param on `sync_file`/`_sync_matched_pattern`;
       `sync_charts()` with per-(layer, LL) skip naming (CHARTS-02)
@@ -557,8 +561,10 @@ Plans:
 
 - [ ] `09-03-PLAN.md` — `compute_landscape_chart.py`, `compute_soil_chart.py`,
       `compute_economic_chart.py` and their 15 chart files (CHARTS-04, CHARTS-05, CHARTS-06)
+
 - [ ] `09-04-PLAN.md` — `compute_agriculture_chart.py`: per-LL clip + class histogram over the
       national crop-types raster, dry-run gate then full run, 5 chart files (CHARTS-03)
+
 - [ ] `09-05-PLAN.md` — `compute_climate_chart.py`: two-horizon percent change per variable,
       the only `line` variant, 5 chart files (CHARTS-07)
 
@@ -659,6 +665,7 @@ Plans:
 
 - [x] `11-02-PLAN.md` — `BarChart.jsx` rewrite: real per-Living-Lab data, three async states, top-6 + Other
       rows with rank colours, value+unit captions, real source footer
+
 - [x] `11-03-PLAN.md` — new `LineChart.jsx`: 4 fixed-colour polylines over 2 horizons, zero-inclusive shared
       scale, dashed zero line, signed percentage labels
 
@@ -696,6 +703,7 @@ this phase's requirement set; every plan's `requirements` field carries the D-ID
 **Plans:** 12/12 plans complete
 
 Plans:
+
 - [x] 12-01-PLAN.md — Extract i18n resources into a node-importable module, add the download/report i18n keys, add the report-availability hook
 - [x] 12-02-PLAN.md — R/Quarto toolchain discovery, CLAUDE.md external-CLI update, renv init behind a CRAN legitimacy checkpoint
 - [x] 12-03-PLAN.md — DownloadReportCTA component and both LLDetail call sites, per the locked UI-SPEC
@@ -722,11 +730,22 @@ this phase's requirement set; every plan's `requirements` field carries the D-ID
 **Plans:** 6 plans
 
 Plans:
+**Wave 1**
+
 - [ ] 13-01-PLAN.md — Static data contract: hand-authored partners_projects.json, sync.py publish step, pytest contract test, bilingual i18n strings
 - [ ] 13-02-PLAN.md — Non-visual modules: llBoundary extraction from LLMap, pure partnersProjects logic module, usePartnersProjects lazy fetch hook
+
+**Wave 2** *(blocked on Wave 1 completion)*
+
 - [ ] 13-03-PLAN.md — PartnersMap: boundary-only Leaflet map with partner divIcon markers, hover/focus tooltip and safe click-through
 - [ ] 13-04-PLAN.md — PartnersOverviewPanel: two-section partner/project cards with bilingual summaries and dashed empty states
+
+**Wave 3** *(blocked on Wave 2 completion)*
+
 - [ ] 13-05-PLAN.md — Wiring: PartnersProjectsTab composition root, right-side LayerTabs group, all three LLDetail branch points
+
+**Wave 4** *(blocked on Wave 3 completion)*
+
 - [ ] 13-06-PLAN.md — Phase close-out: full automated gate, whole-phase dependency and XSS checks, D-01..D-18 evidence table, blocking bilingual + keyboard human verification and content sign-off
 
 ---
