@@ -727,7 +727,7 @@ only when the tab is active.
 set was written). The 18 locked decisions D-01..D-18 in `13-CONTEXT.md` plus `13-UI-SPEC.md` serve as
 this phase's requirement set; every plan's `requirements` field carries the D-IDs it implements.
 **Depends on:** Phase 12
-**Plans:** 5/6 plans executed
+**Plans:** 6/6 plans complete
 
 Plans:
 **Wave 1**
@@ -746,7 +746,7 @@ Plans:
 
 **Wave 4** *(blocked on Wave 3 completion)*
 
-- [ ] 13-06-PLAN.md — Phase close-out: full automated gate, whole-phase dependency and XSS checks, D-01..D-18 evidence table, blocking bilingual + keyboard human verification and content sign-off
+- [x] 13-06-PLAN.md — Phase close-out: full automated gate, whole-phase dependency and XSS checks, D-01..D-18 evidence table, blocking bilingual + keyboard human verification and content sign-off
 
 ---
 
