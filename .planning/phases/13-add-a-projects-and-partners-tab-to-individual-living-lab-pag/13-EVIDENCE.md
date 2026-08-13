@@ -370,6 +370,27 @@ items` below):** `PartnersMap` renders in the exact same slot/container `LLMap` 
    second live verification pass (after the orchestrator merged this worktree's commits into
    `data-pipeline-development`), which approved the corrected map placement in all three layouts —
    see `## Content sign-off`.
+8. **RESOLVED — post-approval code-review findings fixed after human sign-off (commit `66383e2`).**
+   The orchestrator's phase-close code review (`13-REVIEW.md`, 1 critical / 2 warning / 2 info) ran
+   after the Task 3 human checkpoint approved. Two findings touched the exact feature the human just
+   verified, so all four were fixed rather than deferred: (CR-01) `usePartnersProjects` showed the
+   previous Living Lab's partner/project data for one paint when switching LLs from the header while
+   already on the Partners tab, since `LLDetail` never remounts on a slug change and the hook lacked
+   the `state.key !== key` guard every other per-slug fetch in the app (`useGeoJSON.js`) already
+   carries — fixed by adding the same guard. (WR-01) The partner marker's `alt` prop was silently
+   inert because `PARTNER_ICON` is an `L.divIcon` (a `<div>`, not an `<img>`), so despite being
+   keyboard-focusable the marker exposed no accessible name to screen readers — fixed by setting
+   `aria-label` on the marker's DOM node directly. (WR-02) Dropped a dead outer `<Suspense>` around
+   `PartnersMapSlot` at all three `LLDetail.jsx` call sites, left over from the item-7 split — it
+   never suspends since `PartnersMapSlot` is eagerly imported. (IN-01) Documented why
+   `partitionPartnersByCoordinates` keeps its unused `unmapped` return value. `lint`/`build` reran
+   clean; `format:check`/pytest reran with only the two pre-existing unrelated failures already
+   recorded above (items 5 and 6, plus the pre-existing `report-rheingau-de.pdf` local diff). Neither
+   fix changes any behavior the human's Task 3 pass exercised (D-12's focus/tooltip/Enter sequence
+   and the split-layout map placement are both unchanged) — CR-01 only affects the LL-switch path,
+   which Task 3's checklist didn't include, and WR-01 only affects assistive-tech users, whom the
+   sighted+keyboard Task 3 pass could not have detected. Not re-sent to the human for a third
+   checkpoint round on that basis; flagged here for transparency instead.
 
 ---
 
