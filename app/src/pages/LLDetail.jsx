@@ -477,9 +477,7 @@ function LayoutSplit({
           </div>
         ) : (
           <div style={{ flex: 1, minHeight: 0 }}>
-            <Suspense fallback={<MapFallback />}>
-              <PartnersMapSlot ll={ll} height="100%" />
-            </Suspense>
+            <PartnersMapSlot ll={ll} height="100%" />
           </div>
         )}
       </div>
@@ -688,9 +686,7 @@ function LayoutStacked({
             />
           </Suspense>
         ) : (
-          <Suspense fallback={<MapFallback />}>
-            <PartnersMapSlot ll={ll} height={300} />
-          </Suspense>
+          <PartnersMapSlot ll={ll} height={300} />
         )}
       </div>
 
@@ -871,9 +867,7 @@ function ComparisonColumn({
             />
           </Suspense>
         ) : (
-          <Suspense fallback={<MapFallback />}>
-            <PartnersMapSlot ll={ll} height={300} />
-          </Suspense>
+          <PartnersMapSlot ll={ll} height={300} />
         )}
       </div>
 

@@ -29,14 +29,18 @@ const PARTNER_ICON = L.divIcon({
 function PartnerMarker({ partner }) {
   const { t } = useTranslation()
   const url = safeExternalUrl(partner.website)
+  // PARTNER_ICON is an L.divIcon (renders a <div>), and Leaflet only reflects Marker's `alt`
+  // option onto real <img> icons -- on a divIcon it's an inert JS expando, invisible to screen
+  // readers. Set aria-label directly on the icon's DOM node instead, once it exists.
+  const ariaLabel = url ? t('partnersTab.markerAria', { name: partner.name }) : partner.name
 
   return (
     <Marker
       position={[partner.lat, partner.lng]}
       icon={PARTNER_ICON}
       keyboard
-      alt={url ? t('partnersTab.markerAria', { name: partner.name }) : partner.name}
       eventHandlers={{
+        add: (e) => e.target.getElement()?.setAttribute('aria-label', ariaLabel),
         focus: (e) => e.target.openTooltip(),
         blur: (e) => e.target.closeTooltip(),
         click: () => {

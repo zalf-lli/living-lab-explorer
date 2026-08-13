@@ -30,24 +30,32 @@ function fetchPartnersProjects() {
 // (app/src/components/PartnersProjectsTab.jsx), both mount exclusively when layer === 'partners',
 // so no gating flag or null-URL parameter is needed here. Both callers share the same module-scoped
 // cache/inflight dedup below, so mounting both at once still issues exactly one network request.
+//
+// Mirrors useGeoJSON.js's state.key !== key guard: LLDetail never remounts on an LL switch (no
+// key={slug} on the route, layout is keyed by "A"/"B"), so without this guard the hook would keep
+// rendering the previous Living Lab's data until the new slug's fetch resolves.
 export function usePartnersProjects(slug) {
-  const [state, setState] = useState({ data: null, loading: true, error: null })
+  const [state, setState] = useState({ slug, data: null, loading: true, error: null })
 
   useEffect(() => {
     let cancelled = false
     fetchPartnersProjects()
       .then((json) => {
         if (cancelled) return
-        setState({ data: selectLLPartnersProjects(json, slug), loading: false, error: null })
+        setState({ slug, data: selectLLPartnersProjects(json, slug), loading: false, error: null })
       })
       .catch((error) => {
         if (cancelled) return
-        setState({ data: null, loading: false, error })
+        setState({ slug, data: null, loading: false, error })
       })
     return () => {
       cancelled = true
     }
   }, [slug])
+
+  if (state.slug !== slug) {
+    return { data: null, loading: true, error: null }
+  }
 
   return state
 }

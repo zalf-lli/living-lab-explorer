@@ -23,6 +23,10 @@ export function selectLLPartnersProjects(data, slug) {
   }
 }
 
+// unmapped has no consumer today -- PartnersOverviewPanel intentionally reads the full,
+// unpartitioned partner list instead (D-14) -- kept for a future "N partners without a mappable
+// address" affordance rather than dropped, since this function is the single source of truth for
+// the mapped/unmapped split.
 export function partitionPartnersByCoordinates(partners) {
   const mapped = []
   const unmapped = []
