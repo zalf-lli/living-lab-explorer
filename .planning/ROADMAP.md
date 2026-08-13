@@ -727,7 +727,7 @@ only when the tab is active.
 set was written). The 18 locked decisions D-01..D-18 in `13-CONTEXT.md` plus `13-UI-SPEC.md` serve as
 this phase's requirement set; every plan's `requirements` field carries the D-IDs it implements.
 **Depends on:** Phase 12
-**Plans:** 4/6 plans executed
+**Plans:** 5/6 plans executed
 
 Plans:
 **Wave 1**
@@ -742,7 +742,7 @@ Plans:
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
-- [ ] 13-05-PLAN.md — Wiring: PartnersProjectsTab composition root, right-side LayerTabs group, all three LLDetail branch points
+- [x] 13-05-PLAN.md — Wiring: PartnersProjectsTab composition root, right-side LayerTabs group, all three LLDetail branch points
 
 **Wave 4** *(blocked on Wave 3 completion)*
 
