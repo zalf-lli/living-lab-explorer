@@ -1,0 +1,64 @@
+{
+  "east-brandenburg": {
+    "partners": [
+      {
+        "id": "zalf",
+        "name": "ZALF - Leibniz Centre for Agricultural Landscape Research",
+        "type": "Research institution",
+        "location": "Muencheberg, DE",
+        "website": "https://www.zalf.de",
+        "lat": 52.5153,
+        "lng": 14.1235
+      }
+    ],
+    "projects": []
+  },
+  "havellandisches-luch": {
+    "partners": [
+      {
+        "id": "zalf",
+        "name": "ZALF - Leibniz Centre for Agricultural Landscape Research",
+        "type": "Research institution",
+        "location": "Muencheberg, DE",
+        "website": "https://www.zalf.de"
+      }
+    ],
+    "projects": []
+  },
+  "north-hessian-loess": {
+    "partners": [
+      {
+        "id": "zalf",
+        "name": "ZALF - Leibniz Centre for Agricultural Landscape Research",
+        "type": "Research institution",
+        "location": "Muencheberg, DE",
+        "website": "https://www.zalf.de"
+      }
+    ],
+    "projects": []
+  },
+  "hessian-low-mountain": {
+    "partners": [
+      {
+        "id": "zalf",
+        "name": "ZALF - Leibniz Centre for Agricultural Landscape Research",
+        "type": "Research institution",
+        "location": "Muencheberg, DE",
+        "website": "https://www.zalf.de"
+      }
+    ],
+    "projects": []
+  },
+  "rheingau": {
+    "partners": [
+      {
+        "id": "zalf",
+        "name": "ZALF - Leibniz Centre for Agricultural Landscape Research",
+        "type": "Research institution",
+        "location": "Muencheberg, DE",
+        "website": "https://www.zalf.de"
+      }
+    ],
+    "projects": []
+  }
+}

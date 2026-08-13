@@ -32,6 +32,7 @@ STATIC_DATA_FILES = [
     "data/nuts3_ll.geojson",
     "data/nuts3_ll_simplified.geojson",
     "data/ll_boundaries.geojson",
+    "data/partners_projects.json",
 ]
 
 # D-05/D-20: one PDF per (Living Lab, language) -- 5 LLs x 2 langs = 10 files. A report

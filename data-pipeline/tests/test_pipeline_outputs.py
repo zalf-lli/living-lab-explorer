@@ -1067,3 +1067,74 @@ def test_report_pattern_declared_in_sync() -> None:
     assert "sync_reports()" in source_text, (
         "sync_to_app() does not call sync_reports()"
     )
+
+
+def test_partners_projects_contract_and_publish_parity() -> None:
+    """
+    Plan 13-01: locks data/partners_projects.json's schema (D-06/D-07/D-08/D-15/D-16/D-17)
+    and its byte-identical publish into app/public/data/, reading committed files only (no
+    sync invocation). Also asserts sync.py's STATIC_DATA_FILES entry cannot be silently
+    removed without failing this test (RESEARCH.md Pitfall 3).
+    """
+    source_path = repo_root() / "data" / "partners_projects.json"
+    assert source_path.exists(), f"Missing source file: {source_path}"
+
+    data = json.loads(source_path.read_text(encoding="utf-8"))
+    assert set(data.keys()) == set(LL_SLUGS), (
+        f"Top-level keys {sorted(data.keys())} do not match LL_SLUGS {sorted(LL_SLUGS)}"
+    )
+
+    def _check_website(value, context: str) -> None:
+        assert isinstance(value, str) and (
+            value.startswith("https://") or value.startswith("http://")
+        ), f"{context}: website {value!r} does not start with http:// or https://"
+
+    for slug, entry in data.items():
+        assert set(entry.keys()) == {"partners", "projects"}, (
+            f"{slug}: expected exactly 'partners' and 'projects' keys, got {sorted(entry.keys())}"
+        )
+        assert isinstance(entry["partners"], list), f"{slug}: 'partners' must be a list"
+        assert isinstance(entry["projects"], list), f"{slug}: 'projects' must be a list"
+
+        for partner in entry["partners"]:
+            assert isinstance(partner.get("name"), str) and partner["name"], (
+                f"{slug}: partner missing non-empty string 'name': {partner}"
+            )
+            if "lat" in partner:
+                lat = partner["lat"]
+                assert isinstance(lat, (int, float)) and not isinstance(lat, bool) and -90 <= lat <= 90, (
+                    f"{slug}: partner 'lat' {lat!r} out of range"
+                )
+            if "lng" in partner:
+                lng = partner["lng"]
+                assert isinstance(lng, (int, float)) and not isinstance(lng, bool) and -180 <= lng <= 180, (
+                    f"{slug}: partner 'lng' {lng!r} out of range"
+                )
+            if "website" in partner and partner["website"] is not None:
+                _check_website(partner["website"], f"{slug} partner {partner.get('name')!r}")
+
+        for project in entry["projects"]:
+            assert isinstance(project.get("title"), str) and project["title"], (
+                f"{slug}: project missing non-empty string 'title': {project}"
+            )
+            if "summary" in project and project["summary"] is not None:
+                summary = project["summary"]
+                assert isinstance(summary, dict) and "en" in summary and "de" in summary, (
+                    f"{slug}: project 'summary' must be a dict with 'en' and 'de' keys: {summary}"
+                )
+                assert isinstance(summary["en"], str) and isinstance(summary["de"], str), (
+                    f"{slug}: project 'summary.en'/'summary.de' must be strings: {summary}"
+                )
+            if "website" in project and project["website"] is not None:
+                _check_website(project["website"], f"{slug} project {project.get('title')!r}")
+
+    published_path = repo_root() / "app" / "public" / "data" / "partners_projects.json"
+    assert published_path.exists(), f"Missing published copy: {published_path}"
+    assert published_path.read_bytes() == source_path.read_bytes(), (
+        f"{published_path}: published copy is not byte-identical to {source_path}"
+    )
+
+    sync_source = (repo_root() / "data-pipeline" / "sync.py").read_text(encoding="utf-8")
+    assert "data/partners_projects.json" in sync_source, (
+        "sync.py's STATIC_DATA_FILES no longer references data/partners_projects.json"
+    )
