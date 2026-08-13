@@ -711,13 +711,23 @@ Plans:
 
 ### Phase 13: Add a Projects and Partners tab to individual Living Lab pages, showing the base map with LL boundary and partner point locations, plus a partner and research project overview panel
 
-**Goal:** [To be planned]
-**Requirements**: TBD
+**Goal:** Every Living Lab detail page carries a sixth, visually separated Partners & Projects tab
+showing a boundary-only Leaflet map with partner point markers plus a two-section partners/projects
+overview panel, driven by a hand-authored static JSON published by the pipeline and fetched lazily
+only when the tab is active.
+**Requirements**: None in REQUIREMENTS.md (phase added ad hoc 2026-04-29, after the v1 requirement
+set was written). The 18 locked decisions D-01..D-18 in `13-CONTEXT.md` plus `13-UI-SPEC.md` serve as
+this phase's requirement set; every plan's `requirements` field carries the D-IDs it implements.
 **Depends on:** Phase 12
-**Plans:** 0 plans
+**Plans:** 6 plans
 
 Plans:
-- [ ] TBD (run /gsd-plan-phase 13 to break down)
+- [ ] 13-01-PLAN.md — Static data contract: hand-authored partners_projects.json, sync.py publish step, pytest contract test, bilingual i18n strings
+- [ ] 13-02-PLAN.md — Non-visual modules: llBoundary extraction from LLMap, pure partnersProjects logic module, usePartnersProjects lazy fetch hook
+- [ ] 13-03-PLAN.md — PartnersMap: boundary-only Leaflet map with partner divIcon markers, hover/focus tooltip and safe click-through
+- [ ] 13-04-PLAN.md — PartnersOverviewPanel: two-section partner/project cards with bilingual summaries and dashed empty states
+- [ ] 13-05-PLAN.md — Wiring: PartnersProjectsTab composition root, right-side LayerTabs group, all three LLDetail branch points
+- [ ] 13-06-PLAN.md — Phase close-out: full automated gate, whole-phase dependency and XSS checks, D-01..D-18 evidence table, blocking bilingual + keyboard human verification and content sign-off
 
 ---
 

@@ -599,9 +599,15 @@ concepts today, confirmed by direct read of all three).
 
 **If this table is empty:** N/A — see rows above.
 
-## Open Questions
+## Open Questions (RESOLVED)
+
+Both questions below were settled downstream during planning; each carries its resolution inline.
+Plan 13-06 Task 2 records both in `13-EVIDENCE.md`'s `## Planner decisions` section.
 
 1. **Should the Partners & Projects tab be selectable during two-column comparison mode (`?compare=`)?**
+   **RESOLVED — included, no special-casing.** Settled in `13-UI-SPEC.md` "Three `LLDetail.jsx`
+   branch points" and implemented by plan 13-05 Task 3(c), which branches `ComparisonColumn`
+   explicitly so the inclusion is a deliberate choice rather than an oversight.
    - What we know: CONTEXT.md's D-05 says "not a map-only drilldown surface" but does not
      explicitly address comparison mode. `LayerTabs` is already shared across both comparison
      columns (Phase 10's D-07), so if `layer` can be `'partners'` at all, `ComparisonColumn` will
@@ -615,6 +621,9 @@ concepts today, confirmed by direct read of all three).
      one-line human confirmation at plan-check or checkpoint time if desired.
 
 2. **Exact `data/partners_projects.json` schema key names for coordinates.**
+   **RESOLVED — flat numeric `lat`/`lng`, both absent when unknown.** Settled in `13-UI-SPEC.md`
+   "Data Schema (UI-facing key names)" and locked by plan 13-01's `<interfaces>` block plus its
+   `test_partners_projects_contract_and_publish_parity` range assertions.
    - What we know: D-14 requires partners without coordinates to still appear in the list but not
      on the map; discretion is explicitly left to the planner for key names.
    - What's unclear: `lat`/`lng` vs. `latitude`/`longitude` vs. a nested `coordinates: [lng, lat]`
