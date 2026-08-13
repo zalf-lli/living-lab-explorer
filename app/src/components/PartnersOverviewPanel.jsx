@@ -22,15 +22,6 @@ const CARD_STYLE = {
   border: `1px solid ${C.mutedLight}`,
 }
 
-// Dashed-border empty-state placeholder, deliberately different from the solid-bordered
-// populated cards (D-18).
-const EMPTY_STATE_STYLE = {
-  background: C.white,
-  borderRadius: 8,
-  padding: '8px 16px',
-  border: `1px dashed ${C.mutedLight}`,
-}
-
 function PartnerCard({ partner }) {
   const { t } = useTranslation()
   const websiteHref = safeExternalUrl(partner.website)
@@ -40,12 +31,22 @@ function PartnerCard({ partner }) {
         {partner.name}
       </div>
       {partner.type ? (
-        <div style={{ fontSize: 12, fontWeight: 400, color: C.greenMid, lineHeight: 1.4, marginTop: 4 }}>
+        <div
+          style={{
+            fontSize: 12,
+            fontWeight: 400,
+            color: C.greenMid,
+            lineHeight: 1.4,
+            marginTop: 4,
+          }}
+        >
           {partner.type}
         </div>
       ) : null}
       {partner.location ? (
-        <div style={{ fontSize: 12, fontWeight: 400, color: C.muted, lineHeight: 1.4, marginTop: 4 }}>
+        <div
+          style={{ fontSize: 12, fontWeight: 400, color: C.muted, lineHeight: 1.4, marginTop: 4 }}
+        >
           {partner.location}
         </div>
       ) : null}
@@ -88,9 +89,83 @@ function PartnersSection({ partners }) {
           ))}
         </div>
       ) : (
-        <div style={EMPTY_STATE_STYLE}>
+        <div
+          style={{
+            background: C.white,
+            borderRadius: 8,
+            padding: '8px 16px',
+            border: `1px dashed ${C.mutedLight}`,
+          }}
+        >
           <div style={{ fontSize: 12, fontWeight: 400, color: C.muted, lineHeight: 1.4 }}>
             {t('partnersTab.partnersEmpty')}
+          </div>
+        </div>
+      )}
+    </section>
+  )
+}
+
+function ProjectCard({ project, lang }) {
+  const { t } = useTranslation()
+  const websiteHref = safeExternalUrl(project.website)
+  return (
+    <div style={CARD_STYLE}>
+      <div style={{ fontSize: 14, fontWeight: 700, color: C.teal, lineHeight: 1.3 }}>
+        {project.title}
+      </div>
+      {project.summary?.[lang] ? (
+        <div
+          style={{ fontSize: 12, fontWeight: 400, color: C.muted, lineHeight: 1.4, marginTop: 4 }}
+        >
+          {project.summary[lang]}
+        </div>
+      ) : null}
+      <div
+        style={{ display: 'flex', alignItems: 'center', gap: 8, marginTop: 8, flexWrap: 'wrap' }}
+      >
+        {project.partner ? (
+          <span style={{ fontSize: 12, fontWeight: 400, color: C.greenMid, lineHeight: 1.2 }}>
+            {t('partnersTab.projectPartnerLabel')} {project.partner}
+          </span>
+        ) : null}
+        {websiteHref ? (
+          <a
+            href={websiteHref}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ fontSize: 12, fontWeight: 700, color: C.orange, textDecoration: 'none' }}
+          >
+            {t('partnersTab.visitWebsite')} <span aria-hidden="true">↗</span>
+          </a>
+        ) : null}
+      </div>
+    </div>
+  )
+}
+
+function ProjectsSection({ projects, lang }) {
+  const { t } = useTranslation()
+  return (
+    <section>
+      <div style={SECTION_HEADING_STYLE}>{t('partnersTab.projectsHeading')}</div>
+      {projects.length > 0 ? (
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+          {projects.map((p) => (
+            <ProjectCard key={p.id ?? p.title} project={p} lang={lang} />
+          ))}
+        </div>
+      ) : (
+        <div
+          style={{
+            background: C.white,
+            borderRadius: 8,
+            padding: '8px 16px',
+            border: `1px dashed ${C.mutedLight}`,
+          }}
+        >
+          <div style={{ fontSize: 12, fontWeight: 400, color: C.muted, lineHeight: 1.4 }}>
+            {t('partnersTab.projectsEmpty')}
           </div>
         </div>
       )}
@@ -102,12 +177,13 @@ function PartnersSection({ partners }) {
 // presentation, no data fetching. `partners` is the FULL partner list including
 // coordinate-less entries (D-14 says they still appear here). `lang` is resolved once by the
 // caller, not recomputed per card.
-// eslint-disable-next-line no-unused-vars -- projects/lang consumed by ProjectsSection in Task 2
 export function PartnersOverviewPanel({ partners, projects, lang }) {
   const safePartners = Array.isArray(partners) ? partners : []
+  const safeProjects = Array.isArray(projects) ? projects : []
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
       <PartnersSection partners={safePartners} />
+      <ProjectsSection projects={safeProjects} lang={lang} />
     </div>
   )
 }
