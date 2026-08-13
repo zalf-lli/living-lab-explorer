@@ -208,3 +208,141 @@ interpolation of any partner field, confirmed by direct read (`PartnersMap.jsx` 
 | Total partners across all 5 slugs | 5 |
 | Total projects across all 5 slugs | 0 |
 | Partners carrying `lat`/`lng` coordinates | 1 (the `east-brandenburg` ZALF entry) |
+
+---
+
+## Decision verdicts
+
+One row per decision D-01 through D-18, transcribed from `13-CONTEXT.md`'s Implementation
+Decisions section. Verdict is `met`, `met with deviation`, or `not met`.
+
+| ID | Decision | Verdict | Evidence |
+|----|----------|---------|----------|
+| D-01 | English tab label "Partners & Projects", Partners first | Met | `resources.en.translation.layers.partners = 'Partners & Projects'` in `app/src/i18n_resources.js` (13-01, `34eddfe`); visual confirmation at Task 3 |
+| D-02 | German tab label "Partner & Projekte" | Met | `resources.de.translation.layers.partners = 'Partner & Projekte'` in `app/src/i18n_resources.js` (13-01, `34eddfe`); visual confirmation at Task 3 |
+| D-03 | Two visually separate sections, Partners and Projects, not collapsed into one list | Met | `PartnersOverviewPanel.jsx` renders exactly two `<section>`-equivalent blocks — `PartnersSection` then `ProjectsSection` — inside one `flexDirection: 'column'` wrapper (13-04, `f0acee9`/`68a8854`) |
+| D-04 | Tab visually separated on the right side of the tab container, not appended inline | Met | `LayerTabs.jsx`'s outer `<div>` uses `justifyContent: 'space-between'`; the new button carries `borderLeft: '1px solid ...'`, `marginLeft: 8`, `paddingLeft: 16` as the divider/second-group signal, distinct from the `.map(LAYERS...)` group (13-05, `22ca5f3`) |
+| D-05 | One combined tab, not two route-level tabs, not a map-only drilldown | Met | One `layer` value (`'partners'`) drives both the map and the overview panel from a single `PartnersProjectsTab` composition root; no new route added to `App.jsx` (confirmed by direct read — `App.jsx` routes unchanged across the phase, absent from the whole-phase file list above) |
+| D-06 | Partner/project entries in a separate static JSON file, not `ll_content.json`, not `ll_metadata.json` | Met | `data/partners_projects.json` exists as its own file (13-01, `a57c7b6`); `data/ll_content.json` is byte-for-byte unchanged across the whole phase (Task 1's dependency-diff `git diff --exit-code "$BASE"..HEAD -- ... data/ll_content.json`, exit 0, above) |
+| D-07 | File grouped by Living Lab slug, each entry has `partners[]`/`projects[]` | Met | `test_partners_projects_contract_and_publish_parity` (`data-pipeline/tests/test_pipeline_outputs.py`, 13-01) asserts every slug key maps to `{partners: [...], projects: [...]}`; re-run green in Task 1's gate #5 above |
+| D-08 | Hand-authored under `data/`, published by `sync.py` following the existing pattern | Met | `STATIC_DATA_FILES` in `data-pipeline/sync.py` carries a one-line `data/partners_projects.json` entry (13-01, `1781d43`); the same test's byte-parity assertion, re-verified live by Task 1's `sync.py` run + byte-size match above |
+| D-09 | App lazy-fetches this JSON only when the tab is active, never eagerly, never merged into `ll_metadata.json` | Met | `PartnersProjectsTab` is the sole call site of `usePartnersProjects` (`grep -c usePartnersProjects app/src/**/*.jsx` → 1 call site outside the hook's own file itself, confirmed by direct read); the hook's module-scoped `cache`/`inflight` bounds it to one request per page load (13-02, `596f0e9`); `PartnersProjectsTab` only mounts under `layer === 'partners'` (13-05, `5685799`) |
+| D-10 | Map shows partners only as point markers; projects are overview-panel content this phase | Met | `grep -c projects app/src/components/PartnersMap.jsx` returns 0 (confirmed live, see `## Deferred scope` below) |
+| D-11 | JSON presence is the permission boundary; no additional permission flag or runtime filtering | Met | No `permission`/`visible`/`published` field anywhere in `data/partners_projects.json`'s schema or in `PartnersOverviewPanel.jsx`/`PartnersMap.jsx`'s prop handling (confirmed by direct read of both files and the schema test) |
+| D-12 | Tooltip on hover/focus with partner name; click opens partner website when available | Met with deviation (risk flagged, not yet human-confirmed) | `eventHandlers: { focus: openTooltip, blur: closeTooltip, click: safeExternalUrl-guarded window.open }` in `PartnerMarker` (`PartnersMap.jsx`, 13-03, `454e116`). The **focus half** rests on 13-RESEARCH.md's MEDIUM-confidence Assumption A1 (a community Leaflet workaround, not an official API guarantee) — this verdict is provisional pending Task 3's keyboard-only pass, which is the only check that can retire A1 |
+| D-13 | Map background is base map + LL boundary outline/mask only, no thematic layer, no thematic legend | Met | Negative greps: `grep -c "layers.js\|LAYER_INDEX\|MapLegend" app/src/components/PartnersMap.jsx` returns 0 (confirmed live); `PartnersMap.jsx` renders only `TileLayer` + optional mask `GeoJSON` + boundary outline `GeoJSON` + `PartnerMarker`s (13-03) |
+| D-14 | Partners without coordinates still appear in the Partners section, but not on the map | Met | `partitionPartnersByCoordinates` (`app/src/lib/partnersProjects.js`, 13-02, `830759d`) is the single decision point; `PartnersProjectsTab` passes `.mapped` to `PartnersMap` and the full unpartitioned array to `PartnersOverviewPanel` (13-05); the shipped data exercises this path live — 4 of 5 ZALF entries carry no `lat`/`lng` (Task 1's measured figures: 5 partners total, 1 coordinate-bearing) |
+| D-15 | Partner entries show `name`, `type`, `location`, `website` | Met | `PartnerCard` in `PartnersOverviewPanel.jsx` renders all four fields, each conditionally when present except `name` (required) (13-04, `f0acee9`) |
+| D-16 | Project entries show `title`, `summary`, `partner`, `website` | Met | `ProjectCard` in `PartnersOverviewPanel.jsx` renders all four fields (13-04, `68a8854`); untested against real project data since all five slugs currently ship `projects: []` — the render path is verified by code inspection, not yet by live data (flagged in `## Open items`) |
+| D-17 | Only project summaries are bilingual `{en, de}`; names/titles/type labels/URLs are shared strings | Met | `project.summary?.[lang]` is the only language-keyed read in `PartnersOverviewPanel.jsx` (confirmed by grep for `lang]` / `[lang]` in the file — one occurrence); `test_partners_projects_contract_and_publish_parity` asserts `summary` is the only `{en, de}`-shaped field in the schema (13-01) |
+| D-18 | Empty Partners/Projects sections stay visible with a quiet bilingual empty state | Met | Both `PartnersSection` and `ProjectsSection` render a `1px dashed` placeholder block in place of the card grid/list when their array is empty, heading always rendered unconditionally (13-04); the shipped data exercises this live — `projects: []` for all five slugs today (Task 1 measured figures) makes this the default rendered state, not a theoretical branch |
+
+**Summary: 17/18 decisions Met, 1/18 Met with deviation (D-12, pending Task 3's human keyboard
+pass — not a defect, the plan's own designed checkpoint for exactly this risk).**
+
+---
+
+## Deferred scope
+
+Transcribed from `13-CONTEXT.md`'s Deferred Ideas block, each with the mechanical check that
+proves it was not built:
+
+1. **Mapping project/example locations** — deferred, not built. Mechanical check:
+   `grep -c 'projects' app/src/components/PartnersMap.jsx` returns `0` — the word "projects" does
+   not appear anywhere in the map component's source.
+2. **A full partner/project database or CMS** — deferred, not built. Mechanical check: no runtime
+   API route, database client, or server process was added anywhere in this phase (confirmed by
+   the whole-phase file list above — no `server/`, no API client library, no ORM). The only data
+   path is the static file `data/partners_projects.json` → `sync.py`'s `STATIC_DATA_FILES` copy →
+   `fetch()`; `sync.py`'s diff across the whole phase is exactly one added line (`git diff
+   5a8cfab05939db805e0798e415d52f9259b2dd4d..HEAD -- data-pipeline/sync.py` shows one insertion in
+   the `STATIC_DATA_FILES` list).
+3. **Permission-management fields or workflow** — deferred, not built. Mechanical check: no
+   `permission`/`visible`/`approved`/`published` field exists in `data/partners_projects.json`'s
+   schema (confirmed by direct read and by `test_partners_projects_contract_and_publish_parity`'s
+   exact-key-set assertion) and no runtime filtering logic exists in `PartnersMap.jsx` or
+   `PartnersOverviewPanel.jsx` beyond the coordinate-presence split (D-14).
+
+---
+
+## Planner decisions
+
+Discretionary choices this phase resolved, recorded here so they are findable later:
+
+- **Filename:** `partners_projects.json` — `13-CONTEXT.md`'s working name, adopted as-is (13-01).
+- **Component names:** `PartnersProjectsTab`, `PartnersMap`, `PartnersOverviewPanel` — and the
+  choice of a **sibling map component** over an `LLMap` variant, per `13-RESEARCH.md`'s primary
+  recommendation (Pitfall 2: routing `layer === 'partners'` through `LLMap` would require a
+  `LAYER_INDEX` entry just to avoid `ComingSoonBadge`, plus a first-ever point-marker branch inside
+  an already-large component).
+- **`selectBoundary`/`getBounds` extraction** into `app/src/lib/llBoundary.js` rather than a
+  copy-paste duplicate — avoids the "two copies of the same join-key" bug class `13-RESEARCH.md`
+  flagged by name (13-02).
+- **Flat numeric `lat`/`lng` coordinate keys**, not a nested GeoJSON-order array — **resolves
+  `13-RESEARCH.md` Open Question 2** ("Exact `data/partners_projects.json` schema key names for
+  coordinates"). Human-authoring-friendly, avoids GeoJSON `[lng, lat]` axis-order mistakes in a
+  hand-typed file with no other GeoJSON precedent to match; locked in `13-UI-SPEC.md`'s Data Schema
+  section and enforced by the pytest contract test's range assertions (13-01).
+- **The Partners & Projects tab IS available in two-column comparison mode**, by deliberate choice
+  rather than oversight — **resolves `13-RESEARCH.md` Open Question 1** ("Should the tab be
+  selectable during `?compare=` mode?"). `ComparisonColumn` in `LLDetail.jsx` branches
+  `layer === 'partners'` explicitly, rendering its own independent `PartnersProjectsTab` instance
+  per column (13-05, `4618756`) — the simpler, more consistent behavior, matching every other tab's
+  comparison-mode inclusion.
+- **`project.partner` is a plain display string, not a foreign-key id** — keeps `ProjectCard`
+  self-contained with no lookup into the sibling `partners` array; matches D-17's framing that
+  partner names are themselves shared, non-bilingual strings (13-UI-SPEC.md, implemented 13-04).
+- **Marker styling:** an 18px orange `L.divIcon` dot with a 2px white ring, and the deliberate
+  departure of keeping Leaflet's own default attribution control rather than porting `LLMap`'s
+  private `MapInfoControl` (13-UI-SPEC.md "Attribution" note, implemented 13-03).
+- **The `LayoutSplit` composition resolution:** one map, rendered inside `PartnersProjectsTab` in
+  the wide right column, with the narrow left column's map slot fully suppressed when
+  `layer === 'partners'` — the UI-SPEC's prose lock ("map on top, panel below ... in every layout")
+  resolved over its own conflicting ASCII-diagram parenthetical, per plan 13-05 Task 3's explicit
+  conflict-resolution instruction (13-05-SUMMARY.md "Decisions Made").
+- **Suppressing `llDetail.layerTabsHint` at all three sites** (`LayoutSplit`, `LayoutStacked`,
+  `ComparisonColumn`/`LayoutCompare`) with no replacement copy when `layer === 'partners'` — that
+  copy describes the five thematic map layers and would misdescribe this tab; the panel's own
+  section headings are self-explanatory, matching D-18's quiet tone (13-05).
+
+---
+
+## Open items
+
+1. **Seventeen files outside this plan's fifteen-file `<interfaces>` set appear in the whole-phase
+   `git diff --name-only` (see Task 1 above).** Full breakdown:
+   - Five `.planning/phases/13-.../13-0N-SUMMARY.md` files — self-documentation each 13-0N plan
+     wrote for itself, not a code/data/scope change. Expected, not scope creep.
+   - `.planning/ROADMAP.md`, `.planning/STATE.md` — orchestrator wave-tracking commits
+     (`927fd71`, `e58e20d`, `93acb44`), not plan-authored content changes.
+   - Ten `data-pipeline/R/report/*.R`/`*.qmd` files, `data-pipeline/tests/test_report_tokens.py`,
+     `data/report_tokens.json`, and a `report.locatorFigCaption`/`report.locatorFigCaption` hunk in
+     `app/src/i18n_resources.js` (11 lines) — all landed via two human-authored commits
+     (`61573ed "updates to report content and figures"`, `8cb1a9c "update report tokens"`) made
+     directly on `data-pipeline-development` between phase 13's waves, confirmed by author, commit
+     message, and diff content to be unrelated Phase-12 report-pipeline work (locator-figure
+     caption rework), not phase-13 scope creep, and confirmed to carry zero overlap or conflict
+     with phase 13's own `partnersTab`/`layers.partners` i18n keys (diff shown in Task 1 above).
+   No file outside these two explained groups appears in the phase-wide diff.
+2. **D-12's focus-triggered tooltip is unverified by a human as of Task 1/Task 2.** The `eventHandlers`
+   wiring exists and is grep-confirmed, but 13-RESEARCH.md's Assumption A1 (MEDIUM confidence,
+   community workaround, not an official Leaflet guarantee) is only retired by Task 3's keyboard-only
+   pass. Recorded as the reason D-12's verdict above is "met with deviation" rather than a clean
+   "met."
+3. **D-16's `ProjectCard` render path is exercised by code inspection only, not by live data.** All
+   five Living Lab slugs currently ship `projects: []` (Task 1 measured figures) — the shipped data
+   never renders a populated project card end-to-end in the current tree. This is expected per
+   `13-CONTEXT.md`'s explicit instruction not to invent project content; Task 3 is the checkpoint
+   where this either gets resolved with real content or is explicitly accepted as shipping empty.
+4. **All five Living Labs currently ship `projects: []`.** Recorded here as a known, accepted
+   content state pending Task 3's content sign-off decision (ship as-is vs. author now).
+5. **`npm run format:check` fails on the whole tree for pre-existing, environment-specific reasons**
+   (Windows `core.autocrlf=true` CRLF-checkout drift plus 17 files of pre-existing, non-phase-13
+   Prettier debt) — see "`format:check` gate — not fixable in scope" in the Automated gate section
+   above. Zero phase-13-created or phase-13-content-modified file carries a real formatting defect.
+   Not fixed in this plan (would require a repo-wide `.gitattributes`/reformat change outside this
+   plan's declared scope); flagged here rather than silently re-asserted as passing.
+6. **`.planning/HANDOFF.json`'s uncommitted single-line modification** — present in the working
+   tree before this plan started (matches the `<known_repo_state>` note this plan was dispatched
+   with) and untouched by any of this plan's own commits. Same class of pre-existing, out-of-phase
+   artifact `08-EVIDENCE.md` and `12-EVIDENCE.md` both independently noted and left alone.
