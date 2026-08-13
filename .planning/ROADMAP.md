@@ -727,13 +727,13 @@ only when the tab is active.
 set was written). The 18 locked decisions D-01..D-18 in `13-CONTEXT.md` plus `13-UI-SPEC.md` serve as
 this phase's requirement set; every plan's `requirements` field carries the D-IDs it implements.
 **Depends on:** Phase 12
-**Plans:** 6 plans
+**Plans:** 2/6 plans executed
 
 Plans:
 **Wave 1**
 
-- [ ] 13-01-PLAN.md — Static data contract: hand-authored partners_projects.json, sync.py publish step, pytest contract test, bilingual i18n strings
-- [ ] 13-02-PLAN.md — Non-visual modules: llBoundary extraction from LLMap, pure partnersProjects logic module, usePartnersProjects lazy fetch hook
+- [x] 13-01-PLAN.md — Static data contract: hand-authored partners_projects.json, sync.py publish step, pytest contract test, bilingual i18n strings
+- [x] 13-02-PLAN.md — Non-visual modules: llBoundary extraction from LLMap, pure partnersProjects logic module, usePartnersProjects lazy fetch hook
 
 **Wave 2** *(blocked on Wave 1 completion)*
 

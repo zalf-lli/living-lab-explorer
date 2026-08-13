@@ -4,7 +4,7 @@ milestone: v1.0
 milestone_name: milestone
 status: ready_to_plan
 stopped_at: Phase 12 UI-SPEC approved
-last_updated: "2026-08-13T05:54:43.423Z"
+last_updated: "2026-08-13T06:57:49.690Z"
 progress:
   total_phases: 17
   completed_phases: 13
@@ -21,7 +21,7 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 
 **Core value:** A researcher or stakeholder can open the app and immediately see accurate, up-to-date geodata and statistics for any of the five Living Labs without any server infrastructure.
 
-**Current focus:** Phase 13 — add a projects and partners tab to individual living lab pag
+**Current focus:** Phase 13 — add-a-projects-and-partners-tab-to-individual-living-lab-pag
 
 ## Status
 
