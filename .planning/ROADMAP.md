@@ -727,7 +727,7 @@ only when the tab is active.
 set was written). The 18 locked decisions D-01..D-18 in `13-CONTEXT.md` plus `13-UI-SPEC.md` serve as
 this phase's requirement set; every plan's `requirements` field carries the D-IDs it implements.
 **Depends on:** Phase 12
-**Plans:** 2/6 plans executed
+**Plans:** 4/6 plans executed
 
 Plans:
 **Wave 1**
@@ -737,8 +737,8 @@ Plans:
 
 **Wave 2** *(blocked on Wave 1 completion)*
 
-- [ ] 13-03-PLAN.md — PartnersMap: boundary-only Leaflet map with partner divIcon markers, hover/focus tooltip and safe click-through
-- [ ] 13-04-PLAN.md — PartnersOverviewPanel: two-section partner/project cards with bilingual summaries and dashed empty states
+- [x] 13-03-PLAN.md — PartnersMap: boundary-only Leaflet map with partner divIcon markers, hover/focus tooltip and safe click-through
+- [x] 13-04-PLAN.md — PartnersOverviewPanel: two-section partner/project cards with bilingual summaries and dashed empty states
 
 **Wave 3** *(blocked on Wave 2 completion)*
 
