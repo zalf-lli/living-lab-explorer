@@ -26,8 +26,10 @@ function fetchPartnersProjects() {
 
 // Returns { data: { partners, projects } | null, loading, error } for one Living Lab's slice
 // of the runtime partners/projects JSON. D-09's lazy-fetch requirement is satisfied
-// structurally: this hook's only caller, PartnersProjectsTab, mounts exclusively when
-// layer === 'partners', so no gating flag or null-URL parameter is needed here.
+// structurally: this hook's two callers, PartnersMapSlot and PartnersPanelSlot
+// (app/src/components/PartnersProjectsTab.jsx), both mount exclusively when layer === 'partners',
+// so no gating flag or null-URL parameter is needed here. Both callers share the same module-scoped
+// cache/inflight dedup below, so mounting both at once still issues exactly one network request.
 export function usePartnersProjects(slug) {
   const [state, setState] = useState({ data: null, loading: true, error: null })
 

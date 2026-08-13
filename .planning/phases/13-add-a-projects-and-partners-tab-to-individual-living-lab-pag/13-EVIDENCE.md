@@ -295,11 +295,19 @@ Discretionary choices this phase resolved, recorded here so they are findable la
 - **Marker styling:** an 18px orange `L.divIcon` dot with a 2px white ring, and the deliberate
   departure of keeping Leaflet's own default attribution control rather than porting `LLMap`'s
   private `MapInfoControl` (13-UI-SPEC.md "Attribution" note, implemented 13-03).
-- **The `LayoutSplit` composition resolution:** one map, rendered inside `PartnersProjectsTab` in
-  the wide right column, with the narrow left column's map slot fully suppressed when
-  `layer === 'partners'` — the UI-SPEC's prose lock ("map on top, panel below ... in every layout")
-  resolved over its own conflicting ASCII-diagram parenthetical, per plan 13-05 Task 3's explicit
-  conflict-resolution instruction (13-05-SUMMARY.md "Decisions Made").
+- **The map/panel slot resolution (REVISED at plan 13-06's Task 3 human checkpoint — see `## Open
+  items` below):** `PartnersMap` renders in the exact same slot/container `LLMap` occupies in each
+  of the three layouts (`LayoutSplit`'s left/42% column at full height, `LayoutStacked`'s and
+  `ComparisonColumn`'s bordered map card at `height: 300`), and `PartnersOverviewPanel` renders in
+  the layout's normal content slot (where `StatPanel`/chart/text render for every other tab)
+  instead. `PartnersProjectsTab.jsx` was split into two independently-mountable exports —
+  `PartnersMapSlot({ll, height})` and `PartnersPanelSlot({ll})` — so `LLDetail.jsx`'s three call
+  sites can place each in its own slot exactly like `LLMap`/`StatPanel` do today. This supersedes
+  plan 13-05's originally shipped design (one combined `PartnersProjectsTab` stacking map-then-panel
+  inside the content slot, resolved per that plan's own UI-SPEC prose-vs-diagram conflict
+  resolution, 13-05-SUMMARY.md "Decisions Made") — the human caught, during live Task 3
+  verification, that the combined design visually moved the map to the wide content column instead
+  of `LLMap`'s usual narrow map column, inconsistent with every other tab.
 - **Suppressing `llDetail.layerTabsHint` at all three sites** (`LayoutSplit`, `LayoutStacked`,
   `ComparisonColumn`/`LayoutCompare`) with no replacement copy when `layer === 'partners'` — that
   copy describes the five thematic map layers and would misdescribe this tab; the panel's own
@@ -346,3 +354,17 @@ Discretionary choices this phase resolved, recorded here so they are findable la
    tree before this plan started (matches the `<known_repo_state>` note this plan was dispatched
    with) and untouched by any of this plan's own commits. Same class of pre-existing, out-of-phase
    artifact `08-EVIDENCE.md` and `12-EVIDENCE.md` both independently noted and left alone.
+7. **Map/panel slot layout bug found and fixed during the first live Task 3 pass, changing what
+   plan 13-05 shipped.** The human's first live verification pass (before any approval) found the
+   Partners & Projects map rendering in the wide content column instead of `LLMap`'s usual narrow
+   map column — a real layout regression versus every other tab, introduced by plan 13-05's original
+   single-`PartnersProjectsTab`-stacked-block design (itself a locked `13-UI-SPEC.md` resolution at
+   the time). Fixed in this plan (13-06) by splitting `PartnersProjectsTab.jsx` into
+   `PartnersMapSlot`/`PartnersPanelSlot` and updating all three `LLDetail.jsx` call sites so the map
+   always renders in `LLMap`'s own slot and the panel always renders in the layout's normal content
+   slot. `13-UI-SPEC.md`'s "Three `LLDetail.jsx` branch points" and "`PartnersProjectsTab` internal
+   layout" sections were updated in place to document the revision and retain the superseded
+   rationale for historical context. `lint`/`build`/`format:check` re-confirmed green after the fix.
+   No content/data change — `data/partners_projects.json` is untouched by this fix. The rest of
+   Task 3's checklist (bilingual pass, keyboard-only D-12 pass, content sign-off) still requires a
+   fresh human pass, since the checkpoint was not approved on the round that found this bug.
