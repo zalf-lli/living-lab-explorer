@@ -16,7 +16,7 @@ import { normalizeLanguage } from '../i18n.js'
 import { LLBadge } from '../components/LLBadge.jsx'
 import { ContactManagerButton } from '../components/ContactManagerButton.jsx'
 import { DownloadReportCTA } from '../components/DownloadReportCTA.jsx'
-import { PartnersProjectsTab } from '../components/PartnersProjectsTab.jsx'
+import { PartnersMapSlot, PartnersPanelSlot } from '../components/PartnersProjectsTab.jsx'
 import { StatPanel } from '../components/StatPanel.jsx'
 import { BarChart } from '../components/BarChart.jsx'
 import { LineChart } from '../components/LineChart.jsx'
@@ -475,7 +475,13 @@ function LayoutSplit({
               />
             </Suspense>
           </div>
-        ) : null}
+        ) : (
+          <div style={{ flex: 1, minHeight: 0 }}>
+            <Suspense fallback={<MapFallback />}>
+              <PartnersMapSlot ll={ll} height="100%" />
+            </Suspense>
+          </div>
+        )}
       </div>
 
       <div style={{ overflowY: 'auto', background: C.bg }}>
@@ -503,7 +509,7 @@ function LayoutSplit({
 
         <div style={{ padding: '20px 24px', display: 'flex', flexDirection: 'column', gap: 18 }}>
           {layer === 'partners' ? (
-            <PartnersProjectsTab ll={ll} />
+            <PartnersPanelSlot ll={ll} />
           ) : (
             <>
               <StatPanel tab={layer} ll={ll} />
@@ -681,12 +687,16 @@ function LayoutStacked({
               onHorizonChange={setHorizon}
             />
           </Suspense>
-        ) : null}
+        ) : (
+          <Suspense fallback={<MapFallback />}>
+            <PartnersMapSlot ll={ll} height={300} />
+          </Suspense>
+        )}
       </div>
 
       {layer === 'partners' ? (
         <div style={{ margin: '16px 32px 0' }}>
-          <PartnersProjectsTab ll={ll} />
+          <PartnersPanelSlot ll={ll} />
         </div>
       ) : (
         <>
@@ -831,40 +841,48 @@ function ComparisonColumn({
         </div>
       </div>
 
+      {layer !== 'partners' ? (
+        <div style={{ padding: '20px 32px 0' }}>
+          <StatPanel tab={layer} ll={ll} maxColumns={2} showEmptyState />
+        </div>
+      ) : null}
+
+      <div
+        style={{
+          margin: '18px 32px 0',
+          background: C.white,
+          borderRadius: 14,
+          border: `1.5px solid ${C.mutedLight}`,
+          overflow: 'hidden',
+        }}
+      >
+        {layer !== 'partners' ? (
+          <Suspense fallback={<MapFallback />}>
+            <LLMap
+              ll={ll}
+              layer={layer}
+              height={300}
+              variable={climateVariable}
+              period={period}
+              periodMode={periodMode}
+              horizon={horizon}
+              onPeriodModeChange={onPeriodModeChange}
+              onHorizonChange={onHorizonChange}
+            />
+          </Suspense>
+        ) : (
+          <Suspense fallback={<MapFallback />}>
+            <PartnersMapSlot ll={ll} height={300} />
+          </Suspense>
+        )}
+      </div>
+
       {layer === 'partners' ? (
-        <div style={{ margin: '20px 32px 0' }}>
-          <PartnersProjectsTab ll={ll} />
+        <div style={{ margin: '16px 32px 0' }}>
+          <PartnersPanelSlot ll={ll} />
         </div>
       ) : (
         <>
-          <div style={{ padding: '20px 32px 0' }}>
-            <StatPanel tab={layer} ll={ll} maxColumns={2} showEmptyState />
-          </div>
-
-          <div
-            style={{
-              margin: '18px 32px 0',
-              background: C.white,
-              borderRadius: 14,
-              border: `1.5px solid ${C.mutedLight}`,
-              overflow: 'hidden',
-            }}
-          >
-            <Suspense fallback={<MapFallback />}>
-              <LLMap
-                ll={ll}
-                layer={layer}
-                height={300}
-                variable={climateVariable}
-                period={period}
-                periodMode={periodMode}
-                horizon={horizon}
-                onPeriodModeChange={onPeriodModeChange}
-                onHorizonChange={onHorizonChange}
-              />
-            </Suspense>
-          </div>
-
           <div
             style={{
               margin: '16px 32px 0',

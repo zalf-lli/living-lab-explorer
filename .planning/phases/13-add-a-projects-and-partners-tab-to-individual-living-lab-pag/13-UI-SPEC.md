@@ -168,21 +168,24 @@ in three places that must **all** branch together:
 3. **`ComparisonColumn`** (used inside two-column comparison mode) — compact variant of the same four
    blocks, unconditionally.
 
-**Locked pattern for all three:** wrap the existing per-layout content block (everything between the
-layer tabs row and the `CompareCTA`/`DownloadReportCTA` row — the header block, badge, and those two
-final controls stay unconditional in every layout) in a ternary:
+**Locked pattern for all three (REVISED at the plan 13-06 Task 3 human checkpoint — see note
+below):** each layout branches its **map slot** and its **content slot** independently, mirroring
+exactly where `LLMap` and the `StatPanel`/chart/text block render for every other tab:
 
 ```jsx
+{/* map slot -- same container LLMap occupies for every other tab */}
+{layer !== 'partners' ? <LLMap ... /> : <PartnersMapSlot ll={ll} .../>}
+
+{/* content slot -- same container StatPanel/chart/text occupies for every other tab */}
 {layer === 'partners'
-  ? <PartnersProjectsTab ll={ll} />
+  ? <PartnersPanelSlot ll={ll} />
   : (/* existing StatPanel + chart card + text-block card, unchanged */)}
 ```
 
-`PartnersProjectsTab` receives only `ll` — no `layer`, `climateVariable`, `period`, etc. props are
-threaded through, since none of the climate/raster machinery applies. It renders its own internal
-map+panel layout (see below) that adapts to whichever layout container it's placed inside via
-`width: '100%'` — it does not need a `compact` prop; `PartnersOverviewPanel`'s card padding is
-already dense enough to read correctly at `ComparisonColumn`'s narrower width (see Spacing Scale).
+`PartnersMapSlot` and `PartnersPanelSlot` each receive only `ll` — no `layer`, `climateVariable`,
+`period`, etc. props are threaded through, since none of the climate/raster machinery applies.
+`PartnersOverviewPanel`'s card padding is already dense enough to read correctly at
+`ComparisonColumn`'s narrower width (see Spacing Scale) with no `compact` prop needed.
 
 **Included in comparison mode, deliberately, not special-cased** (resolves `13-RESEARCH.md`'s Open
 Question 1): the Partners & Projects tab is selectable during `?compare=` mode exactly like every
@@ -191,35 +194,47 @@ consistent behavior and requires no new gating logic — `LayerTabs` is already 
 columns (Phase 10 D-07), so `layer` reaching `'partners'` there is expected, not a special case to
 suppress.
 
-### `PartnersProjectsTab` internal layout
+### REVISED at the Task 3 human checkpoint: map renders in `LLMap`'s own slot, not stacked with the panel
 
-```
-┌─────────────────────────────────────────┐
-│  PartnersMap (height: 300, same as       │
-│  LLMap's height in LayoutStacked/         │
-│  ComparisonColumn; LayoutSplit's map      │
-│  column keeps its own 100%-height slot)   │
-├─────────────────────────────────────────┤
-│  PartnersOverviewPanel                    │
-│    ├─ "Partners" section heading          │
-│    ├─ partner cards (grid) OR empty state │
-│    ├─ "Projects" section heading          │
-│    └─ project cards (list) OR empty state │
-└─────────────────────────────────────────┘
-```
+**This section originally specified a single combined `PartnersProjectsTab` component rendering a
+vertical stack (map on top, panel below) inside whichever slot each layout gives the active tab's
+*content area* — the same slot `StatPanel`+chart+text occupies. That design shipped in plan 13-05
+and was corrected here after live human verification at plan 13-06's Task 3 checkpoint.**
 
-Single vertical stack, map on top, panel below — in **every** layout (`LayoutSplit`,
-`LayoutStacked`, `ComparisonColumn`), unlike the thematic tabs which place the map beside the panel
-in `LayoutSplit`'s 42/58 grid. This is a deliberate simplification: `LayoutSplit`'s left column is a
-narrow 42% sidebar sized for a tall map plus `LayerTabs`, not for two-section list content with
-potentially many partner/project cards — stacking avoids squeezing card text into a narrow column.
-`gap: 24px` (`lg` token) between the map and the panel.
+**What was wrong:** because the content-area slot is `LayoutSplit`'s wide right/58% column (not the
+narrow left/42% map column `LLMap` normally occupies), the map visually jumped to the right side of
+the screen for this one tab — inconsistent with every other tab, where the map always renders in
+the same left-column slot regardless of which thematic layer is active. The human caught this live
+and asked for the map to always render in `LLMap`'s own slot/container, in all three layouts.
 
-**Visual anchor:** the map is the primary visual anchor for this screen — it renders first,
-full-width, at the top of the stack, and establishes the Living Lab's geographic context (boundary +
-partner locations) before any text. `PartnersOverviewPanel` is secondary: read top-to-bottom below
-the map as supporting detail once that geographic context is set, not competing with it for
-attention.
+**Resolution:** `PartnersProjectsTab.jsx` no longer exports one combined component. It exports two
+independent slot components instead:
+
+- `PartnersMapSlot({ ll, height })` — renders in the exact container/slot `LLMap` occupies in each
+  layout (`LayoutSplit`'s left column at `height: '100%'`, `LayoutStacked`/`ComparisonColumn`'s
+  bordered map card at `height: 300`). Still lazy-loaded (`lazy(() => import('./PartnersMap.jsx'))`)
+  and wrapped in the same `Suspense`/`MapFallback` treatment as `LLMap`, so Leaflet still never
+  enters the main bundle.
+- `PartnersPanelSlot({ ll })` — renders in the exact container/slot `StatPanel` + chart card + text
+  blocks occupy in each layout. No Leaflet dependency, no lazy-load, same as `PartnersOverviewPanel`
+  itself.
+
+Both call `usePartnersProjects(ll.slug)` independently; D-09's "exactly one request" guarantee still
+holds because the hook's underlying fetch is module-cached with an `inflight` promise dedup (two
+simultaneous callers share the same in-flight request).
+
+This resolves rather than compromises the original stacking rationale below (kept for historical
+context — it no longer describes the shipped component): `LayoutSplit`'s left column is narrow
+(42%), unsuited to two-section list content with potentially many partner/project cards. Under the
+revised split, `PartnersOverviewPanel` now renders in the **wide** content column instead of the
+narrow map column — strictly more room than the original stacked design gave it, not a compromise.
+
+*Historical rationale (superseded, kept for context):* "Single vertical stack, map on top, panel
+below — in every layout (`LayoutSplit`, `LayoutStacked`, `ComparisonColumn`), unlike the thematic
+tabs which place the map beside the panel in `LayoutSplit`'s 42/58 grid. This is a deliberate
+simplification: `LayoutSplit`'s left column is a narrow 42% sidebar sized for a tall map plus
+`LayerTabs`, not for two-section list content with potentially many partner/project cards —
+stacking avoids squeezing card text into a narrow column."
 
 ---
 
