@@ -37,3 +37,11 @@ button {
 a {
   color: inherit;
 }
+
+/* Leaflet's default .leaflet-div-icon CSS sets a white background and a grey border on any
+   divIcon with the default class; reset both so only the inline-styled circle in PartnerMarker's
+   L.divIcon html is visible. */
+.partner-marker {
+  background: transparent;
+  border: none;
+}
