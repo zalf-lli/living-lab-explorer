@@ -35,6 +35,19 @@ from generate_brands import generate_brand_files  # noqa: E402
 LL_LANGS = ("en", "de")
 REPORT_PATTERN = "data/reports/report-{slug}-{lang}.pdf"
 
+# Plan 12-10/Task 2: this plan's own decision, not a locked CONTEXT.md figure --
+# CONTEXT.md's Claude's Discretion section explicitly records the report file-size
+# budget as undiscussed. 8 MiB per file keeps a single report comfortably emailable
+# and downloadable on a poor connection; 50 MiB total across all ten committed source
+# PDFs keeps this phase's repository growth to roughly a third of Phase 8's own
+# 209,715,200-byte PMTiles cap, for an artifact that is regenerated far less often
+# than PMTiles. Both are binding fail assertions (enforce_report_budget() below),
+# following Phase 7 and Phase 8's own precedent of a hard byte cap rather than a
+# printed warning (see e.g. 08-08-SUMMARY.md's 209,715,200-byte committed-footprint
+# assertion).
+MAX_REPORT_BYTES = 8_388_608  # 8 MiB, per PDF
+MAX_TOTAL_REPORT_BYTES = 52_428_800  # 50 MiB, across all ten committed source PDFs
+
 
 def load_ll_metadata() -> dict:
     return json.loads(resolve("app/public/data/ll_metadata.json").read_text(encoding="utf-8"))
@@ -230,6 +243,47 @@ def render_one(
     return output_path
 
 
+def enforce_report_budget(rendered: list[Path]) -> None:
+    """Asserts this plan's own locked size budget, after every requested render in
+    this invocation has completed.
+
+    Two separate checks, both binding (raise, never just print a warning):
+
+    1. Per-file cap (MAX_REPORT_BYTES): checked against every PDF just rendered in
+       this invocation.
+    2. Total cap (MAX_TOTAL_REPORT_BYTES): checked against the FULL set of
+       already-committed files under data/reports/, not just this invocation's own
+       subset -- a partial `--slug`/`--lang` re-render must not silently let the
+       full ten-file total drift over budget unnoticed.
+
+    Raises RuntimeError naming every offending filename and its size on failure, so
+    a CI/developer run gets an actionable message rather than a bare non-zero exit.
+    """
+    oversized = [
+        (path, path.stat().st_size) for path in rendered if path.stat().st_size > MAX_REPORT_BYTES
+    ]
+    if oversized:
+        details = "\n  ".join(
+            f"{path.relative_to(repo_root())}: {size} bytes (max {MAX_REPORT_BYTES})"
+            for path, size in oversized
+        )
+        raise RuntimeError(
+            f"[report] budget exceeded: {len(oversized)} PDF(s) over the "
+            f"{MAX_REPORT_BYTES}-byte per-file cap:\n  {details}"
+        )
+
+    all_reports = sorted(resolve("data/reports").glob("report-*-*.pdf"))
+    total_bytes = sum(path.stat().st_size for path in all_reports)
+    if total_bytes > MAX_TOTAL_REPORT_BYTES:
+        details = "\n  ".join(
+            f"{path.relative_to(repo_root())}: {path.stat().st_size} bytes" for path in all_reports
+        )
+        raise RuntimeError(
+            f"[report] budget exceeded: {len(all_reports)} committed file(s) total "
+            f"{total_bytes} bytes, over the {MAX_TOTAL_REPORT_BYTES}-byte total cap:\n  {details}"
+        )
+
+
 def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     parser = argparse.ArgumentParser(
         description="Render all per-Living-Lab, per-language PDF reports (manual step, D-04)."
@@ -288,6 +342,12 @@ def main(argv: list[str] | None = None) -> int:
 
     total_bytes = sum(path.stat().st_size for path in rendered)
     print(f"[report] {len(rendered)} file(s) rendered, {total_bytes} bytes total")
+
+    enforce_report_budget(rendered)
+    print(
+        f"[report] budget OK: every file <= {MAX_REPORT_BYTES} bytes, "
+        f"committed total <= {MAX_TOTAL_REPORT_BYTES} bytes"
+    )
     return 0
 
 

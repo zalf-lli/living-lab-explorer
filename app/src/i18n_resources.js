@@ -69,6 +69,19 @@ export const resources = {
         economic: 'Socio-economic',
         landscape: 'Landscape',
         protectedAreas: 'Protected Areas',
+        partners: 'Partners & Projects',
+      },
+      partnersTab: {
+        partnersHeading: 'Partners',
+        projectsHeading: 'Projects',
+        partnersEmpty: 'No partners listed yet.',
+        projectsEmpty: 'No projects listed yet.',
+        visitWebsite: 'Visit website',
+        projectPartnerLabel: 'Partner:',
+        markerAria: "Open {{name}}'s website",
+        loadErrorTitle: 'Partner and project data is temporarily unavailable.',
+        loadErrorBody:
+          'Reload the page - if this keeps happening, the data source may be temporarily unreachable.',
       },
       climate: {
         variableRowLabel: 'Climate variable',
@@ -92,11 +105,24 @@ export const resources = {
         documentTitle: 'Living Lab report',
         subtitle: 'Full data report',
         regions: 'NUTS-3 regions',
-        locatorCaption: 'Location within Germany',
+        // The cover locator's figure caption. Replaces the former `locatorCaption`, which was
+        // drawn as text inside the smaller of the locator's two panels: that made one panel of a
+        // side-by-side pair shorter than the other, and left the figure as the only map in the
+        // report without a real Quarto fig-cap. {{credit}} receives the already-formatted
+        // `basemapCredit` string, so the provider attribution stays in exactly one place.
+        locatorFigCaption:
+          'The {{ll}} Living Lab: study region (left) and its location within Germany (right). {{credit}}',
         contents: 'Contents',
         kpiHeading: 'Key figures',
         mapHeading: 'Map',
         chartHeading: 'Chart',
+        // Checkpoint review round 2, Defect 4: specific, source-aware figure captions
+        // (replacing the generic mapHeading/chartHeading text above wherever a figure needs
+        // its own caption) -- {{layer}} is the tab's own display name, {{ll}} the Living Lab's
+        // localized name, {{source}} a fragment pulled directly from
+        // data-pipeline/sources/sources.yaml (see template.qmd's .ll_report_source_text()).
+        mapCaption: 'Map showing {{layer}} in the {{ll}} Living Lab (Data: {{source}})',
+        chartCaption: 'Chart showing {{layer}} in the {{ll}} Living Lab (Data: {{source}})',
         generated: 'Generated {{date}}',
         basemapCredit: 'Basemap: {{credit}}',
         noData: 'No data available',
@@ -205,10 +231,9 @@ export const resources = {
         compareBody: 'Secondary feature - select any two LLs to view side-by-side metrics',
         compareAction: 'Compare',
         compareCompactAction: 'Add for comparison',
-        downloadReportTitle: 'Download the full report',
-        downloadReportBody: 'Every KPI, map and chart for this Living Lab in one PDF document',
-        downloadReportAction: 'Download PDF',
-        downloadReportCompactAction: 'PDF',
+        downloadReportTitle: 'Download a report',
+        downloadReportBody: 'Every KPI, map and chart for this Living Lab in a PDF',
+        downloadReportAction: 'Download',
         downloadReportAria: 'Download the {{name}} PDF report',
         comparePrefix: 'Comparing',
         comparePickerTitle: 'Compare with',
@@ -286,6 +311,19 @@ export const resources = {
         economic: 'Soziooekonomie',
         landscape: 'Landschaft',
         protectedAreas: 'Schutzgebiete',
+        partners: 'Partner & Projekte',
+      },
+      partnersTab: {
+        partnersHeading: 'Partner',
+        projectsHeading: 'Projekte',
+        partnersEmpty: 'Noch keine Partner gelistet.',
+        projectsEmpty: 'Noch keine Projekte gelistet.',
+        visitWebsite: 'Website besuchen',
+        projectPartnerLabel: 'Partner:',
+        markerAria: 'Website von {{name}} oeffnen',
+        loadErrorTitle: 'Partner- und Projektdaten sind voruebergehend nicht verfuegbar.',
+        loadErrorBody:
+          'Seite neu laden - falls das Problem bestehen bleibt, ist die Datenquelle moeglicherweise voruebergehend nicht erreichbar.',
       },
       climate: {
         variableRowLabel: 'Klimavariable',
@@ -309,11 +347,14 @@ export const resources = {
         documentTitle: 'Living-Lab-Bericht',
         subtitle: 'Gesamtdatenbericht',
         regions: 'NUTS-3-Regionen',
-        locatorCaption: 'Lage in Deutschland',
+        locatorFigCaption:
+          'Das Living Lab {{ll}}: Untersuchungsgebiet (links) und seine Lage in Deutschland (rechts). {{credit}}',
         contents: 'Inhalt',
         kpiHeading: 'Kennzahlen',
         mapHeading: 'Karte',
         chartHeading: 'Diagramm',
+        mapCaption: 'Karte zu {{layer}} im Living Lab {{ll}} (Daten: {{source}})',
+        chartCaption: 'Diagramm zu {{layer}} im Living Lab {{ll}} (Daten: {{source}})',
         generated: 'Erstellt am {{date}}',
         basemapCredit: 'Hintergrundkarte: {{credit}}',
         noData: 'Keine Daten verfügbar',
@@ -426,11 +467,9 @@ export const resources = {
         compareBody: 'Sekundaere Funktion - zwei Living Labs fuer einen Seitenvergleich auswaehlen',
         compareAction: 'Vergleichen',
         compareCompactAction: 'Zum Vergleich hinzufuegen',
-        downloadReportTitle: 'Gesamten Bericht herunterladen',
-        downloadReportBody:
-          'Alle Kennzahlen, Karten und Diagramme für dieses Living Lab in einem PDF-Dokument',
-        downloadReportAction: 'PDF herunterladen',
-        downloadReportCompactAction: 'PDF',
+        downloadReportTitle: 'Bericht herunterladen',
+        downloadReportBody: 'Alle Kennzahlen, Karten und Diagramme zu diesem Living Lab als PDF',
+        downloadReportAction: 'Herunterladen',
         downloadReportAria: 'PDF-Bericht für {{name}} herunterladen',
         comparePrefix: 'Vergleich:',
         comparePickerTitle: 'Vergleichen mit',

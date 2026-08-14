@@ -1,0 +1,192 @@
+﻿{
+    "phase":  "13",
+    "phase_name":  "add-a-projects-and-partners-tab-to-individual-living-lab-pag",
+    "timestamp":  "2026-08-12T10:02:59.4142522+02:00",
+    "areas_completed":  [
+                            "Tab scope and naming",
+                            "Data authoring model",
+                            "Map point behavior",
+                            "Overview panel content"
+                        ],
+    "areas_remaining":  [
+
+                        ],
+    "decisions":  {
+                      "Tab scope and naming":  [
+                                                   {
+                                                       "question":  "How should the new tab be framed in the UI?",
+                                                       "answer":  "Use an English tab label of \"Partners \u0026 Projects\", with partners first.",
+                                                       "options_presented":  [
+                                                                                 "Projects \u0026 Partners - One combined tab matching the roadmap and feedback note; simplest for users and planning.",
+                                                                                 "Partners First - Tab label emphasizes partners, with projects as a secondary section inside it.",
+                                                                                 "Projects First - Tab label emphasizes exemplar projects, with partners supporting them."
+                                                                             ]
+                                                   },
+                                                   {
+                                                       "question":  "What should the German tab label be?",
+                                                       "answer":  "Use \"Partner \u0026 Projekte\".",
+                                                       "options_presented":  [
+                                                                                 "Partner \u0026 Projekte - Short, direct, and matches the English order.",
+                                                                                 "Partner und Projekte - Slightly more formal/readable in German UI.",
+                                                                                 "Praxispartner \u0026 Projekte - More specific if these are mostly applied/regional collaboration partners."
+                                                                             ]
+                                                   },
+                                                   {
+                                                       "question":  "Inside the tab, should partners and projects be visually separated?",
+                                                       "answer":  "Use two separate sections inside one tab: Partners and Projects.",
+                                                       "options_presented":  [
+                                                                                 "Two Sections - Separate \"Partners\" and \"Projects\" headings/panels inside one tab; clearest for mixed content.",
+                                                                                 "Unified List - One combined list with type labels; compact, but can blur the difference.",
+                                                                                 "Map First Only - Emphasize the map and show list details only when a point is selected."
+                                                                             ]
+                                                   },
+                                                   {
+                                                       "question":  "Where should this tab sit in the existing tab row?",
+                                                       "answer":  "Place it on the right side of the tab container, visually separated from the existing thematic tabs, rather than simply appending it inline with the current data tabs.",
+                                                       "options_presented":  [
+                                                                                 "After Economic - Add it at the end after the five thematic data tabs; keeps current data-tab order stable.",
+                                                                                 "Before Economic - Put it before the socio-economic tab because it is people/institution-focused.",
+                                                                                 "After Landscape - Keep it near the less technical/contextual tabs.",
+                                                                                 "Freeform: visually separated from the current tabs by being placed on the right side of the tab container."
+                                                                             ]
+                                                   }
+                                               ],
+                      "Data authoring model":  [
+                                                   {
+                                                       "options_presented":  [
+                                                                                 "Inside ll_content.json - Hand-authored alongside existing LL narrative/manager content, then merged into ll_metadata.json; best fit for bilingual static content.",
+                                                                                 "Separate partners_projects.json - Keeps this new content independent from LL descriptive text; cleaner if the list may grow or be maintained separately.",
+                                                                                 "GeoJSON-first - Store points as GeoJSON with properties for names/descriptions; map is natural, but overview content becomes more awkward."
+                                                                             ],
+                                                       "question":  "Where should the partner/project entries live?",
+                                                       "answer":  "Use a separate static file for this content, rather than folding it into ll_content.json."
+                                                   },
+                                                   {
+                                                       "options_presented":  [
+                                                                                 "Per-LL grouped JSON - One file keyed by Living Lab slug, e.g. each LL has partners[] and projects[]; easiest for the detail page to consume.",
+                                                                                 "Flat entries JSON - One top-level partners[] and projects[], each item lists its ll_slugs; better if the same partner/project appears in multiple LLs.",
+                                                                                 "Two files - partners.json and projects.json; explicit separation, but a bit more plumbing."
+                                                                             ],
+                                                       "question":  "What shape should that file have?",
+                                                       "answer":  "Use one separate static JSON file grouped by Living Lab slug, with each LL containing partners[] and projects[]."
+                                                   },
+                                                   {
+                                                       "options_presented":  [
+                                                                                 "Data + Sync - Author in data/, have sync.py copy it to app/public/data/; follows the existing pipeline-app contract.",
+                                                                                 "App Public Only - Author directly in app/public/data/; fewer steps, but breaks the established source/published-copy pattern.",
+                                                                                 "Generated Later - Define the contract now but leave the actual file generation to a future import/data-management phase."
+                                                                             ],
+                                                       "question":  "Should this file be hand-authored directly in data/, or should data-pipeline/sync.py also publish it into app/public/data/ like other static runtime data?",
+                                                       "answer":  "Author the grouped JSON under data/, and have data-pipeline/sync.py publish it to app/public/data/."
+                                                   },
+                                                   {
+                                                       "options_presented":  [
+                                                                                 "Separate lazy fetch - Keep it separate and fetch partners_projects.json only when the tab is active; avoids bloating core LL metadata.",
+                                                                                 "Merge into LL metadata - sync.py copies/merges it into ll_metadata.json; easier one-fetch app model, but the metadata file grows.",
+                                                                                 "Eager separate fetch - Keep a separate file, but load it at page startup with LL metadata; simpler state once loaded."
+                                                                             ],
+                                                       "question":  "Should the app load this as part of ll_metadata.json, or fetch it separately only when the tab is used?",
+                                                       "answer":  "Keep it separate and fetch partners_projects.json only when the Partners \u0026 Projects tab is active."
+                                                   }
+                                               ],
+                      "Map point behavior":  [
+                                                 {
+                                                     "options_presented":  [
+                                                                               "Confirmed Partners Only - Show only partner/institution locations that have permission to be displayed; safest and matches the feedback caveat.",
+                                                                               "Partners + Exemplar Projects - Show both partner locations and project/example locations when coordinates are available.",
+                                                                               "Projects Only - Treat partners as overview-panel content, and use the map only for project/example sites.",
+                                                                               "Freeform: show partners only on the map, assume all entries in the JSON have permission to be displayed."
+                                                                           ],
+                                                     "question":  "What should appear as points on the map?",
+                                                     "answer":  "Show partners only on the map, and assume every partner entry present in the JSON has permission to be displayed."
+                                                 },
+                                                 {
+                                                     "options_presented":  [
+                                                                               "Tooltip + Link - Hover/focus shows partner name; click opens the partner website when available. Matches the feedback note about hover links.",
+                                                                               "Select In Panel - Click/hover highlights the matching partner card in the panel; website link lives in the card.",
+                                                                               "Tooltip Only - Marker shows name/type/location but does not navigate anywhere from the map."
+                                                                           ],
+                                                     "question":  "What should a partner marker do when clicked or hovered?",
+                                                     "answer":  "Partner markers show a tooltip on hover/focus, and clicking a marker opens the partner website when available."
+                                                 },
+                                                 {
+                                                     "options_presented":  [
+                                                                               "Base Map + Boundary Only - Reuse the Leaflet base map and LL boundary outline/mask, with no thematic raster/vector layer or legend.",
+                                                                               "Reuse Default Landscape Layer - Show the landscape raster behind partner points; richer context, but the tab becomes visually tied to one data theme.",
+                                                                               "Configurable Background Later - Build the tab so the background can later switch between base/landscape/other layers, but ship base-only now."
+                                                                           ],
+                                                     "question":  "What map background/overlay should this tab use?",
+                                                     "answer":  "Use the Leaflet base map plus LL boundary only, with partner point markers. Do not render a thematic raster/vector layer or thematic legend on this tab."
+                                                 },
+                                                 {
+                                                     "options_presented":  [
+                                                                               "List Only - Partners without coordinates still appear in the Partners section, but not on the map.",
+                                                                               "Hide Entire Entry - Partners without coordinates are omitted from both map and panel.",
+                                                                               "Use Approximate LL Center - Place them at the LL centroid with a visual approximate cue."
+                                                                           ],
+                                                     "question":  "How should missing coordinates be handled?",
+                                                     "answer":  "Partners without coordinates still appear in the Partners section, but do not render on the map."
+                                                 }
+                                             ],
+                      "Overview panel content":  [
+                                                     {
+                                                         "options_presented":  [
+                                                                                   "Name, Type, Location, Website - Compact and realistic for a first hand-authored dataset.",
+                                                                                   "Name, Type, Location, Website, Short Description - More informative, but adds bilingual authoring work.",
+                                                                                   "Name, Contact, Location, Website - Contact-oriented, but risks exposing individual details."
+                                                                               ],
+                                                         "question":  "What fields should a partner entry show?",
+                                                         "answer":  "Partner entries show name, type, location, and website."
+                                                     },
+                                                     {
+                                                         "options_presented":  [
+                                                                                   "Title, Summary, Website - Lightweight exemplar-project cards; enough context without becoming a project database.",
+                                                                                   "Title, Summary, Partner, Website - Adds a relationship to the partner section, useful if projects should explain who is involved.",
+                                                                                   "Title, Summary, Status, Duration, Website - More like a project catalogue; richer but more authoring overhead."
+                                                                               ],
+                                                         "question":  "What fields should a project entry show?",
+                                                         "answer":  "Project entries show title, summary, partner, and website."
+                                                     },
+                                                     {
+                                                         "options_presented":  [
+                                                                                   "Bilingual Text Fields - Labels/types/summaries use { en, de } fields where language matters; URLs stay shared.",
+                                                                                   "Shared Names Only - Names/titles/types are shared strings; only project summaries are bilingual.",
+                                                                                   "English First - Author English fields now and allow German fallbacks until content is translated."
+                                                                               ],
+                                                         "question":  "Should partner/project names and descriptions be bilingual?",
+                                                         "answer":  "Use shared strings for partner names, project titles, and partner/project type labels; only project summaries are bilingual. URLs remain shared."
+                                                     },
+                                                     {
+                                                         "options_presented":  [
+                                                                                   "Quiet Empty State - Show a short bilingual No partners/projects listed yet message in the relevant section.",
+                                                                                   "Hide Empty Section - If there are no partners or projects, hide that section entirely.",
+                                                                                   "Coming Soon Badge - Keep the section visible with a coming soon tone."
+                                                                               ],
+                                                         "question":  "What should the empty state say when a Living Lab has no partners or no projects authored yet?",
+                                                         "answer":  "Show a short bilingual \"No partners/projects listed yet\" message in the relevant empty section."
+                                                     }
+                                                 ]
+                  },
+    "deferred_ideas":  [
+
+                       ],
+    "canonical_refs":  [
+                           ".planning/ROADMAP.md",
+                           ".planning/PROJECT.md",
+                           ".planning/REQUIREMENTS.md",
+                           ".planning/STATE.md",
+                           ".planning/feedback/meeting-regional-network-managers-06082026.md",
+                           ".planning/phases/12-export-a-pdf-of-the-content-for-a-given-living-lab/12-CONTEXT.md",
+                           ".planning/phases/10-add-for-comparison-button-opens-ll-menu-and-switches-to-two-/10-CONTEXT.md",
+                           ".planning/phases/09-chart-data-contract/09-CONTEXT.md",
+                           ".planning/codebase/CONVENTIONS.md",
+                           ".planning/codebase/STRUCTURE.md",
+                           ".planning/codebase/STACK.md",
+                           "app/src/pages/LLDetail.jsx",
+                           "app/src/components/LLMap/index.jsx",
+                           "app/src/data/layers.js",
+                           "app/src/hooks/useLLMetadata.js",
+                           "data/ll_content.json",
+                           "data-pipeline/sync.py"
+                       ]
+}

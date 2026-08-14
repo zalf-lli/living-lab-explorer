@@ -213,3 +213,118 @@
 // kept as simple, upstream-shaped exports for future in-body use by plans 12-06..12-10.
 #let accent(body) = text(fill: ll-orange, weight: "bold", body)
 #let accent-upper(body) = text(fill: ll-primary-default, weight: "bold", upper(body))
+
+// --- KPI status boxes (plan 12-07 Task 2) ---------------------------------------
+//
+// D-06's "no statistic is recomputed in R" pairs with a presentation requirement: KPIs read
+// as branded two-part status boxes -- a brand-accent-filled label band over a white value
+// body -- rather than a bordered table row, mirroring StatPanel.jsx's on-screen tile far more
+// closely than `set table` would. `accent` is a PARAMETER here for the exact D-07/D-08 reason
+// given at the top of this file: typst-template.typ rebinds it to the active render's
+// ll-primary, so two Living Labs' PDFs visibly differ in this component's fill colour even
+// though both import the identical module.
+
+// A single indicator: an accent-filled label band (white bold text, centred) stacked directly
+// (spacing: 0pt) on a white value body (a thin ll-gray-light stroke so the box still reads as
+// one unit against the page's ll-bg) carrying the formatted value, its unit, and -- only when
+// non-empty -- a smaller third line for the climate delta note. Both boxes share `width`; the
+// value body additionally takes a fixed `height` so a row of these boxes stays aligned even
+// when one label is long enough to wrap the label band taller than its neighbours.
+// Plan 12-10 checkpoint Defect 4: the label band and value body were sized generously enough
+// (2.5cm fixed value-body height, 6pt insets, 14pt value text) that four boxes across a row
+// (this project's real per-tab KPI count -- see ll_kpi_typst()'s own now-dynamic `columns`
+// default in sections.R) crowded past a comfortable width; a fixed 3-column caller-side
+// default then left a fourth box stranded alone on its own row. Both sides of that fix work
+// together: sections.R now sizes `columns` to the real KPI count per tab, and this box's own
+// footprint is trimmed (smaller fixed height, tighter insets, slightly smaller value text) so
+// four boxes at one-quarter width still read comfortably on one row.
+//
+// Checkpoint review round 2 Defect 1: the label band itself had no fixed height, only the
+// value body did (`height: 2.0cm` below) -- a label long enough to wrap onto two lines (e.g. a
+// German KPI label) made that one box's overall height (label band + value body) taller than
+// its one-line-title neighbours in the same row, so a row of four boxes no longer shared one
+// common bottom edge. Fixed by giving the label band its own fixed `height` (`clip: true` so a
+// label that would need a third line is clipped rather than silently growing the box again),
+// with `align(center + horizon, ...)` (already in place) centring either a one-line or a
+// wrapped two-line label within that fixed height -- every box in a row is now exactly
+// `LL-STATUS-BOX-LABEL-HEIGHT + 2.0cm` tall regardless of its own label's length.
+#let ll-status-box-label-height = 1.0cm
+
+#let ll-status-box(
+  label: "",
+  value: "",
+  unit: "",
+  note: "",
+  accent: ll-primary-default,
+  font: "Segoe UI",
+  width: 100%,
+) = {
+  stack(
+    dir: ttb,
+    spacing: 0pt,
+    box(
+      width: width,
+      height: ll-status-box-label-height,
+      fill: accent,
+      inset: (x: 5pt, y: 3pt),
+      clip: true,
+      {
+        align(center + horizon,
+          text(font: font, size: 7pt, weight: "bold", fill: ll-white, upper(label))
+        )
+      }
+    ),
+    box(
+      width: width,
+      height: 2.0cm,
+      fill: ll-white,
+      stroke: 0.5pt + ll-gray-light,
+      inset: 5pt,
+      {
+        align(center + horizon, {
+          stack(
+            dir: ttb,
+            spacing: 2pt,
+            [
+              #text(font: font, size: 12pt, weight: "bold", fill: ll-black, value)
+              #if unit != "" {
+                text(font: font, size: 8pt, fill: ll-black, " " + unit)
+              }
+            ],
+            if note != "" {
+              text(font: font, size: 7pt, fill: ll-black.lighten(35%), note)
+            },
+          )
+        })
+      }
+    ),
+  )
+}
+
+// A grid of `ll-status-box` calls, one per item dictionary (`label`/`value`/`unit`/`note`
+// keys), threading `accent`/`font` through every box. `columns` equal `1fr` tracks with a
+// small gutter -- sections.R's `ll_kpi_typst()` now defaults `columns` to the real per-tab KPI
+// count (this project's tabs carry 3 or 4 slots), so every tab's boxes fill exactly one row --
+// four across is roughly 4cm per box at a 0.4cm gutter, still comfortable at this component's
+// trimmed footprint (see `ll-status-box`'s own Defect 4 note) -- rather than a fixed column
+// count stranding a lonely box on its own row when it does not evenly divide the slot count.
+#let ll-kpi-grid(items: (), columns: 3, accent: ll-primary-default, font: "Segoe UI") = {
+  grid(
+    columns: (1fr,) * columns,
+    column-gutter: 0.4cm,
+    row-gutter: 0.4cm,
+    // Direct field access (not `.at(key, default: ...)`) is deliberate: a missing or
+    // misnamed key in an emitted item dictionary (e.g. sections.R's ll_kpi_typst() emitting
+    // "labl:" instead of "label:") must fail this compile loudly, not silently degrade to an
+    // empty box -- Task 4's gate mutation-tests exactly this by breaking one key name and
+    // confirming the real Typst compile step fails.
+    ..items.map(item => ll-status-box(
+      label: item.label,
+      value: item.value,
+      unit: item.unit,
+      note: item.note,
+      accent: accent,
+      font: font,
+    ))
+  )
+}

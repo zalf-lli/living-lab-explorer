@@ -20,6 +20,28 @@
 # environment avoids re-parsing the same file ten times per render.
 .ll_cache <- new.env(parent = emptyenv())
 
+# Plan 12-10 checkpoint Defect 9: one narrow, deliberate exception to this file's own D-22
+# no-side-effects-beyond-definitions rule above. `terra` prints its own ASCII progress bar
+# (`|---------|---------|---------|---------|` header over a fill line of `=` characters)
+# directly to stdout for any raster operation it judges slow enough -- confirmed live as the
+# root cause of a rendering artifact: east-brandenburg's larger extent crossed that threshold
+# during `crop()`/`mask()`/the raster-to-data-frame conversion `tidyterra::geom_spatraster()`
+# performs internally, and because that progress bar is raw console output (not an R
+# condition), this document's `execute: warning: false` / `message: false` never suppressed
+# it -- it was captured as literal chunk text output and rendered as repeated bands of
+# dashed/pipe text beneath that Living Lab's map. `pdftools::pdf_text()` on the affected page
+# showed exactly this `|---...-|` / `===...=` shape, once per slow terra call. Disabled
+# globally, once, here -- not in maps_raster.R, which is where the artifact was first found --
+# because `ll_map_locator()` (maps_vector.R) also plots a terra-backed `SpatRaster` (the
+# fetched basemap tiles, via `tidyterra::geom_spatraster_rgb()`) and this is the one module
+# every other report module sources first, directly or transitively, so it is the only
+# reliable place to set a session-wide terra option before any raster is ever plotted.
+# `requireNamespace()`-guarded so a project reusing this file without any raster maps (D-22's
+# whole premise) is never forced to have `terra` installed just to source this module.
+if (requireNamespace("terra", quietly = TRUE)) {
+  terra::terraOptions(progress = 0)
+}
+
 # --- Locating this file / the repo root ---------------------------------------
 
 # Resolves the path this file was loaded from, regardless of whether it was
@@ -218,6 +240,67 @@ ll_boundary <- function(slug) {
   result
 }
 
+# --- Locale-aware number formatting ---------------------------------------------
+# Lives here, in the one module every report module sources, because two of them
+# now need it: sections.R's KPI/chart value strings and legend_bars.R's per-bar
+# value labels. Both must format a number exactly the way the live site's
+# StatPanel.jsx does, so the PDF and the browser never disagree on a separator.
+
+#' Group an unsigned, no-decimal digit string into thousands, e.g. "186050" -> "186,050".
+#'
+#' @param int_str character(1) of digits only (no sign, no decimal point).
+#' @param mark character(1) grouping separator.
+#' @return character(1).
+.ll_group_thousands <- function(int_str, mark) {
+  n <- nchar(int_str)
+  if (n <= 3) {
+    return(int_str)
+  }
+  rev_chars <- rev(strsplit(int_str, "", fixed = TRUE)[[1]])
+  groups <- split(rev_chars, ceiling(seq_along(rev_chars) / 3))
+  grouped <- vapply(groups, function(g) paste(rev(g), collapse = ""), character(1))
+  paste(rev(grouped), collapse = mark)
+}
+
+#' Format a number exactly the way StatPanel.jsx's `Number(x).toLocaleString(locale)` does:
+#' `de-DE` groups with "." and uses "," as the decimal mark, `en-US` the reverse; at most 3
+#' fraction digits, trailing zeros trimmed (JS's default `toLocaleString()` has no
+#' `minimumFractionDigits` floor either).
+#'
+#' @param x numeric(1), never NA (callers route NA to `ll_str("report.noData", lang)` instead).
+#' @param lang character(1), `"en"` or `"de"`.
+#' @param signed logical(1); when TRUE, mirrors `signDisplay: 'exceptZero'` -- a leading `+` on
+#'   every non-zero positive value, `-` on negatives (already produced unconditionally), nothing
+#'   on exactly zero. Used for the climate KPI delta line.
+#' @return character(1).
+ll_format_number <- function(x, lang, signed = FALSE) {
+  stopifnot(is.numeric(x), length(x) == 1, !is.na(x))
+  big_mark <- if (identical(lang, "de")) "." else ","
+  decimal_mark <- if (identical(lang, "de")) "," else "."
+
+  rounded <- round(x, 3)
+  neg <- rounded < 0
+  magnitude <- abs(rounded)
+
+  raw <- formatC(magnitude, format = "f", digits = 3)
+  parts <- strsplit(raw, ".", fixed = TRUE)[[1]]
+  int_part <- parts[1]
+  frac_part <- if (length(parts) > 1) parts[2] else ""
+  frac_part <- sub("0+$", "", frac_part)
+
+  result <- .ll_group_thousands(int_part, big_mark)
+  if (nzchar(frac_part)) {
+    result <- paste0(result, decimal_mark, frac_part)
+  }
+
+  if (neg) {
+    result <- paste0("-", result)
+  } else if (signed && rounded != 0) {
+    result <- paste0("+", result)
+  }
+  result
+}
+
 # --- Report-wide layout constants ----------------------------------------------
 
 # D-11 requires all five tabs; D-11 does not specify a section order. This
@@ -240,15 +323,20 @@ LL_TAB_CHART_LAYER <- c(
 
 # Figure dimensions shared by every report figure. width_full/width_half are
 # inches inside the Typst template's A4 text block; dpi matches the
-# `fig-dpi: 150` set in template.qmd (plan 12-05). If plan 12-05's rendered
-# page geometry turns out to differ, adjust these values here rather than
-# overriding dimensions chunk by chunk later.
+# `fig-dpi: 300` set in template.qmd (raised from 150 at plan 12-05, then 180 at plan 12-10's
+# Task 1/2, then 300 at plan 12-10's checkpoint-review Defect 5 -- every map/chart in this
+# report renders through `fig-format: png`, so DPI is the only lever for sharpness; the
+# checkpoint review found every map and chart blurry at 180 dpi with the committed ten-file
+# total still well under 15% of the 50 MiB budget, leaving ample headroom for 300 dpi's ~(300/
+# 180)^2 ~= 2.8x per-image byte-size increase). If plan 12-05's rendered page geometry turns
+# out to differ, adjust these values here rather than overriding dimensions chunk by chunk
+# later.
 LL_FIG <- list(
   width_full = 6.3,
   width_half = 3.05,
   height_map = 4.0,
   height_chart = 3.2,
-  dpi = 150
+  dpi = 300
 )
 
 # --- Font resolution ----------------------------------------------------------
@@ -300,9 +388,15 @@ LL_FIG <- list(
 #' The branded ggplot2 theme for report charts.
 #'
 #' Built on `theme_minimal()`. Colours come from `ll_tokens()$theme`: muted
-#' greys for axis text and gridlines, the green family for titles. Font
-#' comes from `ll_tokens()$font`'s first family, resolved via
+#' greys for axis text, the green family for titles. Font comes from
+#' `ll_tokens()$font`'s first family, resolved via
 #' `.ll_resolve_font_family()` (falls back to "sans" rather than aborting).
+#'
+#' Plan 12-10 checkpoint Defect 8: no gridlines (major or minor) and no coloured plot/panel
+#' background -- both blanked/transparent here rather than filled with `tk$bg`, so a report
+#' chart's background matches the page it is printed on instead of carrying its own visible
+#' colour block. Individual chart builders in `sections.R` must not re-introduce either (their
+#' own `plot.background`/`panel.grid` overrides were removed in the same fix).
 #'
 #' @param base_size numeric(1) base font size in points.
 #' @return a ggplot2 theme object.
@@ -317,12 +411,12 @@ theme_ll_base <- function(base_size = 9) {
       axis.title = ggplot2::element_text(colour = tk$black, size = base_size * 0.85),
       axis.text = ggplot2::element_text(colour = tk$muted, size = base_size * 0.8),
       axis.ticks = ggplot2::element_blank(),
-      panel.grid.major = ggplot2::element_line(colour = tk$mutedPale, linewidth = 0.3),
+      panel.grid.major = ggplot2::element_blank(),
       panel.grid.minor = ggplot2::element_blank(),
       legend.title = ggplot2::element_text(colour = tk$black, size = base_size * 0.85),
       legend.text = ggplot2::element_text(colour = tk$black, size = base_size * 0.8),
-      plot.background = ggplot2::element_rect(fill = tk$bg, colour = NA),
-      panel.background = ggplot2::element_rect(fill = tk$bg, colour = NA)
+      plot.background = ggplot2::element_rect(fill = "transparent", colour = NA),
+      panel.background = ggplot2::element_rect(fill = "transparent", colour = NA)
     )
 }
 
@@ -401,7 +495,13 @@ ll_legend_df <- function(entries) {
 #'   the visible extent (otherwise ggplot2 silently drops classes that do
 #'   not occur in one Living Lab's clip, and the legend would stop matching
 #'   the web app's — T-12-28-adjacent correctness requirement, D-13), plus a
-#'   `guides()` call applying `title` and a single-column legend.
+#'   `guides()` call applying `title` and a single-column legend. `na.value` is
+#'   explicitly `"transparent"` (plan 12-10 checkpoint Defect 7/8): every raster map built on
+#'   this scale (`maps_raster.R`'s categorical and climate panels) has masked cells outside the
+#'   Living Lab boundary as `NA`, and `scale_fill_manual()`'s own default `na.value` is a solid
+#'   mid-grey -- that default is what rendered as a dark grey background behind every raster
+#'   map before this fix, not a `theme_ll_map()` background setting (which was already
+#'   transparent).
 ll_discrete_map_scale <- function(entries, title = NULL) {
   legend_df <- ll_legend_df(entries)
   values <- stats::setNames(legend_df$color, legend_df$label)
@@ -410,6 +510,7 @@ ll_discrete_map_scale <- function(entries, title = NULL) {
       values = values,
       limits = legend_df$label,
       breaks = legend_df$label,
+      na.value = "transparent",
       name = title
     ),
     ggplot2::guides(fill = ggplot2::guide_legend(title = title, ncol = 1))

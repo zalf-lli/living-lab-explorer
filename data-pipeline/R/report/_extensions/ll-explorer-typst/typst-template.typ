@@ -2,7 +2,7 @@
 // Quarto partial: wires YAML front matter and the active brands/<slug>.yml into ll-report().
 // Vendored and adapted from iat-dml/templates -- see NOTICE.md.
 
-#import "_extensions/ll-explorer-typst/ll-explorer-theme.typ": ll-report, accent, accent-upper
+#import "_extensions/ll-explorer-typst/ll-explorer-theme.typ": ll-report, accent, accent-upper, ll-status-box, ll-kpi-grid
 
 // D-07/D-08 colour injection: deliberately NOT the pandoc "if brand-color" conditional
 // reading brand-color.ll-primary (NOTE: that literal directive text cannot be written here
@@ -55,6 +55,15 @@ $if(font-family)$
 $else$
 #let ll-font = ("Segoe UI", "Arial")
 $endif$
+
+// D-07/D-08: bind the document-body-facing KPI status-box components to the active render's
+// brand accent and font here -- the one file already proven live to resolve both correctly
+// (see the primary/primary-dark comment above) -- so sections.R's ll_kpi_typst() never emits,
+// reads or retypes a colour: it cannot drift from the PDF's accent because it never knows it.
+// Placed after ll-font (not immediately after ll-primary) because .with(font: ll-font) needs
+// ll-font already resolved at this point in the file.
+#let ll-status-box = ll-status-box.with(accent: ll-primary, font: ll-font)
+#let ll-kpi-grid = ll-kpi-grid.with(accent: ll-primary, font: ll-font)
 
 $if(cover-image)$
 #let _cover-img = image("$cover-image$", width: 12.9cm, height: 8.41cm, fit: "cover")

@@ -16,6 +16,7 @@ import { normalizeLanguage } from '../i18n.js'
 import { LLBadge } from '../components/LLBadge.jsx'
 import { ContactManagerButton } from '../components/ContactManagerButton.jsx'
 import { DownloadReportCTA } from '../components/DownloadReportCTA.jsx'
+import { PartnersMapSlot, PartnersPanelSlot } from '../components/PartnersProjectsTab.jsx'
 import { StatPanel } from '../components/StatPanel.jsx'
 import { BarChart } from '../components/BarChart.jsx'
 import { LineChart } from '../components/LineChart.jsx'
@@ -452,25 +453,33 @@ function LayoutSplit({
               onChange={setClimateVariable}
             />
           ) : null}
-          <div style={{ fontSize: 11, color: 'rgba(2,35,34,0.55)', marginTop: 6 }}>
-            {t('llDetail.layerTabsHint')}
+          {layer !== 'partners' ? (
+            <div style={{ fontSize: 11, color: 'rgba(2,35,34,0.55)', marginTop: 6 }}>
+              {t('llDetail.layerTabsHint')}
+            </div>
+          ) : null}
+        </div>
+        {layer !== 'partners' ? (
+          <div style={{ flex: 1, minHeight: 0 }}>
+            <Suspense fallback={<MapFallback />}>
+              <LLMap
+                ll={ll}
+                layer={layer}
+                height="100%"
+                variable={climateVariable}
+                period={period}
+                periodMode={periodMode}
+                horizon={horizon}
+                onPeriodModeChange={setPeriodMode}
+                onHorizonChange={setHorizon}
+              />
+            </Suspense>
           </div>
-        </div>
-        <div style={{ flex: 1, minHeight: 0 }}>
-          <Suspense fallback={<MapFallback />}>
-            <LLMap
-              ll={ll}
-              layer={layer}
-              height="100%"
-              variable={climateVariable}
-              period={period}
-              periodMode={periodMode}
-              horizon={horizon}
-              onPeriodModeChange={setPeriodMode}
-              onHorizonChange={setHorizon}
-            />
-          </Suspense>
-        </div>
+        ) : (
+          <div style={{ flex: 1, minHeight: 0 }}>
+            <PartnersMapSlot ll={ll} height="100%" />
+          </div>
+        )}
       </div>
 
       <div style={{ overflowY: 'auto', background: C.bg }}>
@@ -497,66 +506,77 @@ function LayoutSplit({
         </div>
 
         <div style={{ padding: '20px 24px', display: 'flex', flexDirection: 'column', gap: 18 }}>
-          <StatPanel tab={layer} ll={ll} />
+          {layer === 'partners' ? (
+            <PartnersPanelSlot ll={ll} />
+          ) : (
+            <>
+              <StatPanel tab={layer} ll={ll} />
 
-          <div
-            style={{
-              background: C.white,
-              borderRadius: 12,
-              border: `1.5px solid ${C.mutedLight}`,
-              overflow: 'hidden',
-            }}
-          >
-            <div
-              style={{
-                padding: '14px 18px 6px',
-                fontSize: 11,
-                fontWeight: 700,
-                color: C.greenMid,
-                textTransform: 'uppercase',
-                letterSpacing: '0.1em',
-              }}
-            >
-              {t(layer === 'climate' ? 'llDetail.projectionTitle' : 'llDetail.distributionTitle', {
-                layer: t(`layers.${layer}`),
-              })}
-            </div>
-            <div style={{ padding: '4px 18px 18px' }}>
-              {layer === 'climate' ? (
-                <LineChart layer={layer} ll={ll} />
-              ) : (
-                <BarChart layer={layer} ll={ll} />
-              )}
-            </div>
-          </div>
+              <div
+                style={{
+                  background: C.white,
+                  borderRadius: 12,
+                  border: `1.5px solid ${C.mutedLight}`,
+                  overflow: 'hidden',
+                }}
+              >
+                <div
+                  style={{
+                    padding: '14px 18px 6px',
+                    fontSize: 11,
+                    fontWeight: 700,
+                    color: C.greenMid,
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.1em',
+                  }}
+                >
+                  {t(
+                    layer === 'climate' ? 'llDetail.projectionTitle' : 'llDetail.distributionTitle',
+                    {
+                      layer: t(`layers.${layer}`),
+                    }
+                  )}
+                </div>
+                <div style={{ padding: '4px 18px 18px' }}>
+                  {layer === 'climate' ? (
+                    <LineChart layer={layer} ll={ll} />
+                  ) : (
+                    <BarChart layer={layer} ll={ll} />
+                  )}
+                </div>
+              </div>
 
-          <div
-            style={{
-              background: C.white,
-              borderRadius: 12,
-              padding: 18,
-              border: `1.5px solid ${C.mutedLight}`,
-            }}
-          >
-            <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
-              <TextBlock
-                title={t('llDetail.aboutTheme', { layer: t(`layers.${layer}`) })}
-                text={ll.narrativeByTab?.[layer]?.about}
-                lines={4}
-              />
-              <TextBlock
-                title={t('llDetail.challenges')}
-                text={ll.narrativeByTab?.[layer]?.challenges}
-                lines={4}
-              />
-            </div>
-          </div>
+              <div
+                style={{
+                  background: C.white,
+                  borderRadius: 12,
+                  padding: 18,
+                  border: `1.5px solid ${C.mutedLight}`,
+                }}
+              >
+                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+                  <TextBlock
+                    title={t('llDetail.aboutTheme', { layer: t(`layers.${layer}`) })}
+                    text={ll.narrativeByTab?.[layer]?.about}
+                    lines={4}
+                  />
+                  <TextBlock
+                    title={t('llDetail.challenges')}
+                    text={ll.narrativeByTab?.[layer]?.challenges}
+                    lines={4}
+                  />
+                </div>
+              </div>
+            </>
+          )}
 
-          <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
+          <div style={{ display: 'flex', gap: 16, alignItems: 'stretch' }}>
             <div style={{ flex: '1 1 auto', minWidth: 0 }}>
               <CompareCTA compact options={compareOptions} onPick={onPickCompare} />
             </div>
-            <DownloadReportCTA compact ll={ll} lang={lang} />
+            <div style={{ flexShrink: 0 }}>
+              <DownloadReportCTA ll={ll} lang={lang} />
+            </div>
           </div>
         </div>
       </div>
@@ -615,9 +635,11 @@ function LayoutStacked({
         <ContactManagerButton ll={ll} variant="inverted" />
       </div>
 
-      <div style={{ padding: '20px 32px 0' }}>
-        <StatPanel tab={layer} ll={ll} />
-      </div>
+      {layer !== 'partners' ? (
+        <div style={{ padding: '20px 32px 0' }}>
+          <StatPanel tab={layer} ll={ll} />
+        </div>
+      ) : null}
 
       <div
         style={{
@@ -643,94 +665,108 @@ function LayoutStacked({
               onChange={setClimateVariable}
             />
           ) : null}
-          <div style={{ fontSize: 11, color: 'rgba(2,35,34,0.55)', marginTop: 6 }}>
-            {t('llDetail.layerTabsHint')}
+          {layer !== 'partners' ? (
+            <div style={{ fontSize: 11, color: 'rgba(2,35,34,0.55)', marginTop: 6 }}>
+              {t('llDetail.layerTabsHint')}
+            </div>
+          ) : null}
+        </div>
+        {layer !== 'partners' ? (
+          <Suspense fallback={<MapFallback />}>
+            <LLMap
+              ll={ll}
+              layer={layer}
+              height={300}
+              variable={climateVariable}
+              period={period}
+              periodMode={periodMode}
+              horizon={horizon}
+              onPeriodModeChange={setPeriodMode}
+              onHorizonChange={setHorizon}
+            />
+          </Suspense>
+        ) : (
+          <PartnersMapSlot ll={ll} height={300} />
+        )}
+      </div>
+
+      {layer === 'partners' ? (
+        <div style={{ margin: '16px 32px 0' }}>
+          <PartnersPanelSlot ll={ll} />
+        </div>
+      ) : (
+        <>
+          <div
+            style={{
+              margin: '16px 32px 0',
+              background: C.white,
+              borderRadius: 14,
+              border: `1.5px solid ${C.mutedLight}`,
+              overflow: 'hidden',
+            }}
+          >
+            <div
+              style={{
+                padding: '20px 20px 6px',
+                fontSize: 11,
+                fontWeight: 700,
+                color: C.greenMid,
+                textTransform: 'uppercase',
+                letterSpacing: '0.1em',
+              }}
+            >
+              {t(layer === 'climate' ? 'llDetail.projectionTitle' : 'llDetail.distributionTitle', {
+                layer: t(`layers.${layer}`),
+              })}
+            </div>
+            <div style={{ padding: '4px 20px 20px' }}>
+              {layer === 'climate' ? (
+                <LineChart layer={layer} ll={ll} />
+              ) : (
+                <BarChart layer={layer} ll={ll} />
+              )}
+            </div>
           </div>
-        </div>
-        <Suspense fallback={<MapFallback />}>
-          <LLMap
-            ll={ll}
-            layer={layer}
-            height={300}
-            variable={climateVariable}
-            period={period}
-            periodMode={periodMode}
-            horizon={horizon}
-            onPeriodModeChange={setPeriodMode}
-            onHorizonChange={setHorizon}
-          />
-        </Suspense>
-      </div>
 
-      <div
-        style={{
-          margin: '16px 32px 0',
-          background: C.white,
-          borderRadius: 14,
-          border: `1.5px solid ${C.mutedLight}`,
-          overflow: 'hidden',
-        }}
-      >
-        <div
-          style={{
-            padding: '20px 20px 6px',
-            fontSize: 11,
-            fontWeight: 700,
-            color: C.greenMid,
-            textTransform: 'uppercase',
-            letterSpacing: '0.1em',
-          }}
-        >
-          {t(layer === 'climate' ? 'llDetail.projectionTitle' : 'llDetail.distributionTitle', {
-            layer: t(`layers.${layer}`),
-          })}
-        </div>
-        <div style={{ padding: '4px 20px 20px' }}>
-          {layer === 'climate' ? (
-            <LineChart layer={layer} ll={ll} />
-          ) : (
-            <BarChart layer={layer} ll={ll} />
-          )}
-        </div>
-      </div>
-
-      <div
-        style={{
-          margin: '16px 32px 0',
-          display: 'grid',
-          gridTemplateColumns: '1fr 1fr',
-          gap: 16,
-        }}
-      >
-        <div
-          style={{
-            background: C.white,
-            borderRadius: 14,
-            padding: 20,
-            border: `1.5px solid ${C.mutedLight}`,
-          }}
-        >
-          <TextBlock
-            title={t('llDetail.aboutTheme', { layer: t(`layers.${layer}`) })}
-            text={ll.narrativeByTab?.[layer]?.about}
-            lines={5}
-          />
-        </div>
-        <div
-          style={{
-            background: C.white,
-            borderRadius: 14,
-            padding: 20,
-            border: `1.5px solid ${C.mutedLight}`,
-          }}
-        >
-          <TextBlock
-            title={t('llDetail.challenges')}
-            text={ll.narrativeByTab?.[layer]?.challenges}
-            lines={5}
-          />
-        </div>
-      </div>
+          <div
+            style={{
+              margin: '16px 32px 0',
+              display: 'grid',
+              gridTemplateColumns: '1fr 1fr',
+              gap: 16,
+            }}
+          >
+            <div
+              style={{
+                background: C.white,
+                borderRadius: 14,
+                padding: 20,
+                border: `1.5px solid ${C.mutedLight}`,
+              }}
+            >
+              <TextBlock
+                title={t('llDetail.aboutTheme', { layer: t(`layers.${layer}`) })}
+                text={ll.narrativeByTab?.[layer]?.about}
+                lines={5}
+              />
+            </div>
+            <div
+              style={{
+                background: C.white,
+                borderRadius: 14,
+                padding: 20,
+                border: `1.5px solid ${C.mutedLight}`,
+              }}
+            >
+              <TextBlock
+                title={t('llDetail.challenges')}
+                text={ll.narrativeByTab?.[layer]?.challenges}
+                lines={5}
+              />
+            </div>
+          </div>
+        </>
+      )}
 
       <div style={{ padding: '16px 32px 32px', display: 'flex', gap: 16, alignItems: 'stretch' }}>
         <div style={{ flex: '1 1 auto', minWidth: 0 }}>
@@ -801,9 +837,11 @@ function ComparisonColumn({
         </div>
       </div>
 
-      <div style={{ padding: '20px 32px 0' }}>
-        <StatPanel tab={layer} ll={ll} maxColumns={2} showEmptyState />
-      </div>
+      {layer !== 'partners' ? (
+        <div style={{ padding: '20px 32px 0' }}>
+          <StatPanel tab={layer} ll={ll} maxColumns={2} showEmptyState />
+        </div>
+      ) : null}
 
       <div
         style={{
@@ -814,84 +852,96 @@ function ComparisonColumn({
           overflow: 'hidden',
         }}
       >
-        <Suspense fallback={<MapFallback />}>
-          <LLMap
-            ll={ll}
-            layer={layer}
-            height={300}
-            variable={climateVariable}
-            period={period}
-            periodMode={periodMode}
-            horizon={horizon}
-            onPeriodModeChange={onPeriodModeChange}
-            onHorizonChange={onHorizonChange}
-          />
-        </Suspense>
+        {layer !== 'partners' ? (
+          <Suspense fallback={<MapFallback />}>
+            <LLMap
+              ll={ll}
+              layer={layer}
+              height={300}
+              variable={climateVariable}
+              period={period}
+              periodMode={periodMode}
+              horizon={horizon}
+              onPeriodModeChange={onPeriodModeChange}
+              onHorizonChange={onHorizonChange}
+            />
+          </Suspense>
+        ) : (
+          <PartnersMapSlot ll={ll} height={300} />
+        )}
       </div>
 
-      <div
-        style={{
-          margin: '16px 32px 0',
-          background: C.white,
-          borderRadius: 14,
-          border: `1.5px solid ${C.mutedLight}`,
-          overflow: 'hidden',
-        }}
-      >
-        <div
-          style={{
-            padding: '20px 20px 6px',
-            fontSize: 11,
-            fontWeight: 700,
-            color: C.greenMid,
-            textTransform: 'uppercase',
-            letterSpacing: '0.1em',
-          }}
-        >
-          {t(layer === 'climate' ? 'llDetail.projectionTitle' : 'llDetail.distributionTitle', {
-            layer: t(`layers.${layer}`),
-          })}
+      {layer === 'partners' ? (
+        <div style={{ margin: '16px 32px 0' }}>
+          <PartnersPanelSlot ll={ll} />
         </div>
-        <div style={{ padding: '4px 20px 20px' }}>
-          {layer === 'climate' ? (
-            <LineChart layer={layer} ll={ll} compact minHeightWhenEmpty={150} />
-          ) : (
-            <BarChart layer={layer} ll={ll} compact minHeightWhenEmpty={150} />
-          )}
-        </div>
-      </div>
+      ) : (
+        <>
+          <div
+            style={{
+              margin: '16px 32px 0',
+              background: C.white,
+              borderRadius: 14,
+              border: `1.5px solid ${C.mutedLight}`,
+              overflow: 'hidden',
+            }}
+          >
+            <div
+              style={{
+                padding: '20px 20px 6px',
+                fontSize: 11,
+                fontWeight: 700,
+                color: C.greenMid,
+                textTransform: 'uppercase',
+                letterSpacing: '0.1em',
+              }}
+            >
+              {t(layer === 'climate' ? 'llDetail.projectionTitle' : 'llDetail.distributionTitle', {
+                layer: t(`layers.${layer}`),
+              })}
+            </div>
+            <div style={{ padding: '4px 20px 20px' }}>
+              {layer === 'climate' ? (
+                <LineChart layer={layer} ll={ll} compact minHeightWhenEmpty={150} />
+              ) : (
+                <BarChart layer={layer} ll={ll} compact minHeightWhenEmpty={150} />
+              )}
+            </div>
+          </div>
 
-      <div style={{ margin: '16px 32px 0' }}>
-        <div
-          style={{
-            background: C.white,
-            borderRadius: 14,
-            padding: 20,
-            border: `1.5px solid ${C.mutedLight}`,
-            marginBottom: 16,
-          }}
-        >
-          <TextBlock
-            title={t('llDetail.aboutTheme', { layer: t(`layers.${layer}`) })}
-            text={ll.narrativeByTab?.[layer]?.about}
-            lines={4}
-          />
-        </div>
-        <div
-          style={{
-            background: C.white,
-            borderRadius: 14,
-            padding: 20,
-            border: `1.5px solid ${C.mutedLight}`,
-          }}
-        >
-          <TextBlock
-            title={t('llDetail.challenges')}
-            text={ll.narrativeByTab?.[layer]?.challenges}
-            lines={4}
-          />
-        </div>
-      </div>
+          <div style={{ margin: '16px 32px 0' }}>
+            <div
+              style={{
+                background: C.white,
+                borderRadius: 14,
+                padding: 20,
+                border: `1.5px solid ${C.mutedLight}`,
+                marginBottom: 16,
+              }}
+            >
+              <TextBlock
+                title={t('llDetail.aboutTheme', { layer: t(`layers.${layer}`) })}
+                text={ll.narrativeByTab?.[layer]?.about}
+                lines={4}
+              />
+            </div>
+            <div
+              style={{
+                background: C.white,
+                borderRadius: 14,
+                padding: 20,
+                border: `1.5px solid ${C.mutedLight}`,
+              }}
+            >
+              <TextBlock
+                title={t('llDetail.challenges')}
+                text={ll.narrativeByTab?.[layer]?.challenges}
+                lines={4}
+              />
+            </div>
+          </div>
+        </>
+      )}
 
       <div style={{ height: 32 }} />
     </div>
@@ -943,9 +993,11 @@ function LayoutCompare({
             onChange={setClimateVariable}
           />
         ) : null}
-        <div style={{ fontSize: 11, color: 'rgba(2,35,34,0.55)', marginTop: 6 }}>
-          {t('llDetail.layerTabsHint')}
-        </div>
+        {layer !== 'partners' ? (
+          <div style={{ fontSize: 11, color: 'rgba(2,35,34,0.55)', marginTop: 6 }}>
+            {t('llDetail.layerTabsHint')}
+          </div>
+        ) : null}
       </div>
 
       <div style={{ flex: 1, minHeight: 0, overflowY: 'auto' }}>
@@ -1148,9 +1200,10 @@ function CompareCTA({ compact = false, options, onPick }) {
   const pickerId = useId()
 
   return (
-    <div ref={pickerRef} style={{ position: 'relative' }}>
+    <div ref={pickerRef} style={{ position: 'relative', height: '100%' }}>
       <div
         style={{
+          height: '100%',
           background: C.limePale,
           borderRadius: compact ? 12 : 14,
           padding: compact ? '14px 18px' : '16px 24px',

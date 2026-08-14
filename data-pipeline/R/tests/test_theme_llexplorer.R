@@ -41,7 +41,7 @@ LIVING_LABS <- c(
 # report string bundle) -- every one must resolve in both languages.
 REPORT_STRING_KEYS <- c(
   "basemapCredit", "chartHeading", "contents", "documentTitle", "generated",
-  "kpiHeading", "locatorCaption", "mapHeading", "noData", "regions", "subtitle"
+  "kpiHeading", "locatorFigCaption", "mapHeading", "noData", "regions", "subtitle"
 )
 
 summary_lines <- character(0)

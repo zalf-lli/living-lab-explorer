@@ -57,3 +57,33 @@ regression, and not caused by this plan's report-tokens work (the report tokens 
 carries the same colours through faithfully, whatever they are).
 
 **Recommended next step:** unchanged from the 12-01 entry -- resolve via TODO-01 / `260804-acf`.
+
+## 12-10 checkpoint review round 2: `test_derive_change_field_guards_nodata` failure (pre-existing environment gap, out of scope)
+
+**Found during:** round 2's own `python -m pytest data-pipeline/tests/ -q` re-verification, after
+all four checkpoint-review defects were fixed and the full ten-file re-render completed.
+
+**Failure:**
+```
+data-pipeline/python/fetch_climate.py:35: in <module>
+    import rasterio
+E   ModuleNotFoundError: No module named 'rasterio'
+FAILED data-pipeline/tests/test_pipeline_outputs.py::test_derive_change_field_guards_nodata
+```
+
+**Why deferred, not fixed:** this executor's worktree has no `data-pipeline/.venv` (per CLAUDE.md,
+pipeline Python dependencies live in a per-machine venv created via `python -m venv .venv && pip
+install -r requirements.txt`, never committed) and the system Python resolved by `python` on PATH
+(`...PythonSoftwareFoundation.Python.3.13.../python.exe`) has no `rasterio` installed either
+(`pip show rasterio` confirms "Package(s) not found"). None of this round's four fixes touch
+`data-pipeline/python/fetch_climate.py` or anything it imports -- the failure is a raw
+`ModuleNotFoundError` at import time, in a file this round's `files_modified` never lists. Package
+installs are explicitly excluded from this executor's auto-fix authority (a missing/uninstalled
+dependency requires human verification before an install, not a unilateral `pip install
+rasterio`), and this is an environment-setup gap specific to this fresh worktree checkout, not a
+regression introduced by this round's KPI-box/pagebreak/locator-layout/caption work. All 38 other
+collected tests pass (confirmed both before and after this round's fixes were applied).
+
+**Recommended next step:** run `pip install -r data-pipeline/requirements.txt` (or set up
+`data-pipeline/.venv` per CLAUDE.md's own Development Quick Start) in whatever environment next
+executes this suite; not part of this plan's own scope.
