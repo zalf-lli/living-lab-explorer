@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: ready_to_plan
-stopped_at: Phase 12 UI-SPEC approved
+stopped_at: Phase 13 complete, goal-verified 18/18
 last_updated: "2026-08-13T15:10:11.227Z"
 progress:
   total_phases: 17
@@ -21,7 +21,9 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 
 **Core value:** A researcher or stakeholder can open the app and immediately see accurate, up-to-date geodata and statistics for any of the five Living Labs without any server infrastructure.
 
-**Current focus:** Phase 13 — add-a-projects-and-partners-tab-to-individual-living-lab-pag
+**Current focus:** Phase 13 complete. No Phase 14 defined in ROADMAP.md yet — remaining open work is
+Phase 3.1 (paused at its Wave 3 human-verify checkpoint), Phase 05.1, and Phase 7 (8/9 plans
+complete). Run `/gsd:progress` to route to the next action.
 
 ## Status
 
@@ -40,8 +42,35 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 | 9 | Chart Data Contract | Complete (2026-08-03) — 7/7 plans, goal verification passed 8/8 |
 | 10 | Two-column LL comparison view | Complete (2026-07-28) — 6/6 plans, goal verification passed 29/29 (D-01..D-29) |
 | 11 | Wire chart JSON data to chart UI components | Complete (2026-08-03) — 5/5 plans, goal verification passed 8/8 (UI-1..UI-8), human-verified round 2, code-review blocker CR-01 fixed |
+| 12 | Export a PDF of the content for a given Living Lab | Complete — see 12-EVIDENCE.md/12-VERIFICATION.md |
+| 13 | Add a Projects and Partners tab to individual Living Lab pages | Complete (2026-08-14) — 6/6 plans, goal verification passed 18/18 (D-01..D-18), human-verified round 2 (layout bug found+fixed mid-checkpoint), code-review findings CR-01/WR-01/WR-02/IN-01 fixed post-approval |
 
 ## Active Work
+
+**Phase 13 is complete (2026-08-14).** 6 plans: `13-01` (hand-authored `data/partners_projects.json`
+data contract, published via `sync.py`), `13-02` (`llBoundary.js` extraction, `usePartnersProjects`
+hook, `partnersProjects.js` pure helpers), `13-03` (`PartnersMap.jsx`, boundary-only Leaflet map with
+partner markers), `13-04` (`PartnersOverviewPanel.jsx`, two-section partners/projects panel), `13-05`
+(wired the tab into `LayerTabs.jsx`/`LLDetail.jsx`), `13-06` (phase close-out).
+
+The Task 3 bilingual/keyboard human checkpoint took two rounds. Round 1: the human found the map
+rendering in the wrong layout slot (the wide content column instead of `LLMap`'s usual narrow map
+column) — traced to a previously-locked `13-UI-SPEC.md` design. Fixed by splitting
+`PartnersProjectsTab.jsx` into `PartnersMapSlot`/`PartnersPanelSlot`, applied across all three layouts
+(`LayoutSplit`, `LayoutStacked`, `ComparisonColumn`). Round 2 approved (ship-as-is content: one
+verifiable ZALF partner per Living Lab, `projects: []` everywhere).
+
+The post-approval code review (`13-REVIEW.md`) found 1 critical + 2 warnings + 1 info; all fixed in
+`66383e2` without a third checkpoint round: CR-01 (`usePartnersProjects` lacked a `useGeoJSON.js`-style
+`state.key` guard, so switching Living Labs from the header while on the Partners tab could show stale
+data), WR-01 (marker `alt` prop was inert on an `L.divIcon`, no accessible name reached screen
+readers — fixed via `aria-label`), WR-02 (dead `Suspense` wrapper), IN-01 (doc comment). Goal
+verification (`13-VERIFICATION.md`) independently re-confirmed all 18 decisions against source and
+judged the post-approval fixes safe to ship without re-opening Task 3, while flagging one low-cost,
+non-blocking recommended check: manually confirm switching Living Labs while the Partners tab is
+already active shows no stale-LL flash (the one CR-01 code path no human has watched live).
+
+**Phase 12 is complete.** Full evidence and verification on file; see `12-EVIDENCE.md`/`12-VERIFICATION.md`.
 
 **Phase 11 is complete and closed (2026-08-03).** All 5 plans executed across 4 waves: `11-01`
 (`useChartData` 404-as-empty fetch hook, pure node-importable `chartSeries.js` truncation + rank
@@ -374,6 +403,6 @@ Phase 2.2 completed on 2026-04-30 and replaced the shallow German-only soil look
 
 ## Session
 
-**Last session:** 2026-08-04T13:43:21.488Z
-**Stopped at:** Phase 12 UI-SPEC approved
-**Resume file:** .planning/phases/12-export-a-pdf-of-the-content-for-a-given-living-lab/12-UI-SPEC.md
+**Last session:** 2026-08-14T00:00:00Z
+**Stopped at:** Phase 13 complete, goal-verified 18/18 (D-01..D-18)
+**Resume file:** .planning/phases/13-add-a-projects-and-partners-tab-to-individual-living-lab-pag/13-VERIFICATION.md
