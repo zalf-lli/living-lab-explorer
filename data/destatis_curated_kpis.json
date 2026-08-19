@@ -71,43 +71,23 @@
   },
   {
     "genesis_table": null,
-    "label_de": "Waermesumme, Jahressumme (Basis 5 °C)",
-    "label_en": "Growing degree days, annual sum (base 5 °C)",
-    "source_host": "chelsa",
+    "label_de": "CH4-Emissionen Landwirtschaft",
+    "label_en": "Agricultural CH4 emissions",
+    "source_host": null,
     "tab": "climate",
-    "unit_de": "°C·d",
-    "unit_en": "°C·d",
-    "variable_key": "gdd5_degc_days"
+    "unit_de": "kt CO2aeq",
+    "unit_en": "kt CO2eq",
+    "variable_key": "agr_ch4_kt"
   },
   {
     "genesis_table": null,
-    "label_de": "Mittlere Jahrestemperatur",
-    "label_en": "Mean annual temperature",
-    "source_host": "chelsa",
+    "label_de": "N2O-Emissionen Landwirtschaft",
+    "label_en": "Agricultural N2O emissions",
+    "source_host": null,
     "tab": "climate",
-    "unit_de": "°C",
-    "unit_en": "°C",
-    "variable_key": "mean_annual_temp_degc"
-  },
-  {
-    "genesis_table": null,
-    "label_de": "Jahresniederschlag",
-    "label_en": "Annual precipitation",
-    "source_host": "chelsa",
-    "tab": "climate",
-    "unit_de": "mm",
-    "unit_en": "mm",
-    "variable_key": "annual_precip_mm"
-  },
-  {
-    "genesis_table": null,
-    "label_de": "Niederschlag des waermsten Vierteljahres",
-    "label_en": "Precipitation of warmest quarter",
-    "source_host": "chelsa",
-    "tab": "climate",
-    "unit_de": "mm",
-    "unit_en": "mm",
-    "variable_key": "warm_quarter_precip_mm"
+    "unit_de": "kt CO2aeq",
+    "unit_en": "kt CO2eq",
+    "variable_key": "agr_n2o_kt"
   },
   {
     "genesis_table": "33111-01-02-4",
@@ -123,7 +103,7 @@
     "genesis_table": null,
     "label_de": "Natura-2000-Flaeche",
     "label_en": "Natura 2000 area",
-    "source_host": "bfn_wfs",
+    "source_host": null,
     "tab": "landscape",
     "unit_de": "ha",
     "unit_en": "ha",
@@ -133,7 +113,7 @@
     "genesis_table": null,
     "label_de": "Naturschutzgebietsflaeche",
     "label_en": "Nature reserves area",
-    "source_host": "bfn_wfs",
+    "source_host": null,
     "tab": "landscape",
     "unit_de": "ha",
     "unit_en": "ha",

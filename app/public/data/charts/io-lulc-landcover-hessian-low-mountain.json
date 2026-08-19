@@ -1,6 +1,6 @@
 {
   "chart_type": "bar",
-  "generated_at": "2026-08-03T10:16:33.235820Z",
+  "generated_at": "2026-08-17T13:17:14.035455Z",
   "layer_id": "landscape",
   "ll_slug": "hessian-low-mountain",
   "mock": false,
@@ -10,32 +10,32 @@
         "de": "Wald",
         "en": "Forest"
       },
-      "pct": 45.1,
-      "value": 269683.8
+      "pct": 46.8,
+      "value": 181710.8
     },
     {
       "label": {
         "de": "Ackerland",
         "en": "Cropland"
       },
-      "pct": 37.7,
-      "value": 225335.2
-    },
-    {
-      "label": {
-        "de": "Siedlung",
-        "en": "Settlement"
-      },
-      "pct": 9.7,
-      "value": 58172.8
+      "pct": 35.2,
+      "value": 136854.6
     },
     {
       "label": {
         "de": "Gruenland",
         "en": "Grassland"
       },
-      "pct": 7.2,
-      "value": 42787.8
+      "pct": 8.9,
+      "value": 34408.7
+    },
+    {
+      "label": {
+        "de": "Siedlung",
+        "en": "Settlement"
+      },
+      "pct": 8.8,
+      "value": 34265.1
     },
     {
       "label": {
@@ -43,31 +43,23 @@
         "en": "Water"
       },
       "pct": 0.3,
-      "value": 1631.6
+      "value": 1063.3
     },
     {
       "label": {
         "de": "Offenboden",
         "en": "Bare ground"
       },
-      "pct": 0.01,
-      "value": 89.0
+      "pct": 0.02,
+      "value": 80.2
     },
     {
       "label": {
         "de": "Feuchtgebiet",
         "en": "Wetland"
       },
-      "pct": 0.002,
-      "value": 10.9
-    },
-    {
-      "label": {
-        "de": "Wolken",
-        "en": "Clouds"
-      },
-      "pct": 0.0001,
-      "value": 0.5
+      "pct": 0.003,
+      "value": 10.7
     }
   ],
   "source": "io-lulc-landcover",

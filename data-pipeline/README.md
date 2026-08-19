@@ -9,13 +9,31 @@ The app (at [`../app`](../app)) reads everything from [`../data/`](../data/) (co
 ```
 data-pipeline/
 ├── python/
-│   ├── fetch_nuts.py           # Download GISCO NUTS-3, clip to the 5 LLs, write the LL GeoJSON
-│   ├── generate_metadata.py    # (Phase 4) split: build ll_metadata.json from structured inputs
-│   └── build_pmtiles.py        # (Phase 4) raster → clipped → reprojected → PMTiles
+│   ├── _sources.py                    # sources.yaml loader + repo-root path resolution
+│   ├── fetch_nuts.py                  # GISCO NUTS-3 → clipped LL boundary GeoJSONs
+│   ├── fetch_destatis.py              # Destatis/Regionalstatistik cubes → per-LL KPI JSON
+│   ├── fetch_boris.py                 # BORIS land-value WFS → per-LL zone GeoJSON
+│   ├── fetch_protected_areas.py       # BfN Schutzgebiete WFS → per-LL GeoJSON
+│   ├── fetch_climate.py               # CHELSA → Germany-extent climate GeoTIFFs
+│   ├── build_pmtiles.py               # national raster → clipped → reprojected → PMTiles
+│   ├── build_land_cover.py            # IO-LULC raster → per-LL PMTiles + class histogram
+│   ├── build_climate_pmtiles.py       # Pass 1: climate PMTiles per (variable, period, LL)
+│   ├── build_vector.py                # BÜK250 GPKG → per-LL GeoJSON with soil semantics
+│   ├── compute_climate_color_breaks.py# Pass 0: shared cross-LL climate colour breakpoints
+│   ├── compute_*_chart.py             # per-(layer, LL) chart JSON under data/charts/
+│   ├── compute_climate_kpis.py        # data/climate_kpis.json
+│   ├── compute_protected_area_coverage.py  # data/protected_area_kpis.json
+│   ├── generate_metadata.py           # ll_content.json + KPI files → ll_metadata.json
+│   └── export_*.py                    # static review catalogues (no inputs, no network)
 ├── R/
-│   └── fetch_example.R         # (Phase 4) stub showing how to add an R-based source
+│   ├── render_reports.py              # manual driver: 5 LLs × 2 languages → PDF reports
+│   ├── report/                        # Quarto template, Typst extension, brand generation
+│   ├── theme_llexplorer.R             # shared ggplot2 theme + LL label/brand helpers
+│   └── renv.lock                      # pinned R package versions
 ├── sources/
-│   └── sources.yaml            # (Phase 4) declarative registry of data sources
+│   └── sources.yaml                   # declarative registry of data sources and layers
+├── tests/                             # pytest gates over the committed pipeline outputs
+├── sync.py                            # copy outputs into the app + codegen JS data files
 ├── requirements.txt
 └── README.md
 ```
@@ -119,6 +137,191 @@ Notes:
 - If `deactivate` says it is not recognized, that usually just means no environment is currently active. That is fine.
 - If `Remove-Item` says `.venv` does not exist, that is also fine. It simply means there is nothing to remove yet.
 
+## The pipeline stages
+
+Every script below is run **by hand**. `sync.py` never invokes a fetch, build, chart or report
+script — it only copies files that already exist and regenerates the derived JS data modules.
+That is the whole pipeline–app contract: files on disk, no runtime coupling.
+
+The stages form a dependency chain rooted at `data/ll_content.json`, the human-owned source of
+truth that carries each Living Lab's `nuts3` code list. **Never write it from a script.**
+
+| # | Stage | Command | Reads | Writes |
+|---|-------|---------|-------|--------|
+| 0 | LL content | *(hand-edited)* | — | `data/ll_content.json` |
+| 1 | Boundaries | `python python\fetch_nuts.py` | `ll_content.json`, GISCO NUTS-3 (cached) | `nuts3_ll.geojson`, `nuts3_ll_simplified.geojson`, `ll_boundaries.geojson` |
+| 2 | Destatis KPIs | `python python\fetch_destatis.py` | `ll_content.json`, cached cubes in `data/destatis_raw/` | `destatis_ll.json`, `destatis_curated_kpis.json`, `destatis_meta.json` |
+| 3 | BORIS zones | `python python\fetch_boris.py --refresh` | `ll_boundaries.geojson`, BORIS WFS | `data/geojson/boris-{slug}.geojson` |
+| 4 | Protected areas | `python python\fetch_protected_areas.py --refresh` | `ll_boundaries.geojson`, BfN WFS | `data/geojson/protected-areas-{slug}.geojson` |
+| 5 | Climate rasters | `python python\fetch_climate.py` | CHELSA over `/vsicurl/` | `data/climate_source/*.tif` (Germany-extent, gitignored) |
+| 6 | Crop-types tiles | `python python\build_pmtiles.py --layer landuse-croptypes` | `croptypes_2024.tif`, `nuts3_ll.geojson` | `data/pmtiles/landuse-croptypes.pmtiles` |
+| 7 | Land-cover tiles | `python python\build_land_cover.py` | `io_lulc_{32U,33U}_2024.tif`, `ll_boundaries.geojson` | `data/pmtiles/land-cover-{slug}.pmtiles`, `land_cover_class_histogram.json` |
+| 8 | Soil vectors | `python python\build_vector.py --layer buek250` | BÜK250 GPKG + SQLite, `nuts3_ll.geojson` | `data/geojson/buek250-{slug}.geojson` |
+| 9 | Climate breaks (Pass 0) | `python python\compute_climate_color_breaks.py` | `data/climate_source/`, `ll_boundaries.geojson` | `data/climate_color_breaks.json` |
+| 10 | Climate tiles (Pass 1) | `python python\build_climate_pmtiles.py` | `climate_color_breaks.json`, `data/climate_source/` | `data/pmtiles/climate-{variable}-{period}-{slug}.pmtiles` |
+| 11 | Charts | `python python\compute_agriculture_chart.py` *(and the four siblings)* | boundaries + that layer's own output | `data/charts/{layer-id}-{slug}.json` |
+| 12 | Derived KPIs | `python python\compute_protected_area_coverage.py`, `python python\compute_climate_kpis.py` | `ll_boundaries.geojson` + layer outputs | `protected_area_kpis.json`, `climate_kpis.json` |
+| 13 | Sync | `python sync.py` | everything above | `app/public/data/**`, `app/src/data/*.js`, `data/ll_metadata.json` |
+| 14 | Reports | `python R\render_reports.py` | `app/public/data/ll_metadata.json`, charts, geodata | `data/reports/report-{slug}-{lang}.pdf` |
+| 15 | Sync again | `python sync.py` | the new PDFs | `app/public/data/reports/` |
+
+Stage ordering rules that are not obvious from the table:
+
+- **Stage 9 must complete before stage 10.** The colour breakpoints are pooled across all five
+  Living Labs and baked into PMTiles pixels; a per-LL local scale silently defeats the app's
+  two-column comparison view. See the header comment in `compute_climate_color_breaks.py`.
+- **Stage 7 must complete before the landscape chart.** `compute_landscape_chart.py` reads
+  `data/land_cover_class_histogram.json`, which only `build_land_cover.py` writes.
+- **Stages 8 and 3 must complete before the soil and economic charts** — those charts read the
+  per-LL GeoJSON, not the original source data.
+- **Stage 13 must run before stage 14.** `render_reports.py` reads
+  `app/public/data/ll_metadata.json`, i.e. the *synced* copy. Then run `sync.py` once more so
+  the freshly rendered PDFs land in `app/public/data/reports/`.
+- The five chart scripts (stage 11) and the two KPI scripts (stage 12) are independent of each
+  other and can be run in any order.
+
+## Running the pipeline end to end
+
+With the venv active and all gitignored source rasters already present locally, this is the
+complete sequence. Set the external tool paths first — they are needed by stages 6, 7, 10 and 14.
+
+```powershell
+cd data-pipeline
+.venv\Scripts\Activate.ps1
+$env:PMTILES_BIN = "C:\Users\black\Tools\pmtiles\pmtiles.exe"
+$env:R_HOME      = "C:\Program Files\R\R-4.5.0"
+$env:QUARTO_BIN  = "$env:LOCALAPPDATA\Programs\Positron\resources\app\quarto\bin\quarto.exe"
+
+# 1-2  boundaries and statistics
+python python\fetch_nuts.py
+python python\fetch_destatis.py
+
+# 3-5  remote sources (WFS + CHELSA)
+python python\fetch_boris.py --refresh
+python python\fetch_protected_areas.py --refresh
+python python\fetch_climate.py
+
+# 6-8  raster and vector layer builds
+python python\build_pmtiles.py --layer landuse-croptypes
+python python\build_land_cover.py
+python python\build_vector.py --layer buek250
+
+# 9-10 climate two-pass build (Pass 0 must finish before Pass 1)
+python python\compute_climate_color_breaks.py
+python python\build_climate_pmtiles.py
+
+# 11   per-(layer, LL) chart JSON
+python python\compute_agriculture_chart.py
+python python\compute_landscape_chart.py
+python python\compute_soil_chart.py
+python python\compute_economic_chart.py
+python python\compute_climate_chart.py
+
+# 12   derived KPI files consumed by generate_metadata.py
+python python\compute_protected_area_coverage.py
+python python\compute_climate_kpis.py
+
+# 13   copy into the app + codegen the derived JS modules
+python sync.py
+
+# 14-15 PDF reports, then re-sync so the app serves them
+python R\render_reports.py
+python sync.py
+```
+
+Verify afterwards:
+
+```powershell
+python -m pytest tests -q          # from data-pipeline/
+Rscript R\tests\test_theme_llexplorer.R
+```
+
+Runtime expectations: stages 1-5 are network-bound (minutes, less if the caches are warm);
+stage 7 takes the longest and peaks near 2.2 GB RAM per Living Lab; stage 10 is 60 iterations
+(4 variables × 3 periods × 5 LLs). Nothing here is incremental — each script rebuilds its full
+output set unless you narrow it with `--slug` / `--ll` / `--layer`.
+
+### Skipping stages you do not need
+
+The gitignored source inputs (`data/croptypes_2024.tif`, `data/io_lulc_*.tif`,
+`data/climate_source/*.tif`, `data/buek250_mgm_utm_v60/`) are large and change rarely. If they
+are already on disk, **stage 5 can be skipped entirely** — CHELSA rasters are Germany-extent and
+do not depend on Living Lab boundaries at all. The same is true of the source rasters behind
+stages 6-8: they are national inputs, so only the *clipping* has to be redone, not the download.
+
+`python\export_source_catalogue.py` and `python\export_variables.py` are outside this chain
+entirely. They write static review CSVs from hardcoded tables, make no API calls, and depend on
+nothing upstream.
+
+## Re-running after a Living Lab's NUTS-3 codes change
+
+Editing a `nuts3` list in `data/ll_content.json` changes the geometry every downstream clip,
+zonal statistic and KPI is computed against — so effectively the whole chain has to be rebuilt.
+Run the full end-to-end sequence above, minus stage 5 (CHELSA is boundary-independent), and note
+these three points:
+
+1. **`--refresh` is required for the two WFS fetchers.** `fetch_boris.py` and
+   `fetch_protected_areas.py` cache their GML responses per Living Lab slug
+   (`data/_cache/…/{slug}__*.gml`), so without `--refresh` they replay the *old* bounding box
+   and silently produce stale output under the new codes.
+2. **`fetch_destatis.py` does not need `--force`.** Its cache holds whole national cubes and the
+   region filtering happens after parsing, so the cached CSVs already contain any newly added
+   Kreis. Use `--force` only if you also want fresher Destatis values.
+3. **Check the land-cover tile assignment.** `sources.yaml`'s `io-lulc-landcover.input.tiles`
+   maps each slug to a single UTM tile (`32U` or `33U`). If a Living Lab's new codes push it
+   across that zone boundary — or make it span both — that mapping must be corrected by hand
+   before stage 7, or the clip will come back empty or truncated.
+
+## Automated refresh (GitHub Actions)
+
+[`.github/workflows/refresh-data.yml`](../.github/workflows/refresh-data.yml) runs the
+pipeline unattended and opens a pull request with the regenerated outputs. It never pushes
+to `main` — a failed WFS call or an empty clip would otherwise overwrite good committed data
+and deploy straight to Pages.
+
+| | Scheduled run | Manual run (`workflow_dispatch`) |
+|---|---|---|
+| Cadence | 03:00 UTC on 1 March and 1 September | on demand |
+| Scope | `volatile` | `volatile` or `full` |
+| Stages | 1-4, economic chart, protected-area KPIs, 13-15 | all 15 |
+| Runtime | ~15-25 min | hours |
+
+The split exists because the layers do not change at the same rate. Destatis, BORIS and BfN
+are live services whose values genuinely move. The raster and vector layers are pinned to
+fixed dataset editions in `sources.yaml` (DLR croptypes 2024, IO-LULC 2024, BÜK250 v6.0,
+CHELSA CMIP6), so rebuilding them reproduces byte-identical data at a cost of ~1.1 GB of
+downloads and ~162 MB of re-committed binaries. **Run the `full` scope by hand** after
+bumping a dataset edition in `sources.yaml` or changing a Living Lab's `nuts3` codes in
+`data/ll_content.json` — a `volatile` run leaves every raster clipped to the old boundaries.
+
+Two flags in the workflow are load-bearing rather than defensive, for reasons specific to
+what this repo commits: `fetch_destatis.py --force` (because `data/destatis_raw/` is
+committed, so a cached run would refresh nothing) and `--refresh` on both WFS fetchers
+(because they cache GML per Living Lab slug).
+
+### One-time setup
+
+1. **Repository secrets** — `DESTATIS_USERNAME` and `DESTATIS_API_TOKEN` are required;
+   `REGIONALSTATISTIK_USERNAME` and `REGIONALSTATISTIK_PASSWORD` are optional (see
+   [`.env.example`](../.env.example)). The workflow checks these before doing any work and
+   fails with a named error if they are missing.
+2. **Allow Actions to open PRs** — Settings → Actions → General → "Allow GitHub Actions to
+   create and approve pull requests". Without it the final step fails at `gh pr create`.
+3. **Commit the report font** — see
+   [`R/report/fonts/README.md`](./R/report/fonts/README.md). The workflow refuses to render
+   rather than let Typst substitute a fallback and restyle all ten committed PDFs.
+4. **Allow the third-party actions** if your org uses an allowlist: `r-lib/actions/setup-r`,
+   `r-lib/actions/setup-renv`, `quarto-dev/quarto-actions/setup`.
+
+### Reading the PR diff
+
+Chart JSON and report PDFs carry a `generated_at` timestamp, so **every** run produces a
+diff even when no underlying value changed. Judge a refresh by the numbers inside the chart
+files and `ll_metadata.json`, not by the presence of changed files.
+
+Also note that GitHub disables `schedule` triggers in a repository with 60 days of no
+activity. If the semi-annual run stops firing, re-enable it from the Actions tab.
+
 ## Quick start: rebuild the LL boundary files
 
 Once the environment is active:
@@ -174,9 +377,7 @@ Phase 06 D-01 renamed the `landuse` tab to `agriculture` across all three places
 
 ## Adding a new data source
 
-Phase 4 introduces a declarative source registry. Until then, add a new Python script alongside `fetch_nuts.py` and write its output under `../data/` with a descriptive filename.
-
-R-based sources are supported symmetrically - see `R/fetch_example.R` once it lands.
+Add a `layers:` entry to [`sources/sources.yaml`](./sources/sources.yaml) describing the source, its input, its build script and its output paths, then add the script under `python/` and read the layer through `_sources.get_layer()` rather than hardcoding paths. Follow the `id` vs. `app_layer` rule below, write outputs under `../data/`, and add the new file or pattern to the matching `sync_*` function in `sync.py` so the app actually receives it.
 
 ## Building tile layers
 
@@ -337,23 +538,50 @@ Every chart script routes through [`python/chart_contract.py`](./python/chart_co
 `write_bar_chart()` / `write_line_chart()` writers; no chart script may call `json.dumps`
 directly.
 
-### Full working Windows sequence
+## Rendering the per-Living-Lab PDF reports
 
-If you want the complete flow in one place, this is the sequence that worked:
+`data-pipeline/R/` is a self-contained R + Quarto project whose only job is rendering the ten
+PDF factsheets — 5 Living Labs × 2 languages — from the same on-disk artifacts the rest of the
+pipeline produces. It is not a data-fetching tier. See [`R/README.md`](./R/README.md) for the
+full toolchain, `renv` setup and R-side verification gates; the essentials:
 
 ```powershell
-cd C:\git\LL-explorer\data-pipeline
-py -3.12 -m venv .venv
-.venv\Scripts\Activate.ps1
-python -m pip install --upgrade pip setuptools wheel
-pip install shapely==2.1.2 numpy pandas pyproj pyogrio requests pyyaml click cligj affine attrs pyparsing certifi charset_normalizer idna urllib3
-pip install geopandas==1.1.3 rasterio==1.5.0
-pip install rio-mbtiles==1.6.0 --no-deps
-pip install mercantile supermercado tqdm
-$env:PMTILES_BIN = "C:\Users\black\Tools\pmtiles\pmtiles.exe"
-python python\build_pmtiles.py --layer landuse-croptypes
-python sync.py
+python R\render_reports.py                       # all 5 slugs x 2 languages
+python R\render_reports.py --slug rheingau --lang de
+python R\render_reports.py --keep-temp           # keep the per-render temp .qmd for debugging
 ```
+
+Requirements and ordering:
+
+- **Quarto ≥ 1.4** (bundles Typst) and **R ≥ 4.5** must be discoverable. R is commonly installed
+  on Windows but absent from `PATH`; set `$env:R_HOME` (or add R's `bin` to `PATH`) and
+  `$env:QUARTO_BIN` if only a Positron-bundled Quarto exists. `R/_toolchain.py` checks both up
+  front and names the relevant variable in its error.
+- **Run `sync.py` first.** `render_reports.py` reads `app/public/data/ll_metadata.json` — the
+  synced copy, not `data/ll_metadata.json` — plus the chart JSON and geodata under
+  `app/public/data/`. Rendering before syncing produces reports built from stale metadata.
+- **Run `sync.py` again afterwards**, so `sync_reports()` copies the new PDFs into
+  `app/public/data/reports/`.
+- `sync.py` never invokes this script (D-04), exactly like the `build_*.py` scripts.
+- Two hard budget assertions fail the render rather than warn: 8 MiB per PDF and 50 MiB across
+  all ten committed source PDFs.
+
+## Verifying pipeline outputs
+
+```powershell
+python -m pytest tests -q                        # from data-pipeline/
+```
+
+`tests/test_pipeline_outputs.py` asserts the committed outputs against their contracts — chart
+envelopes, the `kpiByTab` join keys, tab counts. The R-side gates are standalone Rscript files,
+listed with what each covers in [`R/README.md`](./R/README.md#verification):
+
+```powershell
+Rscript R\tests\test_theme_llexplorer.R
+```
+
+Note that `R/tests/test_maps_raster.R` additionally needs the gitignored source rasters present
+locally, so it is not runnable from a clean checkout alone.
 
 ## Practical notes
 

@@ -29,7 +29,7 @@
       },
       "tagline": "Multifunktionale und vielfältige Ackerbausysteme"
     },
-    "destatisRetrievedAt": "2026-08-04",
+    "destatisRetrievedAt": "2026-08-17",
     "en": {
       "name": "East Brandenburg",
       "narrative": {
@@ -102,68 +102,24 @@
       ],
       "climate": [
         {
-          "delta": 1143.0,
-          "deltaHorizon": "2071-2100",
-          "deltaUnit": {
-            "de": "°C·d",
-            "en": "°C·d"
-          },
           "genesisTable": null,
-          "key": "gdd5_degc_days",
-          "sourceHost": "chelsa",
+          "key": "agr_ch4_kt",
+          "sourceHost": null,
           "unit": {
-            "de": "°C·d",
-            "en": "°C·d"
+            "de": "kt CO2aeq",
+            "en": "kt CO2eq"
           },
-          "value": 2026.0
+          "value": null
         },
         {
-          "delta": 4.1,
-          "deltaHorizon": "2071-2100",
-          "deltaUnit": {
-            "de": "°C",
-            "en": "°C"
-          },
           "genesisTable": null,
-          "key": "mean_annual_temp_degc",
-          "sourceHost": "chelsa",
+          "key": "agr_n2o_kt",
+          "sourceHost": null,
           "unit": {
-            "de": "°C",
-            "en": "°C"
+            "de": "kt CO2aeq",
+            "en": "kt CO2eq"
           },
-          "value": 9.4
-        },
-        {
-          "delta": 3.0,
-          "deltaHorizon": "2071-2100",
-          "deltaUnit": {
-            "de": "%",
-            "en": "%"
-          },
-          "genesisTable": null,
-          "key": "annual_precip_mm",
-          "sourceHost": "chelsa",
-          "unit": {
-            "de": "mm",
-            "en": "mm"
-          },
-          "value": 599.0
-        },
-        {
-          "delta": -5.3,
-          "deltaHorizon": "2071-2100",
-          "deltaUnit": {
-            "de": "%",
-            "en": "%"
-          },
-          "genesisTable": null,
-          "key": "warm_quarter_precip_mm",
-          "sourceHost": "chelsa",
-          "unit": {
-            "de": "mm",
-            "en": "mm"
-          },
-          "value": 189.0
+          "value": null
         }
       ],
       "economic": [
@@ -222,22 +178,22 @@
         {
           "genesisTable": null,
           "key": "natura2000_ha",
-          "sourceHost": "bfn_wfs",
+          "sourceHost": null,
           "unit": {
             "de": "ha",
             "en": "ha"
           },
-          "value": 156577.4
+          "value": null
         },
         {
           "genesisTable": null,
           "key": "nature_reserves_ha",
-          "sourceHost": "bfn_wfs",
+          "sourceHost": null,
           "unit": {
             "de": "ha",
             "en": "ha"
           },
-          "value": 51566.3
+          "value": null
         },
         {
           "genesisTable": "33111-01-02-4",
@@ -341,10 +297,7 @@
     },
     "num": "01",
     "nuts3": [
-      "DE409",
-      "DE40A",
-      "DE40B",
-      "DE40C"
+      "DE409"
     ],
     "order": 1,
     "outlineColor": "#eb5b25",
@@ -384,7 +337,7 @@
       },
       "tagline": "Klimaschutz und Grünlandnutzung in Niedermoorregionen"
     },
-    "destatisRetrievedAt": "2026-08-04",
+    "destatisRetrievedAt": "2026-08-17",
     "en": {
       "name": "Havelländisches Luch",
       "narrative": {
@@ -457,68 +410,24 @@
       ],
       "climate": [
         {
-          "delta": 1139.0,
-          "deltaHorizon": "2071-2100",
-          "deltaUnit": {
-            "de": "°C·d",
-            "en": "°C·d"
-          },
           "genesisTable": null,
-          "key": "gdd5_degc_days",
-          "sourceHost": "chelsa",
+          "key": "agr_ch4_kt",
+          "sourceHost": null,
           "unit": {
-            "de": "°C·d",
-            "en": "°C·d"
+            "de": "kt CO2aeq",
+            "en": "kt CO2eq"
           },
-          "value": 2033.0
+          "value": null
         },
         {
-          "delta": 4.0,
-          "deltaHorizon": "2071-2100",
-          "deltaUnit": {
-            "de": "°C",
-            "en": "°C"
-          },
           "genesisTable": null,
-          "key": "mean_annual_temp_degc",
-          "sourceHost": "chelsa",
+          "key": "agr_n2o_kt",
+          "sourceHost": null,
           "unit": {
-            "de": "°C",
-            "en": "°C"
+            "de": "kt CO2aeq",
+            "en": "kt CO2eq"
           },
-          "value": 9.5
-        },
-        {
-          "delta": 2.6,
-          "deltaHorizon": "2071-2100",
-          "deltaUnit": {
-            "de": "%",
-            "en": "%"
-          },
-          "genesisTable": null,
-          "key": "annual_precip_mm",
-          "sourceHost": "chelsa",
-          "unit": {
-            "de": "mm",
-            "en": "mm"
-          },
-          "value": 584.0
-        },
-        {
-          "delta": -6.4,
-          "deltaHorizon": "2071-2100",
-          "deltaUnit": {
-            "de": "%",
-            "en": "%"
-          },
-          "genesisTable": null,
-          "key": "warm_quarter_precip_mm",
-          "sourceHost": "chelsa",
-          "unit": {
-            "de": "mm",
-            "en": "mm"
-          },
-          "value": 181.0
+          "value": null
         }
       ],
       "economic": [
@@ -577,22 +486,22 @@
         {
           "genesisTable": null,
           "key": "natura2000_ha",
-          "sourceHost": "bfn_wfs",
+          "sourceHost": null,
           "unit": {
             "de": "ha",
             "en": "ha"
           },
-          "value": 66311.2
+          "value": null
         },
         {
           "genesisTable": null,
           "key": "nature_reserves_ha",
-          "sourceHost": "bfn_wfs",
+          "sourceHost": null,
           "unit": {
             "de": "ha",
             "en": "ha"
           },
-          "value": 21153.0
+          "value": null
         },
         {
           "genesisTable": "33111-01-02-4",
@@ -736,7 +645,7 @@
       },
       "tagline": "Integrierte Pflanze-Tier-Agrarsysteme"
     },
-    "destatisRetrievedAt": "2026-08-04",
+    "destatisRetrievedAt": "2026-08-17",
     "en": {
       "name": "Hessian Low Mountain Range",
       "narrative": {
@@ -809,68 +718,24 @@
       ],
       "climate": [
         {
-          "delta": 1091.0,
-          "deltaHorizon": "2071-2100",
-          "deltaUnit": {
-            "de": "°C·d",
-            "en": "°C·d"
-          },
           "genesisTable": null,
-          "key": "gdd5_degc_days",
-          "sourceHost": "chelsa",
+          "key": "agr_ch4_kt",
+          "sourceHost": null,
           "unit": {
-            "de": "°C·d",
-            "en": "°C·d"
+            "de": "kt CO2aeq",
+            "en": "kt CO2eq"
           },
-          "value": 1802.0
+          "value": null
         },
         {
-          "delta": 3.9,
-          "deltaHorizon": "2071-2100",
-          "deltaUnit": {
-            "de": "°C",
-            "en": "°C"
-          },
           "genesisTable": null,
-          "key": "mean_annual_temp_degc",
-          "sourceHost": "chelsa",
+          "key": "agr_n2o_kt",
+          "sourceHost": null,
           "unit": {
-            "de": "°C",
-            "en": "°C"
+            "de": "kt CO2aeq",
+            "en": "kt CO2eq"
           },
-          "value": 8.7
-        },
-        {
-          "delta": 2.9,
-          "deltaHorizon": "2071-2100",
-          "deltaUnit": {
-            "de": "%",
-            "en": "%"
-          },
-          "genesisTable": null,
-          "key": "annual_precip_mm",
-          "sourceHost": "chelsa",
-          "unit": {
-            "de": "mm",
-            "en": "mm"
-          },
-          "value": 862.0
-        },
-        {
-          "delta": -8.6,
-          "deltaHorizon": "2071-2100",
-          "deltaUnit": {
-            "de": "%",
-            "en": "%"
-          },
-          "genesisTable": null,
-          "key": "warm_quarter_precip_mm",
-          "sourceHost": "chelsa",
-          "unit": {
-            "de": "mm",
-            "en": "mm"
-          },
-          "value": 220.0
+          "value": null
         }
       ],
       "economic": [
@@ -929,22 +794,22 @@
         {
           "genesisTable": null,
           "key": "natura2000_ha",
-          "sourceHost": "bfn_wfs",
+          "sourceHost": null,
           "unit": {
             "de": "ha",
             "en": "ha"
           },
-          "value": 134837.9
+          "value": null
         },
         {
           "genesisTable": null,
           "key": "nature_reserves_ha",
-          "sourceHost": "bfn_wfs",
+          "sourceHost": null,
           "unit": {
             "de": "ha",
             "en": "ha"
           },
-          "value": 8263.6
+          "value": null
         },
         {
           "genesisTable": "33111-01-02-4",
@@ -1048,10 +913,8 @@
     },
     "num": "04",
     "nuts3": [
-      "DE721",
       "DE722",
       "DE723",
-      "DE724",
       "DE725"
     ],
     "order": 4,
@@ -1092,7 +955,7 @@
       },
       "tagline": "Intensivierter ökologischer Landbau"
     },
-    "destatisRetrievedAt": "2026-08-04",
+    "destatisRetrievedAt": "2026-08-17",
     "en": {
       "name": "North Hessian Loess Plain",
       "narrative": {
@@ -1165,68 +1028,24 @@
       ],
       "climate": [
         {
-          "delta": 1076.0,
-          "deltaHorizon": "2071-2100",
-          "deltaUnit": {
-            "de": "°C·d",
-            "en": "°C·d"
-          },
           "genesisTable": null,
-          "key": "gdd5_degc_days",
-          "sourceHost": "chelsa",
+          "key": "agr_ch4_kt",
+          "sourceHost": null,
           "unit": {
-            "de": "°C·d",
-            "en": "°C·d"
+            "de": "kt CO2aeq",
+            "en": "kt CO2eq"
           },
-          "value": 1735.0
+          "value": null
         },
         {
-          "delta": 3.9,
-          "deltaHorizon": "2071-2100",
-          "deltaUnit": {
-            "de": "°C",
-            "en": "°C"
-          },
           "genesisTable": null,
-          "key": "mean_annual_temp_degc",
-          "sourceHost": "chelsa",
+          "key": "agr_n2o_kt",
+          "sourceHost": null,
           "unit": {
-            "de": "°C",
-            "en": "°C"
+            "de": "kt CO2aeq",
+            "en": "kt CO2eq"
           },
-          "value": 8.5
-        },
-        {
-          "delta": 2.3,
-          "deltaHorizon": "2071-2100",
-          "deltaUnit": {
-            "de": "%",
-            "en": "%"
-          },
-          "genesisTable": null,
-          "key": "annual_precip_mm",
-          "sourceHost": "chelsa",
-          "unit": {
-            "de": "mm",
-            "en": "mm"
-          },
-          "value": 805.0
-        },
-        {
-          "delta": -8.7,
-          "deltaHorizon": "2071-2100",
-          "deltaUnit": {
-            "de": "%",
-            "en": "%"
-          },
-          "genesisTable": null,
-          "key": "warm_quarter_precip_mm",
-          "sourceHost": "chelsa",
-          "unit": {
-            "de": "mm",
-            "en": "mm"
-          },
-          "value": 227.0
+          "value": null
         }
       ],
       "economic": [
@@ -1285,22 +1104,22 @@
         {
           "genesisTable": null,
           "key": "natura2000_ha",
-          "sourceHost": "bfn_wfs",
+          "sourceHost": null,
           "unit": {
             "de": "ha",
             "en": "ha"
           },
-          "value": 48127.0
+          "value": null
         },
         {
           "genesisTable": null,
           "key": "nature_reserves_ha",
-          "sourceHost": "bfn_wfs",
+          "sourceHost": null,
           "unit": {
             "de": "ha",
             "en": "ha"
           },
-          "value": 6002.0
+          "value": null
         },
         {
           "genesisTable": "33111-01-02-4",
@@ -1445,7 +1264,7 @@
       },
       "tagline": "Multifunktionale und klimaresiliente Weinbausysteme"
     },
-    "destatisRetrievedAt": "2026-08-04",
+    "destatisRetrievedAt": "2026-08-17",
     "en": {
       "name": "Rheingau",
       "narrative": {
@@ -1518,68 +1337,24 @@
       ],
       "climate": [
         {
-          "delta": 1112.0,
-          "deltaHorizon": "2071-2100",
-          "deltaUnit": {
-            "de": "°C·d",
-            "en": "°C·d"
-          },
           "genesisTable": null,
-          "key": "gdd5_degc_days",
-          "sourceHost": "chelsa",
+          "key": "agr_ch4_kt",
+          "sourceHost": null,
           "unit": {
-            "de": "°C·d",
-            "en": "°C·d"
+            "de": "kt CO2aeq",
+            "en": "kt CO2eq"
           },
-          "value": 1834.0
+          "value": null
         },
         {
-          "delta": 3.9,
-          "deltaHorizon": "2071-2100",
-          "deltaUnit": {
-            "de": "°C",
-            "en": "°C"
-          },
           "genesisTable": null,
-          "key": "mean_annual_temp_degc",
-          "sourceHost": "chelsa",
+          "key": "agr_n2o_kt",
+          "sourceHost": null,
           "unit": {
-            "de": "°C",
-            "en": "°C"
+            "de": "kt CO2aeq",
+            "en": "kt CO2eq"
           },
-          "value": 8.9
-        },
-        {
-          "delta": 1.9,
-          "deltaHorizon": "2071-2100",
-          "deltaUnit": {
-            "de": "%",
-            "en": "%"
-          },
-          "genesisTable": null,
-          "key": "annual_precip_mm",
-          "sourceHost": "chelsa",
-          "unit": {
-            "de": "mm",
-            "en": "mm"
-          },
-          "value": 726.0
-        },
-        {
-          "delta": -9.8,
-          "deltaHorizon": "2071-2100",
-          "deltaUnit": {
-            "de": "%",
-            "en": "%"
-          },
-          "genesisTable": null,
-          "key": "warm_quarter_precip_mm",
-          "sourceHost": "chelsa",
-          "unit": {
-            "de": "mm",
-            "en": "mm"
-          },
-          "value": 199.0
+          "value": null
         }
       ],
       "economic": [
@@ -1638,22 +1413,22 @@
         {
           "genesisTable": null,
           "key": "natura2000_ha",
-          "sourceHost": "bfn_wfs",
+          "sourceHost": null,
           "unit": {
             "de": "ha",
             "en": "ha"
           },
-          "value": 10501.3
+          "value": null
         },
         {
           "genesisTable": null,
           "key": "nature_reserves_ha",
-          "sourceHost": "bfn_wfs",
+          "sourceHost": null,
           "unit": {
             "de": "ha",
             "en": "ha"
           },
-          "value": 1221.7
+          "value": null
         },
         {
           "genesisTable": "33111-01-02-4",

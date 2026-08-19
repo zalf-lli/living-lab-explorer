@@ -1,45 +1,21 @@
 {
   "version": "1.0",
-  "timestamp": "2026-08-13T21:13:10.526Z",
-  "phase": "13",
-  "phase_name": "add-a-projects-and-partners-tab-to-individual-living-lab-pag",
-  "phase_dir": ".planning/phases/13-add-a-projects-and-partners-tab-to-individual-living-lab-pag",
-  "plan": 6,
-  "task": 3,
-  "total_tasks": 3,
-  "status": "paused",
-  "completed_tasks": [
-    {"id": 1, "name": "13-06 Task 1: automated gate, dependency diff, XSS grep", "status": "done", "commit": "59b1298"},
-    {"id": 2, "name": "13-06 Task 2: D-01..D-18 decision verdicts, deferred-scope proof", "status": "done", "commit": "0d6b011"},
-    {"id": 3, "name": "13-06 Task 3: bilingual/keyboard human checkpoint + content sign-off", "status": "done", "commit": "c5f8c41"},
-    {"id": 4, "name": "Deviation: fix PartnersMap layout-slot placement (found during checkpoint)", "status": "done", "commit": "676ba24"},
-    {"id": 5, "name": "Merge executor worktree into data-pipeline-development (x2) + cleanup", "status": "done", "commit": "98cfcdb"},
-    {"id": 6, "name": "Update STATE.md/ROADMAP.md tracking, mark phase 13 complete", "status": "done", "commit": "30386ef"},
-    {"id": 7, "name": "Phase-level code review (gsd:code-review skill)", "status": "done", "commit": "d6b8bcd"},
-    {"id": 8, "name": "Fix code review findings CR-01/WR-01/WR-02/IN-01", "status": "done", "commit": "66383e2"},
-    {"id": 9, "name": "Record post-approval fixes in 13-EVIDENCE.md Open items", "status": "done", "commit": "e0e0c1f"},
-    {"id": 10, "name": "Dispatch gsd-verifier for goal-backward phase verification", "status": "in_progress", "progress": "Background agent a2b023fabed9dc227 dispatched, not yet returned when session paused"}
-  ],
-  "remaining_tasks": [
-    {"id": 11, "name": "Collect gsd-verifier's 13-VERIFICATION.md result and commit it", "status": "not_started"},
-    {"id": 12, "name": "Check workflow.security_enforcement gate (13-SECURITY.md doesn't exist yet) and surface /gsd:secure-phase 13 if enabled", "status": "not_started"},
-    {"id": 13, "name": "aggregate_results: final phase-complete summary to user", "status": "not_started"},
-    {"id": 14, "name": "Emit Next Up continuation block per execute-phase skill's output_format", "status": "not_started"}
-  ],
-  "blockers": [
-    {"description": "gsd-verifier background agent (id a2b023fabed9dc227, name 'Verify phase 13 goal achievement') was dispatched to produce 13-VERIFICATION.md and had not returned when this pause was requested.", "type": "technical", "workaround": "On resume, check whether the agent completed (a task notification may already be waiting) before re-dispatching. If genuinely gone/unreachable, re-spawn gsd-verifier fresh with the same brief documented in this session (see context_notes)."}
-  ],
+  "timestamp": "2026-08-17T12:57:55.444Z",
+  "source": "auto-postool",
+  "partial": true,
+  "phase": null,
+  "phase_name": null,
+  "phase_dir": null,
+  "plan": null,
+  "task": null,
+  "total_tasks": null,
+  "status": "auto-checkpoint",
+  "completed_tasks": [],
+  "remaining_tasks": [],
+  "blockers": [],
   "human_actions_pending": [],
-  "decisions": [
-    {"decision": "Split PartnersProjectsTab.jsx into PartnersMapSlot + PartnersPanelSlot, rendered at separate LLDetail.jsx call sites", "rationale": "Human found at the Task 3 checkpoint that the map rendered in the wide content column instead of LLMap's usual narrow map column, inconsistent across tabs. Splitting map/panel into LLMap's own slot and the content's own slot fixed this and also resolved the original UI-SPEC squeeze concern (panel now gets the wide column, not the narrow one). Applied to all three layouts (LayoutSplit, LayoutStacked, ComparisonColumn) per user confirmation.", "phase": "13"},
-    {"decision": "Fixed all 4 code-review findings (CR-01/WR-01/WR-02/IN-01) immediately post-approval rather than deferring", "rationale": "User chose 'Fix all four now' when asked. Two findings (CR-01 stale-LL-data-on-switch, WR-01 marker alt inert on divIcon) touched the exact feature just human-verified, so fixing immediately was judged safer than shipping known bugs. Not re-sent for a third checkpoint round since neither fix changes behavior Task 3's checklist covered (verifier agent was asked to specifically audit this judgment call).", "phase": "13"},
-    {"decision": "Left .planning/HANDOFF.json, data/reports/report-rheingau-de.pdf, and data/sqr1000_250_v10/ untouched throughout the entire session", "rationale": "Pre-existing local modifications/untracked content present before this session started (visible in the very first git status), unrelated to phase 13's scope. Explicitly instructed to every executor dispatch to leave them alone.", "phase": "13"}
-  ],
-  "uncommitted_files": [
-    ".planning/HANDOFF.json (this file, about to be committed by this pause-work action)",
-    "data/reports/report-rheingau-de.pdf (pre-existing, unrelated, predates this session)",
-    "data/sqr1000_250_v10/ (pre-existing untracked directory, unrelated, predates this session)"
-  ],
-  "next_action": "Check for a completed task-notification from agent a2b023fabed9dc227 (gsd-verifier). If found, read its 13-VERIFICATION.md output, commit it (docs(13): add phase verification report), then check the security_enforcement config gate and produce the final phase-13-complete summary with a Next Up block per execute-phase's output_format. If the agent is gone/lost, re-dispatch gsd-verifier with the same brief (goal-backward check on all 18 D-01..D-18 decisions, spot-checked against source, plus an explicit assessment of whether the post-approval CR-01/WR-01 fixes were safe to ship without a third human checkpoint).",
-  "context_notes": "Phase 13 (Partners & Projects tab) is functionally complete and human-approved. All 6 plans have SUMMARY.md, ROADMAP.md/STATE.md already reflect phase complete, code review ran and all findings were fixed. The ONLY remaining work is the formal verify_phase_goal gate (gsd-verifier agent, dispatched but not yet returned) and the final wrap-up steps (security gate check, aggregate_results summary, Next Up block) that /gsd:execute-phase's workflow requires before the phase is considered fully closed by the GSD process. This is bookkeeping/gate-closure, not remaining feature work — nothing user-facing is unfinished."
+  "decisions": [],
+  "uncommitted_files": [],
+  "next_action": null,
+  "context_notes": ""
 }

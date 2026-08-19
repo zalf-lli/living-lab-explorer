@@ -1,7 +1,7 @@
 {
   "_meta": {
     "clip_to": "data/nuts3_ll.geojson",
-    "computed_at": "2026-08-04T12:22:11.552402Z",
+    "computed_at": "2026-08-17T13:07:37.515922Z",
     "input_pattern": "data/climate_source/chelsa-{variable}-{period}.tif",
     "slugs": [
       "east-brandenburg",
@@ -16,8 +16,8 @@
     "baseline": {
       "breaks": [
         6.2,
-        8.8,
-        9.2,
+        8.6,
+        9.1,
         9.4,
         10.4
       ],
@@ -28,9 +28,9 @@
         "#bb3f11"
       ],
       "per_ll_means": {
-        "east-brandenburg": 9.354461882122507,
+        "east-brandenburg": 9.26845573370493,
         "havellandisches-luch": 9.487848792245558,
-        "hessian-low-mountain": 8.705233892253933,
+        "hessian-low-mountain": 8.604679800352773,
         "north-hessian-loess": 8.515730430203432,
         "rheingau": 8.946568868694941
       },
@@ -58,9 +58,9 @@
           "#9f350e"
         ],
         "per_ll_means": {
-          "east-brandenburg": 2.6696451115990736,
+          "east-brandenburg": 2.6859855402591033,
           "havellandisches-luch": 2.596379580771812,
-          "hessian-low-mountain": 2.4559205731983638,
+          "hessian-low-mountain": 2.4587405292636433,
           "north-hessian-loess": 2.4797845036712682,
           "rheingau": 2.4680954756753355
         },
@@ -87,9 +87,9 @@
           "#9f350e"
         ],
         "per_ll_means": {
-          "east-brandenburg": 4.110399328248118,
+          "east-brandenburg": 4.119157998921485,
           "havellandisches-luch": 4.022289508798655,
-          "hessian-low-mountain": 3.926307186402795,
+          "hessian-low-mountain": 3.9314126494149524,
           "north-hessian-loess": 3.929853479509702,
           "rheingau": 3.928662402306191
         },
@@ -105,9 +105,9 @@
     "baseline": {
       "breaks": [
         515.0,
-        595.0,
-        644.0,
-        804.0,
+        589.0,
+        741.0,
+        844.0,
         1329.0
       ],
       "colors": [
@@ -117,9 +117,9 @@
         "#00413f"
       ],
       "per_ll_means": {
-        "east-brandenburg": 599.8552113609077,
+        "east-brandenburg": 573.8616120626901,
         "havellandisches-luch": 584.6279275768161,
-        "hessian-low-mountain": 864.075304734044,
+        "hessian-low-mountain": 891.4282254191248,
         "north-hessian-loess": 804.949001671421,
         "rheingau": 726.7422667758966
       },
@@ -147,9 +147,9 @@
           "#00312f"
         ],
         "per_ll_means": {
-          "east-brandenburg": 1.4188475224630854,
+          "east-brandenburg": 1.530098198322135,
           "havellandisches-luch": 1.2017339416969486,
-          "hessian-low-mountain": 1.4219781167509276,
+          "hessian-low-mountain": 1.4327840544605777,
           "north-hessian-loess": 0.6836053743692616,
           "rheingau": 0.9926869544533579
         },
@@ -176,9 +176,9 @@
           "#00312f"
         ],
         "per_ll_means": {
-          "east-brandenburg": 2.99134824687528,
+          "east-brandenburg": 3.047187641108407,
           "havellandisches-luch": 2.5620457262348055,
-          "hessian-low-mountain": 2.843086674649002,
+          "hessian-low-mountain": 2.8296657558637204,
           "north-hessian-loess": 2.3142482229097006,
           "rheingau": 1.8941410165530186
         },
@@ -195,8 +195,8 @@
       "breaks": [
         155.0,
         184.0,
-        196.0,
-        216.0,
+        202.0,
+        225.0,
         297.0
       ],
       "colors": [
@@ -206,9 +206,9 @@
         "#00413f"
       ],
       "per_ll_means": {
-        "east-brandenburg": 189.00721393964486,
+        "east-brandenburg": 185.86344775407673,
         "havellandisches-luch": 181.43360359015398,
-        "hessian-low-mountain": 220.93766112904157,
+        "hessian-low-mountain": 226.36658241212044,
         "north-hessian-loess": 226.4594595376267,
         "rheingau": 199.4523123310076
       },
@@ -222,11 +222,11 @@
       "2041_2070": {
         "breaks": [
           -8.0,
+          -6.0,
           -5.5,
           -5.0,
           -4.5,
-          -4.0,
-          -3.5
+          -4.0
         ],
         "colors": [
           "#00b3ad",
@@ -236,9 +236,9 @@
           "#00312f"
         ],
         "per_ll_means": {
-          "east-brandenburg": -4.43188261744261,
+          "east-brandenburg": -4.698798647425408,
           "havellandisches-luch": -4.600711735284843,
-          "hessian-low-mountain": -5.727070525212301,
+          "hessian-low-mountain": -5.762276635063962,
           "north-hessian-loess": -5.555311113211654,
           "rheingau": -6.857036937237497
         },
@@ -251,10 +251,10 @@
       "2071_2100": {
         "breaks": [
           -11.5,
+          -9.0,
           -8.5,
           -8.0,
           -5.5,
-          -5.0,
           -4.5
         ],
         "colors": [
@@ -265,9 +265,9 @@
           "#00312f"
         ],
         "per_ll_means": {
-          "east-brandenburg": -5.27431441863927,
+          "east-brandenburg": -5.1434652926155024,
           "havellandisches-luch": -6.364141536560713,
-          "hessian-low-mountain": -8.587982301888799,
+          "hessian-low-mountain": -8.630132406247693,
           "north-hessian-loess": -8.68129283374031,
           "rheingau": -9.810526955489316
         },
@@ -283,9 +283,9 @@
     "baseline": {
       "breaks": [
         1154.0,
-        1801.0,
-        1962.0,
-        2043.0,
+        1735.0,
+        1888.0,
+        2025.0,
         2284.0
       ],
       "colors": [
@@ -295,9 +295,9 @@
         "#bb3f11"
       ],
       "per_ll_means": {
-        "east-brandenburg": 2025.696946947004,
+        "east-brandenburg": 2011.0028955409362,
         "havellandisches-luch": 2033.0731225044437,
-        "hessian-low-mountain": 1797.1671764996656,
+        "hessian-low-mountain": 1770.6176021912654,
         "north-hessian-loess": 1737.8724602862858,
         "rheingau": 1846.2133276136522
       },
@@ -311,11 +311,11 @@
       "2041_2070": {
         "breaks": [
           551.0,
-          619.0,
-          634.0,
-          650.0,
-          670.0,
-          698.0
+          615.0,
+          628.0,
+          643.0,
+          655.0,
+          692.0
         ],
         "colors": [
           "#fce3da",
@@ -325,9 +325,9 @@
           "#9f350e"
         ],
         "per_ll_means": {
-          "east-brandenburg": 661.2541361378903,
+          "east-brandenburg": 658.6381803300984,
           "havellandisches-luch": 653.83200053591,
-          "hessian-low-mountain": 622.9088054498739,
+          "hessian-low-mountain": 620.5214612481121,
           "north-hessian-loess": 618.4386559482851,
           "rheingau": 638.6664118830805
         },
@@ -340,10 +340,10 @@
       "2071_2100": {
         "breaks": [
           946.0,
-          1082.0,
-          1107.0,
-          1133.0,
-          1153.0,
+          1072.0,
+          1098.0,
+          1122.0,
+          1140.0,
           1209.0
         ],
         "colors": [
@@ -354,9 +354,9 @@
           "#9f350e"
         ],
         "per_ll_means": {
-          "east-brandenburg": 1142.6638958416438,
+          "east-brandenburg": 1134.7418047272483,
           "havellandisches-luch": 1138.8880526731216,
-          "hessian-low-mountain": 1089.470105131306,
+          "hessian-low-mountain": 1084.7148938718005,
           "north-hessian-loess": 1076.9650175724323,
           "rheingau": 1114.0224072168503
         },

@@ -1,0 +1,444 @@
+name: Refresh pipeline data
+
+# Runs the data-pipeline unattended and opens a pull request with the regenerated
+# outputs. It never pushes to main: a failed WFS call or an empty clip would otherwise
+# silently overwrite good committed data and deploy straight to Pages.
+#
+# Two scopes, because the layers do not all change at the same rate:
+#
+#   volatile (the scheduled default) — the API/WFS-backed sources that genuinely move:
+#     Destatis statistics, BORIS land values, BfN protected areas, plus the charts,
+#     KPIs, metadata and reports derived from them.
+#
+#   full (manual only) — every stage in data-pipeline/README.md's end-to-end sequence,
+#     including re-downloading ~1.1 GB of pinned source rasters and rebuilding all
+#     PMTiles. Only meaningful after bumping a dataset edition in sources.yaml or
+#     changing a Living Lab's nuts3 codes in data/ll_content.json — the raster layers
+#     are pinned to fixed editions (DLR croptypes 2024, IO-LULC 2024, BUEK250 v6.0,
+#     CHELSA CMIP6), so a full run otherwise reproduces byte-identical data.
+#
+# Note: GitHub disables cron triggers in a repository with 60 days of no activity.
+# If the scheduled run stops firing, re-enable it from the Actions tab.
+
+on:
+  schedule:
+    # 03:00 UTC on 1 March and 1 September — the two six-month points.
+    - cron: "0 3 1 3,9 *"
+  workflow_dispatch:
+    inputs:
+      scope:
+        description: "Which stages to run"
+        type: choice
+        options:
+          - volatile
+          - full
+        default: volatile
+      render_reports:
+        description: "Render the ten PDF reports (needs the report font committed)"
+        type: boolean
+        default: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: refresh-data
+  cancel-in-progress: false
+
+env:
+  PYTHON_VERSION: "3.12"
+  PMTILES_VERSION: "1.30.2"
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    # A full run downloads ~1.1 GB and rebuilds 60 climate PMTiles combinations.
+    # GitHub's hard per-job ceiling is 360 minutes.
+    timeout-minutes: 350
+    defaults:
+      run:
+        shell: bash
+
+    steps:
+      - name: Resolve run scope
+        id: scope
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            scope="${{ inputs.scope }}"
+            reports="${{ inputs.render_reports }}"
+          else
+            scope="volatile"
+            reports="true"
+          fi
+          full=false
+          [ "$scope" = "full" ] && full=true
+          {
+            echo "scope=$scope"
+            echo "full=$full"
+            echo "reports=$reports"
+          } >> "$GITHUB_OUTPUT"
+          echo "Scope: $scope (full=$full, reports=$reports)"
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check required secrets
+        env:
+          DESTATIS_USERNAME: ${{ secrets.DESTATIS_USERNAME }}
+          DESTATIS_API_TOKEN: ${{ secrets.DESTATIS_API_TOKEN }}
+        run: |
+          missing=0
+          for name in DESTATIS_USERNAME DESTATIS_API_TOKEN; do
+            if [ -z "${!name}" ]; then
+              echo "::error::Repository secret $name is not set. fetch_destatis.py exits immediately without it — see .env.example."
+              missing=1
+            fi
+          done
+          exit $missing
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ env.PYTHON_VERSION }}
+          cache: pip
+          cache-dependency-path: data-pipeline/requirements.txt
+
+      - name: Install Python dependencies
+        working-directory: data-pipeline
+        run: |
+          python -m pip install --upgrade pip setuptools wheel
+          pip install -r requirements.txt
+
+      - name: Install pmtiles CLI
+        if: steps.scope.outputs.full == 'true'
+        run: |
+          url="https://github.com/protomaps/go-pmtiles/releases/download/v${PMTILES_VERSION}/go-pmtiles_${PMTILES_VERSION}_Linux_x86_64.tar.gz"
+          curl -fsSL -o /tmp/pmtiles.tar.gz "$url"
+          mkdir -p "$HOME/.local/bin"
+          tar -xzf /tmp/pmtiles.tar.gz -C "$HOME/.local/bin" pmtiles
+          chmod +x "$HOME/.local/bin/pmtiles"
+          echo "$HOME/.local/bin" >> "$GITHUB_PATH"
+
+      # ---------------------------------------------------------------------
+      # Report toolchain (R + Quarto + fonts). Skipped entirely when reports
+      # are off, since it is the slowest part of the setup.
+      # ---------------------------------------------------------------------
+
+      - name: Install geospatial system libraries
+        if: steps.scope.outputs.reports == 'true'
+        run: |
+          sudo apt-get update -qq
+          sudo apt-get install -y --no-install-recommends \
+            libgdal-dev libproj-dev libgeos-dev libudunits2-dev libsqlite3-dev
+
+      - name: Set up R
+        if: steps.scope.outputs.reports == 'true'
+        uses: r-lib/actions/setup-r@v2
+        with:
+          r-version: "4.5.0"
+          use-public-rspm: true
+
+      - name: Restore R packages from renv.lock
+        if: steps.scope.outputs.reports == 'true'
+        uses: r-lib/actions/setup-renv@v2
+        with:
+          working-directory: data-pipeline/R
+
+      - name: Set up Quarto
+        if: steps.scope.outputs.reports == 'true'
+        uses: quarto-dev/quarto-actions/setup@v2
+
+      - name: Pin R_HOME for the render subprocess
+        if: steps.scope.outputs.reports == 'true'
+        run: |
+          # _toolchain.find_r_home() falls back to the grandparent of `which Rscript`,
+          # which on Ubuntu resolves to /usr rather than the real R_HOME (/usr/lib/R).
+          # Setting it explicitly takes that fallback out of play — the env var wins.
+          echo "R_HOME=$(R RHOME)" >> "$GITHUB_ENV"
+
+      - name: Install report fonts
+        if: steps.scope.outputs.reports == 'true'
+        run: |
+          font_dir="data-pipeline/R/report/fonts"
+          shopt -s nullglob
+          fonts=("$font_dir"/*.ttf "$font_dir"/*.otf "$font_dir"/*.ttc)
+          if [ ${#fonts[@]} -eq 0 ]; then
+            echo "::error::No font files in $font_dir. Typst would silently substitute a fallback and restyle all ten committed PDFs. Commit the licensed font files there, or point data/report_tokens.json's \"font\" at a family this job installs from apt."
+            exit 1
+          fi
+          mkdir -p "$HOME/.local/share/fonts"
+          cp "${fonts[@]}" "$HOME/.local/share/fonts/"
+          fc-cache -f > /dev/null
+          family="$(python -c "import json; print(json.load(open('data/report_tokens.json', encoding='utf-8'))['font'].split(',')[0].strip().strip(chr(39)).strip('\"'))")"
+          if ! fc-list : family | grep -qi "$family"; then
+            echo "::error::Report font family '$family' is not visible to fontconfig after installing $font_dir. Typst would substitute a fallback."
+            exit 1
+          fi
+          echo "Report font family available: $family"
+
+      # ---------------------------------------------------------------------
+      # Stages 1-2: boundaries and statistics. Both scopes.
+      # ---------------------------------------------------------------------
+
+      - name: Stage 1 — Living Lab boundaries
+        working-directory: data-pipeline
+        run: python python/fetch_nuts.py
+
+      - name: Stage 2 — Destatis statistics
+        working-directory: data-pipeline
+        env:
+          DESTATIS_USERNAME: ${{ secrets.DESTATIS_USERNAME }}
+          DESTATIS_API_TOKEN: ${{ secrets.DESTATIS_API_TOKEN }}
+          REGIONALSTATISTIK_USERNAME: ${{ secrets.REGIONALSTATISTIK_USERNAME }}
+          REGIONALSTATISTIK_PASSWORD: ${{ secrets.REGIONALSTATISTIK_PASSWORD }}
+        # --force is required, not optional: data/destatis_raw/ is committed, so a
+        # cached run would replay the old CSVs and refresh nothing.
+        run: python python/fetch_destatis.py --force
+
+      # ---------------------------------------------------------------------
+      # Stages 3-4: WFS sources. Both scopes. --refresh is required — both
+      # scripts cache GML per Living Lab slug under data/_cache/.
+      # ---------------------------------------------------------------------
+
+      - name: Stage 3 — BORIS land values
+        working-directory: data-pipeline
+        run: python python/fetch_boris.py --refresh
+
+      - name: Stage 4 — Protected areas
+        working-directory: data-pipeline
+        run: python python/fetch_protected_areas.py --refresh
+
+      # ---------------------------------------------------------------------
+      # Stages 5-10: pinned source rasters and layer builds. Full scope only.
+      # ---------------------------------------------------------------------
+
+      - name: Download pinned source datasets
+        if: steps.scope.outputs.full == 'true'
+        working-directory: data-pipeline
+        run: |
+          python - <<'PY'
+          import shutil
+          import sys
+          import zipfile
+          from pathlib import Path
+
+          import requests
+
+          sys.path.insert(0, "python")
+          from _sources import get_layer, resolve  # noqa: E402
+
+
+          def download(url: str, dest: Path) -> None:
+              dest.parent.mkdir(parents=True, exist_ok=True)
+              print(f"[fetch] {url} -> {dest}", flush=True)
+              with requests.get(url, stream=True, timeout=600) as response:
+                  response.raise_for_status()
+                  with dest.open("wb") as handle:
+                      shutil.copyfileobj(response.raw, handle, length=1 << 20)
+
+
+          # Crop types: a plain GeoTIFF. build_pmtiles.py expects it on disk and does
+          # not fetch it itself (unlike build_land_cover.py, which downloads its own
+          # IO-LULC tiles, and fetch_climate.py, which reads CHELSA over /vsicurl/).
+          crop = get_layer("landuse-croptypes")["input"]
+          crop_path = resolve(crop["path"])
+          if crop_path.exists():
+              print(f"[skip] {crop_path} already present")
+          else:
+              download(crop["download_url"], crop_path)
+
+          # BUEK250: one zip carrying both the polygon GPKG and the semantics SQLite.
+          buek = get_layer("buek250")
+          gpkg = resolve(buek["input"]["path"])
+          sqlite = resolve(buek["vector"]["semantics"]["sqlite_path"])
+          if gpkg.exists() and sqlite.exists():
+              print("[skip] BUEK250 already present")
+          else:
+              archive = resolve("data/_cache/buek250.zip")
+              if not archive.exists():
+                  download(buek["input"]["download_url"], archive)
+              target = gpkg.parent
+              target.mkdir(parents=True, exist_ok=True)
+              # Flatten: the archive's internal folder depth is not part of the
+              # contract, but sources.yaml pins both output paths exactly.
+              with zipfile.ZipFile(archive) as zf:
+                  for member in zf.infolist():
+                      name = Path(member.filename).name
+                      if member.is_dir() or not name:
+                          continue
+                      with zf.open(member) as src, (target / name).open("wb") as dst:
+                          shutil.copyfileobj(src, dst, length=1 << 20)
+
+          missing = [p for p in (gpkg, sqlite) if not p.exists()]
+          if missing:
+              raise SystemExit(
+                  "[error] BUEK250 download did not yield the paths sources.yaml pins:\n  "
+                  + "\n  ".join(str(p) for p in missing)
+                  + "\nThe semantics SQLite may be published as a separate download from the "
+                    "GPKG zip; check the BGR download page and add the second URL to "
+                    "sources.yaml before re-running the full scope."
+              )
+          PY
+
+      - name: Stage 5 — CHELSA climate rasters
+        if: steps.scope.outputs.full == 'true'
+        working-directory: data-pipeline
+        run: python python/fetch_climate.py
+
+      - name: Stage 6 — Crop-types PMTiles
+        if: steps.scope.outputs.full == 'true'
+        working-directory: data-pipeline
+        run: python python/build_pmtiles.py --layer landuse-croptypes
+
+      - name: Stage 7 — Land-cover PMTiles (per Living Lab)
+        if: steps.scope.outputs.full == 'true'
+        working-directory: data-pipeline
+        run: python python/build_land_cover.py
+
+      - name: Stage 8 — BUEK250 soil vectors
+        if: steps.scope.outputs.full == 'true'
+        working-directory: data-pipeline
+        run: python python/build_vector.py --layer buek250
+
+      - name: Stage 9 — Climate colour breaks (Pass 0)
+        if: steps.scope.outputs.full == 'true'
+        working-directory: data-pipeline
+        # Must complete before Pass 1: the breakpoints are pooled across all five
+        # Living Labs and baked into PMTiles pixels.
+        run: python python/compute_climate_color_breaks.py
+
+      - name: Stage 10 — Climate PMTiles (Pass 1)
+        if: steps.scope.outputs.full == 'true'
+        working-directory: data-pipeline
+        run: python python/build_climate_pmtiles.py
+
+      # ---------------------------------------------------------------------
+      # Stages 11-12: charts and derived KPIs.
+      # ---------------------------------------------------------------------
+
+      - name: Stage 11 — Charts (volatile sources)
+        if: steps.scope.outputs.full != 'true'
+        working-directory: data-pipeline
+        # Only the BORIS-derived chart has changed inputs in this scope. The
+        # agriculture, landscape, soil and climate charts read pinned rasters and
+        # committed vectors, so recomputing them would only churn generated_at.
+        run: python python/compute_economic_chart.py
+
+      - name: Stage 11 — Charts (all layers)
+        if: steps.scope.outputs.full == 'true'
+        working-directory: data-pipeline
+        run: |
+          python python/compute_agriculture_chart.py
+          python python/compute_landscape_chart.py
+          python python/compute_soil_chart.py
+          python python/compute_economic_chart.py
+          python python/compute_climate_chart.py
+
+      - name: Stage 12 — Protected area KPIs
+        working-directory: data-pipeline
+        run: python python/compute_protected_area_coverage.py
+
+      - name: Stage 12 — Climate KPIs
+        if: steps.scope.outputs.full == 'true'
+        working-directory: data-pipeline
+        run: python python/compute_climate_kpis.py
+
+      # ---------------------------------------------------------------------
+      # Stages 13-15: sync, reports, re-sync.
+      # ---------------------------------------------------------------------
+
+      - name: Stage 13 — Sync into the app
+        working-directory: data-pipeline
+        run: python sync.py
+
+      - name: Stage 14 — Render PDF reports
+        if: steps.scope.outputs.reports == 'true'
+        working-directory: data-pipeline
+        # Reads app/public/data/ll_metadata.json — the synced copy — so this must
+        # follow stage 13, and stage 15 must follow it.
+        run: python R/render_reports.py
+
+      - name: Stage 15 — Re-sync so the app serves the new PDFs
+        if: steps.scope.outputs.reports == 'true'
+        working-directory: data-pipeline
+        run: python sync.py
+
+      # ---------------------------------------------------------------------
+      # Verification and pull request.
+      # ---------------------------------------------------------------------
+
+      - name: Verify pipeline outputs
+        working-directory: data-pipeline
+        run: python -m pytest tests -q
+
+      - name: Verify report theme contract
+        if: steps.scope.outputs.reports == 'true'
+        working-directory: data-pipeline
+        run: Rscript R/tests/test_theme_llexplorer.R
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+          cache-dependency-path: app/package-lock.json
+
+      - name: Build the app against the refreshed data
+        working-directory: app
+        # Smoke test: sync.py codegens app/src/data/*.js, so a malformed legend or
+        # layer-sources module would break the Pages deploy after merge, not here.
+        run: |
+          npm ci
+          npm run build
+
+      - name: Open pull request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SCOPE: ${{ steps.scope.outputs.scope }}
+        run: |
+          tracked=(data app/public/data app/src/data)
+          if [ -z "$(git status --porcelain -- "${tracked[@]}")" ]; then
+            echo "No changes to commit — pipeline output is identical to main."
+            echo "### No data changes" >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          branch="data-refresh/$(date -u +%Y-%m-%d)-${{ github.run_id }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$branch"
+          git add -- "${tracked[@]}"
+
+          summary="$(git diff --cached --stat)"
+          git commit \
+            -m "chore(data): ${SCOPE} pipeline refresh" \
+            -m "Regenerated by the refresh-data workflow (run ${{ github.run_id }})."
+          git push origin "$branch"
+
+          {
+            echo "Automated **${SCOPE}** refresh from the \`refresh-data\` workflow."
+            echo
+            echo "Review the diff before merging — merging triggers the Pages deploy."
+            echo "Chart JSON and report PDFs carry a \`generated_at\` timestamp, so they"
+            echo "always appear in the diff even when the underlying values are unchanged."
+            echo
+            echo '```'
+            echo "$summary"
+            echo '```'
+            echo
+            echo "[Workflow run](${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }})"
+          } > /tmp/pr-body.md
+
+          gh pr create \
+            --base "${{ github.event.repository.default_branch }}" \
+            --head "$branch" \
+            --title "chore(data): ${SCOPE} pipeline refresh $(date -u +%Y-%m-%d)" \
+            --body-file /tmp/pr-body.md
+
+          {
+            echo "### Data refresh PR opened"
+            echo '```'
+            echo "$summary"
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
