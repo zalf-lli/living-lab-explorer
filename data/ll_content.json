@@ -2,7 +2,7 @@
   "east-brandenburg": {
     "slug": "east-brandenburg",
     "manager": { "name": "Julia Gunnoltz", "email": "Julia.Gunnoltz@zalf.de" },
-    "nuts3": ["DE409", "DE40A", "DE40B", "DE40C"],
+    "nuts3": ["DE409"],
     "num": "01",
     "order": 1,
     "region": { "en": "Brandenburg", "de": "Brandenburg" },
@@ -157,7 +157,7 @@
   "hessian-low-mountain": {
     "slug": "hessian-low-mountain",
     "manager": { "name": "Barbara Sprenger", "email": "barbara.sprenger@zalf.de" },
-    "nuts3": ["DE721", "DE722", "DE723", "DE724", "DE725"],
+    "nuts3": ["DE722", "DE723", "DE725"],
     "num": "04",
     "order": 4,
     "region": { "en": "Hesse", "de": "Hessen" },

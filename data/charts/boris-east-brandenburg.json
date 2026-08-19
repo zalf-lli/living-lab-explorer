@@ -1,6 +1,6 @@
 {
   "chart_type": "bar",
-  "generated_at": "2026-08-03T10:19:38.669172Z",
+  "generated_at": "2026-08-17T13:17:29.969321Z",
   "layer_id": "economic",
   "ll_slug": "east-brandenburg",
   "mock": false,
@@ -10,200 +10,104 @@
         "de": "gemischte Baufl.",
         "en": "Mixed building land"
       },
-      "pct": 34.0,
-      "value": 9884
+      "pct": 50.9,
+      "value": 3666
     },
     {
       "label": {
         "de": "Wohnbauflaeche",
         "en": "Residential building land"
       },
-      "pct": 15.1,
-      "value": 4381
-    },
-    {
-      "label": {
-        "de": "allgemeines Wohngebiet",
-        "en": "General residential area"
-      },
-      "pct": 10.5,
-      "value": 3042
-    },
-    {
-      "label": {
-        "de": "Sondergebiet fuer Erholung",
-        "en": "Special recreation area"
-      },
-      "pct": 8.4,
-      "value": 2447
-    },
-    {
-      "label": {
-        "de": "Dorfgebiet",
-        "en": "Village area"
-      },
-      "pct": 8.4,
-      "value": 2445
+      "pct": 17.4,
+      "value": 1251
     },
     {
       "label": {
         "de": "gewerbliche Baufl.",
         "en": "Commercial building land"
       },
-      "pct": 6.4,
-      "value": 1869
+      "pct": 10.7,
+      "value": 772
     },
     {
       "label": {
-        "de": "Gewerbegebiet",
-        "en": "Commercial area"
+        "de": "Sondergebiet fuer Erholung",
+        "en": "Special recreation area"
       },
-      "pct": 2.7,
-      "value": 780
-    },
-    {
-      "label": {
-        "de": "Acker",
-        "en": "Arable land"
-      },
-      "pct": 2.6,
-      "value": 769
-    },
-    {
-      "label": {
-        "de": "forstwirtschaftliche Fl.",
-        "en": "Forestry land"
-      },
-      "pct": 2.6,
-      "value": 758
-    },
-    {
-      "label": {
-        "de": "Gruenland",
-        "en": "Grassland"
-      },
-      "pct": 2.6,
-      "value": 768
+      "pct": 6.5,
+      "value": 465
     },
     {
       "label": {
         "de": "Freizeitgartenfl.",
         "en": "Recreational garden"
       },
-      "pct": 1.4,
-      "value": 419
-    },
-    {
-      "label": {
-        "de": "Mischgebiet",
-        "en": "Mixed-use area"
-      },
-      "pct": 1.3,
-      "value": 377
+      "pct": 5.7,
+      "value": 413
     },
     {
       "label": {
         "de": "reines Wohngebiet",
         "en": "Pure residential area"
       },
-      "pct": 1.3,
-      "value": 367
+      "pct": 2.3,
+      "value": 169
     },
     {
       "label": {
-        "de": "Industriegebiet",
-        "en": "Industrial area"
+        "de": "Acker",
+        "en": "Arable land"
       },
-      "pct": 0.7,
-      "value": 212
+      "pct": 2.0,
+      "value": 147
     },
     {
       "label": {
-        "de": "sonstige Sondergebiete",
-        "en": "Other special-purpose area"
+        "de": "forstwirtschaftliche Fl.",
+        "en": "Forestry land"
       },
-      "pct": 0.5,
-      "value": 151
+      "pct": 2.0,
+      "value": 145
+    },
+    {
+      "label": {
+        "de": "Gruenland",
+        "en": "Grassland"
+      },
+      "pct": 1.9,
+      "value": 139
     },
     {
       "label": {
         "de": "Sonderbaufl.",
         "en": "Special-purpose building land"
       },
-      "pct": 0.3,
-      "value": 86
-    },
-    {
-      "label": {
-        "de": "Kleingartenfl.",
-        "en": "Allotment garden"
-      },
       "pct": 0.2,
-      "value": 46
+      "value": 11
     },
     {
       "label": {
-        "de": "private Gruenfl.",
-        "en": "Private green space"
-      },
-      "pct": 0.2,
-      "value": 52
-    },
-    {
-      "label": {
-        "de": "Doerfliches Wohngebiet",
-        "en": "Village residential area"
-      },
-      "pct": 0.2,
-      "value": 72
-    },
-    {
-      "label": {
-        "de": "Kerngebiet",
-        "en": "Core/urban-centre area"
+        "de": "Gewerbegebiet",
+        "en": "Commercial area"
       },
       "pct": 0.1,
-      "value": 43
+      "value": 5
     },
     {
       "label": {
-        "de": "Kleinsiedlungsgebiet",
-        "en": "Small-holdings settlement area"
+        "de": "allgemeines Wohngebiet",
+        "en": "General residential area"
       },
       "pct": 0.1,
-      "value": 30
+      "value": 7
     },
     {
       "label": {
-        "de": "besonderes Wohngebiet",
-        "en": "Special residential area"
+        "de": "Mischgebiet",
+        "en": "Mixed-use area"
       },
       "pct": 0.1,
-      "value": 28
-    },
-    {
-      "label": {
-        "de": "Campingplatz",
-        "en": "Campsite"
-      },
-      "pct": 0.0,
-      "value": 1
-    },
-    {
-      "label": {
-        "de": "Nach Quellenlage nicht zu spezifizieren",
-        "en": "Not specifiable from source data"
-      },
-      "pct": 0.0,
-      "value": 1
-    },
-    {
-      "label": {
-        "de": "private Parkplaetze",
-        "en": "Private parking"
-      },
-      "pct": 0.0,
-      "value": 4
+      "value": 7
     },
     {
       "label": {
@@ -212,30 +116,6 @@
       },
       "pct": 0.0,
       "value": 1
-    },
-    {
-      "label": {
-        "de": "Gemeinbedarfsfl., kein Bauland",
-        "en": "Public-facility land (non-buildable)"
-      },
-      "pct": 0.0,
-      "value": 7
-    },
-    {
-      "label": {
-        "de": "Sondernutzungsfl.",
-        "en": "Special-use area"
-      },
-      "pct": 0.0,
-      "value": 5
-    },
-    {
-      "label": {
-        "de": "Sportfl.",
-        "en": "Sports facility"
-      },
-      "pct": 0.0,
-      "value": 4
     }
   ],
   "source": "boris",

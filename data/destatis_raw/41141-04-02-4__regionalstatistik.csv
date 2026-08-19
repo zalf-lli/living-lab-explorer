@@ -1,313 +1,313 @@
 statistics_code;statistics_label;time_code;time_label;time;1_variable_code;1_variable_label;1_variable_attribute_code;1_variable_attribute_label;value;value_unit;value_variable_code;value_variable_label
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;5401;ha;FLC047;Ökologisch bewirtschaftete LF
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;2409;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;38317;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;16448;GV;VIE003;Viehbestand
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;78;Anzahl;BTR021;Landwirtschaftl. Betriebe mit ökolog. Viehhaltung
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;101;Anzahl;BTR030;Landwirtsch. Betriebe mit ökologischem Landbau
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;644;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;466;Anzahl;BTR034;Landwirtschaftliche Betriebe mit Viehhaltung
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;2409;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;5401;ha;FLC047;Ökologisch bewirtschaftete LF
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;16448;GV;VIE003;Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;38317;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;644;Anzahl;BTR010;Landwirtschaftliche Betriebe
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;5821;ha;FLC047;Ökologisch bewirtschaftete LF
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;2222;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;50326;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;23280;GV;VIE003;Viehbestand
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;58;Anzahl;BTR021;Landwirtschaftl. Betriebe mit ökolog. Viehhaltung
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;94;Anzahl;BTR030;Landwirtsch. Betriebe mit ökologischem Landbau
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;849;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;552;Anzahl;BTR034;Landwirtschaftliche Betriebe mit Viehhaltung
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;2222;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;5821;ha;FLC047;Ökologisch bewirtschaftete LF
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;23280;GV;VIE003;Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;50326;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;849;Anzahl;BTR010;Landwirtschaftliche Betriebe
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;5900;ha;FLC047;Ökologisch bewirtschaftete LF
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;34898;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;-;GV;VIE003;Viehbestand
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;-;Anzahl;BTR021;Landwirtschaftl. Betriebe mit ökolog. Viehhaltung
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;80;Anzahl;BTR030;Landwirtsch. Betriebe mit ökologischem Landbau
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;593;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;-;Anzahl;BTR034;Landwirtschaftliche Betriebe mit Viehhaltung
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;5900;ha;FLC047;Ökologisch bewirtschaftete LF
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;-;GV;VIE003;Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;34898;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;593;Anzahl;BTR010;Landwirtschaftliche Betriebe
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;1916;ha;FLC047;Ökologisch bewirtschaftete LF
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;18858;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;-;GV;VIE003;Viehbestand
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;-;Anzahl;BTR021;Landwirtschaftl. Betriebe mit ökolog. Viehhaltung
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;56;Anzahl;BTR030;Landwirtsch. Betriebe mit ökologischem Landbau
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;718;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;-;Anzahl;BTR034;Landwirtschaftliche Betriebe mit Viehhaltung
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;1916;ha;FLC047;Ökologisch bewirtschaftete LF
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;-;GV;VIE003;Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;18858;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;718;Anzahl;BTR010;Landwirtschaftliche Betriebe
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;5666;ha;FLC047;Ökologisch bewirtschaftete LF
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;38322;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;-;GV;VIE003;Viehbestand
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;-;Anzahl;BTR021;Landwirtschaftl. Betriebe mit ökolog. Viehhaltung
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;24;Anzahl;BTR030;Landwirtsch. Betriebe mit ökologischem Landbau
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;199;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;-;Anzahl;BTR034;Landwirtschaftliche Betriebe mit Viehhaltung
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;5666;ha;FLC047;Ökologisch bewirtschaftete LF
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;-;GV;VIE003;Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;38322;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;199;Anzahl;BTR010;Landwirtschaftliche Betriebe
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;.;ha;FLC047;Ökologisch bewirtschaftete LF
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;68229;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;-;GV;VIE003;Viehbestand
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;-;Anzahl;BTR021;Landwirtschaftl. Betriebe mit ökolog. Viehhaltung
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;44;Anzahl;BTR030;Landwirtsch. Betriebe mit ökologischem Landbau
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;395;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;-;Anzahl;BTR034;Landwirtschaftliche Betriebe mit Viehhaltung
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;.;ha;FLC047;Ökologisch bewirtschaftete LF
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;-;GV;VIE003;Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;68229;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;395;Anzahl;BTR010;Landwirtschaftliche Betriebe
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;.;ha;FLC047;Ökologisch bewirtschaftete LF
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;127405;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;-;GV;VIE003;Viehbestand
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;-;Anzahl;BTR021;Landwirtschaftl. Betriebe mit ökolog. Viehhaltung
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;43;Anzahl;BTR030;Landwirtsch. Betriebe mit ökologischem Landbau
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;459;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;-;Anzahl;BTR034;Landwirtschaftliche Betriebe mit Viehhaltung
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;.;ha;FLC047;Ökologisch bewirtschaftete LF
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;-;GV;VIE003;Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;127405;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;459;Anzahl;BTR010;Landwirtschaftliche Betriebe
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;.;ha;FLC047;Ökologisch bewirtschaftete LF
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;93221;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;-;GV;VIE003;Viehbestand
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;-;Anzahl;BTR021;Landwirtschaftl. Betriebe mit ökolog. Viehhaltung
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;38;Anzahl;BTR030;Landwirtsch. Betriebe mit ökologischem Landbau
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;370;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;-;Anzahl;BTR034;Landwirtschaftliche Betriebe mit Viehhaltung
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;.;ha;FLC047;Ökologisch bewirtschaftete LF
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;-;GV;VIE003;Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;93221;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;370;Anzahl;BTR010;Landwirtschaftliche Betriebe
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;.;ha;FLC047;Ökologisch bewirtschaftete LF
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;78598;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;-;GV;VIE003;Viehbestand
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;-;Anzahl;BTR021;Landwirtschaftl. Betriebe mit ökolog. Viehhaltung
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;56;Anzahl;BTR030;Landwirtsch. Betriebe mit ökologischem Landbau
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;325;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;-;Anzahl;BTR034;Landwirtschaftliche Betriebe mit Viehhaltung
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;.;ha;FLC047;Ökologisch bewirtschaftete LF
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;-;GV;VIE003;Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;78598;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;325;Anzahl;BTR010;Landwirtschaftliche Betriebe
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;7887;ha;FLC047;Ökologisch bewirtschaftete LF
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;77847;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;-;GV;VIE003;Viehbestand
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;-;Anzahl;BTR021;Landwirtschaftl. Betriebe mit ökolog. Viehhaltung
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;49;Anzahl;BTR030;Landwirtsch. Betriebe mit ökologischem Landbau
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;303;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;-;Anzahl;BTR034;Landwirtschaftliche Betriebe mit Viehhaltung
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;7887;ha;FLC047;Ökologisch bewirtschaftete LF
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;-;GV;VIE003;Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;77847;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;303;Anzahl;BTR010;Landwirtschaftliche Betriebe
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;8298;ha;FLC047;Ökologisch bewirtschaftete LF
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;67419;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;-;GV;VIE003;Viehbestand
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;-;Anzahl;BTR021;Landwirtschaftl. Betriebe mit ökolog. Viehhaltung
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;49;Anzahl;BTR030;Landwirtsch. Betriebe mit ökologischem Landbau
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;404;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;-;Anzahl;BTR034;Landwirtschaftliche Betriebe mit Viehhaltung
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;8298;ha;FLC047;Ökologisch bewirtschaftete LF
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;-;GV;VIE003;Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;67419;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;404;Anzahl;BTR010;Landwirtschaftliche Betriebe
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;5599;ha;FLC047;Ökologisch bewirtschaftete LF
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;37337;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;-;GV;VIE003;Viehbestand
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;-;Anzahl;BTR021;Landwirtschaftl. Betriebe mit ökolog. Viehhaltung
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;24;Anzahl;BTR030;Landwirtsch. Betriebe mit ökologischem Landbau
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;187;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;-;Anzahl;BTR034;Landwirtschaftliche Betriebe mit Viehhaltung
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;5599;ha;FLC047;Ökologisch bewirtschaftete LF
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;-;GV;VIE003;Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;37337;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;187;Anzahl;BTR010;Landwirtschaftliche Betriebe
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;6785;ha;FLC047;Ökologisch bewirtschaftete LF
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;87966;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;-;GV;VIE003;Viehbestand
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;-;Anzahl;BTR021;Landwirtschaftl. Betriebe mit ökolog. Viehhaltung
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;33;Anzahl;BTR030;Landwirtsch. Betriebe mit ökologischem Landbau
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;331;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;-;Anzahl;BTR034;Landwirtschaftliche Betriebe mit Viehhaltung
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;6785;ha;FLC047;Ökologisch bewirtschaftete LF
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;-;GV;VIE003;Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;87966;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;331;Anzahl;BTR010;Landwirtschaftliche Betriebe
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;8021;ha;FLC047;Ökologisch bewirtschaftete LF
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;24331;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;-;GV;VIE003;Viehbestand
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;-;Anzahl;BTR021;Landwirtschaftl. Betriebe mit ökolog. Viehhaltung
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;129;Anzahl;BTR030;Landwirtsch. Betriebe mit ökologischem Landbau
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;611;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;-;Anzahl;BTR034;Landwirtschaftliche Betriebe mit Viehhaltung
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;8021;ha;FLC047;Ökologisch bewirtschaftete LF
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;-;GV;VIE003;Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;24331;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;611;Anzahl;BTR010;Landwirtschaftliche Betriebe
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;2098;ha;FLC047;Ökologisch bewirtschaftete LF
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;32903;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;-;GV;VIE003;Viehbestand
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;-;Anzahl;BTR021;Landwirtschaftl. Betriebe mit ökolog. Viehhaltung
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;31;Anzahl;BTR030;Landwirtsch. Betriebe mit ökologischem Landbau
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;604;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;-;Anzahl;BTR034;Landwirtschaftliche Betriebe mit Viehhaltung
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;2098;ha;FLC047;Ökologisch bewirtschaftete LF
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;-;GV;VIE003;Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;32903;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;604;Anzahl;BTR010;Landwirtschaftliche Betriebe
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;5697;ha;FLC047;Ökologisch bewirtschaftete LF
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;126305;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;-;GV;VIE003;Viehbestand
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;-;Anzahl;BTR021;Landwirtschaftl. Betriebe mit ökolog. Viehhaltung
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;49;Anzahl;BTR030;Landwirtsch. Betriebe mit ökologischem Landbau
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;454;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;-;Anzahl;BTR034;Landwirtschaftliche Betriebe mit Viehhaltung
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;5697;ha;FLC047;Ökologisch bewirtschaftete LF
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;-;GV;VIE003;Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;126305;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;454;Anzahl;BTR010;Landwirtschaftliche Betriebe
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;4776;ha;FLC047;Ökologisch bewirtschaftete LF
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;33676;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;-;GV;VIE003;Viehbestand
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;-;Anzahl;BTR021;Landwirtschaftl. Betriebe mit ökolog. Viehhaltung
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;63;Anzahl;BTR030;Landwirtsch. Betriebe mit ökologischem Landbau
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;637;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;-;Anzahl;BTR034;Landwirtschaftliche Betriebe mit Viehhaltung
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;4776;ha;FLC047;Ökologisch bewirtschaftete LF
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;-;GV;VIE003;Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;33676;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;637;Anzahl;BTR010;Landwirtschaftliche Betriebe
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;7339;ha;FLC047;Ökologisch bewirtschaftete LF
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;2795;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;37456;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;24460;GV;VIE003;Viehbestand
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;25;Anzahl;BTR021;Landwirtschaftl. Betriebe mit ökolog. Viehhaltung
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;33;Anzahl;BTR030;Landwirtsch. Betriebe mit ökologischem Landbau
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;189;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;139;Anzahl;BTR034;Landwirtschaftliche Betriebe mit Viehhaltung
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;2795;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;7339;ha;FLC047;Ökologisch bewirtschaftete LF
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;24460;GV;VIE003;Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;37456;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12066;Oberspreewald-Lausitz, Landkreis;189;Anzahl;BTR010;Landwirtschaftliche Betriebe
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;1909;ha;FLC047;Ökologisch bewirtschaftete LF
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;19109;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;-;GV;VIE003;Viehbestand
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;-;Anzahl;BTR021;Landwirtschaftl. Betriebe mit ökolog. Viehhaltung
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;63;Anzahl;BTR030;Landwirtsch. Betriebe mit ökologischem Landbau
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;645;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;-;Anzahl;BTR034;Landwirtschaftliche Betriebe mit Viehhaltung
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;1909;ha;FLC047;Ökologisch bewirtschaftete LF
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;-;GV;VIE003;Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;19109;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;645;Anzahl;BTR010;Landwirtschaftliche Betriebe
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;11002;ha;FLC047;Ökologisch bewirtschaftete LF
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;2334;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;78802;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;33254;GV;VIE003;Viehbestand
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;36;Anzahl;BTR021;Landwirtschaftl. Betriebe mit ökolog. Viehhaltung
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;59;Anzahl;BTR030;Landwirtsch. Betriebe mit ökologischem Landbau
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;316;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;214;Anzahl;BTR034;Landwirtschaftliche Betriebe mit Viehhaltung
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;2334;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;11002;ha;FLC047;Ökologisch bewirtschaftete LF
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;33254;GV;VIE003;Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;78802;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12067;Oder-Spree, Landkreis;316;Anzahl;BTR010;Landwirtschaftliche Betriebe
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;12587;ha;FLC047;Ökologisch bewirtschaftete LF
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;4924;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;89454;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;28533;GV;VIE003;Viehbestand
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;42;Anzahl;BTR021;Landwirtschaftl. Betriebe mit ökolog. Viehhaltung
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;56;Anzahl;BTR030;Landwirtsch. Betriebe mit ökologischem Landbau
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;355;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;236;Anzahl;BTR034;Landwirtschaftliche Betriebe mit Viehhaltung
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;4924;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;12587;ha;FLC047;Ökologisch bewirtschaftete LF
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;28533;GV;VIE003;Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;89454;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12063;Havelland, Landkreis;355;Anzahl;BTR010;Landwirtschaftliche Betriebe
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;9837;ha;FLC047;Ökologisch bewirtschaftete LF
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;2562;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;124915;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;32665;GV;VIE003;Viehbestand
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;38;Anzahl;BTR021;Landwirtschaftl. Betriebe mit ökolog. Viehhaltung
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;62;Anzahl;BTR030;Landwirtsch. Betriebe mit ökologischem Landbau
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;469;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;230;Anzahl;BTR034;Landwirtschaftliche Betriebe mit Viehhaltung
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;2562;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;9837;ha;FLC047;Ökologisch bewirtschaftete LF
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;32665;GV;VIE003;Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;124915;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12064;Märkisch-Oderland, Landkreis;469;Anzahl;BTR010;Landwirtschaftliche Betriebe
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;10014;ha;FLC047;Ökologisch bewirtschaftete LF
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;2688;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;67573;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;22639;GV;VIE003;Viehbestand
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;35;Anzahl;BTR021;Landwirtschaftl. Betriebe mit ökolog. Viehhaltung
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;59;Anzahl;BTR030;Landwirtsch. Betriebe mit ökologischem Landbau
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;400;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;279;Anzahl;BTR034;Landwirtschaftliche Betriebe mit Viehhaltung
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;2688;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;10014;ha;FLC047;Ökologisch bewirtschaftete LF
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;22639;GV;VIE003;Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;67573;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;12065;Oberhavel, Landkreis;400;Anzahl;BTR010;Landwirtschaftliche Betriebe
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;6000;ha;FLC047;Ökologisch bewirtschaftete LF
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;49137;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;-;GV;VIE003;Viehbestand
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;-;Anzahl;BTR021;Landwirtschaftl. Betriebe mit ökolog. Viehhaltung
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;126;Anzahl;BTR030;Landwirtsch. Betriebe mit ökologischem Landbau
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;1317;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;-;Anzahl;BTR034;Landwirtschaftliche Betriebe mit Viehhaltung
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;6000;ha;FLC047;Ökologisch bewirtschaftete LF
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;-;GV;VIE003;Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;49137;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;1317;Anzahl;BTR010;Landwirtschaftliche Betriebe
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;8971;ha;FLC047;Ökologisch bewirtschaftete LF
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;63636;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;-;GV;VIE003;Viehbestand
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;-;Anzahl;BTR021;Landwirtschaftl. Betriebe mit ökolog. Viehhaltung
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;158;Anzahl;BTR030;Landwirtsch. Betriebe mit ökologischem Landbau
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;1287;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;-;Anzahl;BTR034;Landwirtschaftliche Betriebe mit Viehhaltung
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;8971;ha;FLC047;Ökologisch bewirtschaftete LF
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;-;GV;VIE003;Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;63636;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;1287;Anzahl;BTR010;Landwirtschaftliche Betriebe
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;2681;ha;FLC047;Ökologisch bewirtschaftete LF
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;32076;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;-;GV;VIE003;Viehbestand
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;-;Anzahl;BTR021;Landwirtschaftl. Betriebe mit ökolog. Viehhaltung
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;46;Anzahl;BTR030;Landwirtsch. Betriebe mit ökologischem Landbau
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;573;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;-;Anzahl;BTR034;Landwirtschaftliche Betriebe mit Viehhaltung
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;2681;ha;FLC047;Ökologisch bewirtschaftete LF
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;-;GV;VIE003;Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;32076;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;573;Anzahl;BTR010;Landwirtschaftliche Betriebe
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;9322;ha;FLC047;Ökologisch bewirtschaftete LF
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;25667;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;-;GV;VIE003;Viehbestand
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;-;Anzahl;BTR021;Landwirtschaftl. Betriebe mit ökolog. Viehhaltung
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;148;Anzahl;BTR030;Landwirtsch. Betriebe mit ökologischem Landbau
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;584;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;-;Anzahl;BTR034;Landwirtschaftliche Betriebe mit Viehhaltung
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;9322;ha;FLC047;Ökologisch bewirtschaftete LF
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;-;GV;VIE003;Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;25667;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;584;Anzahl;BTR010;Landwirtschaftliche Betriebe
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;12191;ha;FLC047;Ökologisch bewirtschaftete LF
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;65017;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;-;GV;VIE003;Viehbestand
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;-;Anzahl;BTR021;Landwirtschaftl. Betriebe mit ökolog. Viehhaltung
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;197;Anzahl;BTR030;Landwirtsch. Betriebe mit ökologischem Landbau
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;1161;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;-;Anzahl;BTR034;Landwirtschaftliche Betriebe mit Viehhaltung
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;12191;ha;FLC047;Ökologisch bewirtschaftete LF
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;-;GV;VIE003;Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;65017;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;1161;Anzahl;BTR010;Landwirtschaftliche Betriebe
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;7486;ha;FLC047;Ökologisch bewirtschaftete LF
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;49223;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;-;GV;VIE003;Viehbestand
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;-;Anzahl;BTR021;Landwirtschaftl. Betriebe mit ökolog. Viehhaltung
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;147;Anzahl;BTR030;Landwirtsch. Betriebe mit ökologischem Landbau
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;1198;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;-;Anzahl;BTR034;Landwirtschaftliche Betriebe mit Viehhaltung
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;7486;ha;FLC047;Ökologisch bewirtschaftete LF
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;-;GV;VIE003;Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;49223;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;1198;Anzahl;BTR010;Landwirtschaftliche Betriebe
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;15707;ha;FLC047;Ökologisch bewirtschaftete LF
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;9683;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;64264;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;44037;GV;VIE003;Viehbestand
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;209;Anzahl;BTR021;Landwirtschaftl. Betriebe mit ökolog. Viehhaltung
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;230;Anzahl;BTR030;Landwirtsch. Betriebe mit ökologischem Landbau
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;1079;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;842;Anzahl;BTR034;Landwirtschaftliche Betriebe mit Viehhaltung
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;9683;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;15707;ha;FLC047;Ökologisch bewirtschaftete LF
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;44037;GV;VIE003;Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;64264;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06535;Vogelsbergkreis;1079;Anzahl;BTR010;Landwirtschaftliche Betriebe
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;10355;ha;FLC047;Ökologisch bewirtschaftete LF
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;4721;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;49003;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;25011;GV;VIE003;Viehbestand
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;159;Anzahl;BTR021;Landwirtschaftl. Betriebe mit ökolog. Viehhaltung
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;197;Anzahl;BTR030;Landwirtsch. Betriebe mit ökologischem Landbau
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;1106;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;800;Anzahl;BTR034;Landwirtschaftliche Betriebe mit Viehhaltung
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;4721;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;10355;ha;FLC047;Ökologisch bewirtschaftete LF
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;25011;GV;VIE003;Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;49003;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06534;Marburg-Biedenkopf, Landkreis;1106;Anzahl;BTR010;Landwirtschaftliche Betriebe
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;3852;ha;FLC047;Ökologisch bewirtschaftete LF
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;2157;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;32130;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;13934;GV;VIE003;Viehbestand
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;50;Anzahl;BTR021;Landwirtschaftl. Betriebe mit ökolog. Viehhaltung
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;63;Anzahl;BTR030;Landwirtsch. Betriebe mit ökologischem Landbau
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;546;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;343;Anzahl;BTR034;Landwirtschaftliche Betriebe mit Viehhaltung
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;2157;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;3852;ha;FLC047;Ökologisch bewirtschaftete LF
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;13934;GV;VIE003;Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;32130;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06533;Limburg-Weilburg, Landkreis;546;Anzahl;BTR010;Landwirtschaftliche Betriebe
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;10586;ha;FLC047;Ökologisch bewirtschaftete LF
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;5171;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;25408;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;10831;GV;VIE003;Viehbestand
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;135;Anzahl;BTR021;Landwirtschaftl. Betriebe mit ökolog. Viehhaltung
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;159;Anzahl;BTR030;Landwirtsch. Betriebe mit ökologischem Landbau
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;539;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;411;Anzahl;BTR034;Landwirtschaftliche Betriebe mit Viehhaltung
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;5171;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;10586;ha;FLC047;Ökologisch bewirtschaftete LF
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;10831;GV;VIE003;Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;25408;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06532;Lahn-Dill-Kreis;539;Anzahl;BTR010;Landwirtschaftliche Betriebe
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;6941;ha;FLC047;Ökologisch bewirtschaftete LF
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;3932;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;34728;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;12698;GV;VIE003;Viehbestand
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;73;Anzahl;BTR021;Landwirtschaftl. Betriebe mit ökolog. Viehhaltung
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;94;Anzahl;BTR030;Landwirtsch. Betriebe mit ökologischem Landbau
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;562;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;372;Anzahl;BTR034;Landwirtschaftliche Betriebe mit Viehhaltung
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;3932;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;6941;ha;FLC047;Ökologisch bewirtschaftete LF
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;12698;GV;VIE003;Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;34728;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06531;Gießen, Landkreis;562;Anzahl;BTR010;Landwirtschaftliche Betriebe
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;4333;ha;FLC047;Ökologisch bewirtschaftete LF
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;38903;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;-;GV;VIE003;Viehbestand
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;-;Anzahl;BTR021;Landwirtschaftl. Betriebe mit ökolog. Viehhaltung
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;91;Anzahl;BTR030;Landwirtsch. Betriebe mit ökologischem Landbau
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;696;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;-;Anzahl;BTR034;Landwirtschaftliche Betriebe mit Viehhaltung
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;4333;ha;FLC047;Ökologisch bewirtschaftete LF
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;-;GV;VIE003;Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;38903;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;696;Anzahl;BTR010;Landwirtschaftliche Betriebe
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;2404;ha;FLC047;Ökologisch bewirtschaftete LF
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;50604;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;-;GV;VIE003;Viehbestand
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;-;Anzahl;BTR021;Landwirtschaftl. Betriebe mit ökolog. Viehhaltung
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;46;Anzahl;BTR030;Landwirtsch. Betriebe mit ökologischem Landbau
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;973;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;-;Anzahl;BTR034;Landwirtschaftliche Betriebe mit Viehhaltung
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;2404;ha;FLC047;Ökologisch bewirtschaftete LF
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;-;GV;VIE003;Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;50604;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;973;Anzahl;BTR010;Landwirtschaftliche Betriebe
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;2189;ha;FLC047;Ökologisch bewirtschaftete LF
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;801;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;20105;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;4753;GV;VIE003;Viehbestand
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;35;Anzahl;BTR021;Landwirtschaftl. Betriebe mit ökolog. Viehhaltung
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;65;Anzahl;BTR030;Landwirtsch. Betriebe mit ökologischem Landbau
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;601;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;206;Anzahl;BTR034;Landwirtschaftliche Betriebe mit Viehhaltung
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;801;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;2189;ha;FLC047;Ökologisch bewirtschaftete LF
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;4753;GV;VIE003;Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;20105;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2020;KREISE;Kreise und kreisfreie Städte;06439;Rheingau-Taunus-Kreis;601;Anzahl;BTR010;Landwirtschaftliche Betriebe
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;3106;ha;FLC047;Ökologisch bewirtschaftete LF
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;49516;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;-;GV;VIE003;Viehbestand
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;-;Anzahl;BTR021;Landwirtschaftl. Betriebe mit ökolog. Viehhaltung
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;64;Anzahl;BTR030;Landwirtsch. Betriebe mit ökologischem Landbau
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;901;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;-;Anzahl;BTR034;Landwirtschaftliche Betriebe mit Viehhaltung
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;3106;ha;FLC047;Ökologisch bewirtschaftete LF
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;-;GV;VIE003;Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;49516;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2016;KREISE;Kreise und kreisfreie Städte;06633;Kassel, Landkreis;901;Anzahl;BTR010;Landwirtschaftliche Betriebe
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;3306;ha;FLC047;Ökologisch bewirtschaftete LF
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;38791;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;-;GV;VIE003;Viehbestand
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;-;Anzahl;BTR021;Landwirtschaftl. Betriebe mit ökolog. Viehhaltung
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;68;Anzahl;BTR030;Landwirtsch. Betriebe mit ökologischem Landbau
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;744;Anzahl;BTR010;Landwirtschaftliche Betriebe
 41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;-;Anzahl;BTR034;Landwirtschaftliche Betriebe mit Viehhaltung
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;-;GV;VIE004;Ökologisch bewirtschafteter Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;3306;ha;FLC047;Ökologisch bewirtschaftete LF
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;-;GV;VIE003;Viehbestand
-41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;38791;ha;FLC017;Landwirtschaftlich genutzte Fläche
+41141;Agrarstrukturerhebung / Landwirtschaftszählung;JAHR;Jahr;2010;KREISE;Kreise und kreisfreie Städte;06636;Werra-Meißner-Kreis;744;Anzahl;BTR010;Landwirtschaftliche Betriebe

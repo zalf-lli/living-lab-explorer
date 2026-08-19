@@ -1,16 +1,16 @@
 {
   "_meta": {
-    "computed_at": "2026-08-04T12:13:58.339142Z",
+    "computed_at": "2026-08-17T13:18:24.492336Z",
     "input_pattern": "data/geojson/protected-areas-{slug}.geojson",
     "metric_crs": "EPSG:25832",
     "source": "bfn_wfs"
   },
   "east-brandenburg": {
     "natura2000_feature_count": 204,
-    "natura2000_ha": 156577.4,
+    "natura2000_ha": 53054.8,
     "natura2000_source_sum_ha": 593632.0,
     "nature_reserves_feature_count": 151,
-    "nature_reserves_ha": 51566.3,
+    "nature_reserves_ha": 9656.9,
     "nature_reserves_source_sum_ha": 79486.20000000001
   },
   "havellandisches-luch": {
@@ -23,10 +23,10 @@
   },
   "hessian-low-mountain": {
     "natura2000_feature_count": 173,
-    "natura2000_ha": 134837.9,
+    "natura2000_ha": 93449.7,
     "natura2000_source_sum_ha": 281257.0,
     "nature_reserves_feature_count": 189,
-    "nature_reserves_ha": 8263.6,
+    "nature_reserves_ha": 4475.8,
     "nature_reserves_source_sum_ha": 9570.0
   },
   "north-hessian-loess": {
