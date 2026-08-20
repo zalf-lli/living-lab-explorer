@@ -30,6 +30,12 @@ const LLMap = lazy(() => import('../components/LLMap/index.jsx'))
 
 const LAYOUT_OPTIONS = [{ id: 'A' }, { id: 'B' }]
 
+// Temporary toggle: the authored "Challenges" narrative slot is hidden for now and "About"
+// spans the full width it used to share. Flip this back to `true` to restore the two-column
+// About/Challenges layout in all three layouts (compare column, desktop, mobile). The content
+// itself (ll_content.json, useLLMetadata, i18n key `llDetail.challenges`) is left untouched.
+const SHOW_CHALLENGES = false
+
 export function LLDetail({ bySlug, loading }) {
   const { t } = useTranslation()
   const { slug } = useParams()
@@ -554,17 +560,25 @@ function LayoutSplit({
                   border: `1.5px solid ${C.mutedLight}`,
                 }}
               >
-                <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 20 }}>
+                <div
+                  style={{
+                    display: 'grid',
+                    gridTemplateColumns: SHOW_CHALLENGES ? '1fr 1fr' : '1fr',
+                    gap: 20,
+                  }}
+                >
                   <TextBlock
                     title={t('llDetail.aboutTheme', { layer: t(`layers.${layer}`) })}
                     text={ll.narrativeByTab?.[layer]?.about}
                     lines={4}
                   />
-                  <TextBlock
-                    title={t('llDetail.challenges')}
-                    text={ll.narrativeByTab?.[layer]?.challenges}
-                    lines={4}
-                  />
+                  {SHOW_CHALLENGES && (
+                    <TextBlock
+                      title={t('llDetail.challenges')}
+                      text={ll.narrativeByTab?.[layer]?.challenges}
+                      lines={4}
+                    />
+                  )}
                 </div>
               </div>
             </>
@@ -732,7 +746,7 @@ function LayoutStacked({
             style={{
               margin: '16px 32px 0',
               display: 'grid',
-              gridTemplateColumns: '1fr 1fr',
+              gridTemplateColumns: SHOW_CHALLENGES ? '1fr 1fr' : '1fr',
               gap: 16,
             }}
           >
@@ -750,20 +764,22 @@ function LayoutStacked({
                 lines={5}
               />
             </div>
-            <div
-              style={{
-                background: C.white,
-                borderRadius: 14,
-                padding: 20,
-                border: `1.5px solid ${C.mutedLight}`,
-              }}
-            >
-              <TextBlock
-                title={t('llDetail.challenges')}
-                text={ll.narrativeByTab?.[layer]?.challenges}
-                lines={5}
-              />
-            </div>
+            {SHOW_CHALLENGES && (
+              <div
+                style={{
+                  background: C.white,
+                  borderRadius: 14,
+                  padding: 20,
+                  border: `1.5px solid ${C.mutedLight}`,
+                }}
+              >
+                <TextBlock
+                  title={t('llDetail.challenges')}
+                  text={ll.narrativeByTab?.[layer]?.challenges}
+                  lines={5}
+                />
+              </div>
+            )}
           </div>
         </>
       )}
@@ -916,7 +932,7 @@ function ComparisonColumn({
                 borderRadius: 14,
                 padding: 20,
                 border: `1.5px solid ${C.mutedLight}`,
-                marginBottom: 16,
+                marginBottom: SHOW_CHALLENGES ? 16 : 0,
               }}
             >
               <TextBlock
@@ -925,20 +941,22 @@ function ComparisonColumn({
                 lines={4}
               />
             </div>
-            <div
-              style={{
-                background: C.white,
-                borderRadius: 14,
-                padding: 20,
-                border: `1.5px solid ${C.mutedLight}`,
-              }}
-            >
-              <TextBlock
-                title={t('llDetail.challenges')}
-                text={ll.narrativeByTab?.[layer]?.challenges}
-                lines={4}
-              />
-            </div>
+            {SHOW_CHALLENGES && (
+              <div
+                style={{
+                  background: C.white,
+                  borderRadius: 14,
+                  padding: 20,
+                  border: `1.5px solid ${C.mutedLight}`,
+                }}
+              >
+                <TextBlock
+                  title={t('llDetail.challenges')}
+                  text={ll.narrativeByTab?.[layer]?.challenges}
+                  lines={4}
+                />
+              </div>
+            )}
           </div>
         </>
       )}
