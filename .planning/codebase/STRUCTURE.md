@@ -115,7 +115,9 @@ LL-explorer/
 
 **Core Logic:**
 - `app/src/components/LLMap/index.jsx`: Leaflet map assembly (basemap + PMTiles overlay + mask + outline + legend).
-- `app/src/pages/LLDetail.jsx`: Detail-page layout composition + layer tab state (`?layout=A|B` + layer tabs).
+- `app/src/pages/LLDetail.jsx`: Detail-page layout composition + layer tab state (viewport-derived split/stacked/compare + layer tabs).
+- `app/src/hooks/useMediaQuery.js`: `BREAKPOINTS` + `useViewport()` — the single source of truth for every responsive branch in the app.
+- `app/src/components/MapTouchGate.jsx`: Tap-to-interact scrim shared by `LLMap` and `PartnersMap` so a one-finger drag on a phone scrolls the page instead of panning the map.
 - `app/src/hooks/useLLMetadata.js`: Fetches `app/public/data/ll_metadata.json` once, merges into display config (`app/src/data/ll_display.js`).
 - `app/src/hooks/useGeoJSON.js`: Module-cached `fetch()` loader for one or more GeoJSON files.
 - `app/src/lib/projection.js`, `app/src/lib/geojson.js`, `app/src/lib/buildMaskGeometry.js`: Pure geometry/projection helpers.

@@ -198,6 +198,23 @@ narrative_block <- function(heading, text) {
   )
 }
 
+#' The figure caption for the protected-areas map. Built the same way as
+#' `.ll_report_map_caption()` above, but resolved through the `bfn-schutzgebiete` layer
+#' directly: protected areas are an OVERLAY in the app (app/src/data/layers.js's OVERLAYS,
+#' not LAYERS), so they have no tab of their own and therefore no entry in
+#' `LL_TAB_CHART_LAYER` for that helper to dispatch on.
+.ll_report_protected_caption <- function(slug, lang) {
+  layer <- .ll_layer_by_id(.ll_sources_yaml()$layers, "bfn-schutzgebiete")
+  ll_str(
+    "report.mapCaption", lang,
+    vars = list(
+      layer = ll_str("layers.protectedAreas", lang),
+      ll = ll_lab(slug)[[lang]]$name,
+      source = layer$title[[lang]]
+    )
+  )
+}
+
 #' The cover locator's figure caption: names both panels and carries the basemap provider's
 #' required attribution. The credit used to be printed as its own paragraph under the figure and
 #' the "Location within Germany" label drawn inside the smaller panel; both now live here, so the
@@ -285,6 +302,14 @@ ll_map_climate_grid(slug, lang)
 ```
 
 ```{r}
+#| opts.label: "kpi_asis"
+# The four variables' explanatory notes, printed as document text directly beneath the
+# figure's caption rather than drawn inside the figure (where they used to live, as a
+# patchwork caption baked into the PNG).
+cat(ll_note_typst(ll_climate_notes(lang)))
+```
+
+```{r}
 #| include: false
 chart_climate <- ll_chart(slug, "climate", lang)
 ```
@@ -295,6 +320,11 @@ chart_climate <- ll_chart(slug, "climate", lang)
 #| fig-height: !expr LL_FIG$height_chart
 #| fig-cap: !expr .ll_report_chart_caption(slug, "climate", lang, !is.null(chart_climate))
 if (!is.null(chart_climate)) chart_climate
+```
+
+```{r}
+#| opts.label: "kpi_asis"
+cat(ll_note_typst(ll_chart_note(slug, "climate", lang)))
 ```
 
 ```{r}
@@ -326,6 +356,13 @@ cat(ll_kpi_typst(slug, "soil", lang))
 # Bar legend, as for the crop-type map above: the separate soil-area bar chart that used to
 # follow this figure is now the legend's own bars.
 ll_map_soil(slug, lang)
+```
+
+```{r}
+#| opts.label: "kpi_asis"
+# Was drawn inside the figure until this change; now document text under the caption, like
+# every other note in this report.
+cat(ll_note_typst(ll_str("legend.soil.note", lang)))
 ```
 
 ```{r}
@@ -371,6 +408,11 @@ if (!is.null(chart_economic)) chart_economic
 ```
 
 ```{r}
+#| opts.label: "kpi_asis"
+cat(ll_note_typst(ll_chart_note(slug, "economic", lang)))
+```
+
+```{r}
 #| include: false
 narr_about_economic <- ll_narrative(slug, "economic", "about", lang)
 narr_challenges_economic <- ll_narrative(slug, "economic", "challenges", lang)
@@ -399,6 +441,23 @@ cat(ll_kpi_typst(slug, "landscape", lang))
 # Bar legend, as for the crop-type and soil maps: the separate land-cover area bar chart that
 # used to follow this figure is now the legend's own bars.
 ll_map_landscape(slug, lang)
+```
+
+```{r}
+#| label: fig-map-protected-areas
+#| fig-width: !expr LL_FIG$width_full
+#| fig-height: !expr ll_map_protected_areas_height(slug)
+#| fig-cap: !expr .ll_report_protected_caption(slug, lang)
+# The app offers protected areas as a toggleable overlay over any layer; a printed report
+# has no toggles, so the same GeoJSON, palette and designation legend get their own figure
+# in the Landscape section. Sites are shown whole (never clipped to the Living Lab), which
+# is exactly what the note below the caption tells the reader.
+ll_map_protected_areas(slug, lang)
+```
+
+```{r}
+#| opts.label: "kpi_asis"
+cat(ll_note_typst(ll_str("legend.protectedAreas.note", lang)))
 ```
 
 ```{r}

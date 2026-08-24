@@ -6,12 +6,17 @@ import { buildDisplaySeries } from '../lib/chartSeries.js'
 import { LAYER_INDEX } from '../data/layers.js'
 import { getSoilColor } from '../data/soil_legend.js'
 import { ChartLoading, ChartError, ChartEmpty, ChartSourceFooter } from './ChartStates.jsx'
+import { useViewport } from '../hooks/useMediaQuery.js'
 
 export function BarChart({ layer, ll, compact = false, minHeightWhenEmpty }) {
   const { t, i18n } = useTranslation()
+  const { isMobile } = useViewport()
   const { data, loading, error } = useChartData(layer, ll?.slug)
   const lang = i18n.language?.startsWith('de') ? 'de' : 'en'
   const locale = i18n.language === 'de' ? 'de-DE' : 'en-US'
+  // 120px of label + 46px of value left only ~125px of bar on a 375px phone, so every bar
+  // looked the same length. Trim the label gutter there and let the bar have the difference.
+  const labelWidth = isMobile ? 92 : compact ? 96 : 120
 
   // Two ways a bar can take its colour from the map instead of the positional rank palette:
   //   - soil resolves the shared palette by each series entry's stable `group_key` (the same key
@@ -56,7 +61,7 @@ export function BarChart({ layer, ll, compact = false, minHeightWhenEmpty }) {
           <div key={`${row.label}-${i}`} style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
             <div
               style={{
-                width: compact ? 96 : 120,
+                width: labelWidth,
                 flexShrink: 0,
                 textAlign: 'right',
                 display: 'flex',

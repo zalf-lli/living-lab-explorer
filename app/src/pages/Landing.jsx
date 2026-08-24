@@ -3,22 +3,36 @@ import { useTranslation } from 'react-i18next'
 import { C } from '../theme.js'
 import { LL_ICONS } from '../data/ll_icons.js'
 import { LandingMap } from '../components/LandingMap.jsx'
+import { useViewport } from '../hooks/useMediaQuery.js'
 
 export function Landing({ lls, loading }) {
   const { t } = useTranslation()
   const navigate = useNavigate()
+  const { isMobile, isNarrow } = useViewport()
   const pickSlug = (slug) => navigate(`/ll/${slug}`)
 
   return (
+    // Was `calc(100vh - 60px)`, which assumed a 60px header and so overflowed the moment the
+    // header wrapped to a second row (every phone). `flex: 1` claims whatever the shell has
+    // left, and on a phone the whole page scrolls as one document instead of splitting into
+    // two nested scroll panes.
     <div
       style={{
-        height: 'calc(100vh - 60px)',
+        flex: 1,
+        minHeight: 0,
         display: 'flex',
         flexDirection: 'column',
         background: C.bg,
       }}
     >
-      <div style={{ padding: '28px 40px 6px', maxWidth: 1100, margin: '0 auto', width: '100%' }}>
+      <div
+        style={{
+          padding: isMobile ? '20px 16px 4px' : '28px 40px 6px',
+          maxWidth: 1100,
+          margin: '0 auto',
+          width: '100%',
+        }}
+      >
         <div
           style={{
             fontSize: 11,
@@ -33,7 +47,9 @@ export function Landing({ lls, loading }) {
         </div>
         <h1
           style={{
-            fontSize: 36,
+            // 36px across a 343px content box gave a five-line headline that pushed the map
+            // and the whole Living Lab list below the fold on a phone.
+            fontSize: isMobile ? 26 : isNarrow ? 30 : 36,
             fontWeight: 900,
             color: C.teal,
             lineHeight: 1.05,
@@ -43,7 +59,15 @@ export function Landing({ lls, loading }) {
         >
           {t('landing.title')}
         </h1>
-        <p style={{ fontSize: 15, color: C.green, marginTop: 10, maxWidth: 680, lineHeight: 1.5 }}>
+        <p
+          style={{
+            fontSize: isMobile ? 14 : 15,
+            color: C.green,
+            marginTop: 10,
+            maxWidth: 680,
+            lineHeight: 1.5,
+          }}
+        >
           {t('landing.body')}
         </p>
       </div>
@@ -52,16 +76,27 @@ export function Landing({ lls, loading }) {
         style={{
           flex: 1,
           display: 'grid',
-          gridTemplateColumns: '1.4fr 1fr',
-          gap: 24,
-          padding: '18px 40px 40px',
+          // Side by side needs room for both a legible map and a readable card list; below
+          // `narrow` they stack, map first (it is the primary way in).
+          gridTemplateColumns: isNarrow ? 'minmax(0, 1fr)' : '1.4fr 1fr',
+          gap: isNarrow ? 16 : 24,
+          padding: isMobile ? '12px 16px 24px' : '18px 40px 40px',
           maxWidth: 1280,
           margin: '0 auto',
           width: '100%',
           minHeight: 0,
         }}
       >
-        <div style={{ borderRadius: 18, padding: 16, position: 'relative', overflow: 'hidden' }}>
+        <div
+          style={{
+            borderRadius: 18,
+            padding: isMobile ? 0 : 16,
+            position: 'relative',
+            overflow: 'hidden',
+            // Stacked, the map has no parent height to fill, so give it an explicit one.
+            height: isNarrow ? (isMobile ? 300 : 380) : undefined,
+          }}
+        >
           {loading || !lls ? (
             <div
               style={{
@@ -69,6 +104,7 @@ export function Landing({ lls, loading }) {
                 alignItems: 'center',
                 justifyContent: 'center',
                 height: '100%',
+                minHeight: 200,
                 color: C.muted,
                 fontSize: 13,
               }}
@@ -85,8 +121,11 @@ export function Landing({ lls, loading }) {
             display: 'flex',
             flexDirection: 'column',
             gap: 10,
-            overflowY: 'auto',
-            paddingRight: 4,
+            minHeight: 0,
+            // Stacked, the list is part of the page flow — an inner scroller here would mean
+            // a scrollbar inside a scrollbar.
+            overflowY: isNarrow ? 'visible' : 'auto',
+            paddingRight: isNarrow ? 0 : 4,
           }}
         >
           <div
@@ -115,17 +154,20 @@ function LLCard({ ll, onPick }) {
   return (
     <button
       onClick={onPick}
+      type="button"
       style={{
         background: C.white,
         borderRadius: 14,
         border: `1.5px solid ${C.mutedLight}`,
         padding: '14px 16px',
+        minHeight: 72,
         cursor: 'pointer',
         transition: 'all 0.15s',
         display: 'flex',
         alignItems: 'center',
         gap: 14,
         textAlign: 'left',
+        width: '100%',
       }}
       onMouseEnter={(e) => {
         e.currentTarget.style.borderColor = C.green

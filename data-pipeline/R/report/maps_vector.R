@@ -13,7 +13,14 @@
 # file (grep -Ec "#[0-9a-fA-F]{6}" over this file must return 0).
 #
 # D-14 splits basemap usage cleanly: this module fetches tiles in exactly one
-# place (the locator's main panel), never for the two thematic choropleths.
+# place (the locator's main panel), never for the thematic choropleths.
+#
+# One further rule holds across every map in this report, enforced here and in maps_raster.R:
+# only the cover locator draws the Living Lab's boundary as a line. Every thematic map IS the
+# Living Lab -- its data is clipped or masked to that boundary, so the silhouette already
+# states what an outline would, and repeating the same coloured ring around the same shape on
+# eight figures added ink rather than information. The one map whose data legitimately spills
+# past the boundary (protected areas, below) marks the region with a soft fill instead.
 
 # --- Own-file resolution + load the shared theming/accessor module -----------
 # Same pattern as theme_llexplorer.R's own .ll_this_file(): captured once, at
@@ -277,8 +284,12 @@ ll_soil_bar_legend_entries <- function(slug, lang) {
 #' classes, not just the five legend rows), with a per-Living-Lab dynamic
 #' bar legend restricted to the dominant five plus water/special (plus the
 #' "Other" row documented above). No basemap tiles (D-14). CRS is aligned
-#' explicitly before overlaying the boundary and the result asserted non-empty,
-#' per CLAUDE.md's standing BUEK-vector-data discipline.
+#' explicitly against the boundary and the result asserted non-empty, per CLAUDE.md's
+#' standing BUEK-vector-data discipline.
+#'
+#' No boundary outline is drawn (see this file's own header note on that rule) and no
+#' in-figure note: `legend.soil.note` is now printed by `template.qmd` beneath the figure's
+#' caption as document text, not baked into the image.
 #'
 #' @return a patchwork object (map panel + bar-legend panel).
 ll_map_soil <- function(slug, lang) {
@@ -295,6 +306,10 @@ ll_map_soil <- function(slug, lang) {
   if (is.na(sf::st_crs(soil_sf))) {
     stop("ll_map_soil(): soil geometry for slug '", slug, "' has no defined CRS.")
   }
+  # Read and CRS-aligned purely as the non-empty-clip assertion CLAUDE.md requires for BUEK
+  # vector data -- the boundary is deliberately not drawn on this map (only the cover
+  # locator carries an outline; on a map that IS the Living Lab, a line around it says
+  # nothing the silhouette does not already say).
   boundary <- sf::st_transform(ll_boundary(slug), sf::st_crs(soil_sf))
   if (nrow(boundary) == 0) {
     stop("ll_map_soil(): boundary for slug '", slug, "' is empty after CRS alignment.")
@@ -312,10 +327,6 @@ ll_map_soil <- function(slug, lang) {
   present_keys <- unique(soil_sf$semantic_key)
   full_values <- stats::setNames(vapply(present_keys, ll_soil_color, character(1)), present_keys)
 
-  brand <- ll_brand(slug)
-  title <- ll_str("layers.soil", lang)
-  note <- ll_str("legend.soil.note", lang)
-
   map_plot <- ggplot2::ggplot() +
     ggplot2::geom_sf(
       data = soil_sf,
@@ -328,20 +339,18 @@ ll_map_soil <- function(slug, lang) {
       limits = names(full_values),
       breaks = legend_entries$key,
       labels = legend_entries$label,
-      name = title
+      name = NULL
     ) +
     # The bar legend beside the map replaces this scale's own key legend; the
     # scale itself still paints every class.
     ggplot2::guides(fill = "none") +
-    ggplot2::geom_sf(data = boundary, fill = NA, color = brand$outlineColor, linewidth = 0.9) +
     theme_ll_map()
 
   bar_entries <- ll_soil_bar_legend_entries(slug, lang)
   ll_map_with_bar_legend(
     map_plot,
-    ll_bar_legend(bar_entries, title = title),
-    ll_bar_legend_layout(slug, nrow(bar_entries)),
-    caption = note
+    ll_bar_legend(bar_entries),
+    ll_bar_legend_layout(slug, nrow(bar_entries))
   )
 }
 
@@ -483,7 +492,8 @@ ll_economic_legend_entries <- function(slug, lang) {
 #' The land-value choropleth: each Living Lab's own six quantile buckets (not
 #' a shared scale), zone fills only (no per-usage-type borders, no hatching --
 #' Phase 7 D-06), no-current-value zones excluded from the bucket maths and
-#' shown as their own no-data class. No basemap tiles (D-14).
+#' shown as their own no-data class. No basemap tiles (D-14), no boundary outline and no
+#' legend title (see this file's header note).
 #'
 #' @return a ggplot2 object.
 ll_map_economic <- function(slug, lang) {
@@ -498,23 +508,160 @@ ll_map_economic <- function(slug, lang) {
   if (is.na(sf::st_crs(eco_sf))) {
     stop("ll_map_economic(): land-value geometry for slug '", slug, "' has no defined CRS.")
   }
+  # Aligned and asserted non-empty for the same reason as in `ll_map_soil()` above; not drawn.
   boundary <- sf::st_transform(ll_boundary(slug), sf::st_crs(eco_sf))
   if (nrow(boundary) == 0) {
     stop("ll_map_economic(): boundary for slug '", slug, "' is empty after CRS alignment.")
   }
 
   legend_entries <- .mv_economic_legend_df(eco_sf$has_current_value, buckets, tokens$ramp, tokens$noDataFill, lang)
-  brand <- ll_brand(slug)
-  title <- ll_str("layers.economic", lang)
 
+  # No legend title and no boundary outline: the figure's own caption already names the layer
+  # and the Living Lab, and the value ranges beside the swatches say what the colours mean.
   ggplot2::ggplot() +
     ggplot2::geom_sf(data = eco_sf, ggplot2::aes(fill = fill_color), color = NA) +
     ggplot2::scale_fill_identity(
-      name = title, breaks = legend_entries$color, labels = legend_entries$label, guide = "legend"
+      name = NULL, breaks = legend_entries$color, labels = legend_entries$label, guide = "legend"
     ) +
-    ggplot2::guides(fill = ggplot2::guide_legend(title = title, ncol = 1)) +
-    ggplot2::geom_sf(data = boundary, fill = NA, color = brand$outlineColor, linewidth = 0.9) +
+    ggplot2::guides(fill = ggplot2::guide_legend(title = NULL, ncol = 1)) +
     theme_ll_map()
+}
+
+# =================================================================================
+# Protected areas (Landscape section overlay, drawn here as its own map)
+# =================================================================================
+#
+# The app draws this as an OVERLAY on top of whichever thematic layer is active
+# (app/src/data/layers.js's OVERLAYS, never an exclusive tab). A printed report has no
+# toggles, so it gets its own figure in the Landscape section instead -- same GeoJSON, same
+# palette, same designation join key as the browser.
+#
+# Deliberately NOT clipped to the Living Lab boundary: the published GeoJSON carries whole
+# conservation sites, and `legend.protectedAreas.note` (printed under the figure's caption)
+# tells the reader exactly that. Clipping here would silently contradict the note and
+# misrepresent every site that straddles the region's edge. The drawn extent is still the
+# Living Lab's own bounding box, so the figure is about this region even though individual
+# sites run off its edges.
+
+# Fraction of the boundary's own width/height added around it before the map is cut off.
+.MV_PROTECTED_PAD_FRAC <- 0.03
+
+.mv_read_protected_raw <- function(slug) {
+  path <- file.path(
+    ll_repo_root(), "app", "public", "data", "geojson", paste0("protected-areas-", slug, ".geojson")
+  )
+  if (!file.exists(path)) {
+    stop("maps_vector.R: missing protected-areas GeoJSON '", path, "' for slug '", slug, "'.")
+  }
+  areas_sf <- sf::st_read(path, quiet = TRUE)
+  if (is.na(sf::st_crs(areas_sf))) {
+    stop("maps_vector.R: protected-areas geometry for slug '", slug, "' has no defined CRS.")
+  }
+  areas_sf
+}
+
+#' The protected-areas legend rows for one Living Lab, ported from
+#' `buildProtectedAreasLegendEntries()` (app/src/components/LLMap/index.jsx): the shared
+#' palette filtered to the designations that actually occur in this Living Lab's features,
+#' in the palette's own order -- never re-sorted, and never showing a designation this
+#' region has none of. Unlike the raster maps' D-13 full-palette legends, this palette is
+#' an overlay's key and the app itself filters it, so the report matches the app.
+#'
+#' @param slug character(1) Living Lab slug.
+#' @param lang character(1) `"en"` or `"de"`.
+#' @return data.frame(key=, label=, color=, stroke=, alpha=), possibly zero rows.
+ll_protected_areas_legend_entries <- function(slug, lang) {
+  palette <- ll_tokens()$palettes$protectedAreas
+  present <- unique(as.character(.mv_read_protected_raw(slug)$designation))
+  keep <- palette$value %in% present
+  data.frame(
+    key = palette$value[keep],
+    label = palette[[lang]][keep],
+    color = palette$color[keep],
+    stroke = palette$strokeColor[keep],
+    alpha = palette$fillOpacity[keep],
+    stringsAsFactors = FALSE
+  )
+}
+
+#' The protected-areas map: every conservation site intersecting this Living Lab, painted by
+#' its designation in the same fills, strokes and fill opacities the browser uses (read from
+#' `ll_tokens()$palettes$protectedAreas`, never retyped here).
+#'
+#' The Living Lab itself is drawn as a soft filled shape underneath rather than as an
+#' outline: this is the one map in the report whose features are not clipped to the
+#' boundary, so the reader still needs to see where the region is -- but a line would
+#' compete with the site borders running across it.
+#'
+#' Overlapping designations are a real property of this data (a nature reserve inside a
+#' Natura 2000 site is normal), which is why the per-designation `fillOpacity` from the
+#' palette is honoured instead of painting flat: overlaps read as overlaps.
+#'
+#' @param slug character(1) Living Lab slug.
+#' @param lang character(1) `"en"` or `"de"`.
+#' @return a ggplot2 object.
+ll_map_protected_areas <- function(slug, lang) {
+  areas_sf <- .mv_read_protected_raw(slug)
+  entries <- ll_protected_areas_legend_entries(slug, lang)
+  if (nrow(entries) == 0) {
+    stop(
+      "ll_map_protected_areas(): no known designation among the protected-area features of ",
+      "slug '", slug, "'. Known designations: ",
+      paste(ll_tokens()$palettes$protectedAreas$value, collapse = ", ")
+    )
+  }
+
+  fill_lookup <- stats::setNames(entries$color, entries$key)
+  stroke_lookup <- stats::setNames(entries$stroke, entries$key)
+  alpha_lookup <- stats::setNames(entries$alpha, entries$key)
+  designation <- as.character(areas_sf$designation)
+  known <- !is.na(designation) & designation %in% entries$key
+  if (!any(known)) {
+    stop("ll_map_protected_areas(): slug '", slug, "' has no features with a known designation.")
+  }
+  areas_sf <- areas_sf[known, , drop = FALSE]
+  designation <- designation[known]
+  areas_sf$fill_color <- unname(fill_lookup[designation])
+  areas_sf$stroke_color <- unname(stroke_lookup[designation])
+  areas_sf$fill_alpha <- unname(alpha_lookup[designation])
+
+  boundary <- sf::st_transform(ll_boundary(slug), sf::st_crs(areas_sf))
+  if (nrow(boundary) == 0) {
+    stop("ll_map_protected_areas(): boundary for slug '", slug, "' is empty after CRS alignment.")
+  }
+  bbox <- sf::st_bbox(boundary)
+  pad_x <- (bbox[["xmax"]] - bbox[["xmin"]]) * .MV_PROTECTED_PAD_FRAC
+  pad_y <- (bbox[["ymax"]] - bbox[["ymin"]]) * .MV_PROTECTED_PAD_FRAC
+
+  tk <- ll_tokens()$theme
+
+  ggplot2::ggplot() +
+    ggplot2::geom_sf(data = boundary, fill = tk$surfaceMid, colour = NA) +
+    ggplot2::geom_sf(
+      data = areas_sf,
+      ggplot2::aes(fill = .data$fill_color, colour = .data$stroke_color, alpha = .data$fill_alpha),
+      linewidth = 0.18
+    ) +
+    ggplot2::scale_fill_identity(
+      name = NULL, breaks = entries$color, labels = entries$label, guide = "legend"
+    ) +
+    ggplot2::scale_colour_identity() +
+    ggplot2::scale_alpha_identity() +
+    ggplot2::guides(fill = ggplot2::guide_legend(title = NULL, ncol = 1)) +
+    ggplot2::coord_sf(
+      xlim = c(bbox[["xmin"]] - pad_x, bbox[["xmax"]] + pad_x),
+      ylim = c(bbox[["ymin"]] - pad_y, bbox[["ymax"]] + pad_y),
+      expand = FALSE
+    ) +
+    theme_ll_map()
+}
+
+#' The figure height, in inches, `ll_map_protected_areas(slug, ...)` should be rendered at:
+#' the same boundary-aspect solve every other map in this report uses, so this figure is
+#' neither a letterbox strip for a wide Living Lab nor a column of white space beside a tall
+#' one. Read by template.qmd's chunk options.
+ll_map_protected_areas_height <- function(slug) {
+  ll_bar_legend_layout(slug, 3)$height
 }
 
 # =================================================================================
@@ -522,16 +669,42 @@ ll_map_economic <- function(slug, lang) {
 # =================================================================================
 #
 # The sole tile-fetching call site in this module (and, per D-14, in the whole
-# report): the five thematic maps above never fetch tiles. Provider chosen to
-# exactly match the live app's own basemap (app/src/components/LLMap/index.jsx's
-# TileLayer), so the printed locator and the browser look like the same map
-# family: CartoDB Voyager, (c) OpenStreetMap contributors / (c) CARTO --
-# ODbL / CC BY 3.0, cleared for this exact use at plan 12-02's blocking human
-# checkpoint alongside the `maptiles` package itself.
+# report): the five thematic maps above never fetch tiles.
+#
+# The provider is satellite imagery (Esri World Imagery), not the street basemap the live
+# app draws behind its own interactive map: the cover locator's job is to show what the
+# Living Lab's landscape actually looks like, which a road-and-label basemap cannot do,
+# and it is the only figure in the report with a basemap at all -- so the "same map family
+# as the browser" argument that originally chose CartoDB Voyager here does not bind the
+# cover page. `ll_locator_credit()` still reads the required attribution straight off the
+# provider entry (`maptiles::get_credit()`), so the caption re-states whichever provider
+# this constant names and can never credit the wrong one.
+.MV_LOCATOR_PROVIDER <- "Esri.WorldImagery"
+# Higher than the street basemap's zoom 10: at 300 dpi an aerial image only reads as an
+# aerial image when its own pixels are smaller than the printed ones (zoom 12 is roughly
+# 25 m/px at these latitudes, i.e. several source pixels per printed dot for the widest
+# Living Lab).
+.MV_LOCATOR_ZOOM <- 12
+.MV_LOCATOR_PAD_M <- 5200
 
-.MV_LOCATOR_PROVIDER <- "CartoDB.Voyager"
-.MV_LOCATOR_ZOOM <- 10
-.MV_LOCATOR_PAD_M <- 4000
+# The imagery is not shown as a full rectangle. It is trimmed to a smoothed "halo" polygon
+# -- the Living Lab's own boundary buffered outwards and simplified -- and everything
+# between the true boundary and that halo edge is veiled, so the imagery fades out into the
+# page instead of stopping at a hard rectangular frame. The Living Lab itself is the only
+# part of the image shown at full strength.
+#
+# `.MV_LOCATOR_HALO_M` stays comfortably below `.MV_LOCATOR_PAD_M` so the halo never
+# touches the drawn extent's edge (a halo clipped by the frame would reintroduce exactly
+# the straight rectangular edge it exists to avoid).
+.MV_LOCATOR_HALO_M <- 3800
+# Simplification tolerance for the buffered halo: large enough that the halo reads as one
+# smooth blob around the Living Lab rather than as a fattened copy of its administrative
+# outline (which would compete with the boundary line drawn on top of it).
+.MV_LOCATOR_HALO_SIMPLIFY_M <- 1400
+# Opacity of the white veil over the halo ring. Mirrors the live app's own out-of-region
+# treatment (`MASK_STYLE` in app/src/components/LLMap/index.jsx: white at 0.6), a touch
+# lighter here because print swallows less contrast than a backlit screen does.
+.MV_LOCATOR_RING_VEIL_ALPHA <- 0.55
 
 # The Germany overview panel's width, as a fraction of the main panel's own
 # rendered width (plan 12-10 checkpoint round 2, Defect 3 -- kept at that
@@ -570,6 +743,31 @@ ll_locator_credit <- function() {
   bbox_sfc <- sf::st_as_sfc(sf::st_bbox(buffered))
   sf::st_crs(bbox_sfc) <- 3857
   list(boundary = boundary_3857, bbox = sf::st_bbox(buffered), bbox_sfc = bbox_sfc)
+}
+
+#' The imagery-clipping halo for one Living Lab, and the ring between it and the boundary.
+#'
+#' `halo` is the Living Lab's dissolved boundary buffered out by `.MV_LOCATOR_HALO_M` and
+#' simplified, then unioned back with the boundary itself -- simplification can otherwise cut
+#' a corner far enough inland to expose a sliver of the Living Lab outside its own halo, and
+#' the halo must contain the boundary by construction, not by luck. `ring` is the halo minus
+#' the boundary: the only part of the image that gets veiled.
+#'
+#' @param boundary_3857 sf, the Living Lab's boundary in EPSG:3857.
+#' @return list(halo = sfc, ring = sfc), both EPSG:3857.
+.mv_locator_halo <- function(boundary_3857) {
+  core <- sf::st_make_valid(sf::st_union(boundary_3857))
+  halo <- sf::st_buffer(core, .MV_LOCATOR_HALO_M)
+  halo <- sf::st_simplify(halo, dTolerance = .MV_LOCATOR_HALO_SIMPLIFY_M, preserveTopology = TRUE)
+  halo <- sf::st_make_valid(sf::st_union(halo, core))
+  if (length(halo) == 0 || all(sf::st_is_empty(halo))) {
+    stop(
+      ".mv_locator_halo(): buffering and simplifying the boundary produced an empty halo ",
+      "polygon -- the locator's imagery would have nothing to be clipped to."
+    )
+  }
+  ring <- sf::st_make_valid(sf::st_difference(halo, core))
+  list(halo = halo, ring = ring)
 }
 
 #' Solve the locator's figure height and its five column weights.
@@ -613,9 +811,9 @@ ll_map_locator_height <- function(slug) {
   .mv_locator_layout(slug)$height
 }
 
-#' The cover-page locator: a tiles-backed main panel (the Living Lab boundary
-#' over basemap imagery, padded so the boundary is not flush against the
-#' frame) placed side by side with a Germany-outline panel marking the Living
+#' The cover-page locator: an imagery-backed main panel (the Living Lab boundary over
+#' satellite imagery, trimmed to a smoothed halo around the boundary and veiled outside it)
+#' placed side by side with a Germany-outline panel marking the Living
 #' Lab's location nationally (plan 12-10 checkpoint round 2 Defect 3: an
 #' inset/overlay -- however large or opaque -- reads as a map placed on top of
 #' another map; a reader asked for two maps placed next to each other instead,
@@ -648,6 +846,7 @@ ll_map_locator <- function(slug, lang) {
   extent <- .mv_locator_bbox(slug)
   boundary_3857 <- extent$boundary
   bbox_sfc <- extent$bbox_sfc
+  halo <- .mv_locator_halo(boundary_3857)
 
   cachedir <- file.path(root, "data", "_cache")
   if (!dir.exists(cachedir)) {
@@ -676,12 +875,27 @@ ll_map_locator <- function(slug, lang) {
     }
   )
 
+  # Trim the fetched rectangle of imagery to the halo: `terra::mask()` sets every cell
+  # outside the polygon to NA in all three bands, and `geom_spatraster_rgb()` draws an NA
+  # cell as fully transparent -- so what reaches the page is imagery shaped like the Living
+  # Lab, over the page's own background, with no rectangular edge anywhere. The raster keeps
+  # its full extent (mask never crops), so the panel still spans exactly the bounding box
+  # `.mv_locator_layout()` solved the figure's geometry from.
+  tiles_clipped <- terra::mask(tiles, terra::vect(halo$halo))
+
   # `expand = FALSE` so the drawn extent is exactly the padded bounding box
   # `.mv_locator_layout()` measured -- with ggplot2's default 5% expansion the
   # panel is slightly larger than the box the layout solved for, and the panel
   # would no longer land flush inside its column.
   main_plot <- ggplot2::ggplot() +
-    tidyterra::geom_spatraster_rgb(data = tiles, maxcell = Inf) +
+    tidyterra::geom_spatraster_rgb(data = tiles_clipped, maxcell = Inf) +
+    # The veil, drawn only over the ring between the boundary and the halo edge: context
+    # stays readable but visibly subordinate, and the Living Lab is the one part of the
+    # image at full strength. Under the boundary line, never over it.
+    ggplot2::geom_sf(
+      data = sf::st_as_sf(halo$ring), fill = theme_tk$white,
+      colour = NA, alpha = .MV_LOCATOR_RING_VEIL_ALPHA
+    ) +
     ggplot2::geom_sf(data = boundary_3857, fill = NA, color = brand$outlineColor, linewidth = 1.1) +
     ggplot2::coord_sf(expand = FALSE) +
     theme_ll_map() +

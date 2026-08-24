@@ -33,7 +33,8 @@ export function DownloadReportCTA({ ll, lang }) {
         display: 'inline-flex',
         alignItems: 'center',
         gap: 8,
-        padding: '8px 24px',
+        padding: '11px 24px',
+        minHeight: 44,
         borderRadius: 16,
         background: C.orange,
         color: C.white,
@@ -43,6 +44,8 @@ export function DownloadReportCTA({ ll, lang }) {
         lineHeight: 1.2,
         textDecoration: 'none',
         cursor: 'pointer',
+        whiteSpace: 'nowrap',
+        flexShrink: 0,
       }}
     >
       <span aria-hidden="true">⬇</span>
@@ -53,6 +56,7 @@ export function DownloadReportCTA({ ll, lang }) {
   return (
     <div
       style={{
+        height: '100%',
         background: C.limePale,
         borderRadius: 14,
         padding: '16px 24px',
@@ -60,9 +64,15 @@ export function DownloadReportCTA({ ll, lang }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'space-between',
+        // This card used to sit beside CompareCTA as an unshrinkable flex item, so all of the
+        // row's shortfall was taken out of CompareCTA until its text collided with its button.
+        // Both cards are now equal-width grid tracks (LLDetail's ctaRowStyle) and each one
+        // absorbs its own shortfall here: the copy may wrap, then the button drops below it.
+        flexWrap: 'wrap',
+        gap: 12,
       }}
     >
-      <div>
+      <div style={{ flex: '1 1 140px', minWidth: 0 }}>
         <div style={{ fontSize: 14, fontWeight: 700, color: C.green }}>
           {t('llDetail.downloadReportTitle')}
         </div>

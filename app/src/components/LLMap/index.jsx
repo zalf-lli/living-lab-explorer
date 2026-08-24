@@ -30,6 +30,8 @@ import { selectBoundary, getBounds } from '../../lib/llBoundary.js'
 import { C } from '../../theme.js'
 import { MapLegend } from '../MapLegend.jsx'
 import { PeriodSwitcher } from '../PeriodSwitcher.jsx'
+import { useViewport } from '../../hooks/useMediaQuery.js'
+import { MapTouchGate } from '../MapTouchGate.jsx'
 
 const MAP_STYLE = { width: '100%', height: '100%' }
 const TILE_SUBDOMAINS = ['a', 'b', 'c', 'd']
@@ -613,6 +615,7 @@ function InfoRow({ label, primary, provider, license, url, viewSourceLabel, lice
 
 function MapInfoControl({ layer, slug, overlayIds = [] }) {
   const { t, i18n } = useTranslation()
+  const { isTouch } = useViewport()
   const [open, setOpen] = useState(false)
   const wrapperRef = useRef(null)
   const layerSource = LAYER_SOURCE_INDEX.get(layer) ?? null
@@ -669,8 +672,8 @@ function MapInfoControl({ layer, slug, overlayIds = [] }) {
         onClick={() => setOpen((o) => !o)}
         onFocus={() => setOpen(true)}
         style={{
-          width: 28,
-          height: 28,
+          width: isTouch ? 40 : 28,
+          height: isTouch ? 40 : 28,
           borderRadius: '50%',
           border: `1px solid ${C.mutedLight}`,
           background: 'rgba(255,255,255,0.95)',
@@ -694,8 +697,9 @@ function MapInfoControl({ layer, slug, overlayIds = [] }) {
           style={{
             position: 'absolute',
             right: 0,
-            bottom: 36,
+            bottom: isTouch ? 48 : 36,
             width: 280,
+            maxWidth: 'calc(100vw - 40px)',
             padding: '10px 12px',
             background: 'rgba(255,255,255,0.98)',
             borderRadius: 8,
@@ -758,6 +762,7 @@ function MapInfoControl({ layer, slug, overlayIds = [] }) {
 // Protected areas overlay toggle button (independent of active layer tab)
 function ProtectedAreasToggle({ active, onToggle }) {
   const { t } = useTranslation()
+  const { isTouch } = useViewport()
   return (
     <button
       type="button"
@@ -771,7 +776,8 @@ function ProtectedAreasToggle({ active, onToggle }) {
         background: 'rgba(255,255,255,0.94)',
         border: `1px solid ${C.mutedLight}`,
         borderRadius: 10,
-        padding: '6px 10px',
+        padding: isTouch ? '11px 12px' : '6px 10px',
+        minHeight: isTouch ? 44 : undefined,
         fontSize: 11.5,
         fontWeight: 600,
         color: C.teal,
@@ -924,6 +930,13 @@ export default function LLMap({
   onHorizonChange = () => {},
 }) {
   const { t, i18n } = useTranslation()
+  const { isTouch } = useViewport()
+  // Sticky for as long as this LLMap instance lives, which spans theme-tab and Living Lab
+  // switches: having asked once for a pannable map, the reader should not have to ask again
+  // on every tab. It resets on a reload or on crossing the split/stacked breakpoint (both
+  // remount the layout).
+  const [mapActivated, setMapActivated] = useState(false)
+  const needsTouchGate = isTouch && !mapActivated
   const layerConfig = LAYER_INDEX.get(layer)
   const { data, loading, error } = useGeoJSON('data/ll_boundaries.geojson')
   const [climateState, setClimateState] = useState({ loading: false, error: false })
@@ -1030,7 +1043,7 @@ export default function LLMap({
           attributionControl={false}
           bounds={bounds}
           boundsOptions={{ padding: [16, 16] }}
-          scrollWheelZoom
+          scrollWheelZoom={!isTouch}
           style={MAP_STYLE}
         >
           <TileLayer
@@ -1113,10 +1126,11 @@ export default function LLMap({
             onModeChange={onPeriodModeChange}
             onHorizonChange={onHorizonChange}
             horizons={['2041_2070', '2071_2100']}
-            style={{ position: 'absolute', top: 56, right: 12, zIndex: 500 }}
+            style={{ position: 'absolute', top: isTouch ? 68 : 56, right: 12, zIndex: 500 }}
           />
         ) : null}
         <MapInfoControl layer={layer} slug={ll.slug} overlayIds={showProtectedAreas ? ['protected-areas'] : []} />
+        {needsTouchGate ? <MapTouchGate onActivate={() => setMapActivated(true)} /> : null}
       </div>
       <div style={{ padding: '10px 16px', borderTop: `1px solid ${C.mutedLight}`, background: C.bg }}>
         <MapLegend

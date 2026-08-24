@@ -33,7 +33,7 @@ export function LandingMap({ lls, onPick }) {
     const llPolys = lls.map((ll) => {
       const feats = nuts3.features.filter((f) => ll.nuts3.includes(f.properties.NUTS_ID))
       const d = feats.map((f) => featureToPath(f, project)).join(' ')
-      return { slug: ll.slug, color: ll.color, colorDark: ll.colorDark, d }
+      return { slug: ll.slug, name: ll.name, color: ll.color, colorDark: ll.colorDark, d }
     })
     return { states, llPolys, viewBox: `0 0 ${SVG_W} ${SVG_H}` }
   }, [data, lls])
@@ -64,7 +64,17 @@ export function LandingMap({ lls, onPick }) {
   }
 
   return (
-    <svg viewBox={mapData.viewBox} style={{ width: '100%', height: '100%', display: 'block' }}>
+    // The five regions are real activatable targets, so this is a group of controls rather
+    // than an image. Each region was previously a bare <g onClick> — unreachable by keyboard
+    // and unnamed to a screen reader. The Living Lab card list beside/below this map is the
+    // same navigation in list form; the map is now equally operable rather than merely
+    // duplicated.
+    <svg
+      viewBox={mapData.viewBox}
+      role="group"
+      aria-label={t('landing.mapLabel')}
+      style={{ width: '100%', height: '100%', display: 'block' }}
+    >
       {mapData.states.map((s) => (
         <path
           key={s.id}
@@ -76,20 +86,33 @@ export function LandingMap({ lls, onPick }) {
         />
       ))}
       {mapData.llPolys.map((llp) => {
-        const isHover = hover === llp.slug
+        const isActive = hover === llp.slug
         return (
           <g
             key={llp.slug}
+            role="button"
+            tabIndex={0}
+            aria-label={llp.name}
             onMouseEnter={() => setHover(llp.slug)}
             onMouseLeave={() => setHover(null)}
+            onFocus={() => setHover(llp.slug)}
+            onBlur={() => setHover(null)}
             onClick={() => onPick(llp.slug)}
+            onKeyDown={(e) => {
+              if (e.key !== 'Enter' && e.key !== ' ') return
+              // Space scrolls the page by default, and both keys would otherwise also reach
+              // the document handler.
+              e.preventDefault()
+              onPick(llp.slug)
+            }}
             style={{ cursor: 'pointer' }}
           >
+            <title>{llp.name}</title>
             <path
               d={llp.d}
-              fill={isHover ? llp.color : llp.colorDark}
-              stroke={isHover ? C.mutedPale : 'rgba(255,255,255,0.7)'}
-              strokeWidth={isHover ? 2.5 : 1.2}
+              fill={isActive ? llp.color : llp.colorDark}
+              stroke={isActive ? C.mutedPale : 'rgba(255,255,255,0.7)'}
+              strokeWidth={isActive ? 2.5 : 1.2}
               strokeLinejoin="round"
               style={{ transition: 'all 0.2s' }}
             />

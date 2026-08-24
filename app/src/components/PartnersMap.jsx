@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import L from 'leaflet'
 import { GeoJSON, MapContainer, Marker, TileLayer, Tooltip } from 'react-leaflet'
@@ -7,6 +7,8 @@ import { buildMaskFeature } from '../lib/buildMaskGeometry.js'
 import { selectBoundary, getBounds } from '../lib/llBoundary.js'
 import { safeExternalUrl } from '../lib/partnersProjects.js'
 import { C } from '../theme.js'
+import { useViewport } from '../hooks/useMediaQuery.js'
+import { MapTouchGate } from './MapTouchGate.jsx'
 
 const MAP_STYLE = { width: '100%', height: '100%' }
 const TILE_SUBDOMAINS = ['a', 'b', 'c', 'd']
@@ -61,6 +63,10 @@ function PartnerMarker({ partner }) {
 // of a 'partners' id in that registry would reintroduce the ComingSoonBadge/available branching
 // this sibling component exists to avoid.
 export default function PartnersMap({ ll, partners = [], height = 300 }) {
+  // Same reasoning as LLMap: on a touch screen this map starts inert so a thumb landing on it
+  // scrolls the page instead of panning. See MapTouchGate.jsx.
+  const { isTouch } = useViewport()
+  const [mapActivated, setMapActivated] = useState(false)
   const { t } = useTranslation()
   const { data, loading, error } = useGeoJSON('data/ll_boundaries.geojson')
 
@@ -118,7 +124,7 @@ export default function PartnersMap({ ll, partners = [], height = 300 }) {
         key={ll.slug}
         bounds={bounds}
         boundsOptions={{ padding: [16, 16] }}
-        scrollWheelZoom
+        scrollWheelZoom={!isTouch}
         style={MAP_STYLE}
       >
         <TileLayer
@@ -138,6 +144,9 @@ export default function PartnersMap({ ll, partners = [], height = 300 }) {
           <PartnerMarker key={p.id ?? p.name} partner={p} />
         ))}
       </MapContainer>
+      {isTouch && !mapActivated ? (
+        <MapTouchGate onActivate={() => setMapActivated(true)} />
+      ) : null}
     </div>
   )
 }

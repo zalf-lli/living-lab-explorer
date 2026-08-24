@@ -215,6 +215,71 @@ for (slug in LIVING_LABS) {
   )
 }
 
+# --- Protected areas: legend parity with the palette + render both languages ------
+#
+# The report's protected-areas map is the app's overlay, printed: same GeoJSON, same
+# palette, same designation join key. What can silently go wrong is the join -- a
+# designation string the pipeline writes but the palette does not carry would simply
+# vanish from the map with no error -- so this asserts that every designation present in
+# each Living Lab's features resolves to a legend row, and that the rows stay in the
+# palette's own order (the app filters the palette; it never re-sorts it).
+
+palette_values <- ll_tokens()$palettes$protectedAreas$value
+
+for (slug in LIVING_LABS) {
+  areas_path <- file.path(
+    repo_root, "app", "public", "data", "geojson", paste0("protected-areas-", slug, ".geojson")
+  )
+  areas_sf <- sf::st_read(areas_path, quiet = TRUE)
+  present <- sort(unique(as.character(areas_sf$designation)))
+  unknown <- setdiff(present, palette_values)
+  if (length(unknown) > 0) {
+    fail(paste0(
+      slug, ": protected-area designation(s) with no palette entry: ",
+      paste(unknown, collapse = ", "), ". Known: ", paste(palette_values, collapse = ", ")
+    ))
+  }
+
+  entries <- tryCatch(ll_protected_areas_legend_entries(slug, "en"), error = function(e) {
+    fail(paste0(slug, ": ll_protected_areas_legend_entries() failed: ", conditionMessage(e)))
+    NULL
+  })
+  if (!is.null(entries)) {
+    if (!identical(entries$key, palette_values[palette_values %in% present])) {
+      fail(paste0(
+        slug, ": protected-areas legend rows are not the palette filtered to the present ",
+        "designations, in palette order: [", paste(entries$key, collapse = ", "), "]"
+      ))
+    }
+    entries_de <- ll_protected_areas_legend_entries(slug, "de")
+    if (!identical(entries_de$key, entries$key)) {
+      fail(paste0(slug, ": protected-areas legend rows differ between 'en' and 'de'"))
+    }
+  }
+
+  protected_height <- ll_map_protected_areas_height(slug)
+  for (lang in c("en", "de")) {
+    plot_obj <- tryCatch(ll_map_protected_areas(slug, lang), error = function(e) {
+      fail(paste0(slug, "/", lang, ": ll_map_protected_areas() failed: ", conditionMessage(e)))
+      NULL
+    })
+    if (!is.null(plot_obj)) {
+      render_and_check_size(
+        plot_obj, 10000, paste0(slug, "/", lang, ": ll_map_protected_areas()"), protected_height
+      )
+    }
+  }
+
+  summary_lines <- c(
+    summary_lines,
+    paste0(
+      slug, " (protected areas): features=", nrow(areas_sf),
+      " designations=", length(present),
+      " height=", round(protected_height, 2)
+    )
+  )
+}
+
 # --- Locator: credit string + render both languages -----------------------------
 
 credit <- tryCatch(ll_locator_credit(), error = function(e) {

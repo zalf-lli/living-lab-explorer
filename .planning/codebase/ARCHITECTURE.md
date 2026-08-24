@@ -125,7 +125,7 @@ LL-Explorer is split into two strictly decoupled subsystems that meet on disk th
 **Pages:**
 - Purpose: Full-screen layouts wired to a single route.
 - Location: `app/src/pages/`
-- Contains: `Landing.jsx`, `LLDetail.jsx`. Each page composes components + hooks. `LLDetail` has two internal layouts (`LayoutSplit`, `LayoutStacked`) toggled via a `?layout=A|B` query param.
+- Contains: `Landing.jsx`, `LLDetail.jsx`. Each page composes components + hooks. `LLDetail` has two single-Living-Lab layouts (`LayoutSplit`, `LayoutStacked`) plus `LayoutCompare`; which one renders is derived from the viewport via `useViewport()` (`app/src/hooks/useMediaQuery.js`), not from a query param.
 - Depends on: `components/`, `hooks/`, `data/`.
 - Used by: routes in `App.jsx`.
 
@@ -179,7 +179,7 @@ LL-Explorer is split into two strictly decoupled subsystems that meet on disk th
 2. `app/src/main.jsx:8` mounts `<App />`.
 3. `App` (`app/src/App.jsx:13`) calls `useLLMetadata(lang)` which `fetch('./data/ll_metadata.json')` once and merges results with `LL_DISPLAY` config (`app/src/hooks/useLLMetadata.js:11`).
 4. `HashRouter` matches `/ll/:slug` and renders `LLDetail` (`app/src/App.jsx:34`).
-5. `LLDetail` reads layout option from `?layout=` (`app/src/pages/LLDetail.jsx:32`) and lazy-loads `LLMap` via `React.lazy` (`app/src/pages/LLDetail.jsx:12`).
+5. `LLDetail` picks its layout from `useViewport()` — `LayoutSplit` at >=1024px, `LayoutStacked` below — and lazy-loads `LLMap` via `React.lazy`.
 6. Suspense fallback shows "Loading map..." while the Leaflet chunk downloads.
 7. `LLMap` (`app/src/components/LLMap/index.jsx:279`) calls `useGeoJSON('data/ll_boundaries.geojson')`, picks the matching feature by `ll_slug`, computes Leaflet bounds + an inverse-polygon mask.
 8. `MapContainer` mounts a CARTO Voyager `TileLayer`, then for active layers a `RasterPmtilesLayer` that opens `landuse-croptypes.pmtiles` via the `PMTiles` client and registers a `leafletRasterLayer` overlay.
@@ -213,7 +213,7 @@ LL-Explorer is split into two strictly decoupled subsystems that meet on disk th
 ### State Management
 
 - **Module-scoped caches**: `useGeoJSON` (`app/src/hooks/useGeoJSON.js:3`) and `useLLMetadata` (`app/src/hooks/useLLMetadata.js:5`) keep `Map`/let-bindings of fetched payloads so the same JSON file is fetched at most once per page load. `LLMap` does the same for `PMTiles` instances (`app/src/components/LLMap/index.jsx:17`).
-- **URL state**: layout option (`?layout=A|B`) is the only persisted UI state aside from language. Owned by `useSearchParams` in `LLDetail`.
+- **URL state**: `?compare=<slug>` (comparison mode) is the only persisted UI state aside from language. Owned by `useSearchParams` in `LLDetail`, which also strips a stale `?layout=` left over from old bookmarks.
 - **localStorage**: `STORAGE_KEY = 'll-explorer-lang'` persists the chosen language (`app/src/i18n.js:4`, set in `App.jsx:18`).
 - **No global store**: sibling state is passed as props (`lls` flows from `App` → `Header`, `Landing`, `LLDetail`).
 
@@ -240,10 +240,11 @@ LL-Explorer is split into two strictly decoupled subsystems that meet on disk th
 - Examples: `buildMaskFeature` (`app/src/lib/buildMaskGeometry.js:39`) — uses a single polygon with a `WORLD_RING` outer + each LL outer ring as holes (essential for non-contiguous LLs).
 - Pattern: A pure function consumed once per render in `LLMap`.
 
-**Layout option (Split vs Stacked):**
-- Purpose: Show two prototype layouts side-by-side for stakeholder review without a backend.
-- Examples: `LayoutSplit` and `LayoutStacked` in `app/src/pages/LLDetail.jsx:135` and `:240`.
-- Pattern: Driven by `?layout=A|B`, swapped via `key` prop to force remount on change.
+**Responsive layout selection (Split vs Stacked):**
+- Purpose: Pick the arrangement the viewport can actually carry. Split needs roughly a laptop's width for its map-left / data-right panes; below that stacked is the only workable shape.
+- Examples: `LayoutSplit`, `LayoutStacked` and `LayoutCompare` in `app/src/pages/LLDetail.jsx`.
+- Pattern: Driven by `useViewport().isNarrow` (`(max-width: 1023px)`), swapped via `key` prop to force remount when the breakpoint is crossed. There is no user-facing layout switcher — the `?layout=A|B` param and its "Change layout" control were removed.
+- Breakpoints live in one place: `BREAKPOINTS` in `app/src/hooks/useMediaQuery.js` (`mobile: 767`, `narrow: 1023`). `useViewport()` also exposes `isTouch` for coarse-pointer affordances (map tap-to-interact gate, larger hit areas).
 
 ## Entry Points
 

@@ -2,7 +2,7 @@
 // Quarto partial: wires YAML front matter and the active brands/<slug>.yml into ll-report().
 // Vendored and adapted from iat-dml/templates -- see NOTICE.md.
 
-#import "_extensions/ll-explorer-typst/ll-explorer-theme.typ": ll-report, accent, accent-upper, ll-status-box, ll-kpi-grid
+#import "_extensions/ll-explorer-typst/ll-explorer-theme.typ": ll-report, accent, accent-upper, ll-status-box, ll-kpi-grid, ll-figure-note
 
 // D-07/D-08 colour injection: deliberately NOT the pandoc "if brand-color" conditional
 // reading brand-color.ll-primary (NOTE: that literal directive text cannot be written here
@@ -64,6 +64,10 @@ $endif$
 // ll-font already resolved at this point in the file.
 #let ll-status-box = ll-status-box.with(accent: ll-primary, font: ll-font)
 #let ll-kpi-grid = ll-kpi-grid.with(accent: ll-primary, font: ll-font)
+// Same binding, same reason: sections.R's `ll_note_typst()` emits `#ll-figure-note(lines: ...)`
+// with no font of its own, so figure notes are typeset in the active render's font without
+// R ever knowing what that font is.
+#let ll-figure-note = ll-figure-note.with(font: ll-font)
 
 $if(cover-image)$
 #let _cover-img = image("$cover-image$", width: 12.9cm, height: 8.41cm, fit: "cover")

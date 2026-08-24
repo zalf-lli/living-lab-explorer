@@ -54,7 +54,34 @@ def test_report_tokens_shape() -> None:
     assert "otherColor" in chart
 
     palettes = tokens["palettes"]
-    assert set(palettes) == {"agriculture", "landscape", "soil", "economic", "climate"}
+    assert set(palettes) == {
+        "agriculture",
+        "landscape",
+        "soil",
+        "economic",
+        "climate",
+        "protectedAreas",
+    }
+
+    # The protected-areas overlay palette the report's landscape section draws from: three
+    # designations, each carrying both of the browser's colours plus its stroke weight and
+    # fill opacity, and the `value` string that joins a feature to its legend row.
+    protected = palettes["protectedAreas"]
+    assert [entry["value"] for entry in protected] == [
+        "Natura 2000 SCI",
+        "Natura 2000 SPA",
+        "Naturschutzgebiet",
+    ]
+    for entry in protected:
+        assert set(entry) == {
+            "value",
+            "en",
+            "de",
+            "color",
+            "strokeColor",
+            "weight",
+            "fillOpacity",
+        }
 
     soil = palettes["soil"]
     assert set(soil) == {
@@ -98,6 +125,9 @@ def test_report_tokens_shape() -> None:
                 colors.append(
                     (f"palettes.climate.legend.{variable_id}.change.{period}[{i}].color", band["color"])
                 )
+    for i, entry in enumerate(protected):
+        colors.append((f"palettes.protectedAreas[{i}].color", entry["color"]))
+        colors.append((f"palettes.protectedAreas[{i}].strokeColor", entry["strokeColor"]))
     colors.extend((f"chart.rankColors[{i}]", value) for i, value in enumerate(chart["rankColors"]))
     colors.append(("chart.otherColor", chart["otherColor"]))
 

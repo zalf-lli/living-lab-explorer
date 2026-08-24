@@ -19,7 +19,7 @@ import { C, FONT } from '../src/theme.js'
 import { LANDUSE_LEGEND } from '../src/data/landuse_legend.js'
 import { LAND_COVER_LEGEND } from '../src/data/land_cover_legend.js'
 import { SOIL_GROUP_COLORS, SOIL_FALLBACK_PALETTE, SOIL_WATER_FILL, SOIL_WATER_STROKE, SOIL_SPECIAL_FILL, SOIL_SPECIAL_STROKE, SOIL_UNIT_STROKE } from '../src/data/soil_legend.js'
-import { BORIS_RAMP, BORIS_NO_DATA_STYLE, CLIMATE_VARIABLES, CLIMATE_LEGEND } from '../src/data/layers.js'
+import { BORIS_RAMP, BORIS_NO_DATA_STYLE, CLIMATE_VARIABLES, CLIMATE_LEGEND, PROTECTED_AREAS_LEGEND } from '../src/data/layers.js'
 import { MAX_BARS, CHART_RANK_COLORS, CHART_OTHER_COLOR } from '../src/lib/chartSeries.js'
 import { resources } from '../src/i18n_resources.js'
 
@@ -79,6 +79,24 @@ if (!Array.isArray(CLIMATE_VARIABLES) || CLIMATE_VARIABLES.length === 0) {
 if (!CLIMATE_LEGEND || typeof CLIMATE_LEGEND !== 'object' || Object.keys(CLIMATE_LEGEND).length === 0) {
   fail('layers.js CLIMATE_LEGEND is missing or empty')
 }
+// The protected-areas overlay's palette: the report's landscape section draws the same three
+// designations with the same fills/strokes the browser uses, so this palette has to cross the
+// bridge like every other one -- maps_vector.R is forbidden from carrying a hex literal.
+if (!Array.isArray(PROTECTED_AREAS_LEGEND) || PROTECTED_AREAS_LEGEND.length === 0) {
+  fail('layers.js PROTECTED_AREAS_LEGEND is missing or empty')
+}
+for (const [i, entry] of (PROTECTED_AREAS_LEGEND ?? []).entries()) {
+  for (const key of ['value', 'en', 'de', 'color', 'strokeColor']) {
+    if (typeof entry?.[key] !== 'string' || entry[key].length === 0) {
+      fail(`layers.js PROTECTED_AREAS_LEGEND[${i}].${key} is missing or not a string`)
+    }
+  }
+  for (const key of ['weight', 'fillOpacity']) {
+    if (typeof entry?.[key] !== 'number') {
+      fail(`layers.js PROTECTED_AREAS_LEGEND[${i}].${key} is missing or not a number`)
+    }
+  }
+}
 if (typeof MAX_BARS !== 'number' || MAX_BARS <= 0) {
   fail('chartSeries.js MAX_BARS is missing or invalid')
 }
@@ -137,6 +155,11 @@ const bundle = {
       variables: CLIMATE_VARIABLES,
       legend: CLIMATE_LEGEND,
     },
+    // Exported whole (value/en/de/color/strokeColor/weight/fillOpacity), not reduced to
+    // colours: the report's protected-areas map reproduces the browser's fill opacity and
+    // stroke weight as well as its hues, and its legend joins on the same `value` designation
+    // string the pipeline writes into each feature.
+    protectedAreas: PROTECTED_AREAS_LEGEND.map((entry) => ({ ...entry })),
   },
   chart: {
     maxBars: MAX_BARS,
@@ -180,6 +203,7 @@ console.log(`palettes.landscape: ${LAND_COVER_LEGEND.length} classes`)
 console.log(`palettes.soil: ${soilGroupCount} groups, ${SOIL_FALLBACK_PALETTE.length} fallback`)
 console.log(`palettes.economic.ramp: ${BORIS_RAMP.length} stops`)
 console.log(`palettes.climate.variables: ${CLIMATE_VARIABLES.length} variables`)
+console.log(`palettes.protectedAreas: ${PROTECTED_AREAS_LEGEND.length} designations`)
 console.log(`chart.rankColors: ${CHART_RANK_COLORS.length} colours`)
 console.log(`strings.en: ${Object.keys(stringsEn).length} namespaces`)
 console.log(`strings.de: ${Object.keys(stringsDe).length} namespaces`)

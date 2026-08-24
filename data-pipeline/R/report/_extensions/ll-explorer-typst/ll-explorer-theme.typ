@@ -214,6 +214,27 @@
 #let accent(body) = text(fill: ll-orange, weight: "bold", body)
 #let accent-upper(body) = text(fill: ll-primary-default, weight: "bold", upper(body))
 
+// --- Figure notes -----------------------------------------------------------------
+//
+// A figure's note (the soil legend's provenance sentence, the four climate variable
+// explanations, a chart's placeholder-data marker) belongs to the document, not to the
+// image: drawn inside a ggplot it becomes pixels at a fixed width, cannot re-wrap, and is
+// typeset by the plot device rather than by this theme. sections.R's `ll_note_typst()`
+// emits a call to this function instead, immediately after the figure, so the note lands
+// directly beneath that figure's caption in the document's own font.
+//
+// Deliberately quieter than `figure.caption` (which is 9pt bold in the brand colour): a note
+// qualifies the figure, so it must not compete with the caption that names it.
+#let ll-figure-note(lines: (), font: "Segoe UI") = {
+  block(above: 0.5em, below: 1.1em, width: 100%, {
+    set text(font: font, size: 7.5pt, fill: ll-black.lighten(30%))
+    set par(justify: false, leading: 0.5em, spacing: 0.45em)
+    for line in lines {
+      block(line)
+    }
+  })
+}
+
 // --- KPI status boxes (plan 12-07 Task 2) ---------------------------------------
 //
 // D-06's "no statistic is recomputed in R" pairs with a presentation requirement: KPIs read
