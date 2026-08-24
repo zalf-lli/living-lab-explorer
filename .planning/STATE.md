@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: ready_to_plan
-stopped_at: Phase 14 context gathered
-last_updated: "2026-08-24T00:00:00.000Z"
+status: ready_to_execute
+stopped_at: Phase 14 planned - 14 plans, 7 waves
+last_updated: "2026-08-24T21:55:00.000Z"
 progress:
-  total_phases: 17
-  completed_phases: 13
-  total_plans: 86
-  completed_plans: 83
-  percent: 76
+  total_phases: 18
+  completed_phases: 14
+  total_plans: 114
+  completed_plans: 84
+  percent: 78
 ---
 
 # Project State
@@ -21,9 +21,11 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 
 **Core value:** A researcher or stakeholder can open the app and immediately see accurate, up-to-date geodata and statistics for any of the five Living Labs without any server infrastructure.
 
-**Current focus:** Phase 14 is now defined in ROADMAP.md and its context is captured
-(`14-CONTEXT.md`, 22 locked decisions) — ready to plan. Other open work: Phase 3.1 (paused at its
-Wave 3 human-verify checkpoint), Phase 05.1, and Phase 7 (8/9 plans complete). Run
+**Current focus:** Phase 14 is planned — 14 plans across 7 waves, plan-checker passed on
+iteration 2, all 22 CONTEXT decisions (D-01..D-22) covered. Wave 1 opens on `14-01`, a blocking
+`checkpoint:decision` on the SQR1000 licence (BGR GSTC Art. 3(1) may withhold public republication);
+no `sources.yaml` edit or tile publish may land before that verdict. Other open work: Phase 3.1
+(paused at its Wave 3 human-verify checkpoint), Phase 05.1, and Phase 7 (8/9 plans complete). Run
 `/gsd:progress` to route to the next action.
 
 ## Status
@@ -45,6 +47,7 @@ Wave 3 human-verify checkpoint), Phase 05.1, and Phase 7 (8/9 plans complete). R
 | 11 | Wire chart JSON data to chart UI components | Complete (2026-08-03) — 5/5 plans, goal verification passed 8/8 (UI-1..UI-8), human-verified round 2, code-review blocker CR-01 fixed |
 | 12 | Export a PDF of the content for a given Living Lab | Complete — see 12-EVIDENCE.md/12-VERIFICATION.md |
 | 13 | Add a Projects and Partners tab to individual Living Lab pages | Complete (2026-08-14) — 6/6 plans, goal verification passed 18/18 (D-01..D-18), human-verified round 2 (layout bug found+fixed mid-checkpoint), code-review findings CR-01/WR-01/WR-02/IN-01 fixed post-approval |
+| 14 | Add soil yield potential (SQR) as a switchable Type/Yield potential map | Planned (2026-08-24) - 14 plans, 7 waves, verified ✓ (plan-checker passed iteration 2); Wave 1 opens on a blocking licence decision (14-01) |
 
 ## Active Work
 
@@ -406,6 +409,6 @@ Phase 2.2 completed on 2026-04-30 and replaced the shallow German-only soil look
 
 ## Session
 
-**Last session:** 2026-08-24T00:00:00Z
-**Stopped at:** Phase 14 context gathered (D-01..D-22 locked, discuss mode)
-**Resume file:** .planning/phases/14-add-soil-yield-potential-sqr-as-a-switchable-type-yield-pote/14-CONTEXT.md
+**Last session:** 2026-08-24T17:10:05.990Z
+**Stopped at:** Phase 14 UI-SPEC approved
+**Resume file:** .planning/phases/14-add-soil-yield-potential-sqr-as-a-switchable-type-yield-pote/14-UI-SPEC.md
