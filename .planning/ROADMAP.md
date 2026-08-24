@@ -748,6 +748,111 @@ Plans:
 
 - [x] 13-06-PLAN.md — Phase close-out: full automated gate, whole-phase dependency and XSS checks, D-01..D-18 evidence table, blocking bilingual + keyboard human verification and content sign-off
 
+### Phase 14: Add soil yield potential (SQR) as a switchable Type/Yield potential map on the soil tab, plus an SQR-derived KPI in the KPI bar and reports
+
+**Goal:** The soil tab gains a Type / Yield potential sub-tab row (a second `VariablePicker` instance
+under `LayerTabs`, **not** the climate tab's on-map Baseline/Change switcher — D-02 reversed that) that
+keeps the existing BUEK250 soil-type map unchanged as the default and adds a per-Living-Lab yield
+potential raster built from the Germany-wide BGR Soil Quality Rating grid in `data/sqr1000_250_v10/`
+(250 m, EPSG:3034, values 0-102); the same raster fills the soil tab's two permanently-null KPI slots
+with a mean-SQR and a rated-area-share tile, and adds a band-share chart that becomes the yield map's
+bar legend in the per-LL PDF reports.
+**Requirements**: D-01 .. D-22 (from `14-CONTEXT.md`) plus `14-UI-SPEC.md`. Phase 14 has no
+REQUIREMENTS.md REQ-IDs; the CONTEXT decisions are the spec, as in Phases 5, 05.1, 6, 7, 8, 12 and 13.
+Every plan's `requirements` field carries the D-IDs it implements.
+**Depends on:** Phase 13
+**Plans:** 14 plans across 7 waves
+
+**Planning decisions (resolved during breakdown):**
+
+- **The licence is a blocking human decision, not a research task.** Research found SQR1000 is governed
+  by BGR's General Standard Terms and Conditions (GSTC/AGB), **not** GeoNutzV as BUEK250 is, and that
+  Article 3(1) explicitly withholds "the right to make accessible to the public" outside an
+  administrative-procedure carve-out that does not describe this project. Wave 1 is therefore a
+  `checkpoint:decision` (`14-01`) producing `14-LICENCE.md`; no `sources.yaml` edit may land before it.
+
+- **The `app_layer` 1:1 collision is designed before any sources.yaml edit.** `sync.py:306` emits a flat
+  last-write-wins `Map`, so a second `app_layer: soil` entry would silently overwrite BUEK's. `14-03`
+  adds a `mode:` key, a compound `${appLayer}:${mode}` companion map with `soil` aliased back to
+  `soil:type` (D-01), and a hard sync-time uniqueness assertion that turns any *future* collision into a
+  loud build failure.
+
+- **Five bands, not six.** D-11 leaves the band count to discretion; five equal-width bands of 20 over a
+  declared 0-100 scale (top band open-ended, so the nominal 102 ceiling still colours) is the only count
+  that keeps the chart at exactly six rows — five bands plus D-21's "Not rated" — which is exactly
+  `chartSeries.js`'s `MAX_BARS`. A sixth band would fold the Not-rated row into a differently-coloured
+  "Other" bucket and break D-21. It also uses D-09's five locked ramp stops verbatim, so no new hex is
+  invented.
+
+- **No Pass-0 colour-breaks script.** Climate's two-pass machinery exists because its breaks are
+  data-driven; D-11's bands are arithmetic and declared in `sources.yaml`, so `build_sqr_pmtiles.py`
+  reads them directly. Simpler than the precedent, not a shortcut around it.
+
+- **`build_continuous_colormap()` gains one optional `nodata_color`.** It currently hardcodes nodata to
+  transparent; D-10 needs opaque grey. `None` reproduces today's behaviour byte-for-byte, so climate's
+  call site is untouched.
+
+- **Two `-9999` cases, two alpha treatments.** SQR's single sentinel conflates "non-arable inside the
+  Living Lab" (opaque grey) with "inside the 2 km buffer margin" (transparent). The classify-then-
+  geometry-mask ordering from `build_climate_pmtiles.py` is what distinguishes them and must not be
+  merged into one step.
+
+- **Two denominators coexist deliberately.** D-14's mean is over rated cells; D-21's chart is over the
+  whole Living Lab; D-16's second KPI tile is the bridge. Plans 14-05 and 14-07 document the split
+  in-script and 14-07 cross-checks the two artifacts agree within 1.0 point.
+
+- **`ΔE76 ≈ 13.4` between `limePale` and the Not-rated grey is surfaced, not hidden.** Both colours are
+  locked (D-09, D-10), so the automated distinctness gate is set at 12 rather than
+  `check_soil_palette.mjs`'s 15, and the pair is an explicit item on `14-14`'s human checkpoint.
+
+- **The three-hop codegen chain is an explicit plan.** `report_tokens.json` is produced by a manual
+  `node app/scripts/export_report_tokens.mjs` run, not by `python sync.py` — `14-09` exists so that step
+  cannot be forgotten.
+
+- **`.ll_climate_band_shares()` must not be reused.** It is the codebase's one documented exception to
+  "no statistic is recomputed in R"; D-19's `compute_sqr_chart.py` exists so it is not repeated.
+
+- Zero new npm, pip and R packages — asserted as a whole-phase diff gate in `14-14`.
+
+Plans:
+
+**Wave 1**
+
+- [ ] `14-01-PLAN.md` — SQR1000 licence evidence brief and blocking `checkpoint:decision` (D-06, D-07)
+- [ ] `14-02-PLAN.md` — `VariablePicker` `ariaLabelKey`, new `layer_source_lookup.js`, eight bilingual i18n keys
+
+**Wave 2** *(blocked on Wave 1)*
+
+- [ ] `14-03-PLAN.md` — `sources.yaml` `sqr1000` entry + `yield_bands`, `sync.py` compound-key codegen and
+      collision assertion, `soil_yield_legend.js` codegen, `test_sqr_contract.py`
+
+**Wave 3** *(blocked on Wave 2)*
+
+- [ ] `14-04-PLAN.md` — `build_continuous_colormap(nodata_color=)`, `build_sqr_pmtiles.py`, the five-LL build and publish
+- [ ] `14-05-PLAN.md` — `compute_sqr_kpis.py` and `data/sqr_kpis.json` (D-14, D-16, D-17)
+- [ ] `14-06-PLAN.md` — `layers.js`: `SOIL_MODES`, the soil `modes` map, mode-aware `resolveLayerAsset`
+
+**Wave 4** *(blocked on Wave 3)*
+
+- [ ] `14-07-PLAN.md` — `compute_sqr_chart.py`, five band-share charts, consolidated SQR artifact contract tests
+- [ ] `14-08-PLAN.md` — `useChartData`/`BarChart` mode threading and `StatPanel`'s per-field provenance fix
+- [ ] `14-09-PLAN.md` — `export_report_tokens.mjs` `palettes.soilYield`, regenerated bridge, updated tokens test
+
+**Wave 5** *(blocked on Wave 4)*
+
+- [ ] `14-10-PLAN.md` — curated KPI manifest swap, `generate_metadata.py` `sqr1000` branch, regenerated metadata, test contracts
+- [ ] `14-11-PLAN.md` — `LLDetail` soil mode state and sub-tab row, `LLMap` raster/legend/note/attribution wiring
+- [ ] `14-12-PLAN.md` — R chart accessors gain a `layer_id` override; SQR band colour resolver
+
+**Wave 6** *(blocked on Wave 5)*
+
+- [ ] `14-13-PLAN.md` — `ll_map_soil_yield()` and the two-map soil section in `template.qmd`
+
+**Wave 7** *(blocked on Wave 6)*
+
+- [ ] `14-14-PLAN.md` — full automated gate, seven cross-file join-key checks, ten-report re-render,
+      D-01..D-22 evidence record, blocking bilingual human verification
+
 ---
 
 *Created: 2026-04-29*
