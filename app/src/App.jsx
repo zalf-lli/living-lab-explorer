@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { HashRouter, Navigate, Route, Routes } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
+import { Attribution } from './components/Attribution.jsx'
 import { Header } from './components/Header.jsx'
 import { STORAGE_KEY, normalizeLanguage } from './i18n.js'
 import { useLLMetadata } from './hooks/useLLMetadata.js'
@@ -55,6 +56,7 @@ export default function App() {
             </Routes>
           )}
         </div>
+        <Attribution />
       </div>
     </HashRouter>
   )
