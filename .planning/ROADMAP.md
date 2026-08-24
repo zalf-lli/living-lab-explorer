@@ -777,6 +777,15 @@ Every plan's `requirements` field carries the D-IDs it implements.
   `soil:type` (D-01), and a hard sync-time uniqueness assertion that turns any *future* collision into a
   loud build failure.
 
+- **The licence verdict is enforced technically, not by convention.** `deploy-pages.yml` uploads
+  `app/dist` — which Vite fills from `app/public/**` — on every push to `main`, so committed SQR tiles would
+  publish themselves. `14-04` therefore transcribes `14-LICENCE.md`'s verdict into
+  `data/sqr_publication_gate.json` and adds `app/scripts/check_sqr_publication_gate.mjs` as a build-job step
+  between `npm run build` and `upload-pages-artifact`: under a non-permitted verdict it strips the SQR tiles
+  from the artifact and exits non-zero if any survives, and it fails closed on a missing or unrecognised gate
+  file. Scope is stated honestly — raster tiles only, not the derived aggregate statistics — and `14-14`
+  re-proves the gate on a fresh build and surfaces both points to the human.
+
 - **Five bands, not six.** D-11 leaves the band count to discretion; five equal-width bands of 20 over a
   declared 0-100 scale (top band open-ended, so the nominal 102 ceiling still colours) is the only count
   that keeps the chart at exactly six rows — five bands plus D-21's "Not rated" — which is exactly
@@ -828,24 +837,25 @@ Plans:
 
 **Wave 3** *(blocked on Wave 2)*
 
-- [ ] `14-04-PLAN.md` — `build_continuous_colormap(nodata_color=)`, `build_sqr_pmtiles.py`, the five-LL build and publish
+- [ ] `14-04-PLAN.md` — `build_continuous_colormap(nodata_color=)`, `build_sqr_pmtiles.py`, the five-LL build
+      and publish, plus the verdict-driven `check_sqr_publication_gate.mjs` deploy gate (D-06)
 - [ ] `14-05-PLAN.md` — `compute_sqr_kpis.py` and `data/sqr_kpis.json` (D-14, D-16, D-17)
 - [ ] `14-06-PLAN.md` — `layers.js`: `SOIL_MODES`, the soil `modes` map, mode-aware `resolveLayerAsset`
 
 **Wave 4** *(blocked on Wave 3)*
 
 - [ ] `14-07-PLAN.md` — `compute_sqr_chart.py`, five band-share charts, consolidated SQR artifact contract tests
-- [ ] `14-08-PLAN.md` — `useChartData`/`BarChart` mode threading and `StatPanel`'s per-field provenance fix
 - [ ] `14-09-PLAN.md` — `export_report_tokens.mjs` `palettes.soilYield`, regenerated bridge, updated tokens test
 
 **Wave 5** *(blocked on Wave 4)*
 
+- [ ] `14-08-PLAN.md` — `useChartData`/`BarChart` mode threading and `StatPanel`'s per-field provenance fix
 - [ ] `14-10-PLAN.md` — curated KPI manifest swap, `generate_metadata.py` `sqr1000` branch, regenerated metadata, test contracts
-- [ ] `14-11-PLAN.md` — `LLDetail` soil mode state and sub-tab row, `LLMap` raster/legend/note/attribution wiring
 - [ ] `14-12-PLAN.md` — R chart accessors gain a `layer_id` override; SQR band colour resolver
 
 **Wave 6** *(blocked on Wave 5)*
 
+- [ ] `14-11-PLAN.md` — `LLDetail` soil mode state and sub-tab row, `LLMap` raster/legend/note/attribution wiring
 - [ ] `14-13-PLAN.md` — `ll_map_soil_yield()` and the two-map soil section in `template.qmd`
 
 **Wave 7** *(blocked on Wave 6)*

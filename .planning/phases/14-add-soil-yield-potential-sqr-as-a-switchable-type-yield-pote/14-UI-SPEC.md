@@ -133,25 +133,40 @@ Lab. This is a correctness requirement (SQR is a national benchmark, and Phase 1
 comparison is only meaningful under a shared scale), not a styling preference — flagged here because it
 constrains how the pipeline bakes the palette, which the executor must not silently make per-LL.
 
-**Six equal-width bands (D-11), numeric-range labels only** — no invented quality-class names ("high
-yield potential"), because BGR publishes no official class breaks:
+**Five equal-width bands (D-11), numeric-range labels only** — no invented quality-class names ("high
+yield potential"), because BGR publishes no official class breaks. Band edges `[0, 20, 40, 60, 80, 100]`
+over a declared 0–100 scale, with the top band open-ended so the nominal 102 ceiling still colours
+correctly (the observed German maximum is 99):
 
-| Band | Range | Colour |
-|------|-------|--------|
-| 1 | 0–17 | `#f2f8e2` |
-| 2 | 17–34 | `#c2e077` |
-| 3 | 34–51 | `#9bc72d` |
-| 4 | 51–68 | `#9bc72d`→`#359269` interpolation not used — see note below |
-| 5 | 68–85 | `#359269` |
-| 6 | 85–102 | `#225e43` |
+| Band | `key` | Range label (EN = DE) | Colour | `theme.js` token |
+|------|-------|-----------------------|--------|------------------|
+| 1 | `sqr_band_1` | 0-20 | `#f2f8e2` | `C.limePale` |
+| 2 | `sqr_band_2` | 20-40 | `#c2e077` | `C.lime` |
+| 3 | `sqr_band_3` | 40-60 | `#9bc72d` | `C.limeDark` |
+| 4 | `sqr_band_4` | 60-80 | `#359269` | `C.greenMid` |
+| 5 | `sqr_band_5` | 80-100 | `#225e43` | `C.green` |
+| — | `sqr_not_rated` | Not rated / Nicht bewertet | `#d8d8d2` | `BORIS_NO_DATA_STYLE.fillColor` |
 
-Six bands over five ramp stops means one ramp stop is reused or the ramp needs a sixth interpolated
-stop — **this is a pipeline/codegen decision, not a UI one**: `sources.yaml`'s `yield_bands.ramp` array
-lists 5 named tokens for 6 bands (per RESEARCH.md's Pattern 3 example); the executor must either add a
-6th explicit hex (e.g. an interpolated mid-tone between `limeDark` and `greenMid`) or collapse to 5
-bands. **UI-SPEC requirement, not implementation:** whichever is chosen, adjacent legend swatches must
-remain visually distinguishable (reuse Phase 6's ΔE distinctness precedent, quick-task `260804-acf`, if
-the six-stop palette needs derivation) — do not ship two bands with the same or near-identical hex.
+Labels use an ASCII hyphen, not an en dash, matching the transliteration convention the rest of
+`i18n_resources.js` and `sources.yaml` follow.
+
+**Resolved during planning (plan `14-03`): five bands, not six.** This document originally specified six
+equal-width bands of 17 and left the executor to either derive a sixth hex or collapse to five. It
+collapses to five, for a reason that is not aesthetic: the chart must carry D-21's "Not rated" row, so a
+six-band partition would produce a seven-row series, and `app/src/lib/chartSeries.js`'s `MAX_BARS = 6`
+would fold that seventh row into an "Other" bucket painted `CHART_OTHER_COLOR`. That would silently
+delete the grey class the printed map's bar legend exists to explain. Five bands plus Not rated is
+exactly six rows, so `buildDisplaySeries` never truncates. It also lands on round numbers and uses
+D-09's five locked ramp stops verbatim, so **no new hex value is invented anywhere in this phase**.
+
+The distinctness requirement still holds and is enforced automatically: `test_sqr_contract.py` asserts a
+minimum pairwise CIELAB ΔE76 across the six colours. The measured worst pair is band 1 `#f2f8e2` against
+the Not-rated `#d8d8d2` at ΔE76 ≈ 13.4, below the ΔE ≥ 15 threshold quick-task `260804-acf` set for the
+soil palette. Both of those colours are locked — D-09 fixes the ramp's pale end and D-10 fixes the grey —
+so neither may be re-picked to widen the gap. The gate threshold is therefore 12, the shortfall is
+recorded rather than hidden, and the pair is an explicit item on plan `14-14`'s human verification
+checkpoint (step 5), whose named fallbacks are a legend separator rule or a documented D-10 deviation to
+a darker grey.
 
 **"Not rated" cells (D-10):** muted opaque grey, reusing `BORIS_NO_DATA_STYLE.fillColor` verbatim —
 `#d8d8d2` — the codebase's one documented exception to "zero new colours" (Phase 7 already carved this
@@ -163,7 +178,7 @@ tiling failure.
 
 **Legend entries are pipeline-generated bilingual objects, not i18n keys** — mirroring `CLIMATE_LEGEND`
 and `buildEconomicLegendEntries`'s existing pattern exactly (`{ value, en, de, color }`). This applies
-to both the 6 numeric-range bands and the "Not rated" row; do not invent a parallel i18n-key-based
+to both the 5 numeric-range bands and the "Not rated" row; do not invent a parallel i18n-key-based
 legend path for this one layer.
 
 ---
@@ -286,7 +301,7 @@ need, since this phase reuses existing components in a new combination rather th
 
 - Type mode: **unchanged** — existing per-LL dynamic `SOIL_LEGEND`/`soilLegendEntries` + `legend.soil.note`.
 - Yield mode: new pipeline-generated `SOIL_YIELD_LEGEND` (or equivalently-named export from
-  `layers.js`, mirroring `CLIMATE_LEGEND`'s shape) — 6 numeric-range bands + 1 "Not rated" grey row, all
+  `layers.js`, mirroring `CLIMATE_LEGEND`'s shape) — 5 numeric-range bands + 1 "Not rated" grey row, all
   as bilingual `{ value, en, de, color }` objects, fed to `MapLegend`'s existing `entries` prop exactly
   as climate/economic already do.
 - `MapLegend`'s note prop resolves per mode: `legend.soil.note` (Type) vs. `legend.soilYield.note`
@@ -316,10 +331,11 @@ need, since this phase reuses existing components in a new combination rather th
   to the sub-tab (contrast the KPI bar, which deliberately does not, per D-05).
 - Visual shape: **identical `BarChart.jsx` component**, no new chart component — same card container,
   same title-row pattern each `LLDetail.jsx` layout already gives its chart slot (`llDetail`'s existing
-  `chartHeading/chart.*` conventions), same top-N + rank-colour truncation machinery from Phase 11 if
-  the 6-band + not-rated set exceeds the existing bar cap (it will not — 7 categories total is within
-  the existing truncation ceiling used by landscape's 7-8 categories).
-- The chart's bar colours must match the map: use the **same 6-band ramp + grey not-rated colour**
+  `chartHeading/chart.*` conventions), same top-N + rank-colour truncation machinery from Phase 11. The
+  5-band + not-rated set is exactly 6 rows, which is exactly `chartSeries.js`'s `MAX_BARS = 6`, so
+  truncation never fires and no "Other" bucket can appear — that equality is why the band count is five
+  (see the Ramp contract above), not a coincidence to be relied on loosely.
+- The chart's bar colours must match the map: use the **same 5-band ramp + grey not-rated colour**
   the map paints with (mirrors `chartColorsFromSoilPalette`'s existing BUEK precedent — bars and
   polygons must be the identical hex, not independently derived).
 - The "Not rated" class appears as a grey bar in the chart (D-21) so band shares sum to 100% of the LL
@@ -351,3 +367,10 @@ need, since this phase reuses existing components in a new combination rather th
 - [ ] Dimension 6 Registry Safety: PASS
 
 **Approval:** pending
+
+**Planning-time amendment (2026-08-24, not a checker sign-off):** the "six bands vs five" open question this
+document originally left to the executor was resolved to **five bands** during phase planning, by plan
+`14-03`, for the `MAX_BARS = 6` reason recorded in the Ramp contract section above. The Ramp contract, the
+Legend contract and the Chart contract were updated to match what the plans build. The six dimension
+checkboxes above are deliberately left unchecked and the approval status unchanged — no `gsd-ui-checker` run
+has been performed against the amended document, and the planner does not self-approve a checker gate.
