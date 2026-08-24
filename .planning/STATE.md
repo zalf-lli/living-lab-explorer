@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: ready_to_plan
-stopped_at: Phase 13 complete, goal-verified 18/18
-last_updated: "2026-08-13T15:10:11.227Z"
+stopped_at: Phase 14 context gathered
+last_updated: "2026-08-24T00:00:00.000Z"
 progress:
   total_phases: 17
   completed_phases: 13
@@ -21,9 +21,10 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 
 **Core value:** A researcher or stakeholder can open the app and immediately see accurate, up-to-date geodata and statistics for any of the five Living Labs without any server infrastructure.
 
-**Current focus:** Phase 13 complete. No Phase 14 defined in ROADMAP.md yet — remaining open work is
-Phase 3.1 (paused at its Wave 3 human-verify checkpoint), Phase 05.1, and Phase 7 (8/9 plans
-complete). Run `/gsd:progress` to route to the next action.
+**Current focus:** Phase 14 is now defined in ROADMAP.md and its context is captured
+(`14-CONTEXT.md`, 22 locked decisions) — ready to plan. Other open work: Phase 3.1 (paused at its
+Wave 3 human-verify checkpoint), Phase 05.1, and Phase 7 (8/9 plans complete). Run
+`/gsd:progress` to route to the next action.
 
 ## Status
 
@@ -394,6 +395,8 @@ Phase 2.2 completed on 2026-04-30 and replaced the shallow German-only soil look
 - 2026-08-03: Phase 11 added: "Wire chart JSON data to chart UI components" — connect the chart content JSON files produced in Phase 9 to the chart UI components in the app. App-side integration only (no new pipeline work); expected to need minimal to no research and a small number of plans.
 - 2026-08-04: Phase 12 added: "Export a PDF of the content for a given Living Lab" — added at the end of the roadmap as planned work, not urgent mid-milestone insertion.
 - 2026-08-11: Phase 13 added: "Add a Projects and Partners tab to individual Living Lab pages, showing the base map with LL boundary and partner point locations, plus a partner and research project overview panel" — added at the end of the roadmap as planned work.
+- 2026-08-24: Phase 14 added: "Add soil yield potential (SQR) as a switchable Type/Yield potential map on the soil tab, plus an SQR-derived KPI in the KPI bar and reports" — added at the end of the roadmap as planned work. Source data already on disk at `data/sqr1000_250_v10/sqr1000_250_v10.tif` (BGR Soil Quality Rating, 250 m raster, EPSG:3034, values 0-102, higher = better arable yield potential). Existing BUEK soil-type map is kept; the switcher mirrors the climate tab's "Baseline / Change" control. KPI must reach both the app KPI bar and the Phase 12 PDF reports.
+- 2026-08-24: Phase 14 context gathered (`14-CONTEXT.md`, D-01..D-22). **Correction to the line above:** the Type/Yield control is NOT the climate tab's on-map Baseline/Change switcher. The user reversed that mid-discussion (D-02) in favour of a sub-tab row under `LayerTabs`, reusing `VariablePicker.jsx` exactly as the climate *variable* row does. Also locked beyond the roadmap text: two SQR KPI tiles rather than one, both null nutrient-surplus tiles dropped (Phase 8 D-18 precedent), and a new SQR chart JSON that the report's bar legend requires.
 
 ### Plan Decisions
 
@@ -403,6 +406,6 @@ Phase 2.2 completed on 2026-04-30 and replaced the shallow German-only soil look
 
 ## Session
 
-**Last session:** 2026-08-14T00:00:00Z
-**Stopped at:** Phase 13 complete, goal-verified 18/18 (D-01..D-18)
-**Resume file:** .planning/phases/13-add-a-projects-and-partners-tab-to-individual-living-lab-pag/13-VERIFICATION.md
+**Last session:** 2026-08-24T00:00:00Z
+**Stopped at:** Phase 14 context gathered (D-01..D-22 locked, discuss mode)
+**Resume file:** .planning/phases/14-add-soil-yield-potential-sqr-as-a-switchable-type-yield-pote/14-CONTEXT.md
