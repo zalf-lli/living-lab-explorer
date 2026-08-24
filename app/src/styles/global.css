@@ -45,3 +45,78 @@ a {
   background: transparent;
   border: none;
 }
+
+/* Stop iOS Safari from inflating font sizes when a phone is rotated to landscape — the app
+   sizes all of its type in px, so the reflow it causes is never what we laid out. */
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+/* The app is a single fixed-viewport shell; a horizontal document scrollbar is always a bug,
+   not a feature. `clip` (not `hidden`) is used so it cannot turn #root into a scroll
+   container, which would break the `position: sticky`/absolute map controls inside it. */
+#root {
+  overflow-x: clip;
+}
+
+/* Horizontal tab/pill strips that scroll on narrow viewports (LayerTabs, the header's LL
+   pills). The scrollbar is suppressed because the row is short and a 6px bar eats a third of
+   the visible underline; momentum scrolling and scroll-snap keep it discoverable by feel. */
+.ll-scroll-x {
+  overflow-x: auto;
+  overflow-y: hidden;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-x: contain;
+  scrollbar-width: none;
+}
+.ll-scroll-x::-webkit-scrollbar {
+  display: none;
+}
+
+/* Every interactive control in this app is an inline-styled <button>/<a> with `border: none`,
+   so the UA focus ring is the only keyboard affordance and it disappears against the orange
+   and teal fills. Make it explicit and high-contrast instead. */
+:focus-visible {
+  outline: 2px solid #ec4518;
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    transition-duration: 0.01ms !important;
+    animation-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Leaflet ships 30x30 zoom buttons, which is a mouse target. Grow them for coarse pointers
+   only — the desktop map keeps Leaflet's own proportions. */
+@media (hover: none) and (pointer: coarse) {
+  .leaflet-touch .leaflet-bar a,
+  .leaflet-bar a {
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    font-size: 20px;
+  }
+}
+
+/* Leaflet tooltips are sized for a hover cursor and can run off a narrow screen. */
+@media (max-width: 767px) {
+  .leaflet-tooltip {
+    max-width: calc(100vw - 48px);
+    white-space: normal;
+  }
+}
+
+/* The stacked layout pins its theme-tab bar to the top of the viewport, so anything scrolled
+   to (a focused control, an in-page anchor) must stop clear of it rather than under it. */
+@media (max-width: 1023px) {
+  html {
+    scroll-padding-top: 96px;
+  }
+}

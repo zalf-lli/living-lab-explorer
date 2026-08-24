@@ -25,10 +25,9 @@ import { TextBlock } from '../components/TextBlock.jsx'
 import { VariablePicker } from '../components/VariablePicker.jsx'
 import { LL_ICONS } from '../data/ll_icons.js'
 import { CLIMATE_VARIABLES } from '../data/layers.js'
+import { useViewport } from '../hooks/useMediaQuery.js'
 
 const LLMap = lazy(() => import('../components/LLMap/index.jsx'))
-
-const LAYOUT_OPTIONS = [{ id: 'A' }, { id: 'B' }]
 
 // Temporary toggle: the authored "Challenges" narrative slot is hidden for now and "About"
 // spans the full width it used to share. Flip this back to `true` to restore the two-column
@@ -41,14 +40,12 @@ export function LLDetail({ bySlug, loading }) {
   const { slug } = useParams()
   const navigate = useNavigate()
   const [searchParams, setSearchParams] = useSearchParams()
-  const layoutParam = (searchParams.get('layout') || 'A').toUpperCase()
-  const layout = layoutParam === 'B' ? 'B' : 'A'
-
-  const setLayout = (id) => {
-    const next = new URLSearchParams(searchParams)
-    next.set('layout', id)
-    setSearchParams(next, { replace: true })
-  }
+  // Split vs stacked is derived from the viewport alone. It used to be a user-facing "Change
+  // layout" toggle backed by ?layout=A|B, which asked the reader to solve a problem the
+  // viewport already answers: the map-left / data-right split needs roughly a laptop's width
+  // to be readable, and below that stacked is simply the only workable arrangement. Comparison
+  // mode is always stacked-per-column and never consulted this at all.
+  const { isMobile, isNarrow } = useViewport()
 
   const [layer, setLayer] = useLayerState()
   const [climateVariable, setClimateVariable, periodMode, setPeriodMode, horizon, setHorizon] =
@@ -86,14 +83,22 @@ export function LLDetail({ bySlug, loading }) {
   // (not derived render state), unlike the useMemo-derived values above.
   useEffect(() => {
     if (loading || !bySlug) return
+    const next = new URLSearchParams(searchParams)
+    let changed = false
+    // `?layout=` is retired. Old bookmarks and shared links still carry it, so strip it on
+    // sight rather than letting a dead param ride along in every URL the page clones.
+    if (next.has('layout')) {
+      next.delete('layout')
+      changed = true
+    }
     // `null` means absent; `''` means present-but-empty (`?compare=`), which is just as
     // invalid as an unknown slug and must be stripped rather than left to ride along in
     // every cloned URL. Testing falsiness here would let the empty case through.
-    if (compareSlug === null) return
-    if (partner) return
-    const next = new URLSearchParams(searchParams)
-    next.delete('compare')
-    setSearchParams(next, { replace: true })
+    if (compareSlug !== null && !partner) {
+      next.delete('compare')
+      changed = true
+    }
+    if (changed) setSearchParams(next, { replace: true })
   }, [loading, bySlug, compareSlug, partner]) // eslint-disable-line react-hooks/exhaustive-deps
 
   if (loading) {
@@ -107,7 +112,7 @@ export function LLDetail({ bySlug, loading }) {
 
   // D-06: the former partner becomes the route slug (left column); the former primary becomes
   // ?compare=. No ?side= param, no ordering state — the URL always reads left-to-right the way
-  // the page looks. ?layout rides along in the cloned params untouched.
+  // the page looks.
   const handleSwap = () => {
     const next = new URLSearchParams(searchParams)
     next.set('compare', ll.slug)
@@ -115,15 +120,29 @@ export function LLDetail({ bySlug, loading }) {
   }
 
   // Strips only ?compare= (no `replace`, so Back re-enters comparison symmetrically with how
-  // setCompare pushes on entry); ?layout survives (D-02).
+  // setCompare pushes on entry).
   const handleExit = () => {
     const next = new URLSearchParams(searchParams)
     next.delete('compare')
     setSearchParams(next)
   }
 
+  const sharedControls = {
+    layer,
+    setLayer,
+    climateVariable,
+    setClimateVariable,
+    periodMode,
+    setPeriodMode,
+    horizon,
+    setHorizon,
+    period,
+    isMobile,
+    isNarrow,
+  }
+
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', height: 'calc(100vh - 60px)' }}>
+    <div style={{ flex: 1, minWidth: 0, minHeight: 0, display: 'flex', flexDirection: 'column' }}>
       {isComparing ? (
         <ComparisonBar
           llA={ll}
@@ -132,57 +151,31 @@ export function LLDetail({ bySlug, loading }) {
           onPick={setCompare}
           onSwap={handleSwap}
           onExit={handleExit}
+          isNarrow={isNarrow}
         />
-      ) : (
-        <LayoutSwitcher layout={layout} onChange={setLayout} />
-      )}
-      <div style={{ flex: 1, overflow: 'hidden' }}>
+      ) : null}
+      {/* On a phone the page scrolls as one document (the browser chrome collapses, the
+          scrollbar is the one the reader already knows). Above that the shell is a fixed
+          viewport with its own internal scroll panes, which is what makes the split layout's
+          "map stays put while the data scrolls" behaviour possible at all. */}
+      <div style={{ flex: 1, minHeight: 0, overflow: isMobile ? 'visible' : 'hidden' }}>
         {isComparing ? (
-          <LayoutCompare
-            key="C"
-            llA={ll}
-            llB={partner}
-            layer={layer}
-            setLayer={setLayer}
-            climateVariable={climateVariable}
-            setClimateVariable={setClimateVariable}
-            periodMode={periodMode}
-            setPeriodMode={setPeriodMode}
-            horizon={horizon}
-            setHorizon={setHorizon}
-            period={period}
-          />
-        ) : layout === 'A' ? (
-          <LayoutSplit
-            key="A"
+          <LayoutCompare key="compare" llA={ll} llB={partner} {...sharedControls} />
+        ) : isNarrow ? (
+          <LayoutStacked
+            key="stacked"
             ll={ll}
-            layer={layer}
-            setLayer={setLayer}
             compareOptions={compareOptions}
             onPickCompare={setCompare}
-            climateVariable={climateVariable}
-            setClimateVariable={setClimateVariable}
-            periodMode={periodMode}
-            setPeriodMode={setPeriodMode}
-            horizon={horizon}
-            setHorizon={setHorizon}
-            period={period}
+            {...sharedControls}
           />
         ) : (
-          <LayoutStacked
-            key="B"
+          <LayoutSplit
+            key="split"
             ll={ll}
-            layer={layer}
-            setLayer={setLayer}
             compareOptions={compareOptions}
             onPickCompare={setCompare}
-            climateVariable={climateVariable}
-            setClimateVariable={setClimateVariable}
-            periodMode={periodMode}
-            setPeriodMode={setPeriodMode}
-            horizon={horizon}
-            setHorizon={setHorizon}
-            period={period}
+            {...sharedControls}
           />
         )}
       </div>
@@ -190,70 +183,71 @@ export function LLDetail({ bySlug, loading }) {
   )
 }
 
-function LayoutSwitcher({ layout, onChange }) {
+// The layer tab strip, the climate variable sub-row and the "click a tab" hint, as one bar.
+// All three layouts render exactly this — the markup was copy-pasted three times before, which
+// is how the split layout ended up with a tab row confined to its 42% map column (and clipping
+// its own right-hand Partners tab on anything narrower than about a 1550px viewport). It is
+// full page width everywhere now.
+//
+// `sticky` is for the stacked layout, where the bar scrolls up with the hero and then pins to
+// the top so switching theme never requires scrolling back. z-index clears Leaflet's own
+// control containers (`.leaflet-top`/`.leaflet-bottom`, z-index 1000) so the pinned bar covers
+// the map's zoom buttons instead of being drawn under them.
+function LayerBar({
+  layer,
+  setLayer,
+  climateVariable,
+  setClimateVariable,
+  isMobile,
+  sticky = false,
+}) {
   const { t } = useTranslation()
   return (
     <div
       style={{
+        flexShrink: 0,
+        padding: isMobile ? '8px 16px 6px' : '10px 24px 6px',
         background: C.bg,
         borderBottom: `1px solid ${C.mutedLight}`,
-        padding: '5px 24px',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'flex-end',
-        gap: 8,
-        flexWrap: 'wrap',
+        ...(sticky ? { position: 'sticky', top: 0, zIndex: 1100 } : null),
       }}
     >
-      <span id="layout-switcher-label" style={{ fontSize: 11, color: 'rgba(2,35,34,0.45)' }}>
-        {t('llDetail.changeLayout')}
-      </span>
-      <div
-        role="group"
-        aria-labelledby="layout-switcher-label"
-        style={{
-          display: 'flex',
-          gap: 2,
-          padding: 2,
-          borderRadius: 999,
-          background: C.white,
-          border: `1px solid ${C.mutedLight}`,
-        }}
-      >
-        {LAYOUT_OPTIONS.map((option) => {
-          const isActive = layout === option.id
-          return (
-            <button
-              key={option.id}
-              onClick={() => onChange(option.id)}
-              aria-pressed={isActive}
-              title={t(`llDetail.option${option.id}Desc`)}
-              style={{
-                padding: '4px 12px',
-                borderRadius: 999,
-                cursor: 'pointer',
-                background: isActive ? C.surface : 'transparent',
-                border: 'none',
-                color: isActive ? C.teal : 'rgba(2,35,34,0.5)',
-                fontSize: 11,
-                fontWeight: isActive ? 700 : 500,
-                transition: 'all 0.15s',
-              }}
-            >
-              {t(`llDetail.option${option.id}Sub`)}
-            </button>
-          )
-        })}
-      </div>
+      <LayerTabs active={layer} onChange={setLayer} />
+      {layer === 'climate' ? (
+        // D-17: exactly one VariablePicker instance governs both comparison columns below.
+        <VariablePicker
+          variables={CLIMATE_VARIABLES}
+          active={climateVariable}
+          onChange={setClimateVariable}
+        />
+      ) : null}
+      {layer !== 'partners' ? (
+        <div style={{ fontSize: 11, color: 'rgba(2,35,34,0.55)', marginTop: 6 }}>
+          {t('llDetail.layerTabsHint')}
+        </div>
+      ) : null}
     </div>
   )
 }
 
-// Replaces LayoutSwitcher's DOM slot while comparing (D-02/D-14/D-15). A row of distinct
-// actions (hint label, 2 name buttons sharing one picker, swap, exit) rather than a toggle
-// group, so plain buttons with individual aria-labels are correct instead of LayoutSwitcher's
-// role="group"/aria-pressed idiom.
-function ComparisonBar({ llA, llB, options, onPick, onSwap, onExit }) {
+// The two footer cards (compare / download report). They used to be a flex row where
+// CompareCTA was the only shrinkable item, so every pixel the row was short came out of it
+// alone — at laptop widths its heading ran straight into its own button while the report card
+// beside it stayed full size. Equal grid tracks that fall to one column when a 300px track no
+// longer fits; `alignItems: stretch` keeps the two cards the same height side by side.
+function ctaRowStyle(isMobile) {
+  return {
+    display: 'grid',
+    gridTemplateColumns: isMobile ? '1fr' : 'repeat(auto-fit, minmax(300px, 1fr))',
+    gap: 16,
+    alignItems: 'stretch',
+  }
+}
+
+// Rendered above the layouts only while comparing (D-02/D-14/D-15). A row of distinct actions
+// (hint label, 2 name buttons sharing one picker, swap, exit) rather than a toggle group, so
+// plain buttons with individual aria-labels are correct.
+function ComparisonBar({ llA, llB, options, onPick, onSwap, onExit, isNarrow }) {
   const { t } = useTranslation()
   const [pickerOpen, setPickerOpen] = useState(false)
   const pickerRef = useDismissOnOutside(pickerOpen, () => setPickerOpen(false))
@@ -263,7 +257,8 @@ function ComparisonBar({ llA, llB, options, onPick, onSwap, onExit }) {
     display: 'flex',
     alignItems: 'center',
     gap: 8,
-    padding: '4px 12px',
+    padding: isNarrow ? '10px 14px' : '4px 12px',
+    minHeight: isNarrow ? 40 : undefined,
     borderRadius: 999,
     background: C.white,
     border: `1px solid ${C.mutedLight}`,
@@ -278,12 +273,14 @@ function ComparisonBar({ llA, llB, options, onPick, onSwap, onExit }) {
   return (
     <div
       style={{
+        flexShrink: 0,
         background: C.bg,
         borderBottom: `1px solid ${C.mutedLight}`,
-        padding: '8px 24px',
+        padding: isNarrow ? '8px 16px' : '8px 24px',
         display: 'flex',
         alignItems: 'center',
-        justifyContent: 'flex-end',
+        // Centre the wrapped rows on narrow viewports; right-align the single row on wide ones.
+        justifyContent: isNarrow ? 'center' : 'flex-end',
         gap: 8,
         flexWrap: 'wrap',
       }}
@@ -294,7 +291,14 @@ function ComparisonBar({ llA, llB, options, onPick, onSwap, onExit }) {
 
       <div
         ref={pickerRef}
-        style={{ position: 'relative', display: 'flex', alignItems: 'center', gap: 8 }}
+        style={{
+          position: 'relative',
+          display: 'flex',
+          alignItems: 'center',
+          gap: 8,
+          flexWrap: 'wrap',
+          justifyContent: 'center',
+        }}
       >
         <button
           type="button"
@@ -410,6 +414,8 @@ function useClimateControlState() {
   return [climateVariable, setClimateVariable, periodMode, setPeriodMode, horizon, setHorizon]
 }
 
+// Wide-viewport layout (>= 1024px): full-width tab bar, then a fixed map on the left and a
+// scrolling data column on the right. Never rendered below that width — LayoutStacked is.
 function LayoutSplit({
   ll,
   layer,
@@ -423,172 +429,163 @@ function LayoutSplit({
   horizon,
   setHorizon,
   period,
+  isMobile,
 }) {
   const { t, i18n } = useTranslation()
   const lang = normalizeLanguage(i18n.resolvedLanguage)
   return (
     <div
-      style={{
-        display: 'grid',
-        gridTemplateColumns: '42% 58%',
-        height: '100%',
-        overflow: 'hidden',
-      }}
+      style={{ display: 'flex', flexDirection: 'column', height: '100%', overflow: 'hidden' }}
     >
+      <LayerBar
+        layer={layer}
+        setLayer={setLayer}
+        climateVariable={climateVariable}
+        setClimateVariable={setClimateVariable}
+        isMobile={isMobile}
+      />
+
       <div
         style={{
-          borderRight: `1.5px solid ${C.mutedLight}`,
-          background: C.white,
-          display: 'flex',
-          flexDirection: 'column',
+          flex: 1,
+          minHeight: 0,
+          display: 'grid',
+          // 42% of the page as before, but never narrower than a legible map and never allowed
+          // to force the data column below its own content width (`minmax(0, 1fr)`).
+          gridTemplateColumns: 'minmax(340px, 42%) minmax(0, 1fr)',
           overflow: 'hidden',
         }}
       >
         <div
           style={{
-            padding: '10px 16px 6px',
-            background: C.bg,
-            borderBottom: `1px solid ${C.mutedLight}`,
-          }}
-        >
-          <LayerTabs active={layer} onChange={setLayer} />
-          {layer === 'climate' ? (
-            <VariablePicker
-              variables={CLIMATE_VARIABLES}
-              active={climateVariable}
-              onChange={setClimateVariable}
-            />
-          ) : null}
-          {layer !== 'partners' ? (
-            <div style={{ fontSize: 11, color: 'rgba(2,35,34,0.55)', marginTop: 6 }}>
-              {t('llDetail.layerTabsHint')}
-            </div>
-          ) : null}
-        </div>
-        {layer !== 'partners' ? (
-          <div style={{ flex: 1, minHeight: 0 }}>
-            <Suspense fallback={<MapFallback />}>
-              <LLMap
-                ll={ll}
-                layer={layer}
-                height="100%"
-                variable={climateVariable}
-                period={period}
-                periodMode={periodMode}
-                horizon={horizon}
-                onPeriodModeChange={setPeriodMode}
-                onHorizonChange={setHorizon}
-              />
-            </Suspense>
-          </div>
-        ) : (
-          <div style={{ flex: 1, minHeight: 0 }}>
-            <PartnersMapSlot ll={ll} height="100%" />
-          </div>
-        )}
-      </div>
-
-      <div style={{ overflowY: 'auto', background: C.bg }}>
-        <div
-          style={{
-            padding: '20px 24px 16px',
+            borderRight: `1.5px solid ${C.mutedLight}`,
             background: C.white,
-            borderBottom: `1.5px solid ${C.mutedLight}`,
+            display: 'flex',
+            flexDirection: 'column',
+            overflow: 'hidden',
           }}
         >
-          <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
-            <LLBadge slug={ll.slug} size="lg" />
-            <div>
-              <div style={{ fontSize: 22, fontWeight: 900, color: C.teal, lineHeight: 1.1 }}>
-                {ll.name}
-              </div>
-              <div style={{ fontSize: 13, color: C.greenMid, marginTop: 4, maxWidth: 380 }}>
-                {ll.tagline}
-              </div>
-              <div style={{ fontSize: 11, color: C.muted, marginTop: 4 }}>{ll.region}</div>
+          {layer !== 'partners' ? (
+            <div style={{ flex: 1, minHeight: 0 }}>
+              <Suspense fallback={<MapFallback />}>
+                <LLMap
+                  ll={ll}
+                  layer={layer}
+                  height="100%"
+                  variable={climateVariable}
+                  period={period}
+                  periodMode={periodMode}
+                  horizon={horizon}
+                  onPeriodModeChange={setPeriodMode}
+                  onHorizonChange={setHorizon}
+                />
+              </Suspense>
             </div>
-            <ContactManagerButton ll={ll} />
-          </div>
+          ) : (
+            <div style={{ flex: 1, minHeight: 0 }}>
+              <PartnersMapSlot ll={ll} height="100%" />
+            </div>
+          )}
         </div>
 
-        <div style={{ padding: '20px 24px', display: 'flex', flexDirection: 'column', gap: 18 }}>
-          {layer === 'partners' ? (
-            <PartnersPanelSlot ll={ll} />
-          ) : (
-            <>
-              <StatPanel tab={layer} ll={ll} />
-
-              <div
-                style={{
-                  background: C.white,
-                  borderRadius: 12,
-                  border: `1.5px solid ${C.mutedLight}`,
-                  overflow: 'hidden',
-                }}
-              >
-                <div
-                  style={{
-                    padding: '14px 18px 6px',
-                    fontSize: 11,
-                    fontWeight: 700,
-                    color: C.greenMid,
-                    textTransform: 'uppercase',
-                    letterSpacing: '0.1em',
-                  }}
-                >
-                  {t(
-                    layer === 'climate' ? 'llDetail.projectionTitle' : 'llDetail.distributionTitle',
-                    {
-                      layer: t(`layers.${layer}`),
-                    }
-                  )}
+        <div style={{ overflowY: 'auto', minWidth: 0, background: C.bg }}>
+          <div
+            style={{
+              padding: '20px 24px 16px',
+              background: C.white,
+              borderBottom: `1.5px solid ${C.mutedLight}`,
+            }}
+          >
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14, flexWrap: 'wrap' }}>
+              <LLBadge slug={ll.slug} size="lg" />
+              <div style={{ flex: '1 1 220px', minWidth: 0 }}>
+                <div style={{ fontSize: 22, fontWeight: 900, color: C.teal, lineHeight: 1.1 }}>
+                  {ll.name}
                 </div>
-                <div style={{ padding: '4px 18px 18px' }}>
-                  {layer === 'climate' ? (
-                    <LineChart layer={layer} ll={ll} />
-                  ) : (
-                    <BarChart layer={layer} ll={ll} />
-                  )}
+                <div style={{ fontSize: 13, color: C.greenMid, marginTop: 4, maxWidth: 380 }}>
+                  {ll.tagline}
                 </div>
+                <div style={{ fontSize: 11, color: C.muted, marginTop: 4 }}>{ll.region}</div>
               </div>
+              <ContactManagerButton ll={ll} />
+            </div>
+          </div>
 
-              <div
-                style={{
-                  background: C.white,
-                  borderRadius: 12,
-                  padding: 18,
-                  border: `1.5px solid ${C.mutedLight}`,
-                }}
-              >
+          <div style={{ padding: '20px 24px', display: 'flex', flexDirection: 'column', gap: 18 }}>
+            {layer === 'partners' ? (
+              <PartnersPanelSlot ll={ll} />
+            ) : (
+              <>
+                <StatPanel tab={layer} ll={ll} />
+
                 <div
                   style={{
-                    display: 'grid',
-                    gridTemplateColumns: SHOW_CHALLENGES ? '1fr 1fr' : '1fr',
-                    gap: 20,
+                    background: C.white,
+                    borderRadius: 12,
+                    border: `1.5px solid ${C.mutedLight}`,
+                    overflow: 'hidden',
                   }}
                 >
-                  <TextBlock
-                    title={t('llDetail.aboutTheme', { layer: t(`layers.${layer}`) })}
-                    text={ll.narrativeByTab?.[layer]?.about}
-                    lines={4}
-                  />
-                  {SHOW_CHALLENGES && (
+                  <div
+                    style={{
+                      padding: '14px 18px 6px',
+                      fontSize: 11,
+                      fontWeight: 700,
+                      color: C.greenMid,
+                      textTransform: 'uppercase',
+                      letterSpacing: '0.1em',
+                    }}
+                  >
+                    {t(
+                      layer === 'climate'
+                        ? 'llDetail.projectionTitle'
+                        : 'llDetail.distributionTitle',
+                      { layer: t(`layers.${layer}`) }
+                    )}
+                  </div>
+                  <div style={{ padding: '4px 18px 18px' }}>
+                    {layer === 'climate' ? (
+                      <LineChart layer={layer} ll={ll} />
+                    ) : (
+                      <BarChart layer={layer} ll={ll} />
+                    )}
+                  </div>
+                </div>
+
+                <div
+                  style={{
+                    background: C.white,
+                    borderRadius: 12,
+                    padding: 18,
+                    border: `1.5px solid ${C.mutedLight}`,
+                  }}
+                >
+                  <div
+                    style={{
+                      display: 'grid',
+                      gridTemplateColumns: SHOW_CHALLENGES ? '1fr 1fr' : '1fr',
+                      gap: 20,
+                    }}
+                  >
                     <TextBlock
-                      title={t('llDetail.challenges')}
-                      text={ll.narrativeByTab?.[layer]?.challenges}
+                      title={t('llDetail.aboutTheme', { layer: t(`layers.${layer}`) })}
+                      text={ll.narrativeByTab?.[layer]?.about}
                       lines={4}
                     />
-                  )}
+                    {SHOW_CHALLENGES && (
+                      <TextBlock
+                        title={t('llDetail.challenges')}
+                        text={ll.narrativeByTab?.[layer]?.challenges}
+                        lines={4}
+                      />
+                    )}
+                  </div>
                 </div>
-              </div>
-            </>
-          )}
+              </>
+            )}
 
-          <div style={{ display: 'flex', gap: 16, alignItems: 'stretch' }}>
-            <div style={{ flex: '1 1 auto', minWidth: 0 }}>
+            <div style={ctaRowStyle(false)}>
               <CompareCTA compact options={compareOptions} onPick={onPickCompare} />
-            </div>
-            <div style={{ flexShrink: 0 }}>
               <DownloadReportCTA ll={ll} lang={lang} />
             </div>
           </div>
@@ -598,6 +595,9 @@ function LayoutSplit({
   )
 }
 
+// Narrow-viewport layout (< 1024px, and the only layout on phones): hero, then a tab bar that
+// pins to the top as you scroll, then full-width sections. On a phone this scrolls as part of
+// the document; on a tablet it scrolls inside the shell's pane.
 function LayoutStacked({
   ll,
   layer,
@@ -611,22 +611,37 @@ function LayoutStacked({
   horizon,
   setHorizon,
   period,
+  isMobile,
 }) {
   const { t, i18n } = useTranslation()
   const lang = normalizeLanguage(i18n.resolvedLanguage)
+  const gutter = isMobile ? 16 : 32
+  const section = { margin: `16px ${gutter}px 0` }
+  const mapHeight = isMobile ? 320 : 300
+
   return (
-    <div style={{ overflowY: 'auto', height: '100%', background: C.bg }}>
+    <div
+      style={{
+        // A phone scrolls the document itself; a tablet keeps the shell's fixed viewport and
+        // scrolls this pane. `height: 100%` on a phone would trap the content in a nested
+        // scroller behind a header that has already scrolled away.
+        overflowY: isMobile ? 'visible' : 'auto',
+        height: isMobile ? 'auto' : '100%',
+        background: C.bg,
+      }}
+    >
       <div
         style={{
           background: `linear-gradient(135deg, ${C.teal} 0%, ${C.tealBg} 100%)`,
-          padding: '24px 32px',
+          padding: isMobile ? '18px 16px' : '24px 32px',
           display: 'flex',
-          alignItems: 'center',
-          gap: 18,
+          alignItems: isMobile ? 'flex-start' : 'center',
+          gap: isMobile ? 12 : 18,
+          flexWrap: 'wrap',
         }}
       >
         <LLBadge slug={ll.slug} size="lg" />
-        <div style={{ flex: 1 }}>
+        <div style={{ flex: '1 1 200px', minWidth: 0 }}>
           <div
             style={{
               fontSize: 11,
@@ -639,58 +654,53 @@ function LayoutStacked({
           >
             Living Lab {ll.num} · {ll.region}
           </div>
-          <div style={{ fontSize: 26, fontWeight: 900, color: C.white, lineHeight: 1.1 }}>
+          <div
+            style={{
+              fontSize: isMobile ? 22 : 26,
+              fontWeight: 900,
+              color: C.white,
+              lineHeight: 1.1,
+            }}
+          >
             {ll.name}
           </div>
           <div style={{ fontSize: 14, color: 'rgba(255,255,255,0.7)', marginTop: 4 }}>
             {ll.tagline}
           </div>
         </div>
-        <ContactManagerButton ll={ll} variant="inverted" />
+        <ContactManagerButton ll={ll} variant="inverted" fullWidth={isMobile} />
       </div>
 
+      <LayerBar
+        sticky
+        layer={layer}
+        setLayer={setLayer}
+        climateVariable={climateVariable}
+        setClimateVariable={setClimateVariable}
+        isMobile={isMobile}
+      />
+
       {layer !== 'partners' ? (
-        <div style={{ padding: '20px 32px 0' }}>
+        <div style={{ padding: `16px ${gutter}px 0` }}>
           <StatPanel tab={layer} ll={ll} />
         </div>
       ) : null}
 
       <div
         style={{
-          margin: '18px 32px 0',
+          ...section,
           background: C.white,
           borderRadius: 14,
           border: `1.5px solid ${C.mutedLight}`,
           overflow: 'hidden',
         }}
       >
-        <div
-          style={{
-            padding: '12px 20px 6px',
-            background: C.bg,
-            borderBottom: `1px solid ${C.mutedLight}`,
-          }}
-        >
-          <LayerTabs active={layer} onChange={setLayer} />
-          {layer === 'climate' ? (
-            <VariablePicker
-              variables={CLIMATE_VARIABLES}
-              active={climateVariable}
-              onChange={setClimateVariable}
-            />
-          ) : null}
-          {layer !== 'partners' ? (
-            <div style={{ fontSize: 11, color: 'rgba(2,35,34,0.55)', marginTop: 6 }}>
-              {t('llDetail.layerTabsHint')}
-            </div>
-          ) : null}
-        </div>
         {layer !== 'partners' ? (
           <Suspense fallback={<MapFallback />}>
             <LLMap
               ll={ll}
               layer={layer}
-              height={300}
+              height={mapHeight}
               variable={climateVariable}
               period={period}
               periodMode={periodMode}
@@ -700,19 +710,19 @@ function LayoutStacked({
             />
           </Suspense>
         ) : (
-          <PartnersMapSlot ll={ll} height={300} />
+          <PartnersMapSlot ll={ll} height={mapHeight} />
         )}
       </div>
 
       {layer === 'partners' ? (
-        <div style={{ margin: '16px 32px 0' }}>
+        <div style={section}>
           <PartnersPanelSlot ll={ll} />
         </div>
       ) : (
         <>
           <div
             style={{
-              margin: '16px 32px 0',
+              ...section,
               background: C.white,
               borderRadius: 14,
               border: `1.5px solid ${C.mutedLight}`,
@@ -744,9 +754,9 @@ function LayoutStacked({
 
           <div
             style={{
-              margin: '16px 32px 0',
+              ...section,
               display: 'grid',
-              gridTemplateColumns: SHOW_CHALLENGES ? '1fr 1fr' : '1fr',
+              gridTemplateColumns: SHOW_CHALLENGES && !isMobile ? '1fr 1fr' : '1fr',
               gap: 16,
             }}
           >
@@ -754,7 +764,7 @@ function LayoutStacked({
               style={{
                 background: C.white,
                 borderRadius: 14,
-                padding: 20,
+                padding: isMobile ? 16 : 20,
                 border: `1.5px solid ${C.mutedLight}`,
               }}
             >
@@ -769,7 +779,7 @@ function LayoutStacked({
                 style={{
                   background: C.white,
                   borderRadius: 14,
-                  padding: 20,
+                  padding: isMobile ? 16 : 20,
                   border: `1.5px solid ${C.mutedLight}`,
                 }}
               >
@@ -784,21 +794,17 @@ function LayoutStacked({
         </>
       )}
 
-      <div style={{ padding: '16px 32px 32px', display: 'flex', gap: 16, alignItems: 'stretch' }}>
-        <div style={{ flex: '1 1 auto', minWidth: 0 }}>
-          <CompareCTA options={compareOptions} onPick={onPickCompare} />
-        </div>
-        <div style={{ flexShrink: 0 }}>
-          <DownloadReportCTA ll={ll} lang={lang} />
-        </div>
+      <div style={{ padding: `16px ${gutter}px 32px`, ...ctaRowStyle(isMobile) }}>
+        <CompareCTA options={compareOptions} onPick={onPickCompare} />
+        <DownloadReportCTA ll={ll} lang={lang} />
       </div>
     </div>
   )
 }
 
-// Compact LayoutStacked (D-16) for one column of the two-column comparison view: accent bar,
-// plain white header (LayoutSplit's chrome, minus ContactManagerButton, D-19), KPIs, map, chart
-// and two stacked text blocks. No LayerTabs (shared, D-07) and no CompareCTA (D-15).
+// Compact LayoutStacked (D-16) for one column of the comparison view: accent bar, plain white
+// header (LayoutSplit's chrome, minus ContactManagerButton, D-19), KPIs, map, chart and text
+// blocks. No LayerTabs (shared, D-07) and no CompareCTA (D-15).
 function ComparisonColumn({
   ll,
   layer,
@@ -808,22 +814,25 @@ function ComparisonColumn({
   horizon,
   onPeriodModeChange,
   onHorizonChange,
+  isMobile,
 }) {
   const { t } = useTranslation()
+  const gutter = isMobile ? 16 : 32
+  const section = { margin: `16px ${gutter}px 0` }
   return (
     <div>
       <div style={{ height: 4, background: ll.outlineColor }} />
 
       <div
         style={{
-          padding: '20px 24px 16px',
+          padding: isMobile ? '16px 16px 14px' : '20px 24px 16px',
           background: C.white,
           borderBottom: `1.5px solid ${C.mutedLight}`,
         }}
       >
         <div style={{ display: 'flex', alignItems: 'flex-start', gap: 14 }}>
           <LLBadge slug={ll.slug} size="lg" />
-          <div>
+          <div style={{ minWidth: 0 }}>
             <div style={{ fontSize: 22, fontWeight: 700, color: C.teal, lineHeight: 1.1 }}>
               {ll.name}
             </div>
@@ -854,14 +863,14 @@ function ComparisonColumn({
       </div>
 
       {layer !== 'partners' ? (
-        <div style={{ padding: '20px 32px 0' }}>
+        <div style={{ padding: `16px ${gutter}px 0` }}>
           <StatPanel tab={layer} ll={ll} maxColumns={2} showEmptyState />
         </div>
       ) : null}
 
       <div
         style={{
-          margin: '18px 32px 0',
+          ...section,
           background: C.white,
           borderRadius: 14,
           border: `1.5px solid ${C.mutedLight}`,
@@ -888,14 +897,14 @@ function ComparisonColumn({
       </div>
 
       {layer === 'partners' ? (
-        <div style={{ margin: '16px 32px 0' }}>
+        <div style={section}>
           <PartnersPanelSlot ll={ll} />
         </div>
       ) : (
         <>
           <div
             style={{
-              margin: '16px 32px 0',
+              ...section,
               background: C.white,
               borderRadius: 14,
               border: `1.5px solid ${C.mutedLight}`,
@@ -925,12 +934,12 @@ function ComparisonColumn({
             </div>
           </div>
 
-          <div style={{ margin: '16px 32px 0' }}>
+          <div style={section}>
             <div
               style={{
                 background: C.white,
                 borderRadius: 14,
-                padding: 20,
+                padding: isMobile ? 16 : 20,
                 border: `1.5px solid ${C.mutedLight}`,
                 marginBottom: SHOW_CHALLENGES ? 16 : 0,
               }}
@@ -946,7 +955,7 @@ function ComparisonColumn({
                 style={{
                   background: C.white,
                   borderRadius: 14,
-                  padding: 20,
+                  padding: isMobile ? 16 : 20,
                   border: `1.5px solid ${C.mutedLight}`,
                 }}
               >
@@ -966,10 +975,10 @@ function ComparisonColumn({
   )
 }
 
-// Two-column comparison view (D-16, D-20, D-21): one shared LayerTabs row above a single shared
-// scroll container holding two ComparisonColumn instances side by side. No per-column scrolling,
-// no media query, no CompareCTA/LayoutSwitcher/ContactManagerButton/second LayerTabs anywhere in
-// this tree (D-07, D-15).
+// Comparison view (D-16, D-20, D-21): one shared LayerBar above a single shared scroll
+// container holding two ComparisonColumn instances. Two columns side by side when there is
+// room for them; below `narrow` they stack, because two 400px-wide columns of KPI tiles and
+// maps is unreadable — which is also why stacked was always the comparison default.
 function LayoutCompare({
   llA,
   llB,
@@ -982,47 +991,52 @@ function LayoutCompare({
   horizon,
   setHorizon,
   period,
+  isMobile,
+  isNarrow,
 }) {
-  const { t } = useTranslation()
   return (
     <div
       style={{
         display: 'flex',
         flexDirection: 'column',
-        height: '100%',
+        height: isMobile ? 'auto' : '100%',
         background: C.bg,
-        overflow: 'hidden',
+        overflow: isMobile ? 'visible' : 'hidden',
       }}
     >
+      <LayerBar
+        sticky={isNarrow}
+        layer={layer}
+        setLayer={setLayer}
+        climateVariable={climateVariable}
+        setClimateVariable={setClimateVariable}
+        isMobile={isMobile}
+      />
+
       <div
         style={{
-          flexShrink: 0,
-          padding: '10px 24px 6px',
-          background: C.bg,
-          borderBottom: `1px solid ${C.mutedLight}`,
+          flex: 1,
+          minHeight: 0,
+          overflowY: isMobile ? 'visible' : 'auto',
         }}
       >
-        <LayerTabs active={layer} onChange={setLayer} />
-        {layer === 'climate' ? (
-          // D-17: exactly one VariablePicker instance governs both comparison columns below.
-          <VariablePicker
-            variables={CLIMATE_VARIABLES}
-            active={climateVariable}
-            onChange={setClimateVariable}
-          />
-        ) : null}
-        {layer !== 'partners' ? (
-          <div style={{ fontSize: 11, color: 'rgba(2,35,34,0.55)', marginTop: 6 }}>
-            {t('llDetail.layerTabsHint')}
-          </div>
-        ) : null}
-      </div>
-
-      <div style={{ flex: 1, minHeight: 0, overflowY: 'auto' }}>
         <div
-          style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 24, alignItems: 'start' }}
+          style={{
+            display: 'grid',
+            gridTemplateColumns: isNarrow ? '1fr' : 'minmax(0, 1fr) minmax(0, 1fr)',
+            gap: isNarrow ? 0 : 24,
+            alignItems: 'start',
+          }}
         >
-          <div style={{ borderRight: `1.5px solid ${C.mutedLight}` }}>
+          {/* Stacked, the separator has to run along the bottom of the first column rather
+              than down its right-hand side. */}
+          <div
+            style={
+              isNarrow
+                ? { borderBottom: `1.5px solid ${C.mutedLight}` }
+                : { borderRight: `1.5px solid ${C.mutedLight}` }
+            }
+          >
             <ComparisonColumn
               ll={llA}
               layer={layer}
@@ -1033,6 +1047,7 @@ function LayoutCompare({
               horizon={horizon}
               onPeriodModeChange={setPeriodMode}
               onHorizonChange={setHorizon}
+              isMobile={isMobile}
             />
           </div>
           <div>
@@ -1046,6 +1061,7 @@ function LayoutCompare({
               horizon={horizon}
               onPeriodModeChange={setPeriodMode}
               onHorizonChange={setHorizon}
+              isMobile={isMobile}
             />
           </div>
         </div>
@@ -1056,7 +1072,7 @@ function LayoutCompare({
 
 // Dismiss-on-Escape / dismiss-on-outside-click, generalised from StatPanel's sources-disclosure
 // pattern (StatPanel.jsx:14-29) — the only such pattern in the codebase (D-11). Consumers: the
-// ComparePicker trigger in CompareCTA (this file) and the comparison bar in a later plan.
+// ComparePicker trigger in CompareCTA (this file) and the comparison bar above.
 function useDismissOnOutside(open, onClose) {
   const ref = useRef(null)
   const triggerRef = useRef(null)
@@ -1087,10 +1103,13 @@ function useDismissOnOutside(open, onClose) {
       if (!ref.current.contains(e.target)) onClose()
     }
     document.addEventListener('keydown', onKey)
-    document.addEventListener('mousedown', onPointer)
+    // `pointerdown` rather than `mousedown`: on a touch screen a tap outside the panel fires
+    // pointerdown but not mousedown until the (delayed, sometimes suppressed) click, so the
+    // panel used to stay open under the reader's finger on a phone.
+    document.addEventListener('pointerdown', onPointer)
     return () => {
       document.removeEventListener('keydown', onKey)
-      document.removeEventListener('mousedown', onPointer)
+      document.removeEventListener('pointerdown', onPointer)
     }
   }, [open, onClose])
 
@@ -1099,7 +1118,7 @@ function useDismissOnOutside(open, onClose) {
 
 // Anchored dropdown panel only — the trigger button and open state stay with the parent so the
 // same panel can be anchored to the CompareCTA button here and to the comparison-bar name
-// buttons in a later plan (D-11, D-12, D-13).
+// buttons (D-11, D-12, D-13).
 function ComparePicker({ options, onPick, align = 'right', id }) {
   const { t } = useTranslation()
   const [hoveredSlug, setHoveredSlug] = useState(null)
@@ -1130,7 +1149,10 @@ function ComparePicker({ options, onPick, align = 'right', id }) {
         position: 'absolute',
         [placement === 'top' ? 'bottom' : 'top']: 'calc(100% + 8px)',
         [align === 'right' ? 'right' : 'left']: 0,
+        // Never wider than a phone's content box, which a fixed 220px anchored to the right
+        // edge of a near-full-width button used to overflow.
         width: 220,
+        maxWidth: 'calc(100vw - 32px)',
         background: C.white,
         border: `1px solid ${C.mutedLight}`,
         borderRadius: 12,
@@ -1173,7 +1195,8 @@ function ComparePicker({ options, onPick, align = 'right', id }) {
               alignItems: 'center',
               gap: 8,
               width: '100%',
-              padding: '8px 16px',
+              padding: '11px 16px',
+              minHeight: 44,
               border: 'none',
               background: isHovered ? C.surface : 'transparent',
               cursor: 'pointer',
@@ -1182,6 +1205,7 @@ function ComparePicker({ options, onPick, align = 'right', id }) {
               fontWeight: 700,
               lineHeight: 1.3,
               color: isHovered ? C.orange : C.teal,
+              textAlign: 'left',
             }}
           >
             <svg
@@ -1218,7 +1242,7 @@ function CompareCTA({ compact = false, options, onPick }) {
   const pickerId = useId()
 
   return (
-    <div ref={pickerRef} style={{ position: 'relative', height: '100%' }}>
+    <div ref={pickerRef} style={{ position: 'relative', height: '100%', minWidth: 0 }}>
       <div
         style={{
           height: '100%',
@@ -1229,9 +1253,14 @@ function CompareCTA({ compact = false, options, onPick }) {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
+          // Wrap rather than crush: when the card is too narrow for heading-beside-button the
+          // button drops below the heading. Previously the heading and the button simply
+          // overlapped, because this card was the only shrinkable item in its row.
+          flexWrap: 'wrap',
+          gap: 12,
         }}
       >
-        <div>
+        <div style={{ flex: '1 1 120px', minWidth: 0 }}>
           <div style={{ fontSize: compact ? 13 : 14, fontWeight: 700, color: C.green }}>
             {compact ? t('llDetail.compareCompactTitle') : t('llDetail.compareTitle')}
           </div>
@@ -1248,7 +1277,8 @@ function CompareCTA({ compact = false, options, onPick }) {
           aria-expanded={pickerOpen}
           onClick={() => setPickerOpen((open) => !open)}
           style={{
-            padding: compact ? '7px 16px' : '8px 20px',
+            padding: compact ? '10px 16px' : '11px 20px',
+            minHeight: 44,
             borderRadius: 20,
             background: C.orange,
             color: C.white,
@@ -1256,6 +1286,8 @@ function CompareCTA({ compact = false, options, onPick }) {
             fontSize: compact ? 12 : 13,
             fontWeight: 700,
             cursor: 'pointer',
+            whiteSpace: 'nowrap',
+            flexShrink: 0,
           }}
         >
           + {compact ? t('llDetail.compareCompactAction') : t('llDetail.compareAction')}

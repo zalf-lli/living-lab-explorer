@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next'
 import { C } from '../theme.js'
+import { useViewport } from '../hooks/useMediaQuery.js'
 
 const SEGMENT_BASE_STYLE = {
   padding: '4px 10px',
@@ -11,9 +12,13 @@ const SEGMENT_BASE_STYLE = {
   whiteSpace: 'nowrap',
 }
 
-function segmentStyle(isActive) {
+// 11.5px type in 4px of padding is a ~25px-tall segment — fine under a cursor, fiddly under a
+// thumb on a control that floats over a map. Grown on touch pointers only.
+function segmentStyle(isActive, isTouch) {
   return {
     ...SEGMENT_BASE_STYLE,
+    padding: isTouch ? '10px 14px' : SEGMENT_BASE_STYLE.padding,
+    minHeight: isTouch ? 40 : undefined,
     background: isActive ? C.orange : 'transparent',
     color: isActive ? C.white : C.teal,
     fontWeight: isActive ? 700 : 400,
@@ -26,6 +31,7 @@ function segmentStyle(isActive) {
 // absent (not disabled) whenever mode is 'baseline'.
 export function PeriodSwitcher({ mode, horizon, onModeChange, onHorizonChange, horizons, style }) {
   const { t } = useTranslation()
+  const { isTouch } = useViewport()
 
   return (
     <div
@@ -48,7 +54,7 @@ export function PeriodSwitcher({ mode, horizon, onModeChange, onHorizonChange, h
           aria-pressed={mode === 'baseline'}
           title={t('climate.period.baselineHint')}
           onClick={() => onModeChange('baseline')}
-          style={segmentStyle(mode === 'baseline')}
+          style={segmentStyle(mode === 'baseline', isTouch)}
         >
           {t('climate.period.baseline')}
         </button>
@@ -57,7 +63,7 @@ export function PeriodSwitcher({ mode, horizon, onModeChange, onHorizonChange, h
           aria-pressed={mode === 'change'}
           title={t('climate.period.changeHint')}
           onClick={() => onModeChange('change')}
-          style={segmentStyle(mode === 'change')}
+          style={segmentStyle(mode === 'change', isTouch)}
         >
           {t('climate.period.change')}
         </button>
@@ -80,7 +86,7 @@ export function PeriodSwitcher({ mode, horizon, onModeChange, onHorizonChange, h
               type="button"
               aria-pressed={horizon === h}
               onClick={() => onHorizonChange(h)}
-              style={segmentStyle(horizon === h)}
+              style={segmentStyle(horizon === h, isTouch)}
             >
               {t('climate.period.h' + h)}
             </button>

@@ -2,15 +2,25 @@ import { useEffect, useRef, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import { LAYER_SOURCE_INDEX } from '../data/layer_sources.js'
 import { C } from '../theme.js'
+import { useViewport } from '../hooks/useMediaQuery.js'
 
 // Per-tab KPI tile grid: shows StatPanel's Destatis-sourced fields for the active tab,
 // with locale-aware number formatting, an empty-state em-dash for unverified fields, a
 // pending-review footnote, and a collapsible GENESIS source-attribution disclosure.
 export function StatPanel({ tab, ll, maxColumns = 4, showEmptyState = false }) {
   const { t, i18n } = useTranslation()
+  const { isMobile, isNarrow } = useViewport()
   const [sourcesOpen, setSourcesOpen] = useState(false)
   const sourcesRef = useRef(null)
   const fields = ll.kpiByTab?.[tab] ?? []
+  // `maxColumns` is the caller's ceiling (4 on the detail page, 2 per comparison column) but a
+  // ceiling is not a floor: four tiles across a 375px phone left ~80px each, so an uppercase
+  // label like "AGRICULTURAL AREA" wrapped to four lines above its number. Tighten the
+  // ceiling by viewport, then clamp to how many tiles there actually are.
+  const columns = Math.max(
+    1,
+    Math.min(fields.length, isMobile ? 2 : isNarrow ? Math.min(maxColumns, 3) : maxColumns)
+  )
 
   useEffect(() => {
     if (!sourcesOpen) return undefined
@@ -102,7 +112,8 @@ export function StatPanel({ tab, ll, maxColumns = 4, showEmptyState = false }) {
             background: 'transparent',
             border: `1px solid ${C.mutedLight}`,
             borderRadius: 999,
-            padding: '2px 10px',
+            padding: isNarrow ? '8px 14px' : '2px 10px',
+            minHeight: isNarrow ? 40 : undefined,
             cursor: 'pointer',
           }}
         >
@@ -113,7 +124,7 @@ export function StatPanel({ tab, ll, maxColumns = 4, showEmptyState = false }) {
       <div
         style={{
           display: 'grid',
-          gridTemplateColumns: `repeat(${Math.min(fields.length, maxColumns) || 1}, 1fr)`,
+          gridTemplateColumns: `repeat(${columns}, minmax(0, 1fr))`,
           gap: 8,
         }}
       >

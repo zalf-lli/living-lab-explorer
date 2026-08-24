@@ -73,8 +73,10 @@ LL_BAR_LEGEND <- list(
   min_width = 2.1,
   # Vertical space one legend row needs to stay legible at print size.
   row_height = 0.155,
-  # Legend title + axis padding above/below the rows.
-  header = 0.6,
+  # Padding above/below the rows. Smaller than it was: these legends no longer carry a
+  # title (the layer name they used to repeat is already in every figure's caption), so
+  # the space that title occupied is not reserved any more.
+  header = 0.32,
   # Bounds on a full-width figure's height: tall enough not to look like a strip,
   # short enough to leave room for the KPI grid and caption on the same page.
   height_min = 2.6,
@@ -84,25 +86,36 @@ LL_BAR_LEGEND <- list(
 # The same quantities for one panel of the eight-panel climate grid, which lives
 # at half the text-block width with its own per-panel legend.
 #
-# `height_max` is set by the page, not by taste: four of these panels stacked
-# (plus their titles and the grid's four-line caption) have to fit the A4 text
-# block the Typst template defines -- 29.7cm less its 3.5cm/2.1cm vertical
-# margins, into which Quarto scales every figure up to the full 17.34cm text
-# width. `LL_CLIMATE_GRID_MAX_HEIGHT` below is that budget expressed at
-# `LL_FIG$width_full`, and this ceiling is derived from it, so the grid can never
-# be solved into a height that silently overflows onto a second page.
-LL_CLIMATE_GRID_MAX_HEIGHT <- 8.3
+# `height_max` is set by the page, not by taste: four of these panels stacked have to fit
+# the A4 text block the Typst template defines -- 29.7cm less its 3.5cm/2.1cm vertical
+# margins, i.e. 24.1cm -- into which Quarto scales every figure up to the full 17.34cm text
+# width (so a figure declared at `LL_FIG$width_full` = 6.3in is printed about 8.4% taller
+# than declared). `LL_CLIMATE_GRID_MAX_HEIGHT` is that budget expressed at
+# `LL_FIG$width_full`, and this ceiling is derived from it, so the grid can never be solved
+# into a height that silently overflows onto a second page.
+#
+# The budget below is what the climate section has left AFTER its own page furniture, which
+# is the point of the number: the section heading, the "Key figures" heading and the KPI
+# status-box row above the figure, and the caption plus the four variable notes below it,
+# come to roughly 8cm of the 24.1cm text block for the longest of the ten renders (German,
+# whose captions and notes wrap further than English's). 5.9in declared -- about 16.4cm
+# printed, since Quarto scales a 6.3in-wide figure up to the 17.34cm text width -- is what
+# remains, so the KPI boxes and all eight maps land on one page instead of the boxes sitting
+# alone on a page of their own. Verified against the real render, both languages, for the
+# tallest and the widest Living Lab boundary.
+LL_CLIMATE_GRID_MAX_HEIGHT <- 5.9
 LL_BAR_LEGEND_PANEL <- list(
-  min_width = 1.15,
-  row_height = 0.115,
-  header = 0.5,
-  height_min = 1.3,
-  height_max = (LL_CLIMATE_GRID_MAX_HEIGHT - 0.5) / 4 - 0.4,
-  # Vertical space each climate panel's own title + subtitle (variable name,
-  # period) takes out of its cell before the map gets any. Excluded from the
-  # aspect solve via `ll_bar_legend_layout(extra_height =)`, or every one of the
-  # eight maps ends up narrower than its column and floats in white space.
-  title = 0.4
+  min_width = 1.1,
+  row_height = 0.1,
+  header = 0.3,
+  height_min = 0.85,
+  height_max = LL_CLIMATE_GRID_MAX_HEIGHT / 4 - 0.22,
+  # Vertical space each climate panel's own one-line label (variable name and period) takes
+  # out of its cell before the map gets any. Excluded from the aspect solve via
+  # `ll_bar_legend_layout(extra_height =)`, or every one of the eight maps ends up narrower
+  # than its column and floats in white space. Half what it was, because that label is now
+  # one compact line rather than a title over a subtitle (see `.ll_climate_panel()`).
+  title = 0.22
 )
 
 # --- Class-area accessor ----------------------------------------------------------
@@ -424,26 +437,14 @@ ll_bar_legend_layout <- function(slug, n_rows, total_width = LL_FIG$width_full,
 #' @param map_plot a ggplot2 object, with its own fill guide already suppressed.
 #' @param legend_plot `ll_bar_legend()` output.
 #' @param layout `ll_bar_legend_layout()` output.
-#' @param caption character(1) or NULL. Set on the composite rather than on the
-#'   map panel: a caption belonging to the map panel is laid out against that
-#'   panel's own (narrower) column and is clipped at the figure edge once the
-#'   text is longer than the map is wide.
 #' @return a patchwork object.
-ll_map_with_bar_legend <- function(map_plot, legend_plot, layout, caption = NULL) {
-  combined <- patchwork::wrap_plots(
+#'
+#' No caption parameter: notes belonging to a figure are printed by `template.qmd` beneath
+#' that figure's Quarto caption as document text, never drawn inside the image (the soil
+#' map's `legend.soil.note` was the last caller of the caption this function used to
+#' accept).
+ll_map_with_bar_legend <- function(map_plot, legend_plot, layout) {
+  patchwork::wrap_plots(
     list(map_plot, legend_plot), ncol = 2, widths = layout$widths
-  )
-  if (is.null(caption)) {
-    return(combined)
-  }
-  tk <- ll_tokens()$theme
-  combined + patchwork::plot_annotation(
-    caption = caption,
-    theme = ggplot2::theme(
-      plot.caption = ggplot2::element_text(
-        colour = tk$green, size = 6, hjust = 0,
-        margin = ggplot2::margin(t = 4)
-      )
-    )
   )
 }

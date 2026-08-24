@@ -1,16 +1,21 @@
 import { useTranslation } from 'react-i18next'
 import { C } from '../theme.js'
+import { useViewport } from '../hooks/useMediaQuery.js'
 
 // Second-level tab row for the Climate tab's variable picker (D-15, D-08).
 // Fully controlled: no internal state, so a single instance can later be
 // lifted and shared across Phase 10's two comparison columns (D-17).
 export function VariablePicker({ variables, active, onChange, disabled = false }) {
   const { t } = useTranslation()
+  const { isNarrow } = useViewport()
 
   return (
     <div
       role="tablist"
       aria-label={t('climate.variableRowLabel')}
+      // Four climate variables at 13px/16px need ~430px; below `narrow` the row scrolls
+      // rather than clipping its last variable, matching LayerTabs above it.
+      className={isNarrow ? 'll-scroll-x' : undefined}
       style={{
         display: 'flex',
         gap: 0,
@@ -30,7 +35,9 @@ export function VariablePicker({ variables, active, onChange, disabled = false }
             disabled={disabled}
             onClick={() => onChange(variable.id)}
             style={{
-              padding: '9px 16px',
+              padding: isNarrow ? '12px 14px' : '9px 16px',
+              minHeight: isNarrow ? 44 : undefined,
+              flexShrink: 0,
               border: 'none',
               background: 'none',
               cursor: 'pointer',

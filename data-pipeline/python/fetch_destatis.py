@@ -274,7 +274,18 @@ TABLES: list[tuple[str, str, str]] = [
 # D-09 curated KPI manifest + D-13/D-14/D-15 live-table verification
 # ---------------------------------------------------------------------------
 
-# The 17-entry curated KPI list (D-09). `variable_key` matches
+# Source hosts that are not a Destatis platform at all. A slot declaring one of these is
+# filled from an artifact this pipeline computes itself -- `chelsa` from CHELSA rasters via
+# compute_climate_kpis.py (data/climate_kpis.json), `bfn_wfs` from the BfN protected-areas
+# geometry via compute_protected_area_coverage.py (data/protected_area_kpis.json) -- and
+# generate_metadata.py::_build_kpi_by_tab() reads the value from that artifact rather than
+# from destatis_ll.json. Such a slot carries `genesis_table: None` and is passed through
+# `_resolve_curated_kpis()` untouched: there is no GENESIS table behind it to verify, and
+# running it through the D-13/D-14/D-15 verification path is precisely what silently
+# reverted it once already (see that function's own note).
+NON_DESTATIS_SOURCE_HOSTS = ("chelsa", "bfn_wfs")
+
+# The 19-entry curated KPI list (D-09). `variable_key` matches
 # data/destatis_variables_catalogue.csv's variable_key spelling exactly so downstream code
 # (and this module's own FIELD_LABELS/FIELD_THEME/build_nuts3_records output) needs no
 # translation layer. `tab` must match `LAYERS[].id` in `app/src/data/layers.js` -- it is the
@@ -290,11 +301,29 @@ CURATED_KPIS: list[dict] = [
     {"tab": "soil",        "variable_key": "n_surplus_kg_ha",                "genesis_table": "41411BJ001"},
     {"tab": "soil",        "variable_key": "p_surplus_kg_ha",                "genesis_table": "41411BJ002"},
     {"tab": "soil",        "variable_key": "groundwater_abstraction_1000m3", "genesis_table": "32221-01-03-4"},
-    {"tab": "climate",     "variable_key": "agr_ch4_kt",                     "genesis_table": "32411BJ001"},
-    {"tab": "climate",     "variable_key": "agr_n2o_kt",                     "genesis_table": "32411BJ001"},
+    # Phase 08 D-18 made the climate tab fully CHELSA-sourced: the two agricultural GHG
+    # slots that used to sit here (agr_ch4_kt / agr_n2o_kt, GENESIS 32411BJ001) never
+    # resolved at Kreis level and were permanently null, so they were retired in favour of
+    # the four variables the climate maps and the projected-change chart already draw.
+    # Values (and their far-horizon deltas) come from data/climate_kpis.json.
+    {"tab": "climate", "variable_key": "gdd5_degc_days", "genesis_table": None, "source_host": "chelsa",
+     "label_en": "Growing degree days, annual sum (base 5 °C)", "label_de": "Waermesumme, Jahressumme (Basis 5 °C)",
+     "unit_en": "°C·d", "unit_de": "°C·d"},
+    {"tab": "climate", "variable_key": "mean_annual_temp_degc", "genesis_table": None, "source_host": "chelsa",
+     "label_en": "Mean annual temperature", "label_de": "Mittlere Jahrestemperatur",
+     "unit_en": "°C", "unit_de": "°C"},
+    {"tab": "climate", "variable_key": "annual_precip_mm", "genesis_table": None, "source_host": "chelsa",
+     "label_en": "Annual precipitation", "label_de": "Jahresniederschlag",
+     "unit_en": "mm", "unit_de": "mm"},
+    {"tab": "climate", "variable_key": "warm_quarter_precip_mm", "genesis_table": None, "source_host": "chelsa",
+     "label_en": "Precipitation of warmest quarter", "label_de": "Niederschlag des waermsten Vierteljahres",
+     "unit_en": "mm", "unit_de": "mm"},
     {"tab": "landscape",   "variable_key": "forest_area_ha",                 "genesis_table": "33111BJ003"},
-    {"tab": "landscape",   "variable_key": "natura2000_ha",                  "genesis_table": "32121BJ001"},
-    {"tab": "landscape",   "variable_key": "nature_reserves_ha",             "genesis_table": "32141BJ001"},
+    # Phase 05.1: measured off the BfN protected-areas geometry this pipeline already
+    # clips per Living Lab (data/protected_area_kpis.json), not off the GENESIS tables
+    # these two slots originally pointed at.
+    {"tab": "landscape",   "variable_key": "natura2000_ha",                  "genesis_table": None, "source_host": "bfn_wfs"},
+    {"tab": "landscape",   "variable_key": "nature_reserves_ha",             "genesis_table": None, "source_host": "bfn_wfs"},
     {"tab": "landscape",   "variable_key": "sealed_surface_pct",             "genesis_table": "33111BJ004"},
     {"tab": "economic",    "variable_key": "population_total",               "genesis_table": "12411KJ002"},
     {"tab": "economic",    "variable_key": "gdp_per_capita_eur",             "genesis_table": "82111KJ001"},
@@ -693,15 +722,27 @@ def _resolve_curated_kpis() -> list[dict]:
     D-13/D-14/D-15: verify every unique GENESIS table backing CURATED_KPIS against the live
     API; swap in a same-catalogue-group fallback for any table that fails verification rather
     than leaving the slot empty. Returns a (possibly adjusted) copy of CURATED_KPIS -- the
-    17-entry / per-tab-count contract never shrinks, only `variable_key`/`genesis_table` values
+    19-entry / per-tab-count contract never shrinks, only `variable_key`/`genesis_table` values
     may change.
+
+    Slots whose `source_host` is in NON_DESTATIS_SOURCE_HOSTS are excluded from all of that
+    and returned exactly as declared. They have no GENESIS table to verify, and putting them
+    through this path does real damage: a run on 2026-08-19 regenerated the manifest with
+    every one of them reset to `source_host: None`, which silently returned the climate tab
+    to the two permanently-null GHG slots Phase 08 D-18 had retired and cut the Natura 2000
+    and nature-reserve KPIs off from the protected-area artifact that feeds them. The
+    manifest is generated from this list, so this list -- not the generated file -- has to
+    carry those slots.
     """
     kpis = [dict(entry) for entry in CURATED_KPIS]
     catalogue_rows = _load_catalogue_rows()
     used_keys = {entry["variable_key"] for entry in kpis}
+    destatis_kpis = [
+        entry for entry in kpis if entry.get("source_host") not in NON_DESTATIS_SOURCE_HOSTS
+    ]
 
     verified: dict[str, bool] = {}
-    for table_id in sorted({entry["genesis_table"] for entry in kpis}):
+    for table_id in sorted({entry["genesis_table"] for entry in destatis_kpis}):
         verified[table_id] = _verify_table(table_id)
 
     reg_username = os.environ.get("REGIONALSTATISTIK_USERNAME", "")
@@ -717,7 +758,7 @@ def _resolve_curated_kpis() -> list[dict]:
             )
         return None
 
-    for entry in kpis:
+    for entry in destatis_kpis:
         table_id = entry["genesis_table"]
         if verified.get(table_id, False):
             entry["source_host"] = "genesis"
@@ -1202,16 +1243,23 @@ def main(force: bool = False) -> None:
     manifest = []
     for entry in resolved_kpis:
         catalogue_row = catalogue_by_key.get(entry["variable_key"], {})
+
+        def _text(field: str) -> str:
+            # A slot's own text wins: NON_DESTATIS_SOURCE_HOSTS slots are not Destatis
+            # variables and therefore have no row in destatis_variables_catalogue.csv to
+            # look up -- without this they would be published with empty labels and units.
+            return entry.get(field) or catalogue_row.get(field, "")
+
         manifest.append(
             {
                 "tab": entry["tab"],
                 "variable_key": entry["variable_key"],
                 "genesis_table": entry["genesis_table"],
                 "source_host": entry.get("source_host"),
-                "label_en": catalogue_row.get("label_en", ""),
-                "label_de": catalogue_row.get("label_de", ""),
-                "unit_en": catalogue_row.get("unit_en", ""),
-                "unit_de": catalogue_row.get("unit_de", ""),
+                "label_en": _text("label_en"),
+                "label_de": _text("label_de"),
+                "unit_en": _text("unit_en"),
+                "unit_de": _text("unit_de"),
             }
         )
     (DATA / "destatis_curated_kpis.json").write_text(

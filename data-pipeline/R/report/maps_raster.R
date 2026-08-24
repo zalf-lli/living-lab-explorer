@@ -294,8 +294,10 @@ ll_categorical_legend_entries <- function(slug, tab, lang) {
 #' present in this Living Lab's extent) -- this is what keeps every legend
 #' row visible per D-13; a Living Lab with none of one class should still
 #' show that the class exists and what colour it would be (as a zero-length bar
-#' beside its swatch). Overlays the Living Lab boundary as an unfilled outline in
-#' its own brand colour; no basemap tiles (D-14).
+#' beside its swatch). No basemap tiles (D-14), and no boundary outline: the raster is
+#' already masked to the boundary, so the painted pixels ARE the Living Lab's shape and a
+#' line around them repeats it (only the cover locator outlines the boundary -- see
+#' maps_vector.R's header note).
 #'
 #' The scale's own key legend is suppressed (`guides(fill = "none")`) because the
 #' bar legend beside the map replaces it -- the scale is still built from the full
@@ -316,30 +318,28 @@ ll_categorical_legend_entries <- function(slug, tab, lang) {
 #' @param palette data.frame with `value`, `color`, `en`, `de` columns (the
 #'   shape `ll_tokens()$palettes$agriculture` / `$landscape` are parsed into).
 #' @param nodata numeric(1) or NULL, passed through to `ll_clip_raster()`.
-#' @param legend_title character(1) legend title.
 #' @param entries `ll_categorical_legend_entries()` output for this (slug, tab).
 #' @return a patchwork object (map panel + bar-legend panel).
-.ll_categorical_raster_map <- function(path, slug, lang, palette, nodata,
-                                        legend_title, entries) {
+#'
+#' Neither the fill scale nor the bar legend carries a title. The only title either could
+#' hold is the layer's own name, and the figure's Quarto caption already states it in full
+#' ("Map showing <layer> in the <Living Lab> Living Lab (Data: ...)").
+.ll_categorical_raster_map <- function(path, slug, lang, palette, nodata, entries) {
   clipped <- ll_clip_raster(path, slug, nodata = nodata)
 
   labels <- palette[[lang]]
   legend_df <- data.frame(label = labels, color = palette$color, stringsAsFactors = FALSE)
   levels(clipped) <- data.frame(id = palette$value, category = labels)
 
-  boundary <- ll_boundary(slug)
-  brand <- ll_brand(slug)
-
   map_plot <- ggplot2::ggplot() +
     tidyterra::geom_spatraster(data = clipped) +
-    ggplot2::geom_sf(data = boundary, fill = NA, color = brand$outlineColor, linewidth = 0.4) +
-    ll_discrete_map_scale(legend_df, title = legend_title) +
+    ll_discrete_map_scale(legend_df, title = NULL) +
     ggplot2::guides(fill = "none") +
     theme_ll_map()
 
   ll_map_with_bar_legend(
     map_plot,
-    ll_bar_legend(entries, title = legend_title),
+    ll_bar_legend(entries),
     ll_bar_legend_layout(slug, nrow(entries))
   )
 }
@@ -368,7 +368,6 @@ ll_map_agriculture <- function(slug, lang) {
     path, slug, lang,
     palette = ll_tokens()$palettes$agriculture,
     nodata = layer$input$nodata,
-    legend_title = ll_str("layers.agriculture", lang),
     entries = ll_categorical_legend_entries(slug, "agriculture", lang)
   )
 }
@@ -411,7 +410,6 @@ ll_map_landscape <- function(slug, lang) {
     path, slug, lang,
     palette = ll_tokens()$palettes$landscape,
     nodata = layer$input$nodata,
-    legend_title = ll_str("layers.landscape", lang),
     entries = ll_categorical_legend_entries(slug, "landscape", lang)
   )
 }
@@ -528,9 +526,6 @@ ll_map_landscape_height <- function(slug) {
   block <- .ll_climate_block(color_breaks, variable_id, period_token)
   binned <- .ll_bin_continuous_raster(clipped, block$breaks, block$colors)
 
-  boundary <- ll_boundary(slug)
-  brand <- ll_brand(slug)
-
   variable_label <- ll_str(paste0("climate.variable.", variable_id), lang)
   period_label <- if (identical(period_token, "baseline")) {
     ll_str("climate.period.baseline", lang)
@@ -538,13 +533,24 @@ ll_map_landscape_height <- function(slug) {
     ll_str("climate.period.h2071_2100", lang)
   }
 
+  # One compact label line, not a title over a subtitle. Eight panels in one figure still
+  # have to be individually identifiable -- nothing outside the figure can say which of them
+  # is which -- but that identification is a panel label, not a figure title: it is set in
+  # the caption's own small muted type rather than in `theme_ll_base()`'s bold green title
+  # style, and it costs one line of height instead of two (which is part of how the whole
+  # grid now fits on the page beside its KPI boxes).
   map_plot <- ggplot2::ggplot() +
     tidyterra::geom_spatraster(data = binned$raster) +
-    ggplot2::geom_sf(data = boundary, fill = NA, color = brand$outlineColor, linewidth = 0.3) +
     ll_discrete_map_scale(binned$legend_df, title = block$unit[[lang]]) +
     ggplot2::guides(fill = "none") +
-    ggplot2::labs(title = variable_label, subtitle = period_label) +
-    theme_ll_map(base_size = 7)
+    ggplot2::labs(title = paste(variable_label, period_label, sep = " \u2013 ")) +
+    theme_ll_map(base_size = 7) +
+    ggplot2::theme(
+      plot.title = ggplot2::element_text(
+        colour = ll_tokens()$theme$black, face = "plain", size = 6.2, hjust = 0,
+        margin = ggplot2::margin(b = 1)
+      )
+    )
 
   # `sort_by_area = FALSE`: these bands are an ordinal low-to-high scale, so they
   # keep their break order. Ranking them by share -- as the categorical maps'
@@ -578,7 +584,9 @@ ll_map_landscape_height <- function(slug) {
 #' recorded in this plan's SUMMARY -- so each panel's individual legend
 #' (D-13: every static map carries its own legend, since units and scales
 #' differ panel to panel) stays legible at print size. Each variable's
-#' explanatory note is appended beneath the grid as a caption.
+#' explanatory note is NOT drawn inside this figure: `ll_climate_notes()` below returns
+#' them and `template.qmd` prints them as document text beneath the figure's caption, where
+#' they are real, selectable, wrapping prose rather than pixels.
 #'
 #' Every panel's legend is a bar legend, so each colour band also shows what
 #' share of the Living Lab falls in it -- which is what makes the baseline and
@@ -624,12 +632,6 @@ ll_map_climate_grid <- function(slug, lang) {
     }
   }
 
-  notes <- vapply(
-    variable_ids,
-    function(variable_id) ll_str(paste0("legend.climate.note.", variable_id), lang),
-    character(1)
-  )
-
   # One column split for all eight panels, solved against the tallest legend in
   # the grid -- a per-panel split would make otherwise-identical maps different
   # sizes from row to row.
@@ -640,17 +642,26 @@ ll_map_climate_grid <- function(slug, lang) {
     cells[[length(cells) + 1]] <- panel$legend
   }
 
-  combined <- patchwork::wrap_plots(
+  patchwork::wrap_plots(
     cells, ncol = 4, nrow = 4, widths = rep(layout$widths, 2)
   )
-  combined + patchwork::plot_annotation(
-    caption = paste(notes, collapse = "\n"),
-    theme = ggplot2::theme(
-      plot.caption = ggplot2::element_text(
-        colour = ll_tokens()$theme$green, size = 6, hjust = 0,
-        margin = ggplot2::margin(t = 4)
-      )
-    )
+}
+
+#' The four climate variables' explanatory notes, in the grid's own panel-row order.
+#'
+#' Read by `template.qmd`, which prints them under `ll_map_climate_grid()`'s figure caption.
+#' They used to be a `patchwork::plot_annotation(caption = ...)` inside the figure itself,
+#' which made them part of the rendered PNG: fixed at whatever width the plot device had,
+#' unable to re-wrap, and rasterized at print time.
+#'
+#' @param lang character(1) `"en"` or `"de"`.
+#' @return character vector, one note per variable, in
+#'   `ll_tokens()$palettes$climate$variables` order.
+ll_climate_notes <- function(lang) {
+  vapply(
+    ll_tokens()$palettes$climate$variables$id,
+    function(variable_id) ll_str(paste0("legend.climate.note.", variable_id), lang),
+    character(1), USE.NAMES = FALSE
   )
 }
 
@@ -667,9 +678,10 @@ ll_map_climate_grid <- function(slug, lang) {
 }
 
 #' The figure height, in inches, `ll_map_climate_grid(slug, ...)` should be
-#' rendered at: four panel rows sized for this Living Lab's boundary shape, plus
-#' room for the four-line explanatory caption beneath the grid. Read by
-#' template.qmd's chunk options.
+#' rendered at: four panel rows sized for this Living Lab's boundary shape. Read by
+#' template.qmd's chunk options. Nothing is added for the explanatory notes any more --
+#' they are document text below the caption now (`ll_climate_notes()`), not part of the
+#' figure.
 #'
 #' Builds only the panel geometry it needs -- the legend row count per panel --
 #' by asking `.ll_bin_continuous_raster()` for each block's band count directly,
@@ -692,5 +704,5 @@ ll_map_climate_grid_height <- function(slug) {
     spec = LL_BAR_LEGEND_PANEL,
     extra_height = LL_BAR_LEGEND_PANEL$title
   )
-  4 * layout$height + LL_BAR_LEGEND_PANEL$header
+  4 * layout$height
 }

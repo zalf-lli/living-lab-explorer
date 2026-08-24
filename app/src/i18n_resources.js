@@ -14,6 +14,8 @@ export const resources = {
         loading: 'Loading...',
         loadingMap: 'Loading map...',
         language: 'Language',
+        activateMap: 'Tap to explore the map',
+        activateMapAria: 'Activate map interaction',
       },
       header: {
         title: 'Living Lab Explorer',
@@ -23,6 +25,7 @@ export const resources = {
         title: 'Five Regions. Real-World Practice.',
         body: 'In five living labs, we test innovative approaches together with practitioners on the ground. Pick a site on the map to explore its conditions, ambitions and progress.',
         listTitle: 'Living Labs',
+        mapLabel: 'Map of Germany - select a Living Lab region',
       },
       kpi: {
         land_area_cropland_ha: 'Cropland area',
@@ -216,12 +219,8 @@ export const resources = {
       llDetail: {
         loading: 'Loading Living Lab...',
         unknown: 'Unknown Living Lab: "{{slug}}"',
-        changeLayout: 'Change layout',
-        optionASub: 'Split screen',
-        optionADesc: 'Map fixed left - data panel scrolls right',
-        optionBSub: 'Stacked',
-        optionBDesc: 'Full-width sections - map then data below',
-        layerTabsHint: 'Click the tabs to explore different socio-environmental features.',
+        layerTabsLabel: 'Theme',
+        layerTabsHint: 'Choose a theme to explore different socio-environmental features.',
         distributionTitle: '{{layer}} - distribution',
         projectionTitle: '{{layer}} - projected change',
         aboutTheme: 'Overview',
@@ -255,6 +254,8 @@ export const resources = {
         loading: 'Wird geladen...',
         loadingMap: 'Karte wird geladen...',
         language: 'Sprache',
+        activateMap: 'Zum Erkunden der Karte tippen',
+        activateMapAria: 'Karteninteraktion aktivieren',
       },
       header: {
         title: 'Reallabore Explorer',
@@ -264,6 +265,7 @@ export const resources = {
         title: 'Fuenf Regionen. Echte Praxis.',
         body: 'In fuenf Reallaboren erproben wir innovative Ansaetze gemeinsam mit Praxisakteuren vor Ort. Waehlen Sie einen Standort auf der Karte, um Rahmenbedingungen, Ziele und Fortschritte zu erkunden.',
         listTitle: 'Reallabore',
+        mapLabel: 'Karte von Deutschland - Reallabor-Region auswaehlen',
       },
       kpi: {
         land_area_cropland_ha: 'Ackerland',
@@ -451,13 +453,9 @@ export const resources = {
       llDetail: {
         loading: 'Living Lab wird geladen...',
         unknown: 'Unbekanntes Living Lab: "{{slug}}"',
-        changeLayout: 'Layout wechseln',
-        optionASub: 'Geteilter Bildschirm',
-        optionADesc: 'Karte links fixiert - Datenbereich scrollt rechts',
-        optionBSub: 'Gestapelt',
-        optionBDesc: 'Abschnitte in voller Breite - Karte oben, Daten darunter',
+        layerTabsLabel: 'Thema',
         layerTabsHint:
-          'Klicken Sie auf die Tabs, um verschiedene sozio-oekologische Merkmale zu erkunden.',
+          'Waehlen Sie ein Thema, um verschiedene sozio-oekologische Merkmale zu erkunden.',
         distributionTitle: '{{layer}} - Verteilung',
         projectionTitle: '{{layer}} - projizierte Aenderung',
         aboutTheme: 'Übersicht',

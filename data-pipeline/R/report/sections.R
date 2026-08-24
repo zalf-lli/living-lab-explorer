@@ -253,6 +253,35 @@ ll_kpi_typst <- function(slug, tab, lang, columns = NULL, fence = TRUE) {
   call
 }
 
+#' A complete Typst call rendering one figure's notes as small muted lines under its caption.
+#'
+#' The counterpart to `ll_kpi_typst()` above, and emitted the same way: an escaped
+#' `#ll-figure-note(...)` call inside a ` ```{=typst} ` raw block, `cat()` from an `asis`
+#' chunk in `template.qmd`. Every note in this report goes through here rather than being
+#' drawn into a figure, so notes are selectable text, wrap to the page, and are typeset in
+#' the document's own font at a size the theme controls rather than at whatever size a plot
+#' device happened to give them.
+#'
+#' @param lines character vector (possibly length 0, or NULL), one note line per element.
+#' @param fence logical(1); TRUE (the default) wraps the call in a Typst raw block.
+#' @return character(1) -- the empty string when there is nothing to print, so a caller can
+#'   `cat()` this unconditionally and contribute nothing to the document.
+ll_note_typst <- function(lines, fence = TRUE) {
+  lines <- lines[!is.na(lines)]
+  lines <- lines[nzchar(trimws(lines))]
+  if (length(lines) == 0) {
+    return("")
+  }
+  items <- vapply(lines, function(x) sprintf('"%s"', .ll_typst_escape(x)), character(1))
+  # Trailing comma for the same reason as `ll_kpi_typst()`'s: without it a single-element
+  # list parses as a parenthesized expression rather than a Typst array.
+  call <- sprintf("#ll-figure-note(lines: (%s,))", paste(items, collapse = ", "))
+  if (isTRUE(fence)) {
+    return(paste0("```{=typst}\n", call, "\n```"))
+  }
+  call
+}
+
 # --- Task 3: Chart builders re-plotting the committed chart JSON contract -------
 #
 # D-06: every chart here re-plots app/public/data/charts/<layer>-<slug>.json -- the exact
@@ -422,20 +451,34 @@ ll_soil_color <- function(group_key) {
 
 # --- Climate line-colour resolution (Task 3) -------------------------------------
 
-# Fixed correspondence between each canonical climate variable id (as ordered in
-# ll_tokens()$palettes$climate$variables -- Phase 8 D-08's locked "gdd first" order) and the
-# KPI key sources.yaml curates for it (the same four keys every kpiByTab$climate row carries).
-# Used only to build a CANDIDATE label to test a chart line's own English label against
-# (.ll_resolve_climate_line_variable() below) -- the match is decided by that label
-# comparison, not by this table's order or by the line's position in `chart$lines`, so this
-# stays a genuine label match rather than reproducing LineChart.jsx's WR-01 positional
-# coupling (STATE.md TODO-02).
-.LL_CLIMATE_VARIABLE_KPI_KEY <- c(
-  gdd = "gdd5_degc_days",
-  bio1 = "mean_annual_temp_degc",
-  bio12 = "annual_precip_mm",
-  bio18 = "warm_quarter_precip_mm"
-)
+#' The `chelsa-climate` layer's `climate.variables` map, straight from
+#' data-pipeline/sources/sources.yaml.
+#'
+#' maps_raster.R owns this project's general sources.yaml accessors, but this module is
+#' sourced standalone by its own test gate (and is sourced BEFORE maps_raster.R in
+#' template.qmd), so it cannot call them. It reads the manifest itself instead -- through the
+#' same `.ll_cache$sources_yaml` slot maps_raster.R's `.ll_sources_yaml()` uses, so whichever
+#' module asks first, the file is parsed exactly once per session and both see the same
+#' object.
+#'
+#' `suppressWarnings()` for the same reason `.ll_sources_yaml()` gives: one unrelated
+#' byte-count literal elsewhere in the manifest is above R's 32-bit integer range and makes
+#' the yaml package warn on coercion.
+.ll_climate_variables_manifest <- function() {
+  if (is.null(.ll_cache$sources_yaml)) {
+    path <- file.path(ll_repo_root(), "data-pipeline", "sources", "sources.yaml")
+    .ll_cache$sources_yaml <- suppressWarnings(yaml::read_yaml(path))
+  }
+  for (layer in .ll_cache$sources_yaml$layers) {
+    if (identical(layer$id, "chelsa-climate")) {
+      return(layer$climate$variables)
+    }
+  }
+  stop(
+    ".ll_climate_variables_manifest(): no layer with id 'chelsa-climate' in ",
+    "data-pipeline/sources/sources.yaml."
+  )
+}
 
 # Per-variable line colour, ported from LineChart.jsx's CLIMATE_LINE_COLORS -- same four
 # theme tokens (C.orange/C.orangeDeep/C.teal/C.tealMid), resolved here from
@@ -443,33 +486,35 @@ ll_soil_color <- function(group_key) {
 .LL_CLIMATE_LINE_COLOR_TOKEN <- c(gdd = "orange", bio1 = "orangeDeep", bio12 = "teal", bio18 = "tealMid")
 
 #' Resolve which canonical climate variable id a chart line belongs to, by matching its
-#' English label against the English label of each candidate KPI (the KPI whose `key`
-#' `.LL_CLIMATE_VARIABLE_KPI_KEY` associates with that variable id, resolved fresh for this
-#' `slug` via `ll_kpi_df()`'s own accessor rather than a hardcoded label string) -- a real
-#' text comparison, not a lookup by the line's position in `chart$lines`.
+#' English label against each variable's own English label in
+#' data-pipeline/sources/sources.yaml (`chelsa-climate.climate.variables.<id>.label.en`) --
+#' a real text comparison against the very manifest the pipeline built these lines from, not
+#' a lookup by the line's position in `chart$lines` (STATE.md TODO-02: LineChart.jsx's own
+#' WR-01 positional coupling is deliberately not reproduced here).
+#'
+#' This used to match against each variable's associated KPI label instead, via a
+#' variable-id-to-KPI-key table. That indirection broke the moment the curated climate KPI
+#' slots changed upstream: every Living Lab's `kpiByTab$climate` now carries agricultural
+#' emission indicators (`agr_ch4_kt`, `agr_n2o_kt`) rather than the four bioclimatic KPIs the
+#' table assumed, so no candidate label existed to match and every climate chart failed to
+#' render. sources.yaml's own variable labels are the direct join key -- the same file, and
+#' the same strings, that `compute_climate_chart.py` writes into each line's `label` -- so
+#' the match no longer depends on which KPIs a Living Lab happens to curate.
 #'
 #' @param line_label_en character(1), a chart line's English label.
-#' @param slug character(1) Living Lab slug (its own `kpiByTab$climate` rows supply the
-#'   candidate labels to match against).
-#' @return character(1), one of `names(.LL_CLIMATE_VARIABLE_KPI_KEY)`.
-.ll_resolve_climate_line_variable <- function(line_label_en, slug) {
-  kpi_rows <- ll_lab(slug)$kpiByTab$climate
-  variables <- ll_tokens()$palettes$climate$variables
-  for (i in seq_len(nrow(variables))) {
-    var_id <- variables$id[i]
-    kpi_key <- .LL_CLIMATE_VARIABLE_KPI_KEY[[var_id]]
-    if (is.null(kpi_key)) next
-    match_idx <- which(kpi_rows$key == kpi_key)
-    if (length(match_idx) != 1) next
-    kpi_label_en <- ll_str(paste0("kpi.", kpi_key), "en")
-    if (identical(kpi_label_en, line_label_en) || startsWith(kpi_label_en, line_label_en)) {
+#' @return character(1), one of the ids in `chelsa-climate`'s `climate.variables` map.
+.ll_resolve_climate_line_variable <- function(line_label_en) {
+  variables <- .ll_climate_variables_manifest()
+  for (var_id in names(variables)) {
+    label_en <- variables[[var_id]]$label$en
+    if (is.null(label_en)) next
+    if (identical(label_en, line_label_en) || startsWith(label_en, line_label_en)) {
       return(var_id)
     }
   }
   stop(
     "ll_chart(): could not resolve a climate variable id for chart line label '",
-    line_label_en, "' (slug '", slug, "'). Known variable ids: ",
-    paste(names(.LL_CLIMATE_VARIABLE_KPI_KEY), collapse = ", ")
+    line_label_en, "'. Known variable ids: ", paste(names(variables), collapse = ", ")
   )
 }
 
@@ -489,22 +534,26 @@ ll_soil_color <- function(group_key) {
   de = "Platzhalterdaten - noch nicht auf echten Messungen basierend."
 )
 
-#' Build the caption text for one chart figure: the chart's `source` field, plus the mock-data
-#' marker when `chart$mock` is TRUE.
+#' Build the note text for one chart figure: the mock-data marker when `chart$mock` is TRUE,
+#' and nothing otherwise.
 #'
-#' @return character(1) or NULL when there is nothing to caption.
-.ll_chart_caption <- function(chart, lang) {
-  parts <- character(0)
-  if (!is.null(chart$source) && length(chart$source) == 1 && nzchar(chart$source)) {
-    parts <- c(parts, chart$source)
-  }
-  if (isTRUE(chart$mock)) {
-    parts <- c(parts, .LL_MOCK_CAPTION[[lang]])
-  }
-  if (length(parts) == 0) {
+#' Returned rather than drawn: `template.qmd` prints it beneath the figure's Quarto caption
+#' as document text (`ll_chart_note()` below is the accessor it calls). It used to be a
+#' `labs(caption =)` inside the plot, which put source text inside the image at whatever size
+#' the plot device gave it.
+#'
+#' The chart's `source` field is deliberately NOT part of this note. It holds the raw layer
+#' id ("chelsa-climate"), which the figure's own Quarto caption already states in the
+#' human-readable form sources.yaml curates for it ("Climate (CHELSA V2.1 / CMIP6): ...") --
+#' printing the id as well would put a second, worse rendering of the same fact under every
+#' chart. The mock marker is the whole reason this note exists.
+#'
+#' @return character(1) or NULL when there is nothing to note.
+.ll_chart_note <- function(chart, lang) {
+  if (!isTRUE(chart$mock)) {
     return(NULL)
   }
-  paste(parts, collapse = " - ")
+  .LL_MOCK_CAPTION[[lang]]
 }
 
 # --- Bar and line chart builders (Task 3) -----------------------------------------
@@ -543,7 +592,7 @@ ll_soil_color <- function(group_key) {
       expand = ggplot2::expansion(mult = c(0, 0.28)),
       labels = NULL
     ) +
-    ggplot2::labs(x = NULL, y = NULL, caption = .ll_chart_caption(chart, lang)) +
+    ggplot2::labs(x = NULL, y = NULL) +
     theme_ll_base() +
     ggplot2::theme(
       axis.text.y = ggplot2::element_text(hjust = 1)
@@ -553,7 +602,7 @@ ll_soil_color <- function(group_key) {
 #' Build a two-point-per-line chart from a chart JSON's `lines`, colouring each line by
 #' matching its English label to a canonical climate variable id (never by array position --
 #' see `.ll_resolve_climate_line_variable()`).
-.ll_line_chart <- function(chart, slug, lang) {
+.ll_line_chart <- function(chart, lang) {
   lines <- chart$lines
   x_axis <- chart$x_axis
   x_labels <- if (lang %in% names(x_axis$label)) x_axis$label[[lang]] else x_axis$label[["en"]]
@@ -562,7 +611,7 @@ ll_soil_color <- function(group_key) {
   for (i in seq_len(nrow(lines))) {
     line_label_en <- lines$label$en[i]
     line_label <- if (lang %in% names(lines$label)) lines$label[[lang]][i] else line_label_en
-    var_id <- .ll_resolve_climate_line_variable(line_label_en, slug)
+    var_id <- .ll_resolve_climate_line_variable(line_label_en)
     color <- ll_tokens()$theme[[.LL_CLIMATE_LINE_COLOR_TOKEN[[var_id]]]]
 
     points <- lines$points[[i]]
@@ -588,6 +637,20 @@ ll_soil_color <- function(group_key) {
   unit <- .ll_bilingual_scalar(chart$unit, lang)
   if (is.na(unit)) unit <- ""
 
+  # Direct labels instead of a legend: with only two x positions per line, a keyed legend
+  # made the reader carry four colours across the figure to find out which line was which.
+  # The label sits at each line's own right-hand end, in that line's own colour, so the
+  # series names itself where it ends. Wrapped, because the longest of these labels
+  # ("Precipitation of warmest quarter", and its German equivalent) is wider than the space
+  # reserved for it on one line.
+  last_x <- levels(df$x)[nlevels(df$x)]
+  end_points <- df[as.character(df$x) == last_x, , drop = FALSE]
+  end_points$label <- vapply(
+    as.character(end_points$line),
+    function(x) paste(strwrap(x, width = 22), collapse = "\n"),
+    character(1), USE.NAMES = FALSE
+  )
+
   # Plan 12-10 checkpoint Defect 8: no chart-specific gridline/background overrides here --
   # `theme_ll_base()` already blanks every gridline and keeps both background layers
   # transparent. The zero-reference line below is a data element (an explicit y = 0 marker),
@@ -598,9 +661,35 @@ ll_soil_color <- function(group_key) {
     ggplot2::geom_hline(yintercept = 0, colour = ll_tokens()$theme$mutedPale, linewidth = 0.3) +
     ggplot2::geom_line(linewidth = 0.9) +
     ggplot2::geom_point(size = 1.8) +
-    ggplot2::scale_colour_manual(values = color_values, guide = ggplot2::guide_legend(title = NULL)) +
-    ggplot2::labs(x = NULL, y = unit, caption = .ll_chart_caption(chart, lang)) +
-    theme_ll_base()
+    ggplot2::geom_text(
+      data = end_points,
+      ggplot2::aes(label = .data$label),
+      hjust = 0, nudge_x = 0.06, size = 2.3, lineheight = 0.95, show.legend = FALSE
+    ) +
+    ggplot2::scale_colour_manual(values = color_values, guide = "none") +
+    # Room on the right for those labels, and `clip = "off"` so a label that reaches the
+    # panel edge is still drawn rather than silently cut in half.
+    ggplot2::scale_x_discrete(expand = ggplot2::expansion(add = c(0.08, 0.6))) +
+    ggplot2::coord_cartesian(clip = "off") +
+    ggplot2::labs(x = NULL, y = unit) +
+    theme_ll_base() +
+    ggplot2::theme(plot.margin = ggplot2::margin(t = 4, r = 6, b = 2, l = 2))
+}
+
+#' The note belonging to one tab's chart figure, or NULL when the chart has nothing to note
+#' (and when no chart file exists for this (slug, tab) at all -- the same tolerance
+#' `ll_chart()` gives that case, so `template.qmd` can ask for the note unconditionally).
+#'
+#' @param slug character(1) Living Lab slug.
+#' @param tab character(1), one of `LL_TAB_ORDER`.
+#' @param lang character(1), `"en"` or `"de"`.
+#' @return character(1) or NULL.
+ll_chart_note <- function(slug, tab, lang) {
+  chart_path <- .ll_chart_path(slug, tab)
+  if (!file.exists(chart_path)) {
+    return(NULL)
+  }
+  .ll_chart_note(jsonlite::fromJSON(chart_path, simplifyVector = TRUE), lang)
 }
 
 #' A tab's chart, re-plotted from the committed chart JSON contract -- `ggplot` object, or
@@ -625,7 +714,7 @@ ll_chart <- function(slug, tab, lang) {
     return(.ll_bar_chart(chart, tab, lang))
   }
   if (identical(chart$chart_type, "line")) {
-    return(.ll_line_chart(chart, slug, lang))
+    return(.ll_line_chart(chart, lang))
   }
   stop(
     "ll_chart(): unknown chart_type '", chart$chart_type, "' for slug '", slug,

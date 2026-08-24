@@ -135,20 +135,20 @@
           "baseline": [
             {
               "color": "#fce3da",
-              "de": "< 8,8 °C",
-              "en": "< 8.8 °C",
+              "de": "< 8,6 °C",
+              "en": "< 8.6 °C",
               "value": "b0"
             },
             {
               "color": "#eb5b25",
-              "de": "8,8 – 9,2 °C",
-              "en": "8.8 – 9.2 °C",
+              "de": "8,6 – 9,1 °C",
+              "en": "8.6 – 9.1 °C",
               "value": "b1"
             },
             {
               "color": "#dc4b14",
-              "de": "9,2 – 9,4 °C",
-              "en": "9.2 – 9.4 °C",
+              "de": "9,1 – 9,4 °C",
+              "en": "9.1 – 9.4 °C",
               "value": "b2"
             },
             {
@@ -229,26 +229,26 @@
           "baseline": [
             {
               "color": "#00b3ad",
-              "de": "< 595,0 mm",
-              "en": "< 595.0 mm",
+              "de": "< 589,0 mm",
+              "en": "< 589.0 mm",
               "value": "b0"
             },
             {
               "color": "#008581",
-              "de": "595,0 – 644,0 mm",
-              "en": "595.0 – 644.0 mm",
+              "de": "589,0 – 741,0 mm",
+              "en": "589.0 – 741.0 mm",
               "value": "b1"
             },
             {
               "color": "#005754",
-              "de": "644,0 – 804,0 mm",
-              "en": "644.0 – 804.0 mm",
+              "de": "741,0 – 844,0 mm",
+              "en": "741.0 – 844.0 mm",
               "value": "b2"
             },
             {
               "color": "#00413f",
-              "de": "> 804,0 mm",
-              "en": "> 804.0 mm",
+              "de": "> 844,0 mm",
+              "en": "> 844.0 mm",
               "value": "b3"
             }
           ],
@@ -329,20 +329,20 @@
             },
             {
               "color": "#008581",
-              "de": "184,0 – 196,0 mm",
-              "en": "184.0 – 196.0 mm",
+              "de": "184,0 – 202,0 mm",
+              "en": "184.0 – 202.0 mm",
               "value": "b1"
             },
             {
               "color": "#005754",
-              "de": "196,0 – 216,0 mm",
-              "en": "196.0 – 216.0 mm",
+              "de": "202,0 – 225,0 mm",
+              "en": "202.0 – 225.0 mm",
               "value": "b2"
             },
             {
               "color": "#00413f",
-              "de": "> 216,0 mm",
-              "en": "> 216.0 mm",
+              "de": "> 225,0 mm",
+              "en": "> 225.0 mm",
               "value": "b3"
             }
           ],
@@ -350,64 +350,64 @@
             "2041_2070": [
               {
                 "color": "#00b3ad",
-                "de": "< -5,5 %",
-                "en": "< -5.5 %",
+                "de": "< -6,0 %",
+                "en": "< -6.0 %",
                 "value": "b0"
               },
               {
                 "color": "#008581",
-                "de": "-5,5 – -5,0 %",
-                "en": "-5.5 – -5.0 %",
+                "de": "-6,0 – -5,5 %",
+                "en": "-6.0 – -5.5 %",
                 "value": "b1"
               },
               {
                 "color": "#005754",
-                "de": "-5,0 – -4,5 %",
-                "en": "-5.0 – -4.5 %",
+                "de": "-5,5 – -5,0 %",
+                "en": "-5.5 – -5.0 %",
                 "value": "b2"
               },
               {
                 "color": "#00413f",
-                "de": "-4,5 – -4,0 %",
-                "en": "-4.5 – -4.0 %",
+                "de": "-5,0 – -4,5 %",
+                "en": "-5.0 – -4.5 %",
                 "value": "b3"
               },
               {
                 "color": "#00312f",
-                "de": "> -4,0 %",
-                "en": "> -4.0 %",
+                "de": "> -4,5 %",
+                "en": "> -4.5 %",
                 "value": "b4"
               }
             ],
             "2071_2100": [
               {
                 "color": "#00b3ad",
-                "de": "< -8,5 %",
-                "en": "< -8.5 %",
+                "de": "< -9,0 %",
+                "en": "< -9.0 %",
                 "value": "b0"
               },
               {
                 "color": "#008581",
-                "de": "-8,5 – -8,0 %",
-                "en": "-8.5 – -8.0 %",
+                "de": "-9,0 – -8,5 %",
+                "en": "-9.0 – -8.5 %",
                 "value": "b1"
               },
               {
                 "color": "#005754",
-                "de": "-8,0 – -5,5 %",
-                "en": "-8.0 – -5.5 %",
+                "de": "-8,5 – -8,0 %",
+                "en": "-8.5 – -8.0 %",
                 "value": "b2"
               },
               {
                 "color": "#00413f",
-                "de": "-5,5 – -5,0 %",
-                "en": "-5.5 – -5.0 %",
+                "de": "-8,0 – -5,5 %",
+                "en": "-8.0 – -5.5 %",
                 "value": "b3"
               },
               {
                 "color": "#00312f",
-                "de": "> -5,0 %",
-                "en": "> -5.0 %",
+                "de": "> -5,5 %",
+                "en": "> -5.5 %",
                 "value": "b4"
               }
             ]
@@ -417,26 +417,26 @@
           "baseline": [
             {
               "color": "#fce3da",
-              "de": "< 1801,0 °C·d",
-              "en": "< 1801.0 °C·d",
+              "de": "< 1735,0 °C·d",
+              "en": "< 1735.0 °C·d",
               "value": "b0"
             },
             {
               "color": "#eb5b25",
-              "de": "1801,0 – 1962,0 °C·d",
-              "en": "1801.0 – 1962.0 °C·d",
+              "de": "1735,0 – 1888,0 °C·d",
+              "en": "1735.0 – 1888.0 °C·d",
               "value": "b1"
             },
             {
               "color": "#dc4b14",
-              "de": "1962,0 – 2043,0 °C·d",
-              "en": "1962.0 – 2043.0 °C·d",
+              "de": "1888,0 – 2025,0 °C·d",
+              "en": "1888.0 – 2025.0 °C·d",
               "value": "b2"
             },
             {
               "color": "#bb3f11",
-              "de": "> 2043,0 °C·d",
-              "en": "> 2043.0 °C·d",
+              "de": "> 2025,0 °C·d",
+              "en": "> 2025.0 °C·d",
               "value": "b3"
             }
           ],
@@ -444,64 +444,64 @@
             "2041_2070": [
               {
                 "color": "#fce3da",
-                "de": "< +619,0 °C·d",
-                "en": "< +619.0 °C·d",
+                "de": "< +615,0 °C·d",
+                "en": "< +615.0 °C·d",
                 "value": "b0"
               },
               {
                 "color": "#eb5b25",
-                "de": "+619,0 – +634,0 °C·d",
-                "en": "+619.0 – +634.0 °C·d",
+                "de": "+615,0 – +628,0 °C·d",
+                "en": "+615.0 – +628.0 °C·d",
                 "value": "b1"
               },
               {
                 "color": "#dc4b14",
-                "de": "+634,0 – +650,0 °C·d",
-                "en": "+634.0 – +650.0 °C·d",
+                "de": "+628,0 – +643,0 °C·d",
+                "en": "+628.0 – +643.0 °C·d",
                 "value": "b2"
               },
               {
                 "color": "#bb3f11",
-                "de": "+650,0 – +670,0 °C·d",
-                "en": "+650.0 – +670.0 °C·d",
+                "de": "+643,0 – +655,0 °C·d",
+                "en": "+643.0 – +655.0 °C·d",
                 "value": "b3"
               },
               {
                 "color": "#9f350e",
-                "de": "> +670,0 °C·d",
-                "en": "> +670.0 °C·d",
+                "de": "> +655,0 °C·d",
+                "en": "> +655.0 °C·d",
                 "value": "b4"
               }
             ],
             "2071_2100": [
               {
                 "color": "#fce3da",
-                "de": "< +1082,0 °C·d",
-                "en": "< +1082.0 °C·d",
+                "de": "< +1072,0 °C·d",
+                "en": "< +1072.0 °C·d",
                 "value": "b0"
               },
               {
                 "color": "#eb5b25",
-                "de": "+1082,0 – +1107,0 °C·d",
-                "en": "+1082.0 – +1107.0 °C·d",
+                "de": "+1072,0 – +1098,0 °C·d",
+                "en": "+1072.0 – +1098.0 °C·d",
                 "value": "b1"
               },
               {
                 "color": "#dc4b14",
-                "de": "+1107,0 – +1133,0 °C·d",
-                "en": "+1107.0 – +1133.0 °C·d",
+                "de": "+1098,0 – +1122,0 °C·d",
+                "en": "+1098.0 – +1122.0 °C·d",
                 "value": "b2"
               },
               {
                 "color": "#bb3f11",
-                "de": "+1133,0 – +1153,0 °C·d",
-                "en": "+1133.0 – +1153.0 °C·d",
+                "de": "+1122,0 – +1140,0 °C·d",
+                "en": "+1122.0 – +1140.0 °C·d",
                 "value": "b3"
               },
               {
                 "color": "#9f350e",
-                "de": "> +1153,0 °C·d",
-                "en": "> +1153.0 °C·d",
+                "de": "> +1140,0 °C·d",
+                "en": "> +1140.0 °C·d",
                 "value": "b4"
               }
             ]
@@ -629,6 +629,35 @@
         "value": 11
       }
     ],
+    "protectedAreas": [
+      {
+        "color": "#e6c2e6",
+        "de": "FFH-Gebiete (BSG)",
+        "en": "Special Conservation Area",
+        "fillOpacity": 0.55,
+        "strokeColor": "#9966cc",
+        "value": "Natura 2000 SCI",
+        "weight": 1.2
+      },
+      {
+        "color": "#fff5b8",
+        "de": "Vogelschutzgebiete (VSG)",
+        "en": "Special Protection Area",
+        "fillOpacity": 0.5,
+        "strokeColor": "#ffb84d",
+        "value": "Natura 2000 SPA",
+        "weight": 1.2
+      },
+      {
+        "color": "#c2e6c2",
+        "de": "Naturschutzgebiete (NSG)",
+        "en": "Nature Reserve",
+        "fillOpacity": 0.55,
+        "strokeColor": "#66aa66",
+        "value": "Naturschutzgebiet",
+        "weight": 1.2
+      }
+    ],
     "soil": {
       "fallback": [
         "#6E4B4B",
@@ -690,6 +719,8 @@
         "variableRowLabel": "Klimavariable"
       },
       "common": {
+        "activateMap": "Zum Erkunden der Karte tippen",
+        "activateMapAria": "Karteninteraktion aktivieren",
         "language": "Sprache",
         "loading": "Wird geladen...",
         "loadingMap": "Karte wird geladen..."
@@ -722,6 +753,7 @@
         "body": "In fuenf Reallaboren erproben wir innovative Ansaetze gemeinsam mit Praxisakteuren vor Ort. Waehlen Sie einen Standort auf der Karte, um Rahmenbedingungen, Ziele und Fortschritte zu erkunden.",
         "eyebrow": "Reallabore",
         "listTitle": "Reallabore",
+        "mapLabel": "Karte von Deutschland - Reallabor-Region auswaehlen",
         "title": "Fuenf Regionen. Echte Praxis."
       },
       "layers": {
@@ -766,7 +798,6 @@
       "llDetail": {
         "aboutTheme": "Übersicht",
         "challenges": "Herausforderungen",
-        "changeLayout": "Layout wechseln",
         "compareAction": "Vergleichen",
         "compareBody": "Sekundaere Funktion - zwei Living Labs fuer einen Seitenvergleich auswaehlen",
         "compareChangePartnerAria": "Vergleichspartner aendern",
@@ -786,11 +817,8 @@
         "downloadReportBody": "Alle Kennzahlen, Karten und Diagramme zu diesem Living Lab als PDF",
         "downloadReportTitle": "Bericht herunterladen",
         "layerTabsHint": "Klicken Sie auf die Tabs, um verschiedene sozio-oekologische Merkmale zu erkunden.",
+        "layerTabsLabel": "Thema",
         "loading": "Living Lab wird geladen...",
-        "optionADesc": "Karte links fixiert - Datenbereich scrollt rechts",
-        "optionASub": "Geteilter Bildschirm",
-        "optionBDesc": "Abschnitte in voller Breite - Karte oben, Daten darunter",
-        "optionBSub": "Gestapelt",
         "projectionTitle": "{{layer}} - projizierte Aenderung",
         "unknown": "Unbekanntes Living Lab: \"{{slug}}\""
       },
@@ -911,6 +939,8 @@
         "variableRowLabel": "Climate variable"
       },
       "common": {
+        "activateMap": "Tap to explore the map",
+        "activateMapAria": "Activate map interaction",
         "language": "Language",
         "loading": "Loading...",
         "loadingMap": "Loading map..."
@@ -943,6 +973,7 @@
         "body": "In five living labs, we test innovative approaches together with practitioners on the ground. Pick a site on the map to explore its conditions, ambitions and progress.",
         "eyebrow": "Living Labs",
         "listTitle": "Living Labs",
+        "mapLabel": "Map of Germany - select a Living Lab region",
         "title": "Five Regions. Real-World Practice."
       },
       "layers": {
@@ -987,7 +1018,6 @@
       "llDetail": {
         "aboutTheme": "Overview",
         "challenges": "Challenges",
-        "changeLayout": "Change layout",
         "compareAction": "Compare",
         "compareBody": "Secondary feature - select any two LLs to view side-by-side metrics",
         "compareChangePartnerAria": "Change comparison partner",
@@ -1007,11 +1037,8 @@
         "downloadReportBody": "Every KPI, map and chart for this Living Lab in a PDF",
         "downloadReportTitle": "Download a report",
         "layerTabsHint": "Click the tabs to explore different socio-environmental features.",
+        "layerTabsLabel": "Theme",
         "loading": "Loading Living Lab...",
-        "optionADesc": "Map fixed left - data panel scrolls right",
-        "optionASub": "Split screen",
-        "optionBDesc": "Full-width sections - map then data below",
-        "optionBSub": "Stacked",
         "projectionTitle": "{{layer}} - projected change",
         "unknown": "Unknown Living Lab: \"{{slug}}\""
       },
