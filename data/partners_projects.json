@@ -9,9 +9,46 @@
         "website": "https://www.zalf.de",
         "lat": 52.5153,
         "lng": 14.1235
+      },
+      {
+        "id": "lag-maerkische-seen",
+        "name": "LAG Märkische Seen e.V.",
+        "type": "Regional development network (LEADER Local Action Group)",
+        "location": "c/o Campus Schloss Trebnitz, Haus der Demokratie und Inklusion, Platz der Jugend 4, 15374 Müncheberg OT Trebnitz",
+        "website": "https://www.lag-maerkische-seen.de/",
+        "lat": 52.532006,
+        "lng": 14.219025
+      },
+      {
+        "id": "amt-kreisentwicklung-oder-spree",
+        "name": "Amt für Kreisentwicklung und Infrastruktur, Landkreis Oder-Spree",
+        "type": "County administration - regional development",
+        "location": "Breitscheidstraße 7, Haus B, 15848 Beeskow",
+        "website": "https://www.landkreis-oder-spree.de/Politik-Landkreis/Kreisverwaltung/Ansprechpartner/Amt-f%C3%BCr-Kreisentwicklung-und-Infrastruktur.php?ModID=9&FID=2689.3728.1",
+        "lat": 52.167823,
+        "lng": 14.240913
+      },
+      {
+        "id": "lpv-mittlere-oder",
+        "name": "Landschaftspflegeverband Mittlere Oder e.V. (LPV)",
+        "type": "Landscape conservation association",
+        "location": "Lindenstraße 7, 15230 Frankfurt (Oder)",
+        "website": "https://lpv.mittlere-oder.de/",
+        "lat": 52.34038,
+        "lng": 14.551737
       }
     ],
-    "projects": []
+    "projects": [
+      {
+        "id": "sunflow",
+        "title": "SUNFLOW",
+        "summary": {
+          "en": "In 2025, approximately one-quarter of Germany's sunflower cultivation area, totaling 17,200 hectares, was located in Brandenburg, primarily in its eastern and southern parts. However, a large share of the harvest leaves Brandenburg to become part of globalized value chains. While globalized value creation offers benefits such as increased efficiency in food production, it also entails numerous drawbacks including reduced biodiversity at production sites, diminished transparency regarding food processing, and an unequal distribution of value among the various actors in the chain. Establishing regional value-creation networks can help to overcome these disadvantages and foster more sustainable food systems. As a first step, the project will compile an overview of producers, processors, and traders of regional sunflower products in East Brandenburg, followed by an analysis of their associated products, services, sales channels, opportunities, and obstacles. Another project objective is to identify which products are particularly well-suited for regional utilization. Additionally, the project aims to examine the role of social capital in the development of regional value chains. Sunflowers are particularly well-suited for this purpose due to their numerous ecological benefits: low requirements for fertilizers and crop protection agents, a capacity to promote biodiversity, and their suitability as a preceding crop for grain – a crop of significant importance in Brandenburg.",
+          "de": "2025 befanden sich ca. ¼ der deutschen Anbauflächen für Sonnenblumen mit 17.200 ha in Brandenburg, davon die meisten in Ost- und Südbrandenburg. Aktuell verlässt jedoch ein Großteil der Erträge die Region Ostbrandenburg und wird Teil globalisierter Wertschöpfungsketten. Neben positiven Aspekten wie der Effizienzsteigerung der Lebensmittelproduktion führt eine globalisierte Wertschöpfung jedoch auch zu zahlreichen Nachteilen wie bspw. zu einer sinkenden Biodiversität am Lebensmittelproduktionsstandort, einer sinkenden Transparenz über den Herstellungsprozess der Lebensmittel, als auch zu einer ungleichen Verteilung der Wertschöpfung unter den Wertschöpfungsketten-Akteuren. Um diese Nachteile zu überwinden und Agrar- und Ernährungssysteme nachhaltiger zu gestalten kann die Implementierung regionaler Wertschöpfungsnetzwerke sinnvoll sein. Hierfür wird im ersten Schritt ein Überblick zu Produktions- und Verarbeitungsbetrieben und Händlern regionaler Sonnenblumenerzeugnisse für Ostbrandenburg erstellt und anschließend auch ein Überblick zu den Erzeugnissen, Dienstleistungen, Absatzwegen, Potenzialen und Hemmnissen ausgewählter Produzenten. Ein weiteres Ziel des Projekts ist es herauszufinden, welche Produkte sich besonders für eine regionale Verwertung anbieten. Zudem soll die Rolle von Sozialkapital beim Aufbau regionaler Wertschöpfungsketten untersucht werden. Die Sonnenblume eignet sich als Beispiel für regionale Wertschöpfung besonders, da sie zahlreiche ökologische Vorteile mit sich bringt: ein geringer Bedarf an Düngung und Pflanzenschutz, ein biodiversitätsfördernder Charakter und eine passende Vorkultur für Getreide, welches in Brandenburg eine besondere Relevanz hat."
+        },
+        "partner": "Amt für Kreisentwicklung und Infrastruktur Landkreis Oder-Spree; Amt für Landwirtschaft und Umwelt Landkreis Märkisch-Oderland; LAG Märkische Seen e.V."
+      }
+    ]
   },
   "havelland": {
     "partners": [
@@ -20,10 +57,31 @@
         "name": "ZALF - Leibniz Centre for Agricultural Landscape Research",
         "type": "Research institution",
         "location": "Muencheberg, DE",
-        "website": "https://www.zalf.de"
+        "website": "https://www.zalf.de",
+        "lat": 52.5153,
+        "lng": 14.1235
       }
     ],
-    "projects": []
+    "projects": [
+      {
+        "id": "final",
+        "title": "FInAL: Förderung von Insekten in Agrarlandschaften",
+        "summary": {
+          "en": "FInAL develops, demonstrates and evaluates innovative measures for facilitating insects through the integrated cultivation of renewable resources in a landscape context.",
+          "de": "FInAL entwickelt, erprobt und bewertet innovative Maßnahmen zur Förderung von Insekten durch den integrierten Anbau nachwachsender Rohstoffe im Landschaftskontext."
+        },
+        "website": "https://www.final-projekt.de/en/"
+      },
+      {
+        "id": "franz",
+        "title": "F.R.A.N.Z.: Future Resources, Agriculture & Nature Conservation",
+        "summary": {
+          "en": "FRANZ is a dialogue and demonstration project in which effective nature protection measures have been developed that can be integrated into normal farming practice.",
+          "de": "FRANZ ist ein Dialog- und Demonstrationsprojekt, in dem wirksame Naturschutzmaßnahmen entwickelt wurden, die sich in die normale landwirtschaftliche Praxis integrieren lassen."
+        },
+        "website": "https://www.franz-projekt.de/franz"
+      }
+    ]
   },
   "north-hessian-loess": {
     "partners": [
@@ -32,7 +90,9 @@
         "name": "ZALF - Leibniz Centre for Agricultural Landscape Research",
         "type": "Research institution",
         "location": "Muencheberg, DE",
-        "website": "https://www.zalf.de"
+        "website": "https://www.zalf.de",
+        "lat": 52.5153,
+        "lng": 14.1235
       }
     ],
     "projects": []
@@ -44,10 +104,40 @@
         "name": "ZALF - Leibniz Centre for Agricultural Landscape Research",
         "type": "Research institution",
         "location": "Muencheberg, DE",
-        "website": "https://www.zalf.de"
+        "website": "https://www.zalf.de",
+        "lat": 52.5153,
+        "lng": 14.1235
+      },
+      {
+        "id": "gladbacher-hof",
+        "name": "Gladbacher Hof",
+        "type": "Teaching and research farm (organic farming)",
+        "location": "Villmar, Hesse",
+        "website": "https://www.uni-giessen.de/de/fbz/fb09/forschung/lehreinrichtungen/Standorte_neu/gh",
+        "lat": 50.396844,
+        "lng": 8.244302
       }
     ],
-    "projects": []
+    "projects": [
+      {
+        "id": "zirkuh",
+        "title": "ZirKUH",
+        "summary": {
+          "en": "Circular cattle farming systems in Hesse to strengthen regional value chains for dairy and beef.",
+          "de": "Zirkuläre Rinderhaltungssysteme in Hessen zur Stärkung regionaler Wertschöpfungsketten für Milch und Rindfleisch."
+        },
+        "website": "https://www.uni-giessen.de/en/faculties/f09/institutes/landscape/water/research/active/zirkuh"
+      },
+      {
+        "id": "klimatier",
+        "title": "KlimaTier",
+        "summary": {
+          "en": "Climate protection through livestock husbandry.",
+          "de": "Klimaschutz durch Tierhaltung."
+        },
+        "website": "https://www.uni-giessen.de/de/fbz/fb09/institute/ibae/bea/projekte/klimatier"
+      }
+    ]
   },
   "rheingau": {
     "partners": [
@@ -56,9 +146,39 @@
         "name": "ZALF - Leibniz Centre for Agricultural Landscape Research",
         "type": "Research institution",
         "location": "Muencheberg, DE",
-        "website": "https://www.zalf.de"
+        "website": "https://www.zalf.de",
+        "lat": 52.5153,
+        "lng": 14.1235
       }
     ],
-    "projects": []
+    "projects": [
+      {
+        "id": "geistreich",
+        "title": "GeisTreich",
+        "summary": {
+          "en": "Transfer program for a biodiverse and multifunctional viticulture. Links university research findings with the experience of stakeholders to develop innovative ideas together for a sustainable viticulture.",
+          "de": "Transferprogramm für einen biodiversen und multifunktionalen Weinbau. Verknüpft wissenschaftliche Erkenntnisse der Hochschule mit der Erfahrung der Akteure, um gemeinsam innovative Ideen für einen nachhaltigen Weinbau zu entwickeln."
+        },
+        "website": "https://geistreich.hs-geisenheim.de/"
+      },
+      {
+        "id": "klia-net",
+        "title": "KliA-Net",
+        "summary": {
+          "en": "Developing strategies that will enable the Rheingau region to respond to climate change. The network consists of all relevant sectors in the region.",
+          "de": "Entwicklung von Strategien, die es der Region Rheingau ermöglichen, auf den Klimawandel zu reagieren. Das Netzwerk umfasst alle relevanten Sektoren der Region."
+        },
+        "website": "https://www.eltville.de/leben-wohnen/nachhaltiges-eltville/klimaschutz-anpassungen/klia-net/"
+      },
+      {
+        "id": "ambito",
+        "title": "AmBiTo",
+        "summary": {
+          "en": "Biodiversity measures tailored to specific regions and individual needs are developed, tested and implemented in strong collaboration with the winemakers.",
+          "de": "Regional und individuell angepasste Biodiversitätsmaßnahmen werden in enger Zusammenarbeit mit den Winzern entwickelt, erprobt und umgesetzt."
+        },
+        "website": "https://www.ambito.eco/"
+      }
+    ]
   }
 }
