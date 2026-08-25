@@ -30,12 +30,12 @@ key-files:
     - app/src/data/land_cover_legend.js
     - data/land_cover_class_histogram.json
     - data/pmtiles/land-cover-east-brandenburg.pmtiles
-    - data/pmtiles/land-cover-havellandisches-luch.pmtiles
+    - data/pmtiles/land-cover-havelland.pmtiles
     - data/pmtiles/land-cover-north-hessian-loess.pmtiles
     - data/pmtiles/land-cover-hessian-low-mountain.pmtiles
     - data/pmtiles/land-cover-rheingau.pmtiles
     - app/public/data/pmtiles/land-cover-east-brandenburg.pmtiles
-    - app/public/data/pmtiles/land-cover-havellandisches-luch.pmtiles
+    - app/public/data/pmtiles/land-cover-havelland.pmtiles
     - app/public/data/pmtiles/land-cover-north-hessian-loess.pmtiles
     - app/public/data/pmtiles/land-cover-hessian-low-mountain.pmtiles
     - app/public/data/pmtiles/land-cover-rheingau.pmtiles
@@ -169,7 +169,7 @@ None. All required tools (`pmtiles.exe`, a working Python 3.12 geospatial venv) 
 - FOUND: data-pipeline/sources/sources.yaml
 - FOUND: data-pipeline/README.md
 - FOUND: data/pmtiles/land-cover-east-brandenburg.pmtiles
-- FOUND: data/pmtiles/land-cover-havellandisches-luch.pmtiles
+- FOUND: data/pmtiles/land-cover-havelland.pmtiles
 - FOUND: data/pmtiles/land-cover-north-hessian-loess.pmtiles
 - FOUND: data/pmtiles/land-cover-hessian-low-mountain.pmtiles
 - FOUND: data/pmtiles/land-cover-rheingau.pmtiles

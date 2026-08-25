@@ -63,11 +63,11 @@
 **Map shows neighbouring LLs through the mask (documented in `IMPROVEMENTS.md`):**
 - Symptoms: When viewing a Living Lab whose NUTS-3 polygons are spatially close to another LL (e.g. Brandenburg pair), the unmasked basemap inside the *other* LL's geometry is still visible because the mask only punches out the active LL's outer rings.
 - Files: `app/src/lib/buildMaskGeometry.js` (lines 39-51), `app/src/components/LLMap/index.jsx` (lines 286-289, `maskFeature` build)
-- Trigger: Open `#/ll/east-brandenburg` while `havellandisches-luch` overlaps the visible viewport (or vice-versa).
+- Trigger: Open `#/ll/east-brandenburg` while `havelland` overlaps the visible viewport (or vice-versa).
 - Workaround: None in the UI. The recent commit `21d3455` partially addressed this with the mask, but `IMPROVEMENTS.md` line 3 says other LL data still shows. To fix, the mask must include holes for the active LL *and* render an additional opaque overlay on top of the other LL polygons, OR the basemap should only render inside the active LL geometry (use the boundary as a clip-path).
 
 **`fetch_nuts.py` has uncertain NUTS3 codes still annotated as "verify":**
-- Symptoms: Comments at lines 47-49 (`havellandisches-luch`) and line 73 (`rheingau`) note that the chosen NUTS-3 codes were guesses pending stakeholder confirmation, and Havelland defensively includes both `DE406` (Dahme-Spreewald) and `DE408` (Havelland) — which means the dissolved boundary is wrong for one of those two regions.
+- Symptoms: Comments at lines 47-49 (`havelland`) and line 73 (`rheingau`) note that the chosen NUTS-3 codes were guesses pending stakeholder confirmation, and Havelland defensively includes both `DE406` (Dahme-Spreewald) and `DE408` (Havelland) — which means the dissolved boundary is wrong for one of those two regions.
 - Files: `data-pipeline/python/fetch_nuts.py` (lines 32-76)
 - Trigger: Run the pipeline as-is; the resulting `ll_boundaries.geojson` will dissolve unrelated NUTS-3 polygons together.
 - Workaround: None until stakeholders confirm the codes. The data is currently committed as-is.

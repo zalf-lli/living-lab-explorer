@@ -7,7 +7,7 @@ tags: [python, geopandas, wfs, boris, bodenrichtwert, geojson, pytest]
 # Dependency graph
 requires:
   - phase: 07-07
-    provides: "fetch_boris.py production two-state fetch script, live-verified against both states, plus the cached rheingau/havellandisches-luch zone pages and the statewide bb_point_index.json"
+    provides: "fetch_boris.py production two-state fetch script, live-verified against both states, plus the cached rheingau/havelland zone pages and the statewide bb_point_index.json"
   - phase: 07-06
     provides: "boris_semantics.py bilingual usage/status contract and the sources.yaml boris layer entry (W-01/W-02/W-03 tuning values, providersByState/llStates)"
   - phase: 07-05
@@ -27,12 +27,12 @@ key-files:
   created: []
   modified:
     - data/geojson/boris-east-brandenburg.geojson
-    - data/geojson/boris-havellandisches-luch.geojson
+    - data/geojson/boris-havelland.geojson
     - data/geojson/boris-hessian-low-mountain.geojson
     - data/geojson/boris-north-hessian-loess.geojson
     - data/geojson/boris-rheingau.geojson
     - app/public/data/geojson/boris-east-brandenburg.geojson
-    - app/public/data/geojson/boris-havellandisches-luch.geojson
+    - app/public/data/geojson/boris-havelland.geojson
     - app/public/data/geojson/boris-hessian-low-mountain.geojson
     - app/public/data/geojson/boris-north-hessian-loess.geojson
     - app/public/data/geojson/boris-rheingau.geojson
@@ -64,8 +64,8 @@ completed: 2026-07-28
 ## Accomplishments
 
 - Ran `python data-pipeline/python/fetch_boris.py` with no `--ll` filter. Zone order followed
-  `data/ll_boundaries.geojson`'s row order (east-brandenburg, havellandisches-luch,
-  north-hessian-loess, hessian-low-mountain, rheingau). `rheingau` and `havellandisches-luch`
+  `data/ll_boundaries.geojson`'s row order (east-brandenburg, havelland,
+  north-hessian-loess, hessian-low-mountain, rheingau). `rheingau` and `havelland`
   zone pages and the statewide Brandenburg point index were reused from plan 07-07's cache
   (no live re-fetch); `east-brandenburg`, `north-hessian-loess`, and `hessian-low-mountain`
   were fetched live for the first time in this plan.
@@ -94,7 +94,7 @@ completed: 2026-07-28
 | Living Lab | State | Zones fetched | Expected (07-RESEARCH) | Delta | Written features | Empty-geom dropped | Bytes (per copy) | No-data share | W-01 headroom |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---|
 | east-brandenburg | bb | 30,095 | 30,018 | +0.26% | 29,049 | 1,046 (3.48%) | 33,948,983 | 34.30% (written-feature basis; 36.50% on matched-zone basis, matching SPIKE) | 5,392 bytes under the 33,954,375-byte SPIKE-locked ceiling for this LL; 948,983 bytes over the rounded ~33,000,000 diagnostic constant -- see Deviations |
-| havellandisches-luch | bb | 18,961 (cached) | 19,083 | -0.64% | 18,644 | 317 (1.67%) | 21,824,164 | 30.29% (written-feature basis; SPIKE reference 31.46%) | 33.9% of the ~33 MB budget |
+| havelland | bb | 18,961 (cached) | 19,083 | -0.64% | 18,644 | 317 (1.67%) | 21,824,164 | 30.29% (written-feature basis; SPIKE reference 31.46%) | 33.9% of the ~33 MB budget |
 | north-hessian-loess | he | 3,487 | 3,435 | +1.51% | 3,460 | 27 (0.77%) | 3,375,001 | 0.0% | 10.2% of the ~33 MB budget |
 | hessian-low-mountain | he | 9,561 | 9,531 | +0.31% | 9,553 | 8 (0.08%) | 8,053,290 | 0.0% | 24.4% of the ~33 MB budget |
 | rheingau | he | 1,688 (cached) | 1,668 | +1.2% | 1,676 | 12 (0.71%) | 1,203,792 | 0.0% | 3.6% of the ~33 MB budget |
@@ -154,7 +154,7 @@ Each task was committed atomically:
 
 ## Issues Encountered
 
-- The Brandenburg WFS statewide point index and both Brandenburg/Hessen zone caches from plan 07-07 were reused cleanly (`rheingau` and `havellandisches-luch` used cached GML pages; the Brandenburg point index loaded from `bb_point_index.json` with zero live requests for that step). Only `east-brandenburg`, `north-hessian-loess`, and `hessian-low-mountain` required new live zone-page fetches in this plan.
+- The Brandenburg WFS statewide point index and both Brandenburg/Hessen zone caches from plan 07-07 were reused cleanly (`rheingau` and `havelland` used cached GML pages; the Brandenburg point index loaded from `bb_point_index.json` with zero live requests for that step). Only `east-brandenburg`, `north-hessian-loess`, and `hessian-low-mountain` required new live zone-page fetches in this plan.
 - `east-brandenburg`'s live zone fetch (7 pages, ~30,095 zones, largest single page ~66 MB of raw GML) was the dominant cost of this plan's wall-clock time, consistent with `07-07-SUMMARY.md`'s own budgeting note.
 
 ## User Setup Required
@@ -181,12 +181,12 @@ unauthenticated BORIS-BB and BORIS-HE WFS endpoints already used by earlier phas
 ## Self-Check: PASSED
 
 - FOUND: data/geojson/boris-east-brandenburg.geojson
-- FOUND: data/geojson/boris-havellandisches-luch.geojson
+- FOUND: data/geojson/boris-havelland.geojson
 - FOUND: data/geojson/boris-hessian-low-mountain.geojson
 - FOUND: data/geojson/boris-north-hessian-loess.geojson
 - FOUND: data/geojson/boris-rheingau.geojson
 - FOUND: app/public/data/geojson/boris-east-brandenburg.geojson
-- FOUND: app/public/data/geojson/boris-havellandisches-luch.geojson
+- FOUND: app/public/data/geojson/boris-havelland.geojson
 - FOUND: app/public/data/geojson/boris-hessian-low-mountain.geojson
 - FOUND: app/public/data/geojson/boris-north-hessian-loess.geojson
 - FOUND: app/public/data/geojson/boris-rheingau.geojson

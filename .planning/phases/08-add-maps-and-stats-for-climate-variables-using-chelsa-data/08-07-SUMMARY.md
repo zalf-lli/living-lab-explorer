@@ -63,7 +63,7 @@ completed: 2026-07-30
 | Living Lab | Mean annual temp (degC) | Temp delta 2071-2100 | Annual precip (mm) | Precip delta | Warm-quarter precip (mm) | Precip delta | GDD-above-5degC (degC-day) | GDD delta |
 |---|---:|---:|---:|---:|---:|---:|---:|---:|
 | east-brandenburg | 9.4 | +4.1 | 599 | +3.0% | 189 | -5.3% | 2026 | +1143 |
-| havellandisches-luch | 9.6 | +4.1 | 595 | +2.7% | 186 | -5.9% | 2075 | +1154 |
+| havelland | 9.6 | +4.1 | 595 | +2.7% | 186 | -5.9% | 2075 | +1154 |
 | hessian-low-mountain | 8.7 | +3.9 | 862 | +2.9% | 220 | -8.6% | 1802 | +1091 |
 | north-hessian-loess | 8.5 | +3.9 | 805 | +2.3% | 227 | -8.7% | 1735 | +1076 |
 | rheingau | 8.9 | +3.9 | 726 | +1.9% | 199 | -9.8% | 1834 | +1112 |

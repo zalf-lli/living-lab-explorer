@@ -219,7 +219,7 @@ Phase 4.3 defines the **interface**, not an implementation. The chart data contr
           "color": "#c97b3a",
           "values": {
             "east-brandenburg": 34.2,
-            "havellandisches-luch": 12.1,
+            "havelland": 12.1,
             "north-hessian-loess": 51.0,
             "hessian-low-mountain": 67.3,
             "rheingau": 8.9

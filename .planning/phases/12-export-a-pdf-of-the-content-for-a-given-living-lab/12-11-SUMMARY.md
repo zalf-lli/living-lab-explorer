@@ -27,8 +27,8 @@ key-files:
     - data-pipeline/tests/test_pipeline_outputs.py
     - app/public/data/reports/report-east-brandenburg-en.pdf
     - app/public/data/reports/report-east-brandenburg-de.pdf
-    - app/public/data/reports/report-havellandisches-luch-en.pdf
-    - app/public/data/reports/report-havellandisches-luch-de.pdf
+    - app/public/data/reports/report-havelland-en.pdf
+    - app/public/data/reports/report-havelland-de.pdf
     - app/public/data/reports/report-hessian-low-mountain-en.pdf
     - app/public/data/reports/report-hessian-low-mountain-de.pdf
     - app/public/data/reports/report-north-hessian-loess-en.pdf
@@ -120,7 +120,7 @@ Read `app/src/hooks/useReportAvailability.js` and `app/src/components/DownloadRe
 (both built in plan 12-03): the hook's HEAD probe URL
 (`` `data/reports/report-${slug}-${lang}.pdf` ``) and the component's download `href`
 (identical template) match `REPORT_PATTERN`'s published filenames exactly, character for
-character, including `havellandisches-luch`'s exact spelling.
+character, including `havelland`'s exact spelling.
 
 ## Verification
 

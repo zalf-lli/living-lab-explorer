@@ -121,7 +121,7 @@ word "dashed"**
 
 ### Scope-boundary items (not fixed, logged)
 
-**1. [Scope boundary] `npm run check:soil-palette` fails on `havellandisches-luch`** — identical,
+**1. [Scope boundary] `npm run check:soil-palette` fails on `havelland`** — identical,
 pre-existing condition already logged for plan 12-01 (TODO-01 / quick-task `260804-acf`,
 "pending human visual check"). `git diff --stat` between this plan's base commit and its final
 commit confirms zero changes to `app/src/data/soil_legend.js` or any `app/public/data/geojson/*`

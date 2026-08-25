@@ -53,7 +53,7 @@ completed: 2026-07-28
 ## Accomplishments
 - Task 1 (blocking checkpoint) was pre-answered by the developer — no re-presentation or re-asking was performed, per the executor's explicit instructions.
 - Task 2 appended a `## Locked Wave-0 Decisions` section to `07-SPIKE.md` immediately after `## Open items for the checkpoint`, with the four required headings and concrete values for `coordinate_precision`, `simplify_tolerance`, the recency predicate, and the full 33-row Hessen usage-code table (32 mapped + `LW` unmappable).
-- Independently recomputed the W-02 rolling-10-year coverage percentages from the existing `max(stichtag).year` histograms already in `07-SPIKE.md`: havellandisches-luch 12,997/18,961 = 68.54% coloured / 31.46% no-current-value; east-brandenburg 19,110/30,095 = 63.50% coloured / 36.50% no-current-value. Both figures agree with the developer's cross-check figures (~68.5%/~31.5% and ~63.5%/~36.5%) — no discrepancy found, nothing to flag.
+- Independently recomputed the W-02 rolling-10-year coverage percentages from the existing `max(stichtag).year` histograms already in `07-SPIKE.md`: havelland 12,997/18,961 = 68.54% coloured / 31.46% no-current-value; east-brandenburg 19,110/30,095 = 63.50% coloured / 36.50% no-current-value. Both figures agree with the developer's cross-check figures (~68.5%/~31.5% and ~63.5%/~36.5%) — no discrepancy found, nothing to flag.
 - Derived bilingual (EN, DE) labels for all 32 approved canonical BB codelist codes from the German labels already present in the W-03 evidence table, using standard German planning-law (BauNVO/BORIS) terminology, consistent with D-11's shared bilingual vocabulary requirement.
 
 ## Task Commits

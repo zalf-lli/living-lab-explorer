@@ -150,7 +150,7 @@ For `gdd`/`baseline`, the shared colour scale in `data/climate_color_breaks.json
 | Living Lab | Distinct colours observed | Extra (not in shared set) |
 |---|---|---|
 | east-brandenburg | `#dc4b14, #eb5b25, #bb3f11` | none |
-| havellandisches-luch | `#dc4b14, #eb5b25, #bb3f11` | none |
+| havelland | `#dc4b14, #eb5b25, #bb3f11` | none |
 | hessian-low-mountain | `#dc4b14, #eb5b25, #bb3f11, #fce3da` | none |
 | north-hessian-loess | `#eb5b25, #fce3da` | none |
 | rheingau | `#dc4b14, #eb5b25, #bb3f11, #fce3da` | none |

@@ -204,7 +204,7 @@ interpolation of any partner field, confirmed by direct read (`PartnersMap.jsx` 
 | --------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
 | `data/partners_projects.json` size            | 1,658 bytes                                                                                               |
 | `app/public/data/partners_projects.json` size | 1,658 bytes (byte-identical)                                                                              |
-| Living Lab slugs present                      | 5 (`east-brandenburg`, `havellandisches-luch`, `north-hessian-loess`, `hessian-low-mountain`, `rheingau`) |
+| Living Lab slugs present                      | 5 (`east-brandenburg`, `havelland`, `north-hessian-loess`, `hessian-low-mountain`, `rheingau`) |
 | Total partners across all 5 slugs             | 5                                                                                                         |
 | Total projects across all 5 slugs             | 0                                                                                                         |
 | Partners carrying `lat`/`lng` coordinates     | 1 (the `east-brandenburg` ZALF entry)                                                                     |
@@ -457,7 +457,7 @@ Unchanged from Task 1's measured figures (re-verified live from the current
 | Living Lab slug        | Partners | Projects |
 | ---------------------- | -------- | -------- |
 | `east-brandenburg`     | 1        | 0        |
-| `havellandisches-luch` | 1        | 0        |
+| `havelland` | 1        | 0        |
 | `north-hessian-loess`  | 1        | 0        |
 | `hessian-low-mountain` | 1        | 0        |
 | `rheingau`             | 1        | 0        |

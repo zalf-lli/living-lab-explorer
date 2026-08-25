@@ -30,9 +30,9 @@ key-files:
     - data-pipeline/python/compute_landscape_chart.py
     - data-pipeline/python/compute_soil_chart.py
     - data-pipeline/python/compute_economic_chart.py
-    - data/charts/io-lulc-landcover-{east-brandenburg,havellandisches-luch,north-hessian-loess,hessian-low-mountain,rheingau}.json
-    - data/charts/buek250-{east-brandenburg,havellandisches-luch,north-hessian-loess,hessian-low-mountain,rheingau}.json
-    - data/charts/boris-{east-brandenburg,havellandisches-luch,north-hessian-loess,hessian-low-mountain,rheingau}.json
+    - data/charts/io-lulc-landcover-{east-brandenburg,havelland,north-hessian-loess,hessian-low-mountain,rheingau}.json
+    - data/charts/buek250-{east-brandenburg,havelland,north-hessian-loess,hessian-low-mountain,rheingau}.json
+    - data/charts/boris-{east-brandenburg,havelland,north-hessian-loess,hessian-low-mountain,rheingau}.json
   modified: []
 decisions:
   - "D-05..D-08, D-14 confirmed as specified in 09-CONTEXT.md/09-RESEARCH.md/09-PATTERNS.md; no deviation from locked interface values"
@@ -86,7 +86,7 @@ script calls `json.dumps` directly) and share one CLI shape (`--ll`, `--dry-run`
   Living Lab's output — never filtered.
 - Committed all five `data/charts/buek250-{slug}.json` files. Per-Living-Lab total
   soil-map area (ha), reported per the plan's sanity-check requirement:
-  east-brandenburg 743,528.5; havellandisches-luch 399,660.8; hessian-low-mountain
+  east-brandenburg 743,528.5; havelland 399,660.8; hessian-low-mountain
   536,788.1; north-hessian-loess 231,516.2; rheingau 80,872.6 — all comfortably above
   the 1,000 ha plausibility floor and consistent with each Living Lab's known extent.
 
@@ -105,7 +105,7 @@ script calls `json.dumps` directly) and share one CLI shape (`--ll`, `--dry-run`
   usage-type categories, including the unmapped-usage fallback, as ordinary rows.
 - Committed all five `data/charts/boris-{slug}.json` files. Per-Living-Lab zone
   totals (matching each Living Lab's committed GeoJSON feature count exactly, proving
-  zero zones dropped): east-brandenburg 29,049; havellandisches-luch 18,644;
+  zero zones dropped): east-brandenburg 29,049; havelland 18,644;
   hessian-low-mountain 9,553; north-hessian-loess 3,460; rheingau 1,676 (the plan's
   own locked exact-total check).
 

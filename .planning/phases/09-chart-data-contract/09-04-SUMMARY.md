@@ -16,7 +16,7 @@ key-files:
   created:
     - data-pipeline/python/compute_agriculture_chart.py
     - data/charts/landuse-croptypes-east-brandenburg.json
-    - data/charts/landuse-croptypes-havellandisches-luch.json
+    - data/charts/landuse-croptypes-havelland.json
     - data/charts/landuse-croptypes-north-hessian-loess.json
     - data/charts/landuse-croptypes-hessian-low-mountain.json
     - data/charts/landuse-croptypes-rheingau.json
@@ -76,7 +76,7 @@ Ran `compute_agriculture_chart.py` with no flags; wrote and committed all five
 | Living Lab | Classes | Total classified ha | Top 3 crop classes by pct |
 |---|---|---|---|
 | east-brandenburg | 18 | 352,606 | permanent grassland 17.6%, maize 16.1%, winter rye 13.7% |
-| havellandisches-luch | 18 | 208,218 | permanent grassland 31.9%, maize 12.2%, winter rye 11.6% |
+| havelland | 18 | 208,218 | permanent grassland 31.9%, maize 12.2%, winter rye 11.6% |
 | hessian-low-mountain | 18 | 240,925 | permanent grassland 33.3%, winter wheat 11.6%, fruit trees/other woody 9.6% |
 | north-hessian-loess | 18 | 117,125 | permanent grassland 20.2%, winter wheat 17.6%, winter barley 9.9% |
 | rheingau | 18 | 26,270 | permanent grassland 19.4%, winter wheat 14.1%, vineyard 11.0% |
@@ -174,7 +174,7 @@ identified and dispositioned `accept` in this plan's own `<threat_model>` (T-09-
 
 - FOUND: data-pipeline/python/compute_agriculture_chart.py
 - FOUND: data/charts/landuse-croptypes-east-brandenburg.json
-- FOUND: data/charts/landuse-croptypes-havellandisches-luch.json
+- FOUND: data/charts/landuse-croptypes-havelland.json
 - FOUND: data/charts/landuse-croptypes-hessian-low-mountain.json
 - FOUND: data/charts/landuse-croptypes-north-hessian-loess.json
 - FOUND: data/charts/landuse-croptypes-rheingau.json

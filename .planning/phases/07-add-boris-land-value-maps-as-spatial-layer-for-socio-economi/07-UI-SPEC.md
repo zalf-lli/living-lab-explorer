@@ -248,7 +248,7 @@ No new loading-duration guidance is given here (unlike soil's "~2-5 seconds") â€
 | LL slug | State | Provider (EN) | Provider (DE) | License | URL |
 |---|---|---|---|---|---|
 | rheingau, north-hessian-loess, hessian-low-mountain | HE | Hessian State Office for Land Management and Geoinformation (HLBG) | Hessisches Landesamt fuer Bodenmanagement und Geoinformation (HLBG) | Free automated use (Gutachterausschusskostengesetz) | `https://www.gds.hessen.de/wfs2/boris/cgi-bin/brw/2024/wfs` |
-| havellandisches-luch, east-brandenburg | BB | Brandenburg Land Survey and Geobasis Information Office (LGB) | Landesvermessung und Geobasisinformation Brandenburg (LGB) | GeoNutzV / free automated use | `https://isk.geobasis-bb.de/ows/boris_wfs` |
+| havelland, east-brandenburg | BB | Brandenburg Land Survey and Geobasis Information Office (LGB) | Landesvermessung und Geobasisinformation Brandenburg (LGB) | GeoNutzV / free automated use | `https://isk.geobasis-bb.de/ows/boris_wfs` |
 
 **Implementation note (not a UI decision):** exactly like `protected-areas`, this attribution table is generated pipeline-side into `app/src/data/layer_sources.js` (keyed by `app_layer` and, here, additionally by state/LL since the source differs by LL) â€” **do not hand-copy these strings into `i18n.js`**, matching the established single-source-of-truth precedent from Phase 5's D-05.4 correction.
 

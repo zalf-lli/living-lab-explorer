@@ -48,9 +48,9 @@ unaffected. The join is a single consistent string (`'economic'`) across `source
 **2. Asset path — PASS.**
 `layers.js`'s `economic` entry has `geojsonPathPattern: 'data/geojson/boris-{slug}.geojson'` (line 55).
 Substituting the five slugs from `sources.yaml`'s `boris.ll_states` (`rheingau`, `north-hessian-loess`,
-`hessian-low-mountain`, `havellandisches-luch`, `east-brandenburg`) yields exactly the five filenames
+`hessian-low-mountain`, `havelland`, `east-brandenburg`) yields exactly the five filenames
 present under `app/public/data/geojson/`:
-`boris-east-brandenburg.geojson`, `boris-havellandisches-luch.geojson`,
+`boris-east-brandenburg.geojson`, `boris-havelland.geojson`,
 `boris-hessian-low-mountain.geojson`, `boris-north-hessian-loess.geojson`, `boris-rheingau.geojson`.
 Verified by directory listing — all five present, no extra, no missing. No mismatch found.
 
@@ -113,7 +113,7 @@ independently re-measured in this task.
 | Living Lab | State | Zones fetched | Written features | Empty-geom dropped | Bytes (per copy) | No-data share | W-01 headroom |
 |---|---|---:|---:|---:|---:|---:|---|
 | east-brandenburg | bb | 30,095 | 29,049 | 1,046 (3.48%) | 33,948,983 | 34.30% (written-feature basis; 36.50% on matched-zone basis, matching SPIKE) | 5,392 bytes under the 33,954,375-byte SPIKE-locked ceiling for this LL |
-| havellandisches-luch | bb | 18,961 (cached) | 18,644 | 317 (1.67%) | 21,824,164 | 30.29% (written-feature basis; SPIKE reference 31.46%) | 33.9% of the ~33 MB budget |
+| havelland | bb | 18,961 (cached) | 18,644 | 317 (1.67%) | 21,824,164 | 30.29% (written-feature basis; SPIKE reference 31.46%) | 33.9% of the ~33 MB budget |
 | north-hessian-loess | he | 3,487 | 3,460 | 27 (0.77%) | 3,375,001 | 0.0% | 10.2% of the ~33 MB budget |
 | hessian-low-mountain | he | 9,561 | 9,553 | 8 (0.08%) | 8,053,290 | 0.0% | 24.4% of the ~33 MB budget |
 | rheingau | he | 1,688 (cached) | 1,676 | 12 (0.71%) | 1,203,792 | 0.0% | 3.6% of the ~33 MB budget |
@@ -125,7 +125,7 @@ Total across all five files: 68,405,230 bytes (65.2 MB) per copy; both committed
 - All five source file sizes (`data/geojson/boris-*.geojson`) and all five published copy sizes
   (`app/public/data/geojson/boris-*.geojson`) — byte-for-byte identical between the two locations and
   identical to the `07-08-SUMMARY.md` table above:
-  east-brandenburg 33,948,983 | havellandisches-luch 21,824,164 | hessian-low-mountain 8,053,290 |
+  east-brandenburg 33,948,983 | havelland 21,824,164 | hessian-low-mountain 8,053,290 |
   north-hessian-loess 3,375,001 | rheingau 1,203,792 (bytes, per copy).
 - Gzip size of the largest fixture (`boris-east-brandenburg.geojson`, uncompressed 33,948,983 bytes):
   **1,110,266 bytes gzipped — a 30.6x compression ratio.** This is a meaningful finding: at the W-01

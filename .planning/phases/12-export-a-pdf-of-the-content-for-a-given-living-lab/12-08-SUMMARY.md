@@ -208,7 +208,7 @@ artifacts of this specific sandboxed session.
   restored the file (`git diff` confirmed zero remaining diff), re-ran clean. PASS.
 - Manual soil colour parity (Task 1's own acceptance criterion, beyond the automated
   gate): all four real fallback-palette keys across the five committed BUEK fixtures,
-  plus the three named-tier-1 spot checks visible in `havellandisches-luch`'s legend
+  plus the three named-tier-1 spot checks visible in `havelland`'s legend
   output, match node's `getSoilColor()` exactly. PASS (after the FNV-1a fix above).
 - `ll_locator_credit()` prints `"© OpenStreetMap contributors © CARTO"` (non-empty,
   names the provider). PASS.

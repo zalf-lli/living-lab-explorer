@@ -233,7 +233,7 @@ rendering are solid creates a fragile two-way dependency. Defer until both subsy
 
 ### 3. A separate chart JSON file per LL per layer
 
-**What gets built:** `chart_east-brandenburg_soil.json`, `chart_havellandisches-luch_soil.json`,
+**What gets built:** `chart_east-brandenburg_soil.json`, `chart_havelland_soil.json`,
 etc. — one file per LL per layer.
 **Why it adds complexity:** Five LLs × four layers = 20 files that must all be in sync,
 all fetched separately, and all cached in the client. The better contract is to embed chart

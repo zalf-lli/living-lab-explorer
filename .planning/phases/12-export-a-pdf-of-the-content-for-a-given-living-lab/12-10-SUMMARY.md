@@ -37,8 +37,8 @@ key-files:
     - data-pipeline/tests/test_report_tokens.py
     - data/reports/report-east-brandenburg-en.pdf
     - data/reports/report-east-brandenburg-de.pdf
-    - data/reports/report-havellandisches-luch-en.pdf
-    - data/reports/report-havellandisches-luch-de.pdf
+    - data/reports/report-havelland-en.pdf
+    - data/reports/report-havelland-de.pdf
     - data/reports/report-hessian-low-mountain-en.pdf
     - data/reports/report-hessian-low-mountain-de.pdf
     - data/reports/report-north-hessian-loess-en.pdf
@@ -46,7 +46,7 @@ key-files:
     - data/reports/report-rheingau-en.pdf
     - data/reports/report-rheingau-de.pdf
 decisions:
-  - "fig-dpi raised from 150 to 180 in template.qmd's frontmatter (not lowered, as RESEARCH.md Pitfall 3 anticipated): the first full render at 150 dpi produced a real, complete havellandisches-luch-en.pdf of 498,932 bytes -- just under the plan's own 500,000-byte per-file acceptance reference point despite every map/chart/KPI/narrative element genuinely present (verified by text extraction and image-XObject counts). The content was correct; only the pixel density was conservative. Raising to 180 dpi (still within Pitfall 3's own suggested 150-200 print-quality range) produced 651,326 bytes for the same file, comfortably clear of the reference point and nowhere near the real 8 MiB/50 MiB budget this plan locks."
+  - "fig-dpi raised from 150 to 180 in template.qmd's frontmatter (not lowered, as RESEARCH.md Pitfall 3 anticipated): the first full render at 150 dpi produced a real, complete havelland-en.pdf of 498,932 bytes -- just under the plan's own 500,000-byte per-file acceptance reference point despite every map/chart/KPI/narrative element genuinely present (verified by text extraction and image-XObject counts). The content was correct; only the pixel density was conservative. Raising to 180 dpi (still within Pitfall 3's own suggested 150-200 print-quality range) produced 651,326 bytes for the same file, comfortably clear of the reference point and nowhere near the real 8 MiB/50 MiB budget this plan locks."
   - "A real bug was found and fixed before the first full render: knitr::opts_current$set(fig.width=, fig.height=) (the mechanism the plan's own action text implied via 'size every figure chunk from LL_FIG') did not actually take effect for this document's Quarto/typst engine -- every one of the 11 embedded images in a first test render came out at an identical 825x525px regardless of which map/chart function produced them, confirmed by grepping the PDF's own /Width and /Height image dictionary entries. Replaced with `#| fig-width: !expr LL_FIG$width_full` / `#| fig-height: !expr LL_FIG$...` chunk options (Quarto's native mechanism for a chunk option computed from an R expression), which produced the expected distinct 945x600 (map), 945x480 (chart) and 945x1200 (climate grid, double height) pixel dimensions on re-render. This is a Rule 1 auto-fix, folded into Task 1's own commit since it was caught and corrected before that commit landed."
   - "The 'exactly one results=\"asis\" chunk' acceptance criterion (grep -c on the literal chunk-option text) is satisfied via a shared `knitr::opts_template$set(kpi_asis = list(results='asis'))` declared once in the setup chunk, referenced by all five per-section KPI chunks via `#| opts.label: \"kpi_asis\"` (which does not itself contain the literal option text). Each of the five physical chunks still independently satisfies 'body is the cat(ll_kpi_typst(...)) call and nothing else' -- the literal-text constraint is about the option TEXT appearing once in the file, not about there being only one physical asis-rendering chunk."
   - "Chart/narrative conditional presence uses plain R control flow (`if (!is.null(x)) x` as a chunk's last expression, or a conditional string built via ordinary `paste0()`/inline substitution) rather than `knitr::asis_output()` -- both would satisfy the literal grep constraint, but plain inline text substitution is the more conservative choice given the plan's explicit 'narrative text never passes through an asis chunk' instruction, and it keeps every conditional heading/paragraph on the same escaping path as the narrative body text itself."
@@ -117,8 +117,8 @@ Ran the full ten-file render. Measured, real sizes:
 |------|------:|
 | report-east-brandenburg-en.pdf | 552,946 |
 | report-east-brandenburg-de.pdf | 555,617 |
-| report-havellandisches-luch-en.pdf | 651,326 |
-| report-havellandisches-luch-de.pdf | 652,731 |
+| report-havelland-en.pdf | 651,326 |
+| report-havelland-de.pdf | 652,731 |
 | report-hessian-low-mountain-en.pdf | 849,137 |
 | report-hessian-low-mountain-de.pdf | 852,041 |
 | report-north-hessian-loess-en.pdf | 675,679 |
@@ -138,11 +138,11 @@ All ten PDFs committed under `data/reports/`. `app/public/data/reports/` was not
 
 ## Verification
 
-- `python data-pipeline/R/render_reports.py --slug havellandisches-luch --lang en` -- exits 0;
+- `python data-pipeline/R/render_reports.py --slug havelland --lang en` -- exits 0;
   rendered PDF starts with `%PDF-`, is 651,326 bytes (> 500,000), has 10 pages (>= 6), all five
   section headings (`Agriculture`, `Climate`, `Soil`, `Socio-economic`, `Landscape`) present in
   extracted text, no `@` character anywhere in extracted text. PASS.
-- Visual/structural check of `havellandisches-luch-en.pdf`'s page-by-page extracted text: the
+- Visual/structural check of `havelland-en.pdf`'s page-by-page extracted text: the
   landscape section (page 10) ends cleanly after its chart with no narrative heading or box --
   confirms the known-empty `landscape.about`/`.challenges` slots for this Living Lab are omitted
   entirely, not rendered as empty boxes. PASS.
@@ -153,7 +153,7 @@ All ten PDFs committed under `data/reports/`. `app/public/data/reports/` was not
 - `grep -Ec "fig-width: [0-9]|fig-height: [0-9]"` -- returns 0 (every figure chunk sizes via
   `!expr LL_FIG$...`, never a numeric literal). PASS.
 - Independent brand-accent-colour verification (decompressing PDF content streams, same method as
-  plan 12-05's own checkpoint-catching check): `report-havellandisches-luch-en.pdf` carries
+  plan 12-05's own checkpoint-catching check): `report-havelland-en.pdf` carries
   `#00b3ad`/`#005754` fill operators; `report-rheingau-en.pdf` carries `#359269`/`#225e43` -- each
   file's own exact `ll_metadata.json` colour/colorDark, never crossed between Living Labs. PASS.
 - `python data-pipeline/R/render_reports.py` (full run, all 10) -- exits 0, prints a per-file size
@@ -179,7 +179,7 @@ All ten PDFs committed under `data/reports/`. `app/public/data/reports/` was not
 
 **1. [Rule 1 - Bug] `knitr::opts_current$set()` did not actually control per-chunk figure
 dimensions for this document's Quarto/typst engine**
-- **Found during:** Task 1's first live render (`--slug havellandisches-luch --lang en`)
+- **Found during:** Task 1's first live render (`--slug havelland --lang en`)
 - **Issue:** The plan's own action text ("Size every figure chunk from `LL_FIG`") was first
   implemented as a `set_fig_size()` helper calling `knitr::opts_current$set(fig.width=,
   fig.height=, fig.dpi=)` at the top of each figure chunk -- the standard documented knitr recipe
@@ -203,7 +203,7 @@ dimensions for this document's Quarto/typst engine**
 500,000-byte per-file acceptance reference point despite complete, correct content**
 - **Found during:** Task 1's acceptance-criteria pass, after the fig-sizing fix above
 - **Issue:** With `fig-dpi: 150` (the value inherited unchanged from plan 12-05's skeleton), the
-  real, fully-content-complete `report-havellandisches-luch-en.pdf` (10 pages, all five sections,
+  real, fully-content-complete `report-havelland-en.pdf` (10 pages, all five sections,
   all 11 images present, correct brand colour, no email leakage) measured 498,932 bytes -- 1,068
   bytes under the plan's own 500,000-byte reference point meant to distinguish a real render from
   the old ~15KB title-page-only stub.
@@ -353,7 +353,7 @@ now produce zero `|---...-|` artifact text.
   the five English PDFs).
 - Every en/de pair differs in extracted text; `report-rheingau-de.pdf` contains `Kennzahlen`.
   PASS.
-- `havellandisches-luch`'s landscape section: KPI grid, map caption, chart caption all present;
+- `havelland`'s landscape section: KPI grid, map caption, chart caption all present;
   no narrative heading or box follows the chart (both `about`/`challenges` slots are `NULL` for
   this Living Lab's landscape tab) -- confirms the empty-narrative-omission behaviour Task 1
   originally established still holds after this round's template.qmd rewrite. PASS.
@@ -417,7 +417,7 @@ row of three or four boxes no longer shared one common bottom edge. Gave the lab
 fixed height (`ll-status-box-label-height`, 1.0cm, `clip: true`) so every box in a row is now
 exactly `label-height + 2.0cm` tall regardless of its own label's length. Verified live on
 `report-east-brandenburg-de.pdf` page 8 (soil tab, 3 KPIs, one two-line German label) and
-`report-havellandisches-luch-de.pdf` page 3 (agriculture tab, 4 KPIs, two two-line German
+`report-havelland-de.pdf` page 3 (agriculture tab, 4 KPIs, two two-line German
 labels): every box in each row is now visually the same height (screenshot-inspected both).
 
 **2. Pagebreak between the cover page and the first tab section** (commit `ffe2d32`) -- the
@@ -425,7 +425,7 @@ Agriculture section previously continued on the same physical page as the cover-
 continuation (region, NUTS-3, locator map, basemap credit) whenever there was room; a single
 `{{< pagebreak >}}` inserted right after the basemap-credit line now forces it onto its own
 page, matching the four pagebreaks round 1 already added between the five tab sections
-themselves. Verified live: `report-havellandisches-luch-en.pdf`'s page-by-page extracted text
+themselves. Verified live: `report-havelland-en.pdf`'s page-by-page extracted text
 now shows the cover-page continuation (region/NUTS-3/locator/basemap credit) ending cleanly on
 page 2, with "Agriculture" starting fresh on page 3.
 
@@ -441,7 +441,7 @@ germany_plot` was tried first and raised `Can't add 'germany_plot' to a <ggplot>
 this project's ggplot2 version dispatches `+` on two plain ggplot objects through ggplot2's own
 S7 method system before patchwork's operator ever sees it -- so `wrap_plots()` is used instead,
 matching `ll_map_climate_grid()`'s own existing multi-panel composition style. Verified live on
-both `report-havellandisches-luch-en.pdf` (single-part boundary) and
+both `report-havelland-en.pdf` (single-part boundary) and
 `report-east-brandenburg-en.pdf` (large, four-NUTS3-part disjoint boundary, round 1's own
 hardest overlap case) -- both now show two clearly separate panels, main map left, Germany
 overview right, no overlap possible by construction (screenshot-inspected both).
@@ -461,7 +461,7 @@ one eight-panel figure names all four CHELSA variables explicitly via
 `chelsa-climate.climate.variables.*.label` rather than a single generic theme name. Deliberately
 plain text interpolated through `ll_str()`, never a BibTeX/Quarto `@citation` system -- that
 fuller approach was explicitly deferred by the checkpoint's own decision, and no `.bib` file or
-`@`-syntax was added. Verified live: `report-havellandisches-luch-de.pdf` page 3's caption reads
+`@`-syntax was added. Verified live: `report-havelland-de.pdf` page 3's caption reads
 "Abbildung 1: Karte zu Landwirtschaft im Living Lab Havelländisches Luch (Daten: Anbaukulturen
 (DLR, 2024))"; `report-east-brandenburg-de.pdf` page 8's caption reads "Abbildung 5: Karte zu
 Boden im Living Lab Ost-Brandenburg (Daten: Bodenuebersichtskarte (BUEK250))" (both

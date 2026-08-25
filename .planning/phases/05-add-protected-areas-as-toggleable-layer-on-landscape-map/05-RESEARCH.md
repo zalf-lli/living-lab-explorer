@@ -270,7 +270,7 @@ Feature counts after the exact `intersects(ll_geometry)` filter (D-03 semantics)
 | Living Lab | NUTS3 | SCI | SPA | NSG | **Total** | Vertices | GeoJSON (raw) | @1e-6 | gzip @1e-6 |
 |---|---|---:|---:|---:|---:|---:|---:|---:|---:|
 | `east-brandenburg` | DE409, DE40C | 186 | 18 | 151 | **355** | 311,616 | 12.55 MB | 7.42 MB | 2.00 MB |
-| `havellandisches-luch` | DE408 | 130 | 11 | 116 | **257** | 190,204 | 7.70 MB | 4.57 MB | 1.22 MB |
+| `havelland` | DE408 | 130 | 11 | 116 | **257** | 190,204 | 7.70 MB | 4.57 MB | 1.22 MB |
 | `hessian-low-mountain` | — | 153 | 20 | 189 | **362** | 275,573 | 10.87 MB | 6.29 MB | 1.65 MB |
 | `north-hessian-loess` | — | 92 | 8 | 96 | **196** | 165,610 | 6.54 MB | 3.71 MB | 0.89 MB |
 | `rheingau` | — | 33 | 4 | 41 | **78** | 69,737 | 2.75 MB | 1.59 MB | 0.42 MB |
@@ -371,7 +371,7 @@ speculatively; `STARTINDEX` paging works (`COUNT=50&STARTINDEX=50` verified) if 
 | Living Lab | 3 WFS calls + parse + intersect |
 |---|---|
 | east-brandenburg | 11 s |
-| havellandisches-luch | 8 s |
+| havelland | 8 s |
 | hessian-low-mountain | 6 s |
 | north-hessian-loess | 5 s |
 | rheingau | 3 s |

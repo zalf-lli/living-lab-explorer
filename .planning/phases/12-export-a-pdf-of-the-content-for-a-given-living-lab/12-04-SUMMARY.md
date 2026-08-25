@@ -162,7 +162,7 @@ tripped the plan's own literal-string grep gates**
 
 ### Scope-boundary item (not fixed, logged)
 
-**4. [Scope boundary] `npm run check:soil-palette` fails on `havellandisches-luch`**
+**4. [Scope boundary] `npm run check:soil-palette` fails on `havelland`**
 - Identical to the condition already logged under 12-01 in `deferred-items.md`:
   `legend minimum pairwise ΔE76 is 19.0, expected >= 20`. No task in this plan reads or modifies
   `app/src/data/soil_legend.js`, any `buek250-*.geojson` fixture, or `check_soil_palette.mjs` —

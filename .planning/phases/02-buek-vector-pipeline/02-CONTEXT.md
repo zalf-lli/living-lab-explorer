@@ -85,7 +85,7 @@ Frontend integration (sync.py copy step, Leaflet rendering) is out of scope for 
 - `data-pipeline/python/_sources.py`: `load_sources()`, `get_layer()`, `resolve()`, `repo_root()` — import directly into `build_vector.py`
 - `data/nuts3_ll.geojson` — per-NUTS3 clip boundary (used by raster pipeline); may also serve as clip input for vector, dissolved per-LL
 - `data/ll_boundaries.geojson` — dissolved per-LL boundaries; the natural clip mask for per-LL GeoJSON output
-- `data/ll_metadata.json` — contains `ll_slug` identifiers (`east-brandenburg`, `havellandisches-luch`, `north-hessian-loess`, `hessian-low-mountain`, `uelzen`) — needed to iterate LL slugs in the build script
+- `data/ll_metadata.json` — contains `ll_slug` identifiers (`east-brandenburg`, `havelland`, `north-hessian-loess`, `hessian-low-mountain`, `uelzen`) — needed to iterate LL slugs in the build script
 
 ### Established Patterns
 - Build scripts follow `build_pmtiles.py`: `parse_args()` with `--layer` / `--list`, `build_layer(layer_id)` dispatcher, temp dir pattern for intermediates
