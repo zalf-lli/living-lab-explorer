@@ -351,12 +351,12 @@
     },
     "slug": "east-brandenburg"
   },
-  "havellandisches-luch": {
+  "havelland": {
     "color": "#00b3ad",
     "colorDark": "#005754",
     "contact": "Sebastian.Rogga@zalf.de",
     "de": {
-      "name": "Havelländisches Luch",
+      "name": "Havelland",
       "narrative": {
         "agriculture": {
           "about": "Landwirtschaft und Viehzucht prägen weite Teile des Havellands. Über 80 % der landwirtschaftlichen Nutzfläche werden von Betrieben bewirtschaftet, die jeweils mehr als 100 ha Ackerland besitzen. Kleinbetriebe machen lediglich 3,6 % der Fläche aus. Aufgrund des hohen Grünlandanteils in der Region sind Rinder-, Pferde- und Schafzucht von besonderer Bedeutung. Es wird eine große Vielfalt an Kulturpflanzen angebaut, von Roggen und Gerste bis hin zu Mais, Kartoffeln, hochwertigem Weizen und Rüben. Teile der Havelländischen Luch sind aufgrund ihrer Nähe zum Grundwasser zudem für den Ackerbau attraktiv.",
@@ -383,7 +383,7 @@
     },
     "destatisRetrievedAt": "2026-08-17",
     "en": {
-      "name": "Havelländisches Luch",
+      "name": "Havelland",
       "narrative": {
         "agriculture": {
           "about": "Agriculture and livestock farming characterise large areas of the Havelland region. Over 80% of agricultural land is farmed by businesses, who own more than 100 ha farmland each. Small businesses account for just 3.6% of the area. Due to the high proportion of grassland in the region, cattle, horse and sheep farming are particularly important. A wide variety of crops are grown, from rye and barley to maize, potatoes, high-quality wheat and beet. Parts of the Havelländische Luch are also attractive for arable farming due to their proximity to groundwater.",
@@ -408,7 +408,7 @@
       },
       "tagline": "Climate protection and grassland use in fenland regions"
     },
-    "icon": "havellandisches-luch",
+    "icon": "havelland",
     "kpiByTab": {
       "agriculture": [
         {
@@ -701,7 +701,7 @@
       "de": "Brandenburg",
       "en": "Brandenburg"
     },
-    "slug": "havellandisches-luch"
+    "slug": "havelland"
   },
   "hessian-low-mountain": {
     "color": "#5ec597",

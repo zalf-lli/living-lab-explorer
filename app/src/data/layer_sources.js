@@ -110,7 +110,7 @@ export const LAYER_SOURCES = [
       "rheingau": "he",
       "north-hessian-loess": "he",
       "hessian-low-mountain": "he",
-      "havellandisches-luch": "bb",
+      "havelland": "bb",
       "east-brandenburg": "bb"
     }
   },

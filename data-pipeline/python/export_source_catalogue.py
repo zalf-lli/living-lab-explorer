@@ -249,7 +249,7 @@ SOURCES = [
         "DL-DE-BY-2.0",
         "continuous/current plus historical annual slices",
         "https://geoportal.brandenburg.de/detailansichtdienst/render?url=https://geoportal.brandenburg.de/gs-json/xml?fileid=9e95f21f-4ecf-4682-9a44-e5f7609f6fa0",
-        "east-brandenburg, havellandisches-luch",
+        "east-brandenburg, havelland",
         "vector",
         "Low",
         "Strong LL fit; use WFS or bulk ZIP and clip after CRS alignment.",

@@ -33,7 +33,7 @@ failures <- character(0)
 fail <- function(msg) failures <<- c(failures, msg)
 
 LIVING_LABS <- c(
-  "east-brandenburg", "havellandisches-luch", "hessian-low-mountain",
+  "east-brandenburg", "havelland", "hessian-low-mountain",
   "north-hessian-loess", "rheingau"
 )
 

@@ -70,7 +70,7 @@
     "unemployment_rate_pct": 6.25,
     "unemployment_youth_pct": null
   },
-  "havellandisches-luch": {
+  "havelland": {
     "agr_ch4_kt": null,
     "agr_n2o_kt": null,
     "area_agriculture_ha": null,
@@ -132,7 +132,7 @@
     "population_density_per_km2": 98.3,
     "population_total": 169721.0,
     "sealed_surface_pct": 11.0,
-    "slug": "havellandisches-luch",
+    "slug": "havelland",
     "uaa_owned_ha": null,
     "uaa_rented_ha": null,
     "unemployment_rate_pct": 6.7,

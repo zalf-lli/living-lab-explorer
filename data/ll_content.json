@@ -48,8 +48,8 @@
       }
     }
   },
-  "havellandisches-luch": {
-    "slug": "havellandisches-luch",
+  "havelland": {
+    "slug": "havelland",
     "manager": { "name": "Sebastian Rogga", "email": "Sebastian.Rogga@zalf.de" },
     "nuts3": ["DE408"],
     "num": "02",
@@ -58,9 +58,9 @@
     "color": "#00b3ad",
     "colorDark": "#005754",
     "outlineColor": "#00b3ad",
-    "icon": "havellandisches-luch",
+    "icon": "havelland",
     "en": {
-      "name": "Havelländisches Luch",
+      "name": "Havelland",
       "tagline": "Climate protection and grassland use in fenland regions",
       "narrative": {
         "agriculture": { 
@@ -79,7 +79,7 @@
       }
     },
     "de": {
-      "name": "Havelländisches Luch",
+      "name": "Havelland",
       "tagline": "Klimaschutz und Grünlandnutzung in Niedermoorregionen",
       "narrative": {
         "agriculture": { 

@@ -13,7 +13,7 @@ sys.path.insert(0, str(repo_root() / "data-pipeline" / "python"))
 
 LL_SLUGS = [
     "east-brandenburg",
-    "havellandisches-luch",
+    "havelland",
     "north-hessian-loess",
     "hessian-low-mountain",
     "rheingau",

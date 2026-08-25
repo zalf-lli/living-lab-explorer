@@ -103,7 +103,7 @@ layers:
         hessian-low-mountain: "32U"
         north-hessian-loess: "32U"
         east-brandenburg: "33U"
-        havellandisches-luch: "33U"
+        havelland: "33U"
       path_pattern: "data/io_lulc_{tile}_2024.tif"
       download_url_pattern: "https://io-10m-annual-lulc.s3.us-west-2.amazonaws.com/{tile}_2024.tif"
       sha256_by_tile:
@@ -298,7 +298,7 @@ layers:
       rheingau: he
       north-hessian-loess: he
       hessian-low-mountain: he
-      havellandisches-luch: bb
+      havelland: bb
       east-brandenburg: bb
     semantics:
       contract_version: boris-usage-semantics-v1

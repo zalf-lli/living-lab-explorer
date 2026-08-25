@@ -15,7 +15,7 @@ export const LL_ICONS = {
 <path d="M18.1785 15.7744L18.1905 34.8994" stroke="#C3E9D8" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>`,
   },
 
-  'havellandisches-luch': {
+  'havelland': {
     vb: '0 0 36 36',
     paths: `<path d="M13.5647 10.1943C13.254 10.1943 13.0022 9.94249 13.0022 9.63184C13.0022 9.32117 13.254 9.06934 13.5647 9.06934" stroke="#C3E9D8" stroke-width="1.5"></path>
 <path d="M13.5647 10.1943C13.8754 10.1943 14.1272 9.94249 14.1272 9.63184C14.1272 9.32117 13.8754 9.06934 13.5647 9.06934" stroke="#C3E9D8" stroke-width="1.5"></path>

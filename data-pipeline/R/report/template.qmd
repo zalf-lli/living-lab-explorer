@@ -127,7 +127,7 @@ escape_markdown <- function(text) {
 # text) as a single plain string, or "" when `text` is NULL -- so a Living Lab with
 # no authored text for this slot contributes literally nothing to the document (no
 # heading, no empty box), mirroring TextBlock.jsx's own tolerance of a missing
-# narrativeByTab slot (RESEARCH.md Pitfall 2; havellandisches-luch's landscape tab is
+# narrativeByTab slot (RESEARCH.md Pitfall 2; havelland's landscape tab is
 # a real, already-observed instance of this).
 narrative_block <- function(heading, text) {
   if (is.null(text)) {
