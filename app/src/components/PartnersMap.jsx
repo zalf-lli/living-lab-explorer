@@ -125,6 +125,7 @@ export default function PartnersMap({ ll, partners = [], height = 300 }) {
         bounds={bounds}
         boundsOptions={{ padding: [16, 16] }}
         scrollWheelZoom={!isTouch}
+        attributionControl={false}
         style={MAP_STYLE}
       >
         <TileLayer
