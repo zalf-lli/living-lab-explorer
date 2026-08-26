@@ -16,6 +16,8 @@ export async function sceneLanguage(page, ctx) {
   await clickHuman(page, languageButton(page, 'en'), { steps: 22, settleMs: 300 })
   await page.waitForTimeout(1400)
 
+  // Short tail: the next scene opens on the same page and starts labelling it almost immediately,
+  // so a long hold here reads as dead air across the cut.
   await clickHuman(page, languageButton(page, 'de'), { steps: 22, settleMs: 300 })
-  await page.waitForTimeout(700)
+  await page.waitForTimeout(350)
 }

@@ -17,7 +17,9 @@ export async function sceneComponents(page, ctx) {
   await page.waitForTimeout(1200)
   ctx.ready()
 
-  await page.waitForTimeout(500)
+  // Labels come up almost immediately — the previous scene left the viewer on this same page, so
+  // any hold here is dead air rather than a beat.
+  await page.waitForTimeout(150)
 
   const at = Date.now()
   const shared = { durationMs: 4200, place: 'inside', startedMs: at }

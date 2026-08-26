@@ -85,13 +85,24 @@ stacked regions would collide).
 - `key` — resolved against `CAPTION_TEXT` in `video/remotion/src/scenes.ts`. **All on-screen
   wording lives there**, so copy can be reworded without re-capturing footage.
 
-### Lead-in trimming
+### Lead-in and tail trimming
 
 Playwright starts recording when the browser context is created, so each raw clip opens on a blank
 page while the app boots and the map paints. Each scene calls `ctx.ready()` once the UI has
 settled; everything before that (minus a 0.25s pre-roll) is trimmed off during transcode. This is
 what removes the sub-second white flash that was otherwise visible at every scene boundary — the
 video uses straight cuts, with no transition needed to cover a load.
+
+The same applies at the other end. Playwright stops the screencast when the context closes, and the
+final frames never reach the file — a scene whose script ended on a click lost the click itself, and
+its last annotation got clamped to the final frame so it appeared to hang there. The runner now
+holds the page open briefly after the script finishes so the recorder flushes, then trims that hold
+back off, keeping only the scripted content plus a 0.3s postroll.
+
+A `[WARN: recorder produced Xs of the Ys scripted]` line means a clip came back shorter than its
+script. Playwright's screencast only emits frames when something on screen changes, so a page that
+sits visually still — the landing page is a static SVG — yields a clip shorter than wall-clock. It
+is not a dropped action, but timings on such a scene drift from wall-clock and are worth eyeballing.
 
 ## Re-running
 

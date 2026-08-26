@@ -10,6 +10,15 @@ import { resetCursor } from './humanMouse.mjs'
 // exact frame the app finished painting.
 const PREROLL_SECONDS = 0.25
 
+// Playwright stops the screencast when the context closes, and the last frames never make it into
+// the file — a scene whose script ended on a click lost the click itself. Holding the page open
+// afterwards lets the recorder flush; the hold is then trimmed back off during transcode, so it
+// costs correctness nothing and runtime nothing.
+const TAIL_FLUSH_MS = 900
+
+// Kept after the scene's last action so the cut doesn't land on the exact frame it completed.
+const POSTROLL_SECONDS = 0.3
+
 // Runs one scene as its own browser context (its own video file), seeding the German-language
 // localStorage key before the app's first script executes (per app/src/i18n.js STORAGE_KEY),
 // then hands the page to `run(page, ctx)` to drive the scripted interaction.
@@ -65,7 +74,12 @@ export async function runScene(browser, { id, file, run }) {
   } catch (e) {
     error = e
   }
-  const wallClockSeconds = (Date.now() - videoEpoch) / 1000
+  const runEndedAt = Date.now()
+
+  // Let the recorder catch up with the final action before tearing the context down.
+  if (!error) {
+    await page.waitForTimeout(TAIL_FLUSH_MS).catch(() => {})
+  }
 
   const video = page.video()
   await context.close()
@@ -83,11 +97,18 @@ export async function runScene(browser, { id, file, run }) {
   const outPath = join(CAPTURED_DIR, file)
   const tmpMp4 = join(RAW_DIR, `${id}.mp4`)
 
+  // Everything the scene actually did, plus a postroll — but not the flush hold after it.
+  const contentSeconds = Math.max(
+    0.2,
+    (runEndedAt - videoEpoch) / 1000 - trimStartSeconds + POSTROLL_SECONDS
+  )
+
   await transcodeToMp4(rawPath, tmpMp4, {
     fps: FPS,
     width: VIEWPORT.width,
     height: VIEWPORT.height,
     trimStartSeconds,
+    durationSeconds: contentSeconds,
   })
   if (existsSync(outPath)) await rm(outPath)
   await rename(tmpMp4, outPath)
@@ -96,7 +117,7 @@ export async function runScene(browser, { id, file, run }) {
   try {
     durationSeconds = await probeDurationSeconds(outPath)
   } catch {
-    durationSeconds = Math.max(0.1, wallClockSeconds - trimStartSeconds)
+    durationSeconds = contentSeconds
   }
   const durationInFrames = Math.max(1, Math.round(durationSeconds * FPS))
 
@@ -107,7 +128,9 @@ export async function runScene(browser, { id, file, run }) {
   })
 
   console.log(
-    `[${id}] captured -> ${basename(outPath)} (${durationSeconds.toFixed(2)}s / ${durationInFrames} frames @ ${FPS}fps, trimmed ${trimStartSeconds.toFixed(2)}s lead-in, ${annotations.length} annotations)`
+    `[${id}] captured -> ${basename(outPath)} (${durationSeconds.toFixed(2)}s / ${durationInFrames} frames @ ${FPS}fps, trimmed ${trimStartSeconds.toFixed(2)}s lead-in, ${annotations.length} annotations)`.concat(
+      durationSeconds < contentSeconds - 0.2 ? `  [WARN: recorder produced ${durationSeconds.toFixed(2)}s of the ${contentSeconds.toFixed(2)}s scripted]` : ''
+    )
   )
 
   return { id, file, durationInFrames, annotations }

@@ -33,16 +33,14 @@ export const Annotation: React.FC<{
     <div
       style={{
         fontFamily: FONT_FAMILY,
-        fontSize: 26,
+        fontSize: 34,
         fontWeight: 700,
         lineHeight: 1.25,
-        color: COLORS.teal,
-        background: COLORS.white,
-        border: `1.5px solid ${COLORS.mutedLight}`,
-        borderLeft: `4px solid ${COLORS.orange}`,
-        borderRadius: 10,
-        padding: "12px 18px",
-        boxShadow: "0 6px 18px rgba(0, 65, 63, 0.16)",
+        color: COLORS.white,
+        background: COLORS.tealBg,
+        borderRadius: 12,
+        padding: "16px 26px",
+        boxShadow: "0 10px 26px rgba(0, 49, 47, 0.35)",
         whiteSpace: "nowrap",
       }}
     >
@@ -77,7 +75,7 @@ export const Annotation: React.FC<{
 
   // Rough caption width, used only to decide which side/edge to anchor to. Text is nowrap at a
   // known size, so character count estimates it closely enough to keep the box inside the frame.
-  const estWidth = text.length * 13.5 + 44;
+  const estWidth = text.length * 17.5 + 56;
 
   // Captions anchor to whichever edge of the highlight keeps them on screen, rather than always
   // centring: many of the annotated controls (language toggle, contact button, partners tab) sit
@@ -129,9 +127,13 @@ export const Annotation: React.FC<{
           top: clampedTop,
           width: box.width,
           height: box.height,
-          border: `2.5px solid ${COLORS.orange}`,
+          border: `3px solid ${COLORS.tealBg}`,
           borderRadius: 12,
-          boxShadow: `0 0 0 4px rgba(235, 91, 37, 0.14)`,
+          // The frame matches the caption's teal. A thin white halo sits just outside it so the
+          // dark border stays legible where it crosses the map's own dark-green land cover, which
+          // it would otherwise sink into.
+          boxShadow:
+            "0 0 0 1.5px rgba(255, 255, 255, 0.55), 0 0 0 6px rgba(0, 65, 63, 0.16)",
           pointerEvents: "none",
         }}
       />

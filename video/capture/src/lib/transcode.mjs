@@ -13,12 +13,20 @@ ffmpeg.setFfprobePath(ffprobePath.path)
 // created, so every clip otherwise opens on a blank/loading page for as long as the app takes to
 // boot and paint its map. Cutting straight to the settled UI is what removes the sub-second white
 // "flash" that was visible at every scene boundary in the assembled video.
-export function transcodeToMp4(inputPath, outputPath, { fps = 30, width = 1920, height = 1080, trimStartSeconds = 0 } = {}) {
+// `durationSeconds` cuts the tail: the scene runner keeps the browser alive for a moment after the
+// last scripted action so the recorder actually flushes those frames, and this trims that flush
+// hold back off again — without it the clip would end on dead air.
+export function transcodeToMp4(
+  inputPath,
+  outputPath,
+  { fps = 30, width = 1920, height = 1080, trimStartSeconds = 0, durationSeconds = null } = {}
+) {
   return new Promise((resolve, reject) => {
     const command = ffmpeg(inputPath)
     // Output-side seek (after the decoder) — accurate to the frame on VP8, unlike a fast input
     // seek which would snap to the nearest keyframe and reintroduce part of the lead-in.
     if (trimStartSeconds > 0) command.seekOutput(trimStartSeconds)
+    if (durationSeconds && durationSeconds > 0) command.duration(durationSeconds)
     command
       .videoFilters(`fps=${fps},scale=${width}:${height}:force_original_aspect_ratio=decrease,pad=${width}:${height}:(ow-iw)/2:(oh-ih)/2`)
       .videoCodec('libx264')
