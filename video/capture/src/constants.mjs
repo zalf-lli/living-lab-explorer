@@ -51,14 +51,17 @@ export const SCENES_ORDER = [
   'scene-01-landing',
   'scene-02-detail-open',
   'scene-03-language',
-  'scene-04-tabs-tour',
-  // Switching labs and entering comparison are one continuous take: the comparison starts from
-  // whichever lab the switcher ended on, so there is no reload/flash between them.
-  'scene-05-labs-compare',
-  'scene-06-report',
-  'scene-07-partners',
+  // Names the four regions of the page (map / KPIs / chart / narrative) before the tour starts
+  // moving through them.
+  'scene-04-components',
+  'scene-05-tabs-tour',
+  // Switching labs and entering comparison are one continuous take, and the walk returns to the
+  // demo lab before comparing, so every later scene stays on it with no cut back.
+  'scene-06-labs-compare',
+  'scene-07-report',
+  'scene-08-partners',
   // Contact-the-manager closes the video.
-  'scene-08-contact-manager',
+  'scene-09-contact-manager',
 ]
 
 // The five thematic report pages (title + KPIs + map), identified from the rendered PDF: the

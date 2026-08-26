@@ -5,7 +5,15 @@ export const HEIGHT = 1080;
 // How long each report page is held/panned during the report scene's screenshot scroll.
 export const REPORT_PAGE_FRAMES = 105;
 
-export type AnnotationPlace = "below" | "above" | "left" | "right" | "note";
+export type AnnotationPlace =
+  | "below"
+  | "above"
+  | "left"
+  | "right"
+  | "note"
+  // Centred inside the highlighted region. Used when several regions are labelled at once and
+  // outside placements would collide with each other.
+  | "inside";
 
 export type Annotation = {
   key: string;
@@ -24,14 +32,15 @@ export type SceneConfig = {
 // Order matches the scene plan and video/CONTRACT.md. Switching labs and entering comparison are
 // one continuous captured take, so there is no separate compare scene here.
 export const SCENES: SceneConfig[] = [
-  { id: "scene-01-landing", placeholderSeconds: 5 },
+  { id: "scene-01-landing", placeholderSeconds: 4 },
   { id: "scene-02-detail-open", placeholderSeconds: 3 },
-  { id: "scene-03-language", placeholderSeconds: 7 },
-  { id: "scene-04-tabs-tour", placeholderSeconds: 45 },
-  { id: "scene-05-labs-compare", placeholderSeconds: 30 },
-  { id: "scene-06-report", placeholderSeconds: 5 },
-  { id: "scene-07-partners", placeholderSeconds: 12 },
-  { id: "scene-08-contact-manager", placeholderSeconds: 7 },
+  { id: "scene-03-language", placeholderSeconds: 6 },
+  { id: "scene-04-components", placeholderSeconds: 6 },
+  { id: "scene-05-tabs-tour", placeholderSeconds: 44 },
+  { id: "scene-06-labs-compare", placeholderSeconds: 27 },
+  { id: "scene-07-report", placeholderSeconds: 4 },
+  { id: "scene-08-partners", placeholderSeconds: 11 },
+  { id: "scene-09-contact-manager", placeholderSeconds: 5 },
 ];
 
 // All on-screen copy lives here, keyed by the annotation keys the capture scripts emit. Keeping
@@ -39,6 +48,10 @@ export const SCENES: SceneConfig[] = [
 export const CAPTION_TEXT: Record<string, string> = {
   landingPick: "Fünf Reallabore – eines auswählen",
   language: "Zweisprachig: Deutsch / Englisch",
+  componentsMap: "Karte",
+  componentsKpis: "Kennzahlen",
+  componentsChart: "Diagramm",
+  componentsText: "Beschreibung",
   tabs: "Thematische Bereiche",
   kpis: "Eigene Kennzahlen je Thema",
   citation: "Datenquellen und Nachweise",

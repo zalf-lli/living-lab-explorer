@@ -8,16 +8,16 @@ import { clickHuman } from '../lib/humanMouse.mjs'
 export async function sceneLanding(page, ctx) {
   await gotoLanding(page)
   await page.locator('svg').first().waitFor({ state: 'visible', timeout: 15_000 })
-  await page.waitForTimeout(900)
+  await page.waitForTimeout(700)
   ctx.ready()
 
-  // The opening shot needs to breathe: this is the viewer's first look at the map and the five
-  // labs, before anything moves.
-  await page.waitForTimeout(1400)
+  // A brief hold so the viewer's first look at the map and the five labs registers before
+  // anything moves.
+  await page.waitForTimeout(800)
 
   const card = landingCard(page, DEMO_NAME_DE)
-  await ctx.annotate(card, 'landingPick', { durationMs: 3200, place: 'left' })
-  await page.waitForTimeout(2400)
+  await ctx.annotate(card, 'landingPick', { durationMs: 2600, place: 'left' })
+  await page.waitForTimeout(1500)
 
   // Cut shortly after the click lands, before the SPA navigation finishes painting: the detail
   // page is Scene 2's job, and letting it appear here too would show it twice across the cut.

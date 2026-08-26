@@ -11,5 +11,5 @@ export async function sceneDetailOpen(page, ctx) {
   await page.waitForTimeout(2200)
   ctx.ready()
 
-  await page.waitForTimeout(3400)
+  await page.waitForTimeout(2100)
 }

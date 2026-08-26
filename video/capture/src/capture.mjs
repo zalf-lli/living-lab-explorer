@@ -8,22 +8,24 @@ import { runScene } from './lib/sceneRunner.mjs'
 import { sceneLanding } from './scenes/scene01Landing.mjs'
 import { sceneDetailOpen } from './scenes/scene02DetailOpen.mjs'
 import { sceneLanguage } from './scenes/scene03Language.mjs'
-import { sceneTabsTour } from './scenes/scene04TabsTour.mjs'
-import { sceneLabsCompare } from './scenes/scene05LabsCompare.mjs'
-import { sceneReport } from './scenes/scene06Report.mjs'
-import { scenePartners } from './scenes/scene07Partners.mjs'
-import { sceneContactManager } from './scenes/scene08ContactManager.mjs'
+import { sceneComponents } from './scenes/scene04Components.mjs'
+import { sceneTabsTour } from './scenes/scene05TabsTour.mjs'
+import { sceneLabsCompare } from './scenes/scene06LabsCompare.mjs'
+import { sceneReport } from './scenes/scene07Report.mjs'
+import { scenePartners } from './scenes/scene08Partners.mjs'
+import { sceneContactManager } from './scenes/scene09ContactManager.mjs'
 import { renderReportPages } from './renderReportPages.mjs'
 
 const SCENES = [
   { id: 'scene-01-landing', file: 'scene-01-landing.mp4', run: sceneLanding },
   { id: 'scene-02-detail-open', file: 'scene-02-detail-open.mp4', run: sceneDetailOpen },
   { id: 'scene-03-language', file: 'scene-03-language.mp4', run: sceneLanguage },
-  { id: 'scene-04-tabs-tour', file: 'scene-04-tabs-tour.mp4', run: sceneTabsTour },
-  { id: 'scene-05-labs-compare', file: 'scene-05-labs-compare.mp4', run: sceneLabsCompare },
-  { id: 'scene-06-report', file: 'scene-06-report.mp4', run: sceneReport },
-  { id: 'scene-07-partners', file: 'scene-07-partners.mp4', run: scenePartners },
-  { id: 'scene-08-contact-manager', file: 'scene-08-contact-manager.mp4', run: sceneContactManager },
+  { id: 'scene-04-components', file: 'scene-04-components.mp4', run: sceneComponents },
+  { id: 'scene-05-tabs-tour', file: 'scene-05-tabs-tour.mp4', run: sceneTabsTour },
+  { id: 'scene-06-labs-compare', file: 'scene-06-labs-compare.mp4', run: sceneLabsCompare },
+  { id: 'scene-07-report', file: 'scene-07-report.mp4', run: sceneReport },
+  { id: 'scene-08-partners', file: 'scene-08-partners.mp4', run: scenePartners },
+  { id: 'scene-09-contact-manager', file: 'scene-09-contact-manager.mp4', run: sceneContactManager },
 ]
 
 async function main() {

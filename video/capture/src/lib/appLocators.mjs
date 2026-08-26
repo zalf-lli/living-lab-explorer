@@ -28,6 +28,7 @@ export const DE = {
   downloadReportAction: 'Herunterladen',
   mapInfoTooltip: 'Kartenquellen & Nachweise',
   sourcesToggle: 'Quellen',
+  aboutTheme: 'Übersicht',
 }
 
 export function gotoLanding(page) {
@@ -91,6 +92,26 @@ export function layerTabStrip(page) {
 // loose match resolves to the map's "i" button (and highlights the whole map column) instead.
 export function statPanel(page) {
   return page.getByRole('button', { name: DE.sourcesToggle, exact: true }).locator('xpath=../..')
+}
+
+// The chart card, found via its own uppercase-styled title ("<Thema> - Verteilung", or
+// "- projizierte Aenderung" on the climate tab). The title div is the card's first child, so one
+// level up is the bordered card itself.
+export function chartCard(page) {
+  return page
+    .getByText(/-\s*(Verteilung|projizierte Aenderung)/i)
+    .first()
+    .locator('xpath=..')
+}
+
+// The narrative card. TextBlock renders <div><title/><text/></div> inside a grid, inside the
+// bordered card — so the card is three levels above its "Übersicht" title.
+export function textCard(page) {
+  return page.getByText(DE.aboutTheme, { exact: true }).first().locator('xpath=../../..')
+}
+
+export function mapPane(page) {
+  return page.locator('.leaflet-container').first()
 }
 
 export function layerTab(page, labelDe) {

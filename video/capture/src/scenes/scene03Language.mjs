@@ -7,15 +7,15 @@ import { clickHuman } from '../lib/humanMouse.mjs'
 export async function sceneLanguage(page, ctx) {
   await gotoDetail(page, DEMO_SLUG)
   await page.locator('.leaflet-container').first().waitFor({ state: 'visible', timeout: 15_000 })
-  await page.waitForTimeout(1400)
+  await page.waitForTimeout(1200)
   ctx.ready()
 
-  await ctx.annotate(languageGroup(page), 'language', { durationMs: 3600, place: 'below' })
+  await ctx.annotate(languageGroup(page), 'language', { durationMs: 3000, place: 'below' })
+  await page.waitForTimeout(400)
+
+  await clickHuman(page, languageButton(page, 'en'), { steps: 22, settleMs: 300 })
+  await page.waitForTimeout(1400)
+
+  await clickHuman(page, languageButton(page, 'de'), { steps: 22, settleMs: 300 })
   await page.waitForTimeout(700)
-
-  await clickHuman(page, languageButton(page, 'en'), { steps: 25, settleMs: 350 })
-  await page.waitForTimeout(2000)
-
-  await clickHuman(page, languageButton(page, 'de'), { steps: 25, settleMs: 350 })
-  await page.waitForTimeout(1100)
 }

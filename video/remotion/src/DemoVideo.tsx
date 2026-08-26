@@ -6,7 +6,7 @@ import { SceneClip } from "./components/SceneClip";
 import { ReportScroll } from "./components/ReportScroll";
 
 // The PDF page-scroll is spliced in immediately after the download click.
-const REPORT_SCENE_ID = "scene-06-report";
+const REPORT_SCENE_ID = "scene-07-report";
 
 export const DemoVideo: React.FC<{ manifest: ResolvedManifest }> = ({
   manifest,

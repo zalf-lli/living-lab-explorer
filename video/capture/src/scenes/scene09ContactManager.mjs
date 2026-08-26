@@ -13,13 +13,13 @@ import { clickHuman } from '../lib/humanMouse.mjs'
 export async function sceneContactManager(page, ctx) {
   await gotoDetail(page, DEMO_SLUG)
   await page.locator('.leaflet-container').first().waitFor({ state: 'visible', timeout: 15_000 })
-  await page.waitForTimeout(1500)
+  await page.waitForTimeout(1100)
   ctx.ready()
 
   const link = contactManagerLink(page)
-  await ctx.annotate(link, 'contactManager', { durationMs: 5200, place: 'below' })
-  await page.waitForTimeout(1600)
+  await ctx.annotate(link, 'contactManager', { durationMs: 4400, place: 'below' })
+  await page.waitForTimeout(1100)
 
-  await clickHuman(page, link, { steps: 35, settleMs: 600 })
-  await page.waitForTimeout(2600)
+  await clickHuman(page, link, { steps: 30, settleMs: 450 })
+  await page.waitForTimeout(1800)
 }

@@ -9,17 +9,17 @@ import { smoothScroll } from '../lib/scroll.mjs'
 export async function scenePartners(page, ctx) {
   await gotoDetail(page, DEMO_SLUG)
   await page.locator('.leaflet-container').first().waitFor({ state: 'visible', timeout: 15_000 })
-  await page.waitForTimeout(1200)
+  await page.waitForTimeout(900)
   ctx.ready()
 
   const partnersTab = layerTab(page, DE.layers.partners)
-  await ctx.annotate(partnersTab, 'partners', { durationMs: 3400, place: 'below' })
-  await page.waitForTimeout(700)
-  await clickHuman(page, partnersTab, { steps: 25 })
+  await ctx.annotate(partnersTab, 'partners', { durationMs: 2800, place: 'below' })
+  await page.waitForTimeout(500)
+  await clickHuman(page, partnersTab, { steps: 24 })
 
   // PartnersMapSlot/PartnersPanelSlot each fetch usePartnersProjects independently; give both a
   // beat to resolve before looking for marker DOM nodes.
-  await page.waitForTimeout(1400)
+  await page.waitForTimeout(1000)
   await page.locator('.partner-marker').first().waitFor({ state: 'visible', timeout: 10_000 })
 
   const markers = page.locator('.partner-marker')
@@ -29,20 +29,20 @@ export async function scenePartners(page, ctx) {
     const marker = markers.nth(i)
     const box = await marker.boundingBox()
     if (!box) continue
-    await moveMouseTo(page, box.x + box.width / 2, box.y + box.height / 2, { steps: 25, settleMs: 1000 })
+    await moveMouseTo(page, box.x + box.width / 2, box.y + box.height / 2, { steps: 22, settleMs: 700 })
   }
 
   // Projects live in the data column to the right of the map.
-  await moveMouseTo(page, 1450, 600, { steps: 30, settleMs: 400 })
+  await moveMouseTo(page, 1450, 600, { steps: 26, settleMs: 300 })
   await smoothScroll(page, 420)
-  await page.waitForTimeout(1000)
+  await page.waitForTimeout(700)
 
   // A standalone closing note rather than a pointer at any one element — place 'note' renders as
   // a plain caption with no highlight box (the rect is required by the annotation shape but is
   // ignored for notes).
   await ctx.annotate({ x: 0, y: 0, width: 1, height: 1 }, 'partnersWip', {
-    durationMs: 3800,
+    durationMs: 3000,
     place: 'note',
   })
-  await page.waitForTimeout(3600)
+  await page.waitForTimeout(2800)
 }

@@ -12,11 +12,12 @@ video/remotion/public/captured/
   scene-01-landing.mp4
   scene-02-detail-open.mp4
   scene-03-language.mp4
-  scene-04-tabs-tour.mp4
-  scene-05-labs-compare.mp4
-  scene-06-report.mp4
-  scene-07-partners.mp4
-  scene-08-contact-manager.mp4
+  scene-04-components.mp4
+  scene-05-tabs-tour.mp4
+  scene-06-labs-compare.mp4
+  scene-07-report.mp4
+  scene-08-partners.mp4
+  scene-09-contact-manager.mp4
   report-pages/
     de/
       page-3.png   # Landwirtschaft
@@ -39,9 +40,9 @@ the ordered `reportPages.files` list rather than assuming `page-1..page-N`.
   "fps": 30,
   "scenes": [
     {
-      "id": "scene-04-tabs-tour",
-      "file": "scene-04-tabs-tour.mp4",
-      "durationInFrames": 1493,
+      "id": "scene-05-tabs-tour",
+      "file": "scene-05-tabs-tour.mp4",
+      "durationInFrames": 1283,
       "annotations": [
         {
           "key": "tabs",
@@ -60,7 +61,10 @@ the ordered `reportPages.files` list rather than assuming `page-1..page-N`.
 - `scenes` appear in playback order (`SCENES_ORDER` in `video/capture/src/constants.mjs`, mirrored
   by `SCENES` in `video/remotion/src/scenes.ts`).
 - `durationInFrames` is measured off the encoded file with ffprobe, after trimming.
-- The PDF page-scroll is spliced in by Remotion immediately after `scene-06-report`.
+- The PDF page-scroll is spliced in by Remotion immediately after `scene-07-report`.
+- `scene-06-labs-compare` walks the lab switcher and returns to the demo lab before comparing.
+  Exiting a comparison keeps the primary lab, so ending on the demo lab is what lets the report,
+  partners and contact scenes continue on it without cutting back to a different lab.
 
 ### Annotations
 
@@ -70,9 +74,14 @@ already locates every element it interacts with, so it records that element's bo
 - `rect` — the element's on-screen box at the moment it was annotated. Remotion draws a highlight
   border around it.
 - `from` / `durationInFrames` — timing **relative to the trimmed clip**.
-- `place` — which side the caption sits on (`below`/`above`/`left`/`right`), or `note` for a
-  standalone caption with no highlight box. Remotion re-anchors to whichever frame edge keeps the
-  caption on screen, and flips `left`/`right` when the preferred side has no room.
+- `place` — which side the caption sits on (`below`/`above`/`left`/`right`), `inside` to centre it
+  within the highlight, or `note` for a standalone caption with no highlight box. Remotion
+  re-anchors to whichever frame edge keeps the caption on screen, and flips `left`/`right` when the
+  preferred side has no room.
+
+Annotations sharing one `startedMs` appear together — that is how `scene-04-components` labels the
+map, KPIs, chart and narrative simultaneously (all `inside`, since outside placements for four
+stacked regions would collide).
 - `key` — resolved against `CAPTION_TEXT` in `video/remotion/src/scenes.ts`. **All on-screen
   wording lives there**, so copy can be reworded without re-capturing footage.
 
@@ -89,6 +98,6 @@ video uses straight cuts, with no transition needed to cover a load.
 ```powershell
 cd video/capture
 npm run capture                              # all scenes + report pages
-npm run capture -- --only=scene-04-tabs-tour # one scene, merged into the existing manifest
+npm run capture -- --only=scene-05-tabs-tour # one scene, merged into the existing manifest
 npm run capture -- --skip-build              # reuse the current app build
 ```

@@ -91,7 +91,11 @@ export const Annotation: React.FC<{
     }
   };
 
-  if (place === "above") {
+  if (place === "inside") {
+    captionStyle.left = box.left + box.width / 2;
+    captionStyle.top = box.top + box.height / 2;
+    captionStyle.transform = "translate(-50%, -50%)";
+  } else if (place === "above") {
     anchorHorizontally();
     captionStyle.top = box.top - GAP;
     captionStyle.transform = "translateY(-100%)";
