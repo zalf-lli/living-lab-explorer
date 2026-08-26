@@ -1,9 +1,10 @@
 import { Fragment } from "react";
 import { AbsoluteFill, Series } from "remotion";
-import { REPORT_PAGE_FRAMES, SCENES } from "./scenes";
+import { INTRO_FRAMES, REPORT_PAGE_FRAMES, SCENES } from "./scenes";
 import type { ResolvedManifest } from "./manifest";
 import { SceneClip } from "./components/SceneClip";
 import { ReportScroll } from "./components/ReportScroll";
+import { IntroCard } from "./components/IntroCard";
 
 // The PDF page-scroll is spliced in immediately after the download click.
 const REPORT_SCENE_ID = "scene-07-report";
@@ -20,6 +21,9 @@ export const DemoVideo: React.FC<{ manifest: ResolvedManifest }> = ({
           trimmed off (see video/capture/src/lib/sceneRunner.mjs), so a cut lands on settled UI
           and needs no transition to cover a flash. */}
       <Series>
+        <Series.Sequence durationInFrames={INTRO_FRAMES}>
+          <IntroCard />
+        </Series.Sequence>
         {SCENES.map((scene) => {
           const resolved = byId.get(scene.id);
           if (!resolved) return null;

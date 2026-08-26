@@ -30,7 +30,22 @@ export function transcodeToMp4(
     command
       .videoFilters(`fps=${fps},scale=${width}:${height}:force_original_aspect_ratio=decrease,pad=${width}:${height}:(ow-iw)/2:(oh-ih)/2`)
       .videoCodec('libx264')
-      .outputOptions(['-pix_fmt yuv420p', '-movflags +faststart', '-preset veryfast', '-crf 18'])
+      .outputOptions([
+        '-pix_fmt yuv420p',
+        '-movflags +faststart',
+        '-preset veryfast',
+        '-crf 18',
+        // A keyframe every second, and none of x264's scene-cut extras. Remotion seeks these clips
+        // frame by frame, and with x264's default ~250-frame GOP that seeking intermittently fails
+        // outright ("No frame found at position …") partway through a render. Dense keyframes cost
+        // some file size and make every seek cheap and reliable.
+        '-g',
+        String(fps),
+        '-keyint_min',
+        String(fps),
+        '-sc_threshold',
+        '0',
+      ])
       .noAudio()
       .on('error', reject)
       .on('end', () => resolve())

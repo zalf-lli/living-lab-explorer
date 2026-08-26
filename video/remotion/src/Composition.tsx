@@ -1,5 +1,5 @@
 import { CalculateMetadataFunction, Composition, staticFile } from "remotion";
-import { FPS, HEIGHT, REPORT_PAGE_FRAMES, WIDTH } from "./scenes";
+import { FPS, HEIGHT, INTRO_FRAMES, REPORT_PAGE_FRAMES, WIDTH } from "./scenes";
 import { DemoVideo } from "./DemoVideo";
 import { fetchManifest, resolveManifest, type ResolvedManifest } from "./manifest";
 
@@ -16,7 +16,7 @@ const calculateMetadata: CalculateMetadataFunction<Props> = async () => {
   const reportTotal = manifest.reportPages.files.length * REPORT_PAGE_FRAMES;
 
   return {
-    durationInFrames: clipsTotal + reportTotal,
+    durationInFrames: INTRO_FRAMES + clipsTotal + reportTotal,
     props: { manifest },
   };
 };
