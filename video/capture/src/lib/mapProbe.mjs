@@ -34,6 +34,17 @@ export function candidatePoints(box, fractions = [
 // protected-areas: LLMap.jsx's bindProtectedAreasTooltip calls layer.bindPopup(...) — a Leaflet
 // Popup opens on click, not hover. Tries each candidate point until one opens a popup, holds it
 // open briefly for the recording, and returns whether it succeeded.
+// Orders points by how close they are to the middle of `box`, so a popup opens over the body of
+// the map rather than tucked against a corner where it half-hangs off the pane.
+export function centreFirst(points, box) {
+  if (!box) return points
+  const cx = box.x + box.width / 2
+  const cy = box.y + box.height / 2
+  return [...points].sort(
+    (a, b) => (a.x - cx) ** 2 + (a.y - cy) ** 2 - ((b.x - cx) ** 2 + (b.y - cy) ** 2)
+  )
+}
+
 export async function clickUntilPopupOpens(page, points, { holdMs = 1400 } = {}) {
   for (const { x, y } of points) {
     // Misses are cheap on purpose: a slow, settled approach to a point that turns out to be
@@ -65,10 +76,10 @@ export async function clickUntilPopupOpens(page, points, { holdMs = 1400 } = {})
 // Leaflet's shared hit-test/`_fireEvent` pipeline to run synchronously — closed that gap in
 // testing (25/30 sampled points produced a visible tooltip with the click; plain hover produced
 // none in the same run).
-export async function sweepForTooltip(page, points, { pauseMs = 500 } = {}) {
+export async function sweepForTooltip(page, points, { pauseMs = 500, steps = 25 } = {}) {
   let sawTooltip = false
   for (const { x, y } of points) {
-    await moveMouseTo(page, x, y, { steps: 25, settleMs: 150 })
+    await moveMouseTo(page, x, y, { steps, settleMs: 150 })
     await page.mouse.click(x, y)
     await page.waitForTimeout(pauseMs)
     const tooltip = page.locator('.leaflet-tooltip').first()

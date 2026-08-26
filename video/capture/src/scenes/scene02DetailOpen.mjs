@@ -11,5 +11,7 @@ export async function sceneDetailOpen(page, ctx) {
   await page.waitForTimeout(2200)
   ctx.ready()
 
-  await page.waitForTimeout(2100)
+  // Brief: Scene 1 already ends on this page after the click, and Scene 3 opens on it too, so a
+  // long establishing hold here just stacks static time before anything moves.
+  await page.waitForTimeout(900)
 }

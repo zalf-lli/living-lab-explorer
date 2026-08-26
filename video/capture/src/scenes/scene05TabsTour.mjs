@@ -15,6 +15,7 @@ import {
 import { clickHuman, hoverHuman, moveMouseTo } from '../lib/humanMouse.mjs'
 import {
   candidatePoints,
+  centreFirst,
   clickUntilPopupOpens,
   getMapBox,
   readAlphaGrid,
@@ -42,8 +43,17 @@ export async function sceneTabsTour(page, ctx) {
   // needs it. The overlay lazy-fetches 355 features on first toggle, and waiting for that fetch
   // on camera left the cursor sitting still for several seconds between switching the layer on
   // and anything appearing to hover.
+  // BORIS gets the same treatment — East Brandenburg's is the largest of the five, and waiting for
+  // it to arrive once the Soziooekonomie tab is open is time on camera with a blank map.
   await page
-    .evaluate((slug) => fetch(`data/geojson/protected-areas-${slug}.geojson`).catch(() => {}), DEMO_SLUG)
+    .evaluate(
+      (slug) =>
+        Promise.all([
+          fetch(`data/geojson/protected-areas-${slug}.geojson`).catch(() => {}),
+          fetch(`data/geojson/boris-${slug}.geojson`).catch(() => {}),
+        ]),
+      DEMO_SLUG
+    )
     .catch(() => {})
 
   await ctx.annotate(layerTabStrip(page), 'tabs', { durationMs: 2800, place: 'below' })
@@ -67,9 +77,12 @@ export async function sceneTabsTour(page, ctx) {
   // to reveal the source/citation + external link; Escape closes it.
   // Placed to the right, not above: the source popover itself opens upward from the button, so an
   // 'above' caption would sit on top of the very citations it is pointing at.
-  await ctx.annotate(mapInfoButton(page), 'citation', { durationMs: 3000, place: 'right' })
+  // The caption has to be up and read before the popover it describes opens, so it gets a beat of
+  // its own before the cursor goes anywhere near the button.
+  await ctx.annotate(mapInfoButton(page), 'citation', { durationMs: 3400, place: 'right' })
+  await page.waitForTimeout(900)
   await hoverHuman(page, mapInfoButton(page), { steps: 20, settleMs: 400 })
-  await page.waitForTimeout(2000)
+  await page.waitForTimeout(1900)
   await page.keyboard.press('Escape')
   await page.waitForTimeout(300)
 
@@ -101,15 +114,24 @@ export async function sceneTabsTour(page, ctx) {
   // --- 4. Soziooekonomie (economic): BORIS land-price hover ---
   await clickHuman(page, layerTab(page, DE.layers.economic), { steps: 20 })
   mark('economic tab clicked')
-  await page.waitForTimeout(1000)
+  await page.waitForTimeout(600)
   const economicBox = await getMapBox(page)
   if (economicBox) {
     await ctx.annotate(economicBox, 'landPrice', { durationMs: 3400, place: 'right' })
+    // Walk the cursor onto the map while the 30k-zone choropleth is still drawing. The draw cost
+    // is the app's, not something the capture can shorten — but it reads as approach rather than
+    // as a freeze.
+    await moveMouseTo(page, economicBox.x + economicBox.width * 0.5, economicBox.y + economicBox.height * 0.45, {
+      steps: 22,
+      settleMs: 0,
+    })
     // East Brandenburg's BORIS layer (up to ~30,018 zones) can still be mid-paint at this point,
     // so retry the canvas probe instead of a single immediate read.
-    const painted = await waitForPaintedPoints(page, { maxPoints: 6, clipBox: economicBox })
-    const points = painted.length ? painted : candidatePoints(economicBox)
-    const sawTooltip = await sweepForTooltip(page, points, { pauseMs: 900 })
+    // Four stops is enough to show the tooltip tracking from zone to zone; six at a slower pace
+    // laboured the point for a third of a minute.
+    const painted = await waitForPaintedPoints(page, { maxPoints: 4, clipBox: economicBox })
+    const points = painted.length ? painted : candidatePoints(economicBox).slice(0, 4)
+    const sawTooltip = await sweepForTooltip(page, points, { pauseMs: 600, steps: 18 })
     mark(`economic tooltip sweep done (sawTooltip=${sawTooltip}, paintedPoints=${painted.length})`)
   }
   await page.waitForTimeout(400)
@@ -143,7 +165,9 @@ export async function sceneTabsTour(page, ctx) {
       clipBox: landscapeBox,
     })
     mark(`overlay painted (${painted.length} candidate points)`)
-    const points = painted.length ? painted : candidatePoints(landscapeBox)
+    // Try the most central hits first: the raster-ordered list started at the top edge, so the
+    // popup kept opening in the map's top-right corner.
+    const points = centreFirst(painted.length ? painted : candidatePoints(landscapeBox), landscapeBox)
     const opened = await clickUntilPopupOpens(page, points, { holdMs: 2000 })
     mark(`protected-area popup search done (opened=${opened}, paintedPoints=${painted.length})`)
   }

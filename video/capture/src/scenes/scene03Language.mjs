@@ -10,8 +10,9 @@ export async function sceneLanguage(page, ctx) {
   await page.waitForTimeout(1200)
   ctx.ready()
 
+  // Straight into it — the detail page has already been on screen through the previous two scenes.
   await ctx.annotate(languageGroup(page), 'language', { durationMs: 3000, place: 'below' })
-  await page.waitForTimeout(400)
+  await page.waitForTimeout(500)
 
   await clickHuman(page, languageButton(page, 'en'), { steps: 22, settleMs: 300 })
   await page.waitForTimeout(1400)
