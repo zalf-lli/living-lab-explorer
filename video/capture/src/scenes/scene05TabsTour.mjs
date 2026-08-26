@@ -12,12 +12,14 @@ import {
   zoomInButton,
   zoomOutButton,
 } from '../lib/appLocators.mjs'
-import { clickHuman, hoverHuman } from '../lib/humanMouse.mjs'
+import { clickHuman, hoverHuman, moveMouseTo } from '../lib/humanMouse.mjs'
 import {
   candidatePoints,
   clickUntilPopupOpens,
   getMapBox,
+  readAlphaGrid,
   sweepForTooltip,
+  waitForNewlyPaintedPoints,
   waitForPaintedPoints,
 } from '../lib/mapProbe.mjs'
 
@@ -35,6 +37,14 @@ export async function sceneTabsTour(page, ctx) {
   await page.waitForTimeout(1200)
   ctx.ready()
   mark('detail loaded')
+
+  // Warm the protected-areas GeoJSON into the browser cache now, long before the Landschaft tab
+  // needs it. The overlay lazy-fetches 355 features on first toggle, and waiting for that fetch
+  // on camera left the cursor sitting still for several seconds between switching the layer on
+  // and anything appearing to hover.
+  await page
+    .evaluate((slug) => fetch(`data/geojson/protected-areas-${slug}.geojson`).catch(() => {}), DEMO_SLUG)
+    .catch(() => {})
 
   await ctx.annotate(layerTabStrip(page), 'tabs', { durationMs: 2800, place: 'below' })
   await page.waitForTimeout(600)
@@ -97,7 +107,7 @@ export async function sceneTabsTour(page, ctx) {
     await ctx.annotate(economicBox, 'landPrice', { durationMs: 3400, place: 'right' })
     // East Brandenburg's BORIS layer (up to ~30,018 zones) can still be mid-paint at this point,
     // so retry the canvas probe instead of a single immediate read.
-    const painted = await waitForPaintedPoints(page, { maxPoints: 6 })
+    const painted = await waitForPaintedPoints(page, { maxPoints: 6, clipBox: economicBox })
     const points = painted.length ? painted : candidatePoints(economicBox)
     const sawTooltip = await sweepForTooltip(page, points, { pauseMs: 900 })
     mark(`economic tooltip sweep done (sawTooltip=${sawTooltip}, paintedPoints=${painted.length})`)
@@ -111,14 +121,28 @@ export async function sceneTabsTour(page, ctx) {
 
   await ctx.annotate(protectedAreasToggle(page), 'protectedAreas', { durationMs: 3200, place: 'below' })
   await page.waitForTimeout(300)
+
+  // Snapshot the layer canvas before the overlay is switched on, so the polygons it draws can be
+  // told apart from what was already painted there.
+  const beforeOverlay = await readAlphaGrid(page)
   await clickHuman(page, protectedAreasToggle(page), { steps: 15 })
   mark('protected areas toggled on')
-  // Overlay lazy-fetches protected-areas-{slug}.geojson (355 features for East Brandenburg);
-  // wait only long enough for the first paint rather than a fixed long pause, so the cursor
-  // moves in to open a popup promptly instead of sitting idle on screen.
+  // The GeoJSON was prefetched at the top of the scene, so the overlay paints almost at once;
+  // poll tightly and start walking the cursor onto the map straight away rather than holding
+  // still while waiting.
   const landscapeBox = await getMapBox(page)
   if (landscapeBox) {
-    const painted = await waitForPaintedPoints(page, { maxPoints: 8, timeoutMs: 8000 })
+    await moveMouseTo(page, landscapeBox.x + landscapeBox.width * 0.45, landscapeBox.y + landscapeBox.height * 0.4, {
+      steps: 22,
+      settleMs: 0,
+    })
+    const painted = await waitForNewlyPaintedPoints(page, beforeOverlay, {
+      maxPoints: 10,
+      timeoutMs: 6000,
+      intervalMs: 150,
+      clipBox: landscapeBox,
+    })
+    mark(`overlay painted (${painted.length} candidate points)`)
     const points = painted.length ? painted : candidatePoints(landscapeBox)
     const opened = await clickUntilPopupOpens(page, points, { holdMs: 2000 })
     mark(`protected-area popup search done (opened=${opened}, paintedPoints=${painted.length})`)

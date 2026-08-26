@@ -51,6 +51,47 @@ export async function runScene(browser, { id, file, run }) {
     LANG_STORAGE_KEY
   )
 
+  // Keeps the compositor busy for the whole recording.
+  //
+  // Playwright's screencast only emits a frame when something on screen actually changes, so a
+  // page that sits visually still produces a clip *shorter than wall-clock* — the still stretches
+  // are simply missing. That breaks annotation timing, which is derived from wall-clock: on the
+  // landing page (a static SVG) the frame numbers drifted so far that its caption ended up
+  // playing over the next scene's detail page.
+  //
+  // A 2x2px element in the corner running a permanent transform animation forces a new composited
+  // frame every tick, so video time tracks wall-clock on every page. It is imperceptible at
+  // 1920x1080 and is never interacted with.
+  await context.addInitScript(() => {
+    const install = () => {
+      if (!document.body || document.getElementById('__capture_ticker__')) return
+      const style = document.createElement('style')
+      style.textContent =
+        '@keyframes __cap_tick__{0%{transform:translateX(0)}50%{transform:translateX(1px)}100%{transform:translateX(0)}}'
+      document.head.appendChild(style)
+      const el = document.createElement('div')
+      el.id = '__capture_ticker__'
+      el.style.cssText = [
+        'position:fixed',
+        'left:0',
+        'bottom:0',
+        'width:2px',
+        'height:2px',
+        'background:rgba(127,127,127,0.02)',
+        'z-index:2147483647',
+        'pointer-events:none',
+        'will-change:transform',
+        'animation:__cap_tick__ 0.2s linear infinite',
+      ].join(';')
+      document.body.appendChild(el)
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', install)
+    } else {
+      install()
+    }
+  })
+
   const page = await context.newPage()
   page.setDefaultTimeout(15_000)
 
@@ -82,6 +123,7 @@ export async function runScene(browser, { id, file, run }) {
   }
 
   const video = page.video()
+  const wallClockSeconds = (Date.now() - videoEpoch) / 1000
   await context.close()
 
   if (error) {
@@ -103,11 +145,23 @@ export async function runScene(browser, { id, file, run }) {
     (runEndedAt - videoEpoch) / 1000 - trimStartSeconds + POSTROLL_SECONDS
   )
 
+  // Wall-clock seconds the recorder never captured. The ticker above keeps frames flowing once
+  // the page has a body, so what is missing is the blank stretch before the app's first paint —
+  // i.e. it all falls before the trim point. Seeking by raw wall-clock would therefore land that
+  // much *into* the content and shift every annotation late, so the seek is corrected by it.
+  let missingSeconds = 0
+  try {
+    missingSeconds = Math.max(0, wallClockSeconds - (await probeDurationSeconds(rawPath)))
+  } catch {
+    missingSeconds = 0
+  }
+  const videoTrimStart = Math.max(0, trimStartSeconds - missingSeconds)
+
   await transcodeToMp4(rawPath, tmpMp4, {
     fps: FPS,
     width: VIEWPORT.width,
     height: VIEWPORT.height,
-    trimStartSeconds,
+    trimStartSeconds: videoTrimStart,
     durationSeconds: contentSeconds,
   })
   if (existsSync(outPath)) await rm(outPath)
@@ -128,8 +182,10 @@ export async function runScene(browser, { id, file, run }) {
   })
 
   console.log(
-    `[${id}] captured -> ${basename(outPath)} (${durationSeconds.toFixed(2)}s / ${durationInFrames} frames @ ${FPS}fps, trimmed ${trimStartSeconds.toFixed(2)}s lead-in, ${annotations.length} annotations)`.concat(
-      durationSeconds < contentSeconds - 0.2 ? `  [WARN: recorder produced ${durationSeconds.toFixed(2)}s of the ${contentSeconds.toFixed(2)}s scripted]` : ''
+    `[${id}] captured -> ${basename(outPath)} (${durationSeconds.toFixed(2)}s / ${durationInFrames} frames @ ${FPS}fps, trimmed ${videoTrimStart.toFixed(2)}s lead-in, dropped ${missingSeconds.toFixed(2)}s, ${annotations.length} annotations)`.concat(
+      durationSeconds < contentSeconds - 0.2
+        ? `  [WARN: recorder produced ${durationSeconds.toFixed(2)}s of the ${contentSeconds.toFixed(2)}s scripted]`
+        : ''
     )
   )
 

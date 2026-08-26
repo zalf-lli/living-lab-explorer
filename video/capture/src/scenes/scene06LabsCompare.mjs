@@ -43,8 +43,10 @@ export async function sceneLabsCompare(page, ctx) {
   }
 
   // --- Comparison: demo lab on the left, the lab we just toured on the right ---
-  await ctx.annotate(compareCTAButton(page), 'compare', { durationMs: 3000, place: 'above' })
-  await page.waitForTimeout(400)
+  // Placed to the left and cleared before the click: ComparePicker opens upward out of this
+  // button, so a caption sitting above it covers the very dropdown the viewer needs to see.
+  await ctx.annotate(compareCTAButton(page), 'compare', { durationMs: 1800, place: 'left' })
+  await page.waitForTimeout(2000)
   await clickHuman(page, compareCTAButton(page), { steps: 26, settleMs: 350 })
   await page.waitForTimeout(500)
   await clickHuman(page, comparePickerOption(page, LL_NAMES_DE.rheingau), { steps: 22, settleMs: 300 })
