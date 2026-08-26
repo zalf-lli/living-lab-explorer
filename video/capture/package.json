@@ -1,0 +1,19 @@
+{
+  "name": "ll-explorer-video-capture",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Playwright capture pipeline for the LL-Explorer demo video. Records real app footage scene-by-scene and renders report PDF pages to PNG, per video/CONTRACT.md.",
+  "type": "module",
+  "scripts": {
+    "capture": "node src/capture.mjs",
+    "render-report-pages": "node src/renderReportPagesCli.mjs"
+  },
+  "dependencies": {
+    "@ffmpeg-installer/ffmpeg": "^1.1.0",
+    "@ffprobe-installer/ffprobe": "^2.1.2",
+    "@napi-rs/canvas": "^0.1.62",
+    "fluent-ffmpeg": "^2.1.3",
+    "pdfjs-dist": "^4.7.76",
+    "playwright": "^1.49.0"
+  }
+}
