@@ -144,7 +144,7 @@ ll_kpi_df <- function(slug, tab, lang) {
 #' @return character(1), or NULL when the field is absent, `NA`, or trims to an empty string --
 #'   mirroring `TextBlock.jsx`'s existing tolerance of an `undefined` text prop, so
 #'   `template.qmd` can omit the slot entirely instead of allocating an empty box (RESEARCH.md
-#'   Pitfall 2; `havellandisches-luch`'s `landscape.about`/`.challenges` are a real, already-
+#'   Pitfall 2; `havelland`'s `landscape.about`/`.challenges` are a real, already-
 #'   observed empty case).
 ll_narrative <- function(slug, tab, slot, lang) {
   if (!identical(slot, "about") && !identical(slot, "challenges")) {

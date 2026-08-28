@@ -16,7 +16,7 @@ Run date: 2026-07-28. Every number below was measured live against the BORIS-BB 
 | E | 33,954,375 | 32.38 | 29049 | 1082951 | 1046 | 0.1217 |
 | F | 25,741,559 | 24.55 | 28709 | 706491 | 1386 | 0.2069 |
 
-### havellandisches-luch (18961 zones)
+### havelland (18961 zones)
 
 | Variant | Bytes | MB | Features | Vertices | Empty | Mean abs rel area change vs N |
 |---|---:|---:|---:|---:|---:|---:|
@@ -58,7 +58,7 @@ No measured variant meets a <=8,000,000 byte (<=8 MB) per-LL-per-copy budget for
 
 ## W-02 has_current_value recency threshold
 
-| Rule | havellandisches-luch | east-brandenburg | hessen (all HE LLs) |
+| Rule | havelland | east-brandenburg | hessen (all HE LLs) |
 |---|---:|---:|---:|
 | R1 | 91.9% | 92.8% | 0.0% |
 | R2 | 59.4% | 62.9% | 0.0% |
@@ -66,7 +66,7 @@ No measured variant meets a <=8,000,000 byte (<=8 MB) per-LL-per-copy budget for
 
 Hessen is 0% by construction: the year-versioned `/2024/wfs` endpoint only ever returns the 2024 vintage, so every HE zone is current under every rule.
 
-### havellandisches-luch max(stichtag).year histogram (matched zones only)
+### havelland max(stichtag).year histogram (matched zones only)
 
 | Year | Zones |
 |---:|---:|
@@ -174,7 +174,7 @@ higher geometric fidelity), variant **E**.
 - Accepted per-Living-Lab-per-copy byte budget: **~33 MB (33,000,000 bytes)**
 - Measured east-brandenburg size at variant E: **33,954,375 bytes (32.38 MB)**, 29,049 of 30,095
   features surviving, 1,046 geometries collapsing to empty, mean abs rel area change 0.1217
-- Measured havellandisches-luch at E: 21,824,138 bytes (20.81 MB)
+- Measured havelland at E: 21,824,138 bytes (20.81 MB)
 - Measured rheingau at E: 1,193,697 bytes (1.14 MB)
 - Projected total repository impact (all 5 Living Labs x both committed copies, `data/geojson/` +
   `app/public/data/geojson/`): **132,282,661 bytes (126.2 MB)**
@@ -213,7 +213,7 @@ higher geometric fidelity), variant **E**.
   of the map is the goal.
 - Recomputed impact (derived independently from the `max(stichtag).year` histograms above; agrees with
   the values reported at checkpoint time, no discrepancy found):
-  - **havellandisches-luch:** 12,997 of 18,961 matched zones have `max(stichtag).year >= 2016` ->
+  - **havelland:** 12,997 of 18,961 matched zones have `max(stichtag).year >= 2016` ->
     **68.54% coloured / 31.46% no-current-value**.
   - **east-brandenburg:** 19,110 of 30,095 matched zones have `max(stichtag).year >= 2016` ->
     **63.50% coloured / 36.50% no-current-value**.

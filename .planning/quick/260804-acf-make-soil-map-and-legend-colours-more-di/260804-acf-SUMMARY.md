@@ -23,7 +23,7 @@ fixtures this collapsed into collisions:
 
 - `hessian-low-mountain`: `brown-soils`, `stagnic-soils` and `alluvial-soils` all rendered
   `#b88752` — 3 of the 5 legend swatches were byte-identical.
-- `east-brandenburg` and `havellandisches-luch`: `fens` and `ah-c-soils` both `#d0b385`.
+- `east-brandenburg` and `havelland`: `fens` and `ah-c-soils` both `#d0b385`.
 - `podzols` and `pelosols` both `#a87445` everywhere.
 - 3 of the 8 palette entries were never assigned at all.
 
@@ -62,7 +62,7 @@ the pre-load fallback legend), duplicating hexes that could drift from the map f
 
 ```
 east-brandenburg:      classes=14 uniqueColors=14 mapMinDeltaE=18.0 legendSwatches=7 legendMinDeltaE=22.8
-havellandisches-luch:  classes=13 uniqueColors=13 mapMinDeltaE=19.0 legendSwatches=7 legendMinDeltaE=22.8
+havelland:  classes=13 uniqueColors=13 mapMinDeltaE=19.0 legendSwatches=7 legendMinDeltaE=22.8
 hessian-low-mountain:  classes=12 uniqueColors=12 mapMinDeltaE=22.0 legendSwatches=7 legendMinDeltaE=22.8
 north-hessian-loess:   classes=12 uniqueColors=12 mapMinDeltaE=22.8 legendSwatches=7 legendMinDeltaE=22.8
 rheingau:              classes=9  uniqueColors=9  mapMinDeltaE=22.0 legendSwatches=7 legendMinDeltaE=22.8

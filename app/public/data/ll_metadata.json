@@ -12,7 +12,7 @@
         },
         "climate": {
           "about": "Seit 1881 ist ein anhaltender Erwärmungstrend zu beobachten: Anstieg der Jahresdurchschnittstemperatur um bisher +1,3 °C. Kurzfristige Klimaprognosen (2021–2050): Weitere Erwärmung um +1,1 bis +1,5 °C. Verschiebung der Klimaextreme: Mehr heiße Sommertage, weniger Frosttage, Hagel und Stürme; im Osten Brandenburgs wird aufgrund eines stärkeren kontinentalen Einflusses mit einer Zunahme von Frühjahrsdürren gerechnet.",
-          "challenges": "Hohe Anfälligkeit für Dürre aufgrund der begrenzten Wasserrückhaltefähigkeit des Bodens."
+          "challenges": "Steigende Temperaturen und häufigere Hitzeextreme. Längere und häufiger auftretende Trockenperioden, insbesondere im Frühjahr und Sommer, gehen mit einer zunehmenden Variabilität der Niederschläge einher. Häufigere Extremwetterereignisse, darunter Starkregen, Stürme und Hagel, erhöhen die Unsicherheit für die Landnutzung und die landwirtschaftliche Produktion. Insgesamt führen die abnehmende Wasserverfügbarkeit und die zunehmende Klimavariabilität zu einem wachsenden Druck auf das regionale Land- und Wassermanagement."
         },
         "economic": {
           "about": "Höhere Bevölkerungsdichte und Beschäftigungszahlen in der Nähe von Berlin; Pendlerströme vorwiegend von der Ostgrenze in Richtung Berlin; geringe Bevölkerungsdichte, alternde Bevölkerung und Abwanderung junger Menschen verringern das Angebot an Arbeitskräften. Beschäftigungsstruktur: Vorwiegend Dienstleistungen (Tourismus, Gesundheitswesen, Sozialwesen), gefolgt von verarbeitendem Gewerbe und Handwerk; die Landwirtschaft beschäftigt trotz großer Landflächen nur eine geringe Anzahl von Menschen. Wirtschaftszentren: Die Tesla-Gigafactory und der Flughafen Berlin-Brandenburg (LOS) ziehen Unternehmen an; der Großraum Berlin bietet Marktchancen. Wachstumstrends: Es wird mit einer Zunahme der gewerblichen Entwicklung und der Beschäftigung gerechnet. Tourismus: Getrieben durch Naturparks, Schutzgebiete und Kurorte.",
@@ -23,7 +23,7 @@
           "challenges": "Rückgang der Artenvielfalt in Agrarlandschaften (z. B. Austrocknung von Laichhabitaten für Amphibien). Landbesitz: Ein Großteil der landwirtschaftlichen Flächen befindet sich nicht im Besitz der Landwirte."
         },
         "soil": {
-          "about": "Es überwiegen sandige und lehmig-sandige Böden („Märkischer Sand“) mit geringer natürlicher Fruchtbarkeit. Müncheberger Bodenbewertung: Überwiegend sehr geringe bis geringe Bodenqualität (unter 50 Punkten); Böden mittlerer Qualität nur in bestimmten Auengebieten (z. B. im Oderbruch). Hohe räumliche Heterogenität der Bodenqualität innerhalb einzelner Felder aufgrund der glazialen Landschaftsbildung",
+          "about": "Überwiegend sandige und lehmig-sandige Böden mit geringer bis mittlerer natürlicher Fruchtbarkeit und begrenzter Wasserspeicherfähigkeit. Aufgrund der glazial geprägten Landschaft besteht eine starke räumliche Heterogenität der Bodenverhältnisse, wobei beispielsweise im Oderbruch fruchtbarere Böden vorkommen. Insgesamt ist die Bodenqualität eher gering; die Müncheberger Bodenbewertung liegt häufig unter 50 Punkten.",
           "challenges": ""
         }
       },
@@ -39,7 +39,7 @@
         },
         "climate": {
           "about": "Continuous warming trend observed since 1881: +1.3 °C increase in mean annual temperature to date. Short-term climate projections (2021–2050): Additional warming of +1.1 to +1.5 °C. Shift in climate extremes: More hot summer days, Fewer frost days, hail and storm, spring drought increases expected in eastern Brandenburg due to stronger continental influence",
-          "challenges": "High drought vulnerability due to limited soil water retention capability"
+          "challenges": "Increasing temperatures and more frequent heat extremes. Longer and more frequent periods of drought, particularly in spring and summer, combined with increasing variability in precipitation. More frequent extreme weather events, including heavy rainfall, storms and hail, increase uncertainty for land use and agricultural production. Overall, declining water availability and increasing climate variability create growing pressure on regional land and water management."
         },
         "economic": {
           "about": "Higher population density and employment near Berlin; commuter flows mainly from eastern border toward Berlin, Low population density, aging population, and outmigration of young people reduce workforce availability. Employment structure: Predominantly services (tourism, healthcare, social services), followed by manufacturing/trades; agriculture employs only a small number of people despite large land areas. Economic hubs: Tesla Gigafactory and Berlin-Brandenburg Airport (LOS) attract businesses; Berlin metro area provides market opportunities. Growth trends: Commercial development and employment expected to increase. Tourism: Driven by nature parks, protected areas, and spa towns.",
@@ -50,7 +50,7 @@
           "challenges": "Biodiversity decline in agricultural landscapes (e.g., drying of breeding habitats for amphibians). Land ownership: much farmland not owned by farmers."
         },
         "soil": {
-          "about": "Dominated by sandy and loamy-sandy soils ('Märkischer Sand') with low natural fertility. Müncheberger Soil Rating: Mostly very low to low soil quality (below 50 points); medium-quality soils only in specific floodplain regions (e.g., Oderbruch). High spatial heterogeneity of soil quality within single fields due to glacial landscape formation",
+          "about": "Predominantly sandy and loamy-sandy soils with low to moderate natural fertility and limited water-holding capacity. Strong spatial heterogeneity due to the glacial landscape, with more fertile soils in selected areas such as the Oderbruch. Generally low soil quality, with Müncheberger soil ratings often below 50 points.",
           "challenges": ""
         }
       },
@@ -304,8 +304,8 @@
           "en": "Continuous warming trend observed since 1881: +1.3 °C increase in mean annual temperature to date. Short-term climate projections (2021–2050): Additional warming of +1.1 to +1.5 °C. Shift in climate extremes: More hot summer days, Fewer frost days, hail and storm, spring drought increases expected in eastern Brandenburg due to stronger continental influence"
         },
         "challenges": {
-          "de": "Hohe Anfälligkeit für Dürre aufgrund der begrenzten Wasserrückhaltefähigkeit des Bodens.",
-          "en": "High drought vulnerability due to limited soil water retention capability"
+          "de": "Steigende Temperaturen und häufigere Hitzeextreme. Längere und häufiger auftretende Trockenperioden, insbesondere im Frühjahr und Sommer, gehen mit einer zunehmenden Variabilität der Niederschläge einher. Häufigere Extremwetterereignisse, darunter Starkregen, Stürme und Hagel, erhöhen die Unsicherheit für die Landnutzung und die landwirtschaftliche Produktion. Insgesamt führen die abnehmende Wasserverfügbarkeit und die zunehmende Klimavariabilität zu einem wachsenden Druck auf das regionale Land- und Wassermanagement.",
+          "en": "Increasing temperatures and more frequent heat extremes. Longer and more frequent periods of drought, particularly in spring and summer, combined with increasing variability in precipitation. More frequent extreme weather events, including heavy rainfall, storms and hail, increase uncertainty for land use and agricultural production. Overall, declining water availability and increasing climate variability create growing pressure on regional land and water management."
         }
       },
       "economic": {
@@ -330,8 +330,8 @@
       },
       "soil": {
         "about": {
-          "de": "Es überwiegen sandige und lehmig-sandige Böden („Märkischer Sand“) mit geringer natürlicher Fruchtbarkeit. Müncheberger Bodenbewertung: Überwiegend sehr geringe bis geringe Bodenqualität (unter 50 Punkten); Böden mittlerer Qualität nur in bestimmten Auengebieten (z. B. im Oderbruch). Hohe räumliche Heterogenität der Bodenqualität innerhalb einzelner Felder aufgrund der glazialen Landschaftsbildung",
-          "en": "Dominated by sandy and loamy-sandy soils ('Märkischer Sand') with low natural fertility. Müncheberger Soil Rating: Mostly very low to low soil quality (below 50 points); medium-quality soils only in specific floodplain regions (e.g., Oderbruch). High spatial heterogeneity of soil quality within single fields due to glacial landscape formation"
+          "de": "Überwiegend sandige und lehmig-sandige Böden mit geringer bis mittlerer natürlicher Fruchtbarkeit und begrenzter Wasserspeicherfähigkeit. Aufgrund der glazial geprägten Landschaft besteht eine starke räumliche Heterogenität der Bodenverhältnisse, wobei beispielsweise im Oderbruch fruchtbarere Böden vorkommen. Insgesamt ist die Bodenqualität eher gering; die Müncheberger Bodenbewertung liegt häufig unter 50 Punkten.",
+          "en": "Predominantly sandy and loamy-sandy soils with low to moderate natural fertility and limited water-holding capacity. Strong spatial heterogeneity due to the glacial landscape, with more fertile soils in selected areas such as the Oderbruch. Generally low soil quality, with Müncheberger soil ratings often below 50 points."
         },
         "challenges": {
           "de": null,
@@ -351,12 +351,12 @@
     },
     "slug": "east-brandenburg"
   },
-  "havellandisches-luch": {
+  "havelland": {
     "color": "#00b3ad",
     "colorDark": "#005754",
     "contact": "Sebastian.Rogga@zalf.de",
     "de": {
-      "name": "Havelländisches Luch",
+      "name": "Havelland",
       "narrative": {
         "agriculture": {
           "about": "Landwirtschaft und Viehzucht prägen weite Teile des Havellands. Über 80 % der landwirtschaftlichen Nutzfläche werden von Betrieben bewirtschaftet, die jeweils mehr als 100 ha Ackerland besitzen. Kleinbetriebe machen lediglich 3,6 % der Fläche aus. Aufgrund des hohen Grünlandanteils in der Region sind Rinder-, Pferde- und Schafzucht von besonderer Bedeutung. Es wird eine große Vielfalt an Kulturpflanzen angebaut, von Roggen und Gerste bis hin zu Mais, Kartoffeln, hochwertigem Weizen und Rüben. Teile der Havelländischen Luch sind aufgrund ihrer Nähe zum Grundwasser zudem für den Ackerbau attraktiv.",
@@ -364,26 +364,26 @@
         },
         "climate": {
           "about": "Der Landkreis Havelland wird nach wie vor als Teil der nordostdeutschen Tiefebene angesehen, die von maritimen Einflüssen geprägt ist. Die Sommer sind relativ warm, und die Niederschlagsmengen im Sommer liegen mit 250–350 mm etwas höher als im Rest des Jahres. Im Winter, der im Durchschnitt als mild bis mäßig kalt einzustufen ist, gibt es mehr Tage mit Niederschlag als im Sommer, allerdings bei geringeren Gesamtniederschlagsmengen.",
-          "challenges": "Aufgrund der zunehmenden Verdunstung verschlechtert sich der klimatische Wasserhaushalt im betrachteten Gebiet insgesamt. Dies macht sich insbesondere im Sommer bemerkbar und ist eine Entwicklung, die in Zukunft zunehmend an Bedeutung gewinnen wird."
+          "challenges": "Aufgrund der zunehmenden Verdunstung verschlechtert sich der klimatische Wasserhaushalt im betrachteten Gebiet insgesamt. Dies macht sich insbesondere im Sommer bemerkbar und ist eine Entwicklung, die in Zukunft zunehmend an Bedeutung gewinnen wird. Die Jahresniederschläge verteilen sich auch im Havelland immer stärker auf Starkregenereignisse, die von immer längeren Dürreperioden unterbrochen werden."
         },
         "economic": {
           "about": "Die sozioökonomische Lage der Region Havelland wird stark durch ihre Nähe zu Berlin geprägt, wobei sich der östliche Teil der Region, der in der Nähe der Hauptstadt liegt, deutlich vom ländlichen westlichen Teil unterscheidet. Die Bevölkerungs- und Bebauungsdichte ist im Osten wesentlich höher. Die Städte Falkensee und Nauen, die in der Nähe von Berlin liegen, sind in den letzten Jahren rasant gewachsen, und der Landkreis gehört hinsichtlich der positiven Wanderungsbilanz zu den 15 führenden in Deutschland. Auch die meisten Industrieunternehmen (insbesondere im Logistiksektor) sind im Osten des Kreises angesiedelt. Die Bedeutung des Tourismus (insbesondere des Wassertourismus) hat in letzter Zeit zugenommen. Die Arbeitslosenquote ist im Vergleich zum Rest des Landes relativ niedrig. Die Haushaltseinkommen gehören jedoch zu den niedrigsten in Deutschland.",
-          "challenges": ""
+          "challenges": "Die Landwirtschaft im Havelland steckt in einem Strukturwandel. Die traditionelle extensive Grünlandbewirtschaftung der Region mit ihren Viehbeständen, befindet sich in einer Degressionsphase. Neue, lukrative Geschäftsmodelle für die Bewirtschaftung von Feuchtwiesen werden gesucht. Für die zum Teil sehr großen Betriebseinheiten aus DDR-Zeit werden zeitnah Nachfolger gebraucht. Die Marktvorteile der nahen Metropolregion Berlin für mehr regionale Produktion und Absatz werden noch nicht voll ausgeschöpft."
         },
         "landscape": {
-          "about": "",
-          "challenges": ""
+          "about": "Ausgedehnte Urstromtalungen bestimmen das Landschaftsbild im Havelland. Inselartig ragen daraus Platten hervor (z.B. die Nauener Platte), die meistens Grundmoränen tragen. Ausgedehnten Wiesen in den Niederungen stehen Acker und Waldbestand auf den Hochgebieten (sog. „Ländchen“) gegenüber. Das mosaikartige Nebeneinander von Hochflächen mit Inselcharakter und ausgedehnten Niederungszügen bestimmen den Charakter dieses Naturraumes. Die meist flachwelligen Inseln heben sich deutlich von den sie umgebenden Niederungen ab.",
+          "challenges": "Die zum Teil aus der DDR-Zeit herrührenden Betriebsformen im Havelland haben zu der Entwicklung zum Teil sehr großer landwirtschaftlicher Schläge geführt, die tendenziell die Ausprägung von Monokulturen begleiten und die Resilienz von Landschaften schwächen. Aus Resilienzperspektive wäre eine stärkere Strukturierung der Landschaft anzustreben. Die Infrastrukturen zur Regulierung der Landschaftswasserstände sind vielerorts nicht intakt."
         },
         "soil": {
-          "about": "Havelland gehört zur norddeutschen Tiefebene und verfügt über sandige Schwemmlandböden. Die Qualität der Ackerböden nimmt von Westen nach Osten zu.",
-          "challenges": ""
+          "about": "Havelland gehört zur norddeutschen Tiefebene und verfügt über sandige Schwemmlandböden. Die Qualität der Ackerböden nimmt von Westen nach Osten zu. Das Havelland verfügt noch über ca. 28.000ha an Moorböden. Die Nitratbelastung der Böden ist im deutschlandweiten Vergleich eher gering.",
+          "challenges": "Die Böden der Ackerbaustandorte im Havelland sind wie in anderen deutschen Region auch von Degradation betroffen. Die Moorböden wurden durch die jahrzehntelange Entwässerung der Landschaften vielerorts irreversibel abgebaut."
         }
       },
       "tagline": "Klimaschutz und Grünlandnutzung in Niedermoorregionen"
     },
     "destatisRetrievedAt": "2026-08-17",
     "en": {
-      "name": "Havelländisches Luch",
+      "name": "Havelland",
       "narrative": {
         "agriculture": {
           "about": "Agriculture and livestock farming characterise large areas of the Havelland region. Over 80% of agricultural land is farmed by businesses, who own more than 100 ha farmland each. Small businesses account for just 3.6% of the area. Due to the high proportion of grassland in the region, cattle, horse and sheep farming are particularly important. A wide variety of crops are grown, from rye and barley to maize, potatoes, high-quality wheat and beet. Parts of the Havelländische Luch are also attractive for arable farming due to their proximity to groundwater.",
@@ -391,24 +391,24 @@
         },
         "climate": {
           "about": "The Havelland district is still considered part of the North-East German lowlands, with influences of maritime climates. Summers are relatively warm, and summer precipitation levels of 250-350 mm are slightly higher than during the rest of the year. In winter, which can be considered mild to moderately cold on average, there are more days with precipitation than in summer, but with lower total precipitation levels.",
-          "challenges": "Due to increasing evaporation, the climatic water balance in the area under consideration is generally deteriorating. This is particularly evident in summer and is a development that will become increasingly significant in the future."
+          "challenges": "Due to increasing evaporation, the climatic water balance in the area under consideration is generally deteriorating. This is particularly evident in summer and is a development that will become increasingly significant in the future. In the Havelland region, too, annual precipitation is increasingly concentrated in heavy rain events, which are interrupted by ever-longer periods of drought."
         },
         "economic": {
           "about": "The socio-economic situation of the Havelland region is strongly influenced by its proximity to Berlin, with the eastern part of the region, which is close to the city, differing significantly from the rural western part. The population and building density is much higher in the east. The towns of Falkensee and Nauen, which are close to Berlin, have grown rapidly in recent years, and the district is among the top 15 in Germany in terms of positive net migration. Most industrial companies (especially in the logistics sector) are also located in the east of the district. The importance of tourism (especially water tourism) has increased recently. The unemployment rate is relatively low compared to the rest of the state. However, household incomes are among the lowest in Germany.",
-          "challenges": ""
+          "challenges": "Agriculture in the Havelland region is undergoing structural change. The region’s traditional extensive grassland farming, with its livestock herds, is in a phase of decline. New, lucrative business models for managing wet meadows are being sought. Successors are urgently needed for the farm operations—some of which are very large—that date back to the GDR era. The market advantages offered by the nearby Berlin metropolitan region for increased regional production and sales are not yet being fully exploited."
         },
         "landscape": {
-          "about": "",
-          "challenges": ""
+          "about": "Extensive glacial valleys dominate the landscape of the Havelland. Plateaus (such as the Nauener Plateau) rise from these valleys like islands, most of which are topped by ground moraines. Extensive meadows in the lowlands contrast with farmland and forests on the higher elevations (so-called “Ländchen”). The mosaic-like juxtaposition of island-like plateaus and extensive lowland stretches defines the character of this natural region. The mostly gently undulating plateaus stand out clearly from the surrounding lowlands.",
+          "challenges": "The farms in the Havelland region—some of which date back to the GDR era—have led to the development of large-scale field units; these tend to go hand in hand with the emergence of monocultures and weaken the resilience of landscapes. From a resilience perspective, greater landscape structuring should be pursued. In many places, the infrastructure for regulating water levels in the landscape is not intact."
         },
         "soil": {
-          "about": "Havelland is classified as part of the North German inland lowlands and has sandy, diluvial soils. The quality of the arable soil increases from west to east.",
-          "challenges": ""
+          "about": "Havelland is classified as part of the North German inland lowlands and has sandy, diluvial soils. The quality of the arable soil increases from west to east. The Havelland region still has approximately 28,000 hectares of peatland. Compared to the rest of Germany, nitrate contamination of the soil is relatively low.",
+          "challenges": "As in other German regions, the soils of the agricultural areas in the Havelland are also affected by degradation. In many places, the peat soils have been irreversibly degraded as a result of decades of landscape drainage."
         }
       },
       "tagline": "Climate protection and grassland use in fenland regions"
     },
-    "icon": "havellandisches-luch",
+    "icon": "havelland",
     "kpiByTab": {
       "agriculture": [
         {
@@ -656,8 +656,8 @@
           "en": "The Havelland district is still considered part of the North-East German lowlands, with influences of maritime climates. Summers are relatively warm, and summer precipitation levels of 250-350 mm are slightly higher than during the rest of the year. In winter, which can be considered mild to moderately cold on average, there are more days with precipitation than in summer, but with lower total precipitation levels."
         },
         "challenges": {
-          "de": "Aufgrund der zunehmenden Verdunstung verschlechtert sich der klimatische Wasserhaushalt im betrachteten Gebiet insgesamt. Dies macht sich insbesondere im Sommer bemerkbar und ist eine Entwicklung, die in Zukunft zunehmend an Bedeutung gewinnen wird.",
-          "en": "Due to increasing evaporation, the climatic water balance in the area under consideration is generally deteriorating. This is particularly evident in summer and is a development that will become increasingly significant in the future."
+          "de": "Aufgrund der zunehmenden Verdunstung verschlechtert sich der klimatische Wasserhaushalt im betrachteten Gebiet insgesamt. Dies macht sich insbesondere im Sommer bemerkbar und ist eine Entwicklung, die in Zukunft zunehmend an Bedeutung gewinnen wird. Die Jahresniederschläge verteilen sich auch im Havelland immer stärker auf Starkregenereignisse, die von immer längeren Dürreperioden unterbrochen werden.",
+          "en": "Due to increasing evaporation, the climatic water balance in the area under consideration is generally deteriorating. This is particularly evident in summer and is a development that will become increasingly significant in the future. In the Havelland region, too, annual precipitation is increasingly concentrated in heavy rain events, which are interrupted by ever-longer periods of drought."
         }
       },
       "economic": {
@@ -666,28 +666,28 @@
           "en": "The socio-economic situation of the Havelland region is strongly influenced by its proximity to Berlin, with the eastern part of the region, which is close to the city, differing significantly from the rural western part. The population and building density is much higher in the east. The towns of Falkensee and Nauen, which are close to Berlin, have grown rapidly in recent years, and the district is among the top 15 in Germany in terms of positive net migration. Most industrial companies (especially in the logistics sector) are also located in the east of the district. The importance of tourism (especially water tourism) has increased recently. The unemployment rate is relatively low compared to the rest of the state. However, household incomes are among the lowest in Germany."
         },
         "challenges": {
-          "de": null,
-          "en": null
+          "de": "Die Landwirtschaft im Havelland steckt in einem Strukturwandel. Die traditionelle extensive Grünlandbewirtschaftung der Region mit ihren Viehbeständen, befindet sich in einer Degressionsphase. Neue, lukrative Geschäftsmodelle für die Bewirtschaftung von Feuchtwiesen werden gesucht. Für die zum Teil sehr großen Betriebseinheiten aus DDR-Zeit werden zeitnah Nachfolger gebraucht. Die Marktvorteile der nahen Metropolregion Berlin für mehr regionale Produktion und Absatz werden noch nicht voll ausgeschöpft.",
+          "en": "Agriculture in the Havelland region is undergoing structural change. The region’s traditional extensive grassland farming, with its livestock herds, is in a phase of decline. New, lucrative business models for managing wet meadows are being sought. Successors are urgently needed for the farm operations—some of which are very large—that date back to the GDR era. The market advantages offered by the nearby Berlin metropolitan region for increased regional production and sales are not yet being fully exploited."
         }
       },
       "landscape": {
         "about": {
-          "de": null,
-          "en": null
+          "de": "Ausgedehnte Urstromtalungen bestimmen das Landschaftsbild im Havelland. Inselartig ragen daraus Platten hervor (z.B. die Nauener Platte), die meistens Grundmoränen tragen. Ausgedehnten Wiesen in den Niederungen stehen Acker und Waldbestand auf den Hochgebieten (sog. „Ländchen“) gegenüber. Das mosaikartige Nebeneinander von Hochflächen mit Inselcharakter und ausgedehnten Niederungszügen bestimmen den Charakter dieses Naturraumes. Die meist flachwelligen Inseln heben sich deutlich von den sie umgebenden Niederungen ab.",
+          "en": "Extensive glacial valleys dominate the landscape of the Havelland. Plateaus (such as the Nauener Plateau) rise from these valleys like islands, most of which are topped by ground moraines. Extensive meadows in the lowlands contrast with farmland and forests on the higher elevations (so-called “Ländchen”). The mosaic-like juxtaposition of island-like plateaus and extensive lowland stretches defines the character of this natural region. The mostly gently undulating plateaus stand out clearly from the surrounding lowlands."
         },
         "challenges": {
-          "de": null,
-          "en": null
+          "de": "Die zum Teil aus der DDR-Zeit herrührenden Betriebsformen im Havelland haben zu der Entwicklung zum Teil sehr großer landwirtschaftlicher Schläge geführt, die tendenziell die Ausprägung von Monokulturen begleiten und die Resilienz von Landschaften schwächen. Aus Resilienzperspektive wäre eine stärkere Strukturierung der Landschaft anzustreben. Die Infrastrukturen zur Regulierung der Landschaftswasserstände sind vielerorts nicht intakt.",
+          "en": "The farms in the Havelland region—some of which date back to the GDR era—have led to the development of large-scale field units; these tend to go hand in hand with the emergence of monocultures and weaken the resilience of landscapes. From a resilience perspective, greater landscape structuring should be pursued. In many places, the infrastructure for regulating water levels in the landscape is not intact."
         }
       },
       "soil": {
         "about": {
-          "de": "Havelland gehört zur norddeutschen Tiefebene und verfügt über sandige Schwemmlandböden. Die Qualität der Ackerböden nimmt von Westen nach Osten zu.",
-          "en": "Havelland is classified as part of the North German inland lowlands and has sandy, diluvial soils. The quality of the arable soil increases from west to east."
+          "de": "Havelland gehört zur norddeutschen Tiefebene und verfügt über sandige Schwemmlandböden. Die Qualität der Ackerböden nimmt von Westen nach Osten zu. Das Havelland verfügt noch über ca. 28.000ha an Moorböden. Die Nitratbelastung der Böden ist im deutschlandweiten Vergleich eher gering.",
+          "en": "Havelland is classified as part of the North German inland lowlands and has sandy, diluvial soils. The quality of the arable soil increases from west to east. The Havelland region still has approximately 28,000 hectares of peatland. Compared to the rest of Germany, nitrate contamination of the soil is relatively low."
         },
         "challenges": {
-          "de": null,
-          "en": null
+          "de": "Die Böden der Ackerbaustandorte im Havelland sind wie in anderen deutschen Region auch von Degradation betroffen. Die Moorböden wurden durch die jahrzehntelange Entwässerung der Landschaften vielerorts irreversibel abgebaut.",
+          "en": "As in other German regions, the soils of the agricultural areas in the Havelland are also affected by degradation. In many places, the peat soils have been irreversibly degraded as a result of decades of landscape drainage."
         }
       }
     },
@@ -701,7 +701,7 @@
       "de": "Brandenburg",
       "en": "Brandenburg"
     },
-    "slug": "havellandisches-luch"
+    "slug": "havelland"
   },
   "hessian-low-mountain": {
     "color": "#5ec597",
@@ -715,20 +715,20 @@
           "challenges": "Futtermittelproduktion problematisch (Boden für den Anbau ungeeignet), daher vorwiegend Grünlandwirtschaft. Rückgang in der Milchviehhaltung (-6 % Milchkühe, -14 % Betriebe). Konkurrenz um Flächen durch die Energieerzeugung (Windkraft, Photovoltaik)."
         },
         "climate": {
-          "about": "Der vorherrschenden Windrichtung ausgesetzt, Hangniederschläge, niedrigere Temperaturen im Vergleich zur Ebene.",
-          "challenges": ""
+          "about": "Bei Ausrichtung der Mittelgebirge zur Hauptwindrichtung sind stark ausgeprägte Steigungsregen - im Windschatten der Gebirge geringere Niederschläge zu erwarten. Es herschen niedrigere Temperaturen im Vergleich zur Ebene vor. Die Schneebedeckung im Winter ist höher und dauert länger an als in den Niederungen.",
+          "challenges": "Auch in den Mittelgebirgen werden häufiger Starkregenereignissen und eine höhere Anzahl von Hitzetagen verzeichnet. Dies kann sich schädlich auf die Futterproduktion auswirken."
         },
         "economic": {
           "about": "Randgebiete – große Entfernungen zu regionalen Zentren. Bevölkerungsstruktur: Rückgang, Überalterung. Vergleichsweise geringes verfügbares Haushaltseinkommen.",
           "challenges": "Die Absatzmärkte für Produkte (Milch, Fleisch usw.) liegen weit entfernt, es gibt weniger Möglichkeiten für den Direktvertrieb, und die Entfernungen zu Schlachthöfen und Verarbeitungsbetrieben sind groß. Es herrscht Arbeitskräftemangel aufgrund von Abwanderung und einer alternden Bevölkerung."
         },
         "landscape": {
-          "about": "Niedriggebirgsregionen in 400–1000 m Höhe mit hoher Reliefenergie.",
-          "challenges": ""
+          "about": "Mittelgebirgsregionen in 400–1000 m Höhe mit hoher Reliefenergie. Strukturreiche Landschaft durch Hecken und Säume. Kleinteiliger Wechsel von Grünland und Äckern. Die Beibehaltung der Grünlandwirtschaft ist abhängig von der Anzahl der viehhaltenden Betrieben.",
+          "challenges": "Periphere Räume sind einem hohen Druck durch die Errichtung von Windenergie- und Photovoltaikanlagen ausgesetzt. Große Flächenanteile sind durch Naturschutzrechtliche Auflagen (z.B. Natura 2000) in der Nutzung eingeschränkt. Der Rückgang von Haupt- und v.a. Nebenerwerbslandwirten wird eine Änderung des Landschaftsbildes hin zu einheitlicheren Strukturen zur Folge haben."
         },
         "soil": {
           "about": "Die Bodenarten sind sehr unterschiedlich: podzolische Braunböden mit geringer Basensättigung, roter Sandstein, Braunböden mit hoher bis mittlerer Basensättigung, Pseudogley, Parabraunböden aus Löss mit hoher Basensättigung, Rendzina auf kalkhaltigen Standorten (lokal begrenzt).",
-          "challenges": "Bodenerosion bei starken Regenfällen."
+          "challenges": "Bodenerosion bei Starkregenereignissen. Lokal flachgründige, nicht ackerfähige Böden."
         }
       },
       "tagline": "Integrierte Pflanze-Tier-Agrarsysteme"
@@ -742,20 +742,20 @@
           "challenges": "Feed production problematic (soil unsuitable for cultivation), therefore predominantly grassland farming. Decline in dairy farming (-6% dairy cows, -14% farms). Competition for land with energy production (wind power, photovoltaics)"
         },
         "climate": {
-          "about": "Exposed to the prevailing wind direction, slope rainfall, lower temperatures compared to the plains.",
-          "challenges": ""
+          "about": "Where low mountain ranges are aligned with the prevailing wind direction, heavy orographic rainfall is to be expected, whilst precipitation is lower in the lee of the mountains. Temperatures are lower here than on the plains. Snow cover in winter is deeper and lasts longer than in the lowlands.",
+          "challenges": "In the low mountain ranges, heavy rainfall events are becoming more frequent and there are a greater number of hot days. This can have a detrimental effect on forage production."
         },
         "economic": {
           "about": "Peripheral areas – long distances to regional centres. Population structure: decline, ageing. Comparatively low disposable household income.",
           "challenges": "Sales market for products (milk, meat, etc.) located far away, lower direct marketing opportunities, Long distances to slaughterhouses and processing companies. Shortage of workers due to migration and ageing population."
         },
         "landscape": {
-          "about": "Low mountain regions 400-1000 m altitude with high relief energy.",
-          "challenges": ""
+          "about": "Low mountain regions 400-1000 m altitude with high relief energy. The agricultural landscape is characterised by hedgerows and field margins and a patchwork of grassland and arable fields. The continuation of grassland farming depends on the maintanance of cattle farms.",
+          "challenges": "Peripheral areas are under considerable pressure due to the construction of wind farms and solar power plants. The use of large areas of land is restricted by nature conservation legislation (e.g. Natura 2000). The decline in the number of full-time and, in particular, part-time farmers will result in a change to the landscape, leading to more uniform structures."
         },
         "soil": {
           "about": "Soil types are highly variable: Podzolic brown soils with low base saturation, red sandstone, brown soils with high to medium base saturation, pseudogley, parabraun soils from loess with high base saturation, rendzina on calcareous sites (locally limited).",
-          "challenges": "Soil erosion during heavy rainfall"
+          "challenges": "Soil erosion during heavy rainfall, locally shallow non arable soils"
         }
       },
       "tagline": "Integrated plant-animal agricultural systems"
@@ -1004,12 +1004,12 @@
       },
       "climate": {
         "about": {
-          "de": "Der vorherrschenden Windrichtung ausgesetzt, Hangniederschläge, niedrigere Temperaturen im Vergleich zur Ebene.",
-          "en": "Exposed to the prevailing wind direction, slope rainfall, lower temperatures compared to the plains."
+          "de": "Bei Ausrichtung der Mittelgebirge zur Hauptwindrichtung sind stark ausgeprägte Steigungsregen - im Windschatten der Gebirge geringere Niederschläge zu erwarten. Es herschen niedrigere Temperaturen im Vergleich zur Ebene vor. Die Schneebedeckung im Winter ist höher und dauert länger an als in den Niederungen.",
+          "en": "Where low mountain ranges are aligned with the prevailing wind direction, heavy orographic rainfall is to be expected, whilst precipitation is lower in the lee of the mountains. Temperatures are lower here than on the plains. Snow cover in winter is deeper and lasts longer than in the lowlands."
         },
         "challenges": {
-          "de": null,
-          "en": null
+          "de": "Auch in den Mittelgebirgen werden häufiger Starkregenereignissen und eine höhere Anzahl von Hitzetagen verzeichnet. Dies kann sich schädlich auf die Futterproduktion auswirken.",
+          "en": "In the low mountain ranges, heavy rainfall events are becoming more frequent and there are a greater number of hot days. This can have a detrimental effect on forage production."
         }
       },
       "economic": {
@@ -1024,12 +1024,12 @@
       },
       "landscape": {
         "about": {
-          "de": "Niedriggebirgsregionen in 400–1000 m Höhe mit hoher Reliefenergie.",
-          "en": "Low mountain regions 400-1000 m altitude with high relief energy."
+          "de": "Mittelgebirgsregionen in 400–1000 m Höhe mit hoher Reliefenergie. Strukturreiche Landschaft durch Hecken und Säume. Kleinteiliger Wechsel von Grünland und Äckern. Die Beibehaltung der Grünlandwirtschaft ist abhängig von der Anzahl der viehhaltenden Betrieben.",
+          "en": "Low mountain regions 400-1000 m altitude with high relief energy. The agricultural landscape is characterised by hedgerows and field margins and a patchwork of grassland and arable fields. The continuation of grassland farming depends on the maintanance of cattle farms."
         },
         "challenges": {
-          "de": null,
-          "en": null
+          "de": "Periphere Räume sind einem hohen Druck durch die Errichtung von Windenergie- und Photovoltaikanlagen ausgesetzt. Große Flächenanteile sind durch Naturschutzrechtliche Auflagen (z.B. Natura 2000) in der Nutzung eingeschränkt. Der Rückgang von Haupt- und v.a. Nebenerwerbslandwirten wird eine Änderung des Landschaftsbildes hin zu einheitlicheren Strukturen zur Folge haben.",
+          "en": "Peripheral areas are under considerable pressure due to the construction of wind farms and solar power plants. The use of large areas of land is restricted by nature conservation legislation (e.g. Natura 2000). The decline in the number of full-time and, in particular, part-time farmers will result in a change to the landscape, leading to more uniform structures."
         }
       },
       "soil": {
@@ -1038,8 +1038,8 @@
           "en": "Soil types are highly variable: Podzolic brown soils with low base saturation, red sandstone, brown soils with high to medium base saturation, pseudogley, parabraun soils from loess with high base saturation, rendzina on calcareous sites (locally limited)."
         },
         "challenges": {
-          "de": "Bodenerosion bei starken Regenfällen.",
-          "en": "Soil erosion during heavy rainfall"
+          "de": "Bodenerosion bei Starkregenereignissen. Lokal flachgründige, nicht ackerfähige Böden.",
+          "en": "Soil erosion during heavy rainfall, locally shallow non arable soils"
         }
       }
     },
@@ -1418,23 +1418,23 @@
       "name": "Rheingau",
       "narrative": {
         "agriculture": {
-          "about": "Der Weinbau prägt die Region: Rund 2.700 ha Rebfläche machen 14 % der landwirtschaftlichen Nutzfläche des Kreises aus, davon etwa 85 % Riesling und 11 % Spätburgunder, bewirtschaftet von rund 280 Haupterwerbswinzern – überwiegend kleine Familienbetriebe neben historischen Einrichtungen wie Kloster Eberbach. Ackerland nimmt 55 % und Dauergrünland 31 % der rund 19.700 ha ein, die von etwa 620 Betrieben bewirtschaftet werden. Außerhalb der Weinberge sind Getreidebau, Schweinemast und Pensionspferdehaltung die wichtigsten Betriebszweige; rund 13 % der Betriebe wirtschaften ökologisch.",
-          "challenges": "Der deutsche Weinbau steckt in einer strukturellen Absatzkrise: Die Fassweinpreise liegen unter den Produktionskosten, die Nachfrage nach alkoholischen Getränken geht seit Jahren zurück, und Handelshemmnisse erschweren den Export. Der Steillagenweinbau ist sehr arbeitsintensiv und qualifizierte Saisonkräfte sind schwer zu finden, sodass steigende Löhne, Energiekosten und bürokratische Auflagen dort am stärksten wirken, wo der Landschaftswert am größten ist. Spätfrost, Hagel, Starkregen und Trockenheit erhöhen das Risiko jedes Jahrgangs, und die dichten Trauben des Rieslings bleiben anfällig für Pilzkrankheiten und Schädlinge. Kleine, stark parzellierte Betriebe erschweren Mechanisierung und Hofnachfolge."
+          "about": "Der Rheingau ist vom Weinbau geprägt, bekannt für die weiße Sorte Riesling sowie Spätburgunder bei den roten Sorten. Zum großen Teil sind es kleine Familienbetriebe, die die Weinberge bewirtschaften, neben historischen Einrichtungen wie Kloster Eberbach.",
+          "challenges": "Der (deutsche) Weinbau steckt in einer strukturellen Absatzkrise: Die Fassweinpreise liegen unter den Produktionskosten, die Nachfrage nach alkoholischen Getränken geht seit Jahren zurück, und Handelshemmnisse erschweren den Export. Der Steillagenweinbau ist sehr arbeitsintensiv und qualifizierte Saisonkräfte sind schwer zu finden, sodass steigende Löhne, Energiekosten und bürokratische Auflagen dort am stärksten wirken, wo der Landschaftswert am größten ist. Kleine, stark parzellierte Betriebe erschweren Mechanisierung und Hofnachfolge."
         },
         "climate": {
-          "about": "Nach Norden durch den Taunuskamm vor kühlen Winden geschützt und vom Rhein begünstigt, der Wärme speichert und Licht auf die südexponierten Hänge reflektiert, zählt der Rheingau zu den mildesten Regionen Deutschlands: Die Jahresmitteltemperatur liegt bei rund 10,5 °C; milde Winter, warme Sommer und Herbstnebel begünstigen eine späte Traubenreife. Mit etwa 500–550 mm Jahresniederschlag ist die Region für deutsche Verhältnisse niederschlagsarm. Die Jahresmitteltemperatur in Hessen stieg von 8,2 °C (1961–1990) auf 9,3 °C (1991–2020); das Rhein-Main-Gebiet gehört zu den wärmsten Landesteilen.",
-          "challenges": "Die Erwärmung bringt den Riesling an seine Komfortgrenze: früherer Austrieb und frühere Reife, höhere Zucker- und Alkoholgehalte sowie sinkende Säure gefährden den filigranen Stil, für den die Region bekannt ist. Der frühere Austrieb erhöht zugleich das Spätfrostrisiko, und mehr heiße Tage führen zu Sonnenbrand an den Trauben. Das Klima verschiebt sich hin zu einem Wechsel aus längeren Trockenperioden und Starkregen, sodass sich die klimatische Wasserbilanz im Sommer verschlechtert und der Bewässerungsbedarf auf den flachgründigen Hangböden steigt."
+          "about": "Nach Norden durch den Taunuskamm vor kühlen Winden geschützt und vom Rhein begünstigt, der Wärme speichert und Licht auf die südexponierten Hänge reflektiert. Der Rheingau zählt zu den mildesten und niederschlagsärmsten Regionen Deutschlands.",
+          "challenges": "Die Erwärmung bringt einen früheren Austrieb und frühere Reife, höhere Zucker- und Alkoholgehalte sowie sinkende Säure gefährden den filigranen Stil, für den die Region bekannt ist. Der frühere Austrieb erhöht zugleich das Spätfrostrisiko, und mehr heiße Tage führen zu Sonnenbrand an den Trauben. Die Zunahme von Niederschlags Extremen (Dürre und Starkregen) führt in einem Jahr zu Trockenstress und im anderen Jahr zu hohem Pilzdruck."
         },
         "economic": {
-          "about": "Im Kreis leben rund 185.700 Menschen bei einer Bevölkerungsdichte von 113 Einwohnern je km², am nordwestlichen Rand der Metropolregion Frankfurt/Rhein-Main. Die Wirtschaft ist mittelständisch geprägt, mit High-Tech-Betrieben in der Informations- und Kommunikationstechnik, Sensorik, Mess- und Regeltechnik sowie Medizin-, Oberflächen- und Umwelttechnik; rund 46.000 sozialversicherungspflichtig Beschäftigte am Arbeitsort und etwa 8.000 Unternehmen stehen einem Auspendlerüberschuss gegenüber, vor allem in Richtung Wiesbaden, Mainz und Frankfurt. Wein und Tourismus sind die prägenden Branchen: rund 240.000 Gästeankünfte und 701.000 Übernachtungen (2021) sowie starke Tagesgästeströme, angezogen von Riesling, Rheinromantik und Veranstaltungen wie dem Rheingau Musik Festival.",
-          "challenges": "Ganze Ortschaften hängen wirtschaftlich, sozial und kulturell am Wein: Verschwinden die Betriebe, bleiben nicht nur verbuschte Hänge, sondern auch leere Dörfer, geschlossene Straußwirtschaften und ein geschwächtes touristisches Angebot. Sinkende Weinpreise und steigende Kosten drücken die Margen, und die Betriebe konkurrieren mit dem weit größeren Arbeitsmarkt Rhein-Main um Fachkräfte, was zugleich Boden- und Wohnkosten treibt. Der Tourismus ist stark saison- und witterungsabhängig, und die peripheren Gemeinden im Taunus und in den Wispertälern liegen deutlich weiter von Zentren und Versorgungseinrichtungen entfernt als die Orte entlang der Rheinachse."
+          "about": "Die Wirtschaft ist mittelständisch geprägt, mit High-Tech-Betrieben in der Informations- und Kommunikationstechnik, Sensorik, Mess- und Regeltechnik sowie Medizin-, Oberflächen- und Umwelttechnik. Pendler vor allem in Richtung Wiesbaden, Mainz und Frankfurt. Wein und Tourismus sind die prägenden Branchen, es gibt starke Tagesgästeströme im Sommer, angezogen von Riesling, Rheinromantik und Veranstaltungen wie dem Rheingau Musik Festival.",
+          "challenges": "Ganze Ortschaften hängen wirtschaftlich, sozial und kulturell am Wein: Verschwinden die Betriebe, bleiben nicht nur verbuschte Hänge, sondern auch leere Dörfer, geschlossene Straußwirtschaften und ein geschwächtes touristisches Angebot. Sinkende Weinpreise und steigende Kosten drücken die Margen, und die Betriebe konkurrieren mit dem weit größeren Arbeitsmarkt Rhein-Main um Fachkräfte, was zugleich Boden- und Wohnkosten treibt."
         },
         "landscape": {
-          "about": "Ein west-östlich verlaufendes Band zwischen Rhein und Taunus mit südexponierten Hängen und Flussterrassen, auf denen Steillagen- und Terrassenweinbau unterhalb des bewaldeten Rheingaugebirges liegt. Der Waldanteil beträgt rund 56 % der Kreisfläche – deutlich über dem hessischen Durchschnitt –, und der etwa 21.000 ha große Hinterlandswald ist das größte zusammenhängende Waldgebiet Hessens. Der untere Rheingau von Rüdesheim bis Lorchhausen gehört zum UNESCO-Welterbe „Oberes Mittelrheintal“; mit dem Limes liegt ein zweites Welterbe im Kreis. Der Naturpark Rhein-Taunus, die Täler von Wisper, Aar und Wörsbach, Klöster wie Eberbach und historische Weinorte ergänzen eine vielschichtige Kulturlandschaft.",
+          "about": "Ein west-östlich verlaufendes Band zwischen Rhein und Taunus mit südexponierten Hängen und Flussterrassen, auf denen Steillagen- und Terrassenweinbau unterhalb des bewaldeten Rheingaugebirges liegt. Der Waldanteil liegt deutlich über dem hessischen Durchschnitt. Der untere Rheingau von Rüdesheim bis Lorchhausen gehört zum UNESCO-Welterbe „Oberes Mittelrheintal“; mit dem Limes liegt ein zweites Welterbe im Kreis. Der Naturpark Rhein-Taunus, die Täler von Wisper, Aar und Wörsbach, Klöster wie Eberbach und historische Weinorte ergänzen eine vielschichtige Kulturlandschaft.",
           "challenges": "Steillagen und Terrassen lassen sich nur mit hohem Handarbeitsaufwand bewirtschaften; wird die Nutzung aufgegeben, gehen mit der Verbuschung sowohl die Terrassenkulturlandschaft als auch ihre trockenwarmen Lebensräume verloren. Denkmal- und Landschaftsschutz setzen neuer Infrastruktur enge Grenzen, während zugleich Flächen für erneuerbare Energien und Siedlungsentwicklung nachgefragt werden. Die kleinteilige Parzellierung erschwert die Flurneuordnung, und in den Wäldern zeigt sich zunehmender Trockenstress."
         },
         "soil": {
-          "about": "Die Böden wechseln auf kurzer Distanz. Tiefgründiger, fruchtbarer Löss und Lösslehm bedecken die flacheren Unterhänge und die Ebene am Rhein, Taunusquarzit prägt die höheren Lagen des mittleren und östlichen Rheingaus sowie den Raum Lorch, und Phyllit und Hunsrückschiefer tragen die Weinberge von Rüdesheim, Assmannshausen, Kiedrich, Martinsthal und Rauenthal. Unter der Lössdecke liegt meist schwach entkalkter Löss über tiefgründig verwittertem Phyllit-Saprolith. Die steinigen Hangböden sind flachgründig und speichern wenig Wasser, während die Lössböden der Ebene zu den ertragreichsten Ackerböden der Region zählen.",
+          "about": "Die Böden wechseln auf kurzer Distanz. Tiefgründiger, fruchtbarer Löss und Lösslehm bedecken die flacheren Unterhänge und die Ebene am Rhein, Taunusquarzit prägt die höheren Lagen des mittleren und östlichen Rheingaus sowie den Raum Lorch, und Phyllit und Hunsrückschiefer tragen die Weinberge von Rüdesheim, Assmannshausen, Kiedrich, Martinsthal und Rauenthal. Die steinigen Hangböden sind flachgründig und speichern wenig Wasser, während die Lössböden der Ebene zu den ertragreichsten Ackerböden der Region zählen.",
           "challenges": "Starkregen führt auf den Steillagen zu Bodenerosion, insbesondere bei Rebzeilen in der Falllinie und offen gehaltenem Boden. Wärmere Böden mineralisieren schneller, sodass Humus gerade dort verloren geht, wo er für Wasserspeicherung und Nährstoffversorgung am wichtigsten ist. Befahrung verdichtet die Böden, und Nährstoffausträge ins Grundwasser bleiben in den Dauerkulturgebieten ein Thema."
         }
       },
@@ -1445,23 +1445,23 @@
       "name": "Rheingau",
       "narrative": {
         "agriculture": {
-          "about": "Viticulture defines the region: around 2,700 ha of vines make up 14% of the district's agricultural area, roughly 85% Riesling and 11% Pinot Noir, worked by some 280 full-time growers — mostly small family estates alongside historic institutions such as Kloster Eberbach. Arable land accounts for 55% and permanent grassland for 31% of the roughly 19,700 ha farmed by about 620 holdings. Outside the vineyards the main branches are cereal-based arable farming, pig fattening and livery horse keeping; around 13% of farms are managed organically.",
-          "challenges": "German wine is in a structural market crisis: bulk wine prices have fallen below production costs, domestic demand for alcoholic drinks keeps declining, and trade barriers make exports harder. Steep-slope viticulture is highly labour-intensive and qualified seasonal workers are scarce, so rising wages, energy costs and regulatory burden bite hardest exactly where the landscape value is greatest. Late frost, hail, heavy rain and drought increase the risk of every vintage, and the dense clusters of Riesling remain vulnerable to fungal disease and pests. Small, fragmented holdings limit mechanisation and make succession increasingly uncertain."
+          "about": "The Rheingau region is defined by viticulture and is known for the white grape variety Riesling as well as Pinot noir among the red varieties. For the most part, it is small family-run businesses that cultivate the vineyards, alongside historic institutions such as Eberbach Abbey.",
+          "challenges": "(German) wine is in a structural market crisis: bulk wine prices have fallen below production costs, domestic demand for alcoholic drinks keeps declining, and trade barriers make exports harder. Steep-slope viticulture is highly labour-intensive and qualified seasonal workers are scarce, so rising wages, energy costs and regulatory burden bite hardest exactly where the landscape value is greatest. Small, fragmented holdings limit mechanisation and make succession increasingly uncertain."
         },
         "climate": {
-          "about": "Sheltered from northerly winds by the Taunus ridge and favoured by the Rhine, which stores heat and reflects light onto the south-facing slopes, the Rheingau is one of the mildest parts of Germany: an annual mean of about 10.5 °C, mild winters, warm summers and autumn mists that favour late ripening. With roughly 500–550 mm of annual precipitation it is dry by German standards. Hesse's annual mean temperature rose from 8.2 °C (1961–1990) to 9.3 °C (1991–2020), and the Rhine-Main area is among the warmest parts of the state.",
-          "challenges": "Warming is pushing Riesling towards its comfort limit: earlier budburst and ripening, higher sugar and alcohol levels and falling acidity threaten the filigree style the region is known for. Earlier budburst also raises exposure to late frost, while more hot days bring sunburn on the grapes. The climate is shifting towards an alternation of longer dry spells and heavy rainfall, so the climatic water balance deteriorates in summer and irrigation demand grows on the shallow slope soils."
+          "about": "Sheltered from northerly winds by the Taunus ridge and favoured by the Rhine, which stores heat and reflects light onto the south-facing slopes. The Rheingau is one of the mildest parts of Germany with low precipitation.",
+          "challenges": "Warming leads to an earlier budburst and ripening, higher sugar and alcohol levels and falling acidity threaten the filigree style the region is known for. Earlier budburst also raises exposure to late frost, while more hot days bring sunburn on the grapes. The increase of precipitation extremes (Drought and heavy rain) is leading in one year to drought stress and in the other to high disease pressure by fungi."
         },
         "economic": {
-          "about": "About 185,700 people live in the district at 113 inhabitants per km², on the north-western edge of the Frankfurt/Rhine-Main metropolitan region. The economy is dominated by small and medium-sized firms, including high-tech in information and communication technology, sensor and control engineering, medical, surface and environmental technology; some 46,000 jobs and 8,000 registered businesses stand against a net outflow of commuters, mainly towards Wiesbaden, Mainz and Frankfurt. Wine and tourism are the signature sectors: around 240,000 arrivals and 701,000 overnight stays (2021) plus strong day-visitor flows, drawn by Riesling, Rhine romanticism and events such as the Rheingau Musik Festival.",
-          "challenges": "Whole villages depend economically, socially and culturally on wine: if estates disappear, the result is not only scrubbed-over slopes but empty villages, closed wine taverns and a weakened tourism offer. Falling wine prices and rising costs squeeze margins, and businesses compete for skilled labour with the far larger Rhine-Main job market, which also drives up land and housing costs. Tourism is strongly seasonal and weather-dependent, and the peripheral communities in the Taunus and the Wisper valleys are much further from centres and services than the settlements along the Rhine axis."
+          "about": "The economy is dominated by small and medium-sized firms, including high-tech in information and communication technology, sensor and control engineering, medical, surface and environmental technology. Commuters, mainly towards Wiesbaden, Mainz and Frankfurt. Wine and tourism are the signature sectors, strong day-visitor flows, drawn by Riesling, Rhine romanticism and events such as the Rheingau Musik Festival.",
+          "challenges": "Whole villages depend economically, socially and culturally on wine: if estates disappear, the result is not only scrubbed-over slopes but empty villages, closed wine taverns and a weakened tourism offer. Falling wine prices and rising costs squeeze margins, and businesses compete for skilled labour with the far larger Rhine-Main job market, which also drives up land and housing costs."
         },
         "landscape": {
-          "about": "An east–west band between the Rhine and the Taunus, with south-facing slopes and river terraces carrying steep-slope and terraced vineyards below the wooded Rheingaugebirge. Forest covers about 56% of the district — well above the Hessian average — and the roughly 21,000 ha Hinterlandswald is the largest contiguous forest area in Hesse. The lower Rheingau from Rüdesheim to Lorchhausen belongs to the UNESCO World Heritage site 'Upper Middle Rhine Valley', with the Limes as a second World Heritage site in the district. The Rhein-Taunus Nature Park, the Wisper, Aar and Wörsbach valleys, monasteries such as Kloster Eberbach and historic wine villages complete a densely layered cultural landscape.",
+          "about": "An east–west band between the Rhine and the Taunus, with south-facing slopes and river terraces carrying steep-slope and terraced vineyards below the wooded Rheingaugebirge. Forest cover is well above the Hessian average. The lower Rheingau from Rüdesheim to Lorchhausen belongs to the UNESCO World Heritage site 'Upper Middle Rhine Valley', with the Limes as a second World Heritage site in the district. The Rhein-Taunus Nature Park, the Wisper, Aar and Wörsbach valleys, monasteries such as Kloster Eberbach and historic wine villages complete a densely layered cultural landscape.",
           "challenges": "Steep slopes and terraces can only be worked with high manual effort; where cultivation is abandoned, scrub encroachment erases both the terraced cultural landscape and the dry, warm habitats it carries. Heritage and scenic protection set narrow limits for new infrastructure, while land is simultaneously sought for renewable energy and settlement growth. Small, fragmented parcels make land consolidation difficult, and drought stress is increasingly visible in the forests."
         },
         "soil": {
-          "about": "Soils change over very short distances. Deep, fertile loess and loess loam cover the gentler lower slopes and the plain near the Rhine, Taunus quartzite dominates the higher sites of the central and eastern Rheingau and the Lorch area, and phyllite and Hunsrück slate carry the vineyards of Rüdesheim, Assmannshausen, Kiedrich, Martinsthal and Rauenthal. Beneath the loess cover, weakly leached loess typically overlies deeply weathered phyllite saprolite. The stony slope soils are shallow with low water storage capacity, while the loess soils of the plain are among the most productive arable soils in the region.",
+          "about": "Soils change over very short distances. Deep, fertile loess and loess loam cover the gentler lower slopes and the plain near the Rhine, Taunus quartzite dominates the higher sites of the central and eastern Rheingau and the Lorch area, and phyllite and Hunsrück slate carry the vineyards of Rüdesheim, Assmannshausen, Kiedrich, Martinsthal and Rauenthal. The stony slope soils are shallow with low water storage capacity, while the loess soils of the plain are among the most productive arable soils in the region.",
           "challenges": "Heavy rainfall causes soil erosion on the steep slopes, particularly where rows run downslope and the ground is kept bare. Warmer soils mineralise organic matter faster, so humus is lost just where it matters most for water retention and nutrient supply. Machinery traffic compacts the soil, and nutrient leaching into groundwater remains a concern in the permanent-crop areas."
         }
       },
@@ -1701,38 +1701,38 @@
     "narrativeByTab": {
       "agriculture": {
         "about": {
-          "de": "Der Weinbau prägt die Region: Rund 2.700 ha Rebfläche machen 14 % der landwirtschaftlichen Nutzfläche des Kreises aus, davon etwa 85 % Riesling und 11 % Spätburgunder, bewirtschaftet von rund 280 Haupterwerbswinzern – überwiegend kleine Familienbetriebe neben historischen Einrichtungen wie Kloster Eberbach. Ackerland nimmt 55 % und Dauergrünland 31 % der rund 19.700 ha ein, die von etwa 620 Betrieben bewirtschaftet werden. Außerhalb der Weinberge sind Getreidebau, Schweinemast und Pensionspferdehaltung die wichtigsten Betriebszweige; rund 13 % der Betriebe wirtschaften ökologisch.",
-          "en": "Viticulture defines the region: around 2,700 ha of vines make up 14% of the district's agricultural area, roughly 85% Riesling and 11% Pinot Noir, worked by some 280 full-time growers — mostly small family estates alongside historic institutions such as Kloster Eberbach. Arable land accounts for 55% and permanent grassland for 31% of the roughly 19,700 ha farmed by about 620 holdings. Outside the vineyards the main branches are cereal-based arable farming, pig fattening and livery horse keeping; around 13% of farms are managed organically."
+          "de": "Der Rheingau ist vom Weinbau geprägt, bekannt für die weiße Sorte Riesling sowie Spätburgunder bei den roten Sorten. Zum großen Teil sind es kleine Familienbetriebe, die die Weinberge bewirtschaften, neben historischen Einrichtungen wie Kloster Eberbach.",
+          "en": "The Rheingau region is defined by viticulture and is known for the white grape variety Riesling as well as Pinot noir among the red varieties. For the most part, it is small family-run businesses that cultivate the vineyards, alongside historic institutions such as Eberbach Abbey."
         },
         "challenges": {
-          "de": "Der deutsche Weinbau steckt in einer strukturellen Absatzkrise: Die Fassweinpreise liegen unter den Produktionskosten, die Nachfrage nach alkoholischen Getränken geht seit Jahren zurück, und Handelshemmnisse erschweren den Export. Der Steillagenweinbau ist sehr arbeitsintensiv und qualifizierte Saisonkräfte sind schwer zu finden, sodass steigende Löhne, Energiekosten und bürokratische Auflagen dort am stärksten wirken, wo der Landschaftswert am größten ist. Spätfrost, Hagel, Starkregen und Trockenheit erhöhen das Risiko jedes Jahrgangs, und die dichten Trauben des Rieslings bleiben anfällig für Pilzkrankheiten und Schädlinge. Kleine, stark parzellierte Betriebe erschweren Mechanisierung und Hofnachfolge.",
-          "en": "German wine is in a structural market crisis: bulk wine prices have fallen below production costs, domestic demand for alcoholic drinks keeps declining, and trade barriers make exports harder. Steep-slope viticulture is highly labour-intensive and qualified seasonal workers are scarce, so rising wages, energy costs and regulatory burden bite hardest exactly where the landscape value is greatest. Late frost, hail, heavy rain and drought increase the risk of every vintage, and the dense clusters of Riesling remain vulnerable to fungal disease and pests. Small, fragmented holdings limit mechanisation and make succession increasingly uncertain."
+          "de": "Der (deutsche) Weinbau steckt in einer strukturellen Absatzkrise: Die Fassweinpreise liegen unter den Produktionskosten, die Nachfrage nach alkoholischen Getränken geht seit Jahren zurück, und Handelshemmnisse erschweren den Export. Der Steillagenweinbau ist sehr arbeitsintensiv und qualifizierte Saisonkräfte sind schwer zu finden, sodass steigende Löhne, Energiekosten und bürokratische Auflagen dort am stärksten wirken, wo der Landschaftswert am größten ist. Kleine, stark parzellierte Betriebe erschweren Mechanisierung und Hofnachfolge.",
+          "en": "(German) wine is in a structural market crisis: bulk wine prices have fallen below production costs, domestic demand for alcoholic drinks keeps declining, and trade barriers make exports harder. Steep-slope viticulture is highly labour-intensive and qualified seasonal workers are scarce, so rising wages, energy costs and regulatory burden bite hardest exactly where the landscape value is greatest. Small, fragmented holdings limit mechanisation and make succession increasingly uncertain."
         }
       },
       "climate": {
         "about": {
-          "de": "Nach Norden durch den Taunuskamm vor kühlen Winden geschützt und vom Rhein begünstigt, der Wärme speichert und Licht auf die südexponierten Hänge reflektiert, zählt der Rheingau zu den mildesten Regionen Deutschlands: Die Jahresmitteltemperatur liegt bei rund 10,5 °C; milde Winter, warme Sommer und Herbstnebel begünstigen eine späte Traubenreife. Mit etwa 500–550 mm Jahresniederschlag ist die Region für deutsche Verhältnisse niederschlagsarm. Die Jahresmitteltemperatur in Hessen stieg von 8,2 °C (1961–1990) auf 9,3 °C (1991–2020); das Rhein-Main-Gebiet gehört zu den wärmsten Landesteilen.",
-          "en": "Sheltered from northerly winds by the Taunus ridge and favoured by the Rhine, which stores heat and reflects light onto the south-facing slopes, the Rheingau is one of the mildest parts of Germany: an annual mean of about 10.5 °C, mild winters, warm summers and autumn mists that favour late ripening. With roughly 500–550 mm of annual precipitation it is dry by German standards. Hesse's annual mean temperature rose from 8.2 °C (1961–1990) to 9.3 °C (1991–2020), and the Rhine-Main area is among the warmest parts of the state."
+          "de": "Nach Norden durch den Taunuskamm vor kühlen Winden geschützt und vom Rhein begünstigt, der Wärme speichert und Licht auf die südexponierten Hänge reflektiert. Der Rheingau zählt zu den mildesten und niederschlagsärmsten Regionen Deutschlands.",
+          "en": "Sheltered from northerly winds by the Taunus ridge and favoured by the Rhine, which stores heat and reflects light onto the south-facing slopes. The Rheingau is one of the mildest parts of Germany with low precipitation."
         },
         "challenges": {
-          "de": "Die Erwärmung bringt den Riesling an seine Komfortgrenze: früherer Austrieb und frühere Reife, höhere Zucker- und Alkoholgehalte sowie sinkende Säure gefährden den filigranen Stil, für den die Region bekannt ist. Der frühere Austrieb erhöht zugleich das Spätfrostrisiko, und mehr heiße Tage führen zu Sonnenbrand an den Trauben. Das Klima verschiebt sich hin zu einem Wechsel aus längeren Trockenperioden und Starkregen, sodass sich die klimatische Wasserbilanz im Sommer verschlechtert und der Bewässerungsbedarf auf den flachgründigen Hangböden steigt.",
-          "en": "Warming is pushing Riesling towards its comfort limit: earlier budburst and ripening, higher sugar and alcohol levels and falling acidity threaten the filigree style the region is known for. Earlier budburst also raises exposure to late frost, while more hot days bring sunburn on the grapes. The climate is shifting towards an alternation of longer dry spells and heavy rainfall, so the climatic water balance deteriorates in summer and irrigation demand grows on the shallow slope soils."
+          "de": "Die Erwärmung bringt einen früheren Austrieb und frühere Reife, höhere Zucker- und Alkoholgehalte sowie sinkende Säure gefährden den filigranen Stil, für den die Region bekannt ist. Der frühere Austrieb erhöht zugleich das Spätfrostrisiko, und mehr heiße Tage führen zu Sonnenbrand an den Trauben. Die Zunahme von Niederschlags Extremen (Dürre und Starkregen) führt in einem Jahr zu Trockenstress und im anderen Jahr zu hohem Pilzdruck.",
+          "en": "Warming leads to an earlier budburst and ripening, higher sugar and alcohol levels and falling acidity threaten the filigree style the region is known for. Earlier budburst also raises exposure to late frost, while more hot days bring sunburn on the grapes. The increase of precipitation extremes (Drought and heavy rain) is leading in one year to drought stress and in the other to high disease pressure by fungi."
         }
       },
       "economic": {
         "about": {
-          "de": "Im Kreis leben rund 185.700 Menschen bei einer Bevölkerungsdichte von 113 Einwohnern je km², am nordwestlichen Rand der Metropolregion Frankfurt/Rhein-Main. Die Wirtschaft ist mittelständisch geprägt, mit High-Tech-Betrieben in der Informations- und Kommunikationstechnik, Sensorik, Mess- und Regeltechnik sowie Medizin-, Oberflächen- und Umwelttechnik; rund 46.000 sozialversicherungspflichtig Beschäftigte am Arbeitsort und etwa 8.000 Unternehmen stehen einem Auspendlerüberschuss gegenüber, vor allem in Richtung Wiesbaden, Mainz und Frankfurt. Wein und Tourismus sind die prägenden Branchen: rund 240.000 Gästeankünfte und 701.000 Übernachtungen (2021) sowie starke Tagesgästeströme, angezogen von Riesling, Rheinromantik und Veranstaltungen wie dem Rheingau Musik Festival.",
-          "en": "About 185,700 people live in the district at 113 inhabitants per km², on the north-western edge of the Frankfurt/Rhine-Main metropolitan region. The economy is dominated by small and medium-sized firms, including high-tech in information and communication technology, sensor and control engineering, medical, surface and environmental technology; some 46,000 jobs and 8,000 registered businesses stand against a net outflow of commuters, mainly towards Wiesbaden, Mainz and Frankfurt. Wine and tourism are the signature sectors: around 240,000 arrivals and 701,000 overnight stays (2021) plus strong day-visitor flows, drawn by Riesling, Rhine romanticism and events such as the Rheingau Musik Festival."
+          "de": "Die Wirtschaft ist mittelständisch geprägt, mit High-Tech-Betrieben in der Informations- und Kommunikationstechnik, Sensorik, Mess- und Regeltechnik sowie Medizin-, Oberflächen- und Umwelttechnik. Pendler vor allem in Richtung Wiesbaden, Mainz und Frankfurt. Wein und Tourismus sind die prägenden Branchen, es gibt starke Tagesgästeströme im Sommer, angezogen von Riesling, Rheinromantik und Veranstaltungen wie dem Rheingau Musik Festival.",
+          "en": "The economy is dominated by small and medium-sized firms, including high-tech in information and communication technology, sensor and control engineering, medical, surface and environmental technology. Commuters, mainly towards Wiesbaden, Mainz and Frankfurt. Wine and tourism are the signature sectors, strong day-visitor flows, drawn by Riesling, Rhine romanticism and events such as the Rheingau Musik Festival."
         },
         "challenges": {
-          "de": "Ganze Ortschaften hängen wirtschaftlich, sozial und kulturell am Wein: Verschwinden die Betriebe, bleiben nicht nur verbuschte Hänge, sondern auch leere Dörfer, geschlossene Straußwirtschaften und ein geschwächtes touristisches Angebot. Sinkende Weinpreise und steigende Kosten drücken die Margen, und die Betriebe konkurrieren mit dem weit größeren Arbeitsmarkt Rhein-Main um Fachkräfte, was zugleich Boden- und Wohnkosten treibt. Der Tourismus ist stark saison- und witterungsabhängig, und die peripheren Gemeinden im Taunus und in den Wispertälern liegen deutlich weiter von Zentren und Versorgungseinrichtungen entfernt als die Orte entlang der Rheinachse.",
-          "en": "Whole villages depend economically, socially and culturally on wine: if estates disappear, the result is not only scrubbed-over slopes but empty villages, closed wine taverns and a weakened tourism offer. Falling wine prices and rising costs squeeze margins, and businesses compete for skilled labour with the far larger Rhine-Main job market, which also drives up land and housing costs. Tourism is strongly seasonal and weather-dependent, and the peripheral communities in the Taunus and the Wisper valleys are much further from centres and services than the settlements along the Rhine axis."
+          "de": "Ganze Ortschaften hängen wirtschaftlich, sozial und kulturell am Wein: Verschwinden die Betriebe, bleiben nicht nur verbuschte Hänge, sondern auch leere Dörfer, geschlossene Straußwirtschaften und ein geschwächtes touristisches Angebot. Sinkende Weinpreise und steigende Kosten drücken die Margen, und die Betriebe konkurrieren mit dem weit größeren Arbeitsmarkt Rhein-Main um Fachkräfte, was zugleich Boden- und Wohnkosten treibt.",
+          "en": "Whole villages depend economically, socially and culturally on wine: if estates disappear, the result is not only scrubbed-over slopes but empty villages, closed wine taverns and a weakened tourism offer. Falling wine prices and rising costs squeeze margins, and businesses compete for skilled labour with the far larger Rhine-Main job market, which also drives up land and housing costs."
         }
       },
       "landscape": {
         "about": {
-          "de": "Ein west-östlich verlaufendes Band zwischen Rhein und Taunus mit südexponierten Hängen und Flussterrassen, auf denen Steillagen- und Terrassenweinbau unterhalb des bewaldeten Rheingaugebirges liegt. Der Waldanteil beträgt rund 56 % der Kreisfläche – deutlich über dem hessischen Durchschnitt –, und der etwa 21.000 ha große Hinterlandswald ist das größte zusammenhängende Waldgebiet Hessens. Der untere Rheingau von Rüdesheim bis Lorchhausen gehört zum UNESCO-Welterbe „Oberes Mittelrheintal“; mit dem Limes liegt ein zweites Welterbe im Kreis. Der Naturpark Rhein-Taunus, die Täler von Wisper, Aar und Wörsbach, Klöster wie Eberbach und historische Weinorte ergänzen eine vielschichtige Kulturlandschaft.",
-          "en": "An east–west band between the Rhine and the Taunus, with south-facing slopes and river terraces carrying steep-slope and terraced vineyards below the wooded Rheingaugebirge. Forest covers about 56% of the district — well above the Hessian average — and the roughly 21,000 ha Hinterlandswald is the largest contiguous forest area in Hesse. The lower Rheingau from Rüdesheim to Lorchhausen belongs to the UNESCO World Heritage site 'Upper Middle Rhine Valley', with the Limes as a second World Heritage site in the district. The Rhein-Taunus Nature Park, the Wisper, Aar and Wörsbach valleys, monasteries such as Kloster Eberbach and historic wine villages complete a densely layered cultural landscape."
+          "de": "Ein west-östlich verlaufendes Band zwischen Rhein und Taunus mit südexponierten Hängen und Flussterrassen, auf denen Steillagen- und Terrassenweinbau unterhalb des bewaldeten Rheingaugebirges liegt. Der Waldanteil liegt deutlich über dem hessischen Durchschnitt. Der untere Rheingau von Rüdesheim bis Lorchhausen gehört zum UNESCO-Welterbe „Oberes Mittelrheintal“; mit dem Limes liegt ein zweites Welterbe im Kreis. Der Naturpark Rhein-Taunus, die Täler von Wisper, Aar und Wörsbach, Klöster wie Eberbach und historische Weinorte ergänzen eine vielschichtige Kulturlandschaft.",
+          "en": "An east–west band between the Rhine and the Taunus, with south-facing slopes and river terraces carrying steep-slope and terraced vineyards below the wooded Rheingaugebirge. Forest cover is well above the Hessian average. The lower Rheingau from Rüdesheim to Lorchhausen belongs to the UNESCO World Heritage site 'Upper Middle Rhine Valley', with the Limes as a second World Heritage site in the district. The Rhein-Taunus Nature Park, the Wisper, Aar and Wörsbach valleys, monasteries such as Kloster Eberbach and historic wine villages complete a densely layered cultural landscape."
         },
         "challenges": {
           "de": "Steillagen und Terrassen lassen sich nur mit hohem Handarbeitsaufwand bewirtschaften; wird die Nutzung aufgegeben, gehen mit der Verbuschung sowohl die Terrassenkulturlandschaft als auch ihre trockenwarmen Lebensräume verloren. Denkmal- und Landschaftsschutz setzen neuer Infrastruktur enge Grenzen, während zugleich Flächen für erneuerbare Energien und Siedlungsentwicklung nachgefragt werden. Die kleinteilige Parzellierung erschwert die Flurneuordnung, und in den Wäldern zeigt sich zunehmender Trockenstress.",
@@ -1741,8 +1741,8 @@
       },
       "soil": {
         "about": {
-          "de": "Die Böden wechseln auf kurzer Distanz. Tiefgründiger, fruchtbarer Löss und Lösslehm bedecken die flacheren Unterhänge und die Ebene am Rhein, Taunusquarzit prägt die höheren Lagen des mittleren und östlichen Rheingaus sowie den Raum Lorch, und Phyllit und Hunsrückschiefer tragen die Weinberge von Rüdesheim, Assmannshausen, Kiedrich, Martinsthal und Rauenthal. Unter der Lössdecke liegt meist schwach entkalkter Löss über tiefgründig verwittertem Phyllit-Saprolith. Die steinigen Hangböden sind flachgründig und speichern wenig Wasser, während die Lössböden der Ebene zu den ertragreichsten Ackerböden der Region zählen.",
-          "en": "Soils change over very short distances. Deep, fertile loess and loess loam cover the gentler lower slopes and the plain near the Rhine, Taunus quartzite dominates the higher sites of the central and eastern Rheingau and the Lorch area, and phyllite and Hunsrück slate carry the vineyards of Rüdesheim, Assmannshausen, Kiedrich, Martinsthal and Rauenthal. Beneath the loess cover, weakly leached loess typically overlies deeply weathered phyllite saprolite. The stony slope soils are shallow with low water storage capacity, while the loess soils of the plain are among the most productive arable soils in the region."
+          "de": "Die Böden wechseln auf kurzer Distanz. Tiefgründiger, fruchtbarer Löss und Lösslehm bedecken die flacheren Unterhänge und die Ebene am Rhein, Taunusquarzit prägt die höheren Lagen des mittleren und östlichen Rheingaus sowie den Raum Lorch, und Phyllit und Hunsrückschiefer tragen die Weinberge von Rüdesheim, Assmannshausen, Kiedrich, Martinsthal und Rauenthal. Die steinigen Hangböden sind flachgründig und speichern wenig Wasser, während die Lössböden der Ebene zu den ertragreichsten Ackerböden der Region zählen.",
+          "en": "Soils change over very short distances. Deep, fertile loess and loess loam cover the gentler lower slopes and the plain near the Rhine, Taunus quartzite dominates the higher sites of the central and eastern Rheingau and the Lorch area, and phyllite and Hunsrück slate carry the vineyards of Rüdesheim, Assmannshausen, Kiedrich, Martinsthal and Rauenthal. The stony slope soils are shallow with low water storage capacity, while the loess soils of the plain are among the most productive arable soils in the region."
         },
         "challenges": {
           "de": "Starkregen führt auf den Steillagen zu Bodenerosion, insbesondere bei Rebzeilen in der Falllinie und offen gehaltenem Boden. Wärmere Böden mineralisieren schneller, sodass Humus gerade dort verloren geht, wo er für Wasserspeicherung und Nährstoffversorgung am wichtigsten ist. Befahrung verdichtet die Böden, und Nährstoffausträge ins Grundwasser bleiben in den Dauerkulturgebieten ein Thema.",

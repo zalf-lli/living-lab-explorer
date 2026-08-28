@@ -5,7 +5,7 @@
     "input_pattern": "data/climate_source/chelsa-{variable}-{period}.tif",
     "slugs": [
       "east-brandenburg",
-      "havellandisches-luch",
+      "havelland",
       "hessian-low-mountain",
       "north-hessian-loess",
       "rheingau"
@@ -29,7 +29,7 @@
       ],
       "per_ll_means": {
         "east-brandenburg": 9.26845573370493,
-        "havellandisches-luch": 9.487848792245558,
+        "havelland": 9.487848792245558,
         "hessian-low-mountain": 8.604679800352773,
         "north-hessian-loess": 8.515730430203432,
         "rheingau": 8.946568868694941
@@ -59,7 +59,7 @@
         ],
         "per_ll_means": {
           "east-brandenburg": 2.6859855402591033,
-          "havellandisches-luch": 2.596379580771812,
+          "havelland": 2.596379580771812,
           "hessian-low-mountain": 2.4587405292636433,
           "north-hessian-loess": 2.4797845036712682,
           "rheingau": 2.4680954756753355
@@ -88,7 +88,7 @@
         ],
         "per_ll_means": {
           "east-brandenburg": 4.119157998921485,
-          "havellandisches-luch": 4.022289508798655,
+          "havelland": 4.022289508798655,
           "hessian-low-mountain": 3.9314126494149524,
           "north-hessian-loess": 3.929853479509702,
           "rheingau": 3.928662402306191
@@ -118,7 +118,7 @@
       ],
       "per_ll_means": {
         "east-brandenburg": 573.8616120626901,
-        "havellandisches-luch": 584.6279275768161,
+        "havelland": 584.6279275768161,
         "hessian-low-mountain": 891.4282254191248,
         "north-hessian-loess": 804.949001671421,
         "rheingau": 726.7422667758966
@@ -148,7 +148,7 @@
         ],
         "per_ll_means": {
           "east-brandenburg": 1.530098198322135,
-          "havellandisches-luch": 1.2017339416969486,
+          "havelland": 1.2017339416969486,
           "hessian-low-mountain": 1.4327840544605777,
           "north-hessian-loess": 0.6836053743692616,
           "rheingau": 0.9926869544533579
@@ -177,7 +177,7 @@
         ],
         "per_ll_means": {
           "east-brandenburg": 3.047187641108407,
-          "havellandisches-luch": 2.5620457262348055,
+          "havelland": 2.5620457262348055,
           "hessian-low-mountain": 2.8296657558637204,
           "north-hessian-loess": 2.3142482229097006,
           "rheingau": 1.8941410165530186
@@ -207,7 +207,7 @@
       ],
       "per_ll_means": {
         "east-brandenburg": 185.86344775407673,
-        "havellandisches-luch": 181.43360359015398,
+        "havelland": 181.43360359015398,
         "hessian-low-mountain": 226.36658241212044,
         "north-hessian-loess": 226.4594595376267,
         "rheingau": 199.4523123310076
@@ -237,7 +237,7 @@
         ],
         "per_ll_means": {
           "east-brandenburg": -4.698798647425408,
-          "havellandisches-luch": -4.600711735284843,
+          "havelland": -4.600711735284843,
           "hessian-low-mountain": -5.762276635063962,
           "north-hessian-loess": -5.555311113211654,
           "rheingau": -6.857036937237497
@@ -266,7 +266,7 @@
         ],
         "per_ll_means": {
           "east-brandenburg": -5.1434652926155024,
-          "havellandisches-luch": -6.364141536560713,
+          "havelland": -6.364141536560713,
           "hessian-low-mountain": -8.630132406247693,
           "north-hessian-loess": -8.68129283374031,
           "rheingau": -9.810526955489316
@@ -296,7 +296,7 @@
       ],
       "per_ll_means": {
         "east-brandenburg": 2011.0028955409362,
-        "havellandisches-luch": 2033.0731225044437,
+        "havelland": 2033.0731225044437,
         "hessian-low-mountain": 1770.6176021912654,
         "north-hessian-loess": 1737.8724602862858,
         "rheingau": 1846.2133276136522
@@ -326,7 +326,7 @@
         ],
         "per_ll_means": {
           "east-brandenburg": 658.6381803300984,
-          "havellandisches-luch": 653.83200053591,
+          "havelland": 653.83200053591,
           "hessian-low-mountain": 620.5214612481121,
           "north-hessian-loess": 618.4386559482851,
           "rheingau": 638.6664118830805
@@ -355,7 +355,7 @@
         ],
         "per_ll_means": {
           "east-brandenburg": 1134.7418047272483,
-          "havellandisches-luch": 1138.8880526731216,
+          "havelland": 1138.8880526731216,
           "hessian-low-mountain": 1084.7148938718005,
           "north-hessian-loess": 1076.9650175724323,
           "rheingau": 1114.0224072168503

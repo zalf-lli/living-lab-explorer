@@ -53,7 +53,7 @@ assigned by hashing the class key. Against the 16 distinct soil group keys in th
 BÜK250 fixtures this produces **exact duplicates**, not merely similar colours:
 
 - `hessian-low-mountain`: `brown-soils`, `stagnic-soils` and `alluvial-soils` all render `#b88752` — 3 of the 5 legend swatches are the same colour.
-- `east-brandenburg` and `havellandisches-luch`: `fens` and `ah-c-soils` both render `#d0b385`.
+- `east-brandenburg` and `havelland`: `fens` and `ah-c-soils` both render `#d0b385`.
 - `podzols` and `pelosols` both render `#a87445` everywhere.
 - Three of the eight palette entries (`#c29b68`, `#8f6136`, `#c98b5e`) are never assigned at all.
 
@@ -196,7 +196,7 @@ Index order matters: it is what the hash indexes into. Keep exactly this order.
 | Living Lab | painted classes | unique colours | min ΔE76 (whole map) | legend swatches | min ΔE76 (legend) |
 |------------|-----------------|----------------|----------------------|-----------------|-------------------|
 | east-brandenburg | 14 | **14** | 18.0 | 7 | **22.8** |
-| havellandisches-luch | 13 | **13** | 19.0 | 7 | **22.8** |
+| havelland | 13 | **13** | 19.0 | 7 | **22.8** |
 | hessian-low-mountain | 12 | **12** | 22.0 | 7 | **22.8** |
 | north-hessian-loess | 12 | **12** | 22.8 | 7 | **22.8** |
 | rheingau | 9 | **9** | 22.0 | 7 | **22.8** |
@@ -316,7 +316,7 @@ brown to neutral dark grey.
   <how-to-verify>
 1. `cd app && npm run dev`, then open the printed localhost URL.
 2. For each of the five Living Labs, open its detail page and select the **Soil** tab:
-   east-brandenburg, havellandisches-luch, hessian-low-mountain, north-hessian-loess, rheingau.
+   east-brandenburg, havelland, hessian-low-mountain, north-hessian-loess, rheingau.
 3. For each: confirm no two swatches in the legend strip under the map look like the same colour,
    and that you can pick any coloured polygon on the map and match it to exactly one legend swatch.
    Pay particular attention to hessian-low-mountain and north-hessian-loess, where Brown soils,

@@ -8,7 +8,7 @@
 **Failure:**
 ```
 FAILED:
-  - havellandisches-luch: legend minimum pairwise ΔE76 is 19.0, expected >= 20
+  - havelland: legend minimum pairwise ΔE76 is 19.0, expected >= 20
 ```
 
 **Why deferred, not fixed:** This check exercises `app/src/data/soil_legend.js`, a file no task
@@ -31,7 +31,7 @@ as part of Phase 12.
 **Found during:** 12-03 Task 2 verification (`npm run check:soil-palette` is one of Task 2's
 listed acceptance criteria).
 
-**Failure:** identical to the 12-01 entry above — `havellandisches-luch` legend ΔE76 19.0 < 20.
+**Failure:** identical to the 12-01 entry above — `havelland` legend ΔE76 19.0 < 20.
 
 **Why deferred, not fixed:** 12-03's `files_modified` list is
 `app/src/components/DownloadReportCTA.jsx`, `app/src/pages/LLDetail.jsx` — neither touches
@@ -45,7 +45,7 @@ already-tracked condition (TODO-01 / `260804-acf`), not a regression introduced 
 as a gate (`cd app && npm run lint`, `npm run build` and `npm run check:soil-palette` all exit 0).
 
 **Failure:** identical to the 12-01 entry above --
-`havellandisches-luch: legend minimum pairwise ΔE76 is 19.0, expected >= 20`.
+`havelland: legend minimum pairwise ΔE76 is 19.0, expected >= 20`.
 
 **Why deferred, not fixed:** 12-04's `files_modified` list (`app/scripts/export_report_tokens.mjs`,
 `app/package.json`, `data/report_tokens.json`, `data-pipeline/tests/test_report_tokens.py`) never

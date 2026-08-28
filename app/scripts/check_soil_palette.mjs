@@ -36,7 +36,7 @@ const GEOJSON_DIR = path.resolve(__dirname, '../public/data/geojson')
 
 const LIVING_LABS = [
   'east-brandenburg',
-  'havellandisches-luch',
+  'havelland',
   'hessian-low-mountain',
   'north-hessian-loess',
   'rheingau',

@@ -36,6 +36,12 @@ jobs:
 
       - name: Build app
         working-directory: app
+        # The CARTO basemap key is a build-time value: Vite inlines it into the bundle, so it
+        # must be present here, not at deploy time. Missing secret => the app falls back to
+        # OpenStreetMap tiles and logs a warning (app/src/lib/basemap.js) rather than failing
+        # the build, so a lapsed secret degrades the map instead of taking the site down.
+        env:
+          VITE_CARTO_API_KEY: ${{ secrets.CARTO_API_KEY }}
         run: npm run build
 
       - name: Setup Pages

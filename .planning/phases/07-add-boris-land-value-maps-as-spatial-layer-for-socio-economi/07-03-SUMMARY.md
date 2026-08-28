@@ -61,7 +61,7 @@ status: complete
 
 - Enumerated the live Hessen `nutzung.art` and `entwicklungszustand` vocabularies per Living Lab (33 distinct usage codes, 5 development-status codes, all within the expected `{B,R,E,LF,SF}` set) via a spatially-scoped `GetPropertyValue` POST, with a `fetch_zones()` fallback and per-code provenance.
 - Fetched and cached the full statewide Brandenburg point dataset (113,293 records, 23 pages) once, built the `gehoertZu` join index (`bb_point_index.json`, reusable by later plans), and measured a 100% zone-match rate for both Brandenburg Living Labs with the R1/R2/R3 `has_current_value` comparison table.
-- Measured 7 volume/fidelity variants (naive baseline through aggressive trim+simplify) for `east-brandenburg`, `havellandisches-luch`, and `rheingau`, and wrote `07-SPIKE.md` with the full W-01/W-02/W-03 evidence for the 07-05 checkpoint.
+- Measured 7 volume/fidelity variants (naive baseline through aggressive trim+simplify) for `east-brandenburg`, `havelland`, and `rheingau`, and wrote `07-SPIKE.md` with the full W-01/W-02/W-03 evidence for the 07-05 checkpoint.
 - Found and fixed 5 real bugs during live testing (2 in the already-committed `boris_wfs.py`, 3 in this plan's own new code) -- see Deviations below.
 
 ## Task Commits

@@ -10,6 +10,10 @@ export const resources = {
       app: {
         metadataErrorTitle: 'Failed to load Living Lab metadata.',
       },
+      attribution: {
+        prefix: 'A product of the',
+        group: 'Data and Modelling and Infrastructure Service Working Group',
+      },
       common: {
         loading: 'Loading...',
         loadingMap: 'Loading map...',
@@ -249,6 +253,10 @@ export const resources = {
     translation: {
       app: {
         metadataErrorTitle: 'Living-Lab-Metadaten konnten nicht geladen werden.',
+      },
+      attribution: {
+        prefix: 'Ein Produkt der',
+        group: 'Arbeitsgruppe Daten-, Modellierungs- und Infrastrukturdienste',
       },
       common: {
         loading: 'Wird geladen...',

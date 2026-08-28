@@ -201,7 +201,7 @@ Confirmed via direct read of `data/geojson/buek250-east-brandenburg.geojson`: 14
 ```json
 {
   "east-brandenburg": {"0": 197606469, "1": 3015456, "11": 4659615, "2": 37417199, "4": 144080, "5": 34001849, "7": 6560729, "8": 37203},
-  "havellandisches-luch": {"0": 149944003, "1": 1268271, "10": 133, "11": 3451960, "2": 20771955, "4": 116658, "5": 19027814, "7": 3533507}
+  "havelland": {"0": 149944003, "1": 1268271, "10": 133, "11": 3451960, "2": 20771955, "4": 116658, "5": 19027814, "7": 3533507}
 }
 ```
 Keys are **string** class values (not int) — a JSON artifact of `build_land_cover.py:212` (`{str(k): v for k, v in ...}`). The `"0"` key is nodata (`input.nodata: 0` for `io-lulc-landcover`) and must be excluded from the percentage denominator per D-07's explicit note.

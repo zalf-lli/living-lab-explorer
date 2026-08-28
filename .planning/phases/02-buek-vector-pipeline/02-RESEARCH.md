@@ -176,7 +176,7 @@ data-pipeline/
 data/
 └── geojson/                # NEW directory (created by build_vector.py mkdir)
     ├── buek250-east-brandenburg.geojson
-    ├── buek250-havellandisches-luch.geojson
+    ├── buek250-havelland.geojson
     ├── buek250-north-hessian-loess.geojson
     ├── buek250-hessian-low-mountain.geojson
     └── buek250-rheingau.geojson
@@ -323,7 +323,7 @@ def repo_root() -> Path:
 
 LL_SLUGS = [
     "east-brandenburg",
-    "havellandisches-luch",
+    "havelland",
     "north-hessian-loess",
     "hessian-low-mountain",
     "rheingau",
@@ -353,7 +353,7 @@ def repo_root() -> Path:
 
 @pytest.mark.parametrize("slug", [
     "east-brandenburg",
-    "havellandisches-luch",
+    "havelland",
     "north-hessian-loess",
     "hessian-low-mountain",
     "rheingau",
@@ -364,7 +364,7 @@ def test_buek_geojson_exists(slug):
 
 @pytest.mark.parametrize("slug", [
     "east-brandenburg",
-    "havellandisches-luch",
+    "havelland",
     "north-hessian-loess",
     "hessian-low-mountain",
     "rheingau",
@@ -433,7 +433,7 @@ All items below are VERIFIED against the actual files on disk.
 | Geometry type | MultiPolygon | [VERIFIED: json inspection] |
 | Slug field name | `ll_slug` | [VERIFIED: json inspection + geopandas columns] |
 | Other fields | `ll_name_en`, `ll_name_de` | [VERIFIED: json inspection] |
-| All slugs | east-brandenburg, havellandisches-luch, north-hessian-loess, hessian-low-mountain, rheingau | [VERIFIED: gdf['ll_slug'] values] |
+| All slugs | east-brandenburg, havelland, north-hessian-loess, hessian-low-mountain, rheingau | [VERIFIED: gdf['ll_slug'] values] |
 
 ### ll_metadata.json (slug source)
 
@@ -450,7 +450,7 @@ The 5 slugs from `ll_metadata.json` match exactly the 5 `ll_slug` values in `ll_
 | LL Slug | Features | Size (tolerance=0.0005) | Size (tolerance=0.001) | Status |
 |---------|----------|------------------------|------------------------|--------|
 | east-brandenburg | 573 | 1996 KB (1.95 MB) | 1359 KB (1.33 MB) | AT LIMIT — use 0.001 if 2 MB is a hard cap |
-| havellandisches-luch | 268 | 1056 KB (1.03 MB) | not measured | OK |
+| havelland | 268 | 1056 KB (1.03 MB) | not measured | OK |
 | north-hessian-loess | 95 | 419 KB (0.41 MB) | not measured | OK |
 | hessian-low-mountain | 117 | 1019 KB (1.00 MB) | not measured | OK |
 | rheingau | 35 | 161 KB (0.16 MB) | not measured | OK |

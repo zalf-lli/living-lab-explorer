@@ -105,7 +105,7 @@ were found in the plan's own instructions.
 
 ### Scope-boundary item (not fixed, logged)
 
-**1. [Scope boundary] `npm run check:soil-palette` fails on `havellandisches-luch`**
+**1. [Scope boundary] `npm run check:soil-palette` fails on `havelland`**
 - **Found during:** Plan-level overall `<verification>` run (this command is listed as one of
   the four overall verification gates, not per-task)
 - **Issue:** `legend minimum pairwise ΔE76 is 19.0, expected >= 20` for one Living Lab's soil

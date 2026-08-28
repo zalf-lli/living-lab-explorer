@@ -33,7 +33,7 @@ independently reproducible on this machine due to a missing local raster — see
 
 ### Gate-driven fix: `npm run check:soil-palette` (commit `55e9881`)
 
-Gate #8 initially **failed**: `havellandisches-luch: legend minimum pairwise ΔE76 is 19.0,
+Gate #8 initially **failed**: `havelland: legend minimum pairwise ΔE76 is 19.0,
 expected >= 20`. This exact condition had been flagged as a pre-existing, out-of-scope failure in
 plans 12-01, 12-03 and 12-04's own SUMMARYs (`deferred-items.md`, tracked as `STATE.md` TODO-01 /
 quick-task `260804-acf`, "pending human visual check"). This plan's own Task 1 instruction is
@@ -42,7 +42,7 @@ failing gate as an accepted deviation."* — so, unlike every prior plan in this
 declared `files_modified` never touched `app/src/data/soil_legend.js`), this plan fixed it.
 
 Root cause: `fens` (`#41382B`) and `sealed-surfaces` (`#4E545C`) both land in
-`havellandisches-luch`'s real top-5-by-frequency legend and are two dark, low-saturation colours
+`havelland`'s real top-5-by-frequency legend and are two dark, low-saturation colours
 18.99 ΔE76 apart — a near-miss `260804-acf`'s own design-time simulation (computed against an
 earlier cut of the BUEK fixture) did not catch, since the live fixture's actual class-frequency
 ranking differs slightly from what that quick task simulated (12 painted classes today vs. 13 at
@@ -99,8 +99,8 @@ Ten committed report files under `data/reports/` (byte-identical to their publis
 |------|------:|:---:|
 | report-east-brandenburg-en.pdf | 1,013,635 | 12.1% |
 | report-east-brandenburg-de.pdf | 1,022,200 | 12.2% |
-| report-havellandisches-luch-en.pdf | 1,080,897 | 12.9% |
-| report-havellandisches-luch-de.pdf | 1,078,472 | 12.9% |
+| report-havelland-en.pdf | 1,080,897 | 12.9% |
+| report-havelland-de.pdf | 1,078,472 | 12.9% |
 | report-hessian-low-mountain-en.pdf | 1,520,283 | 18.1% |
 | report-hessian-low-mountain-de.pdf | 1,515,380 | 18.1% |
 | report-north-hessian-loess-en.pdf | 1,269,319 | 15.1% |
@@ -137,7 +137,7 @@ Decisions section. Verdict is `met`, `met with deviation`, or `not met`.
 | D-07 | Typst template reuses the app's existing brand tokens (per-LL colours, `theme.js` palette, per-layer legend palettes) | Met | `data/report_tokens.json` bridges `theme.js`, `landuse_legend.js`, `land_cover_legend.js`, `soil_legend.js`, `layers.js`, `chartSeries.js` verbatim (12-04); `render_reports.py` resolves each LL's `color`/`colorDark` from `ll_metadata.json` and threads them as Typst `--metadata` overrides (12-05) |
 | D-08 | Report template builds on the `iat-internal-typst` Quarto extension as a sibling brand config | Met | `data-pipeline/R/report/_extensions/ll-explorer-typst/` is a vendored, rebranded copy of `iat-dml/templates`' `IAT-internal-typst` extension, provenance recorded in `NOTICE.md` (12-05) |
 | D-09 | Each PDF covers all 5 tabs in one document, not per-tab PDFs | Met | `template.qmd` renders one section per `LL_TAB_ORDER` tab (agriculture, climate, soil, economic, landscape) in a single document (12-10); all ten committed PDFs are 12-13 pages, all five section headings present in extracted text |
-| D-10 | Each tab section includes StatPanel KPIs, map, chart, and both `about`/`challenges` narrative blocks | Met | `template.qmd`'s per-section body: heading, `ll_kpi_typst()` grid, map, chart (omitted when `ll_chart()` is `NULL`), then `about`/`challenges` narrative (each omitted, not emptied, when absent) — verified live against `havellandisches-luch`'s known-empty landscape slots (12-07, 12-10) |
+| D-10 | Each tab section includes StatPanel KPIs, map, chart, and both `about`/`challenges` narrative blocks | Met | `template.qmd`'s per-section body: heading, `ll_kpi_typst()` grid, map, chart (omitted when `ll_chart()` is `NULL`), then `about`/`challenges` narrative (each omitted, not emptied, when absent) — verified live against `havelland`'s known-empty landscape slots (12-07, 12-10) |
 | D-11 | Report opens with a cover/overview page (name, tagline, NUTS-3, brand header, no contact chrome) mirroring `LayoutSplit`'s compact header minus `ContactManagerButton` | Met | `template.qmd`'s cover continuation renders region/NUTS-3/locator map/basemap credit; `grep -c "manager\|contact" data-pipeline/R/report/template.qmd` (excluding the setup-chunk source list) returns 0 — `ll_lab(slug)$manager`/`$contact` are never referenced (12-10) |
 | D-12 | Climate section: baseline + one change map per variable (2071-2100 far horizon), 8 maps total | Met | `ll_map_climate_grid()` builds exactly 8 panels (4 variables x baseline/2071_2100); `grep -c "2041_2070" data-pipeline/R/report/maps_raster.R` returns 0 — the mid-horizon never appears (12-09) |
 | D-13 | Every static map carries its own legend, drawn from the same class/colour data the web app's `MapLegend` reads (correctness requirement for soil/BORIS's per-LL dynamic legends) | Met | `ll_map_soil()`/`ll_map_economic()` port `buildSoilLegendEntries()`/`buildEconomicLegendEntries()` verbatim, verified per-LL against real fixture data (12-08); `ll_discrete_map_scale()`'s explicit `limits`/`breaks` keep every legend row visible even when a class is locally absent (12-06, verified live for agriculture's 19-vs-17-present case, 12-09) |
@@ -234,7 +234,7 @@ pre-existing debts this phase deliberately did not fix:
    behavioural difference today — a code-duplication cleanup item, not a correctness bug. Neither
    this plan's own `files_modified` (`12-EVIDENCE.md`, `PROJECT.md`) nor its Task 1 gate-fix scope
    (`soil_legend.js`, `report_tokens.json`) touches `sections.R`/`maps_vector.R`.
-4. **Havellandisches-luch soil-legend ΔE76 near-miss, fixed this plan (see Automated gate above)**
+4. **havelland soil-legend ΔE76 near-miss, fixed this plan (see Automated gate above)**
    — the ten already-rendered, human-approved PDFs still carry the pre-fix `sealed-surfaces` hex
    (`#4E545C`, a 4/255 blue-channel difference from the new `#4E5460`), since the fix was applied
    *after* plan 12-10's checkpoint approval and this plan did not re-render. The difference is

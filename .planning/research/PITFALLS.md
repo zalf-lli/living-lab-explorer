@@ -431,7 +431,7 @@ comparing two parts of the UI side by side.
 
 **What goes wrong:** The current `chart_data.js` is keyed by layer (`landuse`, `soil`) with
 no per-LL dimension. Phase 4.3 chart data must be per-LL AND per-layer (e.g. crop type
-distribution for east-brandenburg vs havellandisches-luch are different numbers). If the
+distribution for east-brandenburg vs havelland are different numbers). If the
 contract is defined as `{ [layerId]: { bars: [...] } }` without a slug dimension, the
 pipeline cannot express per-LL variation and either averages across all LLs or writes
 east-brandenburg data for everyone.

@@ -137,7 +137,7 @@ fixtures**
 - **Fix:** No code change — `sync.py`'s normal copy step corrected the drift as a side effect
   of the mandated Task 3 command. Committed alongside the `ll_metadata.json` regeneration since
   both come from the same `sync.py` invocation.
-- **Files modified:** `app/public/data/geojson/buek250-{east-brandenburg,havellandisches-luch,
+- **Files modified:** `app/public/data/geojson/buek250-{east-brandenburg,havelland,
   hessian-low-mountain,north-hessian-loess,rheingau}.geojson`.
 - **Commit:** `0f6254c`
 

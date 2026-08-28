@@ -121,7 +121,7 @@ A standalone Python script that:
    - Full run: all five Living Labs in ~33 seconds
    - Feature counts match 05-RESEARCH.md predictions:
      - east-brandenburg: 355 features
-     - havellandisches-luch: 257 features
+     - havelland: 257 features
      - hessian-low-mountain: 362 features
      - north-hessian-loess: 196 features
      - rheingau: 78 features
@@ -158,7 +158,7 @@ A standalone Python script that:
 | Living Lab | Features | File Size | Vertices (estimated) | Complexity |
 |-----------|----------|-----------|----------------------|-----------|
 | east-brandenburg | 355 | 7.4 MB | ~78,000 | Data-heavy |
-| havellandisches-luch | 257 | 4.5 MB | ~57,000 | Data-heavy |
+| havelland | 257 | 4.5 MB | ~57,000 | Data-heavy |
 | hessian-low-mountain | 362 | 6.3 MB | ~80,000 | Data-heavy |
 | north-hessian-loess | 196 | 3.7 MB | ~44,000 | Data-light |
 | rheingau | 78 | 1.6 MB | ~17,000 | Data-light |
@@ -208,7 +208,7 @@ Applying Option B (`set_precision(1e-6)`) results in:
 | File | Path | Features | Size | Purpose |
 |------|------|----------|------|---------|
 | east-brandenburg fixture | data/geojson/protected-areas-east-brandenburg.geojson | 355 | 7.4 MB | Largest per-LL collection |
-| havellandisches-luch fixture | data/geojson/protected-areas-havellandisches-luch.geojson | 257 | 4.5 MB | Data-heavy region |
+| havelland fixture | data/geojson/protected-areas-havelland.geojson | 257 | 4.5 MB | Data-heavy region |
 | hessian-low-mountain fixture | data/geojson/protected-areas-hessian-low-mountain.geojson | 362 | 6.3 MB | Data-heavy region |
 | north-hessian-loess fixture | data/geojson/protected-areas-north-hessian-loess.geojson | 196 | 3.7 MB | Data-light region |
 | rheingau fixture | data/geojson/protected-areas-rheingau.geojson | 78 | 1.6 MB | Smallest per-LL collection |

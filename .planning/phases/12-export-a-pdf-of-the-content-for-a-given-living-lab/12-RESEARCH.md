@@ -138,7 +138,7 @@ data-pipeline/
                 ├── _brand.yml                 # shared/default fallback brand
                 ├── brands/
                 │   ├── east-brandenburg.yml
-                │   ├── havellandisches-luch.yml
+                │   ├── havelland.yml
                 │   ├── hessian-low-mountain.yml
                 │   ├── north-hessian-loess.yml
                 │   └── rheingau.yml
@@ -166,9 +166,9 @@ Slug is: `r params$slug`, lang is: `r params$lang`
 ```
 ```bash
 # Source: live smoke test run during this research session
-quarto render template.qmd --to typst -P slug:havellandisches-luch -P lang:de \
-  --output report-havellandisches-luch-de.pdf
-# -> "Output created: report-havellandisches-luch-de.pdf" (valid PDF, confirmed non-empty)
+quarto render template.qmd --to typst -P slug:havelland -P lang:de \
+  --output report-havelland-de.pdf
+# -> "Output created: report-havelland-de.pdf" (valid PDF, confirmed non-empty)
 ```
 
 ### Pattern 2: R chunk reading the chart JSON contract directly
@@ -177,7 +177,7 @@ quarto render template.qmd --to typst -P slug:havellandisches-luch -P lang:de \
 **Example:**
 ```r
 # Source: verified against a real committed file,
-# app/public/data/charts/buek250-havellandisches-luch.json
+# app/public/data/charts/buek250-havelland.json
 library(jsonlite)
 chart <- fromJSON(
   sprintf("app/public/data/charts/%s-%s.json", layer_id, slug),
@@ -212,7 +212,7 @@ ll$narrativeByTab$agriculture$challenges[[lang]] # bilingual pair, D-10
 ll$kpiByTab$agriculture  # data.frame: key, value, unit.en, unit.de, genesisTable, sourceHost
                           #   (climate rows additionally carry delta, deltaUnit, deltaHorizon)
 ```
-*Caution:* `narrativeByTab[tab][slot][lang]` can be `NULL`/`None` for unauthored fields (`generate_metadata.py`'s `_clean_narrative_text` maps blank strings to `None` — several LLs' `landscape` tab and several `challenges` slots are empty today, e.g. `havellandisches-luch.economic.challenges` and `.landscape.about`/`.challenges` are both empty strings in `data/ll_content.json` as of this research). The report template must handle a missing about/challenges block gracefully (omit the paragraph, don't render an empty box) — this is a real, already-observable data gap, not a hypothetical edge case.
+*Caution:* `narrativeByTab[tab][slot][lang]` can be `NULL`/`None` for unauthored fields (`generate_metadata.py`'s `_clean_narrative_text` maps blank strings to `None` — several LLs' `landscape` tab and several `challenges` slots are empty today, e.g. `havelland.economic.challenges` and `.landscape.about`/`.challenges` are both empty strings in `data/ll_content.json` as of this research). The report template must handle a missing about/challenges block gracefully (omit the paragraph, don't render an empty box) — this is a real, already-observable data gap, not a hypothetical edge case.
 
 ### Pattern 4: `sync.py`'s existing per-slug + glob copy pattern (direct model for `sync_reports()`)
 **What:** `sync_charts()` (verified by direct read, `data-pipeline/sync.py:378-413`) loops known LL slugs (read from `data/ll_boundaries.geojson`, not a hardcoded list), prints `[chart] skipped - not yet built: <path>` per missing file, then delegates the actual copy to `_sync_matched_pattern(pattern, tag="chart")`.
@@ -281,10 +281,10 @@ The full instance (line 727) is currently a lone `<div style={{ padding: '16px 3
 **Warning signs:** `quarto render` errors mentioning "could not find R" or a `knitr`-engine execution failure with no R-specific detail.
 
 ### Pitfall 2: Empty narrative fields render as awkward blank sections, not missing text
-**What goes wrong:** Several LLs have genuinely empty `narrativeByTab[tab].about`/`.challenges` strings today (confirmed live in `data/ll_content.json`, e.g. `havellandisches-luch`'s `landscape` tab, `economic.challenges`) — `generate_metadata.py` normalizes these to `None`/`null`, not `""`. A naive Typst/R template that always allocates a two-column text block per D-10 will produce a section with one empty white box next to real text.
+**What goes wrong:** Several LLs have genuinely empty `narrativeByTab[tab].about`/`.challenges` strings today (confirmed live in `data/ll_content.json`, e.g. `havelland`'s `landscape` tab, `economic.challenges`) — `generate_metadata.py` normalizes these to `None`/`null`, not `""`. A naive Typst/R template that always allocates a two-column text block per D-10 will produce a section with one empty white box next to real text.
 **Why it happens:** Content authoring (Phase 1, ongoing) and this phase's report layout were built independently; the report is the first consumer that lays out narrative text in a fixed two-slot grid per tab.
 **How to avoid:** R chunk logic should conditionally omit (or single-column-collapse) a slot when its value is `NULL`, exactly mirroring `TextBlock.jsx`'s existing behavior in the web app (it receives `text={ll.narrativeByTab?.[layer]?.about}`, which can already be `undefined`/`null` in the live UI today, so there is precedent to follow for how the app already tolerates this).
-**Warning signs:** Visually inspecting the first rendered PDF (`havellandisches-luch`, which has the most empty narrative slots of the 5 LLs as of this research) should surface this immediately — recommend it as the first LL rendered during development, precisely because it stress-tests the empty-content path.
+**Warning signs:** Visually inspecting the first rendered PDF (`havelland`, which has the most empty narrative slots of the 5 LLs as of this research) should surface this immediately — recommend it as the first LL rendered during development, precisely because it stress-tests the empty-content path.
 
 ### Pitfall 3: 8 climate maps + full-resolution PNG/SVG embeds can blow up PDF file size
 **What goes wrong:** D-12 requires 8 climate maps (4 variables x baseline+change) at print resolution, plus 5 more boundary-outline thematic maps, plus 1 locator map with basemap tiles — 14 rendered maps per report x 10 reports. Quarto's default Typst image embedding uses SVG for R plots unless told otherwise; SVG maps with many polygon vertices (BÜK soil boundaries, per D-13's requirement for accurate per-LL legends) can be large.
@@ -303,9 +303,9 @@ The full instance (line 727) is currently a lone `<div style={{ padding: '16px 3
 ### Reading the bar-chart JSON contract in R
 ```r
 # Source: real file read during this research,
-# app/public/data/charts/buek250-havellandisches-luch.json
+# app/public/data/charts/buek250-havelland.json
 library(jsonlite)
-chart <- fromJSON("app/public/data/charts/buek250-havellandisches-luch.json")
+chart <- fromJSON("app/public/data/charts/buek250-havelland.json")
 str(chart$series)
 # 'data.frame': 12 obs. of 4 variables:
 #  $ group_key: chr  "brown-soils" "gley-soils" "fens" "ah-c-soils" ...
@@ -430,7 +430,7 @@ Source: `https://raw.githubusercontent.com/iat-dml/templates/main/IAT-internal-t
 - Local install probing: `quarto --version` (1.9.38), `quarto typst --version` (0.14.2), R 4.5.0 install path, R package library listing
 - Live render test 1: minimal `.qmd` with an R/ggplot2 chunk -> `quarto render --to typst` -> valid PDF (`%PDF-1.7` magic bytes confirmed)
 - Live render test 2: parameterized `.qmd` (`params: {slug, lang}`) rendered via `quarto render ... -P slug:X -P lang:Y --output out.pdf` -> valid PDF
-- Direct file reads: `app/public/data/charts/chelsa-climate-havellandisches-luch.json`, `app/public/data/charts/buek250-havellandisches-luch.json`, `data/ll_content.json`, `app/public/data/ll_metadata.json`, `data-pipeline/python/generate_metadata.py`, `data-pipeline/sync.py`, `data-pipeline/sources/sources.yaml`, `app/src/pages/LLDetail.jsx`, `app/src/components/StatPanel.jsx`, `app/src/theme.js`, `app/src/i18n.js`, `data-pipeline/tests/test_pipeline_outputs.py`, `data/ll_boundaries.geojson`, `data/nuts3_ll.geojson`
+- Direct file reads: `app/public/data/charts/chelsa-climate-havelland.json`, `app/public/data/charts/buek250-havelland.json`, `data/ll_content.json`, `app/public/data/ll_metadata.json`, `data-pipeline/python/generate_metadata.py`, `data-pipeline/sync.py`, `data-pipeline/sources/sources.yaml`, `app/src/pages/LLDetail.jsx`, `app/src/components/StatPanel.jsx`, `app/src/theme.js`, `app/src/i18n.js`, `data-pipeline/tests/test_pipeline_outputs.py`, `data/ll_boundaries.geojson`, `data/nuts3_ll.geojson`
 
 ### Secondary (MEDIUM confidence — official docs/registry pages fetched via WebFetch)
 - `https://raw.githubusercontent.com/iat-dml/templates/main/IAT-internal-typst/_extensions/iat-internal/_extension.yml` — raw file content

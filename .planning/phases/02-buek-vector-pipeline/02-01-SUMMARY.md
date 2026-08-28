@@ -31,5 +31,5 @@ Added a first-class BUEK250 vector build path, committed the per-Living-Lab GeoJ
 
 ## Notes
 
-- The build currently produces 5 fixtures: `east-brandenburg`, `havellandisches-luch`, `north-hessian-loess`, `hessian-low-mountain`, and `rheingau`.
+- The build currently produces 5 fixtures: `east-brandenburg`, `havelland`, `north-hessian-loess`, `hessian-low-mountain`, and `rheingau`.
 - `pytest` was installed into `data-pipeline/.venv` during execution because the environment did not include it yet.

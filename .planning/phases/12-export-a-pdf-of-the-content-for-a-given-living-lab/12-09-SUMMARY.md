@@ -110,7 +110,7 @@ main repository checkout, where they already existed from prior work, before Tas
 convert the clipped raster to a `terra` categorical layer keyed on the palette's `value` column,
 plot with `tidyterra::geom_spatraster()`, and scale against the *full* palette (19 crop classes,
 8 land-cover classes) via `ll_discrete_map_scale()`'s explicit `limits`, so every legend row stays
-visible even where a class does not occur locally (D-13; verified live -- `havellandisches-luch`
+visible even where a class does not occur locally (D-13; verified live -- `havelland`
 has only 17 of 19 crop classes present, and the legend still shows all 19). The Living Lab boundary
 is overlaid as an unfilled brand-coloured outline; no basemap tiles (D-14).
 

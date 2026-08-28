@@ -23,7 +23,7 @@ key-files:
   created:
     - data-pipeline/python/compute_climate_chart.py
     - data/charts/chelsa-climate-east-brandenburg.json
-    - data/charts/chelsa-climate-havellandisches-luch.json
+    - data/charts/chelsa-climate-havelland.json
     - data/charts/chelsa-climate-north-hessian-loess.json
     - data/charts/chelsa-climate-hessian-low-mountain.json
     - data/charts/chelsa-climate-rheingau.json
@@ -100,7 +100,7 @@ internal means before its own final rounding.
 | Living Lab | gdd diff | bio1 diff | bio12 diff | bio18 diff |
 |---|---|---|---|---|
 | east-brandenburg | 0.0 | 0.4 | 0.0 | 0.0 |
-| havellandisches-luch | 0.0 | 0.2 | 0.0 | 0.0 |
+| havelland | 0.0 | 0.2 | 0.0 | 0.0 |
 | hessian-low-mountain | 0.0 | 0.2 | 0.0 | 0.0 |
 | north-hessian-loess | 0.0 | 0.3 | 0.0 | 0.0 |
 | rheingau | 0.0 | 0.3 | 0.0 | 0.0 |
@@ -123,7 +123,7 @@ internal means before its own final rounding.
 | Living Lab | gdd (near, far) | bio1 (near, far) | bio12 (near, far) | bio18 (near, far) |
 |---|---|---|---|---|
 | east-brandenburg | +32.7, +56.4 | +28.6, +44.0 | +1.4, +3.0 | -4.4, -5.3 |
-| havellandisches-luch | +32.1, +55.6 | +27.5, +42.5 | +1.2, +2.7 | -4.3, -5.9 |
+| havelland | +32.1, +55.6 | +27.5, +42.5 | +1.2, +2.7 | -4.3, -5.9 |
 | hessian-low-mountain | +34.6, +60.5 | +28.2, +45.0 | +1.4, +2.9 | -5.7, -8.6 |
 | north-hessian-loess | +35.6, +62.0 | +29.2, +46.2 | +0.7, +2.3 | -5.6, -8.7 |
 | rheingau | +34.8, +60.6 | +27.7, +44.1 | +1.0, +1.9 | -6.9, -9.8 |
@@ -193,7 +193,7 @@ by plan 09-01/09-02's threat model.
 
 - `data-pipeline/python/compute_climate_chart.py`: FOUND
 - `data/charts/chelsa-climate-east-brandenburg.json`: FOUND
-- `data/charts/chelsa-climate-havellandisches-luch.json`: FOUND
+- `data/charts/chelsa-climate-havelland.json`: FOUND
 - `data/charts/chelsa-climate-north-hessian-loess.json`: FOUND
 - `data/charts/chelsa-climate-hessian-low-mountain.json`: FOUND
 - `data/charts/chelsa-climate-rheingau.json`: FOUND

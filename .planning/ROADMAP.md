@@ -748,6 +748,181 @@ Plans:
 
 - [x] 13-06-PLAN.md — Phase close-out: full automated gate, whole-phase dependency and XSS checks, D-01..D-18 evidence table, blocking bilingual + keyboard human verification and content sign-off
 
+### Phase 14: Add soil yield potential (SQR) as a switchable Type/Yield potential map on the soil tab, plus an SQR-derived KPI in the KPI bar and reports
+
+**Goal:** The soil tab gains a Type / Yield potential sub-tab row (a second `VariablePicker` instance
+under `LayerTabs`, **not** the climate tab's on-map Baseline/Change switcher — D-02 reversed that) that
+keeps the existing BUEK250 soil-type map unchanged as the default and adds a per-Living-Lab yield
+potential raster built from the Germany-wide BGR Soil Quality Rating grid in `data/sqr1000_250_v10/`
+(250 m, EPSG:3034, values 0-102); the same raster fills the soil tab's two permanently-null KPI slots
+with a mean-SQR and a rated-area-share tile, and adds a band-share chart that becomes the yield map's
+bar legend in the per-LL PDF reports.
+**Requirements**: D-01 .. D-22 (from `14-CONTEXT.md`) plus `14-UI-SPEC.md`. Phase 14 has no
+REQUIREMENTS.md REQ-IDs; the CONTEXT decisions are the spec, as in Phases 5, 05.1, 6, 7, 8, 12 and 13.
+Every plan's `requirements` field carries the D-IDs it implements.
+**Depends on:** Phase 13
+**Plans:** 14 plans across 7 waves
+
+**Planning decisions (resolved during breakdown):**
+
+- **The licence is a blocking human decision, not a research task.** Research found SQR1000 is governed
+  by BGR's General Standard Terms and Conditions (GSTC/AGB), **not** GeoNutzV as BUEK250 is, and that
+  Article 3(1) explicitly withholds "the right to make accessible to the public" outside an
+  administrative-procedure carve-out that does not describe this project. Wave 1 is therefore a
+  `checkpoint:decision` (`14-01`) producing `14-LICENCE.md`; no `sources.yaml` edit may land before it.
+
+- **The `app_layer` 1:1 collision is designed before any sources.yaml edit.** `sync.py:306` emits a flat
+  last-write-wins `Map`, so a second `app_layer: soil` entry would silently overwrite BUEK's. `14-03`
+  adds a `mode:` key, a compound `${appLayer}:${mode}` companion map with `soil` aliased back to
+  `soil:type` (D-01), and a hard sync-time uniqueness assertion that turns any *future* collision into a
+  loud build failure.
+
+- **The licence verdict is enforced technically, not by convention.** `deploy-pages.yml` uploads
+  `app/dist` — which Vite fills from `app/public/**` — on every push to `main`, so committed SQR tiles would
+  publish themselves. `14-04` therefore transcribes `14-LICENCE.md`'s verdict into
+  `data/sqr_publication_gate.json` and adds `app/scripts/check_sqr_publication_gate.mjs` as a build-job step
+  between `npm run build` and `upload-pages-artifact`: under a non-permitted verdict it strips the SQR tiles
+  from the artifact and exits non-zero if any survives, and it fails closed on a missing or unrecognised gate
+  file. Scope is stated honestly — raster tiles only, not the derived aggregate statistics — and `14-14`
+  re-proves the gate on a fresh build and surfaces both points to the human.
+
+- **Five bands, not six.** D-11 leaves the band count to discretion; five equal-width bands of 20 over a
+  declared 0-100 scale (top band open-ended, so the nominal 102 ceiling still colours) is the only count
+  that keeps the chart at exactly six rows — five bands plus D-21's "Not rated" — which is exactly
+  `chartSeries.js`'s `MAX_BARS`. A sixth band would fold the Not-rated row into a differently-coloured
+  "Other" bucket and break D-21. It also uses D-09's five locked ramp stops verbatim, so no new hex is
+  invented.
+
+- **No Pass-0 colour-breaks script.** Climate's two-pass machinery exists because its breaks are
+  data-driven; D-11's bands are arithmetic and declared in `sources.yaml`, so `build_sqr_pmtiles.py`
+  reads them directly. Simpler than the precedent, not a shortcut around it.
+
+- **`build_continuous_colormap()` gains one optional `nodata_color`.** It currently hardcodes nodata to
+  transparent; D-10 needs opaque grey. `None` reproduces today's behaviour byte-for-byte, so climate's
+  call site is untouched.
+
+- **Two `-9999` cases, two alpha treatments.** SQR's single sentinel conflates "non-arable inside the
+  Living Lab" (opaque grey) with "inside the 2 km buffer margin" (transparent). The classify-then-
+  geometry-mask ordering from `build_climate_pmtiles.py` is what distinguishes them and must not be
+  merged into one step.
+
+- **Two denominators coexist deliberately.** D-14's mean is over rated cells; D-21's chart is over the
+  whole Living Lab; D-16's second KPI tile is the bridge. Plans 14-05 and 14-07 document the split
+  in-script and 14-07 cross-checks the two artifacts agree within 1.0 point.
+
+- **`ΔE76 ≈ 13.4` between `limePale` and the Not-rated grey is surfaced, not hidden.** Both colours are
+  locked (D-09, D-10), so the automated distinctness gate is set at 12 rather than
+  `check_soil_palette.mjs`'s 15, and the pair is an explicit item on `14-14`'s human checkpoint.
+
+- **The three-hop codegen chain is an explicit plan.** `report_tokens.json` is produced by a manual
+  `node app/scripts/export_report_tokens.mjs` run, not by `python sync.py` — `14-09` exists so that step
+  cannot be forgotten.
+
+- **`.ll_climate_band_shares()` must not be reused.** It is the codebase's one documented exception to
+  "no statistic is recomputed in R"; D-19's `compute_sqr_chart.py` exists so it is not repeated.
+
+- Zero new npm, pip and R packages — asserted as a whole-phase diff gate in `14-14`.
+
+Plans:
+
+**Wave 1**
+
+- [ ] `14-01-PLAN.md` — SQR1000 licence evidence brief and blocking `checkpoint:decision` (D-06, D-07)
+- [ ] `14-02-PLAN.md` — `VariablePicker` `ariaLabelKey`, new `layer_source_lookup.js`, eight bilingual i18n keys
+
+**Wave 2** *(blocked on Wave 1)*
+
+- [ ] `14-03-PLAN.md` — `sources.yaml` `sqr1000` entry + `yield_bands`, `sync.py` compound-key codegen and
+      collision assertion, `soil_yield_legend.js` codegen, `test_sqr_contract.py`
+
+**Wave 3** *(blocked on Wave 2)*
+
+- [ ] `14-04-PLAN.md` — `build_continuous_colormap(nodata_color=)`, `build_sqr_pmtiles.py`, the five-LL build
+      and publish, plus the verdict-driven `check_sqr_publication_gate.mjs` deploy gate (D-06)
+- [ ] `14-05-PLAN.md` — `compute_sqr_kpis.py` and `data/sqr_kpis.json` (D-14, D-16, D-17)
+- [ ] `14-06-PLAN.md` — `layers.js`: `SOIL_MODES`, the soil `modes` map, mode-aware `resolveLayerAsset`
+
+**Wave 4** *(blocked on Wave 3)*
+
+- [ ] `14-07-PLAN.md` — `compute_sqr_chart.py`, five band-share charts, consolidated SQR artifact contract tests
+- [ ] `14-09-PLAN.md` — `export_report_tokens.mjs` `palettes.soilYield`, regenerated bridge, updated tokens test
+
+**Wave 5** *(blocked on Wave 4)*
+
+- [ ] `14-08-PLAN.md` — `useChartData`/`BarChart` mode threading and `StatPanel`'s per-field provenance fix
+- [ ] `14-10-PLAN.md` — curated KPI manifest swap, `generate_metadata.py` `sqr1000` branch, regenerated metadata, test contracts
+- [ ] `14-12-PLAN.md` — R chart accessors gain a `layer_id` override; SQR band colour resolver
+
+**Wave 6** *(blocked on Wave 5)*
+
+- [ ] `14-11-PLAN.md` — `LLDetail` soil mode state and sub-tab row, `LLMap` raster/legend/note/attribution wiring
+- [ ] `14-13-PLAN.md` — `ll_map_soil_yield()` and the two-map soil section in `template.qmd`
+
+**Wave 7** *(blocked on Wave 6)*
+
+- [ ] `14-14-PLAN.md` — full automated gate, seven cross-file join-key checks, ten-report re-render,
+      D-01..D-22 evidence record, blocking bilingual human verification
+
+### Phase 15: Add "See a demo video" buttons on the main page and LL detail page, serving EN and DE caption versions of the Remotion demo video
+
+**Goal:** Both the landing page and each Living Lab detail page gain a "See a demo video" /
+"Demo-Video ansehen" entry point that plays the existing Remotion-rendered product tour in-app, and the
+video itself ships in two caption variants — the current German one plus a new English one — selected
+from the app's active i18n language so an EN visitor never lands on a German-captioned tour.
+**Requirements**: TBD (no REQUIREMENTS.md REQ-IDs yet; expect a CONTEXT.md D-ID spec as in Phases 5-14)
+**Depends on:** Phase 14
+**Plans:** 0 plans
+
+**Context captured at creation (2026-08-27):**
+
+- **The captions themselves are cheap; the footage under them is not.** Captions are Remotion-drawn
+  overlays in `scenes.ts` — `CAPTION_TEXT` (19 keys) plus `INTRO` (3 strings) — and that file states the
+  design intent outright: keeping copy out of the capture scripts "means wording can change without
+  re-recording any footage." So translating 22 strings is the easy half. The hard half is that
+  `video/capture/src/lib/sceneRunner.mjs` seeds the German `ll-explorer-lang` localStorage key before the
+  app's first script runs, for **every** scene — so the app chrome, tab labels and KPI labels *inside* the
+  nine captured mp4s are German. An EN variant therefore needs a **re-capture pass with that key seeded to
+  `en`**, not just a caption swap.
+
+- **The capture harness is already partly language-aware — extend it, don't fork it.**
+  `renderReportPages.mjs` already takes a `lang` parameter, and `appLocators.mjs:69-72` already matches the
+  language group by *either* its German or English accessible name (it had to, because scene 3 switches to
+  English mid-take). But other locators are still German literals (`languageGroup: 'Sprache'`), so the
+  work is generalizing those, not rebuilding the harness.
+
+- **Scene 3 inverts in the English cut.** `scene03Language.mjs` currently starts German, clicks the EN
+  pill, holds to show translated labels, then clicks back to DE. The EN variant needs the mirror image
+  (start EN → click DE → return), which is a genuine scene-design decision, not a config flip.
+
+- **Variant selection is file selection.** There is no `<track>` / WebVTT sidecar — each language is a
+  separate mp4. The i18n hook picks a URL, and the phase needs a sensible fallback for when only the DE
+  render exists (ship DE-only first, add EN behind the same switch).
+
+- **Delivery format is already decided and measured.** 1080p H.264, CRF 30, **no audio track**
+  (`-an` — the source has none; the original render carried 317 kb/s of encoded silence), `+faststart`,
+  2-second keyframe interval (`-g 60`). This lands the 2:10 tour at ~18 MB, down 4.1× from the 72.6 MB
+  Remotion default (CRF 18) with no perceptible loss — verified by frame comparison on map labels and
+  panel headings. Note 720p buys only ~4 MB over 1080p CRF 30, so do **not** downscale; raise CRF instead.
+
+- **Hosting is an open decision with a deploy-gate wrinkle.** Committing the mp4 to `app/public/` is the
+  simplest correct option (no external dependency, Pages serves byte ranges so scrubbing works, and
+  ~18 MB is well under GitHub's 50 MB warning threshold). But `deploy-pages.yml` publishes `app/dist`
+  from `app/public/**` on every push to `main`, and two caption variants at ~18 MB each recur in git
+  history on every re-render. Weigh that against a GitHub Release asset (zero repo growth, stable URL,
+  but a network dependency). **Do not use Git LFS** — GitHub Pages does not resolve LFS pointers, so the
+  slide/app would fetch a ~130-byte text file instead of a video unless checkout sets `lfs: true`.
+
+- **A poster frame is required, not optional.** With `preload="none"` (needed so the video's ~18 MB does
+  not load on first paint of the landing page) the element renders blank without a `poster`. A title-card
+  JPEG is ~72 KB.
+
+- **A copy of the DE render is already deployed outside this repo** alongside the IAT Statusseminar 2026
+  reveal.js deck, at `C:\git\knowledge-management\presentations\iat-statusseminar-2026\assets\`. That copy
+  is a snapshot, not a shared source — re-renders do not propagate to it.
+
+Plans:
+- [ ] TBD (run /gsd:plan-phase 15 to break down)
+
 ---
 
-*Created: 2026-04-29*
+*Created: 2026-08-27*

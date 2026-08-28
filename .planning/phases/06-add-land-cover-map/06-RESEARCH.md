@@ -160,11 +160,11 @@ Tiles follow the Sentinel-2 MGRS **grid zone** naming (`{zone}{band}`), not full
 | Tile | CRS | WGS84 footprint | Covers |
 |------|-----|-----------------|--------|
 | `32U` | EPSG:32632 | 5.413°–12.587° E, 47.961°–55.984° N | rheingau (100%), hessian-low-mountain (100%), north-hessian-loess (100%) |
-| `33U` | EPSG:32633 | 11.413°–18.587° E, 47.961°–55.984° N | east-brandenburg (100%), havellandisches-luch (100%) |
+| `33U` | EPSG:32633 | 11.413°–18.587° E, 47.961°–55.984° N | east-brandenburg (100%), havelland (100%) |
 
 `[VERIFIED: computed locally from Planetary Computer STAC `proj:bbox`/`proj:epsg` reprojected against `data/nuts3_ll.geojson`]`
 
-**No Living Lab straddles the tile boundary.** `havellandisches-luch` overlaps 32U by 8.6% but is 100% inside 33U, so 33U alone suffices. This confirms D-15 (no coverage gaps) and — more importantly — **eliminates any need for a mosaic step**. Each LL maps to exactly one source tile in exactly one CRS.
+**No Living Lab straddles the tile boundary.** `havelland` overlaps 32U by 8.6% but is 100% inside 33U, so 33U alone suffices. This confirms D-15 (no coverage gaps) and — more importantly — **eliminates any need for a mosaic step**. Each LL maps to exactly one source tile in exactly one CRS.
 
 ### Vintage
 
@@ -228,7 +228,7 @@ Measured tile counts (z6–z12, per LL, buffered geometry):
 | LL | Tiles z6–z12 | Est. PMTiles size @25 KB/tile |
 |----|-------------:|------------------------------:|
 | east-brandenburg | 495 | ~12 MB |
-| havellandisches-luch | 299 | ~7 MB |
+| havelland | 299 | ~7 MB |
 | hessian-low-mountain | 287 | ~7 MB |
 | north-hessian-loess | 171 | ~4 MB |
 | rheingau | 63 | ~2 MB |
@@ -291,7 +291,7 @@ Proposed shape (mirrors how `buek250` uses `output.geojson_pattern`):
         hessian-low-mountain:   32U
         north-hessian-loess:    32U
         east-brandenburg:       33U
-        havellandisches-luch:   33U
+        havelland:   33U
       path_pattern: "data/io_lulc_{tile}_2024.tif"
       download_url_pattern: "https://io-10m-annual-lulc.s3.us-west-2.amazonaws.com/{tile}_2024.tif"
       nodata: 0

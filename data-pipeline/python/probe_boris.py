@@ -53,7 +53,7 @@ LL_STATES = {
     "rheingau": "he",
     "north-hessian-loess": "he",
     "hessian-low-mountain": "he",
-    "havellandisches-luch": "bb",
+    "havelland": "bb",
     "east-brandenburg": "bb",
 }
 
@@ -735,11 +735,11 @@ KNOWN_ZONE_COUNTS = {
     "rheingau": 1668,
     "north-hessian-loess": 3435,
     "hessian-low-mountain": 9531,
-    "havellandisches-luch": 19083,
+    "havelland": 19083,
     "east-brandenburg": 30018,
 }
 
-VOLUME_PROBE_SLUGS = ["east-brandenburg", "havellandisches-luch", "rheingau"]
+VOLUME_PROBE_SLUGS = ["east-brandenburg", "havelland", "rheingau"]
 
 CONTRACT_KEYS = [
     "bodenrichtwert",

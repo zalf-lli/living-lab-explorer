@@ -797,7 +797,7 @@ def test_bar_chart_fixtures_exist_and_match_contract() -> None:
     Same relaxation extends to value: compute_soil_chart.py deliberately never drops a
     dissolved soil group regardless of area (see its "never drop a row" docstring), so a
     group whose remaining area after a boundary edit is a boundary-adjacent sliver can
-    round to 0.0 ha at one decimal place (e.g. buek250-havellandisches-luch.json's
+    round to 0.0 ha at one decimal place (e.g. buek250-havelland.json's
     "Alluvial soils" category after the 2026-08-04 nuts3 boundary shrink: pct=1e-05,
     value=0.0). Asserting value > 0 would fail on correct, already-committed data, so
     this test asserts value >= 0 instead.

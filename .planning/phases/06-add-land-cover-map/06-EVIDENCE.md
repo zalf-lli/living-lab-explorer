@@ -44,7 +44,7 @@
 | D-11 | Minimize new colors; reuse the existing `theme.js`/`LANDUSE_LEGEND`/`SOIL_LEGEND` palette | Same check as D-10 — every one of the 9 land-cover legend colours pre-existed in the codebase before this phase; zero new hex codes introduced | **PASS** |
 | D-12 | Final land cover legend defined in `layers.js` as `LAND_COVER_LEGEND` (`{value, en, de, color}`), following `LANDUSE_LEGEND`/`SOIL_LEGEND` pattern | **Deviation recorded** — see below. `LAND_COVER_LEGEND` is codegen'd into `app/src/data/land_cover_legend.js` and imported by `layers.js` (`import { LAND_COVER_LEGEND } from './land_cover_legend.js'`), rather than hand-written inline. The `{value, en, de, color}` shape D-12 specifies is delivered exactly and is reachable from `layers.js` as required | **PASS (with justified deviation)** |
 | D-13 | Clip land cover data to each LL boundary before committing to repo | `build_land_cover.py` calls the slug-aware `build_clip_geometry(slug=...)` for every LL; each committed PMTiles covers only that LL's extent (file sizes below range 0.6-5.1 MB, proportional to LL area) | **PASS** |
-| D-14 | Generate 5 separate per-LL PMTiles or GeoJSON files (one per LL slug) | Five `land-cover-{slug}.pmtiles` files committed in `data/pmtiles/` and `app/public/data/pmtiles/`: `east-brandenburg`, `havellandisches-luch`, `hessian-low-mountain`, `north-hessian-loess`, `rheingau` | **PASS (per-LL treated as mandatory, not merely preferred — see deviation below)** |
+| D-14 | Generate 5 separate per-LL PMTiles or GeoJSON files (one per LL slug) | Five `land-cover-{slug}.pmtiles` files committed in `data/pmtiles/` and `app/public/data/pmtiles/`: `east-brandenburg`, `havelland`, `hessian-low-mountain`, `north-hessian-loess`, `rheingau` | **PASS (per-LL treated as mandatory, not merely preferred — see deviation below)** |
 | D-15 | Sentinel-2 LULC covers all of Germany; no coverage gaps expected | `build_land_cover.py`'s all-nodata guard (added to `build_pmtiles.py::build_paletted_geotiff` in 06-01) fires a `RuntimeError` if any clip produces an all-nodata array; all five LL builds completed without tripping this guard, and the class histogram (below) shows non-zero real-class pixels for every LL | **PASS** |
 | D-16 | One-time fetch (2024 edition), future updates are a backlog item | `sources.yaml` pins both source tile SHA-256 digests (`32U`, `33U`) under `input.sha256_by_tile`; no scheduled/periodic re-fetch mechanism exists; time-series tracking is explicitly listed as deferred in `06-CONTEXT.md` and reiterated in this phase's closing scope in Task 3 | **PASS** |
 | D-17 | Register land cover as a new layer in `sources.yaml` with `kind: raster`, following the `landuse-croptypes` pattern | `sources.yaml` declares `io-lulc-landcover` with `kind: raster`, `classification: categorical`, `per_ll: true`, full `source`/`input`/`build`/`output` blocks mirroring `landuse-croptypes`'s structure | **PASS** |
@@ -88,7 +88,7 @@ D-09 lists "or per-LL PMTiles files" as an alternative to a single combined outp
 |---|---|
 | `east-brandenburg` | 5,375,055 bytes (~5.1 MB) |
 | `hessian-low-mountain` | 3,915,850 bytes (~3.7 MB) |
-| `havellandisches-luch` | 3,111,098 bytes (~3.0 MB) |
+| `havelland` | 3,111,098 bytes (~3.0 MB) |
 | `north-hessian-loess` | 1,966,225 bytes (~1.9 MB) |
 | `rheingau` | 659,205 bytes (~0.6 MB) |
 

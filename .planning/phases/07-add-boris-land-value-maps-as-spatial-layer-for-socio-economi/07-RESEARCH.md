@@ -95,7 +95,7 @@
 | rheingau | HE | 1,668 |
 | north-hessian-loess | HE | 3,435 |
 | hessian-low-mountain | HE | 9,531 |
-| havellandisches-luch | BB | 19,083 |
+| havelland | BB | 19,083 |
 | east-brandenburg | BB | 30,018 |
 | **Total** | | **63,735** |
 
@@ -393,7 +393,7 @@ Verified by sending each Living Lab's real boundary geometry (from `data/ll_boun
 | rheingau | HE | - | **1,668** |
 | north-hessian-loess | HE | - | **3,435** |
 | hessian-low-mountain | HE | - | **9,531** |
-| havellandisches-luch | BB | 68,540 | **19,083** |
+| havelland | BB | 68,540 | **19,083** |
 | east-brandenburg | BB | 89,263 | **30,018** |
 
 For comparison, Phase 5's protected areas (the closest prior "live WFS, per-LL vector" precedent) topped out at **362 features** for its single densest Living Lab. **BORIS zone density is 5x-80x higher.**
@@ -413,7 +413,7 @@ Scaling naively by feature count alone (larger LLs are not necessarily geometric
 | rheingau | 1,668 | ~16.7 MB (measured) |
 | north-hessian-loess | 3,435 | ~34 MB |
 | hessian-low-mountain | 9,531 | ~95 MB |
-| havellandisches-luch | 19,083 | ~190 MB |
+| havelland | 19,083 | ~190 MB |
 | east-brandenburg | 30,018 | ~300 MB |
 
 Because the project commits every layer's output **twice** (`data/geojson/` and `app/public/data/geojson/`, per the existing `build_vector.py`/`fetch_protected_areas.py` pattern), an unmitigated implementation could add roughly **1.2 GB** to a repository whose `.git` was already ~725 MB as of Phase 5. This is not viable.
@@ -563,7 +563,7 @@ Values with no current Bodenrichtwert (`has_current_value === false`, D-08) are 
 
 ### Pitfall 5: Assuming BBOX-hit counts are the real per-LL feature count
 **What goes wrong:** Sizing/performance estimates come out 2-3x too high (or a planning decision is made on padded-rectangle numbers instead of true intersection numbers).
-**Why:** A padded bounding-box query over-selects; verified up to 3.6x overselection for `havellandisches-luch` (68,540 bbox-hits vs. 19,083 true `fes:Intersects` matches).
+**Why:** A padded bounding-box query over-selects; verified up to 3.6x overselection for `havelland` (68,540 bbox-hits vs. 19,083 true `fes:Intersects` matches).
 **Avoid:** Use a server-side `fes:Intersects` spatial filter with the actual LL geometry (verified working via WFS 2.0 POST for both states, section 5.1) rather than BBOX + client-side filtering.
 
 ### Pitfall 6: Assuming this phase's scale matches Phase 5's protected-areas precedent

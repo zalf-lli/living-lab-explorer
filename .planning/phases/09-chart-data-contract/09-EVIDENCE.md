@@ -15,9 +15,9 @@
 | D-03 | Schema documented as a new `data-pipeline/README.md` section, styled after `## BUEK250 soil semantics contract` | Implemented | `data-pipeline/README.md:301` `## Chart data contract` section (lines 301-338), positioned directly after the BUEK250 semantics section and before `### Full working Windows sequence` (line 340), covering both `chart_type` shapes, all seven shared envelope fields, and the raster-percentage-denominator note |
 | D-04 | `source` is a plain string holding the `sources.yaml` layer id, not a nested object or attribution text | Implemented | Direct read of `data/charts/landuse-croptypes-rheingau.json`: `source: "landuse-croptypes"` (a bare string), distinct from `layer_id: "agriculture"` — confirmed for all 25 files by Task 1 join-key check 1 (`d['source'] in L`) |
 | D-05 | Agriculture (`landuse-croptypes`): `chart_type: "bar"`, % area per crop type; requires new per-LL clip+histogram since the raster is built nationally | Implemented | `data-pipeline/python/compute_agriculture_chart.py` opens `data/croptypes_2024.tif` once via `rasterio`, loops all 5 LL slugs with `build_clip_geometry()` + `rasterio.mask.mask(crop=True)`, converts pixel counts to hectares via `sources.yaml`'s `input.resolution_m`. All 5 committed files carry 18 crop classes each; e.g. `landuse-croptypes-rheingau.json` top series entry `permanent grassland` at 19.4% |
-| D-06 | Soil (`buek250`): `chart_type: "bar"`, % area per `soil_group_key`, computed via dissolve + area in a projected CRS | Implemented | `data-pipeline/python/compute_soil_chart.py`: calls `frame.geometry.make_valid()` immediately after `gpd.read_file()` (CLAUDE.md rule), reprojects to `EPSG:25832`, dissolves by `soil_group_key`, computes `dissolved.area / 10_000` for hectares. Per-LL totals (ha): east-brandenburg 743,528.5; havellandisches-luch 399,660.8; hessian-low-mountain 536,788.1; north-hessian-loess 231,516.2; rheingau 80,872.6 (09-03-SUMMARY.md) |
+| D-06 | Soil (`buek250`): `chart_type: "bar"`, % area per `soil_group_key`, computed via dissolve + area in a projected CRS | Implemented | `data-pipeline/python/compute_soil_chart.py`: calls `frame.geometry.make_valid()` immediately after `gpd.read_file()` (CLAUDE.md rule), reprojects to `EPSG:25832`, dissolves by `soil_group_key`, computes `dissolved.area / 10_000` for hectares. Per-LL totals (ha): east-brandenburg 743,528.5; havelland 399,660.8; hessian-low-mountain 536,788.1; north-hessian-loess 231,516.2; rheingau 80,872.6 (09-03-SUMMARY.md) |
 | D-07 | Landscape (`io-lulc-landcover`): `chart_type: "bar"`, % area per land-cover class, reshapes the existing `land_cover_class_histogram.json` — no new geometry computation | Implemented | `data-pipeline/python/compute_landscape_chart.py` reads `data/land_cover_class_histogram.json` directly, excludes the `"0"` nodata key from numerator and denominator, converts pixel counts to hectares via `io-lulc-landcover`'s own `input.resolution_m`. Direct read of all 5 committed files: `Forest` is the top class in every Living Lab (43.1%-60.4%), 7-8 classes per file |
-| D-08 | Economic (`boris`): `chart_type: "bar"`, % of zones (not area) per usage-type category, using the existing bilingual usage-type contract | Implemented | `data-pipeline/python/compute_economic_chart.py` groups by `(usage_type_en, usage_type_de)` and counts with `.size()` — `value` is an integer zone count, never an area. Per-LL zone totals match each Living Lab's committed GeoJSON feature count exactly (east-brandenburg 29,049; havellandisches-luch 18,644; hessian-low-mountain 9,553; north-hessian-loess 3,460; rheingau 1,676 — 09-03-SUMMARY.md's locked exact-total check) |
+| D-08 | Economic (`boris`): `chart_type: "bar"`, % of zones (not area) per usage-type category, using the existing bilingual usage-type contract | Implemented | `data-pipeline/python/compute_economic_chart.py` groups by `(usage_type_en, usage_type_de)` and counts with `.size()` — `value` is an integer zone count, never an area. Per-LL zone totals match each Living Lab's committed GeoJSON feature count exactly (east-brandenburg 29,049; havelland 18,644; hessian-low-mountain 9,553; north-hessian-loess 3,460; rheingau 1,676 — 09-03-SUMMARY.md's locked exact-total check) |
 | D-09 | Climate (`chelsa-climate`): `chart_type: "line"`, one line per variable (gdd, bio1, bio12, bio18), 2 points each (2041-2070, 2071-2100), all as % change vs. 1981-2010 baseline | Implemented (with scope correction — see below) | `data-pipeline/python/compute_climate_chart.py`'s `lines_for_slug()` builds exactly 4 lines in gdd-first order (Phase 8 D-08), each with exactly 2 points. Direct read of `data/charts/chelsa-climate-rheingau.json`: `x_axis` = `["2041_2070", "2071_2100"]`, `lines[0]` = `{"label": {"en": "Growing degree days", "de": "Wachstumsgradtage"}, "points": [{"x": "2041_2070", "value": 34.8}, {"x": "2071_2100", "value": 60.6}]}` |
 | D-10 | All 5 layers get a `chart:` stanza in `sources.yaml`; output is one JSON file per (layer, LL) via the existing `_sync_matched_pattern()` glob helper | Implemented | `data-pipeline/sources/sources.yaml`: `chart.script` + `output.chart_pattern` present on `landuse-croptypes` (lines 46-56), `io-lulc-landcover` (121-129), `buek250` (165-188), `boris` (263-318), `chelsa-climate` (365-366, 504) — five layers, all annotated `# D-10`. `data-pipeline/sync.py::sync_charts()` (line 378) delegates the actual copy to `_sync_matched_pattern(pattern, tag="chart")` at line 413 |
 | D-11 | `sync.py` never invokes chart scripts, only copies already-produced files; logging uses the bracketed `[chart]` tag, `[chart] skipped - not yet built` when missing | Implemented | `sync.py::sync_charts()` docstring (lines 379-382) states explicitly: "this never computes chart data -- it only copies already-produced files (D-11)". A live `sync.py` run (Task 1) printed 25 `[chart] data\charts\... -> app\public\data\charts\...` copy lines and 0 skip lines (all 25 files already built); `sync_charts()` line 412 prints `[chart] skipped - not yet built: {path}` per missing file when a file is absent (verified structurally present in source; historically exercised as 25/25 skip lines in 09-02-SUMMARY.md before any chart script existed) |
@@ -58,7 +58,7 @@ Sourced from `09-03-SUMMARY.md`, `09-04-SUMMARY.md`, `09-05-SUMMARY.md`, and dir
 | Living Lab | Total classified ha | Top crop class |
 |---|---|---|
 | east-brandenburg | 352,606 | permanent grassland 17.6% |
-| havellandisches-luch | 208,218 | permanent grassland 31.9% |
+| havelland | 208,218 | permanent grassland 31.9% |
 | hessian-low-mountain | 240,925 | permanent grassland 33.3% |
 | north-hessian-loess | 117,125 | permanent grassland 20.2% |
 | rheingau | 26,270 | permanent grassland 19.4% |
@@ -68,7 +68,7 @@ Sourced from `09-03-SUMMARY.md`, `09-04-SUMMARY.md`, `09-05-SUMMARY.md`, and dir
 | Living Lab | Series count | Total ha | Top soil group |
 |---|---|---|---|
 | east-brandenburg | 14 | 743,528.5 | Brown soils 57.4% |
-| havellandisches-luch | 13 | 399,660.8 | Brown soils 54.6% |
+| havelland | 13 | 399,660.8 | Brown soils 54.6% |
 | hessian-low-mountain | 12 | 536,788.1 | Brown soils 54.9% |
 | north-hessian-loess | 12 | 231,516.2 | Brown soils 41.5% |
 | rheingau | 9 | 80,872.6 | Brown soils 66.7% |
@@ -78,7 +78,7 @@ Sourced from `09-03-SUMMARY.md`, `09-04-SUMMARY.md`, `09-05-SUMMARY.md`, and dir
 | Living Lab | Series count | Total ha | Top land-cover class |
 |---|---|---|---|
 | east-brandenburg | 7 | 858,361.4 | Forest 43.6% |
-| havellandisches-luch | 8 | 481,892.1 | Forest 43.1% |
+| havelland | 8 | 481,892.1 | Forest 43.1% |
 | hessian-low-mountain | 8 | 597,711.6 | Forest 45.1% |
 | north-hessian-loess | 8 | 286,967.9 | Forest 45.4% |
 | rheingau | 7 | 103,264.4 | Forest 60.4% |
@@ -88,7 +88,7 @@ Sourced from `09-03-SUMMARY.md`, `09-04-SUMMARY.md`, `09-05-SUMMARY.md`, and dir
 | Living Lab | Series count | Total zones | Top usage category |
 |---|---|---|---|
 | east-brandenburg | 29 | 29,049 | Mixed building land 34.0% |
-| havellandisches-luch | 28 | 18,644 | Residential building land 25.2% |
+| havelland | 28 | 18,644 | Residential building land 25.2% |
 | hessian-low-mountain | 31 | 9,553 | Residential building land 18.4% |
 | north-hessian-loess | 31 | 3,460 | Forestry land 12.8% |
 | rheingau | 17 | 1,676 | Residential building land 30.0% |
@@ -98,7 +98,7 @@ Sourced from `09-03-SUMMARY.md`, `09-04-SUMMARY.md`, `09-05-SUMMARY.md`, and dir
 | Living Lab | gdd (near, far) | bio1 (near, far) | bio12 (near, far) | bio18 (near, far) |
 |---|---|---|---|---|
 | east-brandenburg | +32.7, +56.4 | +28.6, +44.0 | +1.4, +3.0 | -4.4, -5.3 |
-| havellandisches-luch | +32.1, +55.6 | +27.5, +42.5 | +1.2, +2.7 | -4.3, -5.9 |
+| havelland | +32.1, +55.6 | +27.5, +42.5 | +1.2, +2.7 | -4.3, -5.9 |
 | hessian-low-mountain | +34.6, +60.5 | +28.2, +45.0 | +1.4, +2.9 | -5.7, -8.6 |
 | north-hessian-loess | +35.6, +62.0 | +29.2, +46.2 | +0.7, +2.3 | -5.6, -8.7 |
 | rheingau | +34.8, +60.6 | +27.7, +44.1 | +1.0, +1.9 | -6.9, -9.8 |

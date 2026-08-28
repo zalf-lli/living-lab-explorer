@@ -50,7 +50,7 @@ if not USERNAME or not PASSWORD:
 
 LL_NUTS3: dict[str, list[str]] = {
     "east-brandenburg":     ["DE409", "DE40A", "DE40B", "DE40C"],
-    "havellandisches-luch": ["DE408"],
+    "havelland": ["DE408"],
     "north-hessian-loess":  ["DE734", "DE737"],
     "hessian-low-mountain": ["DE721", "DE722", "DE723", "DE724", "DE725"],
     "rheingau":             ["DE71D"],

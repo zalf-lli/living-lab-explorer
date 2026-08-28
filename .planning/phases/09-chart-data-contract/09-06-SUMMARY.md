@@ -20,7 +20,7 @@ tech-stack:
     - "pct >= 0 (not > 0) for bar-chart series entries, to tolerate real single-digit BORIS categories that round to 0.0% at one decimal place"
 key-files:
   created:
-    - app/public/data/charts/landuse-croptypes-{east-brandenburg,havellandisches-luch,hessian-low-mountain,north-hessian-loess,rheingau}.json
+    - app/public/data/charts/landuse-croptypes-{east-brandenburg,havelland,hessian-low-mountain,north-hessian-loess,rheingau}.json
     - app/public/data/charts/io-lulc-landcover-{5 slugs}.json
     - app/public/data/charts/buek250-{5 slugs}.json
     - app/public/data/charts/boris-{5 slugs}.json
@@ -122,7 +122,7 @@ published-copy byte-identity guarantee.
   thousand (e.g. `boris-east-brandenburg.json`'s "Campsite": `value: 1, pct: 0.0`),
   which round to `0.0` at the file's one-decimal-place precision. Asserting the
   plan's literal `pct > 0` would fail on correct, already-shipped data across four of
-  the five `boris-*.json` files (`east-brandenburg`, `havellandisches-luch`,
+  the five `boris-*.json` files (`east-brandenburg`, `havelland`,
   `north-hessian-loess`, `hessian-low-mountain` all have at least one `pct: 0.0`
   entry; `rheingau` does not).
 - **Fix:** Asserted `pct >= 0` instead, with an explanatory docstring paragraph

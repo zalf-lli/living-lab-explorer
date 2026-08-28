@@ -2,15 +2,15 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: ready_to_plan
-stopped_at: Phase 13 complete, goal-verified 18/18
-last_updated: "2026-08-13T15:10:11.227Z"
+status: ready_to_execute
+stopped_at: Phase 14 planned - 14 plans, 7 waves
+last_updated: "2026-08-24T21:55:00.000Z"
 progress:
-  total_phases: 17
-  completed_phases: 13
-  total_plans: 86
-  completed_plans: 83
-  percent: 76
+  total_phases: 18
+  completed_phases: 14
+  total_plans: 114
+  completed_plans: 84
+  percent: 78
 ---
 
 # Project State
@@ -21,9 +21,12 @@ See: `.planning/PROJECT.md` (updated 2026-04-29)
 
 **Core value:** A researcher or stakeholder can open the app and immediately see accurate, up-to-date geodata and statistics for any of the five Living Labs without any server infrastructure.
 
-**Current focus:** Phase 13 complete. No Phase 14 defined in ROADMAP.md yet — remaining open work is
-Phase 3.1 (paused at its Wave 3 human-verify checkpoint), Phase 05.1, and Phase 7 (8/9 plans
-complete). Run `/gsd:progress` to route to the next action.
+**Current focus:** Phase 14 is planned — 14 plans across 7 waves, plan-checker passed on
+iteration 2, all 22 CONTEXT decisions (D-01..D-22) covered. Wave 1 opens on `14-01`, a blocking
+`checkpoint:decision` on the SQR1000 licence (BGR GSTC Art. 3(1) may withhold public republication);
+no `sources.yaml` edit or tile publish may land before that verdict. Other open work: Phase 3.1
+(paused at its Wave 3 human-verify checkpoint), Phase 05.1, and Phase 7 (8/9 plans complete). Run
+`/gsd:progress` to route to the next action.
 
 ## Status
 
@@ -44,6 +47,7 @@ complete). Run `/gsd:progress` to route to the next action.
 | 11 | Wire chart JSON data to chart UI components | Complete (2026-08-03) — 5/5 plans, goal verification passed 8/8 (UI-1..UI-8), human-verified round 2, code-review blocker CR-01 fixed |
 | 12 | Export a PDF of the content for a given Living Lab | Complete — see 12-EVIDENCE.md/12-VERIFICATION.md |
 | 13 | Add a Projects and Partners tab to individual Living Lab pages | Complete (2026-08-14) — 6/6 plans, goal verification passed 18/18 (D-01..D-18), human-verified round 2 (layout bug found+fixed mid-checkpoint), code-review findings CR-01/WR-01/WR-02/IN-01 fixed post-approval |
+| 14 | Add soil yield potential (SQR) as a switchable Type/Yield potential map | Planned (2026-08-24) - 14 plans, 7 waves, verified ✓ (plan-checker passed iteration 2); Wave 1 opens on a blocking licence decision (14-01) |
 
 ## Active Work
 
@@ -394,15 +398,19 @@ Phase 2.2 completed on 2026-04-30 and replaced the shallow German-only soil look
 - 2026-08-03: Phase 11 added: "Wire chart JSON data to chart UI components" — connect the chart content JSON files produced in Phase 9 to the chart UI components in the app. App-side integration only (no new pipeline work); expected to need minimal to no research and a small number of plans.
 - 2026-08-04: Phase 12 added: "Export a PDF of the content for a given Living Lab" — added at the end of the roadmap as planned work, not urgent mid-milestone insertion.
 - 2026-08-11: Phase 13 added: "Add a Projects and Partners tab to individual Living Lab pages, showing the base map with LL boundary and partner point locations, plus a partner and research project overview panel" — added at the end of the roadmap as planned work.
+- 2026-08-24: Phase 14 added: "Add soil yield potential (SQR) as a switchable Type/Yield potential map on the soil tab, plus an SQR-derived KPI in the KPI bar and reports" — added at the end of the roadmap as planned work. Source data already on disk at `data/sqr1000_250_v10/sqr1000_250_v10.tif` (BGR Soil Quality Rating, 250 m raster, EPSG:3034, values 0-102, higher = better arable yield potential). Existing BUEK soil-type map is kept; the switcher mirrors the climate tab's "Baseline / Change" control. KPI must reach both the app KPI bar and the Phase 12 PDF reports.
+- 2026-08-24: Phase 14 context gathered (`14-CONTEXT.md`, D-01..D-22). **Correction to the line above:** the Type/Yield control is NOT the climate tab's on-map Baseline/Change switcher. The user reversed that mid-discussion (D-02) in favour of a sub-tab row under `LayerTabs`, reusing `VariablePicker.jsx` exactly as the climate *variable* row does. Also locked beyond the roadmap text: two SQR KPI tiles rather than one, both null nutrient-surplus tiles dropped (Phase 8 D-18 precedent), and a new SQR chart JSON that the report's bar legend requires.
+
+- 2026-08-27: Phase 15 added: "Add \"See a demo video\" buttons on the main page and LL detail page, serving EN and DE caption versions of the Remotion demo video" — added at the end of the roadmap as planned work. The DE video already exists (rendered from `video/remotion/`, 2:10, nine captured scenes). Delivery encode settled this session and measured: 1080p H.264 CRF 30, `-an` (source is silent; the default render carried 317 kb/s of encoded silence), `+faststart`, `-g 60` → ~18 MB, 4.1x smaller than Remotion's CRF 18 default with no perceptible loss on map labels or panel text; 720p saves only ~4 MB over that, so raise CRF rather than downscale. Two open decisions deferred to planning: (a) host the mp4 in `app/public/` (simple, but ~18 MB x 2 variants recurs in git history on every re-render, and `deploy-pages.yml` auto-publishes it) versus a GitHub Release asset (no repo growth, network dependency) — Git LFS is ruled out, since GitHub Pages does not resolve LFS pointers; (b) how scene 3, which currently demos the DE→EN→DE language toggle, should read in the English cut. Captions are Remotion overlays (`CAPTION_TEXT`, 19 keys, plus `INTRO`) and cheap to translate, but the app UI *inside* the captured footage is German because `sceneRunner.mjs` seeds the German `ll-explorer-lang` key for every scene — so the EN variant needs a re-capture pass, not just a caption swap.
 
 ### Plan Decisions
 
 - [Phase 07, plan 06]: `boris_semantics.BR_ART_NUTZUNG` has 42 entries, not the 44 that `07-RESEARCH.md`'s prose claims — its own section 3.1 table only enumerates 42 rows; transcribed the verified 42 rather than inventing 2 more. Hessen code `LW` is deliberately excluded from `HE_ART_NUTZUNG` (falls to `UNMAPPED_USAGE` with the raw code preserved) per the `07-SPIKE.md` W-03 locked checkpoint decision, overriding `07-06-PLAN.md`'s own acceptance-criteria text which (echoing a superseded `07-RESEARCH.md` guess) said `LW` should map to the agricultural canonical pair. `semantics.recency_cutoff` in `sources.yaml` is `null` (with a new `recency_window_years: 10` key) rather than a baked-in `"2016-01-01"` literal, per the locked instruction to implement W-02 as a rolling window, not a hardcoded date. See `07-06-SUMMARY.md` Deviations for full detail.
-- [Phase 07, plan 07]: `fetch_boris.py` written and live-verified against both states — rheingau (Hessen, 1676 features written and re-validated) and havellandisches-luch (Brandenburg, 18644 features dry-run only, matched=18961/unmatched=0/failing_recency=5964, all figures matching `07-SPIKE.md`'s locked W-01/W-02 measurements within rounding). Fixed a live bug: a trailing 0-feature GML paging page crashes pyogrio (no layer schema to detect), so only pages with `numberReturned > 0` are parsed. All three tasks' code was authored together in one file and landed in a single commit (`406514e`) rather than three, since splitting the write into separate passes would have produced an unrunnable intermediate script; each task's verification still ran independently against the live services in plan order. See `07-07-SUMMARY.md` Deviations for full detail.
+- [Phase 07, plan 07]: `fetch_boris.py` written and live-verified against both states — rheingau (Hessen, 1676 features written and re-validated) and havelland (Brandenburg, 18644 features dry-run only, matched=18961/unmatched=0/failing_recency=5964, all figures matching `07-SPIKE.md`'s locked W-01/W-02 measurements within rounding). Fixed a live bug: a trailing 0-feature GML paging page crashes pyogrio (no layer schema to detect), so only pages with `numberReturned > 0` are parsed. All three tasks' code was authored together in one file and landed in a single commit (`406514e`) rather than three, since splitting the write into separate passes would have produced an unrunnable intermediate script; each task's verification still ran independently against the live services in plan order. See `07-07-SUMMARY.md` Deviations for full detail.
 - [Phase 07, plan 08]: Ran the unfiltered five-Living-Lab fetch, committed all ten GeoJSON copies, and added `test_boris_geojson_fixtures_exist_and_match_contract` (suite 27/27 green). All zone counts within 5% of `07-RESEARCH.md`; both Brandenburg no-data shares within rounding of the locked W-02 figures; all three Hessen fixtures 0% no-data. east-brandenburg's committed size (33,948,983 bytes) exceeds `fetch_boris.py`'s rounded diagnostic constant (33,000,000 bytes) but is 5,392 bytes under `07-SPIKE.md`'s own specific locked measurement for that Living Lab (33,954,375 bytes) — the new regression test asserts against the precise locked figure, not the rounded constant. Flagged (not blocking) for `07-09`'s evidence record and human sign-off. See `07-08-SUMMARY.md` Deviations for full detail.
 
 ## Session
 
-**Last session:** 2026-08-14T00:00:00Z
-**Stopped at:** Phase 13 complete, goal-verified 18/18 (D-01..D-18)
-**Resume file:** .planning/phases/13-add-a-projects-and-partners-tab-to-individual-living-lab-pag/13-VERIFICATION.md
+**Last session:** 2026-08-24T17:10:05.990Z
+**Stopped at:** Phase 14 UI-SPEC approved
+**Resume file:** .planning/phases/14-add-soil-yield-potential-sqr-as-a-switchable-type-yield-pote/14-UI-SPEC.md

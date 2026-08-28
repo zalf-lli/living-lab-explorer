@@ -32,7 +32,7 @@ key-files:
     - data-pipeline/R/report/_extensions/ll-explorer-typst/NOTICE.md
     - data-pipeline/R/report/_extensions/ll-explorer-typst/assets/zukunft-land-logo.svg
     - data-pipeline/R/report/_extensions/ll-explorer-typst/brands/east-brandenburg.yml
-    - data-pipeline/R/report/_extensions/ll-explorer-typst/brands/havellandisches-luch.yml
+    - data-pipeline/R/report/_extensions/ll-explorer-typst/brands/havelland.yml
     - data-pipeline/R/report/_extensions/ll-explorer-typst/brands/hessian-low-mountain.yml
     - data-pipeline/R/report/_extensions/ll-explorer-typst/brands/north-hessian-loess.yml
     - data-pipeline/R/report/_extensions/ll-explorer-typst/brands/rheingau.yml
@@ -177,7 +177,7 @@ alone).
 decompressed all five Living Labs' EN PDF content streams and confirmed every one carries its own
 exact `color`/`colorDark` hex (converted to the PDF's 0-1 RGB colour space) as its fill/stroke
 operators, with the stale `#005754` fallback no longer appearing except one legitimate coincidence
-(`havellandisches-luch`'s own real `colorDark` genuinely *is* `#005754`). Also re-confirmed the
+(`havelland`'s own real `colorDark` genuinely *is* `#005754`). Also re-confirmed the
 custom extension's own code is compiled in (not silently bypassed again): a kept intermediate
 `.typ` file shows the literal binding `#let ll-primary = rgb("#359269")` sourced directly from the
 `--metadata primary:` override, alongside 5 matches for `ll-report`/`_extensions/ll-explorer-typst`/
@@ -246,7 +246,7 @@ paths, file-access patterns, or schema changes were introduced outside that regi
 - FOUND: data-pipeline/R/report/_extensions/ll-explorer-typst/NOTICE.md
 - FOUND: data-pipeline/R/report/_extensions/ll-explorer-typst/assets/zukunft-land-logo.svg
 - FOUND: data-pipeline/R/report/_extensions/ll-explorer-typst/brands/east-brandenburg.yml
-- FOUND: data-pipeline/R/report/_extensions/ll-explorer-typst/brands/havellandisches-luch.yml
+- FOUND: data-pipeline/R/report/_extensions/ll-explorer-typst/brands/havelland.yml
 - FOUND: data-pipeline/R/report/_extensions/ll-explorer-typst/brands/hessian-low-mountain.yml
 - FOUND: data-pipeline/R/report/_extensions/ll-explorer-typst/brands/north-hessian-loess.yml
 - FOUND: data-pipeline/R/report/_extensions/ll-explorer-typst/brands/rheingau.yml

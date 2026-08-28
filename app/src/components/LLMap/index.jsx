@@ -25,24 +25,23 @@ import {
   SOIL_WATER_STROKE,
   SOIL_SPECIAL_FILL,
 } from '../../data/soil_legend.js'
+import { BASEMAP } from '../../lib/basemap.js'
 import { buildMaskFeature } from '../../lib/buildMaskGeometry.js'
 import { selectBoundary, getBounds } from '../../lib/llBoundary.js'
 import { C } from '../../theme.js'
+import { MapAttribution } from '../MapAttribution.jsx'
 import { MapLegend } from '../MapLegend.jsx'
 import { PeriodSwitcher } from '../PeriodSwitcher.jsx'
 import { useViewport } from '../../hooks/useMediaQuery.js'
 import { MapTouchGate } from '../MapTouchGate.jsx'
 
 const MAP_STYLE = { width: '100%', height: '100%' }
-const TILE_SUBDOMAINS = ['a', 'b', 'c', 'd']
 const PMTILES_CACHE = new Map()
 
-const BASEMAP_SOURCE = {
-  provider: 'OpenStreetMap contributors',
-  dataset: 'CARTO Voyager basemap',
-  url: 'https://www.openstreetmap.org/copyright',
-  license: 'ODbL / CC BY 3.0',
-}
+// Tile URL, subdomains and these credits all come from lib/basemap.js, so the info popover
+// always names the provider actually being drawn -- including when a keyless build falls back
+// off CARTO onto OpenStreetMap's own tiles.
+const BASEMAP_SOURCE = BASEMAP.source
 
 // Every raster layer's clip_buffer_m margin (data-pipeline/sources/sources.yaml) is now
 // made transparent at bake time for pixels outside the TRUE (unbuffered) Living Lab
@@ -1047,9 +1046,10 @@ export default function LLMap({
           style={MAP_STYLE}
         >
           <TileLayer
-            maxZoom={19}
-            subdomains={TILE_SUBDOMAINS}
-            url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+            attribution={BASEMAP.attribution}
+            maxZoom={BASEMAP.maxZoom}
+            subdomains={BASEMAP.subdomains}
+            url={BASEMAP.url}
           />
           {layerConfig?.type === 'raster' ? (
             <RasterPmtilesLayer
@@ -1130,6 +1130,7 @@ export default function LLMap({
           />
         ) : null}
         <MapInfoControl layer={layer} slug={ll.slug} overlayIds={showProtectedAreas ? ['protected-areas'] : []} />
+        <MapAttribution />
         {needsTouchGate ? <MapTouchGate onActivate={() => setMapActivated(true)} /> : null}
       </div>
       <div style={{ padding: '10px 16px', borderTop: `1px solid ${C.mutedLight}`, background: C.bg }}>

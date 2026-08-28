@@ -28,7 +28,7 @@ files_reviewed_list:
   - data-pipeline/R/report/_extensions/ll-explorer-typst/_extension.yml
   - data-pipeline/R/report/_extensions/ll-explorer-typst/assets/zukunft-land-logo.svg
   - data-pipeline/R/report/_extensions/ll-explorer-typst/brands/east-brandenburg.yml
-  - data-pipeline/R/report/_extensions/ll-explorer-typst/brands/havellandisches-luch.yml
+  - data-pipeline/R/report/_extensions/ll-explorer-typst/brands/havelland.yml
   - data-pipeline/R/report/_extensions/ll-explorer-typst/brands/hessian-low-mountain.yml
   - data-pipeline/R/report/_extensions/ll-explorer-typst/brands/north-hessian-loess.yml
   - data-pipeline/R/report/_extensions/ll-explorer-typst/brands/rheingau.yml

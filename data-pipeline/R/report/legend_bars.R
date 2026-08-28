@@ -64,7 +64,7 @@ if (!exists("ll_repo_root", mode = "function")) {
 # Inches, inside the Typst template's A4 text block (LL_FIG$width_full wide).
 # Every one of the five Living Labs has a differently-shaped boundary -- the
 # bounding-box aspect ratio runs from 0.63 (east-brandenburg, tall) to 1.67
-# (havellandisches-luch, wide) -- so a single fixed map/legend split would leave
+# (havelland, wide) -- so a single fixed map/legend split would leave
 # one Living Lab's map squeezed into a sliver and another's ringed by whitespace.
 # `ll_bar_legend_layout()` below solves for both the figure height and the column
 # split per Living Lab instead, against these bounds.

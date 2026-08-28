@@ -32,7 +32,7 @@ key-files:
 key-decisions:
   - "D-15's compact/bare-pill DownloadReportCTA instance (locked in 12-UI-SPEC.md) was reversed during Task 3 human verification: LayoutSplit now renders the same full card as LayoutStacked, on the reviewer's explicit feedback that the density difference read as inconsistent"
   - "CompareCTA's rendered card given height:100% so it stretches to match its (now taller) DownloadReportCTA sibling under the row's existing alignItems:stretch, resolving a visible height mismatch flagged in a second round of checkpoint feedback"
-  - "sealed-surfaces/fens soil legend hex nudged 4/255 on the blue channel (#4E545C -> #4E5460) to clear the check:soil-palette ΔE76 >= 20 gate for havellandisches-luch; sub-perceptible, does not affect any locked decision's verdict, and the ten already-approved PDFs are not re-rendered for this cosmetic delta"
+  - "sealed-surfaces/fens soil legend hex nudged 4/255 on the blue channel (#4E545C -> #4E5460) to clear the check:soil-palette ΔE76 >= 20 gate for havelland; sub-perceptible, does not affect any locked decision's verdict, and the ten already-approved PDFs are not re-rendered for this cosmetic delta"
 
 requirements-completed: [D-01, D-02, D-03, D-04, D-05, D-06, D-07, D-08, D-09, D-10, D-11, D-12, D-13, D-14, D-15, D-16, D-17, D-18, D-19, D-20, D-21, D-22]
 
@@ -89,7 +89,7 @@ Each task was committed atomically:
 
 **1. [Rule 3 - Blocking] Fixed failing `check:soil-palette` gate**
 - **Found during:** Task 1 (automated gate run)
-- **Issue:** `npm run check:soil-palette` failed — `havellandisches-luch`'s `sealed-surfaces` legend swatch measured ΔE76 19.0 against `fens`, just under the 20 threshold
+- **Issue:** `npm run check:soil-palette` failed — `havelland`'s `sealed-surfaces` legend swatch measured ΔE76 19.0 against `fens`, just under the 20 threshold
 - **Fix:** Nudged `sealed-surfaces`'s hex by 4/255 on the blue channel (`#4E545C` → `#4E5460`), imperceptible, then regenerated `data/report_tokens.json`
 - **Files modified:** `app/src/data/soil_legend.js`, `data/report_tokens.json`
 - **Verification:** `npm run check:soil-palette` exits 0 on rerun

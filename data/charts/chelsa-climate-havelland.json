@@ -1,0 +1,94 @@
+{
+  "chart_type": "line",
+  "generated_at": "2026-08-17T13:17:52.129530Z",
+  "layer_id": "climate",
+  "lines": [
+    {
+      "label": {
+        "de": "Wachstumsgradtage",
+        "en": "Growing degree days"
+      },
+      "points": [
+        {
+          "value": 32.2,
+          "x": "2041_2070"
+        },
+        {
+          "value": 56.0,
+          "x": "2071_2100"
+        }
+      ]
+    },
+    {
+      "label": {
+        "de": "Jahresmitteltemperatur",
+        "en": "Mean annual temperature"
+      },
+      "points": [
+        {
+          "value": 27.4,
+          "x": "2041_2070"
+        },
+        {
+          "value": 42.4,
+          "x": "2071_2100"
+        }
+      ]
+    },
+    {
+      "label": {
+        "de": "Jahresniederschlag",
+        "en": "Annual precipitation"
+      },
+      "points": [
+        {
+          "value": 1.2,
+          "x": "2041_2070"
+        },
+        {
+          "value": 2.6,
+          "x": "2071_2100"
+        }
+      ]
+    },
+    {
+      "label": {
+        "de": "Niederschlag im waermsten Quartal",
+        "en": "Precipitation of warmest quarter"
+      },
+      "points": [
+        {
+          "value": -4.6,
+          "x": "2041_2070"
+        },
+        {
+          "value": -6.4,
+          "x": "2071_2100"
+        }
+      ]
+    }
+  ],
+  "ll_slug": "havelland",
+  "mock": false,
+  "source": "chelsa-climate",
+  "unit": {
+    "de": "%",
+    "en": "%"
+  },
+  "x_axis": [
+    {
+      "key": "2041_2070",
+      "label": {
+        "de": "2041-2070",
+        "en": "2041-2070"
+      }
+    },
+    {
+      "key": "2071_2100",
+      "label": {
+        "de": "2071-2100",
+        "en": "2071-2100"
+      }
+    }
+  ]
+}

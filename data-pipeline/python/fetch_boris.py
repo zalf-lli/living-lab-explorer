@@ -193,7 +193,7 @@ def fetch_zones(
     """Fetch every zone polygon intersecting an LL boundary for one state, paged and cached.
 
     Uses a server-side fes:Intersects filter -- never a padded bounding-box parameter;
-    a verified overselection test measured 3.6x extra features on havellandisches-luch
+    a verified overselection test measured 3.6x extra features on havelland
     with that approach (07-RESEARCH.md). Raises RuntimeError on a paging stall or a
     silently empty (numberMatched=0) response.
     """
