@@ -863,6 +863,66 @@ Plans:
 - [ ] `14-14-PLAN.md` — full automated gate, seven cross-file join-key checks, ten-report re-render,
       D-01..D-22 evidence record, blocking bilingual human verification
 
+### Phase 15: Add "See a demo video" buttons on the main page and LL detail page, serving EN and DE caption versions of the Remotion demo video
+
+**Goal:** Both the landing page and each Living Lab detail page gain a "See a demo video" /
+"Demo-Video ansehen" entry point that plays the existing Remotion-rendered product tour in-app, and the
+video itself ships in two caption variants — the current German one plus a new English one — selected
+from the app's active i18n language so an EN visitor never lands on a German-captioned tour.
+**Requirements**: TBD (no REQUIREMENTS.md REQ-IDs yet; expect a CONTEXT.md D-ID spec as in Phases 5-14)
+**Depends on:** Phase 14
+**Plans:** 0 plans
+
+**Context captured at creation (2026-08-27):**
+
+- **The captions themselves are cheap; the footage under them is not.** Captions are Remotion-drawn
+  overlays in `scenes.ts` — `CAPTION_TEXT` (19 keys) plus `INTRO` (3 strings) — and that file states the
+  design intent outright: keeping copy out of the capture scripts "means wording can change without
+  re-recording any footage." So translating 22 strings is the easy half. The hard half is that
+  `video/capture/src/lib/sceneRunner.mjs` seeds the German `ll-explorer-lang` localStorage key before the
+  app's first script runs, for **every** scene — so the app chrome, tab labels and KPI labels *inside* the
+  nine captured mp4s are German. An EN variant therefore needs a **re-capture pass with that key seeded to
+  `en`**, not just a caption swap.
+
+- **The capture harness is already partly language-aware — extend it, don't fork it.**
+  `renderReportPages.mjs` already takes a `lang` parameter, and `appLocators.mjs:69-72` already matches the
+  language group by *either* its German or English accessible name (it had to, because scene 3 switches to
+  English mid-take). But other locators are still German literals (`languageGroup: 'Sprache'`), so the
+  work is generalizing those, not rebuilding the harness.
+
+- **Scene 3 inverts in the English cut.** `scene03Language.mjs` currently starts German, clicks the EN
+  pill, holds to show translated labels, then clicks back to DE. The EN variant needs the mirror image
+  (start EN → click DE → return), which is a genuine scene-design decision, not a config flip.
+
+- **Variant selection is file selection.** There is no `<track>` / WebVTT sidecar — each language is a
+  separate mp4. The i18n hook picks a URL, and the phase needs a sensible fallback for when only the DE
+  render exists (ship DE-only first, add EN behind the same switch).
+
+- **Delivery format is already decided and measured.** 1080p H.264, CRF 30, **no audio track**
+  (`-an` — the source has none; the original render carried 317 kb/s of encoded silence), `+faststart`,
+  2-second keyframe interval (`-g 60`). This lands the 2:10 tour at ~18 MB, down 4.1× from the 72.6 MB
+  Remotion default (CRF 18) with no perceptible loss — verified by frame comparison on map labels and
+  panel headings. Note 720p buys only ~4 MB over 1080p CRF 30, so do **not** downscale; raise CRF instead.
+
+- **Hosting is an open decision with a deploy-gate wrinkle.** Committing the mp4 to `app/public/` is the
+  simplest correct option (no external dependency, Pages serves byte ranges so scrubbing works, and
+  ~18 MB is well under GitHub's 50 MB warning threshold). But `deploy-pages.yml` publishes `app/dist`
+  from `app/public/**` on every push to `main`, and two caption variants at ~18 MB each recur in git
+  history on every re-render. Weigh that against a GitHub Release asset (zero repo growth, stable URL,
+  but a network dependency). **Do not use Git LFS** — GitHub Pages does not resolve LFS pointers, so the
+  slide/app would fetch a ~130-byte text file instead of a video unless checkout sets `lfs: true`.
+
+- **A poster frame is required, not optional.** With `preload="none"` (needed so the video's ~18 MB does
+  not load on first paint of the landing page) the element renders blank without a `poster`. A title-card
+  JPEG is ~72 KB.
+
+- **A copy of the DE render is already deployed outside this repo** alongside the IAT Statusseminar 2026
+  reveal.js deck, at `C:\git\knowledge-management\presentations\iat-statusseminar-2026\assets\`. That copy
+  is a snapshot, not a shared source — re-renders do not propagate to it.
+
+Plans:
+- [ ] TBD (run /gsd:plan-phase 15 to break down)
+
 ---
 
-*Created: 2026-04-29*
+*Created: 2026-08-27*

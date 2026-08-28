@@ -2,16 +2,17 @@ import { useMemo, useState } from 'react'
 import { useTranslation } from 'react-i18next'
 import L from 'leaflet'
 import { GeoJSON, MapContainer, Marker, TileLayer, Tooltip } from 'react-leaflet'
+import { BASEMAP } from '../lib/basemap.js'
 import { useGeoJSON } from '../hooks/useGeoJSON.js'
 import { buildMaskFeature } from '../lib/buildMaskGeometry.js'
 import { selectBoundary, getBounds } from '../lib/llBoundary.js'
 import { safeExternalUrl } from '../lib/partnersProjects.js'
 import { C } from '../theme.js'
 import { useViewport } from '../hooks/useMediaQuery.js'
+import { MapAttribution } from './MapAttribution.jsx'
 import { MapTouchGate } from './MapTouchGate.jsx'
 
 const MAP_STYLE = { width: '100%', height: '100%' }
-const TILE_SUBDOMAINS = ['a', 'b', 'c', 'd']
 const MASK_STYLE = {
   fillColor: '#ffffff',
   fillOpacity: 0.6,
@@ -129,9 +130,10 @@ export default function PartnersMap({ ll, partners = [], height = 300 }) {
         style={MAP_STYLE}
       >
         <TileLayer
-          maxZoom={19}
-          subdomains={TILE_SUBDOMAINS}
-          url="https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png"
+          attribution={BASEMAP.attribution}
+          maxZoom={BASEMAP.maxZoom}
+          subdomains={BASEMAP.subdomains}
+          url={BASEMAP.url}
         />
         {maskFeature ? (
           <GeoJSON key={`mask-${ll.slug}`} data={maskFeature} style={MASK_STYLE} />
@@ -145,6 +147,7 @@ export default function PartnersMap({ ll, partners = [], height = 300 }) {
           <PartnerMarker key={p.id ?? p.name} partner={p} />
         ))}
       </MapContainer>
+      <MapAttribution />
       {isTouch && !mapActivated ? (
         <MapTouchGate onActivate={() => setMapActivated(true)} />
       ) : null}
